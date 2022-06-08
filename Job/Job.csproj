@@ -1,0 +1,753 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{20640AA0-AB38-4499-8B96-99143A3B033E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Job</RootNamespace>
+    <AssemblyName>Job</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\Debug\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Optimize>false</Optimize>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="DnsClient, Version=1.5.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnsClient.1.5.0\lib\net471\DnsClient.dll</HintPath>
+    </Reference>
+    <Reference Include="EasyNetQ, Version=6.3.1.0, Culture=neutral, PublicKeyToken=8b1766e46498eb4b, processorArchitecture=MSIL">
+      <HintPath>..\packages\EasyNetQ.6.3.1\lib\net461\EasyNetQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Ghostscript.NET, Version=1.2.3.0, Culture=neutral, PublicKeyToken=f85051de34525b59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ghostscript.NET.1.2.3\lib\net40\Ghostscript.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton Docking, Version=5.472.753.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\KryptonToolkitSuite5472.5.472.2098\lib\net472\Krypton Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton Navigator, Version=5.472.796.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\KryptonToolkitSuite5472.5.472.2098\lib\net472\Krypton Navigator.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton Ribbon, Version=5.472.850.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\KryptonToolkitSuite5472.5.472.2098\lib\net472\Krypton Ribbon.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton Toolkit, Version=5.472.2098.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\KryptonToolkitSuite5472.5.472.2098\lib\net472\Krypton Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton Workspace, Version=5.472.727.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\KryptonToolkitSuite5472.5.472.2098\lib\net472\Krypton Workspace.dll</HintPath>
+    </Reference>
+    <Reference Include="Magick.NET-Q16-x86, Version=8.4.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=x86">
+      <HintPath>..\packages\Magick.NET-Q16-x86.8.4.0\lib\net20\Magick.NET-Q16-x86.dll</HintPath>
+    </Reference>
+    <Reference Include="Magick.NET.Core, Version=8.4.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET.Core.8.4.0\lib\net20\Magick.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.13.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.13.2\lib\net452\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.13.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.13.2\lib\net452\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.13.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.13.2\lib\net452\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Libmongocrypt, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Libmongocrypt.1.2.2\lib\net452\MongoDB.Libmongocrypt.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
+      <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
+    </Reference>
+    <Reference Include="Ookii.Dialogs.WinForms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ookii.Dialogs.WinForms.4.0.0\lib\net462\Ookii.Dialogs.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="PDFlib_dotnet, Version=9.2.0.0, Culture=neutral, PublicKeyToken=af0805f2b25bb299, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_Components\PDFLIB\9.2.0\x86\PDFlib_dotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="PDFManipulate">
+      <HintPath>..\..\Tiff2PDF\Convert\bin\Debug\PDFManipulate.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client, Version=6.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\RabbitMQ.Client.6.2.4\lib\net461\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress, Version=0.30.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.30.0\lib\net461\SharpCompress.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.Extensions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Resources.Extensions.6.0.0\lib\net461\System.Resources.Extensions.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.6.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Channels, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Channels.6.0.0\lib\net461\System.Threading.Channels.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CachePay.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="Controllers\CustomerData.cs" />
+    <Compile Include="Controllers\ISignaController.cs" />
+    <Compile Include="Controllers\JobAdminData.cs" />
+    <Compile Include="Controllers\SignaController.cs" />
+    <Compile Include="Controllers\SignaJob.cs" />
+    <Compile Include="Controllers\UnitObject.cs" />
+    <Compile Include="CustomerCustomFolderPath.cs" />
+    <Compile Include="CustomForms\FormEditStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomForms\FormEditStatus.Designer.cs">
+      <DependentUpon>FormEditStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MongoRepository.cs" />
+    <Compile Include="Dlg\FormSelectConvertToPdfMode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dlg\FormSelectConvertToPdfMode.Designer.cs">
+      <DependentUpon>FormSelectConvertToPdfMode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dlg\FormTirag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dlg\FormTirag.Designer.cs">
+      <DependentUpon>FormTirag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ext\Commons.cs" />
+    <Compile Include="Dlg\FormChangeJobsPath.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dlg\FormChangeJobsPath.Designer.cs">
+      <DependentUpon>FormChangeJobsPath.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomForms\FormEnterText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomForms\FormEnterText.Designer.cs">
+      <DependentUpon>FormEnterText.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEventStatus.cs" />
+    <Compile Include="Profiles\ExtendedSettings.cs" />
+    <Compile Include="Profiles\PdfConverterSettings.cs" />
+    <Compile Include="Profiles\SearchHistorySettings.cs" />
+    <Compile Include="Properties\CanBeNullAttribute.cs" />
+    <Compile Include="Static\FileUtil.cs" />
+    <Compile Include="Static\SysImageListHelper.cs" />
+    <Compile Include="Statuses\StatusesParams.cs" />
+    <Compile Include="UC\UcAddWorkPluginsContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UcAddWorkPluginsContainer.Designer.cs">
+      <DependentUpon>UcAddWorkPluginsContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UcNote.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UcNote.Designer.cs">
+      <DependentUpon>UcNote.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormAddWork2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormAddWork2.Designer.cs">
+      <DependentUpon>FormAddWork2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Localize.uk-UA.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localize.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobParameters.cs" />
+    <Compile Include="Models\JobSettings.cs" />
+    <Compile Include="Profiles\ProfileEvents\AbstractEvents.cs" />
+    <Compile Include="Profiles\ProfileEvents\BrowserEvents.cs" />
+    <Compile Include="Profiles\ProfileEvents\FtpEvents.cs" />
+    <Compile Include="Profiles\SearchHistory.cs" />
+    <Compile Include="Static\FtpState.cs" />
+    <Compile Include="Static\FtpStateItem.cs" />
+    <Compile Include="Static\SaveAndLoad.cs" />
+    <Compile Include="Statuses\JobStatus.cs" />
+    <Compile Include="Fasades\JobStatusManager.cs" />
+    <Compile Include="Statuses\StatusChangeParam.cs" />
+    <Compile Include="UC\CacheManager.cs" />
+    <Compile Include="UC\FileCache.cs" />
+    <Compile Include="UC\FileWatcher.cs" />
+    <Compile Include="UC\ICache.cs" />
+    <Compile Include="UC\IFileManager.cs" />
+    <Compile Include="UC\IWatcher.cs" />
+    <Compile Include="UC\NoCache.cs" />
+    <Compile Include="UC\NoWatcher.cs" />
+    <Compile Include="UC\RoundedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UC\RoundedButton.Designer.cs">
+      <DependentUpon>RoundedButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UcFtpBrowser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UcFtpBrowser.Designer.cs">
+      <DependentUpon>UcFtpBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UcJobList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UcJobList.Designer.cs">
+      <DependentUpon>UcJobList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UcTexBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UC\UcTexBox.Designer.cs">
+      <DependentUpon>UcTexBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormCombineOrders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormCombineOrders.Designer.cs">
+      <DependentUpon>FormCombineOrders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormCustomers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormCustomers.Designer.cs">
+      <DependentUpon>FormCustomers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormEditFolder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormEditFolder.Designer.cs">
+      <DependentUpon>FormEditFolder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormFileBrowserSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormFileBrowserSettings.Designer.cs">
+      <DependentUpon>FormFileBrowserSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormFtpDirectoryList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormFtpDirectoryList.Designer.cs">
+      <DependentUpon>FormFtpDirectoryList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormGetTrimBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormGetTrimBox.Designer.cs">
+      <DependentUpon>FormGetTrimBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormMailInformerSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormMailInformerSettings.Designer.cs">
+      <DependentUpon>FormMailInformerSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormPdfPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormPdfPreview.Designer.cs">
+      <DependentUpon>FormPdfPreview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Static\Converter.cs" />
+    <Compile Include="Static\FileFormatsUtil.cs" />
+    <Compile Include="Static\NaturalSorting.cs" />
+    <Compile Include="Static\ShellUtilities.cs" />
+    <Compile Include="UC\DirectoryCache.cs" />
+    <Compile Include="UC\FileBrowser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\FileBrowser.Designer.cs">
+      <DependentUpon>FileBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory.cs" />
+    <Compile Include="Fasades\BaseManager.cs" />
+    <Compile Include="ColorProof.cs" />
+    <Compile Include="Fasades\CategoryManager.cs" />
+    <Compile Include="Fasades\ColorProofManager.cs" />
+    <Compile Include="Commons.cs" />
+    <Compile Include="Customer.cs" />
+    <Compile Include="Fasades\CustomerManager.cs" />
+    <Compile Include="CustomerNotify\CustomerMailNotify.cs" />
+    <Compile Include="CustomerNotify\CustomerMailNotifyManager.cs" />
+    <Compile Include="CustomerReport.cs" />
+    <Compile Include="FormEvent.cs" />
+    <Compile Include="FormEventManager.cs" />
+    <Compile Include="Forms.cs" />
+    <Compile Include="Fasades\FormsManager.cs" />
+    <Compile Include="FtpManager.cs" />
+    <Compile Include="FtpSettings.cs" />
+    <Compile Include="Job.cs" />
+    <Compile Include="Fasades\JobManager.cs" />
+    <Compile Include="Localize.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localize.resx</DependentUpon>
+    </Compile>
+    <Compile Include="JobLogger.cs" />
+    <Compile Include="Fasades\PlateOwnersManager.cs" />
+    <Compile Include="Menus\FileBrowserContextMenuSendTo.cs" />
+    <Compile Include="Menus\FileBrowserContextMenuUtils.cs" />
+    <Compile Include="Menus\MenuManager.cs" />
+    <Compile Include="Menus\MenuSendTo.cs" />
+    <Compile Include="Part.cs" />
+    <Compile Include="PayedDate.cs" />
+    <Compile Include="PlateFormat.cs" />
+    <Compile Include="PlateOwner.cs" />
+    <Compile Include="Profiles\FileBrowsers.cs" />
+    <Compile Include="Profiles\FileBrowserSettings.cs" />
+    <Compile Include="Profiles\MailSettings.cs" />
+    <Compile Include="Profiles\MongoDbSettings.cs" />
+    <Compile Include="Profiles\Profile.cs" />
+    <Compile Include="Profiles\ProfileEvents\JobEvents.cs" />
+    <Compile Include="Profiles\ProfileEvents\ProfileEvents.cs" />
+    <Compile Include="Profiles\ProfilesController.cs" />
+    <Compile Include="Profiles\ProfileSettings.cs" />
+    <Compile Include="Profiles\RabbitMqSettings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportCustomerTree.cs" />
+    <Compile Include="ReportGenerator.cs" />
+    <Compile Include="ReportJobsTree.cs" />
+    <Compile Include="ReportPlateFormatTree.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Settings.JobStatus.cs" />
+    <Compile Include="SignaJobEnum.cs" />
+    <Compile Include="SignaJobShablon.cs" />
+    <Compile Include="UC\FileBrowserSettings.cs" />
+    <Compile Include="UC\FileManager.cs" />
+    <Compile Include="Static\PdfUtils.cs" />
+    <Compile Include="Models\FileSystemInfoExt.cs" />
+    <Compile Include="UserForms\FormFtpSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormFtpSettings.Designer.cs">
+      <DependentUpon>FormFtpSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\SpreadBox.cs" />
+    <Compile Include="UserForms\TrimBoxResult.cs" />
+    <Compile Include="UserForms\TrimBoxResultEnum.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="libmongocrypt.dylib" />
+    <None Include="libmongocrypt.so" />
+    <None Include="packages.config" />
+    <None Include="UC\Graph1.dgml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BackgroundTaskServiceLib\BackgroundTaskServiceLib.csproj">
+      <Project>{0ACD233F-DC92-4456-818C-F6841ADDD9CB}</Project>
+      <Name>BackgroundTaskServiceLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj">
+      <Project>{EFE36109-BE2C-49CE-82DF-5649F61898C0}</Project>
+      <Name>ExtensionMethods</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FtpClient\FtpClient.csproj">
+      <Project>{CD75770A-E81D-49E6-9E9C-CF104172C48F}</Project>
+      <Name>FtpClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{bb0fe1fa-8c37-4e59-a548-669f97109e64}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{ac6cfed7-8e64-469f-a97d-c25b644cd8a3}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MailNotifier\MailNotifier.csproj">
+      <Project>{32ff055b-5267-4802-bdc7-94d965cd730c}</Project>
+      <Name>MailNotifier</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugins\Plugins.csproj">
+      <Project>{348b842c-d367-46bc-9c46-4e5114ee9b56}</Project>
+      <Name>Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PythonEngine\PythonEngine.csproj">
+      <Project>{e1774431-c670-49ce-a879-63d3d1599f1a}</Project>
+      <Name>PythonEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShowProgress\ShowProgress.csproj">
+      <Project>{75c06626-64c3-4683-90de-bd87adf64c29}</Project>
+      <Name>ShowProgress</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CustomForms\FormEditStatus.resx">
+      <DependentUpon>FormEditStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dlg\FormChangeJobsPath.resx">
+      <DependentUpon>FormChangeJobsPath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomForms\FormEnterText.resx">
+      <DependentUpon>FormEnterText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dlg\FormSelectConvertToPdfMode.resx">
+      <DependentUpon>FormSelectConvertToPdfMode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dlg\FormTirag.resx">
+      <DependentUpon>FormTirag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UcAddWorkPluginsContainer.resx">
+      <DependentUpon>UcAddWorkPluginsContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UcNote.resx">
+      <DependentUpon>UcNote.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormAddWork2.resx">
+      <DependentUpon>FormAddWork2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UcFtpBrowser.resx">
+      <DependentUpon>UcFtpBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UcJobList.resx">
+      <DependentUpon>UcJobList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormCombineOrders.resx">
+      <DependentUpon>FormCombineOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormCustomers.resx">
+      <DependentUpon>FormCustomers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormCustomers.uk-UA.resx">
+      <DependentUpon>FormCustomers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormEditFolder.resx">
+      <DependentUpon>FormEditFolder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormFileBrowserSettings.resx">
+      <DependentUpon>FormFileBrowserSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormFtpDirectoryList.resx">
+      <DependentUpon>FormFtpDirectoryList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormFtpSettings.resx">
+      <DependentUpon>FormFtpSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormGetTrimBox.resx">
+      <DependentUpon>FormGetTrimBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormMailInformerSettings.resx">
+      <DependentUpon>FormMailInformerSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormMailInformerSettings.uk-UA.resx">
+      <DependentUpon>FormMailInformerSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormPdfPreview.resx">
+      <DependentUpon>FormPdfPreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\FileBrowser.resx">
+      <DependentUpon>FileBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\FileBrowser.uk-UA.resx">
+      <DependentUpon>FileBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localize.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localize.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localize.uk-UA.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localize.uk-UA.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\emotion_misdoubt.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\preview_results1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sign-info-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editing-cut-filled-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\duplicate-layer-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-merge-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page-refresh-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document-margins-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash-full-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\key_j.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\upload_for_cloud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mail_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repair.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_turn_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder-new-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rename-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blackboard_drawing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\explorer-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sort_alphabel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button_navigation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clipboard_sign.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_clear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Editing-Rectangle-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Editing-Ellipse-Stroked-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editing-Align-Center-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editing-Align-Left-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editing-Align-Right-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="preferences-color-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Actions-format-text-bold-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Actions-format-text-italic-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Actions-format-text-strikethrough-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Actions-format-text-underline-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Clear-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Settings-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Single_100x100.png" />
+    <None Include="Resources\multiple_100x100.png" />
+    <None Include="0-Hash-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hardware-floppy-icon.png" />
+    <None Include="Resources\filter.png" />
+    <None Include="Resources\mail_green1.png" />
+    <None Include="Resources\Create.png" />
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Core\Compression\Snappy\lib\win\snappy32.dll" />
+    <Content Include="Core\Compression\Snappy\lib\win\snappy64.dll" />
+    <Content Include="Core\Compression\Zstandard\lib\win\libzstd.dll" />
+    <Content Include="mongocrypt.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Magick.NET-Q16-x86.8.4.0\build\net20\Magick.NET-Q16-x86.targets" Condition="Exists('..\packages\Magick.NET-Q16-x86.8.4.0\build\net20\Magick.NET-Q16-x86.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Magick.NET-Q16-x86.8.4.0\build\net20\Magick.NET-Q16-x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Magick.NET-Q16-x86.8.4.0\build\net20\Magick.NET-Q16-x86.targets'))" />
+    <Error Condition="!Exists('..\packages\MongoDB.Driver.Core.2.13.2\build\MongoDB.Driver.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MongoDB.Driver.Core.2.13.2\build\MongoDB.Driver.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\MongoDB.Libmongocrypt.1.2.2\build\MongoDB.Libmongocrypt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MongoDB.Libmongocrypt.1.2.2\build\MongoDB.Libmongocrypt.targets'))" />
+  </Target>
+  <Import Project="..\packages\MongoDB.Driver.Core.2.13.2\build\MongoDB.Driver.Core.targets" Condition="Exists('..\packages\MongoDB.Driver.Core.2.13.2\build\MongoDB.Driver.Core.targets')" />
+  <Import Project="..\packages\MongoDB.Libmongocrypt.1.2.2\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.2.2\build\MongoDB.Libmongocrypt.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,864 @@
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com 
+
+
+using ActiveWorks.Forms;
+using BrightIdeasSoftware;
+using ComponentFactory.Krypton.Toolkit;
+using Interfaces;
+using Job;
+using Job.CustomForms;
+using Job.Menus;
+using Job.Profiles;
+using Job.Statuses;
+using Job.UserForms;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace ActiveWorks
+{
+    public partial class FormSettings : KryptonForm
+    {
+
+        private Profile _currentProfile;
+
+        public FormSettings()
+        {
+            InitializeComponent();
+
+            objectListViewProfiles.AddObjects(ProfilesController.GetProfiles());
+
+            //          SetLanguagesList();
+
+            panelStatusParams.DataBindings.Add("Enabled", checkBoxStatusEnable, "Checked");
+            groupBoxViewer.DataBindings.Add("Enabled", checkBoxUseViewer, "Checked");
+
+            olvColumnUsedExplorer0.AspectGetter += r => ((MenuSendTo)r).UsedInExplorer[0];
+
+            olvColumnUsedExplorerRight.AspectGetter += r => ((MenuSendTo)r).UsedInExplorer[1];
+            olvColumnUsedExplorer2.AspectGetter += r => ((MenuSendTo)r).UsedInExplorer[2];
+            olvColumnUsedExplorer3.AspectGetter += r => ((MenuSendTo)r).UsedInExplorer[3];
+            olvColumnChangeStatus.AspectGetter += GetChangeStatus;
+        }
+
+        private object GetChangeStatus(object r)
+        {
+            var status = _currentProfile.StatusManager.GetJobStatusByCode(((MenuSendTo)r).StatusCode);
+            return status?.Name ?? string.Empty;
+        }
+
+        private void Button_Save_Click(object sender, EventArgs e)
+        {
+
+            if (_currentProfile != null)
+            {
+                ApplyProfileSetting();
+            }
+
+            ProfilesController.Save();
+            Close();
+        }
+
+
+        /// <summary>
+        /// добавить рабочую папку. В ней будут создаваться папки с заказами
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_WorkFolder_Click(object sender, EventArgs e)
+        {
+            if (vistaFolderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                textBox_Work.Text = vistaFolderBrowserDialog1.SelectedPath;
+            }
+        }
+
+        /*
+                /// <summary>
+                /// добавить формат пластины
+                /// </summary>
+                /// <param name="sender"></param>
+                /// <param name="e"></param>
+                private void Button_AddPlateFormat_Click(object sender, EventArgs e)
+                {
+                    if (!string.IsNullOrEmpty(textBox_EnterPlateFormat.Text))
+                    {
+                        var f = _currentProfile.Forms.AddKnownForm(textBox_EnterPlateFormat.Text);
+                        if (f != null)
+                        {
+                            listBox_PlateFormates.Items.Add(f);
+                        }
+
+                    }
+                }
+        */
+
+        /// <summary>
+        /// удалить формат пластины
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void УдалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //if (listBox_PlateFormates.SelectedItem != null)
+            //{
+            //    _currentProfile.Forms.RemoveKnownForm((Job.Forms)listBox_PlateFormates.SelectedItem);
+            //    listBox_PlateFormates.Items.Remove(listBox_PlateFormates.SelectedItem);
+            //}
+        }
+
+        private void ДобавитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            objectListViewSendTo.AddObject(_currentProfile.MenuManagers.SendTo.Add("новое меню", string.Empty));
+        }
+
+        private void УдалитьToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (objectListViewSendTo.SelectedObjects != null)
+            {
+                foreach (var menu in objectListViewSendTo.SelectedObjects)
+                {
+                    _currentProfile.MenuManagers.SendTo.Remove(menu);
+                }
+                objectListViewSendTo.RemoveObjects(objectListViewSendTo.SelectedObjects);
+            }
+        }
+
+        private void ДобавитьToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            objectListView_Utils.AddObject(_currentProfile.MenuManagers.Utils.Add("нова програма", string.Empty, String.Empty));
+        }
+
+        private void УдалитьToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (objectListView_Utils.SelectedObjects != null)
+            {
+                foreach (var menu in objectListView_Utils.SelectedObjects)
+                {
+                    _currentProfile.MenuManagers.Utils.Remove(menu);
+                }
+                objectListView_Utils.RemoveObjects(objectListView_Utils.SelectedObjects);
+            }
+        }
+        /// <summary>
+        /// добавить почтовый адрес в список для отправки отчета
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_MailAdd_Click(object sender, EventArgs e)
+        {
+            MailAddToList();
+        }
+        /// <summary>
+        /// добавить почтовый адрес в список для отправки отчета
+        /// </summary>
+        private void MailAddToList()
+        {
+            listBox_SendEmails.Items.Add(textBox_MailTo.Text);
+        }
+
+        private void УдалитьToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            if (listBox_SendEmails.SelectedItem != null)
+            {
+                listBox_SendEmails.Items.Remove(listBox_SendEmails.SelectedItem);
+            }
+        }
+
+        private void Button_CustomButtonPath_Click(object sender, EventArgs e)
+        {
+            if (vistaFolderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                listBox_CustomButtonFolder.Items.Add(vistaFolderBrowserDialog1.SelectedPath);
+            }
+        }
+
+
+        private void ВыбратьФайлToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView_Utils.SelectedObject is MenuSendTo t)
+            {
+                vistaOpenFileDialog1.Filter = "*.exe|*.exe";
+
+                if (vistaOpenFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    t.Path = vistaOpenFileDialog1.FileName;
+                    t.Image = System.Drawing.Icon.ExtractAssociatedIcon(t.Path)?.ToBitmap();
+
+                    objectListView_Utils.RefreshObject(t);
+                }
+            }
+        }
+
+        private void ВыбратьПапкуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListViewSendTo.SelectedObject is MenuSendTo t)
+            {
+                if (vistaFolderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    t.Path = vistaFolderBrowserDialog1.SelectedPath;
+                    objectListViewSendTo.RefreshObject(t);
+                }
+            }
+        }
+
+        /// <summary>
+        /// выбрать папку для хранения работ Signa
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonOpenSignaJobsFolder_Click(object sender, EventArgs e)
+        {
+            if (vistaFolderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                textBoxFolderSignaJobs.Text = vistaFolderBrowserDialog1.SelectedPath;
+            }
+        }
+
+        /*
+                /// <summary>
+                /// выбрать файл для проигрывания при входящей почте
+                /// </summary>
+                /// <param name="sender"></param>
+                /// <param name="e"></param>
+                private void Button_SelectPlayFile_Click(object sender, EventArgs e)
+                {
+                    vistaOpenFileDialog1.Filter = "*.mp3|*.mp3";
+
+                    var defPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sounds");
+
+                    if (Directory.Exists(defPath))
+                        vistaOpenFileDialog1.InitialDirectory = defPath+"\\";
+
+                    if (vistaOpenFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        textBox_Mp3File.Text = vistaOpenFileDialog1.FileName;
+                    }
+                }
+        */
+        /*
+                /// <summary>
+                /// добавить владельца формы
+                /// </summary>
+                /// <param name="sender"></param>
+                /// <param name="e"></param>
+                private void ButtonAddPlateOwner_Click(object sender, EventArgs e)
+                {
+                    if (!string.IsNullOrEmpty(textBoxPlateOwner.Text))
+                    {
+                        var po = _currentProfile.PlateOwners.Add(textBoxPlateOwner.Text);
+                        if (po != null)
+                        {
+                            listBox_PlateOwners.Items.Add(po);
+                        }
+                    }
+                }
+        */
+        /// <summary>
+        /// удалить из списка владельцев форм
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void УдалитьToolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            //if (listBox_PlateOwners.SelectedItem != null)
+            //{
+            //    _currentProfile.PlateOwners.Remove(listBox_PlateOwners.SelectedItem);
+            //    listBox_PlateOwners.Items.Remove(listBox_PlateOwners.SelectedItem);
+            //}
+        }
+
+        private void УдалитьToolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            if (listBox_CustomButtonFolder.SelectedItem != null)
+
+                listBox_CustomButtonFolder.Items.Remove(listBox_CustomButtonFolder.SelectedItem);
+        }
+
+        /*
+                private void buttonOpenLocationConfig_Click(object sender, EventArgs e)
+                {
+                    var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+                    Process.Start("explorer.exe","/select,"+path);
+                }
+        */
+
+        /*
+                private void comboBoxStatuses_SelectedIndexChanged(object sender, EventArgs e)
+                {
+                    if (comboBoxStatuses.SelectedItem != null)
+                    {
+                        var status =  (Job.Settings.JobStatus) Enum.Parse(typeof(Job.Settings.JobStatus),comboBoxStatuses.SelectedItem.ToString());
+
+                        var param = StatusesParams.GetParam(status);
+
+                        checkBoxStatusEnable.DataBindings.Clear();
+                        textBoxStatusCommandLineParam.DataBindings.Clear();
+                        textBoxStatusFileName.DataBindings.Clear();
+
+                        checkBoxStatusEnable.DataBindings.Add("Checked",param,"Enable") ;
+                        textBoxStatusCommandLineParam.DataBindings.Add("Text", param, "CommandLineParams");
+                        textBoxStatusFileName.DataBindings.Add("Text", param, "ProgramPath");
+                    }
+
+                }
+        */
+
+        private void buttonStatusSelectProgram_Click(object sender, EventArgs e)
+        {
+
+            if (objectListViewStatuses.SelectedObject is JobStatus status)
+            {
+                var param = _currentProfile.StatusManager.OnChangeStatusesParams.GetParam(status.Code);
+
+                var res = vistaOpenFileDialog1.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    param.ProgramPath = vistaOpenFileDialog1.FileName;
+                    textBoxStatusFileName.Text = vistaOpenFileDialog1.FileName;
+                }
+            }
+
+
+        }
+
+        private void buttonSelectViewer_Click(object sender, EventArgs e)
+        {
+            var res = vistaOpenFileDialog1.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                textBoxViewer.Text = vistaOpenFileDialog1.FileName;
+
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listBox_SendEmails.SelectedItem != null)
+            {
+                listBox_SendEmails.Items.Remove(listBox_SendEmails.SelectedItem);
+            }
+        }
+
+/*
+        private void objectListView_Utils_CellEditFinished(object sender, CellEditEventArgs e)
+        {
+            if (e.Column == olvColumnUsedExplorer0)
+            {
+                ((MenuSendTo)e.RowObject).UsedInExplorer[0] = (bool)e.NewValue;
+            }
+            else if (e.Column == olvColumnUsedExplorerRight)
+            {
+                ((MenuSendTo)e.RowObject).UsedInExplorer[1] = (bool)e.NewValue;
+            }
+            else if (e.Column == olvColumnUsedExplorer2)
+            {
+                ((MenuSendTo)e.RowObject).UsedInExplorer[2] = (bool)e.NewValue;
+            }
+            else if (e.Column == olvColumnUsedExplorer3)
+            {
+                ((MenuSendTo)e.RowObject).UsedInExplorer[3] = (bool)e.NewValue;
+            }
+
+        }
+*/
+
+        /*
+                private void buttonSaveConfig_Click(object sender, EventArgs e)
+                {
+                    var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+                    var localPath = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(path));
+                    File.Copy(path,localPath,true);
+
+                    MessageBox.Show($"Config saved in {localPath} !");
+
+                }
+        */
+
+        /*
+                private void buttonRestoreConfig_Click(object sender, EventArgs e)
+                {
+                    using (var f = new VistaOpenFileDialog())
+                    {
+                        f.CheckFileExists = true;
+                        f.InitialDirectory = Directory.GetCurrentDirectory();
+
+                        if (f.ShowDialog() == DialogResult.OK)
+                        {
+
+                            var targetPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+
+                            File.Copy(f.FileName,targetPath,true);
+
+                            MessageBox.Show(@"Config restored!");
+                        }
+                    }
+                }
+        */
+
+        private void buttonAddProfile_Click(object sender, EventArgs e)
+        {
+            var profile = ProfilesController.AddProfile();
+            if (profile != null)
+            {
+                objectListViewProfiles.AddObject(profile);
+            }
+        }
+
+        private void objectListViewProfiles_CellEditFinishing(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+        {
+            if (e.Column == olvColumnName)
+            {
+                ((Profile)e.RowObject).Settings.ProfileName = e.NewValue.ToString();
+                e.Cancel = true;
+            }
+
+        }
+
+        private void objectListViewProfiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // зберегти поточний профіль
+            if (_currentProfile != null)
+            {
+                ApplyProfileSetting();
+            }
+
+            if (objectListViewProfiles.SelectedObject == null)
+            {
+                tabControlMain.Enabled = false;
+                _currentProfile = null;
+            }
+            else
+            {
+                tabControlMain.Enabled = true;
+
+                _currentProfile = objectListViewProfiles.SelectedObject as Profile;
+
+                BindProfile();
+            }
+        }
+
+        private void ApplyProfileSetting()
+        {
+            var setup = _currentProfile.Settings;
+
+            setup.GetJobSettings().WorkPath = textBox_Work.Text;
+            setup.GetJobSettings().SignaJobsPath = textBoxFolderSignaJobs.Text;
+
+            var baseSettings = setup.GetBaseSettings();
+
+            baseSettings.MongoDbBaseName = textBoxBaseName.Text;
+            baseSettings.MongoDbServer = textBox_mongoDB.Text;
+            baseSettings.MongoDbPassword = textBox_Mongo_Pass.Text;
+            baseSettings.MongoDbUser = textBox_MongoUser.Text;
+            baseSettings.BaseTimeOut = (int)numericUpDownBaseTimeOut.Value;
+
+            int.TryParse(textBox_MongoPort.Text, out var port);
+            baseSettings.MongoDbPort = port;
+
+            var mail = setup.GetMail();
+
+            if (mail.MailTo == null)
+            {
+                mail.MailTo = new List<string>();
+            }
+            else
+            {
+                mail.MailTo.Clear();
+            }
+            mail.MailTo.AddRange(listBox_SendEmails.Items.Cast<string>());
+            mail.MailFrom = textBox_MailFrom.Text;
+            mail.MailFromPassword = textBox_MailPassword.Text;
+            mail.MailImapPort = (int)numericUpDown_ImapPort.Value;
+            mail.MailImapHost = textBox_ImapServer.Text;
+            mail.MailSmtpPort = (int)numericUpDownSmtpPort.Value;
+            mail.MailSmtpServer = textBoxSmtpServer.Text;
+            mail.MailAutoRelogon = checkBoxMailAutoRelogon.Checked;
+
+            var browser = setup.GetFileBrowser();
+
+            if (browser.CustomButtonPath == null) browser.CustomButtonPath = new List<string>();
+            browser.CustomButtonPath.Clear();
+            browser.CustomButtonPath.AddRange(listBox_CustomButtonFolder.Items.Cast<string>().ToArray());
+
+            setup.CountExplorers = numericUpDownCountExplorers.Value;
+            //setup.ExplorerInRightPanel = checkBoxExplorerInRightPanel.Checked;
+
+            browser.Viewer = textBoxViewer.Text;
+            browser.ViewerCommandLine = textBoxViewerCommandLine.Text;
+            browser.UseViewer = checkBoxUseViewer.Enabled;
+
+            setup.GetJobSettings().SignaFileShablon = textBoxSignaShablon.Text;
+            setup.GetJobSettings().StoreByYear = checkBoxStoreByYear.Checked;
+
+
+            setup.HideCategory = checkBoxHideCategory.Checked;
+
+            setup.GetPdfConverterSettings().MoveOriginalsToTrash = checkBoxMoveOriginalFileToTrash.Checked;
+
+            _currentProfile.MenuManagers.SendTo.Save();
+            _currentProfile.MenuManagers.Utils.Save();
+
+
+            _currentProfile.StatusManager?.OnChangeStatusesParams.Save();
+
+            _currentProfile.Ftp?.FtpScriptController.SetList(objectListViewFtpScripts.Objects?.Cast<IFtpScript>() ??
+                                                            new List<IFtpScript>());
+            
+        }
+
+        private void BindProfile()
+        {
+            if (!_currentProfile.IsInitialized)
+            {
+                _currentProfile.InitProfile();
+            }
+
+            var setup = _currentProfile.Settings;
+
+            textBox_Work.Text = setup.GetJobSettings().WorkPath;
+
+            textBoxBaseName.Text = setup.GetBaseSettings().MongoDbBaseName;
+            textBox_mongoDB.Text = setup.GetBaseSettings().MongoDbServer;
+            textBox_MongoUser.Text = setup.GetBaseSettings().MongoDbUser;
+            textBox_Mongo_Pass.Text = setup.GetBaseSettings().MongoDbPassword;
+            textBox_MongoPort.Text = setup.GetBaseSettings().MongoDbPort.ToString();
+
+            objectListViewSendTo.ClearObjects();
+            objectListViewSendTo.AddObjects(_currentProfile.MenuManagers.SendTo.Get());
+            objectListView_Utils.ClearObjects();
+            objectListView_Utils.AddObjects(_currentProfile.MenuManagers.Utils.Get());
+
+            textBoxFolderSignaJobs.Text = setup.GetJobSettings().SignaJobsPath;
+            textBox_MailFrom.Text = setup.GetMail().MailFrom;
+            textBox_MailPassword.Text = setup.GetMail().MailFromPassword;
+            textBox_ImapServer.Text = setup.GetMail().MailImapHost;
+            numericUpDown_ImapPort.Value = setup.GetMail().MailImapPort;
+            textBoxSmtpServer.Text = setup.GetMail().MailSmtpServer;
+            numericUpDownSmtpPort.Value = setup.GetMail().MailSmtpPort;
+            //checkBox_PlayMailNotifySound.Checked = setup.GetMail().MailNotifyEnable;
+            //textBox_Mp3File.Text = setup.GetMail().MailNotifySoundFile;
+
+            listBox_SendEmails.Items.Clear();
+            if (setup.GetMail().MailTo.Any())
+            {
+                listBox_SendEmails.Items.AddRange(setup.GetMail().MailTo.ToArray());
+            }
+
+            listBox_CustomButtonFolder.Items.Clear();
+            if (setup.GetFileBrowser().CustomButtonPath.Any())
+            {
+                listBox_CustomButtonFolder.Items.AddRange(setup.GetFileBrowser().CustomButtonPath.ToArray());
+            }
+
+            listBox_Ftp_Servers.Items.Clear();
+            listBox_Ftp_Servers.DisplayMember = "Name";
+            if (_currentProfile.Ftp != null)
+                listBox_Ftp_Servers.Items.AddRange(_currentProfile.Ftp.GetCollection().ToArray());
+
+            //listBox_PlateOwners.Items.Clear();
+            //listBox_PlateOwners.DisplayMember = "Name";
+            //if (_currentProfile.PlateOwners!=null)
+            //    listBox_PlateOwners.Items.AddRange(_currentProfile.PlateOwners.GetCollection().ToArray());
+
+            //checkBoxNotifymailShowBaloon.Checked = setup.MailNotifyShowBaloon;
+
+            numericUpDownCountExplorers.Value = setup.CountExplorers;
+            //checkBoxExplorerInRightPanel.Checked = setup.ExplorerInRightPanel;
+            textBoxSignaShablon.Text = setup.GetJobSettings().SignaFileShablon;
+
+            checkBoxMailAutoRelogon.Checked = setup.GetMail().MailAutoRelogon;
+
+            numericUpDownBaseTimeOut.Value = setup.GetBaseSettings().BaseTimeOut;
+
+            objectListViewStatuses.Objects = _currentProfile.StatusManager?.GetJobStatuses();
+
+            checkBoxStoreByYear.Checked = setup.GetJobSettings().StoreByYear;
+            checkBoxHideCategory.Checked = setup.HideCategory;
+
+            textBoxViewer.Text = setup.GetFileBrowser().Viewer;
+            textBoxViewerCommandLine.Text = setup.GetFileBrowser().ViewerCommandLine;
+            checkBoxUseViewer.Checked = setup.GetFileBrowser().UseViewer;
+
+            checkBoxMoveOriginalFileToTrash.Checked = setup.GetPdfConverterSettings().MoveOriginalsToTrash;
+            //plugins
+            LoadPluginsInfo();
+
+            LoadFtpScripts();
+        }
+
+        private void LoadFtpScripts()
+        {
+            objectListViewFtpScripts.ClearObjects();
+            objectListViewFtpScripts.AddObjects(_currentProfile.Ftp?.FtpScriptController.All());
+        }
+
+        private void LoadPluginsInfo()
+        {
+            var plugins = _currentProfile.Plugins.GetPluginsBase();
+
+            objectListViewPlugins.ClearObjects();
+            objectListViewPlugins.AddObjects(plugins);
+        }
+
+        private void buttonRemoveProfile_Click(object sender, EventArgs e)
+        {
+            if (objectListViewProfiles.SelectedObject != null)
+            {
+                ProfilesController.RemoveProfile((Profile)objectListViewProfiles.SelectedObject);
+                objectListViewProfiles.RemoveObject(objectListViewProfiles.SelectedObject);
+            }
+        }
+
+        private void buttonStatusAdd_Click(object sender, EventArgs e)
+        {
+
+            var ns = _currentProfile.StatusManager.Create();
+            using (var f = new FormEditStatus(_currentProfile, ns))
+            {
+                if (f.ShowDialog() == DialogResult.OK)
+                {
+                    _currentProfile.StatusManager.Add(ns);
+                    objectListViewStatuses.AddObject(ns);
+                }
+            }
+        }
+
+        private void buttonStatusDelete_Click(object sender, EventArgs e)
+        {
+            if (objectListViewStatuses.SelectedObject is JobStatus status)
+            {
+                _currentProfile.StatusManager.Remove(status);
+                objectListViewStatuses.RemoveObject(status);
+            }
+
+        }
+
+        private void buttonStatusEdit_Click(object sender, EventArgs e)
+        {
+            if (objectListViewStatuses.SelectedObject is JobStatus status)
+            {
+                using (var f = new FormEditStatus(_currentProfile, status))
+                {
+                    if (f.ShowDialog() == DialogResult.OK)
+                    {
+                        _currentProfile.StatusManager.Refresh(status);
+                        objectListViewStatuses.RefreshObject(status);
+                    }
+                }
+            }
+        }
+
+        private void buttonStatusSetDefault_Click(object sender, EventArgs e)
+        {
+            if (objectListViewStatuses.SelectedObject is JobStatus status)
+            {
+                _currentProfile.StatusManager.SetDefaultStatus(status);
+                objectListViewSendTo.RefreshObjects(_currentProfile.StatusManager.GetJobStatuses());
+            }
+        }
+
+        private void objectListViewStatuses_Click(object sender, EventArgs e)
+        {
+            if (objectListViewStatuses.SelectedObject is JobStatus status)
+            {
+                groupBoxOnChangeStatuses.Enabled = true;
+                var param = _currentProfile.StatusManager.OnChangeStatusesParams.GetParam(status.Code);
+
+                checkBoxStatusEnable.Checked = param.Enable;
+                panelStatusParams.Enabled = param.Enable;
+                textBoxStatusFileName.Text = param.ProgramPath;
+                textBoxStatusCommandLineParam.Text = param.CommandLineParams;
+            }
+            else
+            {
+                groupBoxOnChangeStatuses.Enabled = false;
+            }
+
+        }
+
+        private void копіюватиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listBox_SendEmails.SelectedItem != null)
+            {
+                try
+                {
+                    Clipboard.SetText(listBox_SendEmails.SelectedItem.ToString());
+                }
+                catch
+                {
+
+                }
+
+            }
+        }
+
+        private void objectListView_Utils_CellEditStarting(object sender, CellEditEventArgs e)
+        {
+            if (e.Column == olvColumnChangeStatus)
+            {
+                var cb = new ComboBox
+                {
+                    Bounds = e.CellBounds,
+                    Font = ((ObjectListView)sender).Font,
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    DisplayMember = "Name"
+                };
+                cb.Items.Add(new JobStatus { Code = 0, Name = "нічого" });
+                cb.Items.AddRange(_currentProfile.StatusManager.GetJobStatuses());
+
+                var sel = _currentProfile.StatusManager.GetJobStatusByCode(((MenuSendTo)e.RowObject).StatusCode);
+                cb.SelectedItem = sel;
+                e.Control = cb;
+
+            }
+        }
+
+        private void objectListView_Utils_CellEditFinishing(object sender, CellEditEventArgs e)
+        {
+            if (e.Column == olvColumnChangeStatus)
+            {
+                if (e.Control is ComboBox cb && cb.SelectedItem is JobStatus status)
+                {
+                    ((MenuSendTo)e.RowObject).StatusCode = status.Code;
+                }
+            }
+        }
+
+        private void textBoxStatusCommandLineParam_TextChanged(object sender, EventArgs e)
+        {
+            if (objectListViewStatuses.SelectedObject is JobStatus status)
+            {
+                var param = _currentProfile.StatusManager.OnChangeStatusesParams.GetParam(status.Code);
+
+                param.CommandLineParams = textBoxStatusCommandLineParam.Text;
+            }
+        }
+
+        private void textBoxStatusFileName_TextChanged(object sender, EventArgs e)
+        {
+            if (objectListViewStatuses.SelectedObject is JobStatus status)
+            {
+                var param = _currentProfile.StatusManager.OnChangeStatusesParams.GetParam(status.Code);
+
+                param.ProgramPath = textBoxStatusFileName.Text;
+            }
+        }
+
+        private void checkBoxStatusEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            if (objectListViewStatuses.SelectedObject is JobStatus status)
+            {
+                var param = _currentProfile.StatusManager.OnChangeStatusesParams.GetParam(status.Code);
+
+                param.Enable = checkBoxStatusEnable.Checked;
+            }
+        }
+
+        private void listBox_Ftp_Servers_DoubleClick(object sender, EventArgs e)
+        {
+            if (listBox_Ftp_Servers.SelectedItem is FtpSettings fs)
+            {
+                using (var f = new FormFtpSettings(fs))
+                {
+                    if (f.ShowDialog() == DialogResult.OK)
+                    {
+                        _currentProfile.Ftp.Update(fs);
+                        listBox_Ftp_Servers.Refresh();
+                    }
+                }
+            }
+        }
+
+        private void ButtonFtpSettingsAdd_Click(object sender, EventArgs e)
+        {
+            var fs = new FtpSettings();
+
+            using (var f = new FormFtpSettings(fs))
+            {
+                if (f.ShowDialog() == DialogResult.OK)
+                {
+                    _currentProfile.Ftp.Add(fs);
+                    listBox_Ftp_Servers.Items.Add(fs);
+                }
+            }
+        }
+
+        private void buttonFtpSettingsRemove_Click(object sender, EventArgs e)
+        {
+
+            if (listBox_Ftp_Servers.SelectedItem is FtpSettings fs)
+            {
+                _currentProfile.Ftp.Remove(fs);
+                listBox_Ftp_Servers.Items.Remove(fs);
+            }
+        }
+
+        private void buttonSetProfileDefault_Click(object sender, EventArgs e)
+        {
+            if (objectListViewProfiles.SelectedObject is Profile profile)
+            {
+                Properties.Settings.Default.DefaultProfile = profile.Settings.ProfileName;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void objectListViewPlugins_DoubleClick(object sender, EventArgs e)
+        {
+            if (objectListViewPlugins.SelectedObject is IPluginBase plugin)
+            {
+                plugin.ShowSettingsDlg();
+            }
+        }
+
+        private void buttonScriptAdd_Click(object sender, EventArgs e)
+        {
+            if (vistaOpenFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                //
+                var script = _currentProfile.Ftp.FtpScriptController.Create(vistaOpenFileDialog1.FileName);
+                objectListViewFtpScripts.AddObject(script);
+            }
+        }
+
+        private void buttonScriptRemove_Click(object sender, EventArgs e)
+        {
+            if (objectListViewFtpScripts.SelectedObjects.Count > 0)
+            {
+                objectListViewFtpScripts.RemoveObjects(objectListViewFtpScripts.SelectedObjects);
+            }
+
+        }
+
+        private void objectListView_Utils_SubItemChecking(object sender, SubItemCheckingEventArgs e)
+        {
+            if (e.Column == olvColumnUsedExplorer0)
+            {
+                ((MenuSendTo)e.RowObject).UsedInExplorer[0] = e.NewValue == CheckState.Checked;
+            }
+            else if (e.Column == olvColumnUsedExplorerRight)
+            {
+                ((MenuSendTo)e.RowObject).UsedInExplorer[1] = e.NewValue == CheckState.Checked;
+            }
+            else if (e.Column == olvColumnUsedExplorer2)
+            {
+                ((MenuSendTo)e.RowObject).UsedInExplorer[2] = e.NewValue == CheckState.Checked;
+            }
+            else if (e.Column == olvColumnUsedExplorer3)
+            {
+                ((MenuSendTo)e.RowObject).UsedInExplorer[3] = e.NewValue == CheckState.Checked;
+            }
+        }
+
+        private void buttonExtBrowsersSettings_Click(object sender, EventArgs e)
+        {
+            using (var form = new FormExtBrowserSettings(_currentProfile))
+            {
+
+                form.ShowDialog();
+            }
+        }
+    }
+}

@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E33EE056-9AC0-44F2-9E4A-6691C16BC375}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ActiveWorks</RootNamespace>
+    <AssemblyName>ActiveWorks</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Iconshock-Real-Vista-Construction-Tool-kit.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ghostscript.NET, Version=1.2.3.0, Culture=neutral, PublicKeyToken=f85051de34525b59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ghostscript.NET.1.2.3\lib\net40\Ghostscript.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton Docking, Version=5.472.753.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\KryptonToolkitSuite5472.5.472.2098\lib\net472\Krypton Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton Navigator, Version=5.472.796.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\KryptonToolkitSuite5472.5.472.2098\lib\net472\Krypton Navigator.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton Ribbon, Version=5.472.850.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\KryptonToolkitSuite5472.5.472.2098\lib\net472\Krypton Ribbon.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton Toolkit, Version=5.472.2098.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\KryptonToolkitSuite5472.5.472.2098\lib\net472\Krypton Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton Workspace, Version=5.472.727.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\KryptonToolkitSuite5472.5.472.2098\lib\net472\Krypton Workspace.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MongoDB.Bson, Version=2.13.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.13.2\lib\net452\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
+      <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ookii.Dialogs.WinForms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ookii.Dialogs.WinForms.4.0.0\lib\net462\Ookii.Dialogs.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress, Version=0.30.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.30.0\lib\net461\SharpCompress.dll</HintPath>
+    </Reference>
+    <Reference Include="SplashScreen">
+      <HintPath>..\..\SplashScreen\SplashScreen\bin\Debug\SplashScreen.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.6.0.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.Extensions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Resources.Extensions.6.0.0\lib\net461\System.Resources.Extensions.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.6.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoCompleteCtp.cs" />
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormBackgroundTasks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormBackgroundTasks.Designer.cs">
+      <DependentUpon>FormBackgroundTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormExtBrowserSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormExtBrowserSettings.Designer.cs">
+      <DependentUpon>FormExtBrowserSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormQRCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormQRCode.Designer.cs">
+      <DependentUpon>FormQRCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormWhatNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormWhatNew.Designer.cs">
+      <DependentUpon>FormWhatNew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Localize.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localize.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Localize.ru-RU.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localize.ru-RU.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Localize.uk-UA.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localize.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Static\Localisation.cs" />
+    <Compile Include="FormColorProof.cs" />
+    <Compile Include="FormColorProof.Designer.cs">
+      <DependentUpon>FormColorProof.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEditFolder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditFolder.Designer.cs">
+      <DependentUpon>FormEditFolder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPdfPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPdfPreview.Designer.cs">
+      <DependentUpon>FormPdfPreview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSettings.Designer.cs">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JobRenderer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\FormProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserControls\FormProfile.Designer.cs">
+      <DependentUpon>FormProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UcTabProfile3.cs" />
+    <Compile Include="UserControls\UcTabProfile3.Designer.cs">
+      <DependentUpon>UcTabProfile3.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSettings.uk-UA.resx">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormBackgroundTasks.resx">
+      <DependentUpon>FormBackgroundTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormExtBrowserSettings.resx">
+      <DependentUpon>FormExtBrowserSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormQRCode.resx">
+      <DependentUpon>FormQRCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormWhatNew.resx">
+      <DependentUpon>FormWhatNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localize.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localize.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localize.ru-RU.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localize.ru-RU.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localize.uk-UA.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localize.uk-UA.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormColorProof.resx">
+      <DependentUpon>FormColorProof.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditFolder.resx">
+      <DependentUpon>FormEditFolder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPdfPreview.resx">
+      <DependentUpon>FormPdfPreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSettings.resx">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="UserControls\FormProfile.resx">
+      <DependentUpon>FormProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\UcTabProfile3.resx">
+      <DependentUpon>UcTabProfile3.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\ActiveWorks.Properties.Settings.datasource" />
+    <None Include="Properties\DataSources\ActiveWorks.Properties.Settings1.datasource" />
+    <None Include="Properties\DataSources\ActiveWorks.Properties.Settings11.datasource" />
+    <None Include="Properties\DataSources\ActiveWorks.Properties.Settings12.datasource" />
+    <None Include="Properties\DataSources\FormSettings.datasource" />
+    <None Include="Properties\DataSources\FormsManager.datasource" />
+    <None Include="Properties\DataSources\Job.Job.datasource" />
+    <None Include="Properties\DataSources\StatusChangeParam.datasource" />
+    <None Include="Properties\DataSources\StatusesParams.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Create.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="text-list-bullets-icon.png" />
+    <None Include="Sql-runner-icon.png" />
+    <None Include="SplashScreen7.png" />
+    <None Include="window-layout-icon_small.png" />
+    <None Include="window-layout-icon.png" />
+    <None Include="user-settings-icon.png" />
+    <None Include="Status-mail-unread-new-icon.png" />
+    <None Include="SplashScreen6.png" />
+    <None Include="Resources\user-settings-icon.png" />
+    <None Include="Resources\settings-icon.png" />
+    <None Include="Resources\Search-icon.png" />
+    <None Include="Resources\page-refresh-icon.png" />
+    <None Include="Resources\pdf-icon.png" />
+    <None Include="Resources\log-icon.png" />
+    <None Include="Resources\Status-user-away-icon.png" />
+    <None Include="Resources\Communication-email-2-icon.png" />
+    <None Include="Resources\Actions-dialog-ok-icon.png" />
+    <None Include="Resources\Actions-edit-delete-icon.png" />
+    <None Include="Resources\Actions-list-add-icon.png" />
+    <None Include="Resources\Editing-Cut-Filled-icon.png" />
+    <None Include="Resources\Duplicate-Layer-icon.png" />
+    <None Include="Resources\document-margins-icon.png" />
+    <None Include="Resources\Arrow-Merge-icon.png" />
+    <None Include="Resources\Actions-edit-clear-locationbar-rtl-icon.png" />
+    <None Include="Resources\eye-icon.png" />
+    <None Include="Apps-Dialog-Apply-icon.png" />
+    <None Include="Apps-preferences-icon.png" />
+    <None Include="add-1-icon.png" />
+    <Content Include="Artua-Dragon-Soft-Toolbox.ico" />
+    <None Include="change.png" />
+    <None Include="barcode-icon.png" />
+    <None Include="Document-copy-icon.png" />
+    <None Include="File-new-icon.png" />
+    <None Include="Corwins-Blade-Runner-Voigt-kampff-case.ico" />
+    <None Include="Iconshock-Real-Vista-Construction-Tool-kit.ico" />
+    <None Include="layout_reset_window-icon.png" />
+    <None Include="Binoculars-icon.png" />
+    <None Include="Glasses-icon.png" />
+    <None Include="move-icon.png" />
+    <None Include="file-extension-log-icon.png" />
+    <None Include="Calendar-icon.png" />
+    <Content Include="Resources\icon_all.bmp" />
+    <Content Include="Resources\icon_icc.bmp" />
+    <Content Include="Resources\icon_lab.png" />
+    <Content Include="Resources\icon_Cmyk.bmp" />
+    <Content Include="Resources\icon_gray.bmp" />
+    <Content Include="Resources\icon_pattern.bmp" />
+    <Content Include="Resources\Icon_RGB.bmp" />
+    <Content Include="Resources\Icon_spot.bmp" />
+    <Content Include="Resources\icon_unknown.bmp" />
+    <None Include="Resources\mail-red-icon.png" />
+    <None Include="Resources\Trash-Full-icon.png" />
+    <None Include="Resources\sign-info-icon.png" />
+    <None Include="Resources\Edit-validated-icon.png" />
+    <None Include="Resources\Hardware-Floppy-icon.png" />
+    <None Include="Resources\add-1-icon.png" />
+    <None Include="Resources\clipboard_sign.png" />
+    <None Include="Resources\page_number.png" />
+    <None Include="Resources\split_panel.png" />
+    <None Include="Resources\sort_alphabel.png" />
+    <None Include="Resources\blackboard_drawing.png" />
+    <None Include="Resources\cut.png" />
+    <None Include="Resources\key_j.png" />
+    <None Include="Resources\mail_green1.png" />
+    <None Include="Resources\upload_for_cloud.png" />
+    <None Include="Resources\page_copy.png" />
+    <None Include="Resources\button_navigation.png" />
+    <None Include="Resources\mail_green.png" />
+    <None Include="Resources\Remove.png" />
+    <None Include="Resources\preview_results1.png" />
+    <None Include="Resources\file_extension_rar.png" />
+    <None Include="Resources\Repair.png" />
+    <None Include="Resources\inbox_download.png" />
+    <None Include="Resources\textfield_rename.png" />
+    <None Include="Resources\arrow_turn_left.png" />
+    <None Include="Resources\book_open.png" />
+    <None Include="Resources\group_stroke.png" />
+    <None Include="Resources\save_as_excel.png" />
+    <None Include="Resources\Play.png" />
+    <None Include="Resources\Filter.png" />
+    <None Include="Resources\spectrum.png" />
+    <None Include="Resources\Modify.png" />
+    <None Include="Resources\bullet_edit.png" />
+    <None Include="Resources\document_copies.png" />
+    <None Include="Resources\color_swatch.png" />
+    <None Include="Resources\report_user.png" />
+    <None Include="Resources\report.png" />
+    <None Include="Resources\raw_access_logs.png" />
+    <None Include="Resources\application_view_tile.png" />
+    <None Include="Resources\show_notes.png" />
+    <None Include="Resources\setting_tools.png" />
+    <None Include="Resources\filter_clear.png" />
+    <None Include="Resources\preview_results.png" />
+    <None Include="Resources\printer.png" />
+    <None Include="Resources\Rename-icon.png" />
+    <None Include="Resources\Explorer-icon.png" />
+    <None Include="Resources\folder-new-icon.png" />
+    <None Include="Resources\How-to.png" />
+    <None Include="Resources\Record.png" />
+    <None Include="Resources\Trash.png" />
+    <None Include="Resources\Pause.png" />
+    <None Include="Resources\Medium rating.png" />
+    <None Include="Resources\Good mark.png" />
+    <None Include="Resources\Eye.png" />
+    <None Include="Resources\Yes.png" />
+    <None Include="Resources\Low rating.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BackgroundTaskServiceLib\BackgroundTaskServiceLib.csproj">
+      <Project>{0ACD233F-DC92-4456-818C-F6841ADDD9CB}</Project>
+      <Name>BackgroundTaskServiceLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj">
+      <Project>{efe36109-be2c-49ce-82df-5649f61898c0}</Project>
+      <Name>ExtensionMethods</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{bb0fe1fa-8c37-4e59-a548-669f97109e64}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Job\Job.csproj">
+      <Project>{20640aa0-ab38-4499-8b96-99143a3b033e}</Project>
+      <Name>Job</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{ac6cfed7-8e64-469f-a97d-c25b644cd8a3}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

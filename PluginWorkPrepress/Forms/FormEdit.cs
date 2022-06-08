@@ -1,0 +1,35 @@
+﻿using System;
+using System.Windows.Forms;
+
+namespace PluginWorkPrepress.Forms
+{
+    public partial class FormEdit : Form
+    {
+        private PrepressProcess _process;
+
+        public FormEdit(PrepressProcess process)
+        {
+            InitializeComponent();
+            _process = process;
+            DialogResult = DialogResult.Cancel;
+
+            textBox1.Text = process.Name;
+            numericUpDownPrice.Value = process.Price;
+
+        }
+
+        private void numericUpDownPrice_Enter(object sender, EventArgs e)
+        {
+            ((NumericUpDown)sender).Select(0,((NumericUpDown)sender).Text.Length);
+        }
+
+        private void buttonOk_Click(object sender, EventArgs e)
+        {
+
+            _process.Price = numericUpDownPrice.Value;
+            _process.Name = textBox1.Text;
+
+            Close();
+        }
+    }
+}
