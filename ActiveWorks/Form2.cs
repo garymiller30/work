@@ -7,6 +7,7 @@ using ActiveWorks.Properties;
 using ActiveWorks.UserControls;
 using ComponentFactory.Krypton.Ribbon;
 using ComponentFactory.Krypton.Toolkit;
+using ExtensionMethods;
 using Interfaces;
 using Interfaces.Plugins;
 using Job.Profiles;
@@ -14,6 +15,7 @@ using Job.UserForms;
 using Logger;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -23,7 +25,7 @@ namespace ActiveWorks
 {
     public partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 7.5.10";
+        private readonly string _version = $"{Localize.FormTitle} 8.0.0";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
@@ -38,13 +40,29 @@ namespace ActiveWorks
 
             buttonSpecAnyWhatNew.Click += ButtonSpecAnyWhatNew_Click;
             buttonSpecBackgroundTasks.Click += ButtonSpecBackgroundTasks_Click;
+
+            BackgroundTaskServiceLib.BackgroundTaskService.OnAdd += BackgroundTaskService_OnAdd;
+            BackgroundTaskServiceLib.BackgroundTaskService.OnAllFinish += BackgroundTaskService_OnAllFinish;
+
             _sw.Start();
 
             SplashScreen.Splash.ShowSplashScreen();
-            SplashScreen.Splash.SetImage(Resources.SplashScreen7);
+            SplashScreen.Splash.SetImage(Resources.SplashScreen8);
             SplashScreen.Splash.SetVersion(_version, Color.Yellow, 12, 12);
             SplashScreen.Splash.SetHeader(string.Empty);
             SplashScreen.Splash.SetStatus(string.Empty);
+        }
+
+        private void BackgroundTaskService_OnAllFinish(object sender, EventArgs e)
+        {
+            this.InvokeIfNeeded(new Action(() => buttonSpecBackgroundTasks.ExtraText = ""));
+        }
+
+
+        private void BackgroundTaskService_OnAdd(object sender, BackgroundTaskServiceLib.BackgroundTaskItem e)
+        {
+            this.InvokeIfNeeded(new Action(() => buttonSpecBackgroundTasks.ExtraText = "(...працюємо...)"));
+
         }
 
         private void ButtonSpecBackgroundTasks_Click(object sender, EventArgs e)

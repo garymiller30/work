@@ -1,9 +1,11 @@
-﻿using System;
+﻿
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Windows.Forms;
-using Microsoft.WindowsAPICodePack.Dialogs;
+
 
 namespace MailNotifier
 {
@@ -164,7 +166,7 @@ namespace MailNotifier
         {
             if (objectListViewAttachment.SelectedObjects != null)
 
-            using (CommonOpenFileDialog dialog = new CommonOpenFileDialog())
+            using (Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog dialog = new CommonOpenFileDialog())
             {
                 dialog.IsFolderPicker = true;
                 if (dialog.ShowDialog() == CommonFileDialogResult.Ok)

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using Ghostscript.NET.Rasterizer;
 using ImageMagick;
 using Interfaces;
 using Interfaces.PdfUtils;
@@ -271,6 +273,33 @@ namespace Job.Static
         static  void _setTrimBox(string fileName, float width)
         {
 
+        }
+
+        public static void PdfToJpg(string fileName,int dpi)
+        {
+            try
+            {
+                using (GhostscriptRasterizer rasterizer = new GhostscriptRasterizer())
+                {
+                    byte[] buffer = File.ReadAllBytes(fileName);
+                    MemoryStream ms = new MemoryStream(buffer);
+                    rasterizer.Open(ms);
+
+                    for (int pageNumber = 1; pageNumber <= rasterizer.PageCount; pageNumber++)
+                    {
+                        string output = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + $"_{pageNumber}.jpg");
+                        string pageFilePath = output;
+
+                        var img = rasterizer.GetPage(dpi, pageNumber);
+                        img.Save(pageFilePath, ImageFormat.Jpeg);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                string output = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + ".log");
+                File.WriteAllText(output, e.Message.ToString());
+            }
         }
     }
 }

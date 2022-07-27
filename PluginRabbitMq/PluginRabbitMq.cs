@@ -18,7 +18,7 @@ namespace PluginRabbitMq
 
         private string _channelNumber;
         private IBus _bus;
-        private ISubscriptionResult _subscription;
+        private SubscriptionResult _subscription;
         private IMqController _controller;
 
         public IUserProfile UserProfile { get; set; }
@@ -29,7 +29,7 @@ namespace PluginRabbitMq
         {
             try
             {
-                _subscription?.Dispose();
+                _subscription.Dispose();
                 _bus?.Dispose();
             }
             catch (Exception e)
@@ -125,7 +125,7 @@ namespace PluginRabbitMq
                 var errQueryName = conventions.ErrorQueueNamingConvention(null);
 
                 Action<IMessage<Error>, MessageReceivedInfo> foo = HandleErrorMessage;
-                IQueue queue = new Queue(errQueryName, false);
+                var queue = new Queue(errQueryName, false);
                 _bus.Advanced.Consume<Error>(queue, foo);
 
             }

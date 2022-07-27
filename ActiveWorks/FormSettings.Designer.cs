@@ -46,14 +46,8 @@
             this.label29 = new System.Windows.Forms.Label();
             this.numericUpDownBaseTimeOut = new System.Windows.Forms.NumericUpDown();
             this.label28 = new System.Windows.Forms.Label();
-            this.textBox_MongoPort = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
             this.textBoxBaseName = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox_Mongo_Pass = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox_MongoUser = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.textBox_mongoDB = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -370,19 +364,13 @@
             this.groupBox5.Controls.Add(this.label29);
             this.groupBox5.Controls.Add(this.numericUpDownBaseTimeOut);
             this.groupBox5.Controls.Add(this.label28);
-            this.groupBox5.Controls.Add(this.textBox_MongoPort);
-            this.groupBox5.Controls.Add(this.label23);
             this.groupBox5.Controls.Add(this.textBoxBaseName);
             this.groupBox5.Controls.Add(this.label6);
-            this.groupBox5.Controls.Add(this.textBox_Mongo_Pass);
-            this.groupBox5.Controls.Add(this.label7);
-            this.groupBox5.Controls.Add(this.textBox_MongoUser);
-            this.groupBox5.Controls.Add(this.label8);
             this.groupBox5.Controls.Add(this.textBox_mongoDB);
             this.groupBox5.Controls.Add(this.label9);
             this.groupBox5.Location = new System.Drawing.Point(6, 6);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(568, 118);
+            this.groupBox5.Size = new System.Drawing.Size(568, 83);
             this.groupBox5.TabIndex = 9;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "MongoDB";
@@ -391,7 +379,7 @@
             // 
             this.label29.AutoSize = true;
             this.label29.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label29.Location = new System.Drawing.Point(536, 38);
+            this.label29.Location = new System.Drawing.Point(535, 50);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(25, 13);
             this.label29.TabIndex = 12;
@@ -399,7 +387,7 @@
             // 
             // numericUpDownBaseTimeOut
             // 
-            this.numericUpDownBaseTimeOut.Location = new System.Drawing.Point(471, 36);
+            this.numericUpDownBaseTimeOut.Location = new System.Drawing.Point(470, 48);
             this.numericUpDownBaseTimeOut.Minimum = new decimal(new int[] {
             3,
             0,
@@ -418,32 +406,15 @@
             // 
             this.label28.AutoSize = true;
             this.label28.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label28.Location = new System.Drawing.Point(293, 38);
+            this.label28.Location = new System.Drawing.Point(292, 50);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(166, 13);
             this.label28.TabIndex = 10;
             this.label28.Text = "таймаут для з\'єднання з базою";
             // 
-            // textBox_MongoPort
-            // 
-            this.textBox_MongoPort.Location = new System.Drawing.Point(148, 35);
-            this.textBox_MongoPort.Name = "textBox_MongoPort";
-            this.textBox_MongoPort.Size = new System.Drawing.Size(136, 20);
-            this.textBox_MongoPort.TabIndex = 9;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label23.Location = new System.Drawing.Point(151, 19);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(30, 13);
-            this.label23.TabIndex = 8;
-            this.label23.Text = "порт";
-            // 
             // textBoxBaseName
             // 
-            this.textBoxBaseName.Location = new System.Drawing.Point(302, 81);
+            this.textBoxBaseName.Location = new System.Drawing.Point(103, 47);
             this.textBoxBaseName.Name = "textBoxBaseName";
             this.textBoxBaseName.Size = new System.Drawing.Size(136, 20);
             this.textBoxBaseName.TabIndex = 7;
@@ -452,62 +423,28 @@
             // 
             this.label6.AutoSize = true;
             this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label6.Location = new System.Drawing.Point(305, 65);
+            this.label6.Location = new System.Drawing.Point(31, 50);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 13);
             this.label6.TabIndex = 6;
             this.label6.Text = "Назва бази";
             // 
-            // textBox_Mongo_Pass
-            // 
-            this.textBox_Mongo_Pass.Location = new System.Drawing.Point(148, 81);
-            this.textBox_Mongo_Pass.Name = "textBox_Mongo_Pass";
-            this.textBox_Mongo_Pass.Size = new System.Drawing.Size(136, 20);
-            this.textBox_Mongo_Pass.TabIndex = 5;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(151, 65);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(43, 13);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "пароль";
-            // 
-            // textBox_MongoUser
-            // 
-            this.textBox_MongoUser.Location = new System.Drawing.Point(6, 81);
-            this.textBox_MongoUser.Name = "textBox_MongoUser";
-            this.textBox_MongoUser.Size = new System.Drawing.Size(136, 20);
-            this.textBox_MongoUser.TabIndex = 3;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label8.Location = new System.Drawing.Point(9, 65);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(64, 13);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "користувач";
-            // 
             // textBox_mongoDB
             // 
-            this.textBox_mongoDB.Location = new System.Drawing.Point(6, 35);
+            this.textBox_mongoDB.Location = new System.Drawing.Point(103, 16);
             this.textBox_mongoDB.Name = "textBox_mongoDB";
-            this.textBox_mongoDB.Size = new System.Drawing.Size(136, 20);
+            this.textBox_mongoDB.Size = new System.Drawing.Size(458, 20);
             this.textBox_mongoDB.TabIndex = 1;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label9.Location = new System.Drawing.Point(9, 19);
+            this.label9.Location = new System.Drawing.Point(6, 19);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(44, 13);
+            this.label9.Size = new System.Drawing.Size(91, 13);
             this.label9.TabIndex = 0;
-            this.label9.Text = "Сервер";
+            this.label9.Text = "Рядок з\'єднання";
             // 
             // tabPage1
             // 
@@ -1966,14 +1903,8 @@
         private System.Windows.Forms.TextBox textBoxFolderSignaJobs;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.TextBox textBox_MongoPort;
-        private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox textBoxBaseName;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox_Mongo_Pass;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox_MongoUser;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox textBox_mongoDB;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TabPage tabPage6;

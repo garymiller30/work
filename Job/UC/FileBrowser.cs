@@ -1456,16 +1456,25 @@ namespace Job.UC
                         BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(
                             () =>
                             {
-                                FileFormatsUtil.ConvertToPDF(files, mode);
 
-                                if (trimBox > 0)
-                                {
-                                    FileFormatsUtil.SetTrimBox(files, trimBox);
-                                }
-                                if (moveToTrash)
-                                {
-                                    MoveToTrash(files.ToArray());
-                                }
+                                Thread t = new Thread((ThreadStart)(() => {
+                                    FileFormatsUtil.ConvertToPDF(files, mode);
+
+                                    if (trimBox > 0)
+                                    {
+                                        FileFormatsUtil.SetTrimBox(files, trimBox);
+                                    }
+                                    if (moveToTrash)
+                                    {
+                                        MoveToTrash(files.ToArray());
+                                    }
+                                }));
+
+                                t.SetApartmentState(ApartmentState.STA);
+                                t.Start();
+                                t.Join();
+
+                                
                             }
                             )));
 
@@ -1644,6 +1653,52 @@ namespace Job.UC
         {
             if (objectListView1.SelectedObjects.Count > 0)
                 FileFormatsUtil.SplitCoverAndBlock(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
+
+        private void створитипустишкиЗТиражамиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileFormatsUtil.CreateEmptiesWithCount(_fileManager.Settings.CurFolder);
+        }
+
+        private void розвернутиСторінкиНа90ДзеркальноToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count > 0)
+                FileFormatsUtil.RotatePagesMirror(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
+
+        private void зєднатиПарніІНепарніСторінкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 2)
+            {
+                FileFormatsUtil.MergeOddAndEven(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+            }
+            else
+            {
+                MessageBox.Show("Файлів має бути два! В одному непарні сторінки, а в іншому - парні","Альо!", MessageBoxButtons.OK,MessageBoxIcon.Warning);
+            }
+        }
+
+        private void розділитиНаПарніІНепарніСторінкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count > 0)
+            {
+                FileFormatsUtil.SplitOddAndEven(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+            }
+        }
+
+        private void зберегтиЯкJpgToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count > 0)
+            {
+
+                using (var form = new FormSelectDpi())
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        FileFormatsUtil.PdfToJpg(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Dpi);
+                    }
+                }
+            }
         }
     }
 }

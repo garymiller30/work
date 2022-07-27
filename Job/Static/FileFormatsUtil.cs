@@ -326,9 +326,9 @@ namespace Job.Static
         {
             var converter = Pdf.ConvertToPDF(list.Select(x => x.FileInfo.FullName), mode);
             if (converter != null)
-                converter.Start(); 
-                //FormProgress.ShowProgress();
-                
+                converter.Start();
+            //FormProgress.ShowProgress();
+
         }
 
         public static void SplitPDF(List<IFileSystemInfoExt> list)
@@ -403,6 +403,58 @@ namespace Job.Static
             //FormProgress.ShowProgress(() => { Pdf.SplitCoverAndBlock(toList.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split cover and block pdf", new Action(
                () => { Pdf.SplitCoverAndBlock(toList.Select(x => x.FileInfo.FullName)); }
+                )));
+        }
+
+        public static void CreateEmptiesWithCount(string pathTo)
+        {
+            using (var form = new FormCreateEmptiesWithCount())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    var list = form.PdfTemplates;
+                    if (list.Count > 0)
+                    {
+                        BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("create templates with count pdf", new Action(
+               () => { Pdf.CreateEmptyPdfTemplateWithCount(pathTo, list); }
+                )));
+
+                    }
+                }
+            }
+        }
+
+        public static void RotatePagesMirror(List<IFileSystemInfoExt> list)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("rotate mirror pages pdf", new Action(
+               () => { Pdf.RotateMirrorFrontAndBack(list.Select(x => x.FileInfo.FullName)); }
+                )));
+        }
+
+        public static void MergeOddAndEven(List<IFileSystemInfoExt> list)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge odd and even paegs pdf", new Action(
+                () => { Pdf.MergeOddAndEven(list.Select(x => x.FileInfo.FullName)); }
+                )));
+        }
+
+        public static void SplitOddAndEven(List<IFileSystemInfoExt> list)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge odd and even pages pdf", new Action(
+                () => { Pdf.SplitOddAndEven(list.Select(x => x.FileInfo.FullName)); }
+                )));
+        }
+
+        public static void PdfToJpg(List<IFileSystemInfoExt> list, int dpi)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("create jpg from pdf", new Action(
+                () =>
+                {
+                    foreach (var file in list)
+                    {
+                        PdfUtils.PdfToJpg(file.FileInfo.FullName,dpi);
+                    }
+                }
                 )));
         }
     }

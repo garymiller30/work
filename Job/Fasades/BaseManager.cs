@@ -43,32 +43,16 @@ namespace Job.Fasades
         public bool Connect()
         {
             if (string.IsNullOrEmpty(Settings.MongoDbServer) ||
-                string.IsNullOrEmpty(Settings.MongoDbUser) ||
-                string.IsNullOrEmpty(Settings.MongoDbPassword) ||
                 string.IsNullOrEmpty(Settings.MongoDbBaseName)
             ) return false;
 
-            //var credential = MongoCredential.CreateCredential(MongoDbBaseName, User, Password);
-
-            //var setting = new MongoClientSettings
-            //{
-            //    Credential = credential,
-            //    Server = new MongoServerAddress(MongoDbServer, Port)
-            //};
-
             try
             {
-                _repository.CreateConnection(
-                    Settings.MongoDbServer,
-                    Settings.MongoDbPort,
-                    Settings.MongoDbUser,
-                    Settings.MongoDbPassword,
-                    Settings.MongoDbBaseName);
-
+                _repository.CreateConnection(Settings.MongoDbServer, Settings.MongoDbBaseName);
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser})BaseManager", e.Message);
+                Log.Error(this, $"({Settings.MongoDbServer})BaseManager", e.Message);
                 MessageBox.Show(e.Message, "BaseManager.Connect()");
             }
 
@@ -76,18 +60,15 @@ namespace Job.Fasades
         }
 
 
-        [Obsolete]
-        public void CreateConnection(string server, int port, string user, string password, string databaseName)
+
+
+        public void CreateConnection(string connectionString, string databaseName)
         {
-            Settings.MongoDbServer = server;
-            Settings.MongoDbPort = port;
-            Settings.MongoDbUser = user;
-            Settings.MongoDbPassword = password;
+            Settings.MongoDbServer = connectionString;
             Settings.MongoDbBaseName = databaseName;
 
             Connect();
         }
-
 
         public virtual void Add<T>(T item) where T : class, new()
         {
@@ -112,7 +93,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
                 throw;
             }
         }
@@ -145,7 +126,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
                 throw;
             }
 
@@ -165,7 +146,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
                 return false;
             }
         }
@@ -182,7 +163,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
             }
 
         }
@@ -197,7 +178,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
                 return false;
             }
         }
@@ -210,7 +191,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
             }
             return new List<T>();
         }
@@ -228,7 +209,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", $"GetByOrderNumber: {e.Message}");
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", $"GetByOrderNumber: {e.Message}");
                 return null;
             }
         }

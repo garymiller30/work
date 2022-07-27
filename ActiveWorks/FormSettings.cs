@@ -451,12 +451,7 @@ namespace ActiveWorks
 
             baseSettings.MongoDbBaseName = textBoxBaseName.Text;
             baseSettings.MongoDbServer = textBox_mongoDB.Text;
-            baseSettings.MongoDbPassword = textBox_Mongo_Pass.Text;
-            baseSettings.MongoDbUser = textBox_MongoUser.Text;
             baseSettings.BaseTimeOut = (int)numericUpDownBaseTimeOut.Value;
-
-            int.TryParse(textBox_MongoPort.Text, out var port);
-            baseSettings.MongoDbPort = port;
 
             var mail = setup.GetMail();
 
@@ -522,9 +517,6 @@ namespace ActiveWorks
 
             textBoxBaseName.Text = setup.GetBaseSettings().MongoDbBaseName;
             textBox_mongoDB.Text = setup.GetBaseSettings().MongoDbServer;
-            textBox_MongoUser.Text = setup.GetBaseSettings().MongoDbUser;
-            textBox_Mongo_Pass.Text = setup.GetBaseSettings().MongoDbPassword;
-            textBox_MongoPort.Text = setup.GetBaseSettings().MongoDbPort.ToString();
 
             objectListViewSendTo.ClearObjects();
             objectListViewSendTo.AddObjects(_currentProfile.MenuManagers.SendTo.Get());

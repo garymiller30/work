@@ -45,6 +45,9 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
             this.kryptonButtonSend = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.groupBoxTotal = new System.Windows.Forms.GroupBox();
+            this.labelTotal = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBoxTo.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -52,6 +55,7 @@
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
+            this.groupBoxTotal.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxTo
@@ -61,7 +65,7 @@
             this.groupBoxTo.Controls.Add(this.comboBoxTo);
             this.groupBoxTo.Location = new System.Drawing.Point(7, 30);
             this.groupBoxTo.Name = "groupBoxTo";
-            this.groupBoxTo.Size = new System.Drawing.Size(433, 48);
+            this.groupBoxTo.Size = new System.Drawing.Size(416, 48);
             this.groupBoxTo.TabIndex = 0;
             this.groupBoxTo.TabStop = false;
             this.groupBoxTo.Text = "Відправити до (більше одного адресата вказуються через \",\")";
@@ -72,7 +76,7 @@
             this.comboBoxTo.FormattingEnabled = true;
             this.comboBoxTo.Location = new System.Drawing.Point(6, 19);
             this.comboBoxTo.Name = "comboBoxTo";
-            this.comboBoxTo.Size = new System.Drawing.Size(421, 21);
+            this.comboBoxTo.Size = new System.Drawing.Size(404, 21);
             this.comboBoxTo.TabIndex = 0;
             // 
             // groupBox1
@@ -82,7 +86,7 @@
             this.groupBox1.Controls.Add(this.textBoxHeader);
             this.groupBox1.Location = new System.Drawing.Point(7, 84);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(433, 47);
+            this.groupBox1.Size = new System.Drawing.Size(416, 47);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Заголовок листа";
@@ -92,7 +96,7 @@
             this.textBoxHeader.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxHeader.Location = new System.Drawing.Point(7, 20);
             this.textBoxHeader.Name = "textBoxHeader";
-            this.textBoxHeader.Size = new System.Drawing.Size(420, 20);
+            this.textBoxHeader.Size = new System.Drawing.Size(403, 20);
             this.textBoxHeader.TabIndex = 0;
             // 
             // groupBox2
@@ -102,7 +106,7 @@
             this.groupBox2.Controls.Add(this.richTextBoxMessage);
             this.groupBox2.Location = new System.Drawing.Point(4, 137);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(433, 100);
+            this.groupBox2.Size = new System.Drawing.Size(416, 100);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Повідомлення";
@@ -112,7 +116,7 @@
             this.richTextBoxMessage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxMessage.Location = new System.Drawing.Point(3, 16);
             this.richTextBoxMessage.Name = "richTextBoxMessage";
-            this.richTextBoxMessage.Size = new System.Drawing.Size(427, 81);
+            this.richTextBoxMessage.Size = new System.Drawing.Size(410, 81);
             this.richTextBoxMessage.TabIndex = 0;
             this.richTextBoxMessage.Text = "";
             this.richTextBoxMessage.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.RichTextBoxMessage_LinkClicked);
@@ -127,7 +131,7 @@
             this.groupBox3.Controls.Add(this.listBoxAttach);
             this.groupBox3.Location = new System.Drawing.Point(7, 243);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(349, 131);
+            this.groupBox3.Size = new System.Drawing.Size(332, 137);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Вкладення";
@@ -163,7 +167,7 @@
             this.listBoxAttach.Location = new System.Drawing.Point(35, 16);
             this.listBoxAttach.Name = "listBoxAttach";
             this.listBoxAttach.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listBoxAttach.Size = new System.Drawing.Size(308, 108);
+            this.listBoxAttach.Size = new System.Drawing.Size(291, 108);
             this.listBoxAttach.TabIndex = 0;
             // 
             // toolStrip1
@@ -173,7 +177,7 @@
             this.toolStripDropDownButtonMailShablons});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(446, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(429, 25);
             this.toolStrip1.TabIndex = 5;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -203,28 +207,60 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.groupBoxTotal);
             this.kryptonPanel1.Controls.Add(this.kryptonButtonSend);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(446, 377);
+            this.kryptonPanel1.Size = new System.Drawing.Size(429, 383);
             this.kryptonPanel1.TabIndex = 6;
             // 
             // kryptonButtonSend
             // 
             this.kryptonButtonSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonButtonSend.Location = new System.Drawing.Point(362, 321);
+            this.kryptonButtonSend.Location = new System.Drawing.Point(345, 327);
             this.kryptonButtonSend.Name = "kryptonButtonSend";
             this.kryptonButtonSend.Size = new System.Drawing.Size(81, 53);
             this.kryptonButtonSend.TabIndex = 0;
             this.kryptonButtonSend.Values.Text = "Відправити";
             this.kryptonButtonSend.Click += new System.EventHandler(this.ButtonSend_Click);
             // 
+            // groupBoxTotal
+            // 
+            this.groupBoxTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxTotal.Controls.Add(this.label2);
+            this.groupBoxTotal.Controls.Add(this.labelTotal);
+            this.groupBoxTotal.Location = new System.Drawing.Point(345, 243);
+            this.groupBoxTotal.Name = "groupBoxTotal";
+            this.groupBoxTotal.Size = new System.Drawing.Size(78, 72);
+            this.groupBoxTotal.TabIndex = 1;
+            this.groupBoxTotal.TabStop = false;
+            this.groupBoxTotal.Text = "Всього";
+            // 
+            // labelTotal
+            // 
+            this.labelTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelTotal.Location = new System.Drawing.Point(6, 23);
+            this.labelTotal.Name = "labelTotal";
+            this.labelTotal.Size = new System.Drawing.Size(66, 23);
+            this.labelTotal.TabIndex = 0;
+            this.labelTotal.Text = "0";
+            this.labelTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(9, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(63, 20);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Мб";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormSendMail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(446, 377);
+            this.ClientSize = new System.Drawing.Size(429, 383);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -244,6 +280,7 @@
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
+            this.groupBoxTotal.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -267,5 +304,8 @@
         private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel1;
         private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButtonSend;
         private ComponentFactory.Krypton.Toolkit.KryptonRichTextBox richTextBoxMessage;
+        private System.Windows.Forms.GroupBox groupBoxTotal;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelTotal;
     }
 }

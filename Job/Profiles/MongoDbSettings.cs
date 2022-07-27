@@ -9,8 +9,11 @@ namespace Job.Profiles
     {
         public string MongoDbBaseName { get; set; }
         public string MongoDbServer { get; set; }
+        [Obsolete]
         public string MongoDbUser { get; set; }
+        [Obsolete]
         public string MongoDbPassword { get; set; }
+        [Obsolete]
         public int MongoDbPort { get; set; }
         public int BaseTimeOut { get; set; } = 3;
     }

@@ -27,6 +27,12 @@ namespace Job.Data
             _mongoDatabase = client.GetDatabase(databaseName);
         }
 
+        public void CreateConnection(string connectingString,string databaseName)
+        {
+            var client = new MongoClient(connectingString);
+            _mongoDatabase = client.GetDatabase(databaseName);
+        }
+
         public void Add<T>(T item) where T : class, new()
         {
             var col = _mongoDatabase.GetCollection<T>(typeof(T).Name);

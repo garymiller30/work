@@ -61,6 +61,19 @@ namespace MailNotifier
             {
                 listBoxAttach.Items.Add(new Attach(att));
             }
+
+            SetAttachmentTotal();
+        }
+
+        private void SetAttachmentTotal()
+        {
+            if (listBoxAttach.Items.Count > 0)
+            {
+                var sum = listBoxAttach.Items.Cast<Attach>().Sum(x => x.Size);
+                var inMb = sum / (1024*1024);
+                labelTotal.Text = inMb.ToString("N01");
+
+            }
         }
 
         internal void SetBody(string body)
@@ -101,6 +114,8 @@ namespace MailNotifier
                 {
                     listBoxAttach.Items.Add(new Attach(d.FileName));
                     _attachList.Add(d.FileName);
+
+                    SetAttachmentTotal();
                 }
             };
         }
@@ -210,6 +225,7 @@ namespace MailNotifier
                     listBoxAttach.Items.Remove(attach);
                     _attachList.Remove(attach.FullPath);
                 }
+                SetAttachmentTotal();
             }
         }
 
@@ -299,12 +315,14 @@ namespace MailNotifier
         {
             public Attach(string fullPath)
             {
-                Name = $"{Path.GetFileName(fullPath)} ({new FileInfo(fullPath).Length.GetFileSizeInString()})";
+                Size = new FileInfo(fullPath).Length;
+                Name = $"{Path.GetFileName(fullPath)} ({Size.GetFileSizeInString()})";
                 FullPath = fullPath;
             }
 
             public string FullPath { get; private set; }
             public string Name { get; private set; }
+            public long Size { get;private set;}
             
         }
 

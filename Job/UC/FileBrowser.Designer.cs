@@ -52,11 +52,16 @@
             this.reversePagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.repeatPagesPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.combineFrontsBackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зєднатиПарніІНепарніСторінкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.repeatDocumentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.створитиПрямокутникToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.створитиЕліпсToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.витягтиСторінкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.розділитиОбкладинкуІБлокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.створитипустишкиЗТиражамиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertToPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setTrimBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
@@ -112,7 +117,7 @@
             this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
             this.kryptonLabelPath = new ComponentFactory.Krypton.Toolkit.KryptonLinkLabel();
             this.kryptonPalette1 = new ComponentFactory.Krypton.Toolkit.KryptonPalette(this.components);
-            this.розділитиОбкладинкуІБлокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зберегтиЯкJpgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -359,12 +364,17 @@
             this.reversePagesToolStripMenuItem,
             this.repeatPagesPDFToolStripMenuItem,
             this.combineFrontsBackToolStripMenuItem,
+            this.зєднатиПарніІНепарніСторінкиToolStripMenuItem,
             this.repeatDocumentToolStripMenuItem,
             this.splitPDFToolStripMenuItem,
+            this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem,
             this.створитиПрямокутникToolStripMenuItem,
             this.створитиЕліпсToolStripMenuItem,
             this.витягтиСторінкиToolStripMenuItem,
-            this.розділитиОбкладинкуІБлокToolStripMenuItem});
+            this.розділитиОбкладинкуІБлокToolStripMenuItem,
+            this.створитипустишкиЗТиражамиToolStripMenuItem,
+            this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem,
+            this.зберегтиЯкJpgToolStripMenuItem});
             this.утилітиДляPDFToolStripMenuItem.Name = "утилітиДляPDFToolStripMenuItem";
             this.утилітиДляPDFToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.утилітиДляPDFToolStripMenuItem.Text = "Утиліти для PDF";
@@ -373,7 +383,7 @@
             // 
             this.reversePagesToolStripMenuItem.Image = global::Job.Properties.Resources.page_refresh_icon;
             this.reversePagesToolStripMenuItem.Name = "reversePagesToolStripMenuItem";
-            this.reversePagesToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.reversePagesToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.reversePagesToolStripMenuItem.Text = "Сторінки в зворотньому порядку";
             this.reversePagesToolStripMenuItem.Click += new System.EventHandler(this.ReversePagesToolStripMenuItem_Click);
             // 
@@ -381,7 +391,7 @@
             // 
             this.repeatPagesPDFToolStripMenuItem.Image = global::Job.Properties.Resources.Duplicate_Layer_icon;
             this.repeatPagesPDFToolStripMenuItem.Name = "repeatPagesPDFToolStripMenuItem";
-            this.repeatPagesPDFToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.repeatPagesPDFToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.repeatPagesPDFToolStripMenuItem.Text = "Повторити сторінки в PDF";
             this.repeatPagesPDFToolStripMenuItem.Click += new System.EventHandler(this.RepeatPagesPDFToolStripMenuItem_Click);
             // 
@@ -389,14 +399,21 @@
             // 
             this.combineFrontsBackToolStripMenuItem.Image = global::Job.Properties.Resources.Arrow_Merge_icon;
             this.combineFrontsBackToolStripMenuItem.Name = "combineFrontsBackToolStripMenuItem";
-            this.combineFrontsBackToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.combineFrontsBackToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.combineFrontsBackToolStripMenuItem.Text = "З\'єднати Лице + Зворот";
             this.combineFrontsBackToolStripMenuItem.Click += new System.EventHandler(this.CombineFrontsBackToolStripMenuItem_Click);
+            // 
+            // зєднатиПарніІНепарніСторінкиToolStripMenuItem
+            // 
+            this.зєднатиПарніІНепарніСторінкиToolStripMenuItem.Name = "зєднатиПарніІНепарніСторінкиToolStripMenuItem";
+            this.зєднатиПарніІНепарніСторінкиToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.зєднатиПарніІНепарніСторінкиToolStripMenuItem.Text = "З\'єднати парні і непарні сторінки";
+            this.зєднатиПарніІНепарніСторінкиToolStripMenuItem.Click += new System.EventHandler(this.зєднатиПарніІНепарніСторінкиToolStripMenuItem_Click);
             // 
             // repeatDocumentToolStripMenuItem
             // 
             this.repeatDocumentToolStripMenuItem.Name = "repeatDocumentToolStripMenuItem";
-            this.repeatDocumentToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.repeatDocumentToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.repeatDocumentToolStripMenuItem.Text = "Повторити документ";
             this.repeatDocumentToolStripMenuItem.Click += new System.EventHandler(this.RepeatDocumentToolStripMenuItem_Click);
             // 
@@ -404,15 +421,22 @@
             // 
             this.splitPDFToolStripMenuItem.Image = global::Job.Properties.Resources.Editing_Cut_Filled_icon;
             this.splitPDFToolStripMenuItem.Name = "splitPDFToolStripMenuItem";
-            this.splitPDFToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.splitPDFToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.splitPDFToolStripMenuItem.Text = "Розділити PDF";
             this.splitPDFToolStripMenuItem.Click += new System.EventHandler(this.SplitPDFToolStripMenuItem_Click);
+            // 
+            // розділитиНаПарніІНепарніСторінкиToolStripMenuItem
+            // 
+            this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem.Name = "розділитиНаПарніІНепарніСторінкиToolStripMenuItem";
+            this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem.Text = "Розділити на парні і непарні сторінки";
+            this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem.Click += new System.EventHandler(this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem_Click);
             // 
             // створитиПрямокутникToolStripMenuItem
             // 
             this.створитиПрямокутникToolStripMenuItem.Image = global::Job.Properties.Resources.Editing_Rectangle_icon;
             this.створитиПрямокутникToolStripMenuItem.Name = "створитиПрямокутникToolStripMenuItem";
-            this.створитиПрямокутникToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.створитиПрямокутникToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.створитиПрямокутникToolStripMenuItem.Text = "Створити прямокутник";
             this.створитиПрямокутникToolStripMenuItem.Click += new System.EventHandler(this.СтворитиПрямокутникToolStripMenuItem_Click);
             // 
@@ -420,16 +444,37 @@
             // 
             this.створитиЕліпсToolStripMenuItem.Image = global::Job.Properties.Resources.Editing_Ellipse_Stroked_icon;
             this.створитиЕліпсToolStripMenuItem.Name = "створитиЕліпсToolStripMenuItem";
-            this.створитиЕліпсToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.створитиЕліпсToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.створитиЕліпсToolStripMenuItem.Text = "Створити еліпс";
             this.створитиЕліпсToolStripMenuItem.Click += new System.EventHandler(this.СтворитиЕліпсToolStripMenuItem_Click);
             // 
             // витягтиСторінкиToolStripMenuItem
             // 
             this.витягтиСторінкиToolStripMenuItem.Name = "витягтиСторінкиToolStripMenuItem";
-            this.витягтиСторінкиToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.витягтиСторінкиToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.витягтиСторінкиToolStripMenuItem.Text = "\"Витягти\" сторінки";
             this.витягтиСторінкиToolStripMenuItem.Click += new System.EventHandler(this.витягтиСторінкиToolStripMenuItem_Click);
+            // 
+            // розділитиОбкладинкуІБлокToolStripMenuItem
+            // 
+            this.розділитиОбкладинкуІБлокToolStripMenuItem.Name = "розділитиОбкладинкуІБлокToolStripMenuItem";
+            this.розділитиОбкладинкуІБлокToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.розділитиОбкладинкуІБлокToolStripMenuItem.Text = "Розділити обкладинку і блок";
+            this.розділитиОбкладинкуІБлокToolStripMenuItem.Click += new System.EventHandler(this.розділитиОбкладинкуІБлокToolStripMenuItem_Click);
+            // 
+            // створитипустишкиЗТиражамиToolStripMenuItem
+            // 
+            this.створитипустишкиЗТиражамиToolStripMenuItem.Name = "створитипустишкиЗТиражамиToolStripMenuItem";
+            this.створитипустишкиЗТиражамиToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.створитипустишкиЗТиражамиToolStripMenuItem.Text = "Створити \"пустишки\" з тиражами";
+            this.створитипустишкиЗТиражамиToolStripMenuItem.Click += new System.EventHandler(this.створитипустишкиЗТиражамиToolStripMenuItem_Click);
+            // 
+            // розвернутиСторінкиНа90ДзеркальноToolStripMenuItem
+            // 
+            this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem.Name = "розвернутиСторінкиНа90ДзеркальноToolStripMenuItem";
+            this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem.Text = "Розвернути сторінки на 90° дзеркально";
+            this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem.Click += new System.EventHandler(this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem_Click);
             // 
             // convertToPDFToolStripMenuItem
             // 
@@ -882,12 +927,12 @@
             // 
             this.kryptonPalette1.CustomisedKryptonPaletteFilePath = null;
             // 
-            // розділитиОбкладинкуІБлокToolStripMenuItem
+            // зберегтиЯкJpgToolStripMenuItem
             // 
-            this.розділитиОбкладинкуІБлокToolStripMenuItem.Name = "розділитиОбкладинкуІБлокToolStripMenuItem";
-            this.розділитиОбкладинкуІБлокToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.розділитиОбкладинкуІБлокToolStripMenuItem.Text = "Розділити обкладинку і блок";
-            this.розділитиОбкладинкуІБлокToolStripMenuItem.Click += new System.EventHandler(this.розділитиОбкладинкуІБлокToolStripMenuItem_Click);
+            this.зберегтиЯкJpgToolStripMenuItem.Name = "зберегтиЯкJpgToolStripMenuItem";
+            this.зберегтиЯкJpgToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.зберегтиЯкJpgToolStripMenuItem.Text = "Зберегти як Jpg";
+            this.зберегтиЯкJpgToolStripMenuItem.Click += new System.EventHandler(this.зберегтиЯкJpgToolStripMenuItem_Click);
             // 
             // FileBrowser
             // 
@@ -1004,5 +1049,10 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonPaste;
         private System.Windows.Forms.ToolStripMenuItem додатиТираж000ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem розділитиОбкладинкуІБлокToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem створитипустишкиЗТиражамиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem розвернутиСторінкиНа90ДзеркальноToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem зєднатиПарніІНепарніСторінкиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem розділитиНаПарніІНепарніСторінкиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem зберегтиЯкJpgToolStripMenuItem;
     }
 }
