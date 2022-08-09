@@ -15,7 +15,11 @@
       <Value Profile="(Default)">800, 600</Value>
     </Setting>
     <Setting Name="WhatNew" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">
+      <Value Profile="(Default)">8.0.0
+-----------------
+Перехід на net 4.8 і mongodb 4.4. Несумісно з попередньою версією
++ створення jpg прев'ю з pdf
+
 7.8.10
 -----------------
 + додав "Утиліти для PDF" -&gt; "Розвернути сторінки на 90° дзеркально". Непарні сторінки розветаються на 90° проти годинникової стрілки. Парні - за годинниковою стрілкою.

@@ -114,10 +114,9 @@ namespace MailNotifier
                 {
                     listBoxAttach.Items.Add(new Attach(d.FileName));
                     _attachList.Add(d.FileName);
-
-                    SetAttachmentTotal();
                 }
-            };
+                SetAttachmentTotal();
+            }
         }
 
         private void AddToolStripMenuItem(ToolStripMenuItem tsmi)
@@ -225,8 +224,9 @@ namespace MailNotifier
                     listBoxAttach.Items.Remove(attach);
                     _attachList.Remove(attach.FullPath);
                 }
-                SetAttachmentTotal();
+                
             }
+            SetAttachmentTotal();
         }
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
