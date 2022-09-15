@@ -9,7 +9,7 @@ using Interfaces.Ftp;
 namespace FtpClient
 {
     [Serializable]
-    public class FtpFileExt : IFtpFileExt
+    public sealed class FtpFileExt : IFtpFileExt
     {
         public FtpFileExtStatus Status { get; set; } = FtpFileExtStatus.New;
 

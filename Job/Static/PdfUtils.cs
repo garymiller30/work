@@ -125,7 +125,7 @@ namespace Job.Static
                 foreach (var colorspace in remDup)
                 {
 
-                    if (colorspace.ToLower().StartsWith("pantone"))
+                    if (colorspace.StartsWith("pantone", StringComparison.OrdinalIgnoreCase))
                     {
                         sfi.UsedColorSpace |= ColorSpaces.Spot;
                         continue;
@@ -298,7 +298,7 @@ namespace Job.Static
             catch (Exception e)
             {
                 string output = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + ".log");
-                File.WriteAllText(output, e.Message.ToString());
+                File.WriteAllText(output, e.Message);
             }
         }
     }

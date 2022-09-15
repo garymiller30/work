@@ -16,12 +16,12 @@ using MongoDB.Bson;
 
 namespace Job.UserForms
 {
-    public partial class FormAddWork2 : KryptonForm
+    public sealed partial class FormAddWork2 : KryptonForm
     {
         #region ClipBoard
 
         [DllImport("User32.dll")]
-        protected static extern int SetClipboardViewer(int hWndNewViewer);
+        static extern int SetClipboardViewer(int hWndNewViewer);
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);

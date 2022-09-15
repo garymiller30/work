@@ -19,7 +19,7 @@ using PythonEngine;
 
 namespace Job.Profiles
 {
-    public class Profile : IUserProfile
+    public sealed class Profile : IUserProfile
     {
         public bool IsInitialized { get; private set; }
         public string ProfilePath { get; set; }

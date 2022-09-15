@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace PluginAddWorkFromPolymix
 {
-    class PluginAddWorkFromPolymix : IPluginNewOrder
+    sealed class PluginAddWorkFromPolymix : IPluginNewOrder
     {
         public string PluginName => "з Polymix";
         public string PluginDescription => "Створити замовлення з Polymix";

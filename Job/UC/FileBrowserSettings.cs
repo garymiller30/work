@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace Job.UC
 {
     [Serializable]
-    public class FileBrowserSettings : IFileBrowserControlSettings, INotifyPropertyChanged
+    public sealed class FileBrowserSettings : IFileBrowserControlSettings, INotifyPropertyChanged
     {
         private string _title;
         public string Title

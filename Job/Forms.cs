@@ -7,7 +7,7 @@ namespace Job
 {
     [DataContract]
     [Serializable]
-    public class Forms : IWithId
+    public sealed class Forms : IWithId
     {
         private int _komplekts;
         private int _count;

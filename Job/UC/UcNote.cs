@@ -10,7 +10,7 @@ using Interfaces;
 
 namespace Job.UC
 {
-    public partial class UcNote : UserControl, INoteControl
+    public sealed partial class UcNote : UserControl, INoteControl
     {
         public UcNote()
         {

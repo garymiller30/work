@@ -11,7 +11,7 @@ using Interfaces;
 
 namespace PluginColorJobListRow
 {
-    public partial class FormSettings : Form
+    public sealed partial class FormSettings : Form
     {
         private ColorJobListRowSettings _settings;
         private IUserProfile _userProfile;

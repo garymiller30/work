@@ -23,7 +23,7 @@ using System.Windows.Forms;
 
 namespace ActiveWorks
 {
-    public partial class Form2 : KryptonForm
+    public sealed partial class Form2 : KryptonForm
     {
         private readonly string _version = $"{Localize.FormTitle} 8.0.0";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();

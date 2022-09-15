@@ -26,7 +26,7 @@ using System.Windows.Forms;
 
 namespace Job.UC
 {
-    public partial class FileBrowser : UserControl, IFileBrowser
+    public sealed partial class FileBrowser : UserControl, IFileBrowser
     {
         private const string Loading = "завантаження";
         private const string ConfirmDelete = "Видалити?";
@@ -345,7 +345,7 @@ namespace Job.UC
         {
             var menuSendTo = (MenuSendTo)((ToolStripItem)sender).Tag;
 
-            if (string.IsNullOrEmpty(menuSendTo.CommandLine)) { OpenFileForEdit(menuSendTo); return; };
+            if (string.IsNullOrEmpty(menuSendTo.CommandLine)) { OpenFileForEdit(menuSendTo); return; }
 
             if (UserProfile.ScriptEngine.IsScriptFile(menuSendTo.Path))
             {

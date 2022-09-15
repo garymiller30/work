@@ -12,7 +12,7 @@ using Interfaces.Plugins;
 
 namespace PluginSoundNotify
 {
-    public class PluginPlaySound : IPluginPlaySound
+    public sealed class PluginPlaySound : IPluginPlaySound
     {
         public IUserProfile UserProfile { get; set; }
 

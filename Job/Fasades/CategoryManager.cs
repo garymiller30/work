@@ -6,7 +6,7 @@ using MongoDB.Bson;
 
 namespace Job.Fasades
 {
-    public class CategoryManager : ICategoryManager
+    public sealed class CategoryManager : ICategoryManager
     {
 
         private readonly IUserProfile _userProfile;

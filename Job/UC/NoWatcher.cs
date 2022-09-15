@@ -2,7 +2,7 @@
 
 namespace Job.UC
 {
-    public class NoWatcher : IWatcher
+    public sealed class NoWatcher : IWatcher
     {
         public event FileSystemEventHandler OnChanged;
         public event FileSystemEventHandler OnDeleted;

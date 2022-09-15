@@ -23,7 +23,7 @@ using System.Windows.Forms;
 
 namespace Job.UC
 {
-    public partial class UcJobList : UserControl, IUcJobList
+    public sealed partial class UcJobList : UserControl, IUcJobList
     {
 
         //private readonly PythonEngine.PythonEngine _pythonEngine;

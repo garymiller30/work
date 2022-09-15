@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace PluginColorJobListRow
 {
-    class PluginColorJobListRow : IPluginJobList
+    sealed class PluginColorJobListRow : IPluginJobList
     {
 
 

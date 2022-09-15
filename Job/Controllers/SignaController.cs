@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Job.Controllers
 {
-    public class SignaController : ISignaController
+    public sealed class SignaController : ISignaController
     {
 
         private readonly string _signaFile;
@@ -34,7 +34,7 @@ namespace Job.Controllers
             {
                 Replace = customer,
                 Cid = "{CID=2",
-                Offset = 4
+                Offset = 4,
             });
             
             return this;
@@ -46,7 +46,7 @@ namespace Job.Controllers
             {
                 Replace = number,
                 Cid = "{CID=1",
-                Offset = 5
+                Offset = 5,
             });
             return this;
         }
@@ -57,7 +57,7 @@ namespace Job.Controllers
             {
                 Replace = description,
                 Cid = "{CID=1",
-                Offset = 4
+                Offset = 4,
             });
 
             return this;
@@ -76,28 +76,28 @@ namespace Job.Controllers
             {
                 Replace = Math.Round(width,1)*2.83465m,
                 Cid = "{CID=63",
-                Offset = 4
+                Offset = 4,
             });
 
             _commands.Add(new CommandReplaceDecimal
             {
                 Replace = Math.Round(width,1)*2.83465m,
                 Cid = "{CID=81",
-                Offset = 4
+                Offset = 4,
             });
 
             _commands.Add(new CommandReplaceDecimal
             {
                 Replace = Math.Round(width,1)*2.83465m,
                 Cid = "{CID=87",
-                Offset = 4
+                Offset = 4,
             });
 
             _commands.Add(new CommandReplaceDecimal
             {
                 Replace = Math.Round(width,1)*2.83465m,
                 Cid = "{CID=105",
-                Offset = 4
+                Offset = 4,
             });
 
             return this;
@@ -109,25 +109,25 @@ namespace Job.Controllers
             {
                 Replace = Math.Round(height,1)*2.83465m,
                 Offset = 4,
-                Cid = "{CID=64"
+                Cid = "{CID=64",
             });
             _commands.Add(new CommandReplaceDecimal
             {
                 Replace = Math.Round(height,1)*2.83465m,
                 Offset = 4,
-                Cid = "{CID=82"
+                Cid = "{CID=82",
             });
             _commands.Add(new CommandReplaceDecimal
             {
                 Replace = Math.Round(height,1)*2.83465m,
                 Offset = 4,
-                Cid = "{CID=88"
+                Cid = "{CID=88",
             });
             _commands.Add(new CommandReplaceDecimal
             {
                 Replace = Math.Round(height,1)*2.83465m,
                 Offset = 4,
-                Cid = "{CID=106"
+                Cid = "{CID=106",
             });
            
             return this;
@@ -177,8 +177,8 @@ namespace Job.Controllers
 
                 if (i != dataSig.Length - 1)
                 {
-                    sb.Append(";");
-                    sb.Append("\n");
+                    sb.Append(';');
+                    sb.Append('\n');
                 }
             }
 
@@ -188,22 +188,15 @@ namespace Job.Controllers
 
         public void ChangeSignaOrderNumber(string destFile, string number)
         {
-
-
             using (var archive = ZipFile.Open(destFile, ZipArchiveMode.Update))
             {
                 var entry = archive.GetEntry("data.sig");
-
                 using (var memoryWrite = new MemoryStream())    // 
                 {
                     var tmp = Path.GetTempFileName();
-
-                    entry.ExtractToFile(tmp, true);
-
+                    entry.ExtractToFile(tmp, overwrite:true);
                     var bytes = File.ReadAllBytes(tmp);
-
                     var cnt = 4;
-
                     var j = 0;
                     bool isFinded = false;
 
@@ -217,12 +210,9 @@ namespace Job.Controllers
                                 {
                                     isFinded = true;
                                     break;
+                                }
 
-                                }
-                                else
-                                {
-                                    cnt--;
-                                }
+                                cnt--;
                             }
                         }
                     }
@@ -230,20 +220,14 @@ namespace Job.Controllers
                     if (isFinded)
                     {
                         // Знайшли місце з номером
-
                         //взяли довжину минулого номеру
                         var len = bytes[j + 2];
-
                         memoryWrite.Write(bytes, 0, j + 1);
-
                         var lenSize = BitConverter.GetBytes(number.Length);
                         memoryWrite.Write(new byte[] { 0x00 }, 0, 1);
                         memoryWrite.Write(lenSize, 0, 1);
-
                         var str = Encoding.ASCII.GetBytes(number);
-
                         memoryWrite.Write(str, 0, str.Length);
-
                         memoryWrite.Write(bytes, j + 3 + len, bytes.Length - (j + 3 + len));
 
                         using (FileStream file = new FileStream("data.sig", FileMode.Create, FileAccess.Write))
@@ -380,7 +364,7 @@ namespace Job.Controllers
                 var entry = archive.GetEntry("data.sig");
                 var tmp = Path.GetTempFileName();
 
-                entry.ExtractToFile(tmp, true);
+                entry.ExtractToFile(tmp,overwrite: true);
 
                 using (var reader = new StreamReader(tmp))
                 {
@@ -412,7 +396,7 @@ namespace Job.Controllers
                 idx += Offset;
                 byte[] buff = new byte[replaceText.Length + 4];
 
-                using (var stream = new MemoryStream(buff, true))
+                using (var stream = new MemoryStream(buff,writable: true))
                 {
 
                     stream.WriteByte((byte)'"');
@@ -448,7 +432,7 @@ namespace Job.Controllers
                 idx += Offset;
                 byte[] buff = new byte[strCnt.Length + 1];
 
-                using (var stream = new MemoryStream(buff, true))
+                using (var stream = new MemoryStream(buff, writable: true))
                 {
 
                     stream.WriteByte((byte)'=');

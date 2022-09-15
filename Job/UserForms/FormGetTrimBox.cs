@@ -9,7 +9,7 @@ namespace Job.UserForms
 {
     
 
-    public partial class FormGetTrimBox : KryptonForm
+    public sealed partial class FormGetTrimBox : KryptonForm
     {
         private IFileSystemInfoExt InfoExt;
 

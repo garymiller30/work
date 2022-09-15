@@ -15,7 +15,7 @@ using FileSystem = Microsoft.VisualBasic.FileIO.FileSystem;
 
 namespace Job.UC
 {
-    public class FileManager : IFileManager
+    public sealed class FileManager : IFileManager
     {
 
         public FileBrowserSettings Settings { get; set; } = new FileBrowserSettings();

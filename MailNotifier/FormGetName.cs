@@ -4,7 +4,7 @@ using System.Windows.Forms;
 namespace MailNotifier
 {
 
-    public partial class FormGetName : Form
+    public sealed partial class FormGetName : Form
     {
         public string ShablonName { get; set; }
 

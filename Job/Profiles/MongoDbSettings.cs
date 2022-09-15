@@ -5,7 +5,7 @@ namespace Job.Profiles
 {
     [Serializable]
     //[XmlRoot("MongoDbSettings")]
-    public class MongoDbSettings : IBaseSettings
+    public sealed class MongoDbSettings : IBaseSettings
     {
         public string MongoDbBaseName { get; set; }
         public string MongoDbServer { get; set; }

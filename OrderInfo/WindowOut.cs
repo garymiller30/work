@@ -6,7 +6,7 @@ using Job.Profiles;
 
 namespace OrderInfo
 {
-    public partial class WindowOut : UserControl, IPluginInfo
+    public sealed partial class WindowOut : UserControl, IPluginInfo
     {
         private IJob _curjob;
         private bool _isSubscribed;

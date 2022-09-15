@@ -4,7 +4,7 @@ using Interfaces;
 namespace Job.Models
 {
     [Serializable]
-    public class JobSettings : IJobSettings
+    public sealed class JobSettings : IJobSettings
     {
         public bool StoreByYear { get; set; }
         public string WorkPath { get; set; }

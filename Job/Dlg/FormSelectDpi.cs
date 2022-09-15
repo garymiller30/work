@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Job.Dlg
 {
-    public partial class FormSelectDpi : Form
+    public sealed partial class FormSelectDpi : Form
     {
 
         public int Dpi { get; set; }

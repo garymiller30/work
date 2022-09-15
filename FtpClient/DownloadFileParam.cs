@@ -6,7 +6,7 @@ namespace FtpClient
     /// <summary>
     /// Параметри завантаження файлу з ftp
     /// </summary>
-    public class DownloadFileParam : IDownloadFileParam
+    public sealed class DownloadFileParam : IDownloadFileParam
     {
         public string OrderNumber { get; set; }
 

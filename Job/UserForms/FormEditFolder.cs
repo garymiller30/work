@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Job.UserForms
 {
-    public partial class FormEditFolder : Form
+    public sealed partial class FormEditFolder : Form
     {
         public FormEditFolder()
         {

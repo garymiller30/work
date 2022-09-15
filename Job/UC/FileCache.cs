@@ -5,7 +5,7 @@ using Interfaces;
 
 namespace Job.UC
 {
-    public class FileCache : ICache<IFileSystemInfoExt>
+    public sealed class FileCache : ICache<IFileSystemInfoExt>
     {
 #pragma warning disable CS0067 // The event 'FileCache.OnChanged' is never used
         public event EventHandler<IFileSystemInfoExt> OnChanged;

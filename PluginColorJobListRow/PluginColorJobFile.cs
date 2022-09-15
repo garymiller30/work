@@ -7,7 +7,7 @@ using Interfaces;
 
 namespace PluginColorJobListRow
 {
-    public class PluginColorJobFile : IPluginFileBrowser
+    public sealed class PluginColorJobFile : IPluginFileBrowser
     {
         public string PluginName => "";
         public string PluginDescription => "Підсвічує кольором статусу файли";

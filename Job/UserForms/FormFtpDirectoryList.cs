@@ -6,7 +6,7 @@ using FtpClient;
 
 namespace Job.UserForms
 {
-    public partial class FormFtpDirectoryList : KryptonForm
+    public sealed partial class FormFtpDirectoryList : KryptonForm
     {
 
         private FtpFileExt _selectedDirectory;

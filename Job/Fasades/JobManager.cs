@@ -24,7 +24,7 @@ using Ookii.Dialogs.WinForms;
 
 namespace Job.Fasades
 {
-    public class JobManager : IJobManager
+    public sealed class JobManager : IJobManager
     {
         public IJobSettings Settings { get; set; }
         public IUcJobList JobListControl { get; set; }
@@ -425,7 +425,7 @@ namespace Job.Fasades
         {
             if (!string.IsNullOrEmpty(signaJobsPath))
             {
-                var fileName = string.Format(Settings.SignaFileShablon, job.Customer, job.Number, job.Description);
+                var fileName = String.Format(Settings.SignaFileShablon, job.Customer, job.Number, job.Description);
 
                 var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
                 if (File.Exists(destFile))
@@ -503,10 +503,10 @@ namespace Job.Fasades
             {
                 if (targetJob is IJob j && sourceJob is IJob source)
                 {
-                    var sourceName = string.Format(Settings.SignaFileShablon, source.Customer, source.Number, source.Description);
+                    var sourceName = String.Format(Settings.SignaFileShablon, source.Customer, source.Number, source.Description);
                     var sourceFile = Path.Combine(Settings.SignaJobsPath, $"{sourceName}.sdf");
 
-                    var fileName = string.Format(Settings.SignaFileShablon, j.Customer, j.Number, j.Description);
+                    var fileName = String.Format(Settings.SignaFileShablon, j.Customer, j.Number, j.Description);
                     var destFile = Path.Combine(Settings.SignaJobsPath, $"{fileName}.sdf");
 
                     File.Copy(sourceFile, destFile, true);

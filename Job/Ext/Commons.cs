@@ -99,9 +99,9 @@ namespace Job.Ext
             
 
             var category = profile.Categories.GetCategoryNameById(job.CategoryId);
-            var fileName = string.IsNullOrEmpty(category) 
-                ? string.Format(signaFileShablon, job.Customer, job.Number, job.Description) 
-                : string.Format(signaFileShablon, job.Customer, job.Number, job.Description,category);
+            var fileName = string.IsNullOrEmpty(category)
+                ? string.Format(signaFileShablon, job.Customer, job.Number, job.Description)
+                : string.Format(signaFileShablon, job.Customer, job.Number, job.Description, category);
 
             var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
 

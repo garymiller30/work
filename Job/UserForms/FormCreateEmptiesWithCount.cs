@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Job.UserForms
 {
-    public partial class FormCreateEmptiesWithCount : Form
+    public sealed partial class FormCreateEmptiesWithCount : Form
     {
         public List<EmptyTemplate> PdfTemplates { get; } = new List<EmptyTemplate>();
         

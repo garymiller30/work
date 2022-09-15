@@ -2,8 +2,8 @@
 
 namespace Job
 {
-    public class ReportJobsTree
+    public sealed class ReportJobsTree
     {
-        public List<Job> Jobs { get; set; } = new List<Job>();
+        public IEnumerable<Job> Jobs { get; set; } = new List<Job>();
     }
 }

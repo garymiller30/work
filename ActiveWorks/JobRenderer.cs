@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace ActiveWorks
 {
-    public class JobRenderer : AbstractRenderer
+    public sealed class JobRenderer : AbstractRenderer
     {
 
         public Profile UserProfile;

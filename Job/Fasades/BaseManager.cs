@@ -3,12 +3,13 @@ using Logger;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace Job.Fasades
 {
-    public class BaseManager : IBaseManager
+    public sealed class BaseManager : IBaseManager
     {
 
         private readonly IRepository _repository;
@@ -70,7 +71,7 @@ namespace Job.Fasades
             Connect();
         }
 
-        public virtual void Add<T>(T item) where T : class, new()
+        public void Add<T>(T item) where T : class, new()
         {
             _repository.Add(item);
         }
@@ -239,7 +240,7 @@ namespace Job.Fasades
 
         public List<IJob> Search(string text)
         {
-            var searchString = text.ToLower();
+            var searchString = text.ToLower(CultureInfo.InvariantCulture);
 
             try
             {
@@ -247,15 +248,15 @@ namespace Job.Fasades
                 var categories = _repository.GetRawCollection<Category>("Categories");
 
                 var catFilter = from c in ((IMongoCollection<Category>)categories).AsQueryable()
-                                where c.Name.ToLower().Contains(searchString)
+                                where c.Name.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
                                 select c.Id;
 
                 var catList = catFilter.ToList();
 
                 var jobFilter = from j in ((IMongoCollection<Job>)jobs).AsQueryable()
-                                where j.Customer.ToLower().Contains(searchString) || j.Description.ToLower().Contains(searchString)
-                                                                                  || j.Note.ToLower().Contains(searchString)
-                                                                                  || j.Number.ToLower().Contains(searchString)
+                                where j.Customer.ToLower(CultureInfo.InvariantCulture).Contains(searchString) || j.Description.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
+                                                                                  || j.Note.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
+                                                                                  || j.Number.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
                                                                                   || catList.Contains(j.CategoryId)
 
                                 select j;

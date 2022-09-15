@@ -9,7 +9,7 @@ namespace Job.CustomerNotify
     /// <summary>
     /// уведомление заказчика по почте о смене статуса заказа
     /// </summary>
-    public class CustomerMailNotifyManager : ICustomerMailNotifyManager
+    public sealed class CustomerMailNotifyManager : ICustomerMailNotifyManager
     {
 
         //public Profile UserProfile { get; set; }

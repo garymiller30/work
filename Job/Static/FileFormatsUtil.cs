@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -29,14 +30,14 @@ namespace Job.Static
 
         public static bool IsExistExtension(string ext)
         {
-            var lowEx = ext.ToLower();
+            var lowEx = ext.ToLower(CultureInfo.InvariantCulture);
             return Extension.FirstOrDefault(x => x.Equals(lowEx)) != null;
         }
 
 
         public static void GetFormat(IFileSystemInfoExt sfi)
         {
-            var ext = sfi.FileInfo.Extension.ToLower();
+            var ext = sfi.FileInfo.Extension.ToLower(CultureInfo.InvariantCulture);
 
             switch (ext)
             {
@@ -313,7 +314,7 @@ namespace Job.Static
             //}
         }
 
-        public static void ConvertToPDF(List<IFileSystemInfoExt> list)
+        public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list)
         {
             var converter = Pdf.ConvertToPDF(list.Select(x => x.FileInfo.FullName));
 
@@ -322,7 +323,7 @@ namespace Job.Static
                 BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(() => { converter.Start(); })));
         }
 
-        public static void ConvertToPDF(List<IFileSystemInfoExt> list, ConvertModeEnum mode)
+        public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list, ConvertModeEnum mode)
         {
             var converter = Pdf.ConvertToPDF(list.Select(x => x.FileInfo.FullName), mode);
             if (converter != null)
@@ -331,7 +332,7 @@ namespace Job.Static
 
         }
 
-        public static void SplitPDF(List<IFileSystemInfoExt> list)
+        public static void SplitPDF(IEnumerable<IFileSystemInfoExt> list)
         {
             var converter = Pdf.SplitPDF(list.Select(x => x.FileInfo.FullName));
             if (converter != null)
@@ -339,13 +340,13 @@ namespace Job.Static
             //FormProgress.ShowProgress(() => { converter.SplitPdf(); });
         }
 
-        public static void RepeatPages(List<IFileSystemInfoExt> list)
+        public static void RepeatPages(IEnumerable<IFileSystemInfoExt> list)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("repeat pages pdf", new Action(() => { Pdf.RepeatPages(list.Select(x => x.FileInfo.FullName)); })));
             //FormProgress.ShowProgress(() => { Pdf.RepeatPages(list.Select(x => x.FileInfo.FullName)); });
         }
 
-        public static void MergeFrontsAndBack(List<IFileSystemInfoExt> list)
+        public static void MergeFrontsAndBack(IEnumerable<IFileSystemInfoExt> list)
         {
             //FormProgress.ShowProgress(() => { Pdf.MergeFrontsAndBack(list.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge front and back pdf", new Action(
@@ -353,7 +354,7 @@ namespace Job.Static
                 )));
         }
 
-        public static void ReversePages(List<IFileSystemInfoExt> list)
+        public static void ReversePages(IEnumerable<IFileSystemInfoExt> list)
         {
             //FormProgress.ShowProgress(() => { Pdf.ReversePages(list.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("reverce pages pdf", new Action(
@@ -361,7 +362,7 @@ namespace Job.Static
                 )));
         }
 
-        public static void RepeatDocument(List<IFileSystemInfoExt> toList)
+        public static void RepeatDocument(IEnumerable<IFileSystemInfoExt> toList)
         {
             //FormProgress.ShowProgress(() => { Pdf.RepeatDocument(toList.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("repeat document pdf", new Action(
@@ -369,7 +370,7 @@ namespace Job.Static
                 )));
         }
 
-        public static void CreateRectangle(List<IFileSystemInfoExt> toList)
+        public static void CreateRectangle(IEnumerable<IFileSystemInfoExt> toList)
         {
             //FormProgress.ShowProgress(() => { Pdf.CreateRectangle(toList.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("create rectangle pdf", new Action(
@@ -377,7 +378,7 @@ namespace Job.Static
                 )));
         }
 
-        internal static void CreateEllipse(List<IFileSystemInfoExt> toList)
+        internal static void CreateEllipse(IEnumerable<IFileSystemInfoExt> toList)
         {
             //FormProgress.ShowProgress(() => { Pdf.CreateElipse(toList.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("create ellipse pdf", new Action(
@@ -385,7 +386,7 @@ namespace Job.Static
                 )));
         }
 
-        public static void ExtractPages(List<IFileSystemInfoExt> toList)
+        public static void ExtractPages(IEnumerable<IFileSystemInfoExt> toList)
         {
 
             var converter = Pdf.ExtractPages(toList.Select(x => x.FileInfo.FullName));
@@ -398,7 +399,7 @@ namespace Job.Static
             }
         }
 
-        public static void SplitCoverAndBlock(List<IFileSystemInfoExt> toList)
+        public static void SplitCoverAndBlock(IEnumerable<IFileSystemInfoExt> toList)
         {
             //FormProgress.ShowProgress(() => { Pdf.SplitCoverAndBlock(toList.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split cover and block pdf", new Action(
@@ -424,28 +425,28 @@ namespace Job.Static
             }
         }
 
-        public static void RotatePagesMirror(List<IFileSystemInfoExt> list)
+        public static void RotatePagesMirror(IEnumerable<IFileSystemInfoExt> list)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("rotate mirror pages pdf", new Action(
                () => { Pdf.RotateMirrorFrontAndBack(list.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
-        public static void MergeOddAndEven(List<IFileSystemInfoExt> list)
+        public static void MergeOddAndEven(IEnumerable<IFileSystemInfoExt> list)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge odd and even paegs pdf", new Action(
                 () => { Pdf.MergeOddAndEven(list.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
-        public static void SplitOddAndEven(List<IFileSystemInfoExt> list)
+        public static void SplitOddAndEven(IEnumerable<IFileSystemInfoExt> list)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge odd and even pages pdf", new Action(
                 () => { Pdf.SplitOddAndEven(list.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
-        public static void PdfToJpg(List<IFileSystemInfoExt> list, int dpi)
+        public static void PdfToJpg(IEnumerable<IFileSystemInfoExt> list, int dpi)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("create jpg from pdf", new Action(
                 () =>

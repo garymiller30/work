@@ -3,7 +3,7 @@ using ComponentFactory.Krypton.Toolkit;
 
 namespace FtpClient
 {
-    public partial class FormEditText : KryptonForm
+    public sealed partial class FormEditText : KryptonForm
     {
         public string EditText
         {

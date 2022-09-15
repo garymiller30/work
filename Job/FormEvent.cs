@@ -5,7 +5,7 @@ using MongoDB.Bson;
 namespace Job
 {
     [Serializable]
-    public class FormEvent : IWithId
+    public sealed class FormEvent : IWithId
     {
         public FormEvent()
         {

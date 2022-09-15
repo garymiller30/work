@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PluginAddWorkFromPolymix
 {
-    public class PolymixOrder
+    public sealed class PolymixOrder
     {
         public int Number { get; set; }
         public string  Customer { get; set; }

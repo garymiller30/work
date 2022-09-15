@@ -13,7 +13,7 @@ using PDFManipulate.Converters;
 
 namespace Job.Dlg
 {
-    public partial class FormSelectConvertToPdfMode : KryptonForm
+    public sealed partial class FormSelectConvertToPdfMode : KryptonForm
     {
         public ConvertModeEnum ConvertMode { get; private set; } = ConvertModeEnum.NotAssigned;
         public bool MoveToTrash { get; private set; }

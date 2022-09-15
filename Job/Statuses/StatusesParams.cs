@@ -11,7 +11,7 @@ namespace Job.Statuses
     /// <summary>
     /// при зміні статусу запускати вказану програму
     /// </summary>
-    public class StatusesParams : IStatusesParams
+    public sealed class StatusesParams : IStatusesParams
     {
         private const string FileName = "OnChangeStatusesParams.xml";
 

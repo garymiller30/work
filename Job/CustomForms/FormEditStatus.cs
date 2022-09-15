@@ -6,7 +6,7 @@ using Ookii.Dialogs.WinForms;
 
 namespace Job.CustomForms
 {
-    public partial class FormEditStatus : Form
+    public sealed partial class FormEditStatus : Form
     {
         private readonly Profile _profile;
         private readonly IJobStatus _jobStatus;

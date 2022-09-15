@@ -4,7 +4,7 @@ using MongoDB.Bson;
 
 namespace Job.CustomerNotify
 {
-    public class CustomerMailNotify : IWithId, ICustomerMailNotify
+    public sealed class CustomerMailNotify : IWithId, ICustomerMailNotify
     {
         public ObjectId Id { get; set; } = new ObjectId();
 

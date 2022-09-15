@@ -9,7 +9,7 @@ using Interfaces.Plugins;
 
 namespace Plugins
 {
-    public class MailController : IMailPluginController
+    public sealed class MailController : IMailPluginController
     {
         readonly List<IPluginMail> _plugins = new List<IPluginMail>();
 

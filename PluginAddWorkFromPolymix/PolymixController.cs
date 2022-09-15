@@ -10,7 +10,7 @@ using System.Text;
 
 namespace PluginAddWorkFromPolymix
 {
-    class PolymixController
+    sealed class PolymixController
     {
         private PluginAddWorkFromPolymixSettings _addWorkFromPolymixSettings;
 

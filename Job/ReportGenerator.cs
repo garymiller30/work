@@ -6,10 +6,10 @@ using Job.Profiles;
 
 namespace Job
 {
-    public class ReportGenerator
+    public sealed class ReportGenerator
     {
         public Profile UserProfile { get; set; }
-        public  List<CustomerReport> GetByYearMonth(string[] customers,int year, int month, bool includeCashe=false)
+        public IEnumerable<CustomerReport> GetByYearMonth(string[] customers,int year, int month, bool includeCashe=false)
         {
             var list = new List<CustomerReport>();
 
@@ -101,7 +101,7 @@ namespace Job
             return str.ToString();
         }
 
-        public  List<CustomerReport> GetByDate(string[] customers, DateTime dateTime, bool includeCashe)
+        public IEnumerable<CustomerReport> GetByDate(string[] customers, DateTime dateTime, bool includeCashe)
         {
             var q = GetByYearMonth(customers, dateTime.Year, dateTime.Month, includeCashe);
 

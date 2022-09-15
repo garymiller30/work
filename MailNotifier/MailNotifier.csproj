@@ -175,7 +175,6 @@
     <Compile Include="Serialization\SerializeableLinkedResource.cs" />
     <Compile Include="Serialization\SerializeableMailAddress.cs" />
     <Compile Include="Serialization\SerializeableMailMessage.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="Shablons\MailShablon.cs" />
     <Compile Include="Shablons\MailShablonManager.cs" />
   </ItemGroup>

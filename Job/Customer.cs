@@ -5,7 +5,7 @@ using MongoDB.Bson;
 
 namespace Job
 {
-    public class Customer : IWithId, ICustomer
+    public sealed class Customer : IWithId, ICustomer
     {
         public bool Show { get; set; } = true;
         public ObjectId Id { get; set; }

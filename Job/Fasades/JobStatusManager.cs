@@ -11,7 +11,7 @@ using Logger;
 
 namespace Job.Fasades
 {
-    public class JobStatusManager : IJobStatusManager
+    public sealed class JobStatusManager : IJobStatusManager
     {
         private readonly IUserProfile _profile;
         private const string ViewFilterFile = "ViewFilterStatuses.set";

@@ -12,7 +12,7 @@ using Job.UC;
 
 namespace Job.UserForms
 {
-    public partial class FormFileBrowserSettings : KryptonForm
+    public sealed partial class FormFileBrowserSettings : KryptonForm
     {
         public FormFileBrowserSettings(FileBrowserSettings fileManagerSettings)
         {

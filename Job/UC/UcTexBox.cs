@@ -6,7 +6,7 @@ using Job.Static;
 
 namespace Job.UC
 {
-    public partial class UcTexBox : TextBox
+    public sealed partial class UcTexBox : TextBox
     {
         public UcTexBox()
         {

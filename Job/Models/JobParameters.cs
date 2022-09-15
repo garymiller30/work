@@ -8,7 +8,7 @@ using MongoDB.Bson;
 
 namespace Job.Models
 {
-    public class JobParameters : IJob
+    public sealed class JobParameters : IJob
     {
         public ObjectId Id { get; set; }
         public DateTime Date { get; set; }

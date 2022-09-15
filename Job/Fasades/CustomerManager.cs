@@ -10,7 +10,7 @@ using Interfaces.MQ;
 
 namespace Job.Fasades
 {
-    public class CustomerManager : ICustomerManager
+    public sealed class CustomerManager : ICustomerManager
     {
         //public IUserProfile UserProfile { get; set; }
         private readonly IUserProfile _profile;
@@ -39,7 +39,7 @@ namespace Job.Fasades
 
         private void Jobs_OnSetCurrentJob(object sender, IJob e)
         {
-            if (e == null) { CurrentCustomer = null;return;};
+            if (e == null) { CurrentCustomer = null;return;}
 
             SetCurrentCustomer(e.Customer);
         }

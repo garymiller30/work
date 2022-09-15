@@ -1,6 +1,6 @@
 ﻿namespace FtpClient
 {
-    public class UploadFileParam
+    public sealed class UploadFileParam
     {
         public string Password { get; set; }
         public string User { get; set; }

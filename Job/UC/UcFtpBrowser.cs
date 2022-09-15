@@ -13,7 +13,7 @@ using Job.Static;
 
 namespace Job.UC
 {
-    public partial class UcFtpBrowser : UserControl, IUcFtpBrowser
+    public sealed partial class UcFtpBrowser : UserControl, IUcFtpBrowser
     {
         public IFtpState FtpStates { get; set; } = new FtpState();
         public IUserProfile UserProfile { get; set; }

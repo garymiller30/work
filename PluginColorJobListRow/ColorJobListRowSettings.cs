@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PluginColorJobListRow
 {
-    public class ColorJobListRowSettings
+    public sealed class ColorJobListRowSettings
     {
         public Dictionary<int, Color> ColorDictionary { get; set; } = new Dictionary<int, Color>();
 

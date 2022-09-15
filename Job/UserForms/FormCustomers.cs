@@ -7,7 +7,7 @@ using Interfaces;
 
 namespace Job.UserForms
 {
-    public partial class FormCustomers : KryptonForm
+    public sealed partial class FormCustomers : KryptonForm
     {
         private IUserProfile UserProfile { get; set; }
 
@@ -32,7 +32,7 @@ namespace Job.UserForms
             if (objectListView_FtpServers.Objects == null) return CheckState.Indeterminate;
             if (objectListView_Customers.SelectedObject == null) return CheckState.Indeterminate;
 
-            if (((Customer)objectListView_Customers.SelectedObject).FtpServers.Contains(((FtpSettings)r).Name))
+            if (((Customer)objectListView_Customers.SelectedObject).FtpServers.Contains(((FtpSettings)r).Name, StringComparer.OrdinalIgnoreCase))
             {
                 return CheckState.Checked;
             }

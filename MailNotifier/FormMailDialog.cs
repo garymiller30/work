@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace MailNotifier
 {
-    public partial class FormMailDialog : Form
+    public sealed partial class FormMailDialog : Form
     {
         private Mail _mail;
 

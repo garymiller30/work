@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace PluginMailAttachmentsToNextcloud
 {
-    public partial class FormSettings : Form
+    public sealed partial class FormSettings : Form
     {
         private readonly CloudSettings _settings;
 

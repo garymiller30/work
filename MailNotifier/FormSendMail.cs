@@ -15,7 +15,7 @@ using BackgroundTaskServiceLib;
 
 namespace MailNotifier
 {
-    public partial class FormSendMail : KryptonForm
+    public sealed partial class FormSendMail : KryptonForm
     {
         private readonly List<string> _attachList = new List<string>();
         private readonly Mail _mail;

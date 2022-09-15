@@ -2,7 +2,7 @@
 
 namespace Job.Menus
 {
-    public class MenuManager : IMenuManager
+    public sealed class MenuManager : IMenuManager
     {
         public IFileBrowserContextMenu SendTo { get; set; }
         public IFileBrowserContextMenu Utils { get; set; }

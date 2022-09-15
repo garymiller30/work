@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace PluginRabbitMq
 {
-    public class PluginRabbitMq : IMqPlugin, IPluginBase
+    public sealed class PluginRabbitMq : IMqPlugin, IPluginBase
     {
         private Settings _settings;
 

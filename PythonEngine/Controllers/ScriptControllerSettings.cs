@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PythonEngine.Controllers
 {
-    public class ScriptControllerSettings
+    public sealed class ScriptControllerSettings
     {
         public IUserProfile Profile{get;set;}
         public PythonEngine Engine {get;set;}

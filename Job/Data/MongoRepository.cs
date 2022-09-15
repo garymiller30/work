@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Job.Data
 {
-    public class MongoRepository : IRepository
+    public sealed class MongoRepository : IRepository
     {
         private IMongoDatabase _mongoDatabase;
 

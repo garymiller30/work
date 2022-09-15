@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace Job
 {
-    public class PlateOwner : IWithId
+    public sealed class PlateOwner : IWithId
     {
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 

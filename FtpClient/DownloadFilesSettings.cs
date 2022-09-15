@@ -2,7 +2,7 @@
 
 namespace FtpClient
 {
-    public class DownloadFilesSettings
+    public sealed class DownloadFilesSettings
     {
         public bool DownloadLikeDescription { get; set; }
         public bool SeparateDownload { get; set; }

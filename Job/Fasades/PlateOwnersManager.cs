@@ -5,7 +5,7 @@ using MongoDB.Bson;
 
 namespace Job.Fasades
 {
-    public class PlateOwnersManager
+    public sealed class PlateOwnersManager
     {
 
         public Profile UserProfile { get; set; }

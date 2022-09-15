@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace PluginMailAttachmentsToNextcloud
 {
-    class MailAttachmentToNextcloud : IPluginMail
+    sealed class MailAttachmentToNextcloud : IPluginMail
     {
 
         public IUserProfile UserProfile { get; set; }

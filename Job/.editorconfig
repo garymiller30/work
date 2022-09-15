@@ -1,0 +1,17 @@
+
+# All files
+[*]
+indent_style = space
+
+# Xml files
+[*.xml]
+indent_size = 2
+
+[*.cs]
+dotnet_diagnostic.MA0053.severity = suggestion
+
+# Report public classes without inheritors (default: false)
+MA0053.public_class_should_be_sealed = true
+
+# Report class without inheritors even if there is virtual members (default: false)
+MA0053.class_with_virtual_member_shoud_be_sealed = true

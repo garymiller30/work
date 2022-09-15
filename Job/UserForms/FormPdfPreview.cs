@@ -9,7 +9,7 @@ using Ghostscript.NET.Viewer;
 
 namespace Job
 {
-    public partial class FormPdfPreview : Form
+    public sealed partial  class FormPdfPreview : Form
     {
 
         // Define GetShortPathName API function.
@@ -49,7 +49,7 @@ namespace Job
         {
             
             _fileName = fileName;
-            Text = Path.GetFileName(fileName);
+            //Text = Path.GetFileName(fileName);
             ShowPdf(fileName);
 
         }

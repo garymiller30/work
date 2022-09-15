@@ -10,7 +10,7 @@ using Job.UC;
 
 namespace Job.Profiles
 {
-    public class FileBrowsers : IFileBrowsers
+    public sealed class FileBrowsers : IFileBrowsers
     {
 
         private readonly IUserProfile _profile;

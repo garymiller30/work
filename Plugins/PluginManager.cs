@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Plugins
 {
-    public class PluginManager : IPluginManager
+    public sealed class PluginManager : IPluginManager
     {
         private readonly IUserProfile _profile;
         private readonly string _pluginsPath;

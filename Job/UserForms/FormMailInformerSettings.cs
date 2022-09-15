@@ -11,7 +11,7 @@ using Job.Statuses;
 
 namespace Job.UserForms
 {
-    public partial class FormMailInformerSettings : KryptonForm
+    public sealed partial class FormMailInformerSettings : KryptonForm
     {
         public IUserProfile UserProfile { get; set; }
 

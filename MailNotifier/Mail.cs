@@ -22,7 +22,7 @@ using MailMessage = System.Net.Mail.MailMessage;
 
 namespace MailNotifier
 {
-    public class Mail : IMail
+    public sealed class Mail : IMail
     {
         public IMailSettings Settings { get; set; }
         private readonly IUserProfile _profile;

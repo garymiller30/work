@@ -13,7 +13,7 @@ using Logger;
 
 namespace Job.UC
 {
-    public class NoCache : ICache<IFileSystemInfoExt>
+    public sealed class NoCache : ICache<IFileSystemInfoExt>
     {
         private readonly IWatcher _watcher;
 

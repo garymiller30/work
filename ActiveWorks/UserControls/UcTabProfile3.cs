@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ActiveWorks.UserControls
 {
-    public partial class UcTabProfile3 : KryptonDockableWorkspace, IProfileTab
+    public sealed partial class UcTabProfile3 : KryptonDockableWorkspace, IProfileTab
     {
         private const string LayoutFile = "layout.xml";
         private IUserProfile _profile;

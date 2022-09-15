@@ -11,7 +11,7 @@ using Interfaces;
 
 namespace Job.UC
 {
-    public partial class UcAddWorkPluginsContainer : UserControl
+    public sealed partial class UcAddWorkPluginsContainer : UserControl
     {
         public UcAddWorkPluginsContainer()
         {

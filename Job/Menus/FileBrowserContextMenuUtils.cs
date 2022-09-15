@@ -10,7 +10,7 @@ using Interfaces;
 
 namespace Job.Menus
 {
-    public class FileBrowserContextMenuUtils : FileBrowserContextMenuSendTo
+    public sealed class FileBrowserContextMenuUtils : FileBrowserContextMenuSendTo
     {
         public FileBrowserContextMenuUtils(IUserProfile profile, string fileName) : base(profile, fileName)
         {

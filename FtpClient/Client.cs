@@ -14,7 +14,7 @@ using System.Text;
 
 namespace FtpClient
 {
-    public class Client
+    public sealed class Client
     {
         private Exception _exception;
 
@@ -51,15 +51,27 @@ namespace FtpClient
 
             _encoding = Encoding.GetEncoding(codePage);
 
-            _ftpClient = new FluentFTP.FtpClient
+            var ftpConfig = new FtpConfig()
             {
-                Host = fileServer,
-                Credentials = new NetworkCredential(user, password),
-                Encoding = _encoding,
+                
                 DataConnectionType = activeMode
                     ? FtpDataConnectionType.AutoActive
-                    : FtpDataConnectionType.AutoPassive
+                    : FtpDataConnectionType.AutoPassive,
+                    
             };
+
+            _ftpClient = new FluentFTP.FtpClient(fileServer, new NetworkCredential(user, password),21,ftpConfig);
+            _ftpClient.Encoding = _encoding;
+            _ftpClient.Config.RetryAttempts = 3;
+
+            //_ftpClient = new FluentFTP.FtpClient()
+            //{
+            //    Host = fileServer,
+            //    Credentials = new NetworkCredential(user, password),
+            //    Encoding = _encoding,
+                
+
+            //};
 
         }
 
@@ -69,6 +81,7 @@ namespace FtpClient
 
             try
             {
+
                 _ftpClient.Connect();
                 var dirsRaw = _ftpClient.GetListing(CurrentDirectory).Select(x => new FtpFileExt(x));
                 dirs = dirsRaw.Where(file => file.IsDir);
@@ -148,6 +161,7 @@ namespace FtpClient
 
             try
             {
+               
                 _ftpClient.Connect();
                 var items = _ftpClient.GetListing(curDir).Select(x => new FtpFileExt(x));
 
@@ -189,8 +203,9 @@ namespace FtpClient
         {
             try
             {
+
                 _ftpClient.Connect();
-                _ftpClient.RetryAttempts = 3;
+                
 
                 var cntFiles = files.Count();
                 var multiplier = 0;
@@ -268,6 +283,7 @@ namespace FtpClient
 
             try
             {
+              
                 _ftpClient.Connect();
 
 
@@ -301,7 +317,7 @@ namespace FtpClient
             try
             {
                 var path = CurrentDirectory.GetFtpPath(directoryName);
-
+                
                 _ftpClient.Connect();
                 _ftpClient.CreateDirectory(path);
 
@@ -325,7 +341,7 @@ namespace FtpClient
                 User = _ftpClient.Credentials.UserName,
                 Password = _ftpClient.Credentials.Password,
                 CodePage = _ftpClient.Encoding.CodePage,
-                ActiveMode = _ftpClient.DataConnectionType == FtpDataConnectionType.AutoActive,
+                ActiveMode = _ftpClient.Config.DataConnectionType == FtpDataConnectionType.AutoActive,
                 RootDirectory = CurrentDirectory ?? string.Empty
             };
 

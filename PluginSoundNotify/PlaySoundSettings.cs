@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PluginSoundNotify
 {
-    public class PlaySoundSettings
+    public sealed class PlaySoundSettings
     {
         
         public PlayEnum PlayType { get; set; } = PlayEnum.None;

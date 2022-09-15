@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace PluginRabbitMq
 {
     [Serializable]
-    public class MessageMQ
+    public sealed class MessageMQ
     {
         public MessageEnum Code { get; set; }
         public string Id { get; set; }

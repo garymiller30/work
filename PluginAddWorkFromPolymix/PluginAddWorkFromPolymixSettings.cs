@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PluginAddWorkFromPolymix
 {
     [Serializable]
-    public class PluginAddWorkFromPolymixSettings
+    public sealed class PluginAddWorkFromPolymixSettings
     {
         public string ServerAddress { get; set; }
         public string User { get; set; }
