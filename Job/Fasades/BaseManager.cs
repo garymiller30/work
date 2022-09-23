@@ -1,11 +1,14 @@
-﻿using Interfaces;
+﻿using ImageMagick;
+using Interfaces;
 using Logger;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace Job.Fasades
 {
@@ -217,17 +220,15 @@ namespace Job.Fasades
 
         public List<IJob> ApplyViewFilter(int[] statuses)
         {
+            if (statuses.Length == 0) new List<IJob>(0);
+
             try
             {
-                if (statuses.Length > 0)
-                {
-                    var jobs = _repository.GetRawCollection<Job>("Jobs");
-                    var jobFilter = ((IMongoCollection<Job>)jobs).Find(x => statuses.Contains(x.StatusCode));
-                    return jobFilter.ToList(default).ToList<IJob>();
+                var filter = new BsonDocument("StatusCode", new BsonDocument("$in", new BsonArray(statuses)));
 
-                }
-
-                return new List<IJob>(0);
+                var jobs = (IMongoCollection<Job>)_repository.GetRawCollection<Job>("Jobs");
+                var filteredJobs = jobs.Find(filter).ToList(default);
+                return filteredJobs.ToList<IJob>();
             }
             catch (Exception e)
             {
@@ -253,11 +254,19 @@ namespace Job.Fasades
 
                 var catList = catFilter.ToList();
 
+                var filterArray = new BsonArray();
+
+                var props = new[] { "Customer", "Description", "Note", "Number" };
+
+                filterArray.AddRange(props.Select(x => new BsonDocument(x, $"/{text}/")));
+
+
                 var jobFilter = from j in ((IMongoCollection<Job>)jobs).AsQueryable()
-                                where j.Customer.ToLower(CultureInfo.InvariantCulture).Contains(searchString) || j.Description.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
-                                                                                  || j.Note.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
-                                                                                  || j.Number.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
-                                                                                  || catList.Contains(j.CategoryId)
+                                where j.Customer.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
+                                   || j.Description.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
+                                   || j.Note.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
+                                   || j.Number.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
+                                   || catList.Contains(j.CategoryId)
 
                                 select j;
                 return jobFilter.ToList().ToList<IJob>();

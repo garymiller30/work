@@ -29,7 +29,7 @@ namespace ActiveWorks
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
-        Stopwatch _sw = new Stopwatch();
+        readonly Stopwatch _sw = new Stopwatch();
 
 
         public Form2()
