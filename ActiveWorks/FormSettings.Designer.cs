@@ -162,6 +162,13 @@
             this.objectListViewPlugins = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnPluginName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPluginDescription = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tabPageCategory = new System.Windows.Forms.TabPage();
+            this.objectListViewCategories = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumnCategory = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnDeleteCategory = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox_addCategory = new System.Windows.Forms.TextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip_PlateOwners = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.удалитьToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
@@ -218,6 +225,9 @@
             this.panelStatusParams.SuspendLayout();
             this.tabPagePlugins.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewPlugins)).BeginInit();
+            this.tabPageCategory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.objectListViewCategories)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.contextMenuStrip_PlateOwners.SuspendLayout();
             this.contextMenuStrip_Mail.SuspendLayout();
             this.groupBox17.SuspendLayout();
@@ -339,6 +349,7 @@
             this.tabControlMain.Controls.Add(this.tabPage6);
             this.tabControlMain.Controls.Add(this.tabPage7);
             this.tabControlMain.Controls.Add(this.tabPagePlugins);
+            this.tabControlMain.Controls.Add(this.tabPageCategory);
             this.tabControlMain.Enabled = false;
             this.tabControlMain.ImageList = this.imageList1;
             this.tabControlMain.Location = new System.Drawing.Point(215, 12);
@@ -1636,6 +1647,88 @@
             this.olvColumnPluginDescription.Text = "Description";
             this.olvColumnPluginDescription.Width = 300;
             // 
+            // tabPageCategory
+            // 
+            this.tabPageCategory.Controls.Add(this.objectListViewCategories);
+            this.tabPageCategory.Controls.Add(this.groupBox2);
+            this.tabPageCategory.Location = new System.Drawing.Point(4, 23);
+            this.tabPageCategory.Name = "tabPageCategory";
+            this.tabPageCategory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCategory.Size = new System.Drawing.Size(699, 367);
+            this.tabPageCategory.TabIndex = 8;
+            this.tabPageCategory.Text = "Категорії";
+            this.tabPageCategory.UseVisualStyleBackColor = true;
+            // 
+            // objectListViewCategories
+            // 
+            this.objectListViewCategories.AllColumns.Add(this.olvColumnCategory);
+            this.objectListViewCategories.AllColumns.Add(this.olvColumnDeleteCategory);
+            this.objectListViewCategories.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.objectListViewCategories.CellEditUseWholeCell = false;
+            this.objectListViewCategories.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumnCategory,
+            this.olvColumnDeleteCategory});
+            this.objectListViewCategories.Cursor = System.Windows.Forms.Cursors.Default;
+            this.objectListViewCategories.FullRowSelect = true;
+            this.objectListViewCategories.GridLines = true;
+            this.objectListViewCategories.HideSelection = false;
+            this.objectListViewCategories.Location = new System.Drawing.Point(6, 65);
+            this.objectListViewCategories.Name = "objectListViewCategories";
+            this.objectListViewCategories.ShowGroups = false;
+            this.objectListViewCategories.Size = new System.Drawing.Size(360, 296);
+            this.objectListViewCategories.TabIndex = 1;
+            this.objectListViewCategories.UseCompatibleStateImageBehavior = false;
+            this.objectListViewCategories.View = System.Windows.Forms.View.Details;
+            this.objectListViewCategories.ButtonClick += new System.EventHandler<BrightIdeasSoftware.CellClickEventArgs>(this.objectListViewCategories_ButtonClick);
+            // 
+            // olvColumnCategory
+            // 
+            this.olvColumnCategory.AspectName = "Name";
+            this.olvColumnCategory.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
+            this.olvColumnCategory.Text = "Категорія";
+            this.olvColumnCategory.Width = 276;
+            // 
+            // olvColumnDeleteCategory
+            // 
+            this.olvColumnDeleteCategory.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
+            this.olvColumnDeleteCategory.Groupable = false;
+            this.olvColumnDeleteCategory.Hideable = false;
+            this.olvColumnDeleteCategory.IsButton = true;
+            this.olvColumnDeleteCategory.Text = "Видалити";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.textBox_addCategory);
+            this.groupBox2.Location = new System.Drawing.Point(6, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(360, 53);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "додати категорію";
+            // 
+            // button1
+            // 
+            this.button1.Image = global::ActiveWorks.Properties.Resources.Actions_list_add_icon;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(275, 17);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "додати";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBox_addCategory
+            // 
+            this.textBox_addCategory.Location = new System.Drawing.Point(6, 19);
+            this.textBox_addCategory.Name = "textBox_addCategory";
+            this.textBox_addCategory.Size = new System.Drawing.Size(260, 20);
+            this.textBox_addCategory.TabIndex = 0;
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -1849,6 +1942,10 @@
             this.panelStatusParams.PerformLayout();
             this.tabPagePlugins.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewPlugins)).EndInit();
+            this.tabPageCategory.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.objectListViewCategories)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.contextMenuStrip_PlateOwners.ResumeLayout(false);
             this.contextMenuStrip_Mail.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);
@@ -2007,5 +2104,12 @@
         private System.Windows.Forms.Button buttonExtBrowsersSettings;
         private System.Windows.Forms.TabPage tabPagePdfConvertor;
         private System.Windows.Forms.CheckBox checkBoxMoveOriginalFileToTrash;
+        private System.Windows.Forms.TabPage tabPageCategory;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox_addCategory;
+        private BrightIdeasSoftware.ObjectListView objectListViewCategories;
+        private BrightIdeasSoftware.OLVColumn olvColumnCategory;
+        private BrightIdeasSoftware.OLVColumn olvColumnDeleteCategory;
     }
 }

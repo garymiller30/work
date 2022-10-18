@@ -30,26 +30,22 @@ namespace Job.Fasades
 
         public ObjectId Add(string category)
         {
-            if (!string.IsNullOrEmpty(category))
+            if (string.IsNullOrEmpty(category)) throw new ArgumentNullException("category is null or empty");
+            
+            var cat = GetAll().Where(x => x.Name.Equals(category, StringComparison.InvariantCultureIgnoreCase));
+            if (cat.Any())
             {
-                var cat = GetAll().Where(x => x.Name.Equals(category, StringComparison.InvariantCultureIgnoreCase));
-                if (cat.Any())
-                {
-                    return cat.First().Id;
-                }
-                
-                //var newCat = (Category)UserProfile.Base.Add<Category>(CollectionString);
-                var newCat = new Category();
-                newCat.Name = category;
-
-                _userProfile.Base.Add(CollectionString, newCat);
-
-                _categories.Add(newCat);
-
-                return newCat.Id;
+                return cat.First().Id;
             }
+                
+            var newCat = new Category();
+            newCat.Name = category;
 
-            throw new ArgumentNullException("category is null or empty");
+            _userProfile.Base.Add(CollectionString, newCat);
+
+            _categories.Add(newCat);
+
+            return newCat.Id;
         }
 
         public ICategory GetCategoryById(ObjectId id)
@@ -72,6 +68,10 @@ namespace Job.Fasades
             return category.Name;
         }
 
-
+        public void Remove(ICategory category)
+        {
+            _userProfile.Base.Remove(CollectionString,(Category)category);
+            _categories.Remove((Category)category);
+        }
     }
 }
