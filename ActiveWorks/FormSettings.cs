@@ -13,7 +13,9 @@ using Job.Profiles;
 using Job.Statuses;
 using Job.UserForms;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -83,7 +85,11 @@ namespace ActiveWorks
         /// <param name="e"></param>
         private void УдалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (listBoxFolderNames.SelectedItems.Count == 0) return;
 
+            var selIdx = new List<int>(listBoxFolderNames.SelectedIndices.Cast<int>());
+            selIdx.Reverse();
+            selIdx.ForEach(i =>listBoxFolderNames.Items.RemoveAt(i));
         }
 
         private void ДобавитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -319,9 +325,12 @@ namespace ActiveWorks
 
             var browser = setup.GetFileBrowser();
 
-            if (browser.CustomButtonPath == null) browser.CustomButtonPath = new List<string>();
-            browser.CustomButtonPath.Clear();
+            browser.CustomButtonPath = new List<string>();
             browser.CustomButtonPath.AddRange(listBox_CustomButtonFolder.Items.Cast<string>().ToArray());
+
+            browser.FolderNamesForCreate = new List<string>();
+            browser.FolderNamesForCreate.AddRange(listBoxFolderNames.Items.Cast<string>().ToArray());
+
 
             setup.CountExplorers = numericUpDownCountExplorers.Value;
             //setup.ExplorerInRightPanel = checkBoxExplorerInRightPanel.Checked;
@@ -387,6 +396,9 @@ namespace ActiveWorks
             {
                 listBox_CustomButtonFolder.Items.AddRange(setup.GetFileBrowser().CustomButtonPath.ToArray());
             }
+
+            listBoxFolderNames.Items.Clear();
+            listBoxFolderNames.Items.AddRange(setup.GetFileBrowser().FolderNamesForCreate?.ToArray());
 
             listBox_Ftp_Servers.Items.Clear();
             listBox_Ftp_Servers.DisplayMember = "Name";
@@ -709,6 +721,14 @@ namespace ActiveWorks
         {
             _currentProfile.Categories.Remove((ICategory)e.Model);
             ReloadCategories();
+        }
+
+        private void buttonAddFolderName_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty( textBoxFolderName.Text)) return;
+            
+            listBoxFolderNames.Items.Add(textBoxFolderName.Text);
+            textBoxFolderName.Clear();
         }
     }
 }

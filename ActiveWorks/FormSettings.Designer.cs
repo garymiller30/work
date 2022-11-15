@@ -38,7 +38,7 @@
             this.buttonOpenSignaJobsFolder = new System.Windows.Forms.Button();
             this.label21 = new System.Windows.Forms.Label();
             this.textBoxFolderSignaJobs = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip_PlateFormat = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip_FolderNames = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -87,6 +87,10 @@
             this.выбратьПапкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageOther = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.buttonAddFolderName = new System.Windows.Forms.Button();
+            this.textBoxFolderName = new System.Windows.Forms.TextBox();
+            this.listBoxFolderNames = new System.Windows.Forms.ListBox();
             this.checkBoxUseViewer = new System.Windows.Forms.CheckBox();
             this.groupBoxViewer = new System.Windows.Forms.GroupBox();
             this.buttonSelectViewer = new System.Windows.Forms.Button();
@@ -185,7 +189,7 @@
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.statusChangeParamBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
-            this.contextMenuStrip_PlateFormat.SuspendLayout();
+            this.contextMenuStrip_FolderNames.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -203,6 +207,7 @@
             this.contextMenuStrip_Explorer.SuspendLayout();
             this.tabPageOther.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBoxViewer.SuspendLayout();
             this.groupBox13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCountExplorers)).BeginInit();
@@ -322,19 +327,19 @@
             this.textBoxFolderSignaJobs.Size = new System.Drawing.Size(349, 20);
             this.textBoxFolderSignaJobs.TabIndex = 7;
             // 
-            // contextMenuStrip_PlateFormat
+            // contextMenuStrip_FolderNames
             // 
-            this.contextMenuStrip_PlateFormat.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.contextMenuStrip_PlateFormat.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStrip_FolderNames.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.contextMenuStrip_FolderNames.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.удалитьToolStripMenuItem});
-            this.contextMenuStrip_PlateFormat.Name = "contextMenuStrip1";
-            this.contextMenuStrip_PlateFormat.Size = new System.Drawing.Size(126, 26);
+            this.contextMenuStrip_FolderNames.Name = "contextMenuStrip1";
+            this.contextMenuStrip_FolderNames.Size = new System.Drawing.Size(131, 26);
             // 
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Delete;
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.удалитьToolStripMenuItem.Text = "видалити";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.УдалитьToolStripMenuItem_Click);
             // 
@@ -696,19 +701,19 @@
             // 
             // contextMenuStrip_Utils
             // 
-            this.contextMenuStrip_Utils.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.contextMenuStrip_Utils.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.contextMenuStrip_Utils.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавитьToolStripMenuItem1,
             this.удалитьToolStripMenuItem2,
             this.выбратьФайлToolStripMenuItem});
             this.contextMenuStrip_Utils.Name = "contextMenuStrip_Utils";
-            this.contextMenuStrip_Utils.Size = new System.Drawing.Size(152, 70);
+            this.contextMenuStrip_Utils.Size = new System.Drawing.Size(160, 70);
             // 
             // добавитьToolStripMenuItem1
             // 
             this.добавитьToolStripMenuItem1.Image = global::ActiveWorks.Properties.Resources.Create;
             this.добавитьToolStripMenuItem1.Name = "добавитьToolStripMenuItem1";
-            this.добавитьToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
+            this.добавитьToolStripMenuItem1.Size = new System.Drawing.Size(159, 22);
             this.добавитьToolStripMenuItem1.Text = "додати";
             this.добавитьToolStripMenuItem1.Click += new System.EventHandler(this.ДобавитьToolStripMenuItem1_Click);
             // 
@@ -716,14 +721,14 @@
             // 
             this.удалитьToolStripMenuItem2.Image = global::ActiveWorks.Properties.Resources.Delete;
             this.удалитьToolStripMenuItem2.Name = "удалитьToolStripMenuItem2";
-            this.удалитьToolStripMenuItem2.Size = new System.Drawing.Size(151, 22);
+            this.удалитьToolStripMenuItem2.Size = new System.Drawing.Size(159, 22);
             this.удалитьToolStripMenuItem2.Text = "видалити";
             this.удалитьToolStripMenuItem2.Click += new System.EventHandler(this.УдалитьToolStripMenuItem2_Click);
             // 
             // выбратьФайлToolStripMenuItem
             // 
             this.выбратьФайлToolStripMenuItem.Name = "выбратьФайлToolStripMenuItem";
-            this.выбратьФайлToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.выбратьФайлToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.выбратьФайлToolStripMenuItem.Text = "вибрати файл";
             this.выбратьФайлToolStripMenuItem.Click += new System.EventHandler(this.ВыбратьФайлToolStripMenuItem_Click);
             // 
@@ -784,19 +789,19 @@
             // 
             // contextMenuStrip_Explorer
             // 
-            this.contextMenuStrip_Explorer.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.contextMenuStrip_Explorer.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.contextMenuStrip_Explorer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавитьToolStripMenuItem,
             this.удалитьToolStripMenuItem1,
             this.выбратьПапкуToolStripMenuItem});
             this.contextMenuStrip_Explorer.Name = "contextMenuStrip_Explorer";
-            this.contextMenuStrip_Explorer.Size = new System.Drawing.Size(155, 70);
+            this.contextMenuStrip_Explorer.Size = new System.Drawing.Size(163, 70);
             // 
             // добавитьToolStripMenuItem
             // 
             this.добавитьToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Create;
             this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
-            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.добавитьToolStripMenuItem.Text = "додати";
             this.добавитьToolStripMenuItem.Click += new System.EventHandler(this.ДобавитьToolStripMenuItem_Click);
             // 
@@ -804,7 +809,7 @@
             // 
             this.удалитьToolStripMenuItem1.Image = global::ActiveWorks.Properties.Resources.Delete;
             this.удалитьToolStripMenuItem1.Name = "удалитьToolStripMenuItem1";
-            this.удалитьToolStripMenuItem1.Size = new System.Drawing.Size(154, 22);
+            this.удалитьToolStripMenuItem1.Size = new System.Drawing.Size(162, 22);
             this.удалитьToolStripMenuItem1.Text = "видалити";
             this.удалитьToolStripMenuItem1.Click += new System.EventHandler(this.УдалитьToolStripMenuItem1_Click);
             // 
@@ -812,7 +817,7 @@
             // 
             this.выбратьПапкуToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Folder;
             this.выбратьПапкуToolStripMenuItem.Name = "выбратьПапкуToolStripMenuItem";
-            this.выбратьПапкуToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.выбратьПапкуToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.выбратьПапкуToolStripMenuItem.Text = "вибрати папку";
             this.выбратьПапкуToolStripMenuItem.Click += new System.EventHandler(this.ВыбратьПапкуToolStripMenuItem_Click);
             // 
@@ -829,6 +834,7 @@
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.groupBox3);
             this.groupBox8.Controls.Add(this.checkBoxUseViewer);
             this.groupBox8.Controls.Add(this.groupBoxViewer);
             this.groupBox8.Controls.Add(this.groupBox13);
@@ -841,6 +847,45 @@
             this.groupBox8.Size = new System.Drawing.Size(564, 316);
             this.groupBox8.TabIndex = 3;
             this.groupBox8.TabStop = false;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.buttonAddFolderName);
+            this.groupBox3.Controls.Add(this.textBoxFolderName);
+            this.groupBox3.Controls.Add(this.listBoxFolderNames);
+            this.groupBox3.Location = new System.Drawing.Point(278, 103);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(237, 136);
+            this.groupBox3.TabIndex = 13;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Папки для швидкого створення";
+            // 
+            // buttonAddFolderName
+            // 
+            this.buttonAddFolderName.Image = global::ActiveWorks.Properties.Resources.Actions_list_add_icon;
+            this.buttonAddFolderName.Location = new System.Drawing.Point(184, 16);
+            this.buttonAddFolderName.Name = "buttonAddFolderName";
+            this.buttonAddFolderName.Size = new System.Drawing.Size(47, 23);
+            this.buttonAddFolderName.TabIndex = 2;
+            this.buttonAddFolderName.UseVisualStyleBackColor = true;
+            this.buttonAddFolderName.Click += new System.EventHandler(this.buttonAddFolderName_Click);
+            // 
+            // textBoxFolderName
+            // 
+            this.textBoxFolderName.Location = new System.Drawing.Point(7, 20);
+            this.textBoxFolderName.Name = "textBoxFolderName";
+            this.textBoxFolderName.Size = new System.Drawing.Size(170, 20);
+            this.textBoxFolderName.TabIndex = 1;
+            // 
+            // listBoxFolderNames
+            // 
+            this.listBoxFolderNames.ContextMenuStrip = this.contextMenuStrip_FolderNames;
+            this.listBoxFolderNames.FormattingEnabled = true;
+            this.listBoxFolderNames.Location = new System.Drawing.Point(7, 46);
+            this.listBoxFolderNames.Name = "listBoxFolderNames";
+            this.listBoxFolderNames.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.listBoxFolderNames.Size = new System.Drawing.Size(224, 82);
+            this.listBoxFolderNames.TabIndex = 0;
             // 
             // checkBoxUseViewer
             // 
@@ -915,7 +960,7 @@
             this.groupBox13.Controls.Add(this.buttonExtBrowsersSettings);
             this.groupBox13.Controls.Add(this.numericUpDownCountExplorers);
             this.groupBox13.Controls.Add(this.label25);
-            this.groupBox13.Location = new System.Drawing.Point(278, 43);
+            this.groupBox13.Location = new System.Drawing.Point(278, 16);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(237, 81);
             this.groupBox13.TabIndex = 11;
@@ -1396,32 +1441,32 @@
             // 
             // contextMenuStripMails
             // 
-            this.contextMenuStripMails.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.contextMenuStripMails.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.contextMenuStripMails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.копіюватиToolStripMenuItem,
             this.toolStripSeparator1,
             this.deleteToolStripMenuItem});
             this.contextMenuStripMails.Name = "contextMenuStripMails";
-            this.contextMenuStripMails.Size = new System.Drawing.Size(135, 54);
+            this.contextMenuStripMails.Size = new System.Drawing.Size(142, 54);
             // 
             // копіюватиToolStripMenuItem
             // 
             this.копіюватиToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Copy;
             this.копіюватиToolStripMenuItem.Name = "копіюватиToolStripMenuItem";
-            this.копіюватиToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.копіюватиToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.копіюватиToolStripMenuItem.Text = "копіювати ";
             this.копіюватиToolStripMenuItem.Click += new System.EventHandler(this.копіюватиToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(131, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Delete;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.deleteToolStripMenuItem.Text = "видалити";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -1757,17 +1802,17 @@
             // 
             // contextMenuStrip_Mail
             // 
-            this.contextMenuStrip_Mail.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.contextMenuStrip_Mail.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.contextMenuStrip_Mail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.удалитьToolStripMenuItem3});
             this.contextMenuStrip_Mail.Name = "contextMenuStrip_Mail";
-            this.contextMenuStrip_Mail.Size = new System.Drawing.Size(126, 26);
+            this.contextMenuStrip_Mail.Size = new System.Drawing.Size(131, 26);
             // 
             // удалитьToolStripMenuItem3
             // 
             this.удалитьToolStripMenuItem3.Image = global::ActiveWorks.Properties.Resources.Delete;
             this.удалитьToolStripMenuItem3.Name = "удалитьToolStripMenuItem3";
-            this.удалитьToolStripMenuItem3.Size = new System.Drawing.Size(125, 22);
+            this.удалитьToolStripMenuItem3.Size = new System.Drawing.Size(130, 22);
             this.удалитьToolStripMenuItem3.Text = "видалити";
             this.удалитьToolStripMenuItem3.Click += new System.EventHandler(this.УдалитьToolStripMenuItem3_Click);
             // 
@@ -1892,7 +1937,7 @@
             this.Text = "Налаштування";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.contextMenuStrip_PlateFormat.ResumeLayout(false);
+            this.contextMenuStrip_FolderNames.ResumeLayout(false);
             this.tabControlMain.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
@@ -1913,6 +1958,8 @@
             this.contextMenuStrip_Explorer.ResumeLayout(false);
             this.tabPageOther.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBoxViewer.ResumeLayout(false);
             this.groupBoxViewer.PerformLayout();
             this.groupBox13.ResumeLayout(false);
@@ -1962,7 +2009,7 @@
         private System.Windows.Forms.Button button_WorkFolder;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox_Work;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_PlateFormat;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_FolderNames;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControlMain;
         private System.Windows.Forms.TabPage tabPage2;
@@ -2111,5 +2158,9 @@
         private BrightIdeasSoftware.ObjectListView objectListViewCategories;
         private BrightIdeasSoftware.OLVColumn olvColumnCategory;
         private BrightIdeasSoftware.OLVColumn olvColumnDeleteCategory;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button buttonAddFolderName;
+        private System.Windows.Forms.TextBox textBoxFolderName;
+        private System.Windows.Forms.ListBox listBoxFolderNames;
     }
 }

@@ -114,7 +114,10 @@ namespace MailNotifier
 
         private void StartWatching()
         {
-            if (!Validate()) return;
+            if (!Validate()){ 
+                Logger.Log.Error("Mail","StartWatching","Invalid mail settings");
+                return; 
+                }
 
             _tokenSource = new CancellationTokenSource();
             _token = _tokenSource.Token;
@@ -141,6 +144,10 @@ namespace MailNotifier
                     }
                     _reconnectEvent.Close();
                     _client?.Dispose();
+                }
+                else
+                {
+                    Logger.Log.Error("Mail", "StartWatching","Can`t create mail client");
                 }
 
             }, _token).ConfigureAwait(false);

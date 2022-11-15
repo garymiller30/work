@@ -55,12 +55,12 @@ namespace PluginSoundNotify
 
                     if (!string.IsNullOrEmpty(settings.FileName) && File.Exists(settings.FileName))
                     {
-                        Task.Run(() =>
+                        var player = new WMPLib.WindowsMediaPlayer
                         {
-                            var player = new WMPLib.WindowsMediaPlayer();
-                            player.URL = settings.FileName;
-                            player.controls.play();
-                        }).ConfigureAwait(false);
+                            URL = settings.FileName
+                        };
+                        player.controls.play();
+
                     }
                     break;
 
@@ -99,13 +99,13 @@ namespace PluginSoundNotify
 
                         foreach (var file in files)
                         {
-                            body +=$"<p>{file.Name}</p>";
+                            body += $"<p>{file.Name}</p>";
                         }
 
-                        
+
                     }
 
-                    Task.Run(()=>UserProfile.MailNotifier.SendToMany(emails,header,body,new string[0])).ConfigureAwait(false);
+                    Task.Run(() => UserProfile.MailNotifier.SendToMany(emails, header, body, new string[0])).ConfigureAwait(false);
 
 
                     break;

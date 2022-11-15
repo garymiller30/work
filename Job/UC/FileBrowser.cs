@@ -104,12 +104,11 @@ namespace Job.UC
             olvColumn_FileName.ImageGetter = x => helper.GetImageIndex(((IFileSystemInfoExt)x).FileInfo.FullName);
             olvColumn_DateTime.AspectGetter = x => ((IFileSystemInfoExt)x).FileInfo.LastWriteTime;
 
+            
+
         }
 
-        //private void Jobs_OnSetCurrentJob(object sender, IJob e)
-        //{
-        //    SetRootFolder(UserProfile.Jobs.GetFullPathToWorkFolder(e));
-        //}
+       
 
         #region [FILE MANAGER]
 
@@ -131,7 +130,7 @@ namespace Job.UC
 
         private void FileManagerOnOnSelectFileName(object sender, string e)
         {
-            var findingFile = e.ToLower();
+            string findingFile = e.ToLower();
 
             var file = objectListView1.Objects.Cast<IFileSystemInfoExt>()
                 .FirstOrDefault(x => x.FileInfo.Name.ToLower().Equals(findingFile));
@@ -1700,5 +1699,27 @@ namespace Job.UC
                 }
             }
         }
+
+        private void toolStripButton_NewFolder_DropDownOpening(object sender, EventArgs e)
+        {
+            // get from settings folder's names
+            var folders = UserProfile.Settings.GetFileBrowser().FolderNamesForCreate;
+
+            if (folders == null) return;
+
+            toolStripButton_NewFolder.DropDownItems.Clear();
+
+            foreach (var folder in folders)
+            {
+                string f = folder;
+                var item = new ToolStripMenuItem(f);
+                item.Click += (object s, EventArgs ea) => {
+                    _fileManager.CreateDirectoryInCurrentFolder(f);
+                };
+                toolStripButton_NewFolder.DropDownItems.Add(item);
+            }
+
+        }
+
     }
 }

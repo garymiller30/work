@@ -62,6 +62,7 @@
             this.розділитиОбкладинкуІБлокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.створитипустишкиЗТиражамиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зберегтиЯкJpgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertToPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setTrimBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
@@ -90,7 +91,7 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton_Refresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton_NewFolder = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_NewFolder = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripButton_Rename = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonCopyToClipboard = new System.Windows.Forms.ToolStripButton();
@@ -117,7 +118,6 @@
             this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
             this.kryptonLabelPath = new ComponentFactory.Krypton.Toolkit.KryptonLinkLabel();
             this.kryptonPalette1 = new ComponentFactory.Krypton.Toolkit.KryptonPalette(this.components);
-            this.зберегтиЯкJpgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -165,7 +165,7 @@
             // toolStripScriptPanel
             // 
             this.toolStripScriptPanel.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStripScriptPanel.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripScriptPanel.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.toolStripScriptPanel.Location = new System.Drawing.Point(3, 0);
             this.toolStripScriptPanel.Name = "toolStripScriptPanel";
             this.toolStripScriptPanel.Size = new System.Drawing.Size(111, 25);
@@ -334,7 +334,7 @@
             this.отправитьВToolStripMenuItem,
             this.утилитыToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(298, 464);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(298, 442);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // предварительныйПросмотрToolStripMenuItem
@@ -475,6 +475,13 @@
             this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem.Text = "Розвернути сторінки на 90° дзеркально";
             this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem.Click += new System.EventHandler(this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem_Click);
+            // 
+            // зберегтиЯкJpgToolStripMenuItem
+            // 
+            this.зберегтиЯкJpgToolStripMenuItem.Name = "зберегтиЯкJpgToolStripMenuItem";
+            this.зберегтиЯкJpgToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.зберегтиЯкJpgToolStripMenuItem.Text = "Зберегти як Jpg";
+            this.зберегтиЯкJpgToolStripMenuItem.Click += new System.EventHandler(this.зберегтиЯкJpgToolStripMenuItem_Click);
             // 
             // convertToPDFToolStripMenuItem
             // 
@@ -629,7 +636,7 @@
             // toolStripLeft
             // 
             this.toolStripLeft.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStripLeft.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripLeft.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.toolStripLeft.Location = new System.Drawing.Point(0, 3);
             this.toolStripLeft.Name = "toolStripLeft";
             this.toolStripLeft.Size = new System.Drawing.Size(26, 111);
@@ -638,7 +645,7 @@
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton_Up,
             this.toolStripSeparator4,
@@ -663,7 +670,7 @@
             this.toolStripButtonSettings});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(461, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(501, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -703,8 +710,9 @@
             this.toolStripButton_NewFolder.Image = global::Job.Properties.Resources.folder_new_icon;
             this.toolStripButton_NewFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_NewFolder.Name = "toolStripButton_NewFolder";
-            this.toolStripButton_NewFolder.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_NewFolder.Size = new System.Drawing.Size(32, 22);
             this.toolStripButton_NewFolder.Text = "створити нову папку";
+            this.toolStripButton_NewFolder.DropDownOpening += new System.EventHandler(this.toolStripButton_NewFolder_DropDownOpening);
             this.toolStripButton_NewFolder.Click += new System.EventHandler(this.СоздатьПапкуToolStripMenuItem_Click);
             // 
             // toolStripButton_Rename
@@ -841,7 +849,7 @@
             // openTrashToolStripMenuItem
             // 
             this.openTrashToolStripMenuItem.Name = "openTrashToolStripMenuItem";
-            this.openTrashToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.openTrashToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.openTrashToolStripMenuItem.Text = "відкрити кошик";
             this.openTrashToolStripMenuItem.Click += new System.EventHandler(this.openTrashToolStripMenuItem_Click);
             // 
@@ -864,7 +872,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabelCountFiles,
@@ -880,25 +888,25 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(48, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(51, 17);
             this.toolStripStatusLabel1.Text = "файлів:";
             // 
             // toolStripStatusLabelCountFiles
             // 
             this.toolStripStatusLabelCountFiles.Name = "toolStripStatusLabelCountFiles";
-            this.toolStripStatusLabelCountFiles.Size = new System.Drawing.Size(13, 17);
+            this.toolStripStatusLabelCountFiles.Size = new System.Drawing.Size(15, 17);
             this.toolStripStatusLabelCountFiles.Text = "0";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(57, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(63, 17);
             this.toolStripStatusLabel2.Text = "вибрано:";
             // 
             // toolStripStatusLabelSelected
             // 
             this.toolStripStatusLabelSelected.Name = "toolStripStatusLabelSelected";
-            this.toolStripStatusLabelSelected.Size = new System.Drawing.Size(13, 17);
+            this.toolStripStatusLabelSelected.Size = new System.Drawing.Size(15, 17);
             this.toolStripStatusLabelSelected.Text = "0";
             // 
             // kryptonPanel1
@@ -926,13 +934,6 @@
             // kryptonPalette1
             // 
             this.kryptonPalette1.CustomisedKryptonPaletteFilePath = null;
-            // 
-            // зберегтиЯкJpgToolStripMenuItem
-            // 
-            this.зберегтиЯкJpgToolStripMenuItem.Name = "зберегтиЯкJpgToolStripMenuItem";
-            this.зберегтиЯкJpgToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
-            this.зберегтиЯкJpgToolStripMenuItem.Text = "Зберегти як Jpg";
-            this.зберегтиЯкJpgToolStripMenuItem.Click += new System.EventHandler(this.зберегтиЯкJpgToolStripMenuItem_Click);
             // 
             // FileBrowser
             // 
@@ -976,7 +977,7 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton_Refresh;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripButton toolStripButton_NewFolder;
+        private System.Windows.Forms.ToolStripSplitButton toolStripButton_NewFolder;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripButton toolStripButton_Rename;
         private System.Windows.Forms.ToolStripButton toolStripButton_Delete;

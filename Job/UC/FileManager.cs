@@ -95,7 +95,7 @@ namespace Job.UC
                 await Task.Run(() =>
                 {
                     files = _cache.GetFiles(Settings.CurFolder);
-                }).ConfigureAwait(false);
+                }).ConfigureAwait(true);
             }
             catch
             {
@@ -422,7 +422,15 @@ namespace Job.UC
             {
                 var destFolder = Path.GetDirectoryName(sourceFolder);
 
-                MoveDir(sourceFolder, destFolder);
+                try
+                {
+                    MoveDir(sourceFolder, destFolder);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message,"Помилка",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                }
+                
 
 
             }

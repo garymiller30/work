@@ -13,6 +13,6 @@ namespace Job.Profiles
         public string ViewerCommandLine { get; set; }
 
         public List<string> CustomButtonPath { get; set; } = new List<string>();
-
+        public List<string> FolderNamesForCreate { get;set; } = new List<string>();
     }
 }
