@@ -140,26 +140,44 @@ namespace Job.UC
 
             _files.Clear();
 
-            if (Directory.Exists(path))
-            {
-                var dirs = Directory.GetDirectories(path)
-                    .Where(y => !y.EndsWith("temp", StringComparison.CurrentCultureIgnoreCase))
-                    .Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
-                dirs.Sort(_naturalCompaper);
+            if (!Directory.Exists(path)) return _files;
+
+            var dirs = Directory.GetDirectories(path)
+                .Where(y => !y.EndsWith("temp", StringComparison.CurrentCultureIgnoreCase))
+                .Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            dirs.Sort(_naturalCompaper);
 
 
-                _files.AddRange(dirs);
-                var f = Directory.GetFiles(path).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
-                f.Sort(_naturalCompaper);
+            _files.AddRange(dirs);
+            var f = Directory.GetFiles(path).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            f.Sort(_naturalCompaper);
 
-                _files.AddRange(f);
+            _files.AddRange(f);
 
 
-                SetWatcher(path);
-            }
+            SetWatcher(path);
 
             return _files;
         }
+
+        public List<IFileSystemInfoExt> GetAllFiles(string path)
+        {
+            DisableWatcher();
+
+            _files.Clear();
+
+            if (!Directory.Exists(path)) return _files;
+            
+            var f = Directory.GetFiles(path,"*.*",SearchOption.AllDirectories).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            f.Sort(_naturalCompaper);
+
+            _files.AddRange(f);
+
+            SetWatcher(path);
+
+            return _files;
+        }
+
 
         private void DisableWatcher()
         {

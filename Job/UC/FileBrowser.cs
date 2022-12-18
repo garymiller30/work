@@ -17,6 +17,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -130,18 +131,14 @@ namespace Job.UC
 
         private void FileManagerOnOnSelectFileName(object sender, string e)
         {
-            string findingFile = e.ToLower();
-
-            var file = objectListView1.Objects.Cast<IFileSystemInfoExt>()
-                .FirstOrDefault(x => x.FileInfo.Name.ToLower().Equals(findingFile));
+            IFileSystemInfoExt file = objectListView1.Objects.Cast<IFileSystemInfoExt>()
+                .FirstOrDefault(x => x.FileInfo.Name.Equals(e,StringComparison.InvariantCultureIgnoreCase));
             if (file != null) objectListView1.SelectObject(file);
 
         }
 
         private void FileManagerOnOnSelectParent(object sender, IFileSystemInfoExt e)
         {
-
-            //Debug.WriteLine($"select {e.FileInfo.FullName}");
             objectListView1.SelectObject(e, true);
         }
 
@@ -149,7 +146,6 @@ namespace Job.UC
         {
             objectListView1.ClearObjects();
             objectListView1.EmptyListMsg = Loading;
-
         }
 
         private void FileManager_OnError(object sender, string e)
@@ -160,7 +156,6 @@ namespace Job.UC
 
         private void FileManager_OnChangeFile(object sender, IFileSystemInfoExt e)
         {
-            //Debug.WriteLine($"Change {e.FileInfo.FullName}");
             if (_fileManager.Settings.ScanFiles)
                 e.GetExtendedFileInfoFormat();
 
@@ -170,28 +165,20 @@ namespace Job.UC
 
         private void FileManager_OnDeleteFile(object sender, IFileSystemInfoExt e)
         {
-            //Debug.WriteLine($"Delete {e.FileInfo.FullName}");
             objectListView1.RemoveObject(e);
             UpdateStatusControl();
         }
 
         private void FileManager_OnAddFile(object sender, IFileSystemInfoExt e)
         {
-            //Debug.WriteLine($"Add {e.FileInfo.FullName}");
-
-            //e.GetExtendedFileInfoFormat();
-
             objectListView1.AddObject(e);
-
             UpdateStatusControl();
         }
 
         private void FileManager_OnChangeRootDirectory(object sender, EventArgs e)
         {
-            //Debug.WriteLine("Change directory");
             objectListView1.ClearObjects();
             objectListView1.EmptyListMsg = Loading;
-
         }
 
         private void FileManager_OnRefreshDirectory(object sender, List<IFileSystemInfoExt> e)
@@ -1721,5 +1708,10 @@ namespace Job.UC
 
         }
 
+        private void показатиВсіФайлибезПапокToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            objectListView1.ClearObjects();
+            _fileManager.GetAllFilesWithoutDir();
+        }
     }
 }

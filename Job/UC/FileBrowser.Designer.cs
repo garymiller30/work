@@ -89,7 +89,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Up = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton_Refresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton_Refresh = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton_NewFolder = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripButton_Rename = new System.Windows.Forms.ToolStripButton();
@@ -118,6 +118,7 @@
             this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
             this.kryptonLabelPath = new ComponentFactory.Krypton.Toolkit.KryptonLinkLabel();
             this.kryptonPalette1 = new ComponentFactory.Krypton.Toolkit.KryptonPalette(this.components);
+            this.показатиВсіФайлибезПапокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -670,7 +671,7 @@
             this.toolStripButtonSettings});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(501, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(510, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -692,10 +693,12 @@
             // toolStripButton_Refresh
             // 
             this.toolStripButton_Refresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton_Refresh.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.показатиВсіФайлибезПапокToolStripMenuItem});
             this.toolStripButton_Refresh.Image = global::Job.Properties.Resources.Refresh;
             this.toolStripButton_Refresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_Refresh.Name = "toolStripButton_Refresh";
-            this.toolStripButton_Refresh.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton_Refresh.Size = new System.Drawing.Size(32, 22);
             this.toolStripButton_Refresh.Text = "Оновити";
             this.toolStripButton_Refresh.Click += new System.EventHandler(this.ОбновитьToolStripMenuItem_Click);
             // 
@@ -935,6 +938,13 @@
             // 
             this.kryptonPalette1.CustomisedKryptonPaletteFilePath = null;
             // 
+            // показатиВсіФайлибезПапокToolStripMenuItem
+            // 
+            this.показатиВсіФайлибезПапокToolStripMenuItem.Name = "показатиВсіФайлибезПапокToolStripMenuItem";
+            this.показатиВсіФайлибезПапокToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
+            this.показатиВсіФайлибезПапокToolStripMenuItem.Text = "показати всі файли (без папок)";
+            this.показатиВсіФайлибезПапокToolStripMenuItem.Click += new System.EventHandler(this.показатиВсіФайлибезПапокToolStripMenuItem_Click);
+            // 
             // FileBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -975,7 +985,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton_Refresh;
+        private System.Windows.Forms.ToolStripSplitButton toolStripButton_Refresh;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripSplitButton toolStripButton_NewFolder;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
@@ -1055,5 +1065,6 @@
         private System.Windows.Forms.ToolStripMenuItem зєднатиПарніІНепарніСторінкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem розділитиНаПарніІНепарніСторінкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem зберегтиЯкJpgToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem показатиВсіФайлибезПапокToolStripMenuItem;
     }
 }

@@ -5,6 +5,7 @@ using Interfaces;
 using Job.Static;
 using Microsoft.VisualBasic.FileIO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -246,8 +247,8 @@ namespace Job.UC
 
                 try
                 {
-                    if (file.IsDir) Directory.Delete(file.FileInfo.FullName, true);
-                    else File.Delete(file.FileInfo.FullName);
+                    if (file.IsDir) FileSystem.DeleteDirectory(file.FileInfo.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);// Directory.Delete(file.FileInfo.FullName, true);
+                    else FileSystem.DeleteFile(file.FileInfo.FullName,UIOption.OnlyErrorDialogs,RecycleOption.SendToRecycleBin);// File.Delete(file.FileInfo.FullName);
                 }
                 catch (IOException)
                 {
@@ -475,6 +476,25 @@ namespace Job.UC
             }
 
             Directory.Delete(sourceFolder);
+        }
+
+        public async void GetAllFilesWithoutDir()
+        {
+            List<IFileSystemInfoExt> files = new List<IFileSystemInfoExt>(1);
+            try
+            {
+                await Task.Run(() =>
+                {
+                    files = _cache.GetAllFiles(Settings.CurFolder);
+                }).ConfigureAwait(true);
+            }
+            catch
+            {
+
+
+            }
+
+            OnRefreshDirectory(this, files);
         }
     }
 

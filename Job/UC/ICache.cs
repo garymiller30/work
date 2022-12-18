@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Job.UC
@@ -13,6 +14,7 @@ namespace Job.UC
 
 
         List<T> GetFiles(string path);
+        List<T> GetAllFiles(string path);
         int GetCountFiles();
     }
 }

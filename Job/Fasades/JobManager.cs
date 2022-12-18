@@ -45,7 +45,7 @@ namespace Job.Fasades
 
         public void SetCurrentJob(IJob job)
         {
-            if (CurrentJob == job) return;
+            //if (CurrentJob == job) return;
 
             CurrentJob = job;
             OnSetCurrentJob(this, job);

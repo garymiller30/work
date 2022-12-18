@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Interfaces;
 
@@ -39,6 +40,7 @@ namespace Job.UC
         FileBrowserSettings Settings { get; set; }
 
         void MoveFolderContentsToHere(IFileSystemInfoExt folder);
+        void GetAllFilesWithoutDir();
         //IFileManager UseWatcher(IWatcher watcher);
         //IFileManager UseCache(ICache cache);
     }

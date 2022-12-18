@@ -32,5 +32,10 @@ namespace Job.UC
         {
             throw new NotImplementedException();
         }
+
+        public List<IFileSystemInfoExt> GetAllFiles(string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

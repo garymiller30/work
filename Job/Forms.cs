@@ -130,7 +130,7 @@ namespace Job
 
         public override int GetHashCode()
         {
-            return ($"{Format}{Format.OwnerId}").GetHashCode();
+            return StringComparer.Ordinal.GetHashCode($"{Format}{Format.OwnerId}");
         }
 
         public override string ToString()
