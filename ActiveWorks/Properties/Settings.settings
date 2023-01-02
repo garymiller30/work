@@ -85,5 +85,17 @@
 + додано можливість зупиняти таймер автоматичної перевірки FTP із скрипта.
   Викликається так: FtpExplorer.TimerStop()</Value>
     </Setting>
+    <Setting Name="VirtualScreenX" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="VirtualScreenY" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="VirtualScreenW" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="VirtualScreenH" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

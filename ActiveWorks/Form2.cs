@@ -127,6 +127,7 @@ namespace ActiveWorks
             {
                 Stopwatch sw = Stopwatch.StartNew();
                 sw.Start();
+
                 var tab = new KryptonRibbonTab { Text = profile.Settings.ProfileName };
                 kryptonRibbon1.RibbonTabs.Add(tab);
 
@@ -284,6 +285,10 @@ namespace ActiveWorks
             AutoCompleteStringCollection data = new AutoCompleteStringCollection();
             if (profile.Customers != null)
                 data.AddRange(profile.Customers.Select(x => x.Name).ToArray());
+            if (profile.Categories!= null)
+            {
+                data.AddRange(profile.Categories.GetAll().Select(x => x.Name).ToArray());
+            }
             combobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             combobox.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
@@ -486,13 +491,27 @@ namespace ActiveWorks
             kryptonRibbon1.SelectedTabChanged += KryptonRibbon1_SelectedTabChanged;
 
             var virtualSize = SystemInformation.VirtualScreen;
-            // Set window location
-            if (Settings.Default.WindowLocation.X >= virtualSize.X && Settings.Default.WindowLocation.Y >= virtualSize.Y)
-                if (Settings.Default.WindowLocation.X + Settings.Default.WindowSize.Width <= virtualSize.Width && Settings.Default.WindowLocation.Y + Settings.Default.WindowSize.Height <= virtualSize.Height)
-                    Location = Settings.Default.WindowLocation;
 
-            // Set window size
-            Size = Settings.Default.WindowSize;
+            if (Settings.Default.VirtualScreenX == virtualSize.X &&
+                Settings.Default.VirtualScreenY == virtualSize.Y &&
+                Settings.Default.VirtualScreenW == virtualSize.Width &&
+                Settings.Default.VirtualScreenH == virtualSize.Height)
+            {
+                Location = Settings.Default.WindowLocation;
+                // Set window size
+                Size = Settings.Default.WindowSize;
+            }
+            else
+            {
+                Size = RestoreBounds.Size;
+            }
+
+            //// Set window location
+            //if (Settings.Default.WindowLocation.X >= virtualSize.X && Settings.Default.WindowLocation.Y >= virtualSize.Y)
+            //    if (Settings.Default.WindowLocation.X + Settings.Default.WindowSize.Width <= virtualSize.Width && Settings.Default.WindowLocation.Y + Settings.Default.WindowSize.Height <= virtualSize.Height)
+            //        Location = Settings.Default.WindowLocation;
+
+            
             ResumeLayout();
             SplashScreen.Splash.CloseForm();
             Activate();
@@ -506,11 +525,16 @@ namespace ActiveWorks
             // Copy window location to app settings
 
             Settings.Default.WindowLocation = Location;
-
+            Settings.Default.WindowSize = Size;
+            var vs = SystemInformation.VirtualScreen;
+            Settings.Default.VirtualScreenX = vs.X;
+            Settings.Default.VirtualScreenY = vs.Y;
+            Settings.Default.VirtualScreenW = vs.Width;
+            Settings.Default.VirtualScreenH = vs.Height;
             // Copy window size to app settings
-            Settings.Default.WindowSize =
-                WindowState == FormWindowState.Normal ?
-                Size : RestoreBounds.Size;
+            //Settings.Default.WindowSize =
+            //    WindowState == FormWindowState.Normal ?
+            //    Size : RestoreBounds.Size;
 
             // Save settings
             Settings.Default.Save();
