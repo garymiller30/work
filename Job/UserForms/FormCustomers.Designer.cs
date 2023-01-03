@@ -39,14 +39,14 @@
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectListView_FtpServers = new BrightIdeasSoftware.ObjectListView();
             this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.kryptonButtonNotify = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.kryptonGroupBoxParameters = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonGroupBoxFTP = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonCheckBoxUseFtp = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
-            this.kryptonSplitContainer1 = new ComponentFactory.Krypton.Toolkit.KryptonSplitContainer();
-            this.kryptonTextBoxCustomerFilter = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.kryptonLabel1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.kryptonButtonNotify = new Krypton.Toolkit.KryptonButton();
+            this.kryptonGroupBoxParameters = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonGroupBoxFTP = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonCheckBoxUseFtp = new Krypton.Toolkit.KryptonCheckBox();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonSplitContainer1 = new Krypton.Toolkit.KryptonSplitContainer();
+            this.kryptonTextBoxCustomerFilter = new Krypton.Toolkit.KryptonTextBox();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_Customers)).BeginInit();
             this.contextMenuStrip_Customers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_FtpServers)).BeginInit();
@@ -178,9 +178,9 @@
             this.kryptonButtonNotify.Location = new System.Drawing.Point(17, 394);
             this.kryptonButtonNotify.Name = "kryptonButtonNotify";
             this.kryptonButtonNotify.Size = new System.Drawing.Size(220, 43);
-            this.kryptonButtonNotify.StateNormal.Content.LongText.MultiLine = ComponentFactory.Krypton.Toolkit.InheritBool.True;
-            this.kryptonButtonNotify.StatePressed.Content.LongText.MultiLine = ComponentFactory.Krypton.Toolkit.InheritBool.True;
-            this.kryptonButtonNotify.StateTracking.Content.LongText.MultiLine = ComponentFactory.Krypton.Toolkit.InheritBool.True;
+            this.kryptonButtonNotify.StateNormal.Content.LongText.MultiLine = Krypton.Toolkit.InheritBool.True;
+            this.kryptonButtonNotify.StatePressed.Content.LongText.MultiLine = Krypton.Toolkit.InheritBool.True;
+            this.kryptonButtonNotify.StateTracking.Content.LongText.MultiLine = Krypton.Toolkit.InheritBool.True;
             this.kryptonButtonNotify.TabIndex = 10;
             this.kryptonButtonNotify.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButtonNotify.Values.Image")));
             this.kryptonButtonNotify.Values.Text = "настройка відправки \r\nповідомлень";
@@ -320,14 +320,14 @@
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
         private BrightIdeasSoftware.ObjectListView objectListView_FtpServers;
         private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButtonNotify;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBoxParameters;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBoxFTP;
-        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox kryptonCheckBoxUseFtp;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox kryptonTextBoxCustomerFilter;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonSplitContainer kryptonSplitContainer1;
+        private Krypton.Toolkit.KryptonButton kryptonButtonNotify;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBoxParameters;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBoxFTP;
+        private Krypton.Toolkit.KryptonCheckBox kryptonCheckBoxUseFtp;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel1;
+        private Krypton.Toolkit.KryptonTextBox kryptonTextBoxCustomerFilter;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonSplitContainer kryptonSplitContainer1;
         private BrightIdeasSoftware.OLVColumn olvColumnFTP;
     }
 }

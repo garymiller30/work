@@ -115,9 +115,9 @@
             this.toolStripStatusLabelCountFiles = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelSelected = new System.Windows.Forms.ToolStripStatusLabel();
-            this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
-            this.kryptonLabelPath = new ComponentFactory.Krypton.Toolkit.KryptonLinkLabel();
-            this.kryptonPalette1 = new ComponentFactory.Krypton.Toolkit.KryptonPalette(this.components);
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonLabelPath = new Krypton.Toolkit.KryptonLinkLabel();
+            this.kryptonPalette1 = new Krypton.Toolkit.KryptonPalette(this.components);
             this.показатиВсіФайлибезПапокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -936,7 +936,7 @@
             // 
             // kryptonPalette1
             // 
-            this.kryptonPalette1.CustomisedKryptonPaletteFilePath = null;
+            //this.kryptonPalette1.CustomisedKryptonPaletteFilePath = null;
             // 
             // показатиВсіФайлибезПапокToolStripMenuItem
             // 
@@ -1047,9 +1047,9 @@
         private System.Windows.Forms.ToolStripMenuItem createNewOrderFromFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButtonTrash;
         private System.Windows.Forms.ToolStripMenuItem openTrashToolStripMenuItem;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonPalette kryptonPalette1;
-        private ComponentFactory.Krypton.Toolkit.KryptonLinkLabel kryptonLabelPath;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel1;
+        private Krypton.Toolkit.KryptonPalette kryptonPalette1;
+        private Krypton.Toolkit.KryptonLinkLabel kryptonLabelPath;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripMenuItem перенестиВмістПапкиСюдиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem витягтиСторінкиToolStripMenuItem;

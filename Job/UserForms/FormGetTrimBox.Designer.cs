@@ -28,31 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
-            this.buttonOk = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.kryptonGroupBox1 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonButtonBleed3 = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.kryptonButtonBleed5 = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.kryptonButtonBleed1 = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.kryptonButtonBleed2 = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.buttonOk = new Krypton.Toolkit.KryptonButton();
+            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonButtonBleed3 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButtonBleed5 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButtonBleed1 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButtonBleed2 = new Krypton.Toolkit.KryptonButton();
             this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownByBleeds = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
-            this.radioButtonBySpread = new ComponentFactory.Krypton.Toolkit.KryptonRadioButton();
-            this.panel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
+            this.radioButtonBySpread = new Krypton.Toolkit.KryptonRadioButton();
+            this.panel1 = new Krypton.Toolkit.KryptonPanel();
             this.numericUpDownBottom = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownOutside = new System.Windows.Forms.NumericUpDown();
-            this.kryptonLabel6 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel6 = new Krypton.Toolkit.KryptonLabel();
             this.numericUpDownInside = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownTop = new System.Windows.Forms.NumericUpDown();
-            this.kryptonLabel5 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.kryptonLabel4 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.kryptonLabel3 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.radioButtonByBleeds = new ComponentFactory.Krypton.Toolkit.KryptonRadioButton();
-            this.kryptonLabel2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.byFormat = new ComponentFactory.Krypton.Toolkit.KryptonRadioButton();
-            this.kryptonLabel1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.buttonSpecAny1 = new ComponentFactory.Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
+            this.radioButtonByBleeds = new Krypton.Toolkit.KryptonRadioButton();
+            this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
+            this.byFormat = new Krypton.Toolkit.KryptonRadioButton();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
@@ -376,7 +376,7 @@
             // 
             // buttonSpecAny1
             // 
-            this.buttonSpecAny1.Type = ComponentFactory.Krypton.Toolkit.PaletteButtonSpecStyle.Close;
+            this.buttonSpecAny1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Close;
             this.buttonSpecAny1.UniqueName = "f423ee8272694c09961083c2f8053335";
             // 
             // FormGetTrimBox
@@ -415,20 +415,20 @@
         }
 
         #endregion
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel panel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel6;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel5;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel4;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel3;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel2;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton buttonOk;
-        private ComponentFactory.Krypton.Toolkit.KryptonRadioButton byFormat;
-        private ComponentFactory.Krypton.Toolkit.KryptonRadioButton radioButtonBySpread;
-        private ComponentFactory.Krypton.Toolkit.KryptonRadioButton radioButtonByBleeds;
-        private ComponentFactory.Krypton.Toolkit.ButtonSpecAny buttonSpecAny1;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel1;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
+        private Krypton.Toolkit.KryptonPanel panel1;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel6;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel5;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel4;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel3;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel2;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonButton buttonOk;
+        private Krypton.Toolkit.KryptonRadioButton byFormat;
+        private Krypton.Toolkit.KryptonRadioButton radioButtonBySpread;
+        private Krypton.Toolkit.KryptonRadioButton radioButtonByBleeds;
+        private Krypton.Toolkit.ButtonSpecAny buttonSpecAny1;
         private System.Windows.Forms.NumericUpDown numericUpDownWidth;
         private System.Windows.Forms.NumericUpDown numericUpDownByBleeds;
         private System.Windows.Forms.NumericUpDown numericUpDownHeight;
@@ -436,9 +436,9 @@
         private System.Windows.Forms.NumericUpDown numericUpDownOutside;
         private System.Windows.Forms.NumericUpDown numericUpDownInside;
         private System.Windows.Forms.NumericUpDown numericUpDownTop;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButtonBleed1;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButtonBleed2;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButtonBleed3;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButtonBleed5;
+        private Krypton.Toolkit.KryptonButton kryptonButtonBleed1;
+        private Krypton.Toolkit.KryptonButton kryptonButtonBleed2;
+        private Krypton.Toolkit.KryptonButton kryptonButtonBleed3;
+        private Krypton.Toolkit.KryptonButton kryptonButtonBleed5;
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 using ExtensionMethods;
 using PluginAddWorkFromPolymix.Model;
 

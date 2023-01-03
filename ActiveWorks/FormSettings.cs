@@ -4,7 +4,7 @@
 
 using ActiveWorks.Forms;
 using BrightIdeasSoftware;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 using Interfaces;
 using Job;
 using Job.CustomForms;

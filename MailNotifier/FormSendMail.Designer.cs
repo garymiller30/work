@@ -34,7 +34,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBoxHeader = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.richTextBoxMessage = new ComponentFactory.Krypton.Toolkit.KryptonRichTextBox();
+            this.richTextBoxMessage = new Krypton.Toolkit.KryptonRichTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.buttonRemoveAttach = new System.Windows.Forms.Button();
             this.buttonAddAttach = new System.Windows.Forms.Button();
@@ -43,8 +43,8 @@
             this.toolStripDropDownButtonMailShablons = new System.Windows.Forms.ToolStripDropDownButton();
             this.saveAsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
-            this.kryptonButtonSend = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonButtonSend = new Krypton.Toolkit.KryptonButton();
             this.groupBoxTotal = new System.Windows.Forms.GroupBox();
             this.labelTotal = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -301,9 +301,9 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonMailShablons;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButtonSend;
-        private ComponentFactory.Krypton.Toolkit.KryptonRichTextBox richTextBoxMessage;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel1;
+        private Krypton.Toolkit.KryptonButton kryptonButtonSend;
+        private Krypton.Toolkit.KryptonRichTextBox richTextBoxMessage;
         private System.Windows.Forms.GroupBox groupBoxTotal;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label labelTotal;

@@ -31,18 +31,18 @@
             this.ucNote1 = new Job.UC.UcNote();
             this.objectListViewFilter = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.kryptonButtonOk = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.kryptonGroupBox1 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonButton1 = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.kryptonGroupBox2 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.comboBoxPolymix = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.textBoxNumber = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.comboBoxCustomer = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.ucTexBoxDescripion = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.kryptonGroupBox3 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonGroupBox4 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonGroupBox5 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonGroupBox6 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonButtonOk = new Krypton.Toolkit.KryptonButton();
+            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonGroupBox2 = new Krypton.Toolkit.KryptonGroupBox();
+            this.comboBoxPolymix = new Krypton.Toolkit.KryptonComboBox();
+            this.textBoxNumber = new Krypton.Toolkit.KryptonTextBox();
+            this.comboBoxCustomer = new Krypton.Toolkit.KryptonComboBox();
+            this.ucTexBoxDescripion = new Krypton.Toolkit.KryptonTextBox();
+            this.kryptonGroupBox3 = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonGroupBox4 = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonGroupBox5 = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonGroupBox6 = new Krypton.Toolkit.KryptonGroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewFilter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
@@ -132,7 +132,7 @@
             // 
             this.kryptonButton1.Location = new System.Drawing.Point(20, 311);
             this.kryptonButton1.Name = "kryptonButton1";
-            this.kryptonButton1.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.Office2007Silver;
+            this.kryptonButton1.PaletteMode = Krypton.Toolkit.PaletteMode.Office2007Silver;
             this.kryptonButton1.Size = new System.Drawing.Size(171, 31);
             this.kryptonButton1.TabIndex = 1;
             this.kryptonButton1.Values.Text = "застосувати фільтр";
@@ -159,7 +159,7 @@
             this.comboBoxPolymix.Location = new System.Drawing.Point(0, 0);
             this.comboBoxPolymix.Name = "comboBoxPolymix";
             this.comboBoxPolymix.Size = new System.Drawing.Size(539, 23);
-            this.comboBoxPolymix.StateCommon.ComboBox.Content.TextH = ComponentFactory.Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.comboBoxPolymix.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxPolymix.TabIndex = 0;
             this.comboBoxPolymix.SelectedIndexChanged += new System.EventHandler(this.comboBoxPolymix_SelectedIndexChanged);
             // 
@@ -171,7 +171,7 @@
             this.textBoxNumber.ReadOnly = true;
             this.textBoxNumber.Size = new System.Drawing.Size(130, 21);
             this.textBoxNumber.StateCommon.Content.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxNumber.StateCommon.Content.TextH = ComponentFactory.Krypton.Toolkit.PaletteRelativeAlign.Inherit;
+            this.textBoxNumber.StateCommon.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Inherit;
             this.textBoxNumber.TabIndex = 17;
             this.textBoxNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -183,7 +183,7 @@
             this.comboBoxCustomer.Location = new System.Drawing.Point(0, 0);
             this.comboBoxCustomer.Name = "comboBoxCustomer";
             this.comboBoxCustomer.Size = new System.Drawing.Size(210, 23);
-            this.comboBoxCustomer.StateCommon.ComboBox.Content.TextH = ComponentFactory.Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.comboBoxCustomer.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBoxCustomer.TabIndex = 18;
             // 
             // ucTexBoxDescripion
@@ -301,17 +301,17 @@
         private Job.UC.UcNote ucNote1;
         private BrightIdeasSoftware.ObjectListView objectListViewFilter;
         private BrightIdeasSoftware.OLVColumn olvColumnName;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButtonOk;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButton1;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox2;
-        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxPolymix;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox textBoxNumber;
-        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBoxCustomer;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox ucTexBoxDescripion;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox3;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox4;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox5;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox6;
+        private Krypton.Toolkit.KryptonButton kryptonButtonOk;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
+        private Krypton.Toolkit.KryptonButton kryptonButton1;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox2;
+        private Krypton.Toolkit.KryptonComboBox comboBoxPolymix;
+        private Krypton.Toolkit.KryptonTextBox textBoxNumber;
+        private Krypton.Toolkit.KryptonComboBox comboBoxCustomer;
+        private Krypton.Toolkit.KryptonTextBox ucTexBoxDescripion;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox3;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox4;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox5;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox6;
     }
 }

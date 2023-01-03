@@ -10,8 +10,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
 using BackgroundTaskServiceLib;
+using Krypton.Toolkit;
 
 namespace MailNotifier
 {

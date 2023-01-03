@@ -5,8 +5,8 @@
 using ActiveWorks.Forms;
 using ActiveWorks.Properties;
 using ActiveWorks.UserControls;
-using ComponentFactory.Krypton.Ribbon;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Ribbon;
+using Krypton.Toolkit;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.Plugins;
@@ -285,7 +285,7 @@ namespace ActiveWorks
             AutoCompleteStringCollection data = new AutoCompleteStringCollection();
             if (profile.Customers != null)
                 data.AddRange(profile.Customers.Select(x => x.Name).ToArray());
-            if (profile.Categories!= null)
+            if (profile.Categories != null)
             {
                 data.AddRange(profile.Categories.GetAll().Select(x => x.Name).ToArray());
             }
@@ -389,17 +389,20 @@ namespace ActiveWorks
 
             foreach (IJobStatus status in profile.StatusManager.GetJobStatuses())
             {
+
+
                 var button = new KryptonRibbonGroupButton()
                 {
-                    ToolTipStyle = LabelStyle.ToolTip,
-                    ToolTipBody = status.Name,
+
+                    //ToolTipStyle = LabelStyle.ToolTip,
+                    //ToolTipBody = status.Name,
                     TextLine1 = status.Name,
-                    //TextLine2 = string.Empty,
                     ImageSmall = status.Img,
                     ButtonType = GroupButtonType.Check,
                     Tag = status
-
                 };
+
+
 
                 button.Click += (sender, args) =>
                 {
@@ -433,8 +436,9 @@ namespace ActiveWorks
             {
                 var button = new KryptonRibbonGroupButton
                 {
-                    ToolTipBody = status.Name,
                     TextLine1 = status.Name,
+                    //ToolTipBody = status.Name,
+                    //TextLine1 = status.Name,
                     ImageSmall = status.Img,
                     Tag = status
                 };
@@ -469,7 +473,13 @@ namespace ActiveWorks
             IPluginNewOrder[] plugins = profile.Plugins?.GetPluginsNewOrder() ?? new IPluginNewOrder[0];
             if (plugins.Any())
             {
-                button = new KryptonRibbonGroupButton { TextLine1 = plugins[0].PluginName, ImageLarge = plugins[0].PluginImage, ToolTipBody = plugins[0].PluginDescription };
+                button = new KryptonRibbonGroupButton
+                {
+                    TextLine1 = plugins[0].PluginName,
+                    ImageLarge = plugins[0].PluginImage,
+
+                    //ToolTipBody = plugins[0].PluginDescription 
+                };
                 button.Click += (sender, args) => profile.Jobs.CreateJob(plugins[0]);
                 groupTriple.Items.Add(button);
             }
@@ -511,7 +521,7 @@ namespace ActiveWorks
             //    if (Settings.Default.WindowLocation.X + Settings.Default.WindowSize.Width <= virtualSize.Width && Settings.Default.WindowLocation.Y + Settings.Default.WindowSize.Height <= virtualSize.Height)
             //        Location = Settings.Default.WindowLocation;
 
-            
+
             ResumeLayout();
             SplashScreen.Splash.CloseForm();
             Activate();

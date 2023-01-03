@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 using Interfaces;
 
 namespace Job.UserForms

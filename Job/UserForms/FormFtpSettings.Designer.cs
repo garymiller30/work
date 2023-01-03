@@ -28,24 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
-            this.kryptonButton1 = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.kryptonGroupBox1 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.textBox_FtpName = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.kryptonGroupBox2 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonLabel1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.textBox_FtpServer = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.checkBox_ActiveMode = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonLabel2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.comboBox_Encoding = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.kryptonLabel3 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.textBox_FtpUser = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.kryptonLabel4 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.textBox_FtpPassword = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.kryptonLabel5 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.textBox_RootFolder = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.buttonSpecAnyClear = new ComponentFactory.Krypton.Toolkit.ButtonSpecAny();
-            this.buttonSpecAnySelectFolder = new ComponentFactory.Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.textBox_FtpName = new Krypton.Toolkit.KryptonTextBox();
+            this.kryptonGroupBox2 = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.textBox_FtpServer = new Krypton.Toolkit.KryptonTextBox();
+            this.checkBox_ActiveMode = new Krypton.Toolkit.KryptonCheckBox();
+            this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
+            this.comboBox_Encoding = new Krypton.Toolkit.KryptonComboBox();
+            this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
+            this.textBox_FtpUser = new Krypton.Toolkit.KryptonTextBox();
+            this.kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
+            this.textBox_FtpPassword = new Krypton.Toolkit.KryptonTextBox();
+            this.kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
+            this.textBox_RootFolder = new Krypton.Toolkit.KryptonTextBox();
+            this.buttonSpecAnyClear = new Krypton.Toolkit.ButtonSpecAny();
+            this.buttonSpecAnySelectFolder = new Krypton.Toolkit.ButtonSpecAny();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
@@ -161,7 +161,7 @@
             this.comboBox_Encoding.Location = new System.Drawing.Point(4, 77);
             this.comboBox_Encoding.Name = "comboBox_Encoding";
             this.comboBox_Encoding.Size = new System.Drawing.Size(124, 21);
-            this.comboBox_Encoding.StateCommon.ComboBox.Content.TextH = ComponentFactory.Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.comboBox_Encoding.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.comboBox_Encoding.TabIndex = 4;
             // 
             // kryptonLabel3
@@ -204,7 +204,7 @@
             // 
             // textBox_RootFolder
             // 
-            this.textBox_RootFolder.ButtonSpecs.AddRange(new ComponentFactory.Krypton.Toolkit.ButtonSpecAny[] {
+            this.textBox_RootFolder.ButtonSpecs.AddRange(new Krypton.Toolkit.ButtonSpecAny[] {
             this.buttonSpecAnyClear,
             this.buttonSpecAnySelectFolder});
             this.textBox_RootFolder.Location = new System.Drawing.Point(230, 75);
@@ -215,15 +215,15 @@
             // 
             // buttonSpecAnyClear
             // 
-            this.buttonSpecAnyClear.Style = ComponentFactory.Krypton.Toolkit.PaletteButtonStyle.ButtonSpec;
-            this.buttonSpecAnyClear.Type = ComponentFactory.Krypton.Toolkit.PaletteButtonSpecStyle.Close;
+            this.buttonSpecAnyClear.Style = Krypton.Toolkit.PaletteButtonStyle.ButtonSpec;
+            this.buttonSpecAnyClear.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Close;
             this.buttonSpecAnyClear.UniqueName = "bca844d78bd245ac8197085715f55805";
             this.buttonSpecAnyClear.Click += new System.EventHandler(this.Button_Reset_Click);
             // 
             // buttonSpecAnySelectFolder
             // 
-            this.buttonSpecAnySelectFolder.Style = ComponentFactory.Krypton.Toolkit.PaletteButtonStyle.ButtonSpec;
-            this.buttonSpecAnySelectFolder.Type = ComponentFactory.Krypton.Toolkit.PaletteButtonSpecStyle.Context;
+            this.buttonSpecAnySelectFolder.Style = Krypton.Toolkit.PaletteButtonStyle.ButtonSpec;
+            this.buttonSpecAnySelectFolder.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Context;
             this.buttonSpecAnySelectFolder.UniqueName = "9ceafe2497d2463eb1af50a496cfb086";
             this.buttonSpecAnySelectFolder.Click += new System.EventHandler(this.button_SelectFTPFolder_Click);
             // 
@@ -258,23 +258,23 @@
         }
 
         #endregion
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox2;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox textBox_FtpServer;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox textBox_FtpName;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButton1;
-        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBox_ActiveMode;
-        private ComponentFactory.Krypton.Toolkit.KryptonComboBox comboBox_Encoding;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel2;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox textBox_FtpUser;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel3;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox textBox_FtpPassword;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel4;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox textBox_RootFolder;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel5;
-        private ComponentFactory.Krypton.Toolkit.ButtonSpecAny buttonSpecAnyClear;
-        private ComponentFactory.Krypton.Toolkit.ButtonSpecAny buttonSpecAnySelectFolder;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel1;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox2;
+        private Krypton.Toolkit.KryptonTextBox textBox_FtpServer;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
+        private Krypton.Toolkit.KryptonTextBox textBox_FtpName;
+        private Krypton.Toolkit.KryptonButton kryptonButton1;
+        private Krypton.Toolkit.KryptonCheckBox checkBox_ActiveMode;
+        private Krypton.Toolkit.KryptonComboBox comboBox_Encoding;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel2;
+        private Krypton.Toolkit.KryptonTextBox textBox_FtpUser;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel3;
+        private Krypton.Toolkit.KryptonTextBox textBox_FtpPassword;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel4;
+        private Krypton.Toolkit.KryptonTextBox textBox_RootFolder;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel5;
+        private Krypton.Toolkit.ButtonSpecAny buttonSpecAnyClear;
+        private Krypton.Toolkit.ButtonSpecAny buttonSpecAnySelectFolder;
     }
 }

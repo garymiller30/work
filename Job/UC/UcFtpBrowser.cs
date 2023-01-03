@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 using FtpClient;
 using Interfaces;
 using Interfaces.Ftp;

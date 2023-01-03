@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.kryptonPanel = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
-            this.kryptonDockingManager = new ComponentFactory.Krypton.Docking.KryptonDockingManager();
+            this.kryptonPanel = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonDockingManager = new Krypton.Docking.KryptonDockingManager();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,7 +61,7 @@
 
         #endregion
 
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel;
-        private ComponentFactory.Krypton.Docking.KryptonDockingManager kryptonDockingManager;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel;
+        private Krypton.Docking.KryptonDockingManager kryptonDockingManager;
     }
 }

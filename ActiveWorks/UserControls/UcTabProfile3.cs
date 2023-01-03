@@ -1,7 +1,8 @@
-﻿using ComponentFactory.Krypton.Docking;
-using ComponentFactory.Krypton.Navigator;
-using ComponentFactory.Krypton.Workspace;
+﻿
 using Interfaces;
+using Krypton.Docking;
+using Krypton.Navigator;
+using Krypton.Workspace;
 using System;
 using System.Diagnostics;
 using System.IO;
