@@ -393,7 +393,7 @@ namespace ActiveWorks
 
                 var button = new KryptonRibbonGroupButton()
                 {
-
+                    
                     //ToolTipStyle = LabelStyle.ToolTip,
                     //ToolTipBody = status.Name,
                     TextLine1 = status.Name,
