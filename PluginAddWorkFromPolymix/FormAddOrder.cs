@@ -147,7 +147,7 @@ namespace PluginAddWorkFromPolymix
         {
             var order = (PolymixOrder) comboBoxPolymix.SelectedItem;
             textBoxNumber.Text = order.Number.ToString("D5");
-            ucTexBoxDescripion.Text = order.Description.Split(',').First().Transliteration();
+            ucTexBoxDescripion.Text = order.Description.Split(',').First();
 
             ucNote1.SetText(order.Description);
 

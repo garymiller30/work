@@ -221,7 +221,7 @@ namespace Job.UserForms
             // 
             this.textBox_Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Description.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            
             this.textBox_Description.Location = new System.Drawing.Point(49, 3);
             this.textBox_Description.Name = "textBox_Description";
             this.textBox_Description.Size = new System.Drawing.Size(463, 20);

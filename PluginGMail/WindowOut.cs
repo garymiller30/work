@@ -50,8 +50,16 @@ namespace PluginGMail
         public void SetCurJob(IJob curJob)
         {
             if (curJob == null) { return; }
-            var folder = UserProfile.Jobs.GetFullPathToWorkFolder(curJob);
-            webView21.CoreWebView2.Profile.DefaultDownloadFolderPath = folder;
+            try
+            {
+                var folder = UserProfile.Jobs.GetFullPathToWorkFolder(curJob);
+                webView21.CoreWebView2.Profile.DefaultDownloadFolderPath = folder;
+
+            }
+            catch 
+            {
+                
+            }
             //throw new NotImplementedException();
         }
 

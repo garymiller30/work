@@ -159,6 +159,7 @@ namespace PluginMailAttachmentsToNextcloud
         public string PluginDescription { get; } = "Завантажує завеликі файли на сервер nextcloud і вставляє лінки в тіло листа";
         public void ShowSettingsDlg()
         {
+            LoadSettings();
             using (var form = new FormSettings(Settings))
             {
                 if (form.ShowDialog() == DialogResult.OK)

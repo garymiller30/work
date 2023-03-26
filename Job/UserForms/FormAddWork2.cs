@@ -8,10 +8,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Krypton.Toolkit;
-using ExtensionMethods;
 using Interfaces;
 using Job.Profiles;
-using Job.Static;
 using MongoDB.Bson;
 
 namespace Job.UserForms
@@ -174,42 +172,7 @@ namespace Job.UserForms
 
         }
 
-        //private void TextBox_Description_KeyPress(object sender, KeyPressEventArgs e)
-        //{
-        //    //if (e.KeyChar == (char)Keys.Delete || e.KeyChar == (char)'\b')
-        //    //    e.Handled = false;
-        //    //else if (ModifierKeys.HasFlag(Keys.Control) && e.KeyChar == 22)
-        //    //{
-        //    //    var clipboard = Clipboard.GetDataObject();
-        //    //    if (clipboard != null)
-        //    //    {
-        //    //        if (clipboard.GetDataPresent(DataFormats.StringFormat))
-        //    //        {
-        //    //            string fn = (string)clipboard.GetData(DataFormats.StringFormat);
 
-        //    //            try
-        //    //            {
-        //    //                fn = Path.GetFileNameWithoutExtension(fn);
-        //    //            }
-        //    //            catch { }
-
-        //    //            finally
-        //    //            {
-        //    //                fn = fn.Transliteration();
-        //    //            }
-        //    //            InsertTextToTextbox(textBox_Description, fn);
-        //    //            //InsertTextToTextbox(textBox_Description,Path.GetFileNameWithoutExtension( (string) clipboard.GetData(DataFormats.StringFormat)).Transliteration());
-        //    //            e.Handled = true;
-        //    //        }
-
-        //    //    }
-        //    //}
-        //    //else
-        //    //{
-        //    //    InsertTextToTextbox(textBox_Description, e.KeyChar.TransliterationChar());
-        //    //    e.Handled = true;
-        //    //}
-        //}
         private void InsertTextToTextbox(TextBox textBox, string txt)
         {
             var selStart = textBox.SelectionStart;
@@ -299,7 +262,7 @@ namespace Job.UserForms
                 {
                     try
                     {
-                        str = Path.GetFileNameWithoutExtension(str).Transliteration();
+                        str = Path.GetFileNameWithoutExtension(str);
                     }
                     catch
                     {
@@ -311,21 +274,6 @@ namespace Job.UserForms
                 InsertTextToTextbox(textBox, str);
             }
         }
-
-/*
-        private void ButtonCancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-*/
-
-/*
-        private void ButtonSpecAny1_Click(object sender, EventArgs e)
-        {
-            kryptonTextBoxNumber.Text = String.Empty;
-        }
-*/
-
 
     }
 }

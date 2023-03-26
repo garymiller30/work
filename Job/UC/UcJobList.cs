@@ -74,33 +74,6 @@ namespace Job.UC
         private void ObjectListView_NewWorks_Click(object sender, EventArgs e)
         {
             _profile.Jobs.SetCurrentJob(objectListView_NewWorks.SelectedObject as IJob);
-
-            //var selJob = objectListView_NewWorks.SelectedObject as IJob;
-
-            //if (selJob == _jobForToolStripActive) return; // якщо двічі клацнули туди саме, то нічого не робити
-
-            //_jobForToolStripActive = selJob;
-
-            //_profile.Plugins.SetCurJob(_jobForToolStripActive);
-
-            //if (_jobForToolStripActive != null)
-            //{
-            //    _profile.Customers.SetCurrentCustomer(_jobForToolStripActive.Customer); // встановити 
-
-            //    var s = _profile.Jobs.GetFullPathToWorkFolder(_jobForToolStripActive);
-            //    if (string.IsNullOrEmpty(s))
-            //    {
-            //        _profile.FileBrowser.Browsers[0].CurrentJob = null;
-            //        _profile.FileBrowser.Browsers[0].LockUI(false);
-            //    }
-            //    else
-            //    {
-            //        _profile.FileBrowser.Browsers[0].LockUI(true);
-            //        _profile.FileBrowser.Browsers[0].CurrentJob = _jobForToolStripActive;
-            //        _profile.FileBrowser.Browsers[0].SetRootFolder(s);
-            //    }
-            //}
-
         }
 
         private void EditJob2()
@@ -454,7 +427,7 @@ namespace Job.UC
         {
             if (objectListView_NewWorks.SelectedObject is IJob job)
             {
-                if (_profile.Jobs.ChangeJobDescription(job, description.Transliteration()))
+                if (_profile.Jobs.ChangeJobDescription(job, description))
                 {
                     objectListView_NewWorks.RefreshObject(job);
                     return job;

@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -228,7 +229,7 @@ namespace Job.UC
 
         private void UpdateStatusControl()
         {
-            toolStripStatusLabelCountFiles.Text = _fileManager.GetCountFiles().ToString();
+            toolStripStatusLabelCountFiles.Text = _fileManager.GetCountFiles().ToString(CultureInfo.InvariantCulture);
             toolStripStatusLabelSelected.Text = GetSelectedFilesSize();
 
             if (IsHandleCreated)
@@ -686,6 +687,21 @@ namespace Job.UC
             catch { }
         }
 
+        void CopyFileNamesToClipboard()
+        {
+            var filePath = new StringBuilder();
+            foreach (IFileSystemInfoExt fsi in objectListView1.SelectedObjects)
+            {
+                filePath.AppendLine(fsi.FileInfo.Name);
+            }
+            try
+            {
+                Clipboard.SetText(filePath.ToString());
+                
+            }
+            catch { }
+        }
+
 
         private void ВставитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -792,8 +808,8 @@ namespace Job.UC
             отправитьВToolStripMenuItem.DropDownItems.Clear();
             отправитьВToolStripMenuItem.DropDownItems.AddRange(UserProfile.MenuManagers.SendTo.Get(SendMenuItem_ClickAsync).ToArray());
 
-            утилитыToolStripMenuItem.DropDownItems.Clear();
-            утилитыToolStripMenuItem.DropDownItems.AddRange(UserProfile.MenuManagers.Utils.Get(ToolsStripMenuItem_Click).ToArray());
+            //утилитыToolStripMenuItem.DropDownItems.Clear();
+            //утилитыToolStripMenuItem.DropDownItems.AddRange(UserProfile.MenuManagers.Utils.Get(ToolsStripMenuItem_Click).ToArray());
 
             SendEmailToolStripMenuItem.DropDownItems.Clear();
             SendEmailToolStripMenuItem.DropDownItems.AddRange(UserProfile.MailNotifier.GetMenu(ToolStripSendMenu_Click).ToArray());
@@ -1712,6 +1728,11 @@ namespace Job.UC
         {
             objectListView1.ClearObjects();
             _fileManager.GetAllFilesWithoutDir();
+        }
+
+        private void копіюватиІмяФайлуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyFileNamesToClipboard();
         }
     }
 }

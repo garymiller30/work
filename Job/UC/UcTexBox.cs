@@ -11,62 +11,59 @@ namespace Job.UC
         public UcTexBox()
         {
             InitializeComponent();
-            KeyPress += TextBox_Description_KeyPress;
+            //KeyPress += TextBox_Description_KeyPress;
         }
 
         public UcTexBox(IContainer container)
         {
             container.Add(this);
             InitializeComponent();
-            KeyPress += TextBox_Description_KeyPress;
+            //KeyPress += TextBox_Description_KeyPress;
         }
         protected override void WndProc(ref Message m)
         {
             // Trap WM_PASTE:
             if (m.Msg == 0x302 && Clipboard.ContainsText())
             {
-                SelectedText = Clipboard.GetText().Transliteration().ToUpper();
+                SelectedText = Clipboard.GetText();
                 return;
             }
             base.WndProc(ref m);
         }
 
-        private void TextBox_Description_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Delete || e.KeyChar == (char)'\b')
-                e.Handled = false;
-            else if (ModifierKeys.HasFlag(Keys.Control) && e.KeyChar == 22)
-            {
-                var clipboard = Clipboard.GetDataObject();
-                if (clipboard != null)
-                {
-                    if (clipboard.GetDataPresent(DataFormats.StringFormat))
-                    {
-                        string fn = (string)clipboard.GetData(DataFormats.StringFormat);
+        //private void TextBox_Description_KeyPress(object sender, KeyPressEventArgs e)
+        //{
+        //    if (e.KeyChar == (char)Keys.Delete || e.KeyChar == (char)'\b')
+        //        e.Handled = false;
+        //    else if (ModifierKeys.HasFlag(Keys.Control) && e.KeyChar == 22)
+        //    {
+        //        var clipboard = Clipboard.GetDataObject();
+        //        if (clipboard != null)
+        //        {
+        //            if (clipboard.GetDataPresent(DataFormats.StringFormat))
+        //            {
+        //                string fn = (string)clipboard.GetData(DataFormats.StringFormat);
 
-                        try
-                        {
-                            fn = Path.GetFileNameWithoutExtension(fn);
-                        }
-                        catch { }
+        //                try
+        //                {
+        //                    fn = Path.GetFileNameWithoutExtension(fn);
+        //                }
+        //                catch { }
 
-                        finally
-                        {
-                            fn = fn.Transliteration();
-                        }
-                        InsertTextToTextbox(this, fn);
-                        //InsertTextToTextbox(textBox_Description,Path.GetFileNameWithoutExtension( (string) clipboard.GetData(DataFormats.StringFormat)).Transliteration());
-                        e.Handled = true;
-                    }
+                       
+        //                InsertTextToTextbox(this, fn);
+        //                //InsertTextToTextbox(textBox_Description,Path.GetFileNameWithoutExtension( (string) clipboard.GetData(DataFormats.StringFormat)).Transliteration());
+        //                e.Handled = true;
+        //            }
 
-                }
-            }
-            else
-            {
-                InsertTextToTextbox(this, e.KeyChar.TransliterationChar());
-                e.Handled = true;
-            }
-        }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        InsertTextToTextbox(this, e.KeyChar);
+        //        e.Handled = true;
+        //    }
+        //}
         private void InsertTextToTextbox(TextBox textBox, string txt)
         {
             var selStart = textBox.SelectionStart;

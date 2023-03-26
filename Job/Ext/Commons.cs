@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using ExtensionMethods;
 using Interfaces;
 using MongoDB.Bson;
 
@@ -54,45 +56,9 @@ namespace Job.Ext
             job.PreviousOrder = updateJob.PreviousOrder;
             job.DontCreateFolder = updateJob.DontCreateFolder;
             job.CategoryId = updateJob.CategoryId;
-            //job.IsCashe = updateJob.IsCashe;
-            //job.IsCashePayed = updateJob.IsCashePayed;
-            //job.CachePayedSum = updateJob.CachePayedSum;
+            
         }
 
-        //public static void SetPartList(this IJob job, object parts,Profile profile)
-        //{
-
-        //    if (parts == null)
-        //    {
-        //        profile.Jobs.GetJobParts(job).Clear();
-        //    }
-
-        //    else if (parts is IList p)
-        //    {
-        //        //Debug.WriteLine(parts.GetType().FullName);
-        //        //job.Parts = (List<IJobPart>)p.Cast<Part>();
-        //    }
-        //}
-
-        //public static void ChangeOrderPath(this Job job, string path,Profile profile)
-        //{
-        //    if (!job.DontCreateFolder)
-        //    {
-        //        var folder = profile.Jobs.GetFullPathToWorkFolder(job);
-
-        //        if (job.UseCustomFolder)
-        //        {
-        //            folder = Path.GetFileName(folder);
-        //        }
-        //        else
-        //        {
-        //            job.UseCustomFolder = true;
-
-        //        }
-        //        job.SetFolder(Path.Combine(path, folder));
-
-        //    }
-        //}
 
         public static bool IsSignaJobExist(this IJob job, string signaFileShablon, string signaJobsPath, IUserProfile profile)
         {
@@ -100,8 +66,8 @@ namespace Job.Ext
 
             var category = profile.Categories.GetCategoryNameById(job.CategoryId);
             var fileName = string.IsNullOrEmpty(category)
-                ? string.Format(signaFileShablon, job.Customer, job.Number, job.Description)
-                : string.Format(signaFileShablon, job.Customer, job.Number, job.Description, category);
+                ? string.Format(CultureInfo.InvariantCulture, signaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration())
+                : string.Format(CultureInfo.InvariantCulture, signaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(), category.Transliteration());
 
             var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
 
@@ -112,8 +78,8 @@ namespace Job.Ext
         {
             var category = profile.Categories.GetCategoryNameById(job.CategoryId);
             var fileName = string.IsNullOrEmpty(category) 
-                ? string.Format(profile.Jobs.Settings.SignaFileShablon, job.Customer, job.Number, job.Description) 
-                : string.Format(profile.Jobs.Settings.SignaFileShablon, job.Customer, job.Number, job.Description,category);
+                ? string.Format(CultureInfo.InvariantCulture, profile.Jobs.Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration()) 
+                : string.Format(CultureInfo.InvariantCulture, profile.Jobs.Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(),category.Transliteration());
 
             var destFile = Path.Combine(profile.Jobs.Settings.SignaJobsPath, $"{fileName}.sdf");
 

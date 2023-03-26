@@ -124,7 +124,7 @@ namespace ActiveWorks
             job.Number = downloadProperties.DownloadFileParam.OrderNumber ?? job.Number;
 
             job.Customer = downloadProperties.Customer.Name;
-            job.Description = downloadProperties.FtpDir.Transliteration().ToUpper(CultureInfo.InvariantCulture);
+            job.Description = downloadProperties.FtpDir;
             _profile.Plugins.AfterJobChange(job);
             if (_profile.Jobs.AddJob(job))
             {
@@ -138,7 +138,7 @@ namespace ActiveWorks
 
             job.Customer = downloadProperties.Customer.Name;
             job.Number = downloadProperties.FtpDir;
-            job.Description = Path.GetFileNameWithoutExtension(downloadProperties.DownloadFileParam.File[0].Name)?.Transliteration().ToUpper(CultureInfo.InvariantCulture);
+            job.Description = Path.GetFileNameWithoutExtension(downloadProperties.DownloadFileParam.File[0].Name);
             _profile.Plugins.AfterJobChange(job);
             if (_profile.Jobs.AddJob(job))
             {
@@ -155,8 +155,7 @@ namespace ActiveWorks
             job.Number = downloadProperties.DownloadFileParam.OrderNumber ?? job.Number;
             _profile.Plugins.AfterJobChange(job);
             //job.Number = $"{DateTime.Today.Year}-{DateTime.Today.Month}-{DateTime.Today.Day}";
-            job.Description = Path.GetFileNameWithoutExtension(downloadProperties.DownloadFileParam.File[0].Name)?.Transliteration()
-                .ToUpper();
+            job.Description = Path.GetFileNameWithoutExtension(downloadProperties.DownloadFileParam.File[0].Name);
 
 
             if (_profile.Jobs.AddJob(job))

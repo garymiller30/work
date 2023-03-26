@@ -464,7 +464,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ReportCustomerTree.cs" />
-    <Compile Include="ReportGenerator.cs" />
     <Compile Include="ReportJobsTree.cs" />
     <Compile Include="ReportPlateFormatTree.cs" />
     <Compile Include="Settings.cs" />

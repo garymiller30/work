@@ -45,7 +45,7 @@ namespace Job
 
             job.Customer = j.Customer;
             job.Number = $"{DateTime.Today.Year}-{DateTime.Today.Month}-{DateTime.Today.Day}";
-            job.Description = Path.GetFileNameWithoutExtension(filePath).Transliteration().ToUpper(CultureInfo.CurrentUICulture);
+            job.Description = Path.GetFileNameWithoutExtension(filePath);
             if (userProfile.Jobs.AddJob(job))
             {
                     
