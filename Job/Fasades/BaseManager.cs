@@ -64,8 +64,6 @@ namespace Job.Fasades
         }
 
 
-
-
         public void CreateConnection(string connectionString, string databaseName)
         {
             Settings.MongoDbServer = connectionString;
@@ -241,7 +239,7 @@ namespace Job.Fasades
 
         public List<IJob> Search(string text)
         {
-            var searchString = text.ToLower(CultureInfo.InvariantCulture);
+            var searchString = text.ToLower();
 
             try
             {
@@ -249,31 +247,25 @@ namespace Job.Fasades
                 var categories = _repository.GetRawCollection<Category>("Categories");
 
                 var catFilter = from c in ((IMongoCollection<Category>)categories).AsQueryable()
-                                where c.Name.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
+                                where c.Name.ToLower().Contains(searchString)
                                 select c.Id;
 
                 var catList = catFilter.ToList();
 
-                var filterArray = new BsonArray();
+                var filter = Builders<Job>.Filter.Or(
+                    Builders<Job>.Filter.Regex(j=>j.Number,new BsonRegularExpression($"/{text}/i")),
+                    Builders<Job>.Filter.Regex(j => j.Customer, new BsonRegularExpression($"/{text}/i")),
+                    Builders<Job>.Filter.Regex(j => j.Note, new BsonRegularExpression($"/{text}/i")),
+                    Builders<Job>.Filter.In("CategoryId", catFilter),
+                    Builders<Job>.Filter.Regex(j=>j.Description,new BsonRegularExpression($"/{text}/i")));
 
-                var props = new[] { "Customer", "Description", "Note", "Number" };
-
-                filterArray.AddRange(props.Select(x => new BsonDocument(x, $"/{text}/")));
-
-
-                var jobFilter = from j in ((IMongoCollection<Job>)jobs).AsQueryable()
-                                where j.Customer.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
-                                   || j.Description.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
-                                   || j.Note.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
-                                   || j.Number.ToLower(CultureInfo.InvariantCulture).Contains(searchString)
-                                   || catList.Contains(j.CategoryId)
-
-                                select j;
-                return jobFilter.ToList().ToList<IJob>();
+                var filtered = ((IMongoCollection<Job>)jobs).Find(filter).ToList(default);
+                return filtered.ToList<IJob>();
+                
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(this, "BaseManager: Search", e.Message);
                 throw;
             }
         }

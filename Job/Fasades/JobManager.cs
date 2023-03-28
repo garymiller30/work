@@ -252,8 +252,6 @@ namespace Job.Fasades
 
         public bool AddJob(IJob job)
         {
-
-            // todo: добавить проверку на номер заказа
             var fulPath = GetFullPathToWorkFolder(job);
             var j = _jobList.Where(x => GetFullPathToWorkFolder(x).Equals(fulPath));
 

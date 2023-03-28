@@ -49,7 +49,8 @@ namespace Job.Data
         public List<T> All<T>() where T : class, new()
         {
             var col = _mongoDatabase.GetCollection<T>(typeof(T).Name);
-            var j = col.FindAsync(o => true);
+            var filter = Builders<T>.Filter.Empty;
+            var j = col.FindAsync(filter);
             j.Wait();
             var res = j.Result.ToListAsync();
             res.Wait();
@@ -79,12 +80,8 @@ namespace Job.Data
 
         public List<T> All<T>(string collection) where T : class, new()
         {
-            //.Where(x => _profile.StatusManager.IsViewStatusChecked(x.StatusCode));
-
             var col = _mongoDatabase.GetCollection<T>(collection);
-            //var j =  col.FindAsync(o => true);
-            var j = col.FindAsync(o => true);
-
+            var j = col.FindAsync(new BsonDocument());
             j.Wait();
             var res = j.Result.ToListAsync();
             res.Wait();
@@ -122,7 +119,10 @@ namespace Job.Data
             }
 
             var col = _mongoDatabase.GetCollection<T>(collection);
-            var f = col.FindAsync(x => x.Id.Equals(objectId));
+
+            var filter = Builders<T>.Filter.Eq(t=>t.Id, objectId);
+
+            var f = col.FindAsync(filter);
             f.Wait();
             var l = f.Result.ToListAsync(default);
             l.Wait();

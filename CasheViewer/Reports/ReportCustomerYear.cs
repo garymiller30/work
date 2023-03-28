@@ -23,13 +23,9 @@ namespace CasheViewer.Reports
         public List<JobNodeRoot> GetJobsByCustomers(bool isPayed)
         {
 
-#pragma warning disable CS0612 // 'Job.IsCashePayed' is obsolete
-#pragma warning disable CS0612 // 'Job.IsCashe' is obsolete
             var jobs = UserProfile.Base.GetCollection<Job.Job>("Jobs")
                 .Where(x => x.IsCashe && x.IsCashePayed == isPayed)
                 .GroupBy(y => y.Customer);
-#pragma warning restore CS0612 // 'Job.IsCashe' is obsolete
-#pragma warning restore CS0612 // 'Job.IsCashePayed' is obsolete
 
             var reportDate = new List<JobNodeRoot>();
 
@@ -49,9 +45,7 @@ namespace CasheViewer.Reports
                                 Number = u.Number,
                                 Description = u.Description,
                                 Category = UserProfile.Categories.GetCategoryNameById(u.CategoryId),
-#pragma warning disable CS0612 // 'IJob.CachePayedSum' is obsolete
                                 Sum = u.CachePayedSum,
-#pragma warning restore CS0612 // 'IJob.CachePayedSum' is obsolete
                                 Job = u,
                                 ForegroundColor = Color.Black,
                                 ReportVersion = ReportVersionEnum.Version1

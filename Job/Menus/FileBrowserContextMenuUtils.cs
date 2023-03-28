@@ -89,18 +89,6 @@ namespace Job.Menus
                             button.DropDownItems.Add(tsmiEdit);
 
                             l.Add(button);
-
-                            //var rb = new RoundedButton();
-                            //var roundButton = new ToolStripControlHost(rb)
-                            //{
-                            //    DisplayStyle = ToolStripItemDisplayStyle.Text,
-                            //    Text = menuSendTo.Name,
-                            //    Tag = menuSendTo
-                            //};
-                            //roundButton.Click += ttmClick;
-                            //roundButton.ToolTipText = $"{menuSendTo.Name} ({menuSendTo.Path})";
-                            //l.Add(roundButton);
-
                         }
                         else
                         {
@@ -115,9 +103,7 @@ namespace Job.Menus
                             ttm.Click += ttmClick;
                             l.Add(ttm);
                         }
-
                     }
-
                 }
                 else
                 {
