@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using MongoDB.Bson;
 
 namespace Interfaces.Plugins
 {
     public abstract class AbstractProcess<T> : IProcess where T : class, IPay, new()
     {
-        public ObjectId Id { get; set; }
-        public ObjectId ParentId { get; set; }
+        public object Id { get; set; }
+        public object ParentId { get; set; }
         public abstract decimal Price { get; set; }
 
         protected readonly ContextMenuStrip _contextMenu = new ContextMenuStrip();

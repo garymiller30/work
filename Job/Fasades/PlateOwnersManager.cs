@@ -77,7 +77,7 @@ namespace Job.Fasades
         /// <returns></returns>
         public string GetOwnerNameById(ObjectId ownerId)
         {
-            var ret = _owners.FirstOrDefault(x => x.Id == ownerId);
+            var ret = _owners.FirstOrDefault(x => (ObjectId)x.Id == ownerId);
 
             return ret == null ? string.Empty : ret.Name;
         }

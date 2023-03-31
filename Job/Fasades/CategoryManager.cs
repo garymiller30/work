@@ -28,7 +28,7 @@ namespace Job.Fasades
             return _categories.ToList();
         }
 
-        public ObjectId Add(string category)
+        public object Add(string category)
         {
             if (string.IsNullOrEmpty(category)) throw new ArgumentNullException("category is null or empty");
             
@@ -48,9 +48,9 @@ namespace Job.Fasades
             return newCat.Id;
         }
 
-        public ICategory GetCategoryById(ObjectId id)
+        public ICategory GetCategoryById(object id)
         {
-            var category = GetAll().Where(x => x.Id == id);
+            var category = GetAll().Where(x => (ObjectId)x.Id == (ObjectId)id);
 
             if (category.Any())
             {
@@ -61,7 +61,7 @@ namespace Job.Fasades
 
         }
 
-        public string GetCategoryNameById(ObjectId categoryId)
+        public string GetCategoryNameById(object categoryId)
         {
             var category = GetCategoryById(categoryId);
             if (category == null) return string.Empty;

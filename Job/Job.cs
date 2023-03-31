@@ -11,7 +11,7 @@ namespace Job
     [BsonDiscriminator("Jobs")]
     public sealed class Job : IJob
     {
-        public ObjectId Id { get; set; }
+        public object Id { get; set; }
 
         [Obsolete]
         public Settings.JobStatus Status { get; set; }
@@ -56,7 +56,7 @@ namespace Job
         [Obsolete] public decimal CachePayedSum { get; set; }
         public bool DontCreateFolder { get; set; }
 
-        public ObjectId CategoryId { get; set; }
+        public object CategoryId { get; set; }
 
 
         public Job()

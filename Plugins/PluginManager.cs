@@ -8,6 +8,7 @@ using Logger;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -132,6 +133,7 @@ namespace Plugins
                             }
                             else if (typeof(IMqPlugin).IsAssignableFrom(type))
                             {
+                                Debug.WriteLine("add IMqPlugin");
                                 var obj = (IMqPlugin)Activator.CreateInstance(type);
                                 obj.UserProfile = _profile;
                                 MqController.Add(obj);
@@ -373,7 +375,12 @@ namespace Plugins
         {
             _pluginPlaySound?.PlaySound(soundType, param);
         }
-
+        /// <summary>
+        /// Завантажити налаштування
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="plugin"></param>
+        /// <returns>вертає завантажені налаштування або новий клас</returns>
         public T LoadSettings<T>(IPluginBase plugin) where T : class, new()
         {
             //var setting = _pluginSettings.FirstOrDefault(x => x is T);

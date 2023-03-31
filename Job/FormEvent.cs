@@ -11,7 +11,7 @@ namespace Job
         {
             Id = ObjectId.GenerateNewId();
         }
-        public ObjectId Id { get; set; }
+        public object Id { get; set; }
         public DateTime Date { get; set; }
         public FormEventStatus Status { get; set; }
         public int CountForm { get; set; }

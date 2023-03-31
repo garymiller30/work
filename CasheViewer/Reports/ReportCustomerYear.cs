@@ -106,11 +106,10 @@ namespace CasheViewer.Reports
         List<JobNodeRoot> GetJobsByCustomerRootByPlugin(bool isPayed)
         {
             var reportDate = new List<JobNodeRoot>();
-            Dictionary<ObjectId, decimal> jobDictionary = new Dictionary<ObjectId, decimal>();
+            Dictionary<object, decimal> jobDictionary = new Dictionary<object, decimal>();
 
             // отримати плагіни
             var plugins = UserProfile.Plugins.GetPluginFormAddWorks();
-
 
             foreach (IPluginFormAddWork plugin in plugins)
             {
@@ -118,7 +117,7 @@ namespace CasheViewer.Reports
                     .Where(x => isPayed ? x.Price - x.Pay == 0 : x.Price - x.Pay > 0)
                     .GroupBy(i => i.ParentId);
 
-                foreach (IGrouping<ObjectId, IProcess> processes in collection)
+                foreach (IGrouping<object, IProcess> processes in collection)
                 {
                     if (!jobDictionary.ContainsKey(processes.Key))
                     {

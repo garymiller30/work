@@ -19,7 +19,7 @@ namespace Job
         [Obsolete]
         private String _owner;
 
-        public ObjectId Id { get; set; }
+        public object Id { get; set; }
 
         public bool IsSelected { get; set; }
 

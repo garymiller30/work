@@ -269,7 +269,7 @@ namespace MailNotifier
             Debug.WriteLine(richTextBoxMessage.Rtf);//.
             var message = $"<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\"></head><body>{RtfPipe.Rtf.ToHtml(richTextBoxMessage.Rtf)}";
             Debug.WriteLine(message);
-            //ShowProgress.FormProgress.ShowProgress(() => _mail.SendToMany(sendTo, header, message, _attachList.ToArray()));
+            
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"send mail to {sendTo}", new Action(
                 () => _mail.SendToMany(sendTo, header, message, _attachList.ToArray())
                 )));

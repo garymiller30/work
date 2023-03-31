@@ -111,7 +111,7 @@ namespace CasheViewer.Reports
         List<JobNodeRoot> GetJobsByCustomerRootByPlugin(bool isPayed)
         {
             var reportDate = new List<JobNodeRoot>();
-            Dictionary<ObjectId, decimal> jobDictionary = new Dictionary<ObjectId, decimal>();
+            Dictionary<object, decimal> jobDictionary = new Dictionary<object, decimal>();
 
             // отримати плагіни
             var plugins = UserProfile.Plugins.GetPluginFormAddWorks();

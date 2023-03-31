@@ -102,19 +102,20 @@ namespace Job.CustomerNotify
                         var header = notify.Tema.SendNotifyCovertString(job);
                         var body = notify.Body.SendNotifyCovertString(job);
 
-
+                        _profile.MailNotifier.OnError += MailNotifier_OnError;
 
                         _profile.MailNotifier.ShowSendMailDialog(notify.Email, header, body);
 
-                        //ShowProgress.FormProgress.ShowProgress(()=> UserProfile.MailNotifier.Send(job,notify.Email,notify.Tema,notify.Body));
-
-                        if (Mail.ExceptionMessage != null)
-                        {
-                            Logger.Log.Error(_profile,"CustomerNotifyManager",Mail.ExceptionMessage);
-                        }
+                        _profile.MailNotifier.OnError -= MailNotifier_OnError;
+                        
                     }
                 }
             }
+        }
+
+        private void MailNotifier_OnError(object sender, System.Exception e)
+        {
+            Logger.Log.Error(_profile, "CustomerNotifyManager", e.Message);
         }
 
         public ICustomerMailNotify Add(ICustomer customer, int code)
@@ -148,14 +149,7 @@ namespace Job.CustomerNotify
         {
             if (IsNeedNotify(job))
             {
-
                 SendNotify(job);
-
-                //if (MessageBox.Show(Localize.QuestionSendMessageToCustomerAboutChangeOrderStatus,
-                //        $@"{job.Number}_{job.Description}",MessageBoxButtons.OKCancel,MessageBoxIcon.Question) == DialogResult.OK)
-                //{
-                //   SendNotify(job);
-                //}
             }
         }
     }

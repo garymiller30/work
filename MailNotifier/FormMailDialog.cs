@@ -16,19 +16,16 @@ namespace MailNotifier
         public FormMailDialog(Mail mail)
         {
             InitializeComponent();
-            _mail = mail;
+            //_mail = mail;
 
-            _mail.OnNewMail+= MailOnOnNewMail;
-            _mail.OnDeleteMail+= MailOnOnDeleteMail;
-            _mail.OnError+= MailOnOnError;
+            //_mail.OnNewMail+= MailOnOnNewMail;
+            //_mail.OnDeleteMail+= MailOnOnDeleteMail;
+            //_mail.
 
-            objectListViewInbox.AddObjects(_mail.GetInboxMessages());
+            //objectListViewInbox.AddObjects(_mail.GetInboxMessages());
         }
 
-        private void MailOnOnError(object sender, EventArgs e)
-        {
-            
-        }
+      
 
         private void MailOnOnDeleteMail(object sender, uint e)
         {
@@ -158,8 +155,8 @@ namespace MailNotifier
 
         private void RefreshMailbox()
         {
-            objectListViewInbox.ClearObjects();
-            objectListViewInbox.AddObjects(_mail.GetInboxMessages());
+            //objectListViewInbox.ClearObjects();
+            //objectListViewInbox.AddObjects(_mail.GetInboxMessages());
         }
 
         private void saveToToolStripMenuItem_Click(object sender, EventArgs e)
@@ -183,8 +180,8 @@ namespace MailNotifier
         {
             foreach (MessageEx ex in objectListViewInbox.SelectedObjects)
             {
-                _mail.Archive(ex);
-                objectListViewInbox.RemoveObject(ex);
+                //_mail.Archive(ex);
+                //objectListViewInbox.RemoveObject(ex);
             }
         }
     }

@@ -7,7 +7,7 @@ namespace Job.Statuses
 {
     public sealed class JobStatus : IJobStatus, IWithId
     {
-        public ObjectId Id { get; set; } = new ObjectId();
+        public object Id { get; set; } = new ObjectId();
 
         public string Name { get; set; }
 

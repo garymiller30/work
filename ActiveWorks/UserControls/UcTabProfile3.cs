@@ -219,7 +219,9 @@ namespace ActiveWorks.UserControls
         {
             try
             {
-                LoadLayoutFromFile(Path.Combine(_profile.ProfilePath, LayoutFile));
+                var layoutPath = Path.Combine(_profile.ProfilePath, LayoutFile);
+                if (File.Exists(layoutPath)) { LoadLayoutFromFile(layoutPath); }
+                
             }
             catch (Exception e)
             {

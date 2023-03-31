@@ -1,4 +1,4 @@
-﻿using MongoDB.Bson;
+﻿
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -19,6 +19,6 @@ namespace Interfaces
         decimal Price { get; }
         decimal Pay { get; }
 
-        void RemoveProcessByJobId(ObjectId id);
+        void RemoveProcessByJobId(object id);
     }
 }

@@ -8,7 +8,7 @@ namespace Job
     public sealed class Customer : IWithId, ICustomer
     {
         public bool Show { get; set; } = true;
-        public ObjectId Id { get; set; }
+        public object Id { get; set; }
         public string Name { get; set; } = String.Empty;
 
         public string OwnerPlateDefault { get; set; }

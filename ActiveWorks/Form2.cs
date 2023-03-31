@@ -430,15 +430,13 @@ namespace ActiveWorks
                 Image = Resources.move_icon
             };
             var groupTriple = new KryptonRibbonGroupLines();
-            //groupTriple.MinimumSize = GroupItemSize.Small;
+            
 
             foreach (IJobStatus status in profile.StatusManager.GetJobStatuses())
             {
                 var button = new KryptonRibbonGroupButton
                 {
                     TextLine1 = status.Name,
-                    //ToolTipBody = status.Name,
-                    //TextLine1 = status.Name,
                     ImageSmall = status.Img,
                     Tag = status
                 };

@@ -26,14 +26,12 @@ namespace PluginColorJobListRow
         public IUserProfile UserProfile { get; set; }
         public void SetRow(object row)
         {
-
-
             var item = (dynamic)row;
             IJob job = (IJob)item.RowObject;
 
             item.BackColor = Settings.Get(UserProfile).GetColor(job.StatusCode);
 
-            Settings.SetJob($"{job.Number}_{job.Customer}_{job.Description}", job.StatusCode);
+            Settings.SetJob($"{job.Number}_{job.Customer}", job.StatusCode);
 
         }
     }
