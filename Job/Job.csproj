@@ -277,6 +277,8 @@
     <Compile Include="FormEventStatus.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\PdfEmptyTemplate.cs" />
+    <Compile Include="Plugins\AbstractPluginAddWork.cs" />
+    <Compile Include="Plugins\AbstractProcess.cs" />
     <Compile Include="Profiles\ExtendedSettings.cs" />
     <Compile Include="Profiles\PdfConverterSettings.cs" />
     <Compile Include="Profiles\SearchHistorySettings.cs" />

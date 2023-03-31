@@ -122,7 +122,6 @@
     <Compile Include="MQ\MessageEnum.cs" />
     <Compile Include="PdfUtils\ColorSpaces.cs" />
     <Compile Include="PdfUtils\FileFormat.cs" />
-    <Compile Include="Plugins\AbstractProcess.cs" />
     <Compile Include="Plugins\IContextMenu.cs" />
     <Compile Include="IJob.cs" />
     <Compile Include="IJobPart.cs" />
@@ -138,7 +137,6 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="IUserProfile.cs" />
     <Compile Include="IWithId.cs" />
-    <Compile Include="Plugins\AbstractPluginAddWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Script\IScriptController.cs" />
     <Compile Include="Script\IScriptEngine.cs" />

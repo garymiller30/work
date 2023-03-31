@@ -2,8 +2,6 @@
 using System.Drawing;
 using System.Linq;
 using Interfaces;
-using Job.Profiles;
-using MongoDB.Bson;
 
 namespace CasheViewer.Reports
 {
@@ -23,37 +21,37 @@ namespace CasheViewer.Reports
         public List<JobNodeRoot> GetJobsByCustomers(bool isPayed)
         {
 
-            var jobs = UserProfile.Base.GetCollection<Job.Job>("Jobs")
-                .Where(x => x.IsCashe && x.IsCashePayed == isPayed)
-                .GroupBy(y => y.Customer);
+            //var jobs = UserProfile.Base.GetCollection<Job.Job>("Jobs")
+            //    .Where(x => x.IsCashe && x.IsCashePayed == isPayed)
+            //    .GroupBy(y => y.Customer);
 
             var reportDate = new List<JobNodeRoot>();
 
-            foreach (var job in jobs)
-            {
-                var rd = new JobNodeRoot() { Name = job.Key };
+            //foreach (var job in jobs)
+            //{
+            //    var rd = new JobNodeRoot() { Name = job.Key };
 
-                rd.Children =
-                    job.GroupBy(x => x.Date.ToString("yy.MM"))
-                        .Select(y => (INode)new JobNodeRoot()
-                        {
-                            Name = y.Key,
-                            Children = y
-                            .Select(u => (INode)new JobNode()
-                            {
-                                Date = u.Date,
-                                Number = u.Number,
-                                Description = u.Description,
-                                Category = UserProfile.Categories.GetCategoryNameById(u.CategoryId),
-                                Sum = u.CachePayedSum,
-                                Job = u,
-                                ForegroundColor = Color.Black,
-                                ReportVersion = ReportVersionEnum.Version1
-                            }).ToList()
-                        }).ToList();
+            //    rd.Children =
+            //        job.GroupBy(x => x.Date.ToString("yy.MM"))
+            //            .Select(y => (INode)new JobNodeRoot()
+            //            {
+            //                Name = y.Key,
+            //                Children = y
+            //                .Select(u => (INode)new JobNode()
+            //                {
+            //                    Date = u.Date,
+            //                    Number = u.Number,
+            //                    Description = u.Description,
+            //                    Category = UserProfile.Categories.GetCategoryNameById(u.CategoryId),
+            //                    Sum = u.CachePayedSum,
+            //                    Job = u,
+            //                    ForegroundColor = Color.Black,
+            //                    ReportVersion = ReportVersionEnum.Version1
+            //                }).ToList()
+            //            }).ToList();
 
-                reportDate.Add(rd);
-            }
+            //    reportDate.Add(rd);
+            //}
 
             // тепер візьмемо інфу з плагінів
             var preportPlugins = GetJobsByCustomerRootByPlugin(isPayed);

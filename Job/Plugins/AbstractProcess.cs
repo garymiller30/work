@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MongoDB.Bson;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -6,7 +7,7 @@ namespace Interfaces.Plugins
 {
     public abstract class AbstractProcess<T> : IProcess where T : class, IPay, new()
     {
-        public object Id { get; set; }
+        public object Id { get; set; } = new ObjectId();
         public object ParentId { get; set; }
         public abstract decimal Price { get; set; }
 
