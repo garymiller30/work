@@ -21,18 +21,16 @@ namespace Job.UserForms
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
+            objectListView1.AddObjects(PdfTemplates);
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var template = AddTemplate();
-            if (template != null)
-            {
-                objectListView1.AddObject(template);
-            }
+            AddTemplate();
+           
         }
 
-        private EmptyTemplate AddTemplate()
+        private void AddTemplate()
         {
             var template = new EmptyTemplate() { 
                 Width = (double)nW.Value,
@@ -44,9 +42,9 @@ namespace Job.UserForms
             if (template.IsValidated())
             {
                 PdfTemplates.Add(template);
-                return template;
+                objectListView1.AddObject(template);
             }
-            return null;
+            
         }
 
         private void buttonCreate_Click(object sender, EventArgs e)
@@ -58,6 +56,30 @@ namespace Job.UserForms
         private void nW_Enter(object sender, EventArgs e)
         {
             ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
+
+        private void objectListView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                RemoveSelectedItems();
+            }
+        }
+
+        private void RemoveSelectedItems()
+        {
+            if (objectListView1.SelectedObjects.Count > 0)
+            {
+                var delList = objectListView1.SelectedObjects.Cast< EmptyTemplate>().ToList();
+
+                foreach (var item in delList)
+                {
+                    PdfTemplates.Remove(item);
+                    
+                }
+                objectListView1.RemoveObjects(delList);
+
+            }
         }
     }
 }

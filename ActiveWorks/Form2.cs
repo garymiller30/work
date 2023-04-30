@@ -15,7 +15,6 @@ using Job.UserForms;
 using Logger;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -121,8 +120,11 @@ namespace ActiveWorks
         /// </summary>
         private void CreateProfileTab()
         {
-            var profiles = ProfilesController.GetProfiles(Settings.Default.ProfilesPath);
+            SplashScreen.Splash.SetHeader("профілі");
+            SplashScreen.Splash.SetStatus("завантажуємо...");
 
+            var profiles = ProfilesController.GetProfiles(Settings.Default.ProfilesPath);
+            SplashScreen.Splash.SetStatus("ок!");
             foreach (var profile in profiles)
             {
                 Stopwatch sw = Stopwatch.StartNew();
@@ -137,6 +139,9 @@ namespace ActiveWorks
                     Text = profile.Settings.ProfileName,
                     MdiParent = this
                 };
+
+                SplashScreen.Splash.SetHeader(profile.Settings.ProfileName);
+                SplashScreen.Splash.SetStatus("завантажуємо налаштування...");
 
                 formProfile.InitProfile();
 
@@ -482,9 +487,9 @@ namespace ActiveWorks
                 groupTriple.Items.Add(button);
             }
 
-            button = new KryptonRibbonGroupButton { TextLine1 = @"повторити", ImageLarge = Resources.Document_copy_icon };
-            button.Click += (sender, args) => profile.Jobs.RepeatSelectedJob();
-            groupTriple.Items.Add(button);
+            //button = new KryptonRibbonGroupButton { TextLine1 = @"повторити", ImageLarge = Resources.Document_copy_icon };
+            //button.Click += (sender, args) => profile.Jobs.RepeatSelectedJob();
+            //groupTriple.Items.Add(button);
             group.Items.Add(groupTriple);
             tab.Groups.Add(group);
         }

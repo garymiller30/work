@@ -248,7 +248,7 @@ namespace Job.UC
                 try
                 {
                     if (file.IsDir) FileSystem.DeleteDirectory(file.FileInfo.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);// Directory.Delete(file.FileInfo.FullName, true);
-                    else FileSystem.DeleteFile(file.FileInfo.FullName,UIOption.OnlyErrorDialogs,RecycleOption.SendToRecycleBin);// File.Delete(file.FileInfo.FullName);
+                    else FileSystem.DeleteFile(file.FileInfo.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);// File.Delete(file.FileInfo.FullName);
                 }
                 catch (IOException)
                 {
@@ -429,9 +429,9 @@ namespace Job.UC
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message,"Помилка",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    MessageBox.Show(e.Message, "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
+
 
 
             }
@@ -486,6 +486,11 @@ namespace Job.UC
                 await Task.Run(() =>
                 {
                     files = _cache.GetAllFiles(Settings.CurFolder);
+
+                    if (Settings.IgnoreFolders.Length > 0)
+                    {
+                        files = files.Where(f => CheckForIgnoreFolders(f)).ToList();
+                    }
                 }).ConfigureAwait(true);
             }
             catch
@@ -495,6 +500,23 @@ namespace Job.UC
             }
 
             OnRefreshDirectory(this, files);
+        }
+
+        private bool CheckForIgnoreFolders(IFileSystemInfoExt f)
+        {
+            foreach (var ignoreFolder in Settings.IgnoreFolders)
+            {
+                if (f.FileInfo.FullName.Contains($"\\{ignoreFolder}\\"))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void CreateDirectoryInCurrentFolder(string name, Action<string> action)
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -10,7 +10,7 @@ namespace Interfaces
         bool Connect();
         bool IsConnected { get; }
 
-        List<T> GetCollection<T>(string collection) where T : class, new();
+        List<T> GetCollection<T>(string collection) where T : class, IWithId, new();
         void Update<T>(string collection, List<T> list) where T : IWithId;
         bool Remove<T>(string collection, T obj) where T : IWithId;
         new bool Add<T>(string collection, T obj) where T : class, new();

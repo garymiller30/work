@@ -19,10 +19,12 @@ namespace Job.UserForms
             InitializeComponent();
 
             propertyGrid1.SelectedObject = fileManagerSettings;
+            DialogResult = DialogResult.Cancel;
         }
 
         private void kryptonButton1_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.OK;
             Close();
         }
     }

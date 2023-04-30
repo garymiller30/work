@@ -5,8 +5,9 @@ namespace Interfaces
 {
     public interface IRepository
     {
+        bool IsConnected { get; }
         void CreateConnection(string connectionString,  string databaseName);
-        void Add<T>(T item) where T : class, new();
+        void Add<T>(T item) where T : class,  new();
         void Add<T>(string collection,T item) where T : class, new();
 
         void Delete<T>(T item) where T : IWithId;

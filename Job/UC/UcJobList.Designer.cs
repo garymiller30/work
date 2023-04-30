@@ -49,7 +49,6 @@
             this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
             this.копироватьВБуферНомерЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.доповненняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripWorks = new System.Windows.Forms.ToolStrip();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -207,8 +206,7 @@
             this.обєднатиВОднеЗамовленняToolStripMenuItem,
             this.toolStripSeparator19,
             this.копироватьВБуферНомерЗаказаToolStripMenuItem,
-            this.копироватьВБуферОписаниеЗаказаToolStripMenuItem,
-            this.доповненняToolStripMenuItem});
+            this.копироватьВБуферОписаниеЗаказаToolStripMenuItem});
             this.contextMenuStrip_NewJob.Name = "contextMenuStrip_NewJob";
             this.contextMenuStrip_NewJob.Size = new System.Drawing.Size(251, 148);
             this.contextMenuStrip_NewJob.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_NewJob_Opening);
@@ -258,12 +256,6 @@
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Text = "копіювати опис замовлення";
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Click += new System.EventHandler(this.КопироватьВБуферОписаниеЗаказаToolStripMenuItem_Click);
-            // 
-            // доповненняToolStripMenuItem
-            // 
-            this.доповненняToolStripMenuItem.Name = "доповненняToolStripMenuItem";
-            this.доповненняToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.доповненняToolStripMenuItem.Text = "Додатки";
             // 
             // toolStripWorks
             // 
@@ -316,6 +308,5 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
         private System.Windows.Forms.ToolStripMenuItem копироватьВБуферНомерЗаказаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem копироватьВБуферОписаниеЗаказаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem доповненняToolStripMenuItem;
     }
 }

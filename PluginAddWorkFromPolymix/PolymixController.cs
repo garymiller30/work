@@ -19,54 +19,6 @@ namespace PluginAddWorkFromPolymix
             _addWorkFromPolymixSettings = addWorkFromPolymixSettings;
         }
 
-        /*
-                public PolymixOrder[] GetOrders()
-                {
-                    List<PolymixOrder> orders = new List<PolymixOrder>();
-                    var connectionString =
-                        $"Server={_addWorkFromPolymixSettings.ServerAddress};Initial Catalog={_addWorkFromPolymixSettings.BaseName};User={_addWorkFromPolymixSettings.User};Password={_addWorkFromPolymixSettings.Password}";
-                    try
-                    {
-                        using (SqlConnection conn = new SqlConnection(connectionString))
-                        {
-                            StringBuilder sb = new StringBuilder();
-                            sb.Append("SELECT ID_number,c.Name,Comment ");
-                            sb.Append("FROM dbo.WorkOrder o JOIN dbo.CUSTOMER c ON o.Customer = c.N ");
-                            sb.Append(
-                                $"WHERE o.IsDraft!=1 and o.IsDeleted=0 and o.KindID={_addWorkFromPolymixSettings.KindId} and (o.OrderState=24 or o.OrderState=10 or o.OrderState=20 or o.OrderState=22)");
-
-                            using (SqlCommand cmd = new SqlCommand(sb.ToString(), conn))
-                            {
-                                conn.Open();
-                                SqlDataReader reader = cmd.ExecuteReader();
-                                if (reader.HasRows)
-                                {
-
-                                    while (reader.Read()) // построчно считываем данные
-                                    {
-                                        var order = new PolymixOrder
-                                        {
-                                            Number = reader.GetInt32(0),
-                                            Customer = reader.GetString(1),
-                                            Description = reader.GetString(2)
-                                        };
-
-                                        orders.Add(order);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Log.Error(this, "PluginAddWorkFromPolymix", e.Message);
-                    }
-
-
-                    return orders.ToArray();
-                }
-        */
-
         public PolymixOrder[] GetOrders(IEnumerable<IFilter> filters)
         {
             List<PolymixOrder> orders = new List<PolymixOrder>();
@@ -77,7 +29,7 @@ namespace PluginAddWorkFromPolymix
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     StringBuilder sb = new StringBuilder();
-                    sb.Append("SELECT ID_number,c.Name,Comment ");
+                    sb.Append("SELECT ID_number,c.Name,Comment,OrderState ");
                     sb.Append("FROM dbo.WorkOrder o JOIN dbo.CUSTOMER c ON o.Customer = c.N ");
 
                     sb.Append("WHERE o.IsDraft!=1 and o.IsDeleted=0");
@@ -97,7 +49,8 @@ namespace PluginAddWorkFromPolymix
                                 {
                                     Number = reader.GetInt32(0),
                                     Customer = reader.GetString(1),
-                                    Description = reader.GetString(2)
+                                    Description = reader.GetString(2),
+                                    OrderState = reader.GetInt32(3)
                                 };
 
                                 orders.Add(order);

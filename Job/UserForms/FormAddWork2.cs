@@ -151,7 +151,7 @@ namespace Job.UserForms
         }
         private bool CheckCustomerPresent()
         {
-            return UserProfile.Customers.CheckCustomerPresent(kryptonComboBox_Customers.Text);
+            return UserProfile.Customers.CheckCustomerPresent(kryptonComboBox_Customers.Text,false);
         }
         private void Unbind()
         {

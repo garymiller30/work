@@ -27,6 +27,7 @@ namespace Job.UC
         void DeleteFilesAndDirectories(IEnumerable<IFileSystemInfoExt> files);
         void PasteFromClipboard(string[] files);
         void CreateDirectoryInCurrentFolder(string name);
+        
         void MoveFileOrDirectoryToCurrentFolder(IFileSystemInfoExt file, string newName);
         void RefreshAsync(string selectFileName = null);
         void DirectoryUp();

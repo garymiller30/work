@@ -67,12 +67,15 @@ namespace ActiveWorks.UserControls
 
         private void Init(IUserProfile profile)
         {
-
+            var saveStatus = SplashScreen.Splash.GetStatus();
             profile.InitProfile();
-
+            SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладку зі списком робіт");
             CreateJobListTab();
+            SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладки з провідниками");
             CreateBrowserTab();
+            SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладки з ftp");
             CreateFtpTab();
+            SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладки з плагінами");
             CreatePluginsTab();
             CreateEvents();
             IsInitializedControl = true;
@@ -81,7 +84,7 @@ namespace ActiveWorks.UserControls
 
             //profile.Jobs.LoadJobs();
            
-                profile.Jobs?.ApplyStatusViewFilter();
+            profile.Jobs?.ApplyStatusViewFilter();
         }
 
         private void CreateJobListTab()

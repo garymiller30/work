@@ -47,7 +47,7 @@ namespace Job.Profiles
         public void InitProfile()
         {
             LoadPlugins();
-            ScriptEngine =  new PythonScriptEngine(this);
+            ScriptEngine = new PythonScriptEngine(this);
             LoadSettingsFromDisk();
             LoadSettingsFromBase();
             
@@ -75,8 +75,7 @@ namespace Job.Profiles
                 CustomersNotifyManager = new CustomerMailNotifyManager(this);
                 Jobs = new JobManager(this, Settings.GetJobSettings());
             }
-
-        }
+         }
 
         private void LoadSettingsFromDisk()
         {

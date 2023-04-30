@@ -1,5 +1,8 @@
 ﻿using Interfaces;
 using Interfaces.Plugins;
+using Job.Models;
+using Job.Profiles;
+using Job;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -72,9 +75,13 @@ namespace PluginAddWorkFromPolymix
 
             using (var form = new FormAddOrder(AddWorkFromPolymixSettings, profile, job))
             {
+
                 result = form.ShowDialog();
                 if (result == DialogResult.OK)
                 {
+                    CreateOrders(profile,form.OrderList);
+
+
                     SaveSettings();
                 }
             }
@@ -83,12 +90,33 @@ namespace PluginAddWorkFromPolymix
 
         }
 
+        private void CreateOrders(IUserProfile profile,List<PolymixOrder> orderList)
+        {
+            if (!orderList.Any() || profile == null) return;
+
+            foreach (var order in orderList)
+            {
+                var job = Factory.CreateJob(profile);
+
+                var jobParameters = new JobParameters(job);
+
+                jobParameters.Customer = order.Customer;
+                jobParameters.Number = order.Number.ToString("D5");
+                jobParameters.Description = order.Description.Split(',').First();
+                jobParameters.Note = order.Description;
+
+                jobParameters.ApplyToJob();
+
+                profile.Customers.CheckCustomerPresent(job.Customer,true);
+
+                profile.Jobs.AddJob(job);
+                //_profile.Plugins.AfterJobChange(jobParameters);
+            }
+        }
+
         private void SaveSettings()
         {
-
             UserProfile.Plugins.SaveSettings(AddWorkFromPolymixSettings);
-            //var str = JsonConvert.SerializeObject(_settings);
-            //File.WriteAllText(_fileSettingsPath, str,Encoding.Unicode);
         }
     }
 }

@@ -514,8 +514,6 @@ namespace Job.UC
                         "відкрити файл Prinect Signa" :
                         "створити файл Prinect Signa";
 
-                доповненняToolStripMenuItem.DropDownItems.Clear();
-                доповненняToolStripMenuItem.DropDownItems.AddRange(_profile.MenuManagers.Utils.Get(ToolsStripMenuItem_Click).ToArray());
             }
             else
             {
@@ -611,7 +609,15 @@ namespace Job.UC
             {
                 try
                 {
-                    Clipboard.SetText(o.Description);
+                    if (Control.ModifierKeys == Keys.Shift)
+                    {
+                        Clipboard.SetText(o.Description);
+                    }
+                    else
+                    {
+                        Clipboard.SetText(o.Description.Transliteration());
+                    }
+                    
                 }
                 catch (Exception ee)
                 {

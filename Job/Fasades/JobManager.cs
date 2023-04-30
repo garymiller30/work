@@ -82,18 +82,9 @@ namespace Job.Fasades
 
         public void CreateJob(IPluginNewOrder pluginNewOrder)
         {
-            var job = Factory.CreateJob(_profile);
-
-            var jobParameters = new JobParameters(job);
-
-
-            if (pluginNewOrder.ShowDialogNewOrder(_profile, jobParameters) == DialogResult.OK)
-            {
-                _profile.Plugins.AfterJobChange(jobParameters);
-                // unbind job
-                jobParameters.ApplyToJob();
-                _profile.Jobs.AddJob(job);
-            }
+            pluginNewOrder.ShowDialogNewOrder(_profile, null);
+            
+            
         }
 
         public void ApplyStatusViewFilter()

@@ -1,4 +1,6 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -7,12 +9,13 @@ namespace Interfaces.Plugins
 {
     public abstract class AbstractProcess<T> : IProcess where T : class, IPay, new()
     {
-        public object Id { get; set; } = new ObjectId();
+        public object Id { get; set; } = ObjectId.GenerateNewId();
         public object ParentId { get; set; }
         public abstract decimal Price { get; set; }
 
         protected readonly ContextMenuStrip _contextMenu = new ContextMenuStrip();
         public List<T> Pays = new List<T>();
+
 
         public ContextMenuStrip GetContextMenu()
         {

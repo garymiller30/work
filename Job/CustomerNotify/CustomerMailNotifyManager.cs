@@ -51,7 +51,8 @@ namespace Job.CustomerNotify
             {
 
                 var q = (from o in _customerNotifyList
-                         where o.CustomerId == id.Id
+                         where string.Equals(o.CustomerId.ToString(), id.Id.ToString()
+, System.StringComparison.OrdinalIgnoreCase)
                          select o).Cast<ICustomerMailNotify>().ToList();
 
                 return q;
@@ -137,7 +138,7 @@ namespace Job.CustomerNotify
 
         private CustomerMailNotify GetNotify(ICustomer customer, int statusCode)
         {
-            return _customerNotifyList.FirstOrDefault(x => x.CustomerId == customer.Id && x.StatusCode == statusCode && x.Enabled);
+            return _customerNotifyList.FirstOrDefault(x => string.Equals(x.CustomerId.ToString(), customer.Id.ToString(), System.StringComparison.OrdinalIgnoreCase) && x.StatusCode == statusCode && x.Enabled);
             
         }
 

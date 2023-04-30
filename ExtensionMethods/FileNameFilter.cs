@@ -7,7 +7,7 @@ namespace ExtensionMethods
 {
     public static class FileNameFilter
     {
-        private static readonly Dictionary<string,string> Gost = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> Gost = new Dictionary<string, string>();
 
 
         static FileNameFilter()
@@ -92,6 +92,8 @@ namespace ExtensionMethods
             Gost.Add("—", "-");
             Gost.Add("*", "x");
             Gost.Add("\"", "");
+            Gost.Add(" ", "_");
+            Gost.Add("–","-");
         }
 
         //заміна кирилиці
@@ -128,7 +130,7 @@ namespace ExtensionMethods
         {
             return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
         }
-     
+
 
     }
 

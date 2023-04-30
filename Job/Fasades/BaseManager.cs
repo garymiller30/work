@@ -31,9 +31,7 @@ namespace Job.Fasades
         {
             get
             {
-                if (_repository == null) return false;
-                //if (_mongoDatabase == null) return false;
-                return true;// _mongoDatabase.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(BaseTimeOut*1000);
+                return _repository != null && _repository.IsConnected;
 
             }
         }
@@ -74,17 +72,43 @@ namespace Job.Fasades
 
         public void Add<T>(T item) where T : class, new()
         {
-            _repository.Add(item);
+            try
+            {
+                _repository.Add(item);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public void Delete<T>(T item) where T : IWithId
         {
-            _repository.Delete(item);
+            try
+            {
+                _repository.Delete(item);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public List<T> All<T>() where T : class, new()
         {
-            return _repository.All<T>();
+            try
+            {
+                var list = _repository.All<T>();
+                return list;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public void Update<T>(T item) where T : IWithId
@@ -102,22 +126,56 @@ namespace Job.Fasades
 
         public object GetRawCollection<T>(string collection) where T : class, new()
         {
-            return _repository.GetRawCollection<T>(collection);
+            try
+            {
+                var obj = _repository.GetRawCollection<T>(collection);
+                return obj;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         void IRepository.Add<T>(string collection, T item)
         {
-            _repository.Add<T>(collection, item);
+            try
+            {
+                _repository.Add<T>(collection, item);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public void Delete<T>(string collection, T item) where T : IWithId
         {
-            _repository.Delete(collection, item);
+            try
+            {
+                _repository.Delete(collection, item);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public List<T> All<T>(string collection) where T : class, new()
         {
-            return _repository.All<T>(collection);
+            try
+            {
+                return _repository.All<T>(collection);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         public void Update<T>(string collection, T item) where T : IWithId
@@ -136,7 +194,16 @@ namespace Job.Fasades
 
         public T GetById<T>(string collection, object id) where T : class, IWithId
         {
-            return _repository.GetById<T>(collection, id);
+            try
+            {
+                return _repository.GetById<T>(collection, id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public bool Add<T>(string collection, T obj) where T : class, new()
@@ -185,7 +252,7 @@ namespace Job.Fasades
             }
         }
 
-        public List<T> GetCollection<T>(string collection) where T : class, new()
+        public List<T> GetCollection<T>(string collection) where T : class, IWithId, new()
         {
             try
             {

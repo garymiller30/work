@@ -50,6 +50,8 @@ namespace Job.Fasades
 
         public ICategory GetCategoryById(object id)
         {
+            if (id == null) return null;
+
             var category = GetAll().Where(x => (ObjectId)x.Id == (ObjectId)id);
 
             if (category.Any())

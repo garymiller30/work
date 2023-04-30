@@ -729,7 +729,7 @@ namespace Job.UC
 
         private void CreateDirectory()
         {
-            using (var ff = new FormEditFolder())
+            using (var ff = new FormEditFolder(UserProfile, _fileManager.CreateDirectoryInCurrentFolder))
             {
                 if (ff.ShowDialog() == DialogResult.OK)
                 {
@@ -737,6 +737,8 @@ namespace Job.UC
                 }
             }
         }
+
+        
 
         private void ПереименоватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -757,6 +759,9 @@ namespace Job.UC
                 }
             }
         }
+
+
+
 
         private void OpenCurrentFolderInExplorer()
         {
