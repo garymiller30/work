@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DownloadState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowOut.cs">
       <SubType>UserControl</SubType>

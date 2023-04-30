@@ -525,7 +525,7 @@ namespace Job.Fasades
 
             if (RenameJobDirectory(oldPath, job))
             {
-                _profile.Jobs.UpdateJob(job);
+                _profile.Jobs.UpdateJob(job,true);
                 return true;
             }
             job.Description = save;

@@ -429,7 +429,7 @@ namespace Job.UC
             {
                 if (_profile.Jobs.ChangeJobDescription(job, description))
                 {
-                    objectListView_NewWorks.RefreshObject(job);
+                    //objectListView_NewWorks.RefreshObject(job);
                     return job;
                 }
             }
