@@ -15,6 +15,7 @@ namespace Job.UC
 
         List<T> GetFiles(string path);
         List<T> GetAllFiles(string path);
+        List<T> GetDirs(string path);
         int GetCountFiles();
     }
 }

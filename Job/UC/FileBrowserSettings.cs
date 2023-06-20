@@ -39,6 +39,7 @@ namespace Job.UC
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public bool IsRoot => RootFolder.Equals(CurFolder);
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {

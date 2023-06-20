@@ -521,7 +521,7 @@ namespace Job.Fasades
             var save = job.Description;
 
             job.Description = newDesc;
-            job.Description = job.Description;
+            //job.Description = job.Description;
 
             if (RenameJobDirectory(oldPath, job))
             {

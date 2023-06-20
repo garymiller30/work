@@ -6,10 +6,12 @@ using Interfaces;
 using Interfaces.PdfUtils;
 using Job.Dlg;
 using Job.Menus;
+using Job.Models;
 using Job.Static;
 using Job.UserForms;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
+using Org.BouncyCastle.Asn1.X509;
 using PythonEngine;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -106,11 +109,11 @@ namespace Job.UC
             olvColumn_FileName.ImageGetter = x => helper.GetImageIndex(((IFileSystemInfoExt)x).FileInfo.FullName);
             olvColumn_DateTime.AspectGetter = x => ((IFileSystemInfoExt)x).FileInfo.LastWriteTime;
 
-            
+
 
         }
 
-       
+
 
         #region [FILE MANAGER]
 
@@ -133,7 +136,7 @@ namespace Job.UC
         private void FileManagerOnOnSelectFileName(object sender, string e)
         {
             IFileSystemInfoExt file = objectListView1.Objects.Cast<IFileSystemInfoExt>()
-                .FirstOrDefault(x => x.FileInfo.Name.Equals(e,StringComparison.InvariantCultureIgnoreCase));
+                .FirstOrDefault(x => x.FileInfo.Name.Equals(e, StringComparison.InvariantCultureIgnoreCase));
             if (file != null) objectListView1.SelectObject(file);
 
         }
@@ -431,7 +434,8 @@ namespace Job.UC
                 var fileList = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToArray();
 
                 BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"run script {menuSendTo.Name}", new Action(
-                () => {
+                () =>
+                {
                     foreach (var info in fileList)
                     {
                         ProcessScriptFile(info, menuSendTo);
@@ -697,7 +701,7 @@ namespace Job.UC
             try
             {
                 Clipboard.SetText(filePath.ToString());
-                
+
             }
             catch { }
         }
@@ -738,7 +742,7 @@ namespace Job.UC
             }
         }
 
-        
+
 
         private void ПереименоватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -827,6 +831,104 @@ namespace Job.UC
             bool visible = !nonPdfFiles.Any();
             утилітиДляPDFToolStripMenuItem.Visible = visible;
             setTrimBoxToolStripMenuItem.Visible = visible;
+
+            SetToMoveFolders();
+
+
+
+        }
+
+        private void SetToMoveFolders()
+        {
+            переміститиДоToolStripMenuItem.Visible = false;
+
+            var folders = UserProfile.Settings.GetFileBrowser().FolderNamesForCreate;
+
+
+
+            //// перевірити, чи це коренева папка
+
+            //if (!_fileManager.Settings.IsRoot) return;
+
+            // перевірити, чи вибрано файли
+
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            // перевірити, чи нема у вибраних файлів назви папок
+
+            var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>();
+
+            var filteredFiles = files.Where(x =>
+            {
+                return !folders.Contains(x.FileInfo.Name, StringComparer.OrdinalIgnoreCase);
+            });
+
+            if (filteredFiles.Count() == 0) return;
+
+            // створити меню
+            переміститиДоToolStripMenuItem.Visible = true;
+            переміститиДоToolStripMenuItem.DropDownItems.Clear();
+
+
+
+            foreach (var folder in folders)
+            {
+                переміститиДоToolStripMenuItem.DropDownItems.Add(folder, null, (sender, e) =>
+                {
+
+                    var targetDir = Path.Combine(_fileManager.Settings.RootFolder, folder);
+                    if (!Directory.Exists(targetDir)) { Directory.CreateDirectory(targetDir); }
+
+                    foreach (var file in filteredFiles)
+                    {
+                        var targetFile = Path.Combine(targetDir, file.FileInfo.Name);
+
+                        _fileManager.MoveTo(file, targetFile);
+                    }
+
+                });
+            }
+
+            var localFolders = _fileManager.GetDirs();
+
+            if (localFolders.Count() == 0) return;
+
+            var lf = localFolders.Where(x =>
+            {
+                foreach (var folder in folders)
+                {
+                    if (x.FileInfo.Name.Equals(folder,StringComparison.InvariantCultureIgnoreCase)) return false;
+                }
+                return true;
+            });
+
+
+            if (lf.Count() == 0) return;
+
+            переміститиДоToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
+
+            foreach (var localFolder in lf)
+            {
+                переміститиДоToolStripMenuItem.DropDownItems.Add(localFolder.FileInfo.Name, null, (sender, e) =>
+                {
+
+                    var targetDir = Path.Combine(_fileManager.Settings.RootFolder, localFolder.FileInfo.Name);
+                    if (!Directory.Exists(targetDir)) { Directory.CreateDirectory(targetDir); }
+
+                    foreach (var file in filteredFiles)
+                    {
+                        var targetFile = Path.Combine(targetDir, file.FileInfo.Name);
+
+                        _fileManager.MoveTo(file, targetFile);
+                    }
+
+                });
+            }
+
+
+
+
+
         }
 
         private void ToolStripSendMenu_Click(object sender, EventArgs eevnArgs)
@@ -1464,7 +1566,8 @@ namespace Job.UC
                             () =>
                             {
 
-                                Thread t = new Thread((ThreadStart)(() => {
+                                Thread t = new Thread((ThreadStart)(() =>
+                                {
                                     FileFormatsUtil.ConvertToPDF(files, mode);
 
                                     if (trimBox > 0)
@@ -1481,7 +1584,7 @@ namespace Job.UC
                                 t.Start();
                                 t.Join();
 
-                                
+
                             }
                             )));
 
@@ -1681,7 +1784,7 @@ namespace Job.UC
             }
             else
             {
-                MessageBox.Show("Файлів має бути два! В одному непарні сторінки, а в іншому - парні","Альо!", MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("Файлів має бути два! В одному непарні сторінки, а в іншому - парні", "Альо!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -1721,7 +1824,8 @@ namespace Job.UC
             {
                 string f = folder;
                 var item = new ToolStripMenuItem(f);
-                item.Click += (object s, EventArgs ea) => {
+                item.Click += (object s, EventArgs ea) =>
+                {
                     _fileManager.CreateDirectoryInCurrentFolder(f);
                 };
                 toolStripButton_NewFolder.DropDownItems.Add(item);

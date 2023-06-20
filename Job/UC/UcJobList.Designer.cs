@@ -50,6 +50,7 @@
             this.копироватьВБуферНомерЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripWorks = new System.Windows.Forms.ToolStrip();
+            this.копіюватиЗамавникаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -206,9 +207,10 @@
             this.обєднатиВОднеЗамовленняToolStripMenuItem,
             this.toolStripSeparator19,
             this.копироватьВБуферНомерЗаказаToolStripMenuItem,
+            this.копіюватиЗамавникаToolStripMenuItem,
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem});
             this.contextMenuStrip_NewJob.Name = "contextMenuStrip_NewJob";
-            this.contextMenuStrip_NewJob.Size = new System.Drawing.Size(251, 148);
+            this.contextMenuStrip_NewJob.Size = new System.Drawing.Size(251, 170);
             this.contextMenuStrip_NewJob.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_NewJob_Opening);
             // 
             // создатьSignaJobToolStripMenuItem
@@ -266,6 +268,13 @@
             this.toolStripWorks.Size = new System.Drawing.Size(26, 111);
             this.toolStripWorks.TabIndex = 0;
             // 
+            // копіюватиЗамавникаToolStripMenuItem
+            // 
+            this.копіюватиЗамавникаToolStripMenuItem.Name = "копіюватиЗамавникаToolStripMenuItem";
+            this.копіюватиЗамавникаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.копіюватиЗамавникаToolStripMenuItem.Text = "копіювати замовника";
+            this.копіюватиЗамавникаToolStripMenuItem.Click += new System.EventHandler(this.копіюватиЗамавникаToolStripMenuItem_Click);
+            // 
             // UcJobList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -308,5 +317,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
         private System.Windows.Forms.ToolStripMenuItem копироватьВБуферНомерЗаказаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem копироватьВБуферОписаниеЗаказаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem копіюватиЗамавникаToolStripMenuItem;
     }
 }

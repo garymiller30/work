@@ -95,6 +95,7 @@
             this.toolStripButton_Rename = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonCopyToClipboard = new System.Windows.Forms.ToolStripSplitButton();
+            this.копіюватиІмяФайлуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButtonCut = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPaste = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton_Delete = new System.Windows.Forms.ToolStripButton();
@@ -118,7 +119,7 @@
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonLabelPath = new Krypton.Toolkit.KryptonLinkLabel();
             this.kryptonPalette1 = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.копіюватиІмяФайлуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.переміститиДоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -324,6 +325,7 @@
             this.вырезатьToolStripMenuItem,
             this.вставитьToolStripMenuItem,
             this.перенестиВмістПапкиСюдиToolStripMenuItem,
+            this.переміститиДоToolStripMenuItem,
             this.переместитьВTEMPToolStripMenuItem,
             this.toolStripSeparator9,
             this.имяФайлаОписаниеЗаказаToolStripMenuItem,
@@ -334,7 +336,7 @@
             this.додатиТираж000ToolStripMenuItem,
             this.отправитьВToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(320, 420);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(320, 464);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // предварительныйПросмотрToolStripMenuItem
@@ -663,7 +665,7 @@
             this.toolStripButtonSettings});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(517, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(488, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -744,6 +746,13 @@
             this.toolStripButtonCopyToClipboard.Text = "Копіювати файли";
             this.toolStripButtonCopyToClipboard.ToolTipText = "Копіювати файли в буфер обміну";
             this.toolStripButtonCopyToClipboard.Click += new System.EventHandler(this.toolStripButtonCopyToClipboard_Click);
+            // 
+            // копіюватиІмяФайлуToolStripMenuItem
+            // 
+            this.копіюватиІмяФайлуToolStripMenuItem.Name = "копіюватиІмяФайлуToolStripMenuItem";
+            this.копіюватиІмяФайлуToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.копіюватиІмяФайлуToolStripMenuItem.Text = "копіювати ім\'я файлу";
+            this.копіюватиІмяФайлуToolStripMenuItem.Click += new System.EventHandler(this.копіюватиІмяФайлуToolStripMenuItem_Click);
             // 
             // toolStripButtonCut
             // 
@@ -935,12 +944,11 @@
             this.kryptonLabelPath.Values.Text = "";
             this.kryptonLabelPath.LinkClicked += new System.EventHandler(this.kryptonLabelPath_LinkClicked);
             // 
-            // копіюватиІмяФайлуToolStripMenuItem
+            // переміститиДоToolStripMenuItem
             // 
-            this.копіюватиІмяФайлуToolStripMenuItem.Name = "копіюватиІмяФайлуToolStripMenuItem";
-            this.копіюватиІмяФайлуToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.копіюватиІмяФайлуToolStripMenuItem.Text = "копіювати ім\'я файлу";
-            this.копіюватиІмяФайлуToolStripMenuItem.Click += new System.EventHandler(this.копіюватиІмяФайлуToolStripMenuItem_Click);
+            this.переміститиДоToolStripMenuItem.Name = "переміститиДоToolStripMenuItem";
+            this.переміститиДоToolStripMenuItem.Size = new System.Drawing.Size(319, 22);
+            this.переміститиДоToolStripMenuItem.Text = "перемістити до...";
             // 
             // FileBrowser
             // 
@@ -1063,5 +1071,6 @@
         private System.Windows.Forms.ToolStripMenuItem зберегтиЯкJpgToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem показатиВсіФайлибезПапокToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem копіюватиІмяФайлуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem переміститиДоToolStripMenuItem;
     }
 }

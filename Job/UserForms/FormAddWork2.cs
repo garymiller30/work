@@ -11,6 +11,7 @@ using Krypton.Toolkit;
 using Interfaces;
 using Job.Profiles;
 using MongoDB.Bson;
+using Job.Fasades;
 
 namespace Job.UserForms
 {
@@ -99,8 +100,9 @@ namespace Job.UserForms
 
             if (!UserProfile.Settings.HideCategory)
             {
-                var categories = UserProfile.Categories.GetAll().ToList();
-                kryptonComboBoxCategory.DataSource = categories;
+                //var categories = CategoryToCustomerAsignManager.GetCustomerCategories(UserProfile,)
+                //var categories = UserProfile.Categories.GetAll().ToList();
+                //kryptonComboBoxCategory.DataSource = categories;
                 kryptonComboBoxCategory.DisplayMember = "Name";
             }
 
@@ -143,14 +145,22 @@ namespace Job.UserForms
             if (CheckCustomerPresent())
             {
                 Unbind();
+                DialogResult = DialogResult.OK;
                 Close();
                 return;
             }
 
-            DialogResult = DialogResult.Cancel;
+            DialogResult = DialogResult.None;
+            
         }
         private bool CheckCustomerPresent()
         {
+            if (string.IsNullOrEmpty(kryptonComboBox_Customers.Text))
+            {
+                MessageBox.Show("Вибери замовника");
+                return false;
+            }
+
             return UserProfile.Customers.CheckCustomerPresent(kryptonComboBox_Customers.Text,false);
         }
         private void Unbind()
@@ -161,6 +171,7 @@ namespace Job.UserForms
             if (!string.IsNullOrEmpty(kryptonComboBoxCategory.Text))
             {
                 _job.CategoryId = UserProfile.Categories.Add(kryptonComboBoxCategory.Text);
+                CategoryToCustomerAsignManager.SetCategory(UserProfile, ((Customer)kryptonComboBox_Customers.SelectedItem).Id, _job.CategoryId,true);
             }
             else
             {
@@ -275,6 +286,20 @@ namespace Job.UserForms
             }
         }
 
+        private void kryptonComboBox_Customers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var customer = kryptonComboBox_Customers.SelectedItem as Customer;
+
+            if (customer == null) return;
+
+            if (UserProfile.Settings.HideCategory) return;
+
+
+            var categories = CategoryToCustomerAsignManager.GetCustomerCategories(UserProfile, customer.Id);
+            //var categories = UserProfile.Categories.GetAll().ToList();
+            kryptonComboBoxCategory.DataSource = categories;
+            kryptonComboBoxCategory.DisplayMember = "Name";
+        }
     }
 }
 

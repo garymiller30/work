@@ -34,6 +34,7 @@ namespace Job.UC
         void SetRootDirectory(string rootDir);
         //void CreateJdf(IEnumerable<IFileSystemInfoExt> files);
         List<IFileSystemInfoExt> GetFiles(string path);
+        List<IFileSystemInfoExt> GetDirs();
         void GetTempFolder();
 
         void MoveFilesToTrash(IFileSystemInfoExt[] files);
@@ -42,6 +43,7 @@ namespace Job.UC
 
         void MoveFolderContentsToHere(IFileSystemInfoExt folder);
         void GetAllFilesWithoutDir();
+        void MoveTo(IFileSystemInfoExt file, string targetDir);
         //IFileManager UseWatcher(IWatcher watcher);
         //IFileManager UseCache(ICache cache);
     }

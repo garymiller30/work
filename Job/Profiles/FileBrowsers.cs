@@ -42,7 +42,7 @@ namespace Job.Profiles
         {
             var job = _profile.Jobs.JobListControl.ChangeSelectedJobDescription(e);
 
-            _profile.Jobs.SetCurrentJob(job);
+            //_profile.Jobs.SetCurrentJob(job);
 
             //if (job != null)
             //{

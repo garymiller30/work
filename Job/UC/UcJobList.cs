@@ -686,5 +686,29 @@ namespace Job.UC
 
         private void objectListView_NewWorks_FormatRow(object sender, FormatRowEventArgs e) =>
             _profile.Plugins?.JobListFormatRow(e.Item);
+
+        private void копіюватиЗамавникаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView_NewWorks.SelectedObject is IJob o)
+            {
+                try
+                {
+                    if (Control.ModifierKeys == Keys.Shift)
+                    {
+                        Clipboard.SetText(o.Customer);
+                    }
+                    else
+                    {
+                        Clipboard.SetText(o.Customer.Transliteration());
+                    }
+
+                }
+                catch (Exception ee)
+                {
+                    Log.Error(_profile, "Clipboard", ee.Message);
+                }
+
+            }
+        }
     }
 }

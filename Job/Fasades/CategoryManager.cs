@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Interfaces;
+using Job.Models;
 using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace Job.Fasades
 {
@@ -74,6 +76,23 @@ namespace Job.Fasades
         {
             _userProfile.Base.Remove(CollectionString,(Category)category);
             _categories.Remove((Category)category);
+        }
+
+        public List<ICategory> GetCategoryByIds(List<object> categoriedIdList)
+        {
+            var categoryFilter = Builders<Category>.Filter.In(x=>x.Id,categoriedIdList);
+            var collection = (IMongoCollection<Category>)_userProfile.Base.GetRawCollection<Category>(CollectionString);
+
+            var res = collection.FindAsync(categoryFilter);
+            res.Wait();
+            var r = res.Result.ToListAsync();
+            r.Wait();
+
+            if (r.Result.Count > 0)
+            {
+                return r.Result.Cast<ICategory>().ToList();
+            }
+            return new List<ICategory>();
         }
     }
 }

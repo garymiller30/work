@@ -22,5 +22,7 @@ namespace Interfaces
         T GetById<T>(string collection, object id) where T : class,IWithId;
 
         object GetRawCollection<T>(string collection) where T : class, new();
+
+        object GetRawCollection<T>() where T: class, new();
     }
 }

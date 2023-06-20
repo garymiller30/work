@@ -37,5 +37,10 @@ namespace Job.UC
         {
             throw new NotImplementedException();
         }
+
+        public List<IFileSystemInfoExt> GetDirs(string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -171,5 +171,12 @@ namespace Job.Data
 
             return null;
         }
+
+        public object GetRawCollection<T>() where T : class, new()
+        {
+            if (!IsConnected) throw new Exception("Can`t GetRawCollection - Mongodb is offline");
+            var name = typeof(T).Name;
+            return _mongoDatabase.GetCollection<T>(name);
+        }
     }
 }

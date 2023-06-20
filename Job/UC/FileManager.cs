@@ -160,31 +160,7 @@ namespace Job.UC
 
 
         }
-        //public void CreateJdf(IEnumerable<IFileSystemInfoExt> files)
-        //{
-
-        //    //StopWatcher();
-
-        //    var jdf = new Jdf { PatternSettings = { Separator = "~" } };
-
-        //    jdf.PatternSettings.AddPattern(PatternEnum.Customer);
-        //    jdf.PatternSettings.AddPattern(PatternEnum.JobName);
-        //    jdf.PatternSettings.AddPattern(PatternEnum.PageNumber);
-        //    jdf.PatternSettings.AddPattern(PatternEnum.FrontBack);
-        //    jdf.PatternSettings.AddPattern(PatternEnum.Color);
-
-        //    jdf.ShablonPath = @"JDF\JobStart.jdf";
-
-        //    foreach (IFileSystemInfoExt file in files)
-        //    {
-        //        jdf.AddFile(file.FileInfo.FullName);
-        //    }
-
-        //    jdf.CreateJdf(Settings.CurFolder);
-
-        //    Refresh();
-
-        //і}
+        
 
         public void CreateDirectoryInCurrentFolder(string name)
         {
@@ -252,8 +228,6 @@ namespace Job.UC
                 }
                 catch (IOException)
                 {
-                    //var processes = FileUtil.WhoIsLocking(file.FileInfo.FullName);
-                    //var message = processes.Select(x => x.ProcessName).Aggregate((a, n) => $"{a}/n{n}");
                     var message = FileUtil.GetNamesWhoBlock(file.FileInfo.FullName);
                     if (MessageBox.Show($"Файл {file.FileInfo.FullName} заблоковано такими програмами: {message}", "Файл заблоковано", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Retry)
                     {
@@ -406,12 +380,18 @@ namespace Job.UC
 
         public void DirectoryUp()
         {
+
             if (Settings.RootFolder == null) return;
-            if (Settings.RootFolder.Equals(Settings.CurFolder, StringComparison.InvariantCultureIgnoreCase)) return;
 
-            var selectedFileName = Path.GetFileName(Settings.CurFolder);
+            string selectedFileName = Settings.CurFolder;
 
-            Settings.CurFolder = Path.GetDirectoryName(Settings.CurFolder);
+            if (!Settings.RootFolder.Equals(Settings.CurFolder, StringComparison.InvariantCultureIgnoreCase)) {
+                selectedFileName = Path.GetFileName(Settings.CurFolder);
+
+                Settings.CurFolder = Path.GetDirectoryName(Settings.CurFolder);
+            }
+            
+            
             RefreshAsync(selectedFileName);
         }
 
@@ -502,6 +482,15 @@ namespace Job.UC
             OnRefreshDirectory(this, files);
         }
 
+        public List<IFileSystemInfoExt> GetDirs()
+        {
+            List<IFileSystemInfoExt> files = new List<IFileSystemInfoExt>(1);
+
+            files = _cache.GetDirs(Settings.CurFolder);
+
+            return files;
+        }
+
         private bool CheckForIgnoreFolders(IFileSystemInfoExt f)
         {
             foreach (var ignoreFolder in Settings.IgnoreFolders)
@@ -517,6 +506,11 @@ namespace Job.UC
         public void CreateDirectoryInCurrentFolder(string name, Action<string> action)
         {
             throw new NotImplementedException();
+        }
+
+        public void MoveTo(IFileSystemInfoExt file, string targetDir)
+        {
+            _moveFileOrDir(file, targetDir);
         }
     }
 

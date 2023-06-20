@@ -160,6 +160,19 @@ namespace Job.UC
             return _files;
         }
 
+        public List<IFileSystemInfoExt> GetDirs(string path)
+        {
+
+            if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
+
+            var dirs = Directory.GetDirectories(path)
+                 .Where(y => !y.EndsWith("temp", StringComparison.CurrentCultureIgnoreCase))
+                 .Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            dirs.Sort(_naturalCompaper);
+
+            return dirs.Cast<IFileSystemInfoExt>().ToList();
+        }
+
         public List<IFileSystemInfoExt> GetAllFiles(string path)
         {
             DisableWatcher();
@@ -167,8 +180,8 @@ namespace Job.UC
             _files.Clear();
 
             if (!Directory.Exists(path)) return _files;
-            
-            var f = Directory.GetFiles(path,"*.*",SearchOption.AllDirectories).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+
+            var f = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
             f.Sort(_naturalCompaper);
 
             _files.AddRange(f);

@@ -124,6 +124,19 @@ namespace Job.Fasades
             }
         }
 
+        public object GetRawCollection<T>() where T : class, new()
+        {
+            try
+            {
+                return _repository.GetRawCollection<T>();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public object GetRawCollection<T>(string collection) where T : class, new()
         {
             try
@@ -272,9 +285,6 @@ namespace Job.Fasades
                 var jobs = _repository.GetRawCollection<Job>("Jobs");
                 var job = ((IMongoCollection<Job>)jobs).Find(x => x.Number.Equals(orderNumber));
                 return job.ToList(default).LastOrDefault();
-
-                //return _repository.All<Job>("Jobs").LastOrDefault(x=>x.Number.Equals(orderNumber));
-
             }
             catch (Exception e)
             {

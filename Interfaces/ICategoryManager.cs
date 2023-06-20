@@ -9,5 +9,6 @@ namespace Interfaces
         IEnumerable<ICategory> GetAll();
         object Add(string category);
         void Remove(ICategory model);
+        List<ICategory> GetCategoryByIds(List<object> categoriedIdList);
     }
 }

@@ -69,6 +69,10 @@
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj">
+      <Project>{EFE36109-BE2C-49CE-82DF-5649F61898C0}</Project>
+      <Name>ExtensionMethods</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{BB0FE1FA-8C37-4E59-A548-669F97109E64}</Project>
       <Name>Interfaces</Name>

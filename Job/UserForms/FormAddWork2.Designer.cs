@@ -1,5 +1,4 @@
-﻿using Job.UC;
-namespace Job.UserForms
+﻿namespace Job.UserForms
 {
     partial class FormAddWork2
     {
@@ -44,13 +43,13 @@ namespace Job.UserForms
             this.panel4 = new System.Windows.Forms.Panel();
             this.checkBoxCloseAfterPaste = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
-            this.textBox_Description = new UcTexBox(this.components);
+            this.textBox_Description = new UC.UcTexBox(this.components);
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonSplitContainer1 = new Krypton.Toolkit.KryptonSplitContainer();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
-            this.ucNote1 = new UcNote();
+            this.ucNote1 = new UC.UcNote();
             this.kryptonGroupBox2 = new Krypton.Toolkit.KryptonGroupBox();
-            this.ucAddWorkPluginsContainer1 = new UcAddWorkPluginsContainer();
+            this.ucAddWorkPluginsContainer1 = new UC.UcAddWorkPluginsContainer();
             this.kryptonButton_OK = new Krypton.Toolkit.KryptonButton();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -140,6 +139,7 @@ namespace Job.UserForms
             // 
             this.kryptonComboBox_Customers.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.kryptonComboBox_Customers.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.kryptonComboBox_Customers.CornerRoundingRadius = -1F;
             this.kryptonComboBox_Customers.DropDownWidth = 147;
             this.kryptonComboBox_Customers.FormattingEnabled = true;
             this.kryptonComboBox_Customers.IntegralHeight = false;
@@ -148,6 +148,7 @@ namespace Job.UserForms
             this.kryptonComboBox_Customers.Size = new System.Drawing.Size(142, 23);
             this.kryptonComboBox_Customers.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonComboBox_Customers.TabIndex = 51;
+            this.kryptonComboBox_Customers.SelectedIndexChanged += new System.EventHandler(this.kryptonComboBox_Customers_SelectedIndexChanged);
             // 
             // kryptonLabel1
             // 
@@ -178,6 +179,7 @@ namespace Job.UserForms
             // 
             this.kryptonComboBoxCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.kryptonComboBoxCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.kryptonComboBoxCategory.CornerRoundingRadius = -1F;
             this.kryptonComboBoxCategory.DropDownWidth = 135;
             this.kryptonComboBoxCategory.IntegralHeight = false;
             this.kryptonComboBoxCategory.Location = new System.Drawing.Point(78, 9);
@@ -221,7 +223,6 @@ namespace Job.UserForms
             // 
             this.textBox_Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            
             this.textBox_Description.Location = new System.Drawing.Point(49, 3);
             this.textBox_Description.Name = "textBox_Description";
             this.textBox_Description.Size = new System.Drawing.Size(463, 20);
@@ -304,6 +305,7 @@ namespace Job.UserForms
             // kryptonButton_OK
             // 
             this.kryptonButton_OK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.kryptonButton_OK.CornerRoundingRadius = -1F;
             this.kryptonButton_OK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.kryptonButton_OK.Location = new System.Drawing.Point(297, 328);
             this.kryptonButton_OK.Name = "kryptonButton_OK";

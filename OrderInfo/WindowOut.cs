@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
 using Job.Profiles;
@@ -65,6 +66,11 @@ namespace OrderInfo
 
                     ucAddWorkPluginsContainer1.Subscribe(UserProfile, _curjob);
                     _isSubscribed = true;
+
+                    if (UserProfile.Plugins.GetPluginFormAddWorks().Count() == 0)
+                    {
+                        splitContainer1.Panel2Collapsed = true;
+                    }
 
                 }
                 else

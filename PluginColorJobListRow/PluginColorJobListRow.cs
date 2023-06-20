@@ -1,4 +1,5 @@
-﻿using Interfaces;
+﻿using ExtensionMethods;
+using Interfaces;
 using Interfaces.Plugins;
 using System.Windows.Forms;
 
@@ -31,7 +32,7 @@ namespace PluginColorJobListRow
 
             item.BackColor = Settings.Get(UserProfile).GetColor(job.StatusCode);
 
-            Settings.SetJob($"{job.Number}_{job.Customer}", job.StatusCode);
+            Settings.SetJob($"{job.Number}_{job.Customer.Transliteration()}", job.StatusCode);
 
         }
     }

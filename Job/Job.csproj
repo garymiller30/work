@@ -274,9 +274,12 @@
     <Compile Include="CustomForms\FormEnterText.Designer.cs">
       <DependentUpon>FormEnterText.cs</DependentUpon>
     </Compile>
+    <Compile Include="Fasades\CategoryToCustomerAsignManager.cs" />
     <Compile Include="FormEventStatus.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Models\CategoryToCustomer.cs" />
     <Compile Include="Models\PdfEmptyTemplate.cs" />
+    <Compile Include="ModelView\CategoryToCustomerView.cs" />
     <Compile Include="Plugins\AbstractPluginAddWork.cs" />
     <Compile Include="Plugins\AbstractProcess.cs" />
     <Compile Include="Profiles\ExtendedSettings.cs" />
