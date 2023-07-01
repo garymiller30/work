@@ -607,16 +607,8 @@ namespace Job.UC
             ticket.TargetDir = _fileManager.Settings.CurFolder;
 
             downloader.AddFile(ticket);
-            //downloader.StartDownload += Downloader_StartDownload;
-            //downloader.FinishDownload += Downloader_FinishDownload;
-            //downloader.ProcessDownloading += Downloader_ProcessDownloading;
-
-            //JobLock(job);
 
             DownloadService.AddToQuery(downloader);
-
-
-
         }
 
         private void ObjectListView1_ItemDrag(object sender, ItemDragEventArgs e)
@@ -746,22 +738,22 @@ namespace Job.UC
 
         private void ПереименоватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObject != null)
+            if (objectListView1.SelectedObject == null) return;
+
+            var old = (IFileSystemInfoExt)objectListView1.SelectedObject;
+
+            using (var ff = new FormEditFolder(old.FileInfo.Name))
             {
-                var old = (IFileSystemInfoExt)objectListView1.SelectedObject;
-
-                using (var ff = new FormEditFolder(old.FileInfo.Name))
+                if (ff.ShowDialog() == DialogResult.OK)
                 {
-                    if (ff.ShowDialog() == DialogResult.OK)
+                    if (!string.IsNullOrEmpty(ff.textBox_Name.Text))
                     {
-                        if (!string.IsNullOrEmpty(ff.textBox_Name.Text))
-                        {
-                            _fileManager.MoveFileOrDirectoryToCurrentFolder(old, ff.textBox_Name.Text);
+                        _fileManager.MoveFileOrDirectoryToCurrentFolder(old, ff.textBox_Name.Text);
 
-                        }
                     }
                 }
             }
+
         }
 
 
@@ -897,7 +889,7 @@ namespace Job.UC
             {
                 foreach (var folder in folders)
                 {
-                    if (x.FileInfo.Name.Equals(folder,StringComparison.InvariantCultureIgnoreCase)) return false;
+                    if (x.FileInfo.Name.Equals(folder, StringComparison.InvariantCultureIgnoreCase)) return false;
                 }
                 return true;
             });
@@ -1835,8 +1827,12 @@ namespace Job.UC
 
         private void показатиВсіФайлибезПапокToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            _fileManager.Settings.ShowAllFilesWithoutDir = показатиВсіФайлибезПапокToolStripMenuItem.Checked;
+
             objectListView1.ClearObjects();
-            _fileManager.GetAllFilesWithoutDir();
+            objectListView1.EmptyListMsg = "Loading...";
+            _fileManager.RefreshAsync();
+            //_fileManager.GetAllFilesWithoutDir();
         }
 
         private void копіюватиІмяФайлуToolStripMenuItem_Click(object sender, EventArgs e)

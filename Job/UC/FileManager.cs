@@ -93,10 +93,23 @@ namespace Job.UC
             List<IFileSystemInfoExt> files = new List<IFileSystemInfoExt>(1);
             try
             {
-                await Task.Run(() =>
+                if (Settings.ShowAllFilesWithoutDir)
                 {
-                    files = _cache.GetFiles(Settings.CurFolder);
-                }).ConfigureAwait(true);
+
+                    GetAllFilesWithoutDir();
+
+                }
+                else
+                {
+                    await Task.Run(() =>
+                                   {
+                                       files = _cache.GetFiles(Settings.CurFolder);
+                                   }).ConfigureAwait(true);
+                    OnRefreshDirectory(this, files);
+                    if (!string.IsNullOrEmpty(selectFileName))
+                        OnSelectFileName(this, selectFileName);
+                }
+
             }
             catch
             {
@@ -105,9 +118,6 @@ namespace Job.UC
             }
 
 
-            OnRefreshDirectory(this, files);
-            if (!string.IsNullOrEmpty(selectFileName))
-                OnSelectFileName(this, selectFileName);
         }
 
         /// <summary>
@@ -160,7 +170,7 @@ namespace Job.UC
 
 
         }
-        
+
 
         public void CreateDirectoryInCurrentFolder(string name)
         {
@@ -385,13 +395,14 @@ namespace Job.UC
 
             string selectedFileName = Settings.CurFolder;
 
-            if (!Settings.RootFolder.Equals(Settings.CurFolder, StringComparison.InvariantCultureIgnoreCase)) {
+            if (!Settings.RootFolder.Equals(Settings.CurFolder, StringComparison.InvariantCultureIgnoreCase))
+            {
                 selectedFileName = Path.GetFileName(Settings.CurFolder);
 
                 Settings.CurFolder = Path.GetDirectoryName(Settings.CurFolder);
             }
-            
-            
+
+
             RefreshAsync(selectedFileName);
         }
 

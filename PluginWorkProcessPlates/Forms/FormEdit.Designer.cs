@@ -38,6 +38,10 @@
             this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.buttonPlus4 = new System.Windows.Forms.Button();
+            this.buttonPlus3 = new System.Windows.Forms.Button();
+            this.buttonPlus2 = new System.Windows.Forms.Button();
+            this.buttonPlus1 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDownKomplekt = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownCount = new System.Windows.Forms.NumericUpDown();
@@ -50,10 +54,8 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.додатиПлатіжToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.видалитиПлатіжToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonPlus1 = new System.Windows.Forms.Button();
-            this.buttonPlus2 = new System.Windows.Forms.Button();
-            this.buttonPlus3 = new System.Windows.Forms.Button();
-            this.buttonPlus4 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
@@ -70,7 +72,7 @@
             // buttonOk
             // 
             this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOk.Location = new System.Drawing.Point(176, 245);
+            this.buttonOk.Location = new System.Drawing.Point(165, 287);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(101, 36);
             this.buttonOk.TabIndex = 0;
@@ -88,7 +90,7 @@
             this.groupBox1.Controls.Add(this.numericUpDownWidth);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(174, 92);
+            this.groupBox1.Size = new System.Drawing.Size(325, 63);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Формат пластини";
@@ -97,7 +99,7 @@
             // 
             this.comboBoxFormats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxFormats.FormattingEnabled = true;
-            this.comboBoxFormats.Location = new System.Drawing.Point(7, 19);
+            this.comboBoxFormats.Location = new System.Drawing.Point(7, 28);
             this.comboBoxFormats.Name = "comboBoxFormats";
             this.comboBoxFormats.Size = new System.Drawing.Size(157, 21);
             this.comboBoxFormats.TabIndex = 5;
@@ -106,7 +108,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(94, 45);
+            this.label3.Location = new System.Drawing.Point(248, 12);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 13);
             this.label3.TabIndex = 4;
@@ -115,7 +117,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 45);
+            this.label2.Location = new System.Drawing.Point(170, 12);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 13);
             this.label2.TabIndex = 3;
@@ -124,7 +126,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(82, 63);
+            this.label1.Location = new System.Drawing.Point(233, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(12, 13);
             this.label1.TabIndex = 2;
@@ -132,34 +134,36 @@
             // 
             // numericUpDownHeight
             // 
-            this.numericUpDownHeight.Location = new System.Drawing.Point(97, 61);
+            this.numericUpDownHeight.Location = new System.Drawing.Point(251, 28);
             this.numericUpDownHeight.Maximum = new decimal(new int[] {
             99999,
             0,
             0,
             0});
             this.numericUpDownHeight.Name = "numericUpDownHeight";
-            this.numericUpDownHeight.Size = new System.Drawing.Size(69, 20);
+            this.numericUpDownHeight.Size = new System.Drawing.Size(56, 20);
             this.numericUpDownHeight.TabIndex = 1;
             this.numericUpDownHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownHeight.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // numericUpDownWidth
             // 
-            this.numericUpDownWidth.Location = new System.Drawing.Point(7, 61);
+            this.numericUpDownWidth.Location = new System.Drawing.Point(171, 28);
             this.numericUpDownWidth.Maximum = new decimal(new int[] {
             99999,
             0,
             0,
             0});
             this.numericUpDownWidth.Name = "numericUpDownWidth";
-            this.numericUpDownWidth.Size = new System.Drawing.Size(69, 20);
+            this.numericUpDownWidth.Size = new System.Drawing.Size(56, 20);
             this.numericUpDownWidth.TabIndex = 0;
             this.numericUpDownWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericUpDownWidth.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.buttonPlus4);
             this.groupBox2.Controls.Add(this.buttonPlus3);
             this.groupBox2.Controls.Add(this.buttonPlus2);
@@ -167,12 +171,52 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.numericUpDownKomplekt);
             this.groupBox2.Controls.Add(this.numericUpDownCount);
-            this.groupBox2.Location = new System.Drawing.Point(193, 13);
+            this.groupBox2.Location = new System.Drawing.Point(12, 81);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(144, 91);
+            this.groupBox2.Size = new System.Drawing.Size(412, 53);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "кількість";
+            // 
+            // buttonPlus4
+            // 
+            this.buttonPlus4.Location = new System.Drawing.Point(238, 16);
+            this.buttonPlus4.Name = "buttonPlus4";
+            this.buttonPlus4.Size = new System.Drawing.Size(28, 23);
+            this.buttonPlus4.TabIndex = 11;
+            this.buttonPlus4.Text = "+4";
+            this.buttonPlus4.UseVisualStyleBackColor = true;
+            this.buttonPlus4.Click += new System.EventHandler(this.buttonPlus4_Click);
+            // 
+            // buttonPlus3
+            // 
+            this.buttonPlus3.Location = new System.Drawing.Point(204, 16);
+            this.buttonPlus3.Name = "buttonPlus3";
+            this.buttonPlus3.Size = new System.Drawing.Size(28, 23);
+            this.buttonPlus3.TabIndex = 10;
+            this.buttonPlus3.Text = "+3";
+            this.buttonPlus3.UseVisualStyleBackColor = true;
+            this.buttonPlus3.Click += new System.EventHandler(this.buttonPlus3_Click);
+            // 
+            // buttonPlus2
+            // 
+            this.buttonPlus2.Location = new System.Drawing.Point(170, 16);
+            this.buttonPlus2.Name = "buttonPlus2";
+            this.buttonPlus2.Size = new System.Drawing.Size(28, 23);
+            this.buttonPlus2.TabIndex = 9;
+            this.buttonPlus2.Text = "+2";
+            this.buttonPlus2.UseVisualStyleBackColor = true;
+            this.buttonPlus2.Click += new System.EventHandler(this.buttonPlus2_Click);
+            // 
+            // buttonPlus1
+            // 
+            this.buttonPlus1.Location = new System.Drawing.Point(136, 16);
+            this.buttonPlus1.Name = "buttonPlus1";
+            this.buttonPlus1.Size = new System.Drawing.Size(28, 23);
+            this.buttonPlus1.TabIndex = 8;
+            this.buttonPlus1.Text = "+1";
+            this.buttonPlus1.UseVisualStyleBackColor = true;
+            this.buttonPlus1.Click += new System.EventHandler(this.buttonPlus1_Click);
             // 
             // label4
             // 
@@ -232,7 +276,7 @@
             // 
             // numericUpDownPrice
             // 
-            this.numericUpDownPrice.Location = new System.Drawing.Point(6, 32);
+            this.numericUpDownPrice.Location = new System.Drawing.Point(6, 27);
             this.numericUpDownPrice.Maximum = new decimal(new int[] {
             99999,
             0,
@@ -247,7 +291,7 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.objectListViewPays);
-            this.groupBox4.Location = new System.Drawing.Point(12, 110);
+            this.groupBox4.Location = new System.Drawing.Point(12, 140);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(412, 129);
             this.groupBox4.TabIndex = 4;
@@ -299,68 +343,48 @@
             this.додатиПлатіжToolStripMenuItem,
             this.видалитиПлатіжToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(166, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 48);
             // 
             // додатиПлатіжToolStripMenuItem
             // 
             this.додатиПлатіжToolStripMenuItem.Name = "додатиПлатіжToolStripMenuItem";
-            this.додатиПлатіжToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.додатиПлатіжToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.додатиПлатіжToolStripMenuItem.Text = "додати платіж";
             this.додатиПлатіжToolStripMenuItem.Click += new System.EventHandler(this.додатиПлатіжToolStripMenuItem_Click);
             // 
             // видалитиПлатіжToolStripMenuItem
             // 
             this.видалитиПлатіжToolStripMenuItem.Name = "видалитиПлатіжToolStripMenuItem";
-            this.видалитиПлатіжToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.видалитиПлатіжToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.видалитиПлатіжToolStripMenuItem.Text = "видалити платіж";
             this.видалитиПлатіжToolStripMenuItem.Click += new System.EventHandler(this.видалитиПлатіжToolStripMenuItem_Click);
             // 
-            // buttonPlus1
+            // button1
             // 
-            this.buttonPlus1.Location = new System.Drawing.Point(7, 59);
-            this.buttonPlus1.Name = "buttonPlus1";
-            this.buttonPlus1.Size = new System.Drawing.Size(28, 23);
-            this.buttonPlus1.TabIndex = 8;
-            this.buttonPlus1.Text = "+1";
-            this.buttonPlus1.UseVisualStyleBackColor = true;
-            this.buttonPlus1.Click += new System.EventHandler(this.buttonPlus1_Click);
+            this.button1.Location = new System.Drawing.Point(272, 16);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(28, 23);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "+8";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // buttonPlus2
+            // button2
             // 
-            this.buttonPlus2.Location = new System.Drawing.Point(41, 59);
-            this.buttonPlus2.Name = "buttonPlus2";
-            this.buttonPlus2.Size = new System.Drawing.Size(28, 23);
-            this.buttonPlus2.TabIndex = 9;
-            this.buttonPlus2.Text = "+2";
-            this.buttonPlus2.UseVisualStyleBackColor = true;
-            this.buttonPlus2.Click += new System.EventHandler(this.buttonPlus2_Click);
-            // 
-            // buttonPlus3
-            // 
-            this.buttonPlus3.Location = new System.Drawing.Point(75, 59);
-            this.buttonPlus3.Name = "buttonPlus3";
-            this.buttonPlus3.Size = new System.Drawing.Size(28, 23);
-            this.buttonPlus3.TabIndex = 10;
-            this.buttonPlus3.Text = "+3";
-            this.buttonPlus3.UseVisualStyleBackColor = true;
-            this.buttonPlus3.Click += new System.EventHandler(this.buttonPlus3_Click);
-            // 
-            // buttonPlus4
-            // 
-            this.buttonPlus4.Location = new System.Drawing.Point(109, 59);
-            this.buttonPlus4.Name = "buttonPlus4";
-            this.buttonPlus4.Size = new System.Drawing.Size(28, 23);
-            this.buttonPlus4.TabIndex = 11;
-            this.buttonPlus4.Text = "+4";
-            this.buttonPlus4.UseVisualStyleBackColor = true;
-            this.buttonPlus4.Click += new System.EventHandler(this.buttonPlus4_Click);
+            this.button2.Location = new System.Drawing.Point(306, 16);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(36, 23);
+            this.button2.TabIndex = 13;
+            this.button2.Text = "+16";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // FormEdit
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 288);
+            this.ClientSize = new System.Drawing.Size(432, 335);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -417,5 +441,7 @@
         private System.Windows.Forms.Button buttonPlus3;
         private System.Windows.Forms.Button buttonPlus2;
         private System.Windows.Forms.Button buttonPlus1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }

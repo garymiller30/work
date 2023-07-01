@@ -50,10 +50,10 @@ namespace Job.UserForms
             
             AddPlugins(isNewJob);
 
-            Bind();
+            Bind(isNewJob);
         }
 
-        private void Bind()
+        private void Bind(bool isNewJob)
         {
             if (_job != null)
             {
@@ -63,7 +63,15 @@ namespace Job.UserForms
 
                 if (!UserProfile.Settings.HideCategory)
                 {
-                    kryptonComboBoxCategory.SelectedItem = kryptonComboBoxCategory.Items.Cast<Category>().FirstOrDefault(x => x.Id.Equals(_job.CategoryId));
+                    if (isNewJob)
+                    {
+                        kryptonComboBoxCategory.SelectedIndex = -1;
+                    }
+                    else
+                    {
+                        kryptonComboBoxCategory.SelectedItem = kryptonComboBoxCategory.Items.Cast<Category>().FirstOrDefault(x => x.Id.Equals(_job.CategoryId));
+                    }
+                    
                 }
 
                 if (string.IsNullOrEmpty( _job.Note ))
@@ -299,6 +307,7 @@ namespace Job.UserForms
             //var categories = UserProfile.Categories.GetAll().ToList();
             kryptonComboBoxCategory.DataSource = categories;
             kryptonComboBoxCategory.DisplayMember = "Name";
+            kryptonComboBoxCategory.SelectedItem = null;
         }
     }
 }

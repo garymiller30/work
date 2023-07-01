@@ -74,6 +74,7 @@
             this.вырезатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.вставитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.перенестиВмістПапкиСюдиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.переміститиДоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.переместитьВTEMPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.имяФайлаОписаниеЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,7 +120,6 @@
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonLabelPath = new Krypton.Toolkit.KryptonLinkLabel();
             this.kryptonPalette1 = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.переміститиДоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -336,7 +336,7 @@
             this.додатиТираж000ToolStripMenuItem,
             this.отправитьВToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(320, 464);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(320, 442);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // предварительныйПросмотрToolStripMenuItem
@@ -562,6 +562,12 @@
             this.перенестиВмістПапкиСюдиToolStripMenuItem.Text = "перенести вміст папки сюди";
             this.перенестиВмістПапкиСюдиToolStripMenuItem.Click += new System.EventHandler(this.перенестиВмістПапкиСюдиToolStripMenuItem_Click);
             // 
+            // переміститиДоToolStripMenuItem
+            // 
+            this.переміститиДоToolStripMenuItem.Name = "переміститиДоToolStripMenuItem";
+            this.переміститиДоToolStripMenuItem.Size = new System.Drawing.Size(319, 22);
+            this.переміститиДоToolStripMenuItem.Text = "перемістити до...";
+            // 
             // переместитьВTEMPToolStripMenuItem
             // 
             this.переместитьВTEMPToolStripMenuItem.Image = global::Job.Properties.Resources.Trash_Full_icon;
@@ -665,7 +671,7 @@
             this.toolStripButtonSettings});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(488, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(517, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -698,6 +704,7 @@
             // 
             // показатиВсіФайлибезПапокToolStripMenuItem
             // 
+            this.показатиВсіФайлибезПапокToolStripMenuItem.CheckOnClick = true;
             this.показатиВсіФайлибезПапокToolStripMenuItem.Name = "показатиВсіФайлибезПапокToolStripMenuItem";
             this.показатиВсіФайлибезПапокToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
             this.показатиВсіФайлибезПапокToolStripMenuItem.Text = "показати всі файли (без папок)";
@@ -943,12 +950,6 @@
             this.kryptonLabelPath.TabIndex = 4;
             this.kryptonLabelPath.Values.Text = "";
             this.kryptonLabelPath.LinkClicked += new System.EventHandler(this.kryptonLabelPath_LinkClicked);
-            // 
-            // переміститиДоToolStripMenuItem
-            // 
-            this.переміститиДоToolStripMenuItem.Name = "переміститиДоToolStripMenuItem";
-            this.переміститиДоToolStripMenuItem.Size = new System.Drawing.Size(319, 22);
-            this.переміститиДоToolStripMenuItem.Text = "перемістити до...";
             // 
             // FileBrowser
             // 
