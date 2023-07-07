@@ -44,9 +44,8 @@
             this.kryptonRibbon1.QATUserChange = false;
             this.kryptonRibbon1.RibbonAppButton.AppButtonShowRecentDocs = false;
             this.kryptonRibbon1.RibbonAppButton.AppButtonVisible = false;
-            this.kryptonRibbon1.SelectedContext = null;
             this.kryptonRibbon1.SelectedTab = null;
-            this.kryptonRibbon1.Size = new System.Drawing.Size(800, 112);
+            this.kryptonRibbon1.Size = new System.Drawing.Size(800, 122);
             this.kryptonRibbon1.TabIndex = 0;
             // 
             // kryptonManager1
@@ -76,13 +75,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.BracketType = // Krypton.Toolkit.BracketType.NOBRACKET;
             this.ButtonSpecs.AddRange(new Krypton.Toolkit.ButtonSpecAny[] {
             this.buttonSpecAnyWhatNew,
             this.buttonSpecBackgroundTasks});
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.kryptonRibbon1);
-            this.CornerRoundingRadius = 10;
+            this.CornerRoundingRadius = 10F;
             this.HeaderStyle = Krypton.Toolkit.HeaderStyle.Primary;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
@@ -90,7 +88,7 @@
             this.StateCommon.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
             | Krypton.Toolkit.PaletteDrawBorders.Left) 
             | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.StateCommon.Border.Rounding = 10;
+            this.StateCommon.Border.Rounding = 10F;
             this.Text = "Active Works";
             this.TextExtra = "";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);

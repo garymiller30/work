@@ -14,6 +14,7 @@ using Microsoft.VisualBasic.FileIO;
 using Org.BouncyCastle.Asn1.X509;
 using PythonEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -109,8 +110,32 @@ namespace Job.UC
             olvColumn_FileName.ImageGetter = x => helper.GetImageIndex(((IFileSystemInfoExt)x).FileInfo.FullName);
             olvColumn_DateTime.AspectGetter = x => ((IFileSystemInfoExt)x).FileInfo.LastWriteTime;
 
+            UseTheme();
+            SetTheme();
+        }
 
+        private void SetTheme()
+        {
+            objectListView1.BackColor = ThemeController.Back;
+            objectListView1.ForeColor = ThemeController.Fore;
+            
+            objectListView1.HeaderUsesThemes = false;
+            objectListView1.HeaderFormatStyle = new HeaderFormatStyle();
+            objectListView1.HeaderFormatStyle.SetForeColor(ThemeController.HeaderFore);
+            objectListView1.HeaderFormatStyle.SetBackColor(ThemeController.HeaderBack);
+        }
 
+        private void UseTheme()
+        {
+            ThemeController.ThemeChanged += ThemeController_ThemeChanged;
+        }
+
+        private void ThemeController_ThemeChanged(object sender, EventArgs e)
+        {
+            SetTheme();
+            var objects = (ICollection)objectListView1.Objects;
+            objectListView1.ClearObjects();
+            objectListView1.AddObjects(objects);
         }
 
 

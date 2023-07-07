@@ -72,5 +72,16 @@ namespace PluginColorJobListRow
                 e.Cancel = true;
             }
         }
+
+        private void заЗамовчуваннямToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count > 0)
+            {
+                foreach (var item in objectListView1.SelectedObjects)
+                {
+                    _settings.SetColor(((IJobStatus)item).Code,Color.Transparent);
+                }
+            }
+        }
     }
 }

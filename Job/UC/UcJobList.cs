@@ -8,6 +8,7 @@ using Job.Ext;
 using Job.Menus;
 using Job.Models;
 using Job.Profiles;
+using Job.Static;
 using Job.UserForms;
 using Logger;
 using Ookii.Dialogs.WinForms;
@@ -45,9 +46,36 @@ namespace Job.UC
 
             objectListView_NewWorks.SelectedRowDecoration = rbd;
 
-            //_pythonEngine = new PythonEngine.PythonEngine();
+            UseTheme();
+            SetTheme();
         }
 
+        private void UseTheme()
+        {
+            ThemeController.ThemeChanged += ThemeController_ThemeChanged;
+        }
+
+        private void ThemeController_ThemeChanged(object sender, EventArgs e)
+        {
+           
+            SetTheme();
+            
+            var objects = (ICollection)objectListView_NewWorks.Objects;
+            objectListView_NewWorks.ClearObjects();
+            objectListView_NewWorks.AddObjects(objects);
+
+        }
+
+        private void SetTheme()
+        {
+            objectListView_NewWorks.BackColor = ThemeController.Back;
+            objectListView_NewWorks.ForeColor = ThemeController.Fore;
+
+            objectListView_NewWorks.HeaderUsesThemes = false;
+            objectListView_NewWorks.HeaderFormatStyle = new HeaderFormatStyle();
+            objectListView_NewWorks.HeaderFormatStyle.SetForeColor(ThemeController.HeaderFore);
+            objectListView_NewWorks.HeaderFormatStyle.SetBackColor(ThemeController.HeaderBack);
+        }
 
         public UcJobList(IUserProfile userProfile) : this()
         {
@@ -684,8 +712,14 @@ namespace Job.UC
             _profile.Jobs.CombineOrdersInOne(objectListView_NewWorks.SelectedObjects);
 
 
-        private void objectListView_NewWorks_FormatRow(object sender, FormatRowEventArgs e) =>
+        private void objectListView_NewWorks_FormatRow(object sender, FormatRowEventArgs e)
+        {
+            e.Item.ForeColor = ThemeController.Fore;
+            e.Item.BackColor = ThemeController.Back;
             _profile.Plugins?.JobListFormatRow(e.Item);
+            
+        }
+            
 
         private void копіюватиЗамавникаToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -19,12 +19,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Job.Static;
 
 namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 8.1.1";
+        private readonly string _version = $"{Localize.FormTitle} 8.2.1";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
@@ -34,6 +35,8 @@ namespace ActiveWorks
         public Form2()
         {
             InitializeComponent();
+
+            ThemeController.ThemeChanged += ThemeController_ThemeChanged;
 
             Text = _version;
 
@@ -50,6 +53,11 @@ namespace ActiveWorks
             SplashScreen.Splash.SetVersion(_version, Color.Yellow, 12, 12);
             SplashScreen.Splash.SetHeader(string.Empty);
             SplashScreen.Splash.SetStatus(string.Empty);
+        }
+
+        private void ThemeController_ThemeChanged(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPaletteMode = ThemeController.Theme == ThemeEnum.Light ? PaletteModeManager.Office2010Silver : PaletteModeManager.SparkleBlueDarkMode;
         }
 
         private void BackgroundTaskService_OnAllFinish(object sender, EventArgs e)
@@ -255,6 +263,10 @@ namespace ActiveWorks
             {
                 formProfile.ResetLayout();
             };
+            groupTriple.Items.Add(button);
+            // --- Theme switcher button ---
+            button = new KryptonRibbonGroupButton { TextLine1 = @"Змінити тему"};
+            button.Click += (sender, args) => ThemeController.SwitchTheme();
             groupTriple.Items.Add(button);
             group.Items.Add(groupTriple);
 

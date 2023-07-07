@@ -288,6 +288,7 @@
     <Compile Include="Properties\CanBeNullAttribute.cs" />
     <Compile Include="Static\FileUtil.cs" />
     <Compile Include="Static\SysImageListHelper.cs" />
+    <Compile Include="Static\ThemeController.cs" />
     <Compile Include="Statuses\StatusesParams.cs" />
     <Compile Include="UC\UcAddWorkPluginsContainer.cs">
       <SubType>UserControl</SubType>

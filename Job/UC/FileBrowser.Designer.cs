@@ -202,7 +202,6 @@
             this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListView1.FullRowSelect = true;
-            this.objectListView1.GridLines = true;
             this.objectListView1.HeaderWordWrap = true;
             this.objectListView1.HideSelection = false;
             this.objectListView1.Location = new System.Drawing.Point(0, 0);
@@ -235,7 +234,6 @@
             // 
             this.olvColumn_FileName.AspectName = "Name";
             this.olvColumn_FileName.CellEditUseWholeCell = true;
-            this.olvColumn_FileName.HeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.olvColumn_FileName.Text = "Ім\'я файлу";
             this.olvColumn_FileName.Width = 269;
             // 
@@ -671,7 +669,7 @@
             this.toolStripButtonSettings});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(517, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(488, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 

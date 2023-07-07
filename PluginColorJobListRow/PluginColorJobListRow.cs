@@ -1,6 +1,8 @@
 ﻿using ExtensionMethods;
 using Interfaces;
 using Interfaces.Plugins;
+using Job.Static;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace PluginColorJobListRow
@@ -30,7 +32,12 @@ namespace PluginColorJobListRow
             var item = (dynamic)row;
             IJob job = (IJob)item.RowObject;
 
-            item.BackColor = Settings.Get(UserProfile).GetColor(job.StatusCode);
+            var backColor = Settings.Get(UserProfile).GetColor(job.StatusCode);
+
+            backColor = backColor == Color.Transparent ? ThemeController.Back : backColor;
+
+            item.BackColor = backColor;
+            //item.ForeColor = Color.FromArgb(backColor.ToArgb()^0xffffff);
 
             Settings.SetJob($"{job.Number}_{job.Customer.Transliteration()}", job.StatusCode);
 

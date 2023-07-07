@@ -285,7 +285,7 @@
             this.kryptonLabel1.Location = new System.Drawing.Point(3, 6);
             this.kryptonLabel1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(22, 18);
+            this.kryptonLabel1.Size = new System.Drawing.Size(22, 20);
             this.kryptonLabel1.TabIndex = 6;
             this.kryptonLabel1.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonLabel1.Values.Image")));
             this.kryptonLabel1.Values.Text = "";

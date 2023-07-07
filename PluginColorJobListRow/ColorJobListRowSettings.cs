@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Job.Static;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -14,9 +15,10 @@ namespace PluginColorJobListRow
         public Color GetColor(int status)
         {
             if (ColorDictionary.ContainsKey(status))
-                return ColorDictionary[status];
+                
+                return ColorDictionary[status] == Color.Transparent ? ThemeController.Back : ColorDictionary[status];
 
-            return Color.White; //default color
+            return ThemeController.Back; //default color
         }
 
         public void SetColor(int status, Color color)

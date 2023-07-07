@@ -77,6 +77,10 @@
       <Project>{BB0FE1FA-8C37-4E59-A548-669F97109E64}</Project>
       <Name>Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Job\Job.csproj">
+      <Project>{20640AA0-AB38-4499-8B96-99143A3B033E}</Project>
+      <Name>Job</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormSettings.resx">
