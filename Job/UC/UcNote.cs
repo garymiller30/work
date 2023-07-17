@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Interfaces;
+using Job.Static;
 
 namespace Job.UC
 {
@@ -15,6 +16,12 @@ namespace Job.UC
         public UcNote()
         {
             InitializeComponent();
+            ThemeController.ThemeChanged += ThemeController_ThemeChanged;
+        }
+
+        private void ThemeController_ThemeChanged(object sender, EventArgs e)
+        {
+            
         }
 
         public void SetText(string text)

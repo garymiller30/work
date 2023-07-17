@@ -66,6 +66,7 @@
     <Compile Include="PluginColorJobFile.cs" />
     <Compile Include="PluginColorJobListRow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RowColor.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>

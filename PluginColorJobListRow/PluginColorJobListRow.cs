@@ -32,12 +32,13 @@ namespace PluginColorJobListRow
             var item = (dynamic)row;
             IJob job = (IJob)item.RowObject;
 
-            var backColor = Settings.Get(UserProfile).GetColor(job.StatusCode);
-
+            var color = Settings.Get(UserProfile).GetColor(job.StatusCode);
+            var backColor = color.Back;
+            var foreColor = color.Fore;
             backColor = backColor == Color.Transparent ? ThemeController.Back : backColor;
-
+            foreColor = foreColor == Color.Transparent ? ThemeController.Fore : foreColor;
             item.BackColor = backColor;
-            //item.ForeColor = Color.FromArgb(backColor.ToArgb()^0xffffff);
+            item.ForeColor = foreColor;
 
             Settings.SetJob($"{job.Number}_{job.Customer.Transliteration()}", job.StatusCode);
 

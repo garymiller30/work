@@ -108,6 +108,7 @@
     <Compile Include="IWithId.cs" />
     <Compile Include="Plugins\IMqController.cs" />
     <Compile Include="Plugins\IMqPlugin.cs" />
+    <Compile Include="Plugins\IRowColor.cs" />
     <Compile Include="Script\IScriptRunParameters.cs" />
     <Compile Include="Plugins\AvailableSound.cs" />
     <Compile Include="Plugins\IPluginJobList.cs" />
