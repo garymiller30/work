@@ -99,6 +99,9 @@ namespace ExtensionMethods
         //заміна кирилиці
         public static string Transliteration(this string str)
         {
+
+            if (string.IsNullOrEmpty(str)) return string.Empty;
+
             var sb = new StringBuilder(str);
 
             foreach (var key in Gost)

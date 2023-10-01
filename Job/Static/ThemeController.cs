@@ -32,10 +32,10 @@ namespace Job.Static
             }
             else
             {
-                Back = Color.DimGray;
-                Fore = Color.Ivory;
-                HeaderBack = Color.Black;
-                HeaderFore = Color.DarkGray;
+                Back = Color.FromArgb(18, 18, 18);
+                Fore = Color.FromArgb(0xa3, 0xa3, 0xa3);
+                HeaderBack = Color.FromArgb(0x3e, 0x3e, 0x3e);
+                HeaderFore = Color.FromArgb(0xa3, 0xa3, 0xa3);
             }
 
             ThemeChanged(null, EventArgs.Empty);

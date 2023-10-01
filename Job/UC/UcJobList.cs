@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static MongoDB.Libmongocrypt.CryptContext;
 
 namespace Job.UC
 {
@@ -48,6 +49,9 @@ namespace Job.UC
 
             UseTheme();
             SetTheme();
+
+
+           
         }
 
         private void UseTheme()
@@ -88,10 +92,12 @@ namespace Job.UC
             olvColumn_Status.Renderer = new BaseRenderer();
             olvColumn_Status.ImageGetter += ImageGetter;
             olvColumnProcess.Renderer = new BarRenderer(0, 100);
-
+            
+           
 
             InitMainToolStrip();
             AddingExtendedSettings();
+            
             //ApplyViewFilter();
         }
         private void ObjectListView_NewWorks_DoubleClick(object sender, EventArgs e)
@@ -282,11 +288,25 @@ namespace Job.UC
         {
             // без цього не малює прогрес бар
             objectListView_NewWorks.OwnerDraw = true;
+            objectListView_NewWorks.AlwaysGroupByColumn = olvColumn_Date;
+           
 
             olvColumn_Date.AspectGetter += x => ((IJob)x).Date.ToLocalTime();
             olvColumnCategories.AspectGetter += r => _profile.Categories.GetCategoryById(((IJob)r).CategoryId)?.Name;
             olvColumnNote.AspectGetter += AspectGetterNote;
+            
+            
             olvColumn_Status.AspectGetter = rowObject => _profile.StatusManager.GetJobStatusDescriptionByCode(((IJob)rowObject).StatusCode);
+
+            olvColumn_Status.GroupKeyGetter = delegate(object row) {return ((IJob)row).StatusCode;};
+
+            olvColumn_Status.GroupKeyToTitleConverter = delegate(object key){ return _profile.StatusManager.GetJobStatusDescriptionByCode((int)key).ToString(); };
+
+
+            olvColumn_Date.GroupKeyGetter += r => ((IJob)r).Date;
+            olvColumn_Date.GroupKeyToTitleConverter += key => ((DateTime)key).ToString("MMM yyyy");
+
+            objectListView_NewWorks.RebuildColumns();
 
 
         }

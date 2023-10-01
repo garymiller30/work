@@ -6,6 +6,7 @@ using Interfaces;
 using Interfaces.PdfUtils;
 using Job.Dlg;
 using Job.Menus;
+using Job.Models;
 using Job.Static;
 using Job.UserForms;
 using Logger;
@@ -26,6 +27,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Job.Static.NaturalSorting;
 
 namespace Job.UC
 {
@@ -105,11 +107,27 @@ namespace Job.UC
 
             var helper = new SysImageListHelper(objectListView1);
             olvColumn_FileName.ImageGetter = x => helper.GetImageIndex(((IFileSystemInfoExt)x).FileInfo.FullName);
-            olvColumn_DateTime.AspectGetter = x => ((IFileSystemInfoExt)x).FileInfo.LastWriteTime;
+            //olvColumn_DateTime.AspectGetter = x => ((IFileSystemInfoExt)x).FileInfo.LastWriteTime;
+
+            objectListView1.CustomSorter = delegate(OLVColumn column, SortOrder order) { 
+                
+                if (column == olvColumn_FileName) objectListView1.ListViewItemSorter = new FileNameNaturalComparer(order);
+                else if (column == olvColumnWidth) objectListView1.ListViewItemSorter = new FileWidthComparer(order);
+                else if (column == olvColumnHeight) objectListView1.ListViewItemSorter = new FileHeightComparer(order);
+                else if (column == olvColumnPages) objectListView1.ListViewItemSorter = new FilePagesComparer(order);
+                else if (column == olvColumnBleeds) objectListView1.ListViewItemSorter = new FileBleedComparer(order);
+                else if (column == olvColumn_DateTime) objectListView1.ListViewItemSorter =  new FileDateComparer(order);
+            }; 
+
 
             UseTheme();
             SetTheme();
+
+            ApplySettings();
         }
+
+
+
 
         private void SetTheme()
         {
@@ -1718,7 +1736,7 @@ namespace Job.UC
 
         private void objectListView1_ColumnClick_1(object sender, ColumnClickEventArgs e)
         {
-            olvColumn_FileName.Sortable = e.Column != 0;
+            //olvColumn_FileName.Sortable = e.Column != 0;
         }
 
         private void toolStripButtonSettings_Click(object sender, EventArgs e)
@@ -1735,7 +1753,26 @@ namespace Job.UC
 
         private void ApplySettings()
         {
+            objectListView1.ShowGroups = _fileManager.Settings.ShowGroups;
+            olvColumn_DateTime.GroupKeyGetter = r => {
 
+                var file = r as FileSystemInfoExt;
+                if (file.IsDir)
+                {
+                    return new { Title = ""};
+                }
+
+                var date = ((FileSystemInfoExt)r).FileInfo.LastWriteTime;
+
+                return new {Title = $"{date.Year}.{date.Month:00}.{date.Day:00}" };
+            };
+
+               
+
+            olvColumn_DateTime.GroupKeyToTitleConverter = key => {
+                return ((dynamic)key).Title;
+                };
+                
         }
 
         private void toolStripButtonFileInfo_Click(object sender, EventArgs e) => GetFilesInfo();

@@ -86,7 +86,7 @@
             // toolStripMainScriptPanel
             // 
             this.toolStripMainScriptPanel.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStripMainScriptPanel.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripMainScriptPanel.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.toolStripMainScriptPanel.Location = new System.Drawing.Point(3, 0);
             this.toolStripMainScriptPanel.Name = "toolStripMainScriptPanel";
             this.toolStripMainScriptPanel.Size = new System.Drawing.Size(111, 25);
@@ -123,14 +123,12 @@
             this.objectListView_NewWorks.IsSimpleDropSink = true;
             this.objectListView_NewWorks.Location = new System.Drawing.Point(0, 0);
             this.objectListView_NewWorks.Name = "objectListView_NewWorks";
-            this.objectListView_NewWorks.ShowGroups = false;
             this.objectListView_NewWorks.ShowImagesOnSubItems = true;
             this.objectListView_NewWorks.ShowItemToolTips = true;
             this.objectListView_NewWorks.Size = new System.Drawing.Size(720, 366);
             this.objectListView_NewWorks.TabIndex = 0;
             this.objectListView_NewWorks.UseCellFormatEvents = true;
             this.objectListView_NewWorks.UseCompatibleStateImageBehavior = false;
-            this.objectListView_NewWorks.UseExplorerTheme = true;
             this.objectListView_NewWorks.UseFilterIndicator = true;
             this.objectListView_NewWorks.UseFiltering = true;
             this.objectListView_NewWorks.UseSubItemCheckBoxes = true;
@@ -148,6 +146,7 @@
             // 
             this.olvColumn_Status.IsEditable = false;
             this.olvColumn_Status.Text = "Статус";
+            this.olvColumn_Status.UseInitialLetterForGroup = true;
             // 
             // olvColumnProcess
             // 
@@ -268,7 +267,7 @@
             // toolStripWorks
             // 
             this.toolStripWorks.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStripWorks.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripWorks.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.toolStripWorks.Location = new System.Drawing.Point(0, 3);
             this.toolStripWorks.Name = "toolStripWorks";
             this.toolStripWorks.Size = new System.Drawing.Size(26, 111);

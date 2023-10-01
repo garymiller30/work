@@ -26,6 +26,7 @@ namespace Job.UC
         public string RootFolder { get; set; }
         public string CurFolder { get; set; }
         public bool ScanFiles { get; set; }
+        public bool ShowGroups { get;set; }
         /// <summary>
         /// показати всі файли у вкладених папках
         /// </summary>

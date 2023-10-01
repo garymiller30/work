@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,8 +27,15 @@ namespace PluginColorJobListRow
                 {
                     if (file.FileInfo.Extension.Equals(".pdf", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        ((dynamic) row).Item.BackColor = Settings.GetJobColor(file.FileInfo.Name);
-                        
+                        var color = Settings.GetJobColor(file.FileInfo.Name);
+                        if ( color != null)
+                        {
+                            if (color.Back != Color.Transparent )
+                                ((dynamic)row).Item.BackColor = color.Back;
+                            if (color.Fore != Color.Transparent )
+                                ((dynamic)row).Item.ForeColor = color.Fore;
+                        }
+
                     }
                 }
             }

@@ -167,7 +167,7 @@
             // toolStripScriptPanel
             // 
             this.toolStripScriptPanel.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStripScriptPanel.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.toolStripScriptPanel.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripScriptPanel.Location = new System.Drawing.Point(3, 0);
             this.toolStripScriptPanel.Name = "toolStripScriptPanel";
             this.toolStripScriptPanel.Size = new System.Drawing.Size(111, 25);
@@ -235,6 +235,7 @@
             this.olvColumn_FileName.AspectName = "Name";
             this.olvColumn_FileName.CellEditUseWholeCell = true;
             this.olvColumn_FileName.Text = "Ім\'я файлу";
+            this.olvColumn_FileName.UseInitialLetterForGroup = true;
             this.olvColumn_FileName.Width = 269;
             // 
             // olvColumnType
@@ -251,6 +252,7 @@
             // 
             // olvColumn_DateTime
             // 
+            this.olvColumn_DateTime.AspectName = "FileInfo.LastWriteTime";
             this.olvColumn_DateTime.AspectToStringFormat = "{0:dd-MM-yyyy hh:mm:ss}";
             this.olvColumn_DateTime.Text = "Дата";
             this.olvColumn_DateTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -635,7 +637,7 @@
             // toolStripLeft
             // 
             this.toolStripLeft.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStripLeft.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.toolStripLeft.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripLeft.Location = new System.Drawing.Point(0, 3);
             this.toolStripLeft.Name = "toolStripLeft";
             this.toolStripLeft.Size = new System.Drawing.Size(26, 111);
@@ -644,7 +646,7 @@
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton_Up,
             this.toolStripSeparator4,
@@ -704,7 +706,7 @@
             // 
             this.показатиВсіФайлибезПапокToolStripMenuItem.CheckOnClick = true;
             this.показатиВсіФайлибезПапокToolStripMenuItem.Name = "показатиВсіФайлибезПапокToolStripMenuItem";
-            this.показатиВсіФайлибезПапокToolStripMenuItem.Size = new System.Drawing.Size(262, 22);
+            this.показатиВсіФайлибезПапокToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
             this.показатиВсіФайлибезПапокToolStripMenuItem.Text = "показати всі файли (без папок)";
             this.показатиВсіФайлибезПапокToolStripMenuItem.Click += new System.EventHandler(this.показатиВсіФайлибезПапокToolStripMenuItem_Click);
             // 
@@ -755,7 +757,7 @@
             // копіюватиІмяФайлуToolStripMenuItem
             // 
             this.копіюватиІмяФайлуToolStripMenuItem.Name = "копіюватиІмяФайлуToolStripMenuItem";
-            this.копіюватиІмяФайлуToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.копіюватиІмяФайлуToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.копіюватиІмяФайлуToolStripMenuItem.Text = "копіювати ім\'я файлу";
             this.копіюватиІмяФайлуToolStripMenuItem.Click += new System.EventHandler(this.копіюватиІмяФайлуToolStripMenuItem_Click);
             // 
@@ -831,7 +833,6 @@
             // 
             // toolStripTextBox_Filter
             // 
-            this.toolStripTextBox_Filter.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBox_Filter.Name = "toolStripTextBox_Filter";
             this.toolStripTextBox_Filter.Size = new System.Drawing.Size(80, 25);
             this.toolStripTextBox_Filter.ToolTipText = "Filter";
@@ -867,7 +868,7 @@
             // openTrashToolStripMenuItem
             // 
             this.openTrashToolStripMenuItem.Name = "openTrashToolStripMenuItem";
-            this.openTrashToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.openTrashToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.openTrashToolStripMenuItem.Text = "відкрити кошик";
             this.openTrashToolStripMenuItem.Click += new System.EventHandler(this.openTrashToolStripMenuItem_Click);
             // 
@@ -890,7 +891,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabelCountFiles,
@@ -906,25 +907,25 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(51, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(48, 17);
             this.toolStripStatusLabel1.Text = "файлів:";
             // 
             // toolStripStatusLabelCountFiles
             // 
             this.toolStripStatusLabelCountFiles.Name = "toolStripStatusLabelCountFiles";
-            this.toolStripStatusLabelCountFiles.Size = new System.Drawing.Size(15, 17);
+            this.toolStripStatusLabelCountFiles.Size = new System.Drawing.Size(13, 17);
             this.toolStripStatusLabelCountFiles.Text = "0";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(63, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(57, 17);
             this.toolStripStatusLabel2.Text = "вибрано:";
             // 
             // toolStripStatusLabelSelected
             // 
             this.toolStripStatusLabelSelected.Name = "toolStripStatusLabelSelected";
-            this.toolStripStatusLabelSelected.Size = new System.Drawing.Size(15, 17);
+            this.toolStripStatusLabelSelected.Size = new System.Drawing.Size(13, 17);
             this.toolStripStatusLabelSelected.Text = "0";
             // 
             // kryptonPanel1

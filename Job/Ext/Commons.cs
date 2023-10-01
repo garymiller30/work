@@ -62,12 +62,8 @@ namespace Job.Ext
 
         public static bool IsSignaJobExist(this IJob job, string signaFileShablon, string signaJobsPath, IUserProfile profile)
         {
-            
-
             var category = profile.Categories.GetCategoryNameById(job.CategoryId);
-            var fileName = string.IsNullOrEmpty(category)
-                ? string.Format(CultureInfo.InvariantCulture, signaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration())
-                : string.Format(CultureInfo.InvariantCulture, signaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(), category.Transliteration());
+            var fileName = string.Format(CultureInfo.InvariantCulture, signaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(), category.Transliteration());
 
             var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
 
@@ -77,9 +73,8 @@ namespace Job.Ext
         public static bool IsSignaJobExist(this IJob job, IUserProfile profile)
         {
             var category = profile.Categories.GetCategoryNameById(job.CategoryId);
-            var fileName = string.IsNullOrEmpty(category) 
-                ? string.Format(CultureInfo.InvariantCulture, profile.Jobs.Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration()) 
-                : string.Format(CultureInfo.InvariantCulture, profile.Jobs.Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(),category.Transliteration());
+
+            string fileName = string.Format(CultureInfo.InvariantCulture, profile.Jobs.Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(), category.Transliteration());
 
             var destFile = Path.Combine(profile.Jobs.Settings.SignaJobsPath, $"{fileName}.sdf");
 

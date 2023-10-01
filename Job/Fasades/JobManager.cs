@@ -17,6 +17,7 @@ using Interfaces.Plugins;
 using Job.Controllers;
 using Job.Ext;
 using Job.Models;
+using Job.Profiles;
 using Job.Static;
 using Job.UC;
 using Job.UserForms;
@@ -410,9 +411,10 @@ namespace Job.Fasades
             {
                 var customer = job.Customer.Transliteration();
                 var description = job.Description.Transliteration();
+                var category = _profile.Categories.GetCategoryNameById(job.CategoryId)?.Transliteration();
 
 
-                var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, customer, job.Number, description);
+                var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, customer, job.Number, description,category);
 
                 var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
                 if (File.Exists(destFile))
@@ -432,9 +434,12 @@ namespace Job.Fasades
 
                 var format = GetFormatFile(job);
 
+                var signaDesc = string.IsNullOrEmpty(category) ? description : $"{category}_{description}";
+
+
                 new SignaController(destFile).SetJobNumber(job.Number)
                     .SetCustomer(customer)
-                    .SetJobDescription(description)
+                    .SetJobDescription(signaDesc)
                     .SetPageWidth(format.Item1)
                     .SetPageHeight(format.Item2)
                     .Save();
@@ -467,8 +472,8 @@ namespace Job.Fasades
 
         public void OpenSignaJob(string signaJobsPath, IJob job)
         {
-
-            var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration());
+            var category = _profile.Categories.GetCategoryNameById(job.CategoryId);
+            var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(),category.Transliteration());
             var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
 
             if (File.Exists(destFile))
@@ -479,7 +484,8 @@ namespace Job.Fasades
 
         public string GetSignaJobFilePath(IJob job)
         {
-            var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration());
+            var category = _profile.Categories.GetCategoryNameById(job.CategoryId);
+            var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(),category.Transliteration());
             var destFile = Path.Combine(Settings.SignaJobsPath, $"{fileName}.sdf");
             return destFile;
         }
