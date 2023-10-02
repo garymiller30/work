@@ -1167,7 +1167,7 @@ namespace Job.UC
             {
                 ClearFilter();
             }
-            else if (toolStripTextBox_Filter.Text.Length > 2)
+            else
             {
                 objectListView1.ModelFilter = TextMatchFilter.Contains(objectListView1, toolStripTextBox_Filter.Text);
             }
