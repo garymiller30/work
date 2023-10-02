@@ -764,5 +764,29 @@ namespace Job.UC
 
             }
         }
+
+        private void копіюватиКатегоріюToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView_NewWorks.SelectedObject is IJob o)
+            {
+                var category = _profile.Categories.GetCategoryNameById(o.CategoryId);
+                try
+                {
+                    if (Control.ModifierKeys == Keys.Shift)
+                    {
+                        Clipboard.SetText(category);
+                    }
+                    else
+                    {
+                        Clipboard.SetText(category.Transliteration());
+                    }
+
+                }
+                catch (Exception ee)
+                {
+                    Log.Error(_profile, "Clipboard", ee.Message);
+                }
+            }
+        }
     }
 }

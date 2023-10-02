@@ -51,6 +51,7 @@
             this.копіюватиЗамавникаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripWorks = new System.Windows.Forms.ToolStrip();
+            this.копіюватиКатегоріюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -86,7 +87,7 @@
             // toolStripMainScriptPanel
             // 
             this.toolStripMainScriptPanel.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStripMainScriptPanel.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.toolStripMainScriptPanel.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripMainScriptPanel.Location = new System.Drawing.Point(3, 0);
             this.toolStripMainScriptPanel.Name = "toolStripMainScriptPanel";
             this.toolStripMainScriptPanel.Size = new System.Drawing.Size(111, 25);
@@ -206,9 +207,10 @@
             this.toolStripSeparator19,
             this.копироватьВБуферНомерЗаказаToolStripMenuItem,
             this.копіюватиЗамавникаToolStripMenuItem,
-            this.копироватьВБуферОписаниеЗаказаToolStripMenuItem});
+            this.копироватьВБуферОписаниеЗаказаToolStripMenuItem,
+            this.копіюватиКатегоріюToolStripMenuItem});
             this.contextMenuStrip_NewJob.Name = "contextMenuStrip_NewJob";
-            this.contextMenuStrip_NewJob.Size = new System.Drawing.Size(251, 148);
+            this.contextMenuStrip_NewJob.Size = new System.Drawing.Size(251, 192);
             this.contextMenuStrip_NewJob.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_NewJob_Opening);
             // 
             // создатьSignaJobToolStripMenuItem
@@ -267,11 +269,18 @@
             // toolStripWorks
             // 
             this.toolStripWorks.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStripWorks.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.toolStripWorks.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripWorks.Location = new System.Drawing.Point(0, 3);
             this.toolStripWorks.Name = "toolStripWorks";
             this.toolStripWorks.Size = new System.Drawing.Size(26, 111);
             this.toolStripWorks.TabIndex = 0;
+            // 
+            // копіюватиКатегоріюToolStripMenuItem
+            // 
+            this.копіюватиКатегоріюToolStripMenuItem.Name = "копіюватиКатегоріюToolStripMenuItem";
+            this.копіюватиКатегоріюToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.копіюватиКатегоріюToolStripMenuItem.Text = "копіювати категорію";
+            this.копіюватиКатегоріюToolStripMenuItem.Click += new System.EventHandler(this.копіюватиКатегоріюToolStripMenuItem_Click);
             // 
             // UcJobList
             // 
@@ -316,5 +325,6 @@
         private System.Windows.Forms.ToolStripMenuItem копироватьВБуферНомерЗаказаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem копироватьВБуферОписаниеЗаказаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem копіюватиЗамавникаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem копіюватиКатегоріюToolStripMenuItem;
     }
 }
