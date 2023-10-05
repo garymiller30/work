@@ -13,9 +13,7 @@ using Job.Profiles;
 using Job.Statuses;
 using Job.UserForms;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -297,6 +295,8 @@ namespace ActiveWorks
 
             setup.GetJobSettings().WorkPath = textBox_Work.Text;
             setup.GetJobSettings().SignaJobsPath = textBoxFolderSignaJobs.Text;
+            setup.GetJobSettings().UseJobFolder = kryptonCheckBox1.Checked;
+            setup.GetJobSettings().SubFolderForSignaFile = textBox_FolderForSignaFileInJob.Text;
 
             var baseSettings = setup.GetBaseSettings();
 
@@ -378,6 +378,9 @@ namespace ActiveWorks
             objectListView_Utils.AddObjects(_currentProfile.MenuManagers.Utils.Get());
 
             textBoxFolderSignaJobs.Text = setup.GetJobSettings().SignaJobsPath;
+            kryptonCheckBox1.Checked = setup.GetJobSettings().UseJobFolder;
+            textBox_FolderForSignaFileInJob.Text = setup.GetJobSettings().SubFolderForSignaFile;
+
             textBox_MailFrom.Text = setup.GetMail().MailFrom;
             textBox_MailPassword.Text = setup.GetMail().MailFromPassword;
             textBox_ImapServer.Text = setup.GetMail().MailImapHost;
@@ -729,6 +732,14 @@ namespace ActiveWorks
             
             listBoxFolderNames.Items.Add(textBoxFolderName.Text);
             textBoxFolderName.Clear();
+        }
+
+        private void kryptonButton_MoveSignaFileToOrder_Click(object sender, EventArgs e)
+        {
+            using (var form = new FormMoveSignaFileToOrder(_currentProfile))
+            {
+               form.ShowDialog();
+            }
         }
     }
 }

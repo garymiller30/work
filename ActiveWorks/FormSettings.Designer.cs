@@ -54,6 +54,9 @@
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.checkBoxHideCategory = new System.Windows.Forms.CheckBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.textBox_FolderForSignaFileInJob = new System.Windows.Forms.TextBox();
+            this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
             this.label27 = new System.Windows.Forms.Label();
             this.textBoxSignaShablon = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
@@ -188,6 +191,7 @@
             this.objectListViewProfiles = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.statusChangeParamBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.kryptonButton_MoveSignaFileToOrder = new Krypton.Toolkit.KryptonButton();
             this.groupBox1.SuspendLayout();
             this.contextMenuStrip_FolderNames.SuspendLayout();
             this.tabControlMain.SuspendLayout();
@@ -499,6 +503,10 @@
             // 
             // groupBox14
             // 
+            this.groupBox14.Controls.Add(this.kryptonButton_MoveSignaFileToOrder);
+            this.groupBox14.Controls.Add(this.kryptonLabel1);
+            this.groupBox14.Controls.Add(this.textBox_FolderForSignaFileInJob);
+            this.groupBox14.Controls.Add(this.kryptonCheckBox1);
             this.groupBox14.Controls.Add(this.label27);
             this.groupBox14.Controls.Add(this.textBoxSignaShablon);
             this.groupBox14.Controls.Add(this.label26);
@@ -507,10 +515,33 @@
             this.groupBox14.Controls.Add(this.buttonOpenSignaJobsFolder);
             this.groupBox14.Location = new System.Drawing.Point(285, 6);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(408, 133);
+            this.groupBox14.Size = new System.Drawing.Size(408, 254);
             this.groupBox14.TabIndex = 12;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Prinect Signa 16+";
+            // 
+            // kryptonLabel1
+            // 
+            this.kryptonLabel1.Location = new System.Drawing.Point(15, 171);
+            this.kryptonLabel1.Name = "kryptonLabel1";
+            this.kryptonLabel1.Size = new System.Drawing.Size(125, 20);
+            this.kryptonLabel1.TabIndex = 15;
+            this.kryptonLabel1.Values.Text = "папка в  замовленні";
+            // 
+            // textBox_FolderForSignaFileInJob
+            // 
+            this.textBox_FolderForSignaFileInJob.Location = new System.Drawing.Point(146, 171);
+            this.textBox_FolderForSignaFileInJob.Name = "textBox_FolderForSignaFileInJob";
+            this.textBox_FolderForSignaFileInJob.Size = new System.Drawing.Size(169, 20);
+            this.textBox_FolderForSignaFileInJob.TabIndex = 14;
+            // 
+            // kryptonCheckBox1
+            // 
+            this.kryptonCheckBox1.Location = new System.Drawing.Point(18, 136);
+            this.kryptonCheckBox1.Name = "kryptonCheckBox1";
+            this.kryptonCheckBox1.Size = new System.Drawing.Size(240, 20);
+            this.kryptonCheckBox1.TabIndex = 13;
+            this.kryptonCheckBox1.Values.Text = "зберігати файл у папці з замовленням";
             // 
             // label27
             // 
@@ -1922,6 +1953,16 @@
             this.olvColumnName.Text = "Ім\'я профілю";
             this.olvColumnName.Width = 200;
             // 
+            // kryptonButton_MoveSignaFileToOrder
+            // 
+            this.kryptonButton_MoveSignaFileToOrder.CornerRoundingRadius = -1F;
+            this.kryptonButton_MoveSignaFileToOrder.Location = new System.Drawing.Point(87, 214);
+            this.kryptonButton_MoveSignaFileToOrder.Name = "kryptonButton_MoveSignaFileToOrder";
+            this.kryptonButton_MoveSignaFileToOrder.Size = new System.Drawing.Size(228, 25);
+            this.kryptonButton_MoveSignaFileToOrder.TabIndex = 16;
+            this.kryptonButton_MoveSignaFileToOrder.Values.Text = "перенести файл signa до замовлення";
+            this.kryptonButton_MoveSignaFileToOrder.Click += new System.EventHandler(this.kryptonButton_MoveSignaFileToOrder_Click);
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2162,5 +2203,9 @@
         private System.Windows.Forms.Button buttonAddFolderName;
         private System.Windows.Forms.TextBox textBoxFolderName;
         private System.Windows.Forms.ListBox listBoxFolderNames;
+        private Krypton.Toolkit.KryptonCheckBox kryptonCheckBox1;
+        private System.Windows.Forms.TextBox textBox_FolderForSignaFileInJob;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonButton kryptonButton_MoveSignaFileToOrder;
     }
 }

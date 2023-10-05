@@ -528,11 +528,9 @@ namespace Job.UC
                 objectListView_NewWorks.ModelFilter = null;
             else
             {
-                objectListView_NewWorks.ModelFilter = new TextMatchFilter(objectListView_NewWorks, filterText);
+                objectListView_NewWorks.ModelFilter = TextMatchFilter.Regex(objectListView_NewWorks, filterText);
             }
         }
-
-
 
         private void ContextMenuStrip_NewJob_Opening(object sender, CancelEventArgs e)
         {
@@ -557,10 +555,18 @@ namespace Job.UC
                 копироватьВБуферОписаниеЗаказаToolStripMenuItem.Visible = true;
 
                 var job = objectListView_NewWorks.SelectedObject as IJob;
-                создатьSignaJobToolStripMenuItem.Text =
-                    job.IsSignaJobExist(_profile) ?
-                        "відкрити файл Prinect Signa" :
-                        "створити файл Prinect Signa";
+
+                var signaFiles = job.GetSignaFileNames(_profile);
+                if (signaFiles.Length == 0)
+                {
+                    создатьSignaJobToolStripMenuItem.Text = "створити файл Prinect Signa";
+                    создатьSignaJobToolStripMenuItem.Tag = null;
+                }
+                else
+                {
+                    создатьSignaJobToolStripMenuItem.Text = signaFiles[0];
+                    создатьSignaJobToolStripMenuItem.Tag = signaFiles[0];
+                }
 
             }
             else

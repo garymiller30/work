@@ -1,5 +1,7 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using ExtensionMethods;
@@ -8,7 +10,7 @@ using MongoDB.Bson;
 
 namespace Job.Ext
 {
-    public static class Commons
+    public static class Extensions
     {
 
         static T DuplicateBase<T>(T obj)
@@ -60,25 +62,77 @@ namespace Job.Ext
         }
 
 
-        public static bool IsSignaJobExist(this IJob job, string signaFileShablon, string signaJobsPath, IUserProfile profile)
-        {
-            var category = profile.Categories.GetCategoryNameById(job.CategoryId);
-            var fileName = string.Format(CultureInfo.InvariantCulture, signaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(), category.Transliteration());
+        //public static bool IsSignaJobExist(this IJob job, string signaFileShablon, string signaJobsPath, IUserProfile profile)
+        //{
+        //    var category = profile.Categories.GetCategoryNameById(job.CategoryId);
+        //    var fileName = string.Format(CultureInfo.InvariantCulture, signaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(), category.Transliteration());
 
-            var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
+        //    var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
 
-            return File.Exists(destFile);
-        }
+        //    return File.Exists(destFile);
+        //}
 
         public static bool IsSignaJobExist(this IJob job, IUserProfile profile)
         {
+            return File.Exists(GetSignaFilePath(job,profile));
+        }
+
+        public static string[] GetSignaFileNames(this IJob job,IUserProfile profile)
+        {
+            if (profile.Settings.GetJobSettings().UseJobFolder)
+            {
+                var signaPath = Path.Combine(profile.Jobs.GetFullPathToWorkFolder(job),profile.Settings.GetJobSettings().SubFolderForSignaFile);
+                if (Directory.Exists(signaPath))
+                { 
+                    var files = Directory.GetFiles(signaPath,"*.sdf");
+                    if (files.Length > 0)
+                    {
+                        return files.Select(x=> Path.GetFileNameWithoutExtension(x)).ToArray();
+                    }
+                }
+            }
+            else
+            {
+                var file = Path.Combine( profile.Settings.GetJobSettings().SignaJobsPath, job.GetSignaFileName(profile));
+                if (File.Exists(file))
+                {
+                    return new string[]{ Path.GetFileNameWithoutExtension(file )};
+                }
+
+            }
+            return Array.Empty<string>();
+        }
+
+        public static string GetSignaFileName(this IJob job, IUserProfile profile)
+        {
             var category = profile.Categories.GetCategoryNameById(job.CategoryId);
 
-            string fileName = string.Format(CultureInfo.InvariantCulture, profile.Jobs.Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(), category.Transliteration());
+            string fileName = string.Format(CultureInfo.InvariantCulture,
+                profile.Jobs.Settings.SignaFileShablon,
+                job.Customer.Transliteration(),
+                job.Number,
+                job.Description.Transliteration(),
+                category.Transliteration());
 
-            var destFile = Path.Combine(profile.Jobs.Settings.SignaJobsPath, $"{fileName}.sdf");
+            return fileName;
+        }
 
-            return File.Exists(destFile);
+        public static string GetSignaFilePath(this IJob job, IUserProfile profile)
+        {
+            string fileName = job.GetSignaFileName(profile);
+
+            string destFile;
+
+            if (profile.Settings.GetJobSettings().UseJobFolder)
+            {
+                destFile = Path.Combine(profile.Jobs.GetFullPathToWorkFolder(job),
+                    profile.Settings.GetJobSettings().SubFolderForSignaFile, $"{fileName}.sdf");
+            }
+            else
+            {
+                destFile = Path.Combine(profile.Jobs.Settings.SignaJobsPath, $"{fileName}.sdf");
+            }
+            return destFile;
         }
 
 

@@ -329,6 +329,12 @@
     <Compile Include="Forms\FormExtBrowserSettings.Designer.cs">
       <DependentUpon>FormExtBrowserSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormMoveSignaFileToOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormMoveSignaFileToOrder.Designer.cs">
+      <DependentUpon>FormMoveSignaFileToOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormQRCode.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -406,6 +412,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormExtBrowserSettings.resx">
       <DependentUpon>FormExtBrowserSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMoveSignaFileToOrder.resx">
+      <DependentUpon>FormMoveSignaFileToOrder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormQRCode.resx">
       <DependentUpon>FormQRCode.cs</DependentUpon>

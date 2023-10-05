@@ -761,6 +761,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="mongocrypt.dll" />
+    <None Include="Resources\users-2-icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\AWSSDK.SecurityToken.3.7.101.36\analyzers\dotnet\cs\AWSSDK.SecurityToken.CodeAnalysis.dll" />

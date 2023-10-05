@@ -50,8 +50,8 @@
             this.копироватьВБуферНомерЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копіюватиЗамавникаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripWorks = new System.Windows.Forms.ToolStrip();
             this.копіюватиКатегоріюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripWorks = new System.Windows.Forms.ToolStrip();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -247,6 +247,7 @@
             // 
             // копироватьВБуферНомерЗаказаToolStripMenuItem
             // 
+            this.копироватьВБуферНомерЗаказаToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копироватьВБуферНомерЗаказаToolStripMenuItem.Image")));
             this.копироватьВБуферНомерЗаказаToolStripMenuItem.Name = "копироватьВБуферНомерЗаказаToolStripMenuItem";
             this.копироватьВБуферНомерЗаказаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.копироватьВБуферНомерЗаказаToolStripMenuItem.Text = "копіювати номер замовлення";
@@ -254,6 +255,7 @@
             // 
             // копіюватиЗамавникаToolStripMenuItem
             // 
+            this.копіюватиЗамавникаToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копіюватиЗамавникаToolStripMenuItem.Image")));
             this.копіюватиЗамавникаToolStripMenuItem.Name = "копіюватиЗамавникаToolStripMenuItem";
             this.копіюватиЗамавникаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.копіюватиЗамавникаToolStripMenuItem.Text = "копіювати замовника";
@@ -261,10 +263,19 @@
             // 
             // копироватьВБуферОписаниеЗаказаToolStripMenuItem
             // 
+            this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копироватьВБуферОписаниеЗаказаToolStripMenuItem.Image")));
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Name = "копироватьВБуферОписаниеЗаказаToolStripMenuItem";
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Text = "копіювати опис замовлення";
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Click += new System.EventHandler(this.КопироватьВБуферОписаниеЗаказаToolStripMenuItem_Click);
+            // 
+            // копіюватиКатегоріюToolStripMenuItem
+            // 
+            this.копіюватиКатегоріюToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копіюватиКатегоріюToolStripMenuItem.Image")));
+            this.копіюватиКатегоріюToolStripMenuItem.Name = "копіюватиКатегоріюToolStripMenuItem";
+            this.копіюватиКатегоріюToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.копіюватиКатегоріюToolStripMenuItem.Text = "копіювати категорію";
+            this.копіюватиКатегоріюToolStripMenuItem.Click += new System.EventHandler(this.копіюватиКатегоріюToolStripMenuItem_Click);
             // 
             // toolStripWorks
             // 
@@ -274,13 +285,6 @@
             this.toolStripWorks.Name = "toolStripWorks";
             this.toolStripWorks.Size = new System.Drawing.Size(26, 111);
             this.toolStripWorks.TabIndex = 0;
-            // 
-            // копіюватиКатегоріюToolStripMenuItem
-            // 
-            this.копіюватиКатегоріюToolStripMenuItem.Name = "копіюватиКатегоріюToolStripMenuItem";
-            this.копіюватиКатегоріюToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.копіюватиКатегоріюToolStripMenuItem.Text = "копіювати категорію";
-            this.копіюватиКатегоріюToolStripMenuItem.Click += new System.EventHandler(this.копіюватиКатегоріюToolStripMenuItem_Click);
             // 
             // UcJobList
             // 

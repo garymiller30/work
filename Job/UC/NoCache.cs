@@ -16,6 +16,7 @@ namespace Job.UC
     public sealed class NoCache : ICache<IFileSystemInfoExt>
     {
         private readonly IWatcher _watcher;
+        private List<string> _ignoreFolders = new List<string>(){"temp",".signa" };
 
         readonly List<IFileSystemInfoExt> _files = new List<IFileSystemInfoExt>();
 
@@ -77,8 +78,9 @@ namespace Job.UC
         {
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
-                // tem пропускаємо
-                if (!e.Name.Equals("temp", StringComparison.InvariantCultureIgnoreCase))
+
+                // temp пропускаємо
+                if (!_ignoreFolders.Contains(e.Name.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase)) 
                 {
                     Debug.WriteLine($"- OnCreated: e.FullPath: {e.FullPath}");
                     try
@@ -141,9 +143,9 @@ namespace Job.UC
             _files.Clear();
 
             if (!Directory.Exists(path)) return _files;
-
+           
             var dirs = Directory.GetDirectories(path)
-                .Where(y => !y.EndsWith("temp", StringComparison.CurrentCultureIgnoreCase))
+                .Where(y => !_ignoreFolders.Contains(Path.GetFileName(y).ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
                 .Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
             dirs.Sort(_naturalCompaper);
 
@@ -166,7 +168,7 @@ namespace Job.UC
             if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
 
             var dirs = Directory.GetDirectories(path)
-                 .Where(y => !y.EndsWith("temp", StringComparison.CurrentCultureIgnoreCase))
+                 .Where(y => !_ignoreFolders.Contains(Path.GetFileName(y).ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
                  .Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
             dirs.Sort(_naturalCompaper);
 
