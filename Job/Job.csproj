@@ -261,7 +261,7 @@
     <Compile Include="Dlg\FormTirag.Designer.cs">
       <DependentUpon>FormTirag.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ext\Commons.cs" />
+    <Compile Include="Ext\Extensions.cs" />
     <Compile Include="Dlg\FormChangeJobsPath.cs">
       <SubType>Form</SubType>
     </Compile>

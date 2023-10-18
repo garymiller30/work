@@ -137,6 +137,7 @@
             this.objectListView1.Size = new System.Drawing.Size(771, 279);
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
+            this.objectListView1.UseNotifyPropertyChanged = true;
             this.objectListView1.View = System.Windows.Forms.View.Details;
             // 
             // olvColumn1

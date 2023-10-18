@@ -93,10 +93,10 @@ namespace Job.Ext
             }
             else
             {
-                var file = Path.Combine( profile.Settings.GetJobSettings().SignaJobsPath, job.GetSignaFileName(profile));
-                if (File.Exists(file))
+                var file = Path.Combine(profile.Settings.GetJobSettings().SignaJobsPath, job.GetSignaFileName(profile));
+                if (File.Exists($"{file}.sdf"))
                 {
-                    return new string[]{ Path.GetFileNameWithoutExtension(file )};
+                    return new string[]{ Path.GetFileNameWithoutExtension(file)};
                 }
 
             }

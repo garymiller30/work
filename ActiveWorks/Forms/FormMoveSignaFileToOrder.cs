@@ -1,12 +1,16 @@
 ﻿using Interfaces;
+using Job;
 using Krypton.Toolkit;
+using Microsoft.Scripting.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +20,7 @@ namespace ActiveWorks.Forms
     public partial class FormMoveSignaFileToOrder : KryptonForm
     {
         IUserProfile _profile;
-        List<SignaFile> _signaFiles;
+        ObservableCollection<SignaFile> _signaFiles = new ObservableCollection<SignaFile>();
 
         public FormMoveSignaFileToOrder(IUserProfile profile)
         {
@@ -34,7 +38,8 @@ namespace ActiveWorks.Forms
             var template = kryptonTextBoxSignaJobTemplate.Text;
 
             var files = Directory.GetFiles(signaJobsPath, "*.sdf").Select(x => new SignaFile(x)).ToList();
-            objectListView1.AddObjects(files);
+            _signaFiles.AddRange(files);
+            objectListView1.AddObjects(_signaFiles);
 
         }
 
@@ -50,15 +55,22 @@ namespace ActiveWorks.Forms
 
         private void CheckTemplates()
         {
-            
+            var jobs = _profile.Base.All<Job.Job>("Jobs");
+            foreach (var job in jobs)
+            {
+
+            }
         }
     }
 
 
 
 
-    public class SignaFile
+    public class SignaFile : INotifyPropertyChanged
     {
+
+        FileStatus _status = FileStatus.Idle;
+
         public SignaFile(string path)
         {
             Path = path;
@@ -68,8 +80,18 @@ namespace ActiveWorks.Forms
         public string Path { get;set;}
         public string OrderPath { get;set; }
         public string Name { get;set;}
-        public FileStatus Status {get;set;} = FileStatus.Idle;
+        public FileStatus Status {
+            get => _status;
+            set {_status = value;
+                OnPropertyChanged();
+                } } 
         public Color Color { get;set;} = Color.White;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
     }
 
     public enum FileStatus
