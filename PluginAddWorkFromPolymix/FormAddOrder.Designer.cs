@@ -61,7 +61,7 @@
             this.objectListViewFilter.HideSelection = false;
             this.objectListViewFilter.Location = new System.Drawing.Point(0, 0);
             this.objectListViewFilter.Name = "objectListViewFilter";
-            this.objectListViewFilter.Size = new System.Drawing.Size(214, 349);
+            this.objectListViewFilter.Size = new System.Drawing.Size(214, 350);
             this.objectListViewFilter.TabIndex = 0;
             this.objectListViewFilter.UseCompatibleStateImageBehavior = false;
             this.objectListViewFilter.View = System.Windows.Forms.View.Details;
@@ -125,7 +125,7 @@
             this.objectListViewOrderList.Location = new System.Drawing.Point(0, 0);
             this.objectListViewOrderList.Name = "objectListViewOrderList";
             this.objectListViewOrderList.ShowGroups = false;
-            this.objectListViewOrderList.Size = new System.Drawing.Size(539, 285);
+            this.objectListViewOrderList.Size = new System.Drawing.Size(539, 286);
             this.objectListViewOrderList.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.objectListViewOrderList.TabIndex = 1;
             this.objectListViewOrderList.UseCompatibleStateImageBehavior = false;
