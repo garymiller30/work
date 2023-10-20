@@ -204,6 +204,7 @@ namespace ActiveWorks
                 using (var s = new FormSettings())
                 {
                     s.ShowDialog();
+                    ApplySettings();
                 }
             };
             groupTriple.Items.Add(button);
@@ -272,7 +273,13 @@ namespace ActiveWorks
 
         }
 
-
+        private void ApplySettings()
+        {
+            foreach (var tab in _profileTabs)
+            {
+                ((Profile)tab.Tag).FileBrowser.InitBrowserToolStripUtils();
+            }
+        }
 
         private void CreateSearchGroup(KryptonRibbonTab tab, Profile profile)
         {
