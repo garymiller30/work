@@ -15,7 +15,14 @@
       <Value Profile="(Default)">800, 600</Value>
     </Setting>
     <Setting Name="WhatNew" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">8.0.0
+      <Value Profile="(Default)">8.3.1
+-----------------
++ можливість зберігати файли Signa Station у папці з замовленням
++ Скидання положень вікон без перезапуску програми
++ Зміни в браузері без перезапуску програми
+
+
+8.0.0
 -----------------
 Перехід на net 4.8 і mongodb 4.4. Несумісно з попередньою версією
 + створення jpg прев'ю з pdf

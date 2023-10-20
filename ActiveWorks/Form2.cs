@@ -25,7 +25,7 @@ namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 8.3.0";
+        private readonly string _version = $"{Localize.FormTitle} 8.3.1";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
@@ -126,7 +126,7 @@ namespace ActiveWorks
         /// <summary>
         /// Create Profile Ribbon  Tab
         /// </summary>
-        private void CreateProfileTab()
+        private void CreateProfilesTab()
         {
             SplashScreen.Splash.SetHeader("профілі");
             SplashScreen.Splash.SetStatus("завантажуємо...");
@@ -138,31 +138,37 @@ namespace ActiveWorks
                 Stopwatch sw = Stopwatch.StartNew();
                 sw.Start();
 
-                var tab = new KryptonRibbonTab { Text = profile.Settings.ProfileName };
-                kryptonRibbon1.RibbonTabs.Add(tab);
-
-                var formProfile = new FormProfile
-                {
-                    Tag = profile,
-                    Text = profile.Settings.ProfileName,
-                    MdiParent = this
-                };
-
-                SplashScreen.Splash.SetHeader(profile.Settings.ProfileName);
-                SplashScreen.Splash.SetStatus("завантажуємо налаштування...");
-
-                formProfile.InitProfile();
-
-                formProfile.Dock = DockStyle.Fill;
-                formProfile.Show();
-
-                tab.Tag = formProfile;
-                _profileTabs.Add(formProfile);
-
-                FillRibbonTab(formProfile, tab, profile);
+                CreateProfileTab(profile);
+                
                 sw.Stop();
                 Log.Info("App", "App", $"profile '{profile.Settings.ProfileName}' loaded by {sw.ElapsedMilliseconds} ms");
             }
+        }
+
+        private void CreateProfileTab(Profile profile)
+        {
+            var tab = new KryptonRibbonTab { Text = profile.Settings.ProfileName };
+            kryptonRibbon1.RibbonTabs.Add(tab);
+
+            var formProfile = new FormProfile
+            {
+                Tag = profile,
+                Text = profile.Settings.ProfileName,
+                MdiParent = this
+            };
+
+            SplashScreen.Splash.SetHeader(profile.Settings.ProfileName);
+            SplashScreen.Splash.SetStatus("завантажуємо налаштування...");
+
+            formProfile.InitProfile();
+
+            formProfile.Dock = DockStyle.Fill;
+            formProfile.Show();
+
+            tab.Tag = formProfile;
+            _profileTabs.Add(formProfile);
+
+            FillRibbonTab(formProfile, tab, profile);
         }
 
         private void KryptonRibbon1_SelectedTabChanged(object sender, EventArgs e)
@@ -263,6 +269,9 @@ namespace ActiveWorks
             button.Click += (sender, args) =>
             {
                 formProfile.ResetLayout();
+                _profileTabs.Remove((FormProfile)formProfile);
+                kryptonRibbon1.RibbonTabs.Remove(tab);
+                CreateProfileTab((Profile)((FormProfile)formProfile).Tag);
             };
             groupTriple.Items.Add(button);
             // --- Theme switcher button ---
@@ -517,7 +526,7 @@ namespace ActiveWorks
         private void Form2_Load(object sender, EventArgs e)
         {
             SuspendLayout();
-            CreateProfileTab();
+            CreateProfilesTab();
 
             SetActiveDefaultProfile();
             kryptonRibbon1.SelectedTabChanged += KryptonRibbon1_SelectedTabChanged;
