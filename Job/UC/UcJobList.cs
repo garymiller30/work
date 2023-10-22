@@ -21,7 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static MongoDB.Libmongocrypt.CryptContext;
+using static Job.Static.NaturalSorting;
 
 namespace Job.UC
 {
@@ -42,16 +42,13 @@ namespace Job.UC
             {
                 BorderPen = new Pen(Color.FromArgb(255, Color.DarkBlue), 1),
                 BoundsPadding = new Size(0, -1),
-                CornerRounding = 3.0F
+                CornerRounding = 3.0F,
             };
-
-            objectListView_NewWorks.SelectedRowDecoration = rbd;
-
             UseTheme();
             SetTheme();
 
-
-           
+            objectListView_NewWorks.SelectedRowDecoration = rbd;
+            
         }
 
         private void UseTheme()
@@ -92,13 +89,9 @@ namespace Job.UC
             olvColumn_Status.Renderer = new BaseRenderer();
             olvColumn_Status.ImageGetter += ImageGetter;
             olvColumnProcess.Renderer = new BarRenderer(0, 100);
-            
-           
 
             InitMainToolStrip();
             AddingExtendedSettings();
-            
-            //ApplyViewFilter();
         }
         private void ObjectListView_NewWorks_DoubleClick(object sender, EventArgs e)
         {
@@ -217,7 +210,7 @@ namespace Job.UC
                 {
                     WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path),
                     FileName = menuSendTo.Path,
-                    Arguments = _profile.ScriptEngine.JobList.PrepareCommandlineArguments(job, menuSendTo)
+                    Arguments = _profile.ScriptEngine.JobList.PrepareCommandlineArguments(job, menuSendTo),
                 };
 
                 var p = Process.Start(pii);
@@ -228,27 +221,7 @@ namespace Job.UC
             }
         }
 
-        //private void ProcessSingleFile(IJob job, MenuSendTo menuSendTo)
-        //{
-        //    var fileList = _profile.FileBrowser.Browsers[0].GetFilesFromDirectory(_profile.Jobs.GetFullPathToWorkFolder(job));
-
-        //    foreach (FileSystemInfoExt info in fileList)
-        //    {
-        //        var pii = new ProcessStartInfo
-        //        {
-        //            WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path),
-        //            FileName = menuSendTo.Path,
-        //            Arguments = _profile.ScriptEngine.JobList.PrepareCommandlineArguments(job, menuSendTo, info)
-        //        };
-        //        var p = Process.Start(pii);
-        //        if (menuSendTo.EventOnFinish)
-        //        {
-        //            p?.WaitForExit();
-        //        }
-        //    }
-        //}
-
-        private void InitMainToolStrip()
+         private void InitMainToolStrip()
         {
             toolStripWorks.Items.Clear();
             toolStripMainScriptPanel.Items.Clear();
@@ -288,23 +261,27 @@ namespace Job.UC
         {
             // без цього не малює прогрес бар
             objectListView_NewWorks.OwnerDraw = true;
-            objectListView_NewWorks.AlwaysGroupByColumn = olvColumn_Date;
+            //objectListView_NewWorks.AlwaysGroupByColumn = olvColumn_Date;
            
-
+            
             olvColumn_Date.AspectGetter += x => ((IJob)x).Date.ToLocalTime();
             olvColumnCategories.AspectGetter += r => _profile.Categories.GetCategoryById(((IJob)r).CategoryId)?.Name;
             olvColumnNote.AspectGetter += AspectGetterNote;
             
             
             olvColumn_Status.AspectGetter = rowObject => _profile.StatusManager.GetJobStatusDescriptionByCode(((IJob)rowObject).StatusCode);
-
             olvColumn_Status.GroupKeyGetter = delegate(object row) {return ((IJob)row).StatusCode;};
-
             olvColumn_Status.GroupKeyToTitleConverter = delegate(object key){ return _profile.StatusManager.GetJobStatusDescriptionByCode((int)key).ToString(); };
 
+            olvColumn_Date.GroupKeyGetter += r => ((IJob)r).Date.ToString("yyyy-MM-dd");
+            olvColumn_Date.GroupKeyToTitleConverter += key => key.ToString();
 
-            olvColumn_Date.GroupKeyGetter += r => ((IJob)r).Date;
-            olvColumn_Date.GroupKeyToTitleConverter += key => ((DateTime)key).ToString("MMM yyyy");
+            olvColumn_Customer.GroupKeyGetter = r => ((Job)r).Customer;
+            olvColumn_Customer.GroupKeyToTitleConverter = r => r.ToString();
+
+            objectListView_NewWorks.CustomSorter = delegate (OLVColumn column, SortOrder order) {
+                if (column == olvColumn_Date) objectListView_NewWorks.ListViewItemSorter = new OrderDateComparer(order);
+                };
 
             objectListView_NewWorks.RebuildColumns();
 
@@ -707,7 +684,7 @@ namespace Job.UC
 
                 if (link != null)
                 {
-                    if (link.ToString().StartsWith("http"))
+                    if (link.ToString().StartsWith("http", StringComparison.OrdinalIgnoreCase))
                     {
                         DownloadFromHttpLinkAsync(job, link.ToString());
                     }
@@ -793,6 +770,11 @@ namespace Job.UC
                     Log.Error(_profile, "Clipboard", ee.Message);
                 }
             }
+        }
+
+        private void toolStripButtonShowGroups_Click(object sender, EventArgs e)
+        {
+            objectListView_NewWorks.ShowGroups = !objectListView_NewWorks.ShowGroups;
         }
     }
 }

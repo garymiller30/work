@@ -496,7 +496,6 @@
     <None Include="libmongocrypt.dylib" />
     <None Include="libmongocrypt.so" />
     <None Include="packages.config" />
-    <None Include="UC\Graph1.dgml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackgroundTaskServiceLib\BackgroundTaskServiceLib.csproj">

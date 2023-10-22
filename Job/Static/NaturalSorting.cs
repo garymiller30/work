@@ -144,6 +144,27 @@ namespace Job.Static
         }
 
 
+        public sealed class OrderDateComparer: IComparer
+        {
+            SortOrder _order;
+
+            public OrderDateComparer(SortOrder order)
+            {
+                _order = order;
+            }
+            public int Compare(object x, object y)
+            {
+                DateTime d1 = ((Job)(x as OLVListItem).RowObject).Date;
+                DateTime d2 = ((Job)(y as OLVListItem).RowObject).Date;
+                if (_order == SortOrder.Ascending)
+                {
+                    return DateTime.Compare(d1, d2);
+                }
+                return DateTime.Compare(d2, d1);
+            }
+        }
+
+
         public sealed class FileDateComparer : IComparer
         {
             SortOrder _order;

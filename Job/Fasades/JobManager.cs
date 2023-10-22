@@ -118,7 +118,7 @@ namespace Job.Fasades
             Settings = settings;
             _profile = profile;
 
-            JobListControl = new UcJobList(_profile) { Dock = DockStyle.Fill };
+            JobListControl = new UcJobList(_profile) { Dock = DockStyle.Fill};
             Connect(false);
         }
 

@@ -65,14 +65,22 @@ namespace Job.UC
             UserProfile = profile;
 
             InitializeComponent();
-
             InitFileManager();
+            InitListView();
 
+            UseTheme();
+            SetTheme();
+
+            ApplySettings();
+        }
+
+        private void InitListView()
+        {
             var rbd = new RowBorderDecoration
             {
                 BorderPen = new Pen(Color.FromArgb(255, Color.DarkGreen), 1),
                 BoundsPadding = new Size(0, -1),
-                CornerRounding = 3.0F
+                CornerRounding = 3.0F,
             };
 
             objectListView1.SelectedRowDecoration = rbd;
@@ -107,27 +115,18 @@ namespace Job.UC
 
             var helper = new SysImageListHelper(objectListView1);
             olvColumn_FileName.ImageGetter = x => helper.GetImageIndex(((IFileSystemInfoExt)x).FileInfo.FullName);
-            //olvColumn_DateTime.AspectGetter = x => ((IFileSystemInfoExt)x).FileInfo.LastWriteTime;
 
-            objectListView1.CustomSorter = delegate(OLVColumn column, SortOrder order) { 
-                
+            objectListView1.CustomSorter = delegate (OLVColumn column, SortOrder order)
+            {
+
                 if (column == olvColumn_FileName) objectListView1.ListViewItemSorter = new FileNameNaturalComparer(order);
                 else if (column == olvColumnWidth) objectListView1.ListViewItemSorter = new FileWidthComparer(order);
                 else if (column == olvColumnHeight) objectListView1.ListViewItemSorter = new FileHeightComparer(order);
                 else if (column == olvColumnPages) objectListView1.ListViewItemSorter = new FilePagesComparer(order);
                 else if (column == olvColumnBleeds) objectListView1.ListViewItemSorter = new FileBleedComparer(order);
-                else if (column == olvColumn_DateTime) objectListView1.ListViewItemSorter =  new FileDateComparer(order);
-            }; 
-
-
-            UseTheme();
-            SetTheme();
-
-            ApplySettings();
+                else if (column == olvColumn_DateTime) objectListView1.ListViewItemSorter = new FileDateComparer(order);
+            };
         }
-
-
-
 
         private void SetTheme()
         {
@@ -358,7 +357,7 @@ namespace Job.UC
                         var pi = new ProcessStartInfo
                         {
                             WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path) ?? throw new InvalidOperationException(),
-                            FileName = menuSendTo.Path
+                            FileName = menuSendTo.Path,
                         };
                         Process.Start(pi);
                     }
@@ -421,7 +420,7 @@ namespace Job.UC
             {
                 WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path),
                 FileName = menuSendTo.Path,
-                Arguments = args
+                Arguments = args,
             };
             var p = Process.Start(processStartInfo);
             Log.Info(UserProfile, "Utils", $"process: {menuSendTo.Path} cmd: {processStartInfo.Arguments}");
@@ -445,7 +444,7 @@ namespace Job.UC
             {
                 WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path),
                 FileName = menuSendTo.Path,
-                Arguments = args
+                Arguments = args,
             };
 
             var p = Process.Start(pii);
@@ -552,7 +551,7 @@ namespace Job.UC
             var pi = new ProcessStartInfo
             {
                 WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path) ?? throw new InvalidOperationException(),
-                FileName = menuSendTo.Path
+                FileName = menuSendTo.Path,
             };
 
             if (UserProfile.ScriptEngine.IsScriptFile(menuSendTo.Path))
@@ -895,7 +894,7 @@ namespace Job.UC
                 return !folders.Contains(x.FileInfo.Name, StringComparer.OrdinalIgnoreCase);
             });
 
-            if (filteredFiles.Count() == 0) return;
+            if (!filteredFiles.Any()) return;
 
             // створити меню
             переміститиДоToolStripMenuItem.Visible = true;
@@ -923,7 +922,7 @@ namespace Job.UC
 
             var localFolders = _fileManager.GetDirs();
 
-            if (localFolders.Count() == 0) return;
+            if (!localFolders.Any()) return;
 
             var lf = localFolders.Where(x =>
             {
@@ -935,7 +934,7 @@ namespace Job.UC
             });
 
 
-            if (lf.Count() == 0) return;
+            if (!lf.Any()) return;
 
             переміститиДоToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
 
@@ -981,7 +980,7 @@ namespace Job.UC
                                 UserProfile.MailNotifier.SendFile(((ToolStripMenuItem)sender).Text, file.FileInfo.FullName);
                             }
                         }
-                    }
+                    },
                 });
 
                 //ShowProgress.FormProgress.ShowProgress(() =>
@@ -1023,7 +1022,7 @@ namespace Job.UC
                             Path.GetFileNameWithoutExtension(info.FileInfo.FullName),
                             curJob?.Number,
                             curJob?.Customer,
-                            curJob?.Description)
+                            curJob?.Description),
                         };
 
                         var p = Process.Start(pii);
@@ -1036,7 +1035,7 @@ namespace Job.UC
             var pi = new ProcessStartInfo
             {
                 WorkingDirectory = Path.GetDirectoryName(path),
-                FileName = path
+                FileName = path,
             };
             Process.Start(pi);
         }
@@ -1497,7 +1496,7 @@ namespace Job.UC
                     }
 
                     objectListView1.RefreshObjects(fileSystemInfoExts.ToArray());
-                }
+                },
             });
 
             //ShowProgress.FormProgress.ShowProgress(() =>
@@ -1764,7 +1763,7 @@ namespace Job.UC
 
                 var date = ((FileSystemInfoExt)r).FileInfo.LastWriteTime;
 
-                return new {Title = $"{date.Year}.{date.Month:00}.{date.Day:00}" };
+                return new { Title = $"{date.Year}.{date.Month:00}.{date.Day:00}" };
             };
 
                

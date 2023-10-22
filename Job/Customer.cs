@@ -103,7 +103,7 @@ namespace Job
         {
             if (obj is ICustomer o)
             {
-                return Name.Equals(o.Name);
+                return Name.Equals(o.Name, StringComparison.OrdinalIgnoreCase);
             }
             return false;
         }
