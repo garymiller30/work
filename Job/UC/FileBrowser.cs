@@ -1169,7 +1169,7 @@ namespace Job.UC
             }
             else
             {
-                objectListView1.ModelFilter = TextMatchFilter.Contains(objectListView1, toolStripTextBox_Filter.Text);
+                objectListView1.ModelFilter = TextMatchFilter.Regex(objectListView1, toolStripTextBox_Filter.Text);
             }
         }
 
