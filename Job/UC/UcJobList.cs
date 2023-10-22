@@ -48,7 +48,7 @@ namespace Job.UC
             SetTheme();
 
             objectListView_NewWorks.SelectedRowDecoration = rbd;
-            
+
         }
 
         private void UseTheme()
@@ -58,9 +58,9 @@ namespace Job.UC
 
         private void ThemeController_ThemeChanged(object sender, EventArgs e)
         {
-           
+
             SetTheme();
-            
+
             var objects = (ICollection)objectListView_NewWorks.Objects;
             objectListView_NewWorks.ClearObjects();
             objectListView_NewWorks.AddObjects(objects);
@@ -221,7 +221,7 @@ namespace Job.UC
             }
         }
 
-         private void InitMainToolStrip()
+        private void InitMainToolStrip()
         {
             toolStripWorks.Items.Clear();
             toolStripMainScriptPanel.Items.Clear();
@@ -262,16 +262,17 @@ namespace Job.UC
             // без цього не малює прогрес бар
             objectListView_NewWorks.OwnerDraw = true;
             //objectListView_NewWorks.AlwaysGroupByColumn = olvColumn_Date;
-           
-            
+
+
+
             olvColumn_Date.AspectGetter += x => ((IJob)x).Date.ToLocalTime();
             olvColumnCategories.AspectGetter += r => _profile.Categories.GetCategoryById(((IJob)r).CategoryId)?.Name;
             olvColumnNote.AspectGetter += AspectGetterNote;
-            
-            
-            olvColumn_Status.AspectGetter = rowObject => _profile.StatusManager.GetJobStatusDescriptionByCode(((IJob)rowObject).StatusCode);
-            olvColumn_Status.GroupKeyGetter = delegate(object row) {return ((IJob)row).StatusCode;};
-            olvColumn_Status.GroupKeyToTitleConverter = delegate(object key){ return _profile.StatusManager.GetJobStatusDescriptionByCode((int)key).ToString(); };
+
+
+            olvColumn_Status.AspectGetter = r => _profile.StatusManager.GetJobStatusDescriptionByCode(((IJob)r).StatusCode);
+            olvColumn_Status.GroupKeyGetter = delegate (object r) { return ((IJob)r).StatusCode; };
+            olvColumn_Status.GroupKeyToTitleConverter = delegate (object r) { return _profile.StatusManager.GetJobStatusDescriptionByCode((int)r).ToString(); };
 
             olvColumn_Date.GroupKeyGetter += r => ((IJob)r).Date.ToString("yyyy-MM-dd");
             olvColumn_Date.GroupKeyToTitleConverter += key => key.ToString();
@@ -279,9 +280,19 @@ namespace Job.UC
             olvColumn_Customer.GroupKeyGetter = r => ((Job)r).Customer;
             olvColumn_Customer.GroupKeyToTitleConverter = r => r.ToString();
 
-            objectListView_NewWorks.CustomSorter = delegate (OLVColumn column, SortOrder order) {
-                if (column == olvColumn_Date) objectListView_NewWorks.ListViewItemSorter = new OrderDateComparer(order);
-                };
+            olvColumnCategories.GroupKeyGetter = r => _profile.Categories.GetCategoryById(((IJob)r).CategoryId)?.Name ?? "";
+            olvColumnCategories.GroupKeyToTitleConverter = r => r.ToString();
+
+            objectListView_NewWorks.CustomSorter = delegate (OLVColumn column, SortOrder order)
+            {
+                objectListView_NewWorks.PrimarySortColumn = column;
+
+                if (column == olvColumn_Date)
+                {
+                    objectListView_NewWorks.ListViewItemSorter = new OrderDateComparer(order);
+                    objectListView_NewWorks.SecondarySortColumn = olvColumn_Date;
+                }
+            };
 
             objectListView_NewWorks.RebuildColumns();
 
@@ -648,7 +659,7 @@ namespace Job.UC
                     {
                         Clipboard.SetText(o.Description.Transliteration());
                     }
-                    
+
                 }
                 catch (Exception ee)
                 {
@@ -720,9 +731,9 @@ namespace Job.UC
             e.Item.ForeColor = ThemeController.Fore;
             e.Item.BackColor = ThemeController.Back;
             _profile.Plugins?.JobListFormatRow(e.Item);
-            
+
         }
-            
+
 
         private void копіюватиЗамавникаToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcJobList));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStripMainScriptPanel = new System.Windows.Forms.ToolStrip();
+            this.kryptonToolStrip1 = new Krypton.Toolkit.KryptonToolStrip();
+            this.toolStripButtonShowGroups = new System.Windows.Forms.ToolStripButton();
             this.objectListView_NewWorks = new BrightIdeasSoftware.ObjectListView();
             this.olvColumn_Status = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProcess = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -52,15 +54,13 @@
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копіюватиКатегоріюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripWorks = new System.Windows.Forms.ToolStrip();
-            this.kryptonToolStrip1 = new Krypton.Toolkit.KryptonToolStrip();
-            this.toolStripButtonShowGroups = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
+            this.kryptonToolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_NewWorks)).BeginInit();
             this.contextMenuStrip_NewJob.SuspendLayout();
-            this.kryptonToolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -97,6 +97,28 @@
             this.toolStripMainScriptPanel.Size = new System.Drawing.Size(111, 25);
             this.toolStripMainScriptPanel.TabIndex = 0;
             // 
+            // kryptonToolStrip1
+            // 
+            this.kryptonToolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonShowGroups});
+            this.kryptonToolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonToolStrip1.Name = "kryptonToolStrip1";
+            this.kryptonToolStrip1.Size = new System.Drawing.Size(720, 25);
+            this.kryptonToolStrip1.TabIndex = 1;
+            this.kryptonToolStrip1.Text = "kryptonToolStrip1";
+            // 
+            // toolStripButtonShowGroups
+            // 
+            this.toolStripButtonShowGroups.CheckOnClick = true;
+            this.toolStripButtonShowGroups.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonShowGroups.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonShowGroups.Image")));
+            this.toolStripButtonShowGroups.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonShowGroups.Name = "toolStripButtonShowGroups";
+            this.toolStripButtonShowGroups.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonShowGroups.Text = "Показати групи";
+            this.toolStripButtonShowGroups.ToolTipText = "Показати групи";
+            this.toolStripButtonShowGroups.Click += new System.EventHandler(this.toolStripButtonShowGroups_Click);
+            // 
             // objectListView_NewWorks
             // 
             this.objectListView_NewWorks.AllColumns.Add(this.olvColumn_Status);
@@ -132,6 +154,7 @@
             this.objectListView_NewWorks.Name = "objectListView_NewWorks";
             this.objectListView_NewWorks.ShowGroups = false;
             this.objectListView_NewWorks.ShowImagesOnSubItems = true;
+            this.objectListView_NewWorks.ShowItemCountOnGroups = true;
             this.objectListView_NewWorks.ShowItemToolTips = true;
             this.objectListView_NewWorks.Size = new System.Drawing.Size(720, 338);
             this.objectListView_NewWorks.TabIndex = 0;
@@ -297,28 +320,6 @@
             this.toolStripWorks.Size = new System.Drawing.Size(26, 111);
             this.toolStripWorks.TabIndex = 0;
             // 
-            // kryptonToolStrip1
-            // 
-            this.kryptonToolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonShowGroups});
-            this.kryptonToolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonToolStrip1.Name = "kryptonToolStrip1";
-            this.kryptonToolStrip1.Size = new System.Drawing.Size(720, 25);
-            this.kryptonToolStrip1.TabIndex = 1;
-            this.kryptonToolStrip1.Text = "kryptonToolStrip1";
-            // 
-            // toolStripButtonShowGroups
-            // 
-            this.toolStripButtonShowGroups.CheckOnClick = true;
-            this.toolStripButtonShowGroups.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonShowGroups.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonShowGroups.Image")));
-            this.toolStripButtonShowGroups.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonShowGroups.Name = "toolStripButtonShowGroups";
-            this.toolStripButtonShowGroups.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonShowGroups.Text = "Показати групи";
-            this.toolStripButtonShowGroups.ToolTipText = "Показати групи";
-            this.toolStripButtonShowGroups.Click += new System.EventHandler(this.toolStripButtonShowGroups_Click);
-            // 
             // UcJobList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -334,10 +335,10 @@
             this.toolStripContainer1.LeftToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListView_NewWorks)).EndInit();
-            this.contextMenuStrip_NewJob.ResumeLayout(false);
             this.kryptonToolStrip1.ResumeLayout(false);
             this.kryptonToolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.objectListView_NewWorks)).EndInit();
+            this.contextMenuStrip_NewJob.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
