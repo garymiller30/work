@@ -120,23 +120,10 @@
   <metadata name="toolStripMainScriptPanel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>834, 17</value>
   </metadata>
-  <metadata name="kryptonToolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 54</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="toolStripButtonShowGroups.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADISURBVDhPnYw9DoJAEIWXhtDSGmLtAeiwsJKSwoJOyvVv
-        jWYtBBI5gRew957umzwSgoUuXzJ5+ybzrfpBypzMlfk3KzdbJnhw+v5NFEXLMAzvrGAdBMETj3Hibjhw
-        VZIktziO5zhwWDcLJ7xQxjkEDlyVZdmFOxy+XWyY0vsd+hhx8zw/s3sjblEUht0bccuyPLF7I25VVUd2
-        b8TVWh/YvRHXGLNn90Zca+2O3Rtx67rWXdfNuPsbOHBV0zRp27Z6ysDlf1NR6gM4lUtuWEOtCAAAAABJ
-        RU5ErkJggg==
-</value>
-  </data>
   <metadata name="contextMenuStrip_NewJob.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>18, 22</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="создатьSignaJobToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAH5JREFUOE/N

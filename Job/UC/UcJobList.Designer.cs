@@ -32,8 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcJobList));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStripMainScriptPanel = new System.Windows.Forms.ToolStrip();
-            this.kryptonToolStrip1 = new Krypton.Toolkit.KryptonToolStrip();
-            this.toolStripButtonShowGroups = new System.Windows.Forms.ToolStripButton();
             this.objectListView_NewWorks = new BrightIdeasSoftware.ObjectListView();
             this.olvColumn_Status = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProcess = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -49,6 +47,9 @@
             this.повторитьЗаказToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.обєднатиВОднеЗамовленняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.виглядToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.показатисховатиГрупиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.копироватьВБуферНомерЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копіюватиЗамавникаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,7 +59,6 @@
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            this.kryptonToolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_NewWorks)).BeginInit();
             this.contextMenuStrip_NewJob.SuspendLayout();
             this.SuspendLayout();
@@ -72,7 +72,6 @@
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.kryptonToolStrip1);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.objectListView_NewWorks);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(720, 366);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -97,28 +96,6 @@
             this.toolStripMainScriptPanel.Size = new System.Drawing.Size(111, 25);
             this.toolStripMainScriptPanel.TabIndex = 0;
             // 
-            // kryptonToolStrip1
-            // 
-            this.kryptonToolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonShowGroups});
-            this.kryptonToolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonToolStrip1.Name = "kryptonToolStrip1";
-            this.kryptonToolStrip1.Size = new System.Drawing.Size(720, 25);
-            this.kryptonToolStrip1.TabIndex = 1;
-            this.kryptonToolStrip1.Text = "kryptonToolStrip1";
-            // 
-            // toolStripButtonShowGroups
-            // 
-            this.toolStripButtonShowGroups.CheckOnClick = true;
-            this.toolStripButtonShowGroups.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonShowGroups.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonShowGroups.Image")));
-            this.toolStripButtonShowGroups.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonShowGroups.Name = "toolStripButtonShowGroups";
-            this.toolStripButtonShowGroups.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonShowGroups.Text = "Показати групи";
-            this.toolStripButtonShowGroups.ToolTipText = "Показати групи";
-            this.toolStripButtonShowGroups.Click += new System.EventHandler(this.toolStripButtonShowGroups_Click);
-            // 
             // objectListView_NewWorks
             // 
             this.objectListView_NewWorks.AllColumns.Add(this.olvColumn_Status);
@@ -130,9 +107,6 @@
             this.objectListView_NewWorks.AllColumns.Add(this.olvColumnNote);
             this.objectListView_NewWorks.AllColumns.Add(this.olvColumnCategories);
             this.objectListView_NewWorks.AllowColumnReorder = true;
-            this.objectListView_NewWorks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.objectListView_NewWorks.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.SingleClick;
             this.objectListView_NewWorks.CellEditUseWholeCell = false;
             this.objectListView_NewWorks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -146,17 +120,18 @@
             this.olvColumnCategories});
             this.objectListView_NewWorks.ContextMenuStrip = this.contextMenuStrip_NewJob;
             this.objectListView_NewWorks.Cursor = System.Windows.Forms.Cursors.Default;
+            this.objectListView_NewWorks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListView_NewWorks.FullRowSelect = true;
             this.objectListView_NewWorks.HeaderWordWrap = true;
             this.objectListView_NewWorks.HideSelection = false;
             this.objectListView_NewWorks.IsSimpleDropSink = true;
-            this.objectListView_NewWorks.Location = new System.Drawing.Point(0, 28);
+            this.objectListView_NewWorks.Location = new System.Drawing.Point(0, 0);
             this.objectListView_NewWorks.Name = "objectListView_NewWorks";
             this.objectListView_NewWorks.ShowGroups = false;
             this.objectListView_NewWorks.ShowImagesOnSubItems = true;
             this.objectListView_NewWorks.ShowItemCountOnGroups = true;
             this.objectListView_NewWorks.ShowItemToolTips = true;
-            this.objectListView_NewWorks.Size = new System.Drawing.Size(720, 338);
+            this.objectListView_NewWorks.Size = new System.Drawing.Size(720, 366);
             this.objectListView_NewWorks.TabIndex = 0;
             this.objectListView_NewWorks.UseCellFormatEvents = true;
             this.objectListView_NewWorks.UseCompatibleStateImageBehavior = false;
@@ -239,12 +214,14 @@
             this.повторитьЗаказToolStripMenuItem,
             this.обєднатиВОднеЗамовленняToolStripMenuItem,
             this.toolStripSeparator19,
+            this.виглядToolStripMenuItem,
+            this.toolStripSeparator1,
             this.копироватьВБуферНомерЗаказаToolStripMenuItem,
             this.копіюватиЗамавникаToolStripMenuItem,
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem,
             this.копіюватиКатегоріюToolStripMenuItem});
             this.contextMenuStrip_NewJob.Name = "contextMenuStrip_NewJob";
-            this.contextMenuStrip_NewJob.Size = new System.Drawing.Size(251, 170);
+            this.contextMenuStrip_NewJob.Size = new System.Drawing.Size(251, 198);
             this.contextMenuStrip_NewJob.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_NewJob_Opening);
             // 
             // создатьSignaJobToolStripMenuItem
@@ -278,6 +255,26 @@
             // 
             this.toolStripSeparator19.Name = "toolStripSeparator19";
             this.toolStripSeparator19.Size = new System.Drawing.Size(247, 6);
+            // 
+            // виглядToolStripMenuItem
+            // 
+            this.виглядToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.показатисховатиГрупиToolStripMenuItem});
+            this.виглядToolStripMenuItem.Name = "виглядToolStripMenuItem";
+            this.виглядToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.виглядToolStripMenuItem.Text = "вигляд";
+            // 
+            // показатисховатиГрупиToolStripMenuItem
+            // 
+            this.показатисховатиГрупиToolStripMenuItem.Name = "показатисховатиГрупиToolStripMenuItem";
+            this.показатисховатиГрупиToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.показатисховатиГрупиToolStripMenuItem.Text = "показати/сховати групи";
+            this.показатисховатиГрупиToolStripMenuItem.Click += new System.EventHandler(this.показатисховатиГрупиToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(247, 6);
             // 
             // копироватьВБуферНомерЗаказаToolStripMenuItem
             // 
@@ -330,13 +327,10 @@
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
-            this.toolStripContainer1.ContentPanel.PerformLayout();
             this.toolStripContainer1.LeftToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.LeftToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            this.kryptonToolStrip1.ResumeLayout(false);
-            this.kryptonToolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_NewWorks)).EndInit();
             this.contextMenuStrip_NewJob.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -367,7 +361,8 @@
         private System.Windows.Forms.ToolStripMenuItem копироватьВБуферОписаниеЗаказаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem копіюватиЗамавникаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem копіюватиКатегоріюToolStripMenuItem;
-        private Krypton.Toolkit.KryptonToolStrip kryptonToolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButtonShowGroups;
+        private System.Windows.Forms.ToolStripMenuItem виглядToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem показатисховатиГрупиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }

@@ -121,18 +121,15 @@ namespace Job.UC
                         _profile.Plugins.AfterJobChange(jobParameters);
                         if (_profile.Jobs.RenameJobDirectory(oldPath, jobParameters))
                         {
-
                             jobParameters.ApplyToJob();
-                            //_profile.Jobs.UnlockJob(j);
                             _profile.Jobs.UpdateJob(j);
                             objectListView_NewWorks.RefreshObject(j);
                             var newPath = _profile.Jobs.GetFullPathToWorkFolder(j);
                             _profile.FileBrowser.Browsers[0].SetRootFolder(newPath);
                         }
-
                     }
                     _profile.Jobs.UnlockJob(j);
-                    //_profile.Jobs.UpdateJob(j);
+                    
                 }
 
             }
@@ -783,7 +780,7 @@ namespace Job.UC
             }
         }
 
-        private void toolStripButtonShowGroups_Click(object sender, EventArgs e)
+        private void показатисховатиГрупиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             objectListView_NewWorks.ShowGroups = !objectListView_NewWorks.ShowGroups;
         }
