@@ -17,7 +17,7 @@ namespace Job.Static
 
         public static void GetColorspaces(IFileSystemInfoExt sfi)
         {
-            var ext = sfi.FileInfo.Extension.ToLower();
+            var ext = sfi.FileInfo.Extension.ToLower(System.Globalization.CultureInfo.InvariantCulture);
 
             switch (ext)
             {

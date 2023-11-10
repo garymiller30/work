@@ -51,16 +51,16 @@ namespace Job.Static
             public int Compare(object x, object y)
             {
 
-                decimal w1= ((FileSystemInfoExt)(x as OLVListItem).RowObject).Format.Width;
+                decimal w1 = ((FileSystemInfoExt)(x as OLVListItem).RowObject).Format.Width;
                 decimal w2 = ((FileSystemInfoExt)(y as OLVListItem).RowObject).Format.Width;
-                
+
                 if (_order == SortOrder.Ascending)
                 {
-                    return _compare(w1,w2);
+                    return _compare(w1, w2);
                 }
                 else
                 {
-                    return _compare(w2,w1);
+                    return _compare(w2, w1);
                 }
 
 
@@ -144,7 +144,7 @@ namespace Job.Static
         }
 
 
-        public sealed class OrderDateComparer: IComparer
+        public sealed class OrderDateComparer : IComparer
         {
             SortOrder _order;
 
@@ -164,6 +164,44 @@ namespace Job.Static
             }
         }
 
+        public sealed class OrderCustomerComparer : IComparer
+        {
+            SortOrder _order;
+            public OrderCustomerComparer(SortOrder order)
+            {
+                _order = order;
+            }
+
+            public int Compare(object x, object y)
+            {
+                var customerX = ((Job)(x as OLVListItem).RowObject).Customer;
+                var customerY = ((Job)(y as OLVListItem).RowObject).Customer;
+
+                if (_order == SortOrder.Ascending)
+                    return string.Compare(customerX,customerY, StringComparison.Ordinal);
+                return string.Compare(customerY, customerX, StringComparison.Ordinal);
+            }
+        }
+
+        public sealed class OrderCategoryComparer: IComparer
+        {
+            SortOrder _order;
+            
+            public OrderCategoryComparer(SortOrder order)
+            {
+                _order = order;
+            }
+
+            public int Compare(object x, object y)
+            {
+                var categoryX = ((Job)(x as OLVListItem).RowObject).CategoryId;
+                var categoryY = ((Job)(y as OLVListItem).RowObject).CategoryId;
+
+                return _order == SortOrder.Ascending ? categoryX.ToString().CompareTo(categoryY.ToString()) : 
+                    string.Compare(categoryY.ToString(),categoryX.ToString(),StringComparison.CurrentCulture);
+            }
+        }
+
 
         public sealed class FileDateComparer : IComparer
         {
@@ -171,7 +209,7 @@ namespace Job.Static
 
             public FileDateComparer(SortOrder order)
             {
-                _order= order;
+                _order = order;
             }
 
             public int Compare(object x, object y)
@@ -181,7 +219,7 @@ namespace Job.Static
 
                 if (_order == SortOrder.Ascending)
                 {
-                   return DateTime.Compare(d1, d2);
+                    return DateTime.Compare(d1, d2);
                 }
                 else
                 {
@@ -236,8 +274,9 @@ namespace Job.Static
             }
             public int Compare(object x, object y)
             {
-                if (x is OLVListItem a && y is OLVListItem b) {
-                    
+                if (x is OLVListItem a && y is OLVListItem b)
+                {
+
 
                     if (_order == SortOrder.Ascending)
                     {
@@ -245,10 +284,10 @@ namespace Job.Static
                     }
                     else
                     {
-                       
+
                         return SafeNativeMethods.StrCmpLogicalW(((FileSystemInfoExt)b.RowObject).FileInfo.Name, ((FileSystemInfoExt)a.RowObject).FileInfo.Name);
                     }
-                    
+
 
                 }
                 return -1;

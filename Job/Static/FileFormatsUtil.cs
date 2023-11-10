@@ -249,43 +249,7 @@ namespace Job.Static
                             }
                         });
 
-                        //FormProgress.ShowProgress(() =>
-                        //{
-
-                        //    if (result.ResultType == TrimBoxResultEnum.byBleed)
-                        //    {
-                        //        foreach (FileSystemInfoExt ext in objects)
-                        //        {
-                        //            Pdf.SetTrimBoxByBleed(ext.FileInfo.FullName,result.Bleed);
-                        //        }
-                        //    }
-                        //    else if (result.ResultType == TrimBoxResultEnum.byTrimbox)
-                        //    {
-                        //        foreach (FileSystemInfoExt ext in objects)
-                        //        {
-
-
-                        //            Pdf.SetTrimBox(
-                        //                ext.FileInfo.FullName,
-                        //                width: result.TrimBox.Width,
-                        //                height: result.TrimBox.Height);
-                        //        }
-                        //    }
-                        //    else if (result.ResultType == TrimBoxResultEnum.bySpread)
-                        //    {
-                        //        foreach (FileSystemInfoExt ext in objects)
-                        //        {
-
-
-                        //            Pdf.SetTrimBoxBySpread(
-                        //                file: ext.FileInfo.FullName,
-                        //                inside: result.Spread.Inside,
-                        //                outside: result.Spread.Outside,
-                        //                top: result.Spread.Top,
-                        //                bottom: result.Spread.Bottom);
-                        //        }
-                        //    }
-                        //});
+                       
                     }
                 }
             }
@@ -304,14 +268,7 @@ namespace Job.Static
                 })));
             }
 
-            //FormProgress.ShowProgress(() =>
-            //{
-            //    foreach (FileSystemInfoExt ext in objects)
-            //    {
-            //        Pdf.SetTrimBoxByBleed($"{ext.FileInfo.FullName}.pdf", trimBox);
-            //    }
-            //});
-            //}
+          
         }
 
         public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list)

@@ -283,11 +283,21 @@ namespace Job.UC
             objectListView_NewWorks.CustomSorter = delegate (OLVColumn column, SortOrder order)
             {
                 objectListView_NewWorks.PrimarySortColumn = column;
+                objectListView_NewWorks.SecondarySortColumn = olvColumn_Date;
 
                 if (column == olvColumn_Date)
                 {
                     objectListView_NewWorks.ListViewItemSorter = new OrderDateComparer(order);
-                    objectListView_NewWorks.SecondarySortColumn = olvColumn_Date;
+                    
+                }
+                else if (column == olvColumn_Customer)
+                {
+                    objectListView_NewWorks.ListViewItemSorter = new OrderCustomerComparer(order);
+                    
+                }
+                else if (column == olvColumnCategories)
+                {
+                    objectListView_NewWorks.ListViewItemSorter = new OrderCategoryComparer(order);
                 }
             };
 

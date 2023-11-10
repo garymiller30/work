@@ -15,7 +15,11 @@
       <Value Profile="(Default)">800, 600</Value>
     </Setting>
     <Setting Name="WhatNew" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">8.3.1
+      <Value Profile="(Default)">8.4.1
+-----------------
++ додав стандартні формати у діалог виставлення трім боксів
+
+8.3.1
 -----------------
 + можливість зберігати файли Signa Station у папці з замовленням
 + Скидання положень вікон без перезапуску програми
