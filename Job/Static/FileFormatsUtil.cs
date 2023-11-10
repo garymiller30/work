@@ -12,6 +12,7 @@ using Interfaces;
 using Interfaces.PdfUtils;
 using iTextSharp.text.pdf;
 using Job.Models;
+using Job.Static.PdfScale;
 using Job.UserForms;
 using PDFManipulate.Converters;
 using PDFManipulate.Fasades;
@@ -411,6 +412,19 @@ namespace Job.Static
                     foreach (var file in list)
                     {
                         PdfUtils.PdfToJpg(file.FileInfo.FullName,dpi);
+                    }
+                }
+                )));
+        }
+
+        public static void ScalePdf(IEnumerable<IFileSystemInfoExt> list, PdfScaleParams param)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("scale pdf", new Action(
+                () =>
+                {
+                    foreach (var file in list)
+                    {
+                        new PdfScaler(param).Run(file.FileInfo.FullName);
                     }
                 }
                 )));

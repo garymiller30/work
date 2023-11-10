@@ -132,7 +132,7 @@ namespace Job.UC
         {
             objectListView1.BackColor = ThemeController.Back;
             objectListView1.ForeColor = ThemeController.Fore;
-            
+
             objectListView1.HeaderUsesThemes = false;
             objectListView1.HeaderFormatStyle = new HeaderFormatStyle();
             objectListView1.HeaderFormatStyle.SetForeColor(ThemeController.HeaderFore);
@@ -1753,12 +1753,13 @@ namespace Job.UC
         private void ApplySettings()
         {
             objectListView1.ShowGroups = _fileManager.Settings.ShowGroups;
-            olvColumn_DateTime.GroupKeyGetter = r => {
+            olvColumn_DateTime.GroupKeyGetter = r =>
+            {
 
                 var file = r as FileSystemInfoExt;
                 if (file.IsDir)
                 {
-                    return new { Title = ""};
+                    return new { Title = "" };
                 }
 
                 var date = ((FileSystemInfoExt)r).FileInfo.LastWriteTime;
@@ -1766,12 +1767,13 @@ namespace Job.UC
                 return new { Title = $"{date.Year}.{date.Month:00}.{date.Day:00}" };
             };
 
-               
 
-            olvColumn_DateTime.GroupKeyToTitleConverter = key => {
+
+            olvColumn_DateTime.GroupKeyToTitleConverter = key =>
+            {
                 return ((dynamic)key).Title;
-                };
-                
+            };
+
         }
 
         private void toolStripButtonFileInfo_Click(object sender, EventArgs e) => GetFilesInfo();
@@ -1896,6 +1898,20 @@ namespace Job.UC
         private void копіюватиІмяФайлуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CopyFileNamesToClipboard();
+        }
+
+        private void змінитиРозмірToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using(var form = new FormSelectPdfNewSize())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    FileFormatsUtil.ScalePdf(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(),form.Params);
+                }
+            }
+
         }
     }
 }

@@ -287,6 +287,14 @@
     <Compile Include="Profiles\SearchHistorySettings.cs" />
     <Compile Include="Properties\CanBeNullAttribute.cs" />
     <Compile Include="Static\FileUtil.cs" />
+    <Compile Include="Static\PdfScale\Box.cs" />
+    <Compile Include="Static\PdfScale\ExtendBoxHelpers.cs" />
+    <Compile Include="Static\PdfScale\ExtendTargetSizeHelpers.cs" />
+    <Compile Include="Static\PdfScale\PdfScaleParams.cs" />
+    <Compile Include="Static\PdfScale\PdfScaler.cs" />
+    <Compile Include="Static\PdfScale\ScaleByEnum.cs" />
+    <Compile Include="Static\PdfScale\ScaleVariantEnum.cs" />
+    <Compile Include="Static\PdfScale\TargetSize.cs" />
     <Compile Include="Static\SysImageListHelper.cs" />
     <Compile Include="Static\ThemeController.cs" />
     <Compile Include="Statuses\StatusesParams.cs" />
@@ -486,6 +494,12 @@
     <Compile Include="UserForms\FormFtpSettings.Designer.cs">
       <DependentUpon>FormFtpSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\FormSelectPdfNewSize.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormSelectPdfNewSize.Designer.cs">
+      <DependentUpon>FormSelectPdfNewSize.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\SpreadBox.cs" />
     <Compile Include="UserForms\TrimBoxResult.cs" />
     <Compile Include="UserForms\TrimBoxResultEnum.cs" />
@@ -623,6 +637,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormSelectPdfNewSize.resx">
+      <DependentUpon>FormSelectPdfNewSize.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
