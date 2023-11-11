@@ -35,8 +35,8 @@
             this.numericUpDownBleed = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButtonProportial = new System.Windows.Forms.RadioButton();
             this.radioButtonNonProportial = new System.Windows.Forms.RadioButton();
+            this.radioButtonProportial = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.radioButtonTrimbox = new System.Windows.Forms.RadioButton();
             this.radioButtonMediabox = new System.Windows.Forms.RadioButton();
@@ -143,6 +143,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Як збільшуємо?";
             // 
+            // radioButtonNonProportial
+            // 
+            this.radioButtonNonProportial.AutoSize = true;
+            this.radioButtonNonProportial.Location = new System.Drawing.Point(6, 42);
+            this.radioButtonNonProportial.Name = "radioButtonNonProportial";
+            this.radioButtonNonProportial.Size = new System.Drawing.Size(101, 17);
+            this.radioButtonNonProportial.TabIndex = 1;
+            this.radioButtonNonProportial.Text = "Непропорційно";
+            this.radioButtonNonProportial.UseVisualStyleBackColor = true;
+            // 
             // radioButtonProportial
             // 
             this.radioButtonProportial.AutoSize = true;
@@ -154,16 +164,6 @@
             this.radioButtonProportial.TabStop = true;
             this.radioButtonProportial.Text = "Пропорційно";
             this.radioButtonProportial.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonNonProportial
-            // 
-            this.radioButtonNonProportial.AutoSize = true;
-            this.radioButtonNonProportial.Location = new System.Drawing.Point(6, 42);
-            this.radioButtonNonProportial.Name = "radioButtonNonProportial";
-            this.radioButtonNonProportial.Size = new System.Drawing.Size(104, 17);
-            this.radioButtonNonProportial.TabIndex = 1;
-            this.radioButtonNonProportial.Text = "Не пропорційно";
-            this.radioButtonNonProportial.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -227,7 +227,7 @@
             this.Name = "FormSelectPdfNewSize";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "FormSelectPdfNewSize";
+            this.Text = "Змінити формат документа";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBleed)).EndInit();

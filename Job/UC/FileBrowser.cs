@@ -1892,7 +1892,7 @@ namespace Job.UC
             objectListView1.ClearObjects();
             objectListView1.EmptyListMsg = "Loading...";
             _fileManager.RefreshAsync();
-            //_fileManager.GetAllFilesWithoutDir();
+            
         }
 
         private void копіюватиІмяФайлуToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1911,7 +1911,6 @@ namespace Job.UC
                     FileFormatsUtil.ScalePdf(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(),form.Params);
                 }
             }
-
         }
     }
 }
