@@ -1857,7 +1857,7 @@ namespace Job.UC
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        FileFormatsUtil.PdfToJpg(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Dpi);
+                        FileFormatsUtil.PdfToJpg(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Dpi,form.Quality);
                     }
                 }
             }

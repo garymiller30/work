@@ -275,7 +275,7 @@ namespace Job.Static
 
         }
 
-        public static void PdfToJpg(string fileName,int dpi)
+        public static void PdfToJpg(string fileName,int dpi, long quality)
         {
             try
             {
@@ -291,7 +291,11 @@ namespace Job.Static
                         string pageFilePath = output;
 
                         var img = rasterizer.GetPage(dpi, pageNumber);
-                        img.Save(pageFilePath, ImageFormat.Jpeg);
+
+                        ImageCodecInfo jpegCodec = GetEncoderInfo(ImageFormat.Jpeg);
+                        EncoderParameters encoderParameters = new EncoderParameters(1);
+                        encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, quality);
+                        img.Save(pageFilePath, jpegCodec, encoderParameters);
                     }
                 }
             }
@@ -300,6 +304,21 @@ namespace Job.Static
                 string output = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + ".log");
                 File.WriteAllText(output, e.Message);
             }
+        }
+
+        private static ImageCodecInfo GetEncoderInfo(ImageFormat format)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+
+            return null;
         }
     }
 }

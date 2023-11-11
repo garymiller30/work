@@ -14,6 +14,7 @@ namespace Job.Dlg
     {
 
         public int Dpi { get; set; }
+        public long Quality { get;set; }
 
         public FormSelectDpi()
         {
@@ -24,6 +25,7 @@ namespace Job.Dlg
         private void buttonOk_Click(object sender, EventArgs e)
         {
             Dpi = (int)numericUpDown1.Value;
+            Quality = (long) numericUpDown2.Value;
             Close();
         }
     }

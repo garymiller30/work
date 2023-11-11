@@ -404,14 +404,14 @@ namespace Job.Static
                 )));
         }
 
-        public static void PdfToJpg(IEnumerable<IFileSystemInfoExt> list, int dpi)
+        public static void PdfToJpg(IEnumerable<IFileSystemInfoExt> list, int dpi,long quality)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("create jpg from pdf", new Action(
                 () =>
                 {
                     foreach (var file in list)
                     {
-                        PdfUtils.PdfToJpg(file.FileInfo.FullName,dpi);
+                        PdfUtils.PdfToJpg(file.FileInfo.FullName,dpi, quality);
                     }
                 }
                 )));

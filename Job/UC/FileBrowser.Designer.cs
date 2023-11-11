@@ -63,6 +63,7 @@
             this.створитипустишкиЗТиражамиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.зберегтиЯкJpgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.змінитиРозмірToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertToPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setTrimBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
@@ -120,7 +121,13 @@
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonLabelPath = new Krypton.Toolkit.KryptonLinkLabel();
             this.kryptonPalette1 = new Krypton.Toolkit.KryptonPalette(this.components);
-            this.змінитиРозмірToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+            this.kryptonContextMenuSeparator1 = new Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -369,16 +376,19 @@
             this.combineFrontsBackToolStripMenuItem,
             this.зєднатиПарніІНепарніСторінкиToolStripMenuItem,
             this.repeatDocumentToolStripMenuItem,
+            this.змінитиРозмірToolStripMenuItem,
+            this.toolStripSeparator14,
             this.splitPDFToolStripMenuItem,
             this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem,
+            this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem,
+            this.розділитиОбкладинкуІБлокToolStripMenuItem,
+            this.витягтиСторінкиToolStripMenuItem,
+            this.toolStripSeparator15,
             this.створитиПрямокутникToolStripMenuItem,
             this.створитиЕліпсToolStripMenuItem,
-            this.витягтиСторінкиToolStripMenuItem,
-            this.розділитиОбкладинкуІБлокToolStripMenuItem,
             this.створитипустишкиЗТиражамиToolStripMenuItem,
-            this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem,
-            this.зберегтиЯкJpgToolStripMenuItem,
-            this.змінитиРозмірToolStripMenuItem});
+            this.toolStripSeparator16,
+            this.зберегтиЯкJpgToolStripMenuItem});
             this.утилітиДляPDFToolStripMenuItem.Name = "утилітиДляPDFToolStripMenuItem";
             this.утилітиДляPDFToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.утилітиДляPDFToolStripMenuItem.Text = "Утиліти для PDF";
@@ -486,6 +496,13 @@
             this.зберегтиЯкJpgToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.зберегтиЯкJpgToolStripMenuItem.Text = "Зберегти як Jpg";
             this.зберегтиЯкJpgToolStripMenuItem.Click += new System.EventHandler(this.зберегтиЯкJpgToolStripMenuItem_Click);
+            // 
+            // змінитиРозмірToolStripMenuItem
+            // 
+            this.змінитиРозмірToolStripMenuItem.Name = "змінитиРозмірToolStripMenuItem";
+            this.змінитиРозмірToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.змінитиРозмірToolStripMenuItem.Text = "Змінити розмір сторінок";
+            this.змінитиРозмірToolStripMenuItem.Click += new System.EventHandler(this.змінитиРозмірToolStripMenuItem_Click);
             // 
             // convertToPDFToolStripMenuItem
             // 
@@ -953,12 +970,24 @@
             this.kryptonLabelPath.Values.Text = "";
             this.kryptonLabelPath.LinkClicked += new System.EventHandler(this.kryptonLabelPath_LinkClicked);
             // 
-            // змінитиРозмірToolStripMenuItem
+            // toolStripSeparator14
             // 
-            this.змінитиРозмірToolStripMenuItem.Name = "змінитиРозмірToolStripMenuItem";
-            this.змінитиРозмірToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
-            this.змінитиРозмірToolStripMenuItem.Text = "Змінити розмір";
-            this.змінитиРозмірToolStripMenuItem.Click += new System.EventHandler(this.змінитиРозмірToolStripMenuItem_Click);
+            this.toolStripSeparator14.Name = "toolStripSeparator14";
+            this.toolStripSeparator14.Size = new System.Drawing.Size(287, 6);
+            // 
+            // toolStripSeparator15
+            // 
+            this.toolStripSeparator15.Name = "toolStripSeparator15";
+            this.toolStripSeparator15.Size = new System.Drawing.Size(287, 6);
+            // 
+            // toolStripSeparator16
+            // 
+            this.toolStripSeparator16.Name = "toolStripSeparator16";
+            this.toolStripSeparator16.Size = new System.Drawing.Size(287, 6);
+            // 
+            // kryptonContextMenuHeading1
+            // 
+            this.kryptonContextMenuHeading1.ExtraText = "";
             // 
             // FileBrowser
             // 
@@ -1083,5 +1112,12 @@
         private System.Windows.Forms.ToolStripMenuItem копіюватиІмяФайлуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem переміститиДоToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem змінитиРозмірToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
+        private Krypton.Toolkit.KryptonContextMenuSeparator kryptonContextMenuSeparator1;
+        private Krypton.Toolkit.KryptonContextMenuHeading kryptonContextMenuHeading1;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems1;
+        private Krypton.Toolkit.KryptonContextMenuMonthCalendar kryptonContextMenuMonthCalendar1;
     }
 }
