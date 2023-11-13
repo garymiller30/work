@@ -1,8 +1,10 @@
-﻿using PDFlib_dotnet;
+﻿using Job.Static.Pdf.Common;
+using Job.Static.PdfScale;
+using PDFlib_dotnet;
 using System;
 using System.IO;
 
-namespace Job.Static.PdfScale
+namespace Job.Static.Pdf.Scale
 {
     public class PdfScaler
     {
@@ -16,7 +18,7 @@ namespace Job.Static.PdfScale
 
         public PdfScaler(PdfScaleParams param)
         {
-            _params = param ?? new PdfScaleParams() ;
+            _params = param ?? new PdfScaleParams();
         }
 
         public void Run(string filePath)
@@ -25,12 +27,12 @@ namespace Job.Static.PdfScale
 
             try
             {
-                string targetFile = Path.Combine( Path.GetDirectoryName(filePath), $"{Path.GetFileNameWithoutExtension(filePath)}_{_params.TargetSize.Width}x{_params.TargetSize.Height}.pdf");
+                string targetFile = Path.Combine(Path.GetDirectoryName(filePath), $"{Path.GetFileNameWithoutExtension(filePath)}_{_params.TargetSize.Width}x{_params.TargetSize.Height}.pdf");
 
 
                 p = new PDFlib();
 
-                p.begin_document(targetFile,"");
+                p.begin_document(targetFile, "");
 
                 var indoc = p.open_pdi_document(filePath, "");
                 var endpage = (int)p.pcos_get_number(indoc, "length:pages");
@@ -44,7 +46,7 @@ namespace Job.Static.PdfScale
 
                     if (_params.ScaleBy == ScaleByEnum.TrimBox)
                     {
-                        Box box = GetTrimbox(p, indoc, page);
+                        Box box = GetTrimbox(p, indoc, pageno - 1);
 
                         double xScale = _params.TargetSize.Width / box.wMM();
                         double yScale = _params.TargetSize.Height / box.hMM();
@@ -60,7 +62,7 @@ namespace Job.Static.PdfScale
                         double trim_bottom = _params.TargetSize.BleedInch();
                         double trim_top = _params.TargetSize.HeigthInch() + trim_bottom;
 
-                        double deltaX = (_params.TargetSize.WidthInch()  - box.w(xScale)) / 2;
+                        double deltaX = (_params.TargetSize.WidthInch() - box.w(xScale)) / 2;
                         double deltaY = (_params.TargetSize.HeigthInch() - box.h(yScale)) / 2;
 
                         p.begin_page_ext(
@@ -73,7 +75,7 @@ namespace Job.Static.PdfScale
 
                         p.fit_pdi_page(page, pageX, pageY, $"scale={{{xScale} {yScale}}}");
                         p.end_page_ext("");
-                        
+
                     }
                     else if (_params.ScaleBy == ScaleByEnum.Mediabox)
                     {
@@ -106,12 +108,12 @@ namespace Job.Static.PdfScale
                            _params.TargetSize.HeightWithBleedInch(),
                            $"trimbox={{{trim_left} {trim_bottom} {trim_right} {trim_top}}}");
 
-                        double pageX =  deltaX;
-                        double pageY =  deltaY;
+                        double pageX = deltaX;
+                        double pageY = deltaY;
 
                         p.fit_pdi_page(page, pageX, pageY, $"scale={{{xScale} {yScale}}}");
                         p.end_page_ext("");
-                        
+
                     }
 
                     p.close_pdi_page(page);
@@ -123,7 +125,7 @@ namespace Job.Static.PdfScale
             }
             catch (PDFlibException e)
             {
-                Logger.Log.Error(null,"ScalePdf",$"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+                Logger.Log.Error(null, "ScalePdf", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
             }
             finally
             {

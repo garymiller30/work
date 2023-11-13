@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Job.Static.Pdf.Scale;
+using System;
 
-namespace Job.Static.PdfScale
+namespace Job.Static.Pdf.Common
 {
     internal static class ExtendBoxHelpers
     {

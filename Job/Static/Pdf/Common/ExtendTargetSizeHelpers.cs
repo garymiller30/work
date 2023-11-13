@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Job.Static.Pdf.Common;
+using Job.Static.Pdf.Scale;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

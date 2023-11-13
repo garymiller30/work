@@ -11,6 +11,7 @@ using Job.Static;
 using Job.UserForms;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
+using PDFManipulate.Forms;
 using PythonEngine;
 using System;
 using System.Collections;
@@ -1630,9 +1631,14 @@ namespace Job.UC
 
         private void SplitPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObjects.Count > 0)
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using (var form = new FormDividerParams())
             {
-                FileFormatsUtil.SplitPDF(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    FileFormatsUtil.SplitPDF(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(),form.Params);
+                }
             }
         }
 
@@ -1909,6 +1915,19 @@ namespace Job.UC
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     FileFormatsUtil.ScalePdf(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(),form.Params);
+                }
+            }
+        }
+
+        private void розділитиРозворотиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using (var form = new FormPdfSplitterParams())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    FileFormatsUtil.SplitPdf(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Params);
                 }
             }
         }

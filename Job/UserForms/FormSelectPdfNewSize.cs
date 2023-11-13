@@ -1,4 +1,5 @@
-﻿using Job.Static.PdfScale;
+﻿using Job.Static.Pdf.Common;
+using Job.Static.Pdf.Scale;
 using System;
 using System.Windows.Forms;
 

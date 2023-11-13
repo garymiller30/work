@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.PdfScale
+namespace Job.Static.Pdf.Common
 {
-    public enum ScaleByEnum
+    public enum ScaleVariantEnum
     {
-        Mediabox,
-        TrimBox
+        NonProportial,
+        Proportial
+
     }
 }

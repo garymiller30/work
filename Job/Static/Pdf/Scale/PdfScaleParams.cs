@@ -1,4 +1,6 @@
-﻿namespace Job.Static.PdfScale
+﻿using Job.Static.Pdf.Common;
+
+namespace Job.Static.Pdf.Scale
 {
     public class PdfScaleParams
     {

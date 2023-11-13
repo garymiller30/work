@@ -1,4 +1,4 @@
-﻿namespace Job.Static.PdfScale
+﻿namespace Job.Static.Pdf.Common
 {
     public class TargetSize
     {

@@ -12,7 +12,9 @@ using Interfaces;
 using Interfaces.PdfUtils;
 using iTextSharp.text.pdf;
 using Job.Models;
-using Job.Static.PdfScale;
+using Job.Static.Pdf.Divide;
+using Job.Static.Pdf.Scale;
+using Job.Static.Pdf.SplitSpread;
 using Job.UserForms;
 using PDFManipulate.Converters;
 using PDFManipulate.Fasades;
@@ -81,7 +83,6 @@ namespace Job.Static
             iTextSharp.text.Rectangle media = null;
 
             PdfReader pdfReader = null;
-            //string ret;
             int pages = 0;
 
             try
@@ -100,9 +101,7 @@ namespace Job.Static
                         Height = (decimal)media.Height / Mn,
                         Bleeds = 0,
                         cntPages = pages
-
                     };
-
                 }
                 else
                 {
@@ -112,15 +111,8 @@ namespace Job.Static
                         Height = (decimal)rect.Height / Mn,
                         Bleeds = (decimal)(media.Width - rect.Width) / 2 / Mn,
                         cntPages = pages
-
                     };
                 }
-
-
-
-                //ret = $"Trim: {rect.Width / Mn:N1}x{rect.Height / Mn:N1}+{(media.Width-rect.Width)/2/Mn:N0}, {pages} pp.";
-
-
             }
             catch
             {
@@ -132,36 +124,23 @@ namespace Job.Static
                         Height = (decimal)media.Height / Mn,
                         Bleeds = 0,
                         cntPages = pages
-
                     };
                 }
                 else
                 {
                     sfi.Format = new FileFormat();
-                    //sfi.Width = 0;
-                    //sfi.Height = 0;
-                    //sfi.Bleeds = 0;
-                    //sfi.Pages = 0;
                 }
-
-                //ret = media != null ? $"Media: {media.Width / Mn:N1}x{media.Height / Mn:N1}, {pages} pp." : e.Message;
             }
             finally
             {
                 pdfReader?.Dispose();
             }
-
-            //return ret;
-
         }
 
         private static void GetTif(IFileSystemInfoExt sfi)
         {
             try
             {
-
-                //string str;
-
                 using (var stream = new FileStream(sfi.FileInfo.FullName, FileMode.Open, FileAccess.Read))
                 {
                     using (var tif = Image.FromStream(stream, false, false))
@@ -171,30 +150,18 @@ namespace Job.Static
                         var hresolution = tif.HorizontalResolution;
                         var vresolution = tif.VerticalResolution;
 
-                        //var resolution = hresolution == vresolution
-                        //    ? $"{hresolution} dpi"
-                        //    : $"{hresolution}x{vresolution} dpi";
-
-                        //str =                            $"{width / (hresolution / 25.4F):N2} x {height / (vresolution / 25.4F):N2} mm, {resolution}";
-
                         sfi.Format = new FileFormat
                         {
                             Width = (decimal)(width / (hresolution / 25.4F)),
                             Height = (decimal)(height / (vresolution / 25.4F)),
                             Bleeds = (decimal)hresolution
-
                         };
                     }
                 }
-
-
             }
             catch
             {
-
-
             }
-
         }
 
         internal static void SetTrimBox(IEnumerable objects)
@@ -206,9 +173,7 @@ namespace Job.Static
                 {
                     if (formGetTrimBox.ShowDialog() == DialogResult.OK)
                     {
-
                         var result = formGetTrimBox.Result;
-
                         BackgroundTaskService.AddTask(new BackgroundTaskItem()
                         {
                             Name = "set trimbox...",
@@ -218,16 +183,14 @@ namespace Job.Static
                                 {
                                     foreach (FileSystemInfoExt ext in objects)
                                     {
-                                        Pdf.SetTrimBoxByBleed(ext.FileInfo.FullName, result.Bleed);
+                                        PDFManipulate.Fasades.Pdf.SetTrimBoxByBleed(ext.FileInfo.FullName, result.Bleed);
                                     }
                                 }
                                 else if (result.ResultType == TrimBoxResultEnum.byTrimbox)
                                 {
                                     foreach (FileSystemInfoExt ext in objects)
                                     {
-
-
-                                        Pdf.SetTrimBox(
+                                        PDFManipulate.Fasades.Pdf.SetTrimBox(
                                             ext.FileInfo.FullName,
                                             width: result.TrimBox.Width,
                                             height: result.TrimBox.Height);
@@ -237,9 +200,7 @@ namespace Job.Static
                                 {
                                     foreach (FileSystemInfoExt ext in objects)
                                     {
-
-
-                                        Pdf.SetTrimBoxBySpread(
+                                        PDFManipulate.Fasades.Pdf.SetTrimBoxBySpread(
                                             file: ext.FileInfo.FullName,
                                             inside: result.Spread.Inside,
                                             outside: result.Spread.Outside,
@@ -249,8 +210,6 @@ namespace Job.Static
                                 }
                             }
                         });
-
-                       
                     }
                 }
             }
@@ -264,51 +223,55 @@ namespace Job.Static
                 {
                     foreach (FileSystemInfoExt ext in objects)
                     {
-                        Pdf.SetTrimBoxByBleed($"{ext.FileInfo.FullName}.pdf", trimBox);
+                        PDFManipulate.Fasades.Pdf.SetTrimBoxByBleed($"{ext.FileInfo.FullName}.pdf", trimBox);
                     }
                 })));
             }
-
-          
         }
 
         public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list)
         {
-            var converter = Pdf.ConvertToPDF(list.Select(x => x.FileInfo.FullName));
+            var converter = PDFManipulate.Fasades.Pdf.ConvertToPDF(list.Select(x => x.FileInfo.FullName));
 
             if (converter != null)
-                //FormProgress.ShowProgress(() => { converter.Start(); });
                 BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(() => { converter.Start(); })));
         }
 
         public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list, ConvertModeEnum mode)
         {
-            var converter = Pdf.ConvertToPDF(list.Select(x => x.FileInfo.FullName), mode);
+            var converter = PDFManipulate.Fasades.Pdf.ConvertToPDF(list.Select(x => x.FileInfo.FullName), mode);
             if (converter != null)
                 converter.Start();
-            //FormProgress.ShowProgress();
-
         }
 
-        public static void SplitPDF(IEnumerable<IFileSystemInfoExt> list)
+        public static void SplitPDF(IEnumerable<IFileSystemInfoExt> list, PdfDividerParams param)
         {
-            var converter = Pdf.SplitPDF(list.Select(x => x.FileInfo.FullName));
-            if (converter != null)
-                BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split pdf", new Action(() => { converter.SplitPdf(); })));
-            //FormProgress.ShowProgress(() => { converter.SplitPdf(); });
+
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split pdf", new Action(
+                () =>
+                {
+                    foreach (var file in list)
+                    {
+                        new PdfDivider(param).Run(file.FileInfo.FullName);
+                    }
+                }
+                )));
+
+            //var converter = PDFManipulate.Fasades.Pdf.SplitPDF(list.Select(x => x.FileInfo.FullName));
+            //if (converter != null)
+            //    BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split pdf", new Action(() => { converter.SplitPdf(); })));
         }
 
         public static void RepeatPages(IEnumerable<IFileSystemInfoExt> list)
         {
-            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("repeat pages pdf", new Action(() => { Pdf.RepeatPages(list.Select(x => x.FileInfo.FullName)); })));
-            //FormProgress.ShowProgress(() => { Pdf.RepeatPages(list.Select(x => x.FileInfo.FullName)); });
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("repeat pages pdf", new Action(() => { PDFManipulate.Fasades.Pdf.RepeatPages(list.Select(x => x.FileInfo.FullName)); })));
         }
 
         public static void MergeFrontsAndBack(IEnumerable<IFileSystemInfoExt> list)
         {
             //FormProgress.ShowProgress(() => { Pdf.MergeFrontsAndBack(list.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge front and back pdf", new Action(
-                () => { Pdf.MergeFrontsAndBack(list.Select(x => x.FileInfo.FullName)); }
+                () => { PDFManipulate.Fasades.Pdf.MergeFrontsAndBack(list.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
@@ -316,7 +279,7 @@ namespace Job.Static
         {
             //FormProgress.ShowProgress(() => { Pdf.ReversePages(list.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("reverce pages pdf", new Action(
-                () => { Pdf.ReversePages(list.Select(x => x.FileInfo.FullName)); }
+                () => { PDFManipulate.Fasades.Pdf.ReversePages(list.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
@@ -324,7 +287,7 @@ namespace Job.Static
         {
             //FormProgress.ShowProgress(() => { Pdf.RepeatDocument(toList.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("repeat document pdf", new Action(
-                () => { Pdf.RepeatDocument(toList.Select(x => x.FileInfo.FullName)); }
+                () => { PDFManipulate.Fasades.Pdf.RepeatDocument(toList.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
@@ -332,7 +295,7 @@ namespace Job.Static
         {
             //FormProgress.ShowProgress(() => { Pdf.CreateRectangle(toList.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("create rectangle pdf", new Action(
-                () => { Pdf.CreateRectangle(toList.Select(x => x.FileInfo.FullName)); }
+                () => { PDFManipulate.Fasades.Pdf.CreateRectangle(toList.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
@@ -340,14 +303,14 @@ namespace Job.Static
         {
             //FormProgress.ShowProgress(() => { Pdf.CreateElipse(toList.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("create ellipse pdf", new Action(
-                () => { Pdf.CreateElipse(toList.Select(x => x.FileInfo.FullName)); }
+                () => { PDFManipulate.Fasades.Pdf.CreateElipse(toList.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
         public static void ExtractPages(IEnumerable<IFileSystemInfoExt> toList)
         {
 
-            var converter = Pdf.ExtractPages(toList.Select(x => x.FileInfo.FullName));
+            var converter = PDFManipulate.Fasades.Pdf.ExtractPages(toList.Select(x => x.FileInfo.FullName));
             if (converter != null)
             {
                 //FormProgress.ShowProgress(() => { converter.ExtractPages(); });
@@ -361,7 +324,7 @@ namespace Job.Static
         {
             //FormProgress.ShowProgress(() => { Pdf.SplitCoverAndBlock(toList.Select(x => x.FileInfo.FullName)); });
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split cover and block pdf", new Action(
-               () => { Pdf.SplitCoverAndBlock(toList.Select(x => x.FileInfo.FullName)); }
+               () => { PDFManipulate.Fasades.Pdf.SplitCoverAndBlock(toList.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
@@ -375,7 +338,7 @@ namespace Job.Static
                     if (list.Count > 0)
                     {
                         BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("create templates with count pdf", new Action(
-               () => { Pdf.CreateEmptyPdfTemplateWithCount(pathTo, list); }
+               () => { PDFManipulate.Fasades.Pdf.CreateEmptyPdfTemplateWithCount(pathTo, list); }
                 )));
 
                     }
@@ -386,21 +349,21 @@ namespace Job.Static
         public static void RotatePagesMirror(IEnumerable<IFileSystemInfoExt> list)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("rotate mirror pages pdf", new Action(
-               () => { Pdf.RotateMirrorFrontAndBack(list.Select(x => x.FileInfo.FullName)); }
+               () => { PDFManipulate.Fasades.Pdf.RotateMirrorFrontAndBack(list.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
         public static void MergeOddAndEven(IEnumerable<IFileSystemInfoExt> list)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge odd and even paegs pdf", new Action(
-                () => { Pdf.MergeOddAndEven(list.Select(x => x.FileInfo.FullName)); }
+                () => { PDFManipulate.Fasades.Pdf.MergeOddAndEven(list.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
         public static void SplitOddAndEven(IEnumerable<IFileSystemInfoExt> list)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge odd and even pages pdf", new Action(
-                () => { Pdf.SplitOddAndEven(list.Select(x => x.FileInfo.FullName)); }
+                () => { PDFManipulate.Fasades.Pdf.SplitOddAndEven(list.Select(x => x.FileInfo.FullName)); }
                 )));
         }
 
@@ -425,6 +388,19 @@ namespace Job.Static
                     foreach (var file in list)
                     {
                         new PdfScaler(param).Run(file.FileInfo.FullName);
+                    }
+                }
+                )));
+        }
+
+        public static void SplitPdf(IEnumerable<IFileSystemInfoExt> list, PdfSplitterParams param)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split pdf", new Action(
+                () =>
+                {
+                    foreach (var file in list)
+                    {
+                        new PdfSpliter(param).Run(file.FileInfo.FullName);
                     }
                 }
                 )));

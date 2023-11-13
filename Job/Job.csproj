@@ -287,14 +287,20 @@
     <Compile Include="Profiles\SearchHistorySettings.cs" />
     <Compile Include="Properties\CanBeNullAttribute.cs" />
     <Compile Include="Static\FileUtil.cs" />
-    <Compile Include="Static\PdfScale\Box.cs" />
-    <Compile Include="Static\PdfScale\ExtendBoxHelpers.cs" />
-    <Compile Include="Static\PdfScale\ExtendTargetSizeHelpers.cs" />
-    <Compile Include="Static\PdfScale\PdfScaleParams.cs" />
-    <Compile Include="Static\PdfScale\PdfScaler.cs" />
-    <Compile Include="Static\PdfScale\ScaleByEnum.cs" />
-    <Compile Include="Static\PdfScale\ScaleVariantEnum.cs" />
-    <Compile Include="Static\PdfScale\TargetSize.cs" />
+    <Compile Include="Static\Pdf\Common\Box.cs" />
+    <Compile Include="Static\Pdf\Common\DivideModeEnum.cs" />
+    <Compile Include="Static\Pdf\Common\PdfHelper.cs" />
+    <Compile Include="Static\Pdf\Common\ExtendBoxHelpers.cs" />
+    <Compile Include="Static\Pdf\Common\ExtendTargetSizeHelpers.cs" />
+    <Compile Include="Static\Pdf\Divide\PdfDividerParams.cs" />
+    <Compile Include="Static\Pdf\Scale\PdfScaleParams.cs" />
+    <Compile Include="Static\Pdf\Scale\PdfScaler.cs" />
+    <Compile Include="Static\Pdf\Common\ScaleByEnum.cs" />
+    <Compile Include="Static\Pdf\Common\ScaleVariantEnum.cs" />
+    <Compile Include="Static\Pdf\Common\TargetSize.cs" />
+    <Compile Include="Static\Pdf\SplitSpread\PdfSpliter.cs" />
+    <Compile Include="Static\Pdf\SplitSpread\PdfSplitterParams.cs" />
+    <Compile Include="Static\Pdf\Divide\PdfDivider.cs" />
     <Compile Include="Static\SysImageListHelper.cs" />
     <Compile Include="Static\ThemeController.cs" />
     <Compile Include="Statuses\StatusesParams.cs" />
@@ -494,6 +500,18 @@
     <Compile Include="UserForms\FormFtpSettings.Designer.cs">
       <DependentUpon>FormFtpSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\FormPdfSplitterParams.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormPdfSplitterParams.Designer.cs">
+      <DependentUpon>FormPdfSplitterParams.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormDividerParams.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormDividerParams.designer.cs">
+      <DependentUpon>FormDividerParams.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\FormSelectPdfNewSize.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -637,6 +655,12 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormPdfSplitterParams.resx">
+      <DependentUpon>FormPdfSplitterParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormDividerParams.resx">
+      <DependentUpon>FormDividerParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\FormSelectPdfNewSize.resx">
       <DependentUpon>FormSelectPdfNewSize.cs</DependentUpon>

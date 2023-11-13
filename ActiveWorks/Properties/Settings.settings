@@ -15,7 +15,12 @@
       <Value Profile="(Default)">800, 600</Value>
     </Setting>
     <Setting Name="WhatNew" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">8.4.1
+      <Value Profile="(Default)">8.6.1
+-----------------
++ в утіліти для PDF -&gt; змінення розміру сторінок
++ в утіліти для PDF -&gt; розділення розворотів навпіл
+
+8.4.1
 -----------------
 + додав стандартні формати у діалог виставлення трім боксів
 
