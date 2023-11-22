@@ -26,5 +26,10 @@ namespace Job.Profiles.ProfileEvents
             profile.Jobs.OnDeleteJob +=  (sender,job ) => OnJobDelete(sender,job);
 
         }
+
+        public void RiseOnJobChange(IJob job)
+        {
+            OnSetCurrentJob(null,job);
+        }
     }
 }

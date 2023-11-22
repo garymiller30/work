@@ -66,21 +66,10 @@ namespace Job.Static
                         break;
                 }
             }
-
             catch (Exception e)
             {
               Logger.Log.Error(null, "GetColorspaceImage",e.Message);
             }
-           // Read from file
-           
-
-            //Console.WriteLine(info.Width);
-            //Console.WriteLine(info.Height);
-            //Console.WriteLine(info.ColorSpace);
-            //Console.WriteLine(info.Format);
-            //Console.WriteLine(info.Density.X);
-            //Console.WriteLine(info.Density.Y);
-            //Console.WriteLine(info.Density.Units);
         }
 
         private static void GetColorspacePdf(IFileSystemInfoExt sfi)
@@ -89,6 +78,7 @@ namespace Job.Static
             if (File.Exists(sfi.FileInfo.FullName))
             {
                 var p = new PDFlib();
+                
                 try
                 {
                     _ = p.begin_document("", "");
@@ -110,7 +100,7 @@ namespace Job.Static
                 }
                 finally
                 {
-                    p.Dispose();
+                    p?.Dispose();
                 }
 
 
@@ -178,66 +168,34 @@ namespace Job.Static
 
             if (colorspacecount > 0)
             {
-               
-
                 for (int i = 0; i < colorspacecount; i++)
                 {
                     var opt = $"pages[{page}]/colorspaces[{i}]";
-                    //colorList.Add(opt);
-                    //Debug.WriteLine("main:" + opt);
                     colorList.AddRange(PrintColorspace(p,doc,i, opt));
                 }
-
-                //var s = _colorList.Except(_ignoreColorList);
-                //string output = string.Empty;
-                //if (s.Any()) output = s.Aggregate((c, n) => c + ", " + n);
-
-                //Console.Write(output);
-
             }
-
             return colorList;
         }
 
         private static List<string> PrintColorspace(PDFlib p, int doc,int page, string colorSpacePath)
         {
-
             var colorlist = new List<string>();
-
             var colorspace = p.pcos_get_string(doc, $"{colorSpacePath}/name");
-
-            //colorlist.Add(colorspace);
-
-            
-            //Debug.WriteLine($"ColorSpace name: {colorspace}");
 
             if (colorspace.Equals("Separation"))
             {
                 var colorant = p.pcos_get_string(doc, $"{colorSpacePath}/colorantname");
                 colorlist.Add(colorant);
-                //Debug.WriteLine($"  ColorrantName: {colorant}");
-                //if (!_colorList.Contains(colorant)) _colorList.Add(colorant);
-
-            //    int alternateid = (int)_p.pcos_get_number(_doc, colorSpacePath + "/alternateid");
-            //    PrintColorspace("colorspaces[" + alternateid + "]");
             }
             else if (colorspace.Equals("DeviceN"))
             {
                 var colorantcount = (int)p.pcos_get_number(doc, $"length:{colorSpacePath}/colorantnames");
 
-            //    Debug.WriteLine($"Count colorant: {colorantcount}");
-
                 for (var j = 0; j < colorantcount; j += 1)
                 {
                     var colorname = p.pcos_get_string(doc, $"{colorSpacePath}/colorantnames[{j}]");
                     colorlist.Add(colorname);
-            //        Debug.WriteLine($"   Color name: {colorname}");
-
-            //        if (!_colorList.Contains(colorname)) _colorList.Add(colorname);
-
                 }
-            //    var alternateid = (int)_p.pcos_get_number(_doc, colorSpacePath + "/alternateid");
-            //    PrintColorspace("colorspaces[" + alternateid + "]");
             }
             else
             {

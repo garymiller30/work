@@ -386,8 +386,6 @@ namespace Job.UC
                     if (isChangeFolder)
                     {
                         _profile.Jobs.SetCurrentJob(j);
-                        //_profile.FileBrowser.Browsers[0].SetRootFolder(_profile.Jobs.GetFullPathToWorkFolder(j));
-                        //_profile.FileBrowser.Browsers[0].CurrentJob = j;
                     }
 
                     ApplyViewFilter(j);
@@ -793,6 +791,13 @@ namespace Job.UC
         private void показатисховатиГрупиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             objectListView_NewWorks.ShowGroups = !objectListView_NewWorks.ShowGroups;
+        }
+
+        public void SelectJob(IJob job)
+        {
+            objectListView_NewWorks.DeselectAll();
+            objectListView_NewWorks.SelectObject(job);
+            _profile.Jobs.SetCurrentJob(job);
         }
     }
 }

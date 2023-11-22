@@ -15,6 +15,7 @@ namespace Interfaces
         void RepeatSelectedJob();
         void ApplyViewFilter(DateTime date);
         void ApplyJobListFilter(string filterText);
+        void SelectJob(IJob job);
 
         EventHandler<int> OnChangeCountJobs { get; set; }
 

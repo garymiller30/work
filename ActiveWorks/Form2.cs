@@ -25,7 +25,7 @@ namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 8.6.1";
+        private readonly string _version = $"{Localize.FormTitle} 8.6.2";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
@@ -498,7 +498,19 @@ namespace ActiveWorks
                 MinimumSize = GroupItemSize.Large
             };
             var button = new KryptonRibbonGroupButton { TextLine1 = @"нове", ImageLarge = Resources.File_new_icon };
-            button.Click += (sender, args) => profile.Jobs.CreateJob();
+
+            
+            void OnJobAdd(object sender,IJob job)
+            {
+                profile.Jobs.JobListControl.SelectJob(job);
+            }
+
+            button.Click += (sender, args) => {
+                
+                profile.Events.Jobs.OnJobAdd += OnJobAdd;
+                profile.Jobs.CreateJob();
+                profile.Events.Jobs.OnJobAdd -= OnJobAdd;
+                };
             groupTriple.Items.Add(button);
 
             IPluginNewOrder[] plugins = profile.Plugins?.GetPluginsNewOrder() ?? new IPluginNewOrder[0];
@@ -522,6 +534,7 @@ namespace ActiveWorks
             tab.Groups.Add(group);
         }
 
+        
 
         private void Form2_Load(object sender, EventArgs e)
         {

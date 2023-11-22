@@ -1269,6 +1269,13 @@ namespace Job.UC
             {
                 SelectFilesByExtention();
             }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                if (objectListView1.SelectedObject != null)
+                {
+                    _fileManager.OpenFileOrFolder((IFileSystemInfoExt)objectListView1.SelectedObject);
+                }
+            }
         }
 
         private void SelectFilesByExtention()
@@ -1583,50 +1590,43 @@ namespace Job.UC
 
         private void ConvertToPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObjects.Count > 0)
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            
+            using (var form = new FormSelectConvertToPdfMode(UserProfile.Settings.GetPdfConverterSettings()))
             {
-                using (var form = new FormSelectConvertToPdfMode(UserProfile.Settings.GetPdfConverterSettings()))
+                if (form.ShowDialog() == DialogResult.OK)
                 {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
-                        var mode = form.ConvertMode;
-                        var trimBox = form.TrimBox;
-                        var moveToTrash = form.MoveToTrash;
+                    var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
+                    var mode = form.ConvertMode;
+                    var trimBox = form.TrimBox;
+                    var moveToTrash = form.MoveToTrash;
 
-                        BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(
-                            () =>
+                    BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(
+                        () =>
+                        {
+
+                            Thread t = new Thread(() =>
                             {
+                                FileFormatsUtil.ConvertToPDF(files, mode);
 
-                                Thread t = new Thread((ThreadStart)(() =>
+                                if (trimBox > 0)
                                 {
-                                    FileFormatsUtil.ConvertToPDF(files, mode);
+                                    FileFormatsUtil.SetTrimBox(files, trimBox);
+                                }
+                                if (moveToTrash)
+                                {
+                                    MoveToTrash(files.ToArray());
+                                }
+                            });
 
-                                    if (trimBox > 0)
-                                    {
-                                        FileFormatsUtil.SetTrimBox(files, trimBox);
-                                    }
-                                    if (moveToTrash)
-                                    {
-                                        MoveToTrash(files.ToArray());
-                                    }
-                                }));
-
-                                t.SetApartmentState(ApartmentState.STA);
-                                t.Start();
-                                t.Join();
-
-
-                            }
-                            )));
-
-
-
-
-                    }
+                            t.SetApartmentState(ApartmentState.STA);
+                            t.Start();
+                            t.Join();
+                        }
+                        )));
                 }
             }
-
+            
         }
 
         private void SplitPDFToolStripMenuItem_Click(object sender, EventArgs e)

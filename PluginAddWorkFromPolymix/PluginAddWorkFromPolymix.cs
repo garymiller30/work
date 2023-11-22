@@ -80,8 +80,6 @@ namespace PluginAddWorkFromPolymix
                 if (result == DialogResult.OK)
                 {
                     CreateOrders(profile,form.OrderList);
-
-
                     SaveSettings();
                 }
             }
@@ -94,8 +92,10 @@ namespace PluginAddWorkFromPolymix
         {
             if (!orderList.Any() || profile == null) return;
 
-            foreach (var order in orderList)
+            for (int i = 0; i < orderList.Count; i++)
             {
+                var order = orderList[i];
+
                 var job = Factory.CreateJob(profile);
 
                 var jobParameters = new JobParameters(job);
@@ -107,10 +107,15 @@ namespace PluginAddWorkFromPolymix
 
                 jobParameters.ApplyToJob();
 
-                profile.Customers.CheckCustomerPresent(job.Customer,true);
+                profile.Customers.CheckCustomerPresent(job.Customer, true);
 
                 profile.Jobs.AddJob(job);
-                //_profile.Plugins.AfterJobChange(jobParameters);
+
+                if (i == 0)
+                {
+                    profile.Jobs.JobListControl.SelectJob(job);
+                    profile.Jobs.SetCurrentJob(job);
+                }
             }
         }
 
