@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDownFrom = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownTo = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.numericUpDownTo = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownFrom = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.numericUpDownBleed = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.buttonOk = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrom)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBleed)).BeginInit();
             this.SuspendLayout();
@@ -62,23 +62,36 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Які сторінки?";
             // 
-            // label1
+            // label4
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Починаючи з";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(19, 50);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(253, 13);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "* - при \"0\" беруться сторінки до кінця документа";
             // 
-            // label2
+            // label3
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(151, 19);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(19, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "по";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(242, 19);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(86, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "* стор. включно";
+            // 
+            // numericUpDownTo
+            // 
+            this.numericUpDownTo.Location = new System.Drawing.Point(176, 17);
+            this.numericUpDownTo.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.numericUpDownTo.Name = "numericUpDownTo";
+            this.numericUpDownTo.Size = new System.Drawing.Size(60, 20);
+            this.numericUpDownTo.TabIndex = 3;
+            this.numericUpDownTo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // numericUpDownFrom
             // 
@@ -103,36 +116,23 @@
             0,
             0});
             // 
-            // numericUpDownTo
+            // label2
             // 
-            this.numericUpDownTo.Location = new System.Drawing.Point(176, 17);
-            this.numericUpDownTo.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.numericUpDownTo.Name = "numericUpDownTo";
-            this.numericUpDownTo.Size = new System.Drawing.Size(60, 20);
-            this.numericUpDownTo.TabIndex = 3;
-            this.numericUpDownTo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(151, 19);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(19, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "по";
             // 
-            // label3
+            // label1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(242, 19);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(86, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "* стор. включно";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 50);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(253, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "* - при \"0\" беруться сторінки до кінця документа";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(19, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(72, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Починаючи з";
             // 
             // groupBox2
             // 
@@ -145,9 +145,18 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(116, 19);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(23, 13);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "mm";
+            // 
             // numericUpDownBleed
             // 
-            this.numericUpDownBleed.Location = new System.Drawing.Point(58, 14);
+            this.numericUpDownBleed.Location = new System.Drawing.Point(58, 17);
             this.numericUpDownBleed.Maximum = new decimal(new int[] {
             99999,
             0,
@@ -166,20 +175,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(18, 16);
+            this.label5.Location = new System.Drawing.Point(18, 19);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(34, 13);
             this.label5.TabIndex = 6;
             this.label5.Text = "Bleed";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(116, 16);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(23, 13);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "mm";
             // 
             // buttonOk
             // 
@@ -208,8 +208,8 @@
             this.Text = "Налаштування для розділення розворотів";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrom)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBleed)).EndInit();

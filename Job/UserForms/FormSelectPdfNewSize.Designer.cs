@@ -66,6 +66,7 @@
             0,
             0,
             0});
+            this.numericUpDownWidth.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // label1
             // 
@@ -103,6 +104,7 @@
             0,
             0,
             0});
+            this.numericUpDownHeight.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // numericUpDownBleed
             // 
@@ -122,6 +124,7 @@
             0,
             0,
             0});
+            this.numericUpDownBleed.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // label3
             // 

@@ -28,5 +28,10 @@ namespace Job.UserForms
             DialogResult = DialogResult.OK;
             Close();
         }
+
+        private void numericUpDownWidth_Enter(object sender, EventArgs e)
+        {
+            ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
     }
 }
