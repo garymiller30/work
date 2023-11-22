@@ -5,7 +5,7 @@ using MongoDB.Bson;
 
 namespace Job.Fasades
 {
-    public class PlateOwnersManager
+    public sealed class PlateOwnersManager
     {
 
         public Profile UserProfile { get; set; }
@@ -77,7 +77,7 @@ namespace Job.Fasades
         /// <returns></returns>
         public string GetOwnerNameById(ObjectId ownerId)
         {
-            var ret = _owners.FirstOrDefault(x => x.Id == ownerId);
+            var ret = _owners.FirstOrDefault(x => (ObjectId)x.Id == ownerId);
 
             return ret == null ? string.Empty : ret.Name;
         }

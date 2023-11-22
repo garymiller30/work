@@ -15,7 +15,7 @@ namespace FtpClient
     /// <summary>
     /// завантаження файлів з ftp
     /// </summary>
-    public class Downloader
+    public sealed class Downloader
     {
         private IDownloadTicket _ticket;
         readonly Client _client;

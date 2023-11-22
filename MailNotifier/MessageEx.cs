@@ -6,7 +6,7 @@ using S22.Imap;
 
 namespace MailNotifier
 {
-    public class MessageEx
+    public sealed class MessageEx
     {
         public uint Id { get; }
         public string Date

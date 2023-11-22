@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PluginMailAttachmentsToNextcloud
 {
-    public class CloudSettings
+    public sealed class CloudSettings
     {
         public string Server { get; set; }
         public string User { get; set; }

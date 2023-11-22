@@ -5,13 +5,13 @@ using MongoDB.Bson;
 namespace Job
 {
     [Serializable]
-    public class FormEvent : IWithId
+    public sealed class FormEvent : IWithId
     {
         public FormEvent()
         {
             Id = ObjectId.GenerateNewId();
         }
-        public ObjectId Id { get; set; }
+        public object Id { get; set; }
         public DateTime Date { get; set; }
         public FormEventStatus Status { get; set; }
         public int CountForm { get; set; }

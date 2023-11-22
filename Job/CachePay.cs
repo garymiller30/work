@@ -7,7 +7,7 @@ namespace Job
     /// <summary>
     /// Оплата наличкой
     /// </summary>
-    public class CachePay
+    public sealed class CachePay
     {
         public ObjectId Id { get; set; }
         /// <summary>
@@ -25,7 +25,7 @@ namespace Job
         /// <summary>
         /// оплаченная сумма
         /// </summary>
-        public List<PayedDate> Payed { get; set; } = new List<PayedDate>();
+        public IEnumerable<PayedDate> Payed { get; set; } = new List<PayedDate>();
         
     }
 }

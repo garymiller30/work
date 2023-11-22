@@ -2,8 +2,6 @@
 using System.Drawing;
 using System.Linq;
 using Interfaces;
-using Job.Profiles;
-using MongoDB.Bson;
 
 namespace CasheViewer.Reports
 {
@@ -23,43 +21,37 @@ namespace CasheViewer.Reports
         public List<JobNodeRoot> GetJobsByCustomers(bool isPayed)
         {
 
-#pragma warning disable CS0612 // 'Job.IsCashePayed' is obsolete
-#pragma warning disable CS0612 // 'Job.IsCashe' is obsolete
-            var jobs = UserProfile.Base.GetCollection<Job.Job>("Jobs")
-                .Where(x => x.IsCashe && x.IsCashePayed == isPayed)
-                .GroupBy(y => y.Customer);
-#pragma warning restore CS0612 // 'Job.IsCashe' is obsolete
-#pragma warning restore CS0612 // 'Job.IsCashePayed' is obsolete
+            //var jobs = UserProfile.Base.GetCollection<Job.Job>("Jobs")
+            //    .Where(x => x.IsCashe && x.IsCashePayed == isPayed)
+            //    .GroupBy(y => y.Customer);
 
             var reportDate = new List<JobNodeRoot>();
 
-            foreach (var job in jobs)
-            {
-                var rd = new JobNodeRoot() { Name = job.Key };
+            //foreach (var job in jobs)
+            //{
+            //    var rd = new JobNodeRoot() { Name = job.Key };
 
-                rd.Children =
-                    job.GroupBy(x => x.Date.ToString("yy.MM"))
-                        .Select(y => (INode)new JobNodeRoot()
-                        {
-                            Name = y.Key,
-                            Children = y
-                            .Select(u => (INode)new JobNode()
-                            {
-                                Date = u.Date,
-                                Number = u.Number,
-                                Description = u.Description,
-                                Category = UserProfile.Categories.GetCategoryNameById(u.CategoryId),
-#pragma warning disable CS0612 // 'IJob.CachePayedSum' is obsolete
-                                Sum = u.CachePayedSum,
-#pragma warning restore CS0612 // 'IJob.CachePayedSum' is obsolete
-                                Job = u,
-                                ForegroundColor = Color.Black,
-                                ReportVersion = ReportVersionEnum.Version1
-                            }).ToList()
-                        }).ToList();
+            //    rd.Children =
+            //        job.GroupBy(x => x.Date.ToString("yy.MM"))
+            //            .Select(y => (INode)new JobNodeRoot()
+            //            {
+            //                Name = y.Key,
+            //                Children = y
+            //                .Select(u => (INode)new JobNode()
+            //                {
+            //                    Date = u.Date,
+            //                    Number = u.Number,
+            //                    Description = u.Description,
+            //                    Category = UserProfile.Categories.GetCategoryNameById(u.CategoryId),
+            //                    Sum = u.CachePayedSum,
+            //                    Job = u,
+            //                    ForegroundColor = Color.Black,
+            //                    ReportVersion = ReportVersionEnum.Version1
+            //                }).ToList()
+            //            }).ToList();
 
-                reportDate.Add(rd);
-            }
+            //    reportDate.Add(rd);
+            //}
 
             // тепер візьмемо інфу з плагінів
             var preportPlugins = GetJobsByCustomerRootByPlugin(isPayed);
@@ -112,11 +104,10 @@ namespace CasheViewer.Reports
         List<JobNodeRoot> GetJobsByCustomerRootByPlugin(bool isPayed)
         {
             var reportDate = new List<JobNodeRoot>();
-            Dictionary<ObjectId, decimal> jobDictionary = new Dictionary<ObjectId, decimal>();
+            Dictionary<object, decimal> jobDictionary = new Dictionary<object, decimal>();
 
             // отримати плагіни
             var plugins = UserProfile.Plugins.GetPluginFormAddWorks();
-
 
             foreach (IPluginFormAddWork plugin in plugins)
             {
@@ -124,7 +115,7 @@ namespace CasheViewer.Reports
                     .Where(x => isPayed ? x.Price - x.Pay == 0 : x.Price - x.Pay > 0)
                     .GroupBy(i => i.ParentId);
 
-                foreach (IGrouping<ObjectId, IProcess> processes in collection)
+                foreach (IGrouping<object, IProcess> processes in collection)
                 {
                     if (!jobDictionary.ContainsKey(processes.Key))
                     {

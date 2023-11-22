@@ -1,9 +1,7 @@
-using MongoDB.Bson;
-
 namespace Interfaces
 {
     public interface IWithId
     {
-        ObjectId Id { get; set; }
+        object Id { get; set; }
     }
 }

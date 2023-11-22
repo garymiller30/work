@@ -8,7 +8,7 @@ using Interfaces.PdfUtils;
 namespace Job.Models
 {
     [Serializable]
-    public class FileSystemInfoExt : INotifyPropertyChanged, IFileSystemInfoExt
+    public  class FileSystemInfoExt : INotifyPropertyChanged, IFileSystemInfoExt
     {
         private IFileSystemInfo _fileInfo = new Interfaces.Classes.FileInfo();
         private ColorSpaces _usedColorSpace;

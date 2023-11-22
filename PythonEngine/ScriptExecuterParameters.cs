@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PythonEngine
 {
-    public class ScriptExecuterParameters
+    public sealed class ScriptExecuterParameters
     {
         public IScriptController ScriptController {get;set;}
         public IScriptRunParameters Parameters{get;set;}

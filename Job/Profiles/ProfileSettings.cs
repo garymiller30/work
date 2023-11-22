@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 namespace Job.Profiles
 {
     [Serializable]
-    public class ProfileSettings : IProfileSettings, INotifyPropertyChanged
+    public   class ProfileSettings : IProfileSettings, INotifyPropertyChanged
     {
 
         public ExtendedSettings ExtendedSettings { get; set; } = new ExtendedSettings();

@@ -6,27 +6,33 @@ using Interfaces;
 using Interfaces.PdfUtils;
 using Job.Dlg;
 using Job.Menus;
+using Job.Models;
 using Job.Static;
 using Job.UserForms;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
+using PDFManipulate.Forms;
 using PythonEngine;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Job.Static.NaturalSorting;
 
 namespace Job.UC
 {
-    public partial class FileBrowser : UserControl, IFileBrowser
+    public sealed partial class FileBrowser : UserControl, IFileBrowser
     {
         private const string Loading = "завантаження";
         private const string ConfirmDelete = "Видалити?";
@@ -60,14 +66,22 @@ namespace Job.UC
             UserProfile = profile;
 
             InitializeComponent();
-
             InitFileManager();
+            InitListView();
 
+            UseTheme();
+            SetTheme();
+
+            ApplySettings();
+        }
+
+        private void InitListView()
+        {
             var rbd = new RowBorderDecoration
             {
                 BorderPen = new Pen(Color.FromArgb(255, Color.DarkGreen), 1),
                 BoundsPadding = new Size(0, -1),
-                CornerRounding = 3.0F
+                CornerRounding = 3.0F,
             };
 
             objectListView1.SelectedRowDecoration = rbd;
@@ -102,14 +116,44 @@ namespace Job.UC
 
             var helper = new SysImageListHelper(objectListView1);
             olvColumn_FileName.ImageGetter = x => helper.GetImageIndex(((IFileSystemInfoExt)x).FileInfo.FullName);
-            olvColumn_DateTime.AspectGetter = x => ((IFileSystemInfoExt)x).FileInfo.LastWriteTime;
 
+            objectListView1.CustomSorter = delegate (OLVColumn column, SortOrder order)
+            {
+
+                if (column == olvColumn_FileName) objectListView1.ListViewItemSorter = new FileNameNaturalComparer(order);
+                else if (column == olvColumnWidth) objectListView1.ListViewItemSorter = new FileWidthComparer(order);
+                else if (column == olvColumnHeight) objectListView1.ListViewItemSorter = new FileHeightComparer(order);
+                else if (column == olvColumnPages) objectListView1.ListViewItemSorter = new FilePagesComparer(order);
+                else if (column == olvColumnBleeds) objectListView1.ListViewItemSorter = new FileBleedComparer(order);
+                else if (column == olvColumn_DateTime) objectListView1.ListViewItemSorter = new FileDateComparer(order);
+            };
         }
 
-        //private void Jobs_OnSetCurrentJob(object sender, IJob e)
-        //{
-        //    SetRootFolder(UserProfile.Jobs.GetFullPathToWorkFolder(e));
-        //}
+        private void SetTheme()
+        {
+            objectListView1.BackColor = ThemeController.Back;
+            objectListView1.ForeColor = ThemeController.Fore;
+
+            objectListView1.HeaderUsesThemes = false;
+            objectListView1.HeaderFormatStyle = new HeaderFormatStyle();
+            objectListView1.HeaderFormatStyle.SetForeColor(ThemeController.HeaderFore);
+            objectListView1.HeaderFormatStyle.SetBackColor(ThemeController.HeaderBack);
+        }
+
+        private void UseTheme()
+        {
+            ThemeController.ThemeChanged += ThemeController_ThemeChanged;
+        }
+
+        private void ThemeController_ThemeChanged(object sender, EventArgs e)
+        {
+            SetTheme();
+            var objects = (ICollection)objectListView1.Objects;
+            objectListView1.ClearObjects();
+            objectListView1.AddObjects(objects);
+        }
+
+
 
         #region [FILE MANAGER]
 
@@ -131,18 +175,14 @@ namespace Job.UC
 
         private void FileManagerOnOnSelectFileName(object sender, string e)
         {
-            var findingFile = e.ToLower();
-
-            var file = objectListView1.Objects.Cast<IFileSystemInfoExt>()
-                .FirstOrDefault(x => x.FileInfo.Name.ToLower().Equals(findingFile));
+            IFileSystemInfoExt file = objectListView1.Objects.Cast<IFileSystemInfoExt>()
+                .FirstOrDefault(x => x.FileInfo.Name.Equals(e, StringComparison.InvariantCultureIgnoreCase));
             if (file != null) objectListView1.SelectObject(file);
 
         }
 
         private void FileManagerOnOnSelectParent(object sender, IFileSystemInfoExt e)
         {
-
-            //Debug.WriteLine($"select {e.FileInfo.FullName}");
             objectListView1.SelectObject(e, true);
         }
 
@@ -150,7 +190,6 @@ namespace Job.UC
         {
             objectListView1.ClearObjects();
             objectListView1.EmptyListMsg = Loading;
-
         }
 
         private void FileManager_OnError(object sender, string e)
@@ -161,7 +200,6 @@ namespace Job.UC
 
         private void FileManager_OnChangeFile(object sender, IFileSystemInfoExt e)
         {
-            //Debug.WriteLine($"Change {e.FileInfo.FullName}");
             if (_fileManager.Settings.ScanFiles)
                 e.GetExtendedFileInfoFormat();
 
@@ -171,28 +209,20 @@ namespace Job.UC
 
         private void FileManager_OnDeleteFile(object sender, IFileSystemInfoExt e)
         {
-            //Debug.WriteLine($"Delete {e.FileInfo.FullName}");
             objectListView1.RemoveObject(e);
             UpdateStatusControl();
         }
 
         private void FileManager_OnAddFile(object sender, IFileSystemInfoExt e)
         {
-            //Debug.WriteLine($"Add {e.FileInfo.FullName}");
-
-            //e.GetExtendedFileInfoFormat();
-
             objectListView1.AddObject(e);
-
             UpdateStatusControl();
         }
 
         private void FileManager_OnChangeRootDirectory(object sender, EventArgs e)
         {
-            //Debug.WriteLine("Change directory");
             objectListView1.ClearObjects();
             objectListView1.EmptyListMsg = Loading;
-
         }
 
         private void FileManager_OnRefreshDirectory(object sender, List<IFileSystemInfoExt> e)
@@ -242,7 +272,7 @@ namespace Job.UC
 
         private void UpdateStatusControl()
         {
-            toolStripStatusLabelCountFiles.Text = _fileManager.GetCountFiles().ToString();
+            toolStripStatusLabelCountFiles.Text = _fileManager.GetCountFiles().ToString(CultureInfo.InvariantCulture);
             toolStripStatusLabelSelected.Text = GetSelectedFilesSize();
 
             if (IsHandleCreated)
@@ -328,7 +358,7 @@ namespace Job.UC
                         var pi = new ProcessStartInfo
                         {
                             WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path) ?? throw new InvalidOperationException(),
-                            FileName = menuSendTo.Path
+                            FileName = menuSendTo.Path,
                         };
                         Process.Start(pi);
                     }
@@ -345,7 +375,7 @@ namespace Job.UC
         {
             var menuSendTo = (MenuSendTo)((ToolStripItem)sender).Tag;
 
-            if (string.IsNullOrEmpty(menuSendTo.CommandLine)) { OpenFileForEdit(menuSendTo); return; };
+            if (string.IsNullOrEmpty(menuSendTo.CommandLine)) { OpenFileForEdit(menuSendTo); return; }
 
             if (UserProfile.ScriptEngine.IsScriptFile(menuSendTo.Path))
             {
@@ -391,7 +421,7 @@ namespace Job.UC
             {
                 WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path),
                 FileName = menuSendTo.Path,
-                Arguments = args
+                Arguments = args,
             };
             var p = Process.Start(processStartInfo);
             Log.Info(UserProfile, "Utils", $"process: {menuSendTo.Path} cmd: {processStartInfo.Arguments}");
@@ -415,7 +445,7 @@ namespace Job.UC
             {
                 WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path),
                 FileName = menuSendTo.Path,
-                Arguments = args
+                Arguments = args,
             };
 
             var p = Process.Start(pii);
@@ -444,7 +474,8 @@ namespace Job.UC
                 var fileList = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToArray();
 
                 BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"run script {menuSendTo.Name}", new Action(
-                () => {
+                () =>
+                {
                     foreach (var info in fileList)
                     {
                         ProcessScriptFile(info, menuSendTo);
@@ -521,7 +552,7 @@ namespace Job.UC
             var pi = new ProcessStartInfo
             {
                 WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path) ?? throw new InvalidOperationException(),
-                FileName = menuSendTo.Path
+                FileName = menuSendTo.Path,
             };
 
             if (UserProfile.ScriptEngine.IsScriptFile(menuSendTo.Path))
@@ -616,16 +647,8 @@ namespace Job.UC
             ticket.TargetDir = _fileManager.Settings.CurFolder;
 
             downloader.AddFile(ticket);
-            //downloader.StartDownload += Downloader_StartDownload;
-            //downloader.FinishDownload += Downloader_FinishDownload;
-            //downloader.ProcessDownloading += Downloader_ProcessDownloading;
-
-            //JobLock(job);
 
             DownloadService.AddToQuery(downloader);
-
-
-
         }
 
         private void ObjectListView1_ItemDrag(object sender, ItemDragEventArgs e)
@@ -700,6 +723,21 @@ namespace Job.UC
             catch { }
         }
 
+        void CopyFileNamesToClipboard()
+        {
+            var filePath = new StringBuilder();
+            foreach (IFileSystemInfoExt fsi in objectListView1.SelectedObjects)
+            {
+                filePath.AppendLine(fsi.FileInfo.Name);
+            }
+            try
+            {
+                Clipboard.SetText(filePath.ToString());
+
+            }
+            catch { }
+        }
+
 
         private void ВставитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -727,7 +765,7 @@ namespace Job.UC
 
         private void CreateDirectory()
         {
-            using (var ff = new FormEditFolder())
+            using (var ff = new FormEditFolder(UserProfile, _fileManager.CreateDirectoryInCurrentFolder))
             {
                 if (ff.ShowDialog() == DialogResult.OK)
                 {
@@ -736,25 +774,30 @@ namespace Job.UC
             }
         }
 
+
+
         private void ПереименоватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObject != null)
+            if (objectListView1.SelectedObject == null) return;
+
+            var old = (IFileSystemInfoExt)objectListView1.SelectedObject;
+
+            using (var ff = new FormEditFolder(old.FileInfo.Name))
             {
-                var old = (IFileSystemInfoExt)objectListView1.SelectedObject;
-
-                using (var ff = new FormEditFolder(old.FileInfo.Name))
+                if (ff.ShowDialog() == DialogResult.OK)
                 {
-                    if (ff.ShowDialog() == DialogResult.OK)
+                    if (!string.IsNullOrEmpty(ff.textBox_Name.Text))
                     {
-                        if (!string.IsNullOrEmpty(ff.textBox_Name.Text))
-                        {
-                            _fileManager.MoveFileOrDirectoryToCurrentFolder(old, ff.textBox_Name.Text);
+                        _fileManager.MoveFileOrDirectoryToCurrentFolder(old, ff.textBox_Name.Text);
 
-                        }
                     }
                 }
             }
+
         }
+
+
+
 
         private void OpenCurrentFolderInExplorer()
         {
@@ -806,8 +849,8 @@ namespace Job.UC
             отправитьВToolStripMenuItem.DropDownItems.Clear();
             отправитьВToolStripMenuItem.DropDownItems.AddRange(UserProfile.MenuManagers.SendTo.Get(SendMenuItem_ClickAsync).ToArray());
 
-            утилитыToolStripMenuItem.DropDownItems.Clear();
-            утилитыToolStripMenuItem.DropDownItems.AddRange(UserProfile.MenuManagers.Utils.Get(ToolsStripMenuItem_Click).ToArray());
+            //утилитыToolStripMenuItem.DropDownItems.Clear();
+            //утилитыToolStripMenuItem.DropDownItems.AddRange(UserProfile.MenuManagers.Utils.Get(ToolsStripMenuItem_Click).ToArray());
 
             SendEmailToolStripMenuItem.DropDownItems.Clear();
             SendEmailToolStripMenuItem.DropDownItems.AddRange(UserProfile.MailNotifier.GetMenu(ToolStripSendMenu_Click).ToArray());
@@ -820,6 +863,104 @@ namespace Job.UC
             bool visible = !nonPdfFiles.Any();
             утилітиДляPDFToolStripMenuItem.Visible = visible;
             setTrimBoxToolStripMenuItem.Visible = visible;
+
+            SetToMoveFolders();
+
+
+
+        }
+
+        private void SetToMoveFolders()
+        {
+            переміститиДоToolStripMenuItem.Visible = false;
+
+            var folders = UserProfile.Settings.GetFileBrowser().FolderNamesForCreate;
+
+
+
+            //// перевірити, чи це коренева папка
+
+            //if (!_fileManager.Settings.IsRoot) return;
+
+            // перевірити, чи вибрано файли
+
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            // перевірити, чи нема у вибраних файлів назви папок
+
+            var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>();
+
+            var filteredFiles = files.Where(x =>
+            {
+                return !folders.Contains(x.FileInfo.Name, StringComparer.OrdinalIgnoreCase);
+            });
+
+            if (!filteredFiles.Any()) return;
+
+            // створити меню
+            переміститиДоToolStripMenuItem.Visible = true;
+            переміститиДоToolStripMenuItem.DropDownItems.Clear();
+
+
+
+            foreach (var folder in folders)
+            {
+                переміститиДоToolStripMenuItem.DropDownItems.Add(folder, null, (sender, e) =>
+                {
+
+                    var targetDir = Path.Combine(_fileManager.Settings.RootFolder, folder);
+                    if (!Directory.Exists(targetDir)) { Directory.CreateDirectory(targetDir); }
+
+                    foreach (var file in filteredFiles)
+                    {
+                        var targetFile = Path.Combine(targetDir, file.FileInfo.Name);
+
+                        _fileManager.MoveTo(file, targetFile);
+                    }
+
+                });
+            }
+
+            var localFolders = _fileManager.GetDirs();
+
+            if (!localFolders.Any()) return;
+
+            var lf = localFolders.Where(x =>
+            {
+                foreach (var folder in folders)
+                {
+                    if (x.FileInfo.Name.Equals(folder, StringComparison.InvariantCultureIgnoreCase)) return false;
+                }
+                return true;
+            });
+
+
+            if (!lf.Any()) return;
+
+            переміститиДоToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
+
+            foreach (var localFolder in lf)
+            {
+                переміститиДоToolStripMenuItem.DropDownItems.Add(localFolder.FileInfo.Name, null, (sender, e) =>
+                {
+
+                    var targetDir = Path.Combine(_fileManager.Settings.RootFolder, localFolder.FileInfo.Name);
+                    if (!Directory.Exists(targetDir)) { Directory.CreateDirectory(targetDir); }
+
+                    foreach (var file in filteredFiles)
+                    {
+                        var targetFile = Path.Combine(targetDir, file.FileInfo.Name);
+
+                        _fileManager.MoveTo(file, targetFile);
+                    }
+
+                });
+            }
+
+
+
+
+
         }
 
         private void ToolStripSendMenu_Click(object sender, EventArgs eevnArgs)
@@ -840,7 +981,7 @@ namespace Job.UC
                                 UserProfile.MailNotifier.SendFile(((ToolStripMenuItem)sender).Text, file.FileInfo.FullName);
                             }
                         }
-                    }
+                    },
                 });
 
                 //ShowProgress.FormProgress.ShowProgress(() =>
@@ -882,7 +1023,7 @@ namespace Job.UC
                             Path.GetFileNameWithoutExtension(info.FileInfo.FullName),
                             curJob?.Number,
                             curJob?.Customer,
-                            curJob?.Description)
+                            curJob?.Description),
                         };
 
                         var p = Process.Start(pii);
@@ -895,7 +1036,7 @@ namespace Job.UC
             var pi = new ProcessStartInfo
             {
                 WorkingDirectory = Path.GetDirectoryName(path),
-                FileName = path
+                FileName = path,
             };
             Process.Start(pi);
         }
@@ -1026,9 +1167,9 @@ namespace Job.UC
             {
                 ClearFilter();
             }
-            else if (toolStripTextBox_Filter.Text.Length > 2)
+            else
             {
-                objectListView1.ModelFilter = TextMatchFilter.Contains(objectListView1, toolStripTextBox_Filter.Text);
+                objectListView1.ModelFilter = TextMatchFilter.Regex(objectListView1, toolStripTextBox_Filter.Text);
             }
         }
 
@@ -1127,6 +1268,13 @@ namespace Job.UC
             else if (e.KeyCode == Keys.Add)
             {
                 SelectFilesByExtention();
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                if (objectListView1.SelectedObject != null)
+                {
+                    _fileManager.OpenFileOrFolder((IFileSystemInfoExt)objectListView1.SelectedObject);
+                }
             }
         }
 
@@ -1356,7 +1504,7 @@ namespace Job.UC
                     }
 
                     objectListView1.RefreshObjects(fileSystemInfoExts.ToArray());
-                }
+                },
             });
 
             //ShowProgress.FormProgress.ShowProgress(() =>
@@ -1442,19 +1590,22 @@ namespace Job.UC
 
         private void ConvertToPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObjects.Count > 0)
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            
+            using (var form = new FormSelectConvertToPdfMode(UserProfile.Settings.GetPdfConverterSettings()))
             {
-                using (var form = new FormSelectConvertToPdfMode(UserProfile.Settings.GetPdfConverterSettings()))
+                if (form.ShowDialog() == DialogResult.OK)
                 {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
-                        var mode = form.ConvertMode;
-                        var trimBox = form.TrimBox;
-                        var moveToTrash = form.MoveToTrash;
+                    var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
+                    var mode = form.ConvertMode;
+                    var trimBox = form.TrimBox;
+                    var moveToTrash = form.MoveToTrash;
 
-                        BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(
-                            () =>
+                    BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(
+                        () =>
+                        {
+
+                            Thread t = new Thread(() =>
                             {
                                 FileFormatsUtil.ConvertToPDF(files, mode);
 
@@ -1466,23 +1617,28 @@ namespace Job.UC
                                 {
                                     MoveToTrash(files.ToArray());
                                 }
-                            }
-                            )));
+                            });
 
-
-
-
-                    }
+                            t.SetApartmentState(ApartmentState.STA);
+                            t.Start();
+                            t.Join();
+                        }
+                        )));
                 }
             }
-
+            
         }
 
         private void SplitPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObjects.Count > 0)
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using (var form = new FormDividerParams())
             {
-                FileFormatsUtil.SplitPDF(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    FileFormatsUtil.SplitPDF(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(),form.Params);
+                }
             }
         }
 
@@ -1585,7 +1741,7 @@ namespace Job.UC
 
         private void objectListView1_ColumnClick_1(object sender, ColumnClickEventArgs e)
         {
-            olvColumn_FileName.Sortable = e.Column != 0;
+            //olvColumn_FileName.Sortable = e.Column != 0;
         }
 
         private void toolStripButtonSettings_Click(object sender, EventArgs e)
@@ -1602,6 +1758,27 @@ namespace Job.UC
 
         private void ApplySettings()
         {
+            objectListView1.ShowGroups = _fileManager.Settings.ShowGroups;
+            olvColumn_DateTime.GroupKeyGetter = r =>
+            {
+
+                var file = r as FileSystemInfoExt;
+                if (file.IsDir)
+                {
+                    return new { Title = "" };
+                }
+
+                var date = ((FileSystemInfoExt)r).FileInfo.LastWriteTime;
+
+                return new { Title = $"{date.Year}.{date.Month:00}.{date.Day:00}" };
+            };
+
+
+
+            olvColumn_DateTime.GroupKeyToTitleConverter = key =>
+            {
+                return ((dynamic)key).Title;
+            };
 
         }
 
@@ -1644,6 +1821,115 @@ namespace Job.UC
         {
             if (objectListView1.SelectedObjects.Count > 0)
                 FileFormatsUtil.SplitCoverAndBlock(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
+
+        private void створитипустишкиЗТиражамиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileFormatsUtil.CreateEmptiesWithCount(_fileManager.Settings.CurFolder);
+        }
+
+        private void розвернутиСторінкиНа90ДзеркальноToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count > 0)
+                FileFormatsUtil.RotatePagesMirror(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
+
+        private void зєднатиПарніІНепарніСторінкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 2)
+            {
+                FileFormatsUtil.MergeOddAndEven(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+            }
+            else
+            {
+                MessageBox.Show("Файлів має бути два! В одному непарні сторінки, а в іншому - парні", "Альо!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void розділитиНаПарніІНепарніСторінкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count > 0)
+            {
+                FileFormatsUtil.SplitOddAndEven(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+            }
+        }
+
+        private void зберегтиЯкJpgToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count > 0)
+            {
+
+                using (var form = new FormSelectDpi())
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        FileFormatsUtil.PdfToJpg(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Dpi,form.Quality);
+                    }
+                }
+            }
+        }
+
+        private void toolStripButton_NewFolder_DropDownOpening(object sender, EventArgs e)
+        {
+            // get from settings folder's names
+            var folders = UserProfile.Settings.GetFileBrowser().FolderNamesForCreate;
+
+            if (folders == null) return;
+
+            toolStripButton_NewFolder.DropDownItems.Clear();
+
+            foreach (var folder in folders)
+            {
+                string f = folder;
+                var item = new ToolStripMenuItem(f);
+                item.Click += (object s, EventArgs ea) =>
+                {
+                    _fileManager.CreateDirectoryInCurrentFolder(f);
+                };
+                toolStripButton_NewFolder.DropDownItems.Add(item);
+            }
+
+        }
+
+        private void показатиВсіФайлибезПапокToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _fileManager.Settings.ShowAllFilesWithoutDir = показатиВсіФайлибезПапокToolStripMenuItem.Checked;
+
+            objectListView1.ClearObjects();
+            objectListView1.EmptyListMsg = "Loading...";
+            _fileManager.RefreshAsync();
+            
+        }
+
+        private void копіюватиІмяФайлуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyFileNamesToClipboard();
+        }
+
+        private void змінитиРозмірToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using(var form = new FormSelectPdfNewSize())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    FileFormatsUtil.ScalePdf(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(),form.Params);
+                }
+            }
+        }
+
+        private void розділитиРозворотиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using (var form = new FormPdfSplitterParams())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    FileFormatsUtil.SplitPdf(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Params);
+                }
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EasyNetQ;
+using EasyNetQ.Consumer;
 using EasyNetQ.SystemMessages;
 using EasyNetQ.Topology;
 using Interfaces;
@@ -6,11 +7,13 @@ using Interfaces.MQ;
 using Interfaces.Plugins;
 using Logger;
 using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace PluginRabbitMq
 {
-    public class PluginRabbitMq : IMqPlugin, IPluginBase
+    public sealed class PluginRabbitMq : IMqPlugin, IPluginBase
     {
         private Settings _settings;
 
@@ -18,7 +21,6 @@ namespace PluginRabbitMq
 
         private string _channelNumber;
         private IBus _bus;
-        private ISubscriptionResult _subscription;
         private IMqController _controller;
 
         public IUserProfile UserProfile { get; set; }
@@ -29,7 +31,8 @@ namespace PluginRabbitMq
         {
             try
             {
-                _subscription?.Dispose();
+                Debug.WriteLine("RabbitMq plugin dispose");
+                //_subscription.Dispose();
                 _bus?.Dispose();
             }
             catch (Exception e)
@@ -40,22 +43,28 @@ namespace PluginRabbitMq
 
         public void Init(IMqController controller)
         {
+            Log.Info(this, $"({_settings?.RabbitUser}) MQManager", $"init rabbitMq client");
             //load settings
             _settings = UserProfile.Plugins.LoadSettings<Settings>(this);
             _controller = controller;
 
-            _channelNumber = $"{Environment.UserName}_{Environment.MachineName}"; // працює лише з однією копією запущеної програми
+            _channelNumber = $"{Environment.UserName}_{Environment.MachineName}_{DateTime.Now}"; // працює лише з однією копією запущеної програми
             Connect();
         }
 
-        public void PublishChanges(MessageEnum me, object id)
+        public  void PublishChanges(MessageEnum me, object id)
         {
             if (!_isOnline) return;
 
             var message = new MessageMQ { Id = id.ToString(), QueryId = _channelNumber, Code = me };
+            var messageMq = new Message<MessageMQ>(message);
+            
             try
             {
-                _bus.PubSub.Publish(message,default);
+                Log.Info(this, $"({_settings?.RabbitUser}) MQManager", $"sending message...");
+                //_bus.Advanced.Publish(Exchange.Default,_queue.Name,false,messageMq);
+                _bus.PubSub.Publish(message);
+                Log.Info(this, $"({_settings?.RabbitUser}) MQManager", $"sending message...Ok.");
             }
             catch (Exception e)
             {
@@ -68,7 +77,7 @@ namespace PluginRabbitMq
         {
             using (var fs = new FormSettings(_settings))
             {
-                if (fs.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                if (fs.ShowDialog() == DialogResult.OK)
                 {
                     UserProfile.Plugins.SaveSettings(this, _settings);
                     Disconnect();
@@ -101,10 +110,21 @@ namespace PluginRabbitMq
         {
             try
             {
-                _bus = RabbitHutch.CreateBus(
+                Log.Info(this, $"({_settings?.RabbitUser}) MQManager", $"creating bus...{DateTime.Now}");
+                _bus =  RabbitHutch.CreateBus(
                     $"host={_settings.RabbitServer};virtualHost={_settings.RabbitVirtualHost};username={_settings.RabbitUser};password={_settings.RabbitPassword}");
-                _subscription = _bus.PubSub.Subscribe<MessageMQ>(_channelNumber, GetMessage,default);
+                Log.Info(this, $"({_settings?.RabbitUser}) MQManager", $"creating bus...{DateTime.Now}...Ok");
+                //_queue = _bus.Advanced.QueueDeclare(_channelNumber);
+                //_bus.Advanced.Consume(_queue, x => x
+                //.Add<MessageMQ>((message, info) =>
+                //{
+                //    Debug.WriteLine(message.Body);
+                //}));
+                Log.Info(this, $"({_settings?.RabbitUser}) MQManager", $"subscribing...{DateTime.Now}");
+                _bus.PubSub.Subscribe<MessageMQ>(_channelNumber, msg => GetMessage(msg));
+                Log.Info(this, $"({_settings?.RabbitUser}) MQManager", $"subscribing...{DateTime.Now}...Ok");
                 _isOnline = true;
+
             }
             catch (Exception e)
             {
@@ -112,6 +132,7 @@ namespace PluginRabbitMq
                 _isOnline = false;
             }
         }
+
         private void SubscribeToErrorQuery()
         {
 
@@ -125,8 +146,8 @@ namespace PluginRabbitMq
                 var errQueryName = conventions.ErrorQueueNamingConvention(null);
 
                 Action<IMessage<Error>, MessageReceivedInfo> foo = HandleErrorMessage;
-                IQueue queue = new Queue(errQueryName, false);
-                _bus.Advanced.Consume<Error>(queue, foo);
+                var queue = new Queue(errQueryName, false);
+                _bus.Advanced.Consume(queue, foo);
 
             }
             catch (Exception e)

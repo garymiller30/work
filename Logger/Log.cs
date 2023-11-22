@@ -29,7 +29,7 @@ namespace Logger
 
         private static LogProfile GetLogProfile(object profile)
         {
-            var p = Profiles.FirstOrDefault(x => x.Profile.Equals(profile));
+            var p = Profiles.FirstOrDefault(x => x.Profile == profile);
             if (p == null)
             {
                 p = new LogProfile() { Profile = profile };

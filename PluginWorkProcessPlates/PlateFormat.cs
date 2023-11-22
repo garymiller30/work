@@ -1,6 +1,6 @@
 ﻿namespace PluginWorkProcessPlates
 {
-    public class PlateFormat
+    public sealed class PlateFormat
     {
         public decimal Width { get; set; }
         public decimal Height { get; set; }

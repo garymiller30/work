@@ -10,7 +10,7 @@ using Job.UC;
 
 namespace Job.Profiles
 {
-    public class FileBrowsers : IFileBrowsers
+    public sealed class FileBrowsers : IFileBrowsers
     {
 
         private readonly IUserProfile _profile;
@@ -42,7 +42,7 @@ namespace Job.Profiles
         {
             var job = _profile.Jobs.JobListControl.ChangeSelectedJobDescription(e);
 
-            _profile.Jobs.SetCurrentJob(job);
+            //_profile.Jobs.SetCurrentJob(job);
 
             //if (job != null)
             //{
@@ -86,8 +86,16 @@ namespace Job.Profiles
             for (int i = 1; i <= _profile.Settings.CountExplorers; i++)
             {
                 var otherBrowser = AddBrowser();
-                otherBrowser.InitToolStripUtils(i);
                 Browsers.Add(otherBrowser);
+            }
+            InitBrowserToolStripUtils();
+        }
+
+        public void InitBrowserToolStripUtils()
+        {
+            for (int i = 0; i < _profile.Settings.CountExplorers; i++)
+            {
+                Browsers[i].InitToolStripUtils(i);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Data;
 
 namespace PluginWorkPrepress.Forms
 {
@@ -30,6 +31,20 @@ namespace PluginWorkPrepress.Forms
             _process.Name = textBox1.Text;
 
             Close();
+        }
+
+        private void buttonCalc_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var val = decimal.Parse( new DataTable().Compute(textBox1.Text,null).ToString());
+                numericUpDownPrice.Value = val;
+            }
+            catch (Exception error)
+            {
+
+                MessageBox.Show(error.Message);
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ using Interfaces;
 namespace Job.Statuses
 {
     [Serializable]
-    public class StatusChangeParam : IStatusChangeParam
+    public sealed class StatusChangeParam : IStatusChangeParam
     {
         public bool Enable { get; set; } = false;
         [Obsolete]

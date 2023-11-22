@@ -47,9 +47,13 @@
             this.повторитьЗаказToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.обєднатиВОднеЗамовленняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.виглядToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.показатисховатиГрупиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.копироватьВБуферНомерЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.копіюватиЗамавникаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.доповненняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.копіюватиКатегоріюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripWorks = new System.Windows.Forms.ToolStrip();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -118,7 +122,6 @@
             this.objectListView_NewWorks.Cursor = System.Windows.Forms.Cursors.Default;
             this.objectListView_NewWorks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListView_NewWorks.FullRowSelect = true;
-            this.objectListView_NewWorks.GridLines = true;
             this.objectListView_NewWorks.HeaderWordWrap = true;
             this.objectListView_NewWorks.HideSelection = false;
             this.objectListView_NewWorks.IsSimpleDropSink = true;
@@ -126,12 +129,12 @@
             this.objectListView_NewWorks.Name = "objectListView_NewWorks";
             this.objectListView_NewWorks.ShowGroups = false;
             this.objectListView_NewWorks.ShowImagesOnSubItems = true;
+            this.objectListView_NewWorks.ShowItemCountOnGroups = true;
             this.objectListView_NewWorks.ShowItemToolTips = true;
             this.objectListView_NewWorks.Size = new System.Drawing.Size(720, 366);
             this.objectListView_NewWorks.TabIndex = 0;
             this.objectListView_NewWorks.UseCellFormatEvents = true;
             this.objectListView_NewWorks.UseCompatibleStateImageBehavior = false;
-            this.objectListView_NewWorks.UseExplorerTheme = true;
             this.objectListView_NewWorks.UseFilterIndicator = true;
             this.objectListView_NewWorks.UseFiltering = true;
             this.objectListView_NewWorks.UseSubItemCheckBoxes = true;
@@ -149,6 +152,7 @@
             // 
             this.olvColumn_Status.IsEditable = false;
             this.olvColumn_Status.Text = "Статус";
+            this.olvColumn_Status.UseInitialLetterForGroup = true;
             // 
             // olvColumnProcess
             // 
@@ -157,12 +161,14 @@
             this.olvColumnProcess.IsEditable = false;
             this.olvColumnProcess.Text = "Прогрес";
             this.olvColumnProcess.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.olvColumnProcess.UseInitialLetterForGroup = true;
             // 
             // olvColumn_Date
             // 
             this.olvColumn_Date.AspectName = "";
             this.olvColumn_Date.IsEditable = false;
             this.olvColumn_Date.Text = "Дата створення";
+            this.olvColumn_Date.UseInitialLetterForGroup = true;
             this.olvColumn_Date.Width = 150;
             // 
             // olvColumn_OrderNumber
@@ -176,6 +182,7 @@
             this.olvColumn_Customer.AspectName = "Customer";
             this.olvColumn_Customer.IsEditable = false;
             this.olvColumn_Customer.Text = "Замовник";
+            this.olvColumn_Customer.UseInitialLetterForGroup = true;
             this.olvColumn_Customer.Width = 93;
             // 
             // olvColumnDescription
@@ -196,6 +203,7 @@
             // 
             this.olvColumnCategories.IsEditable = false;
             this.olvColumnCategories.Text = "Категорія";
+            this.olvColumnCategories.UseInitialLetterForGroup = true;
             // 
             // contextMenuStrip_NewJob
             // 
@@ -206,11 +214,14 @@
             this.повторитьЗаказToolStripMenuItem,
             this.обєднатиВОднеЗамовленняToolStripMenuItem,
             this.toolStripSeparator19,
+            this.виглядToolStripMenuItem,
+            this.toolStripSeparator1,
             this.копироватьВБуферНомерЗаказаToolStripMenuItem,
+            this.копіюватиЗамавникаToolStripMenuItem,
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem,
-            this.доповненняToolStripMenuItem});
+            this.копіюватиКатегоріюToolStripMenuItem});
             this.contextMenuStrip_NewJob.Name = "contextMenuStrip_NewJob";
-            this.contextMenuStrip_NewJob.Size = new System.Drawing.Size(251, 148);
+            this.contextMenuStrip_NewJob.Size = new System.Drawing.Size(251, 198);
             this.contextMenuStrip_NewJob.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_NewJob_Opening);
             // 
             // создатьSignaJobToolStripMenuItem
@@ -245,25 +256,57 @@
             this.toolStripSeparator19.Name = "toolStripSeparator19";
             this.toolStripSeparator19.Size = new System.Drawing.Size(247, 6);
             // 
+            // виглядToolStripMenuItem
+            // 
+            this.виглядToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.показатисховатиГрупиToolStripMenuItem});
+            this.виглядToolStripMenuItem.Name = "виглядToolStripMenuItem";
+            this.виглядToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.виглядToolStripMenuItem.Text = "вигляд";
+            // 
+            // показатисховатиГрупиToolStripMenuItem
+            // 
+            this.показатисховатиГрупиToolStripMenuItem.Name = "показатисховатиГрупиToolStripMenuItem";
+            this.показатисховатиГрупиToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.показатисховатиГрупиToolStripMenuItem.Text = "показати/сховати групи";
+            this.показатисховатиГрупиToolStripMenuItem.Click += new System.EventHandler(this.показатисховатиГрупиToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(247, 6);
+            // 
             // копироватьВБуферНомерЗаказаToolStripMenuItem
             // 
+            this.копироватьВБуферНомерЗаказаToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копироватьВБуферНомерЗаказаToolStripMenuItem.Image")));
             this.копироватьВБуферНомерЗаказаToolStripMenuItem.Name = "копироватьВБуферНомерЗаказаToolStripMenuItem";
             this.копироватьВБуферНомерЗаказаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.копироватьВБуферНомерЗаказаToolStripMenuItem.Text = "копіювати номер замовлення";
             this.копироватьВБуферНомерЗаказаToolStripMenuItem.Click += new System.EventHandler(this.КопироватьВБуферНомерЗаказаToolStripMenuItem_Click);
             // 
+            // копіюватиЗамавникаToolStripMenuItem
+            // 
+            this.копіюватиЗамавникаToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копіюватиЗамавникаToolStripMenuItem.Image")));
+            this.копіюватиЗамавникаToolStripMenuItem.Name = "копіюватиЗамавникаToolStripMenuItem";
+            this.копіюватиЗамавникаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.копіюватиЗамавникаToolStripMenuItem.Text = "копіювати замовника";
+            this.копіюватиЗамавникаToolStripMenuItem.Click += new System.EventHandler(this.копіюватиЗамавникаToolStripMenuItem_Click);
+            // 
             // копироватьВБуферОписаниеЗаказаToolStripMenuItem
             // 
+            this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копироватьВБуферОписаниеЗаказаToolStripMenuItem.Image")));
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Name = "копироватьВБуферОписаниеЗаказаToolStripMenuItem";
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Text = "копіювати опис замовлення";
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Click += new System.EventHandler(this.КопироватьВБуферОписаниеЗаказаToolStripMenuItem_Click);
             // 
-            // доповненняToolStripMenuItem
+            // копіюватиКатегоріюToolStripMenuItem
             // 
-            this.доповненняToolStripMenuItem.Name = "доповненняToolStripMenuItem";
-            this.доповненняToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.доповненняToolStripMenuItem.Text = "Додатки";
+            this.копіюватиКатегоріюToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копіюватиКатегоріюToolStripMenuItem.Image")));
+            this.копіюватиКатегоріюToolStripMenuItem.Name = "копіюватиКатегоріюToolStripMenuItem";
+            this.копіюватиКатегоріюToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.копіюватиКатегоріюToolStripMenuItem.Text = "копіювати категорію";
+            this.копіюватиКатегоріюToolStripMenuItem.Click += new System.EventHandler(this.копіюватиКатегоріюToolStripMenuItem_Click);
             // 
             // toolStripWorks
             // 
@@ -316,6 +359,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
         private System.Windows.Forms.ToolStripMenuItem копироватьВБуферНомерЗаказаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem копироватьВБуферОписаниеЗаказаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem доповненняToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem копіюватиЗамавникаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem копіюватиКатегоріюToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem виглядToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem показатисховатиГрупиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }

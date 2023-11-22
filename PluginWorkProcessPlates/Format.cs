@@ -5,7 +5,7 @@ using System.Linq;
 namespace PluginWorkProcessPlates
 {
     [Serializable]
-    public class Format
+    public sealed class Format
     {
         public decimal Width { get; set; }
         public decimal Height { get; set; }

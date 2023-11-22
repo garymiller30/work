@@ -2,7 +2,7 @@
 
 namespace Job.UserForms
 {
-    public partial class FormCombineOrders : Form
+    public sealed partial class FormCombineOrders : Form
     {
         public string OrderNumber => textBox1.Text;
 

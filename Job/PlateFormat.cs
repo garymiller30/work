@@ -5,7 +5,7 @@ using MongoDB.Bson;
 namespace Job
 {
     [Serializable]
-    public class PlateFormat : IPlateFormat
+    public sealed class PlateFormat : IPlateFormat
     {
         public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
         /// <summary>

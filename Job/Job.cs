@@ -9,9 +9,9 @@ namespace Job
 {
     [Serializable]
     [BsonDiscriminator("Jobs")]
-    public class Job : IJob
+    public sealed class Job : IJob
     {
-        public ObjectId Id { get; set; }
+        public object Id { get; set; }
 
         [Obsolete]
         public Settings.JobStatus Status { get; set; }
@@ -48,7 +48,7 @@ namespace Job
 
         public bool UseCustomFolder { get; set; }
         [Obsolete]
-        public List<Part> Parts { get; set; } = new List<Part>();
+        public IEnumerable<Part> Parts { get; set; } = new List<Part>();
         
         public string Folder { get; set; }
         [Obsolete] public bool IsCashe { get; set; }
@@ -56,7 +56,7 @@ namespace Job
         [Obsolete] public decimal CachePayedSum { get; set; }
         public bool DontCreateFolder { get; set; }
 
-        public ObjectId CategoryId { get; set; }
+        public object CategoryId { get; set; }
 
 
         public Job()
@@ -70,7 +70,7 @@ namespace Job
 
         public override int GetHashCode()
         {
-            return Id.ToString().GetHashCode();
+            return StringComparer.Ordinal.GetHashCode(Id.ToString());
         }
 
         public override bool Equals(object obj)

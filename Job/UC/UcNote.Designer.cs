@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.kryptonRichTextBox1 = new ComponentFactory.Krypton.Toolkit.KryptonRichTextBox();
+            this.kryptonRichTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonBold = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonItalic = new System.Windows.Forms.ToolStripButton();
@@ -207,7 +207,7 @@
 
         #endregion
 
-        private ComponentFactory.Krypton.Toolkit.KryptonRichTextBox kryptonRichTextBox1;
+        private Krypton.Toolkit.KryptonRichTextBox kryptonRichTextBox1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButtonBold;
         private System.Windows.Forms.ToolStripButton toolStripButtonItalic;

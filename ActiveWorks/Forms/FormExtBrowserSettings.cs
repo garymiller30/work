@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace ActiveWorks.Forms
 {
-    public partial class FormExtBrowserSettings : Form
+    public sealed partial class FormExtBrowserSettings : Form
     {
         private readonly IUserProfile _profile;
         readonly List<IFileBrowserControlSettings> _settings = new List<IFileBrowserControlSettings>();

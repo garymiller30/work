@@ -10,12 +10,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
 using BackgroundTaskServiceLib;
+using Krypton.Toolkit;
 
 namespace MailNotifier
 {
-    public partial class FormSendMail : KryptonForm
+    public sealed partial class FormSendMail : KryptonForm
     {
         private readonly List<string> _attachList = new List<string>();
         private readonly Mail _mail;
@@ -61,6 +61,19 @@ namespace MailNotifier
             {
                 listBoxAttach.Items.Add(new Attach(att));
             }
+
+            SetAttachmentTotal();
+        }
+
+        private void SetAttachmentTotal()
+        {
+            if (listBoxAttach.Items.Count > 0)
+            {
+                var sum = listBoxAttach.Items.Cast<Attach>().Sum(x => x.Size);
+                var inMb = sum / (1024*1024);
+                labelTotal.Text = inMb.ToString("N01");
+
+            }
         }
 
         internal void SetBody(string body)
@@ -102,7 +115,8 @@ namespace MailNotifier
                     listBoxAttach.Items.Add(new Attach(d.FileName));
                     _attachList.Add(d.FileName);
                 }
-            };
+                SetAttachmentTotal();
+            }
         }
 
         private void AddToolStripMenuItem(ToolStripMenuItem tsmi)
@@ -210,7 +224,9 @@ namespace MailNotifier
                     listBoxAttach.Items.Remove(attach);
                     _attachList.Remove(attach.FullPath);
                 }
+                
             }
+            SetAttachmentTotal();
         }
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -253,7 +269,7 @@ namespace MailNotifier
             Debug.WriteLine(richTextBoxMessage.Rtf);//.
             var message = $"<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\"></head><body>{RtfPipe.Rtf.ToHtml(richTextBoxMessage.Rtf)}";
             Debug.WriteLine(message);
-            //ShowProgress.FormProgress.ShowProgress(() => _mail.SendToMany(sendTo, header, message, _attachList.ToArray()));
+            
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"send mail to {sendTo}", new Action(
                 () => _mail.SendToMany(sendTo, header, message, _attachList.ToArray())
                 )));
@@ -299,12 +315,14 @@ namespace MailNotifier
         {
             public Attach(string fullPath)
             {
-                Name = $"{Path.GetFileName(fullPath)} ({new FileInfo(fullPath).Length.GetFileSizeInString()})";
+                Size = new FileInfo(fullPath).Length;
+                Name = $"{Path.GetFileName(fullPath)} ({Size.GetFileSizeInString()})";
                 FullPath = fullPath;
             }
 
             public string FullPath { get; private set; }
             public string Name { get; private set; }
+            public long Size { get;private set;}
             
         }
 

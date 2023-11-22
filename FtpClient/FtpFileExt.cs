@@ -9,7 +9,7 @@ using Interfaces.Ftp;
 namespace FtpClient
 {
     [Serializable]
-    public class FtpFileExt : IFtpFileExt
+    public sealed class FtpFileExt : IFtpFileExt
     {
         public FtpFileExtStatus Status { get; set; } = FtpFileExtStatus.New;
 
@@ -23,7 +23,7 @@ namespace FtpClient
         {
             Name = file.Name;
             FullPath = file.FullName;
-            IsDir = file.Type == FtpFileSystemObjectType.Directory;
+            IsDir = file.Type == FtpObjectType.Directory;
             Size = file.Size;
             LastModified = file.Modified;
         }

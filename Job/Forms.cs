@@ -7,7 +7,7 @@ namespace Job
 {
     [DataContract]
     [Serializable]
-    public class Forms : IWithId
+    public sealed class Forms : IWithId
     {
         private int _komplekts;
         private int _count;
@@ -19,7 +19,7 @@ namespace Job
         [Obsolete]
         private String _owner;
 
-        public ObjectId Id { get; set; }
+        public object Id { get; set; }
 
         public bool IsSelected { get; set; }
 
@@ -130,7 +130,7 @@ namespace Job
 
         public override int GetHashCode()
         {
-            return ($"{Format}{Format.OwnerId}").GetHashCode();
+            return StringComparer.Ordinal.GetHashCode($"{Format}{Format.OwnerId}");
         }
 
         public override string ToString()

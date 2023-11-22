@@ -1,9 +1,9 @@
 ﻿using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 
 namespace FtpClient
 {
-    public partial class FormEditText : KryptonForm
+    public sealed partial class FormEditText : KryptonForm
     {
         public string EditText
         {

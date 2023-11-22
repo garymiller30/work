@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PythonEngine
 {
-    public class ScriptRunParameters : IScriptRunParameters
+    public sealed class ScriptRunParameters : IScriptRunParameters
     {
         public string ScriptPath { get; set; }
         //public string ScriptPathArg { get; set; }

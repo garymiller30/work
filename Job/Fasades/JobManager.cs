@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -22,9 +23,10 @@ using Job.UserForms;
 using Logger;
 using Ookii.Dialogs.WinForms;
 
+
 namespace Job.Fasades
 {
-    public class JobManager : IJobManager
+    public sealed class JobManager : IJobManager
     {
         public IJobSettings Settings { get; set; }
         public IUcJobList JobListControl { get; set; }
@@ -45,7 +47,7 @@ namespace Job.Fasades
 
         public void SetCurrentJob(IJob job)
         {
-            if (CurrentJob == job) return;
+            //if (CurrentJob == job) return;
 
             CurrentJob = job;
             OnSetCurrentJob(this, job);
@@ -81,18 +83,9 @@ namespace Job.Fasades
 
         public void CreateJob(IPluginNewOrder pluginNewOrder)
         {
-            var job = Factory.CreateJob(_profile);
-
-            var jobParameters = new JobParameters(job);
-
-
-            if (pluginNewOrder.ShowDialogNewOrder(_profile, jobParameters) == DialogResult.OK)
-            {
-                _profile.Plugins.AfterJobChange(jobParameters);
-                // unbind job
-                jobParameters.ApplyToJob();
-                _profile.Jobs.AddJob(job);
-            }
+            pluginNewOrder.ShowDialogNewOrder(_profile, null);
+            
+            
         }
 
         public void ApplyStatusViewFilter()
@@ -125,7 +118,7 @@ namespace Job.Fasades
             Settings = settings;
             _profile = profile;
 
-            JobListControl = new UcJobList(_profile) { Dock = DockStyle.Fill };
+            JobListControl = new UcJobList(_profile) { Dock = DockStyle.Fill};
             Connect(false);
         }
 
@@ -171,24 +164,16 @@ namespace Job.Fasades
             var category = _profile.Categories.GetCategoryNameById(job.CategoryId);
             if (string.IsNullOrEmpty(category))
             {
-                return $"#{number}_{job.Customer.Transliteration()}_{job.Description}";
+                return $"#{number}_{job.Customer.Transliteration()}_{job.Description.Transliteration()}";
             }
 
-            return $"#{number}_{job.Customer.Transliteration()}_{category}_{job.Description}";
+            return $"#{number}_{job.Customer.Transliteration()}_{category.Transliteration()}_{job.Description.Transliteration()}";
         }
-
-        //string CreateYearPath(string path, int year)
-        //{
-        //    var yearPath = Path.Combine(path, year.ToString());
-        //    //if (!Directory.Exists(yearPath)) Directory.CreateDirectory(yearPath);
-        //    return yearPath;
-        //}
 
         public void Connect(bool reconnect)
         {
             if (!reconnect)
                 FollowToRabbit();
-
         }
   
         private void FollowToRabbit()
@@ -202,10 +187,10 @@ namespace Job.Fasades
 
         public void CreateOrOpenSignaJob(string signaJobsPath, IJob j)
         {
-            if (!j.IsSignaJobExist(Settings.SignaFileShablon, signaJobsPath, _profile) || Control.ModifierKeys == Keys.Shift)
-                CreateSignaJobRev2(signaJobsPath, j);
+            if (!j.IsSignaJobExist(_profile) || Control.ModifierKeys == Keys.Shift)
+                CreateSignaJobRev2(_profile, j);
             else
-                OpenSignaJob(signaJobsPath, j);
+                OpenSignaJob(_profile, j);
         }
 
         void MQ_OnJobChanged(object sender, object id)
@@ -259,8 +244,6 @@ namespace Job.Fasades
 
         public bool AddJob(IJob job)
         {
-
-            // todo: добавить проверку на номер заказа
             var fulPath = GetFullPathToWorkFolder(job);
             var j = _jobList.Where(x => GetFullPathToWorkFolder(x).Equals(fulPath));
 
@@ -421,39 +404,57 @@ namespace Job.Fasades
             }
         }
 
-        public void CreateSignaJobRev2(string signaJobsPath, IJob job)
+        public void CreateSignaJobRev2(IUserProfile profile, IJob job)
         {
-            if (!string.IsNullOrEmpty(signaJobsPath))
+
+            var destFile = Extensions.GetSignaFilePath(job,profile);
+
+            
+
+            //if (!string.IsNullOrEmpty(signaJobsPath))
+            //{
+            //    var customer = job.Customer.Transliteration();
+            //    var description = job.Description.Transliteration();
+            //    var category = _profile.Categories.GetCategoryNameById(job.CategoryId)?.Transliteration();
+
+
+            //    var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, customer, job.Number, description,category);
+
+            //    var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
+            if (File.Exists(destFile))
             {
-                var fileName = string.Format(Settings.SignaFileShablon, job.Customer, job.Number, job.Description);
-
-                var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
-                if (File.Exists(destFile))
+                if (MessageBox.Show("Файл з таким ім'ям існує. Замінити?", "Питання", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) != DialogResult.Yes)
                 {
-                    if (MessageBox.Show("Файл з таким ім'ям існує. Замінити?", "Питання", MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question) != DialogResult.Yes)
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        File.Delete(destFile);
-                    }
+                    return;
                 }
-
-                File.Copy(@"SignaShablon\shablon2.sdf", destFile, true);
-
-                var format = GetFormatFile(job);
-
-                new SignaController(destFile).SetJobNumber(job.Number)
-                    .SetCustomer(job.Customer)
-                    .SetJobDescription(job.Description)
-                    .SetPageWidth(format.Item1)
-                    .SetPageHeight(format.Item2)
-                    .Save();
-
-                Process.Start(destFile);
+                else
+                {
+                    File.Delete(destFile);
+                }
             }
+
+            Directory.CreateDirectory(Path.GetDirectoryName(destFile));
+
+            File.Copy(@"SignaShablon\shablon2.sdf", destFile, true);
+
+            var format = GetFormatFile(job);
+            var customer = job.Customer.Transliteration();
+            var description = job.Description.Transliteration();
+            var category = _profile.Categories.GetCategoryNameById(job.CategoryId)?.Transliteration();
+
+            var signaDesc = string.IsNullOrEmpty(category) ? description : $"{category}_{description}";
+
+
+            new SignaController(destFile).SetJobNumber(job.Number)
+                .SetCustomer(customer)
+                .SetJobDescription(signaDesc)
+                .SetPageWidth(format.Item1)
+                .SetPageHeight(format.Item2)
+                .Save();
+
+            Process.Start(destFile);
+           // }
         }
 
         private Tuple<decimal, decimal> GetFormatFile(IJob j)
@@ -478,11 +479,12 @@ namespace Job.Fasades
             return new Tuple<decimal, decimal>(210, 297);
         }
 
-        public void OpenSignaJob(string signaJobsPath, IJob job)
+        public void OpenSignaJob(IUserProfile profile, IJob job)
         {
 
-            var fileName = string.Format(Settings.SignaFileShablon, job.Customer, job.Number, job.Description);
-            var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
+            //var category = _profile.Categories.GetCategoryNameById(job.CategoryId);
+            //var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(),category.Transliteration());
+            var destFile = Extensions.GetSignaFilePath(job,profile);
 
             if (File.Exists(destFile))
             {
@@ -492,22 +494,28 @@ namespace Job.Fasades
 
         public string GetSignaJobFilePath(IJob job)
         {
-            var fileName = string.Format(Settings.SignaFileShablon, job.Customer, job.Number, job.Description);
-            var destFile = Path.Combine(Settings.SignaJobsPath, $"{fileName}.sdf");
-            return destFile;
+            return Extensions.GetSignaFilePath(job,_profile);
+
+            //var category = _profile.Categories.GetCategoryNameById(job.CategoryId);
+            //var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(),category.Transliteration());
+            //var destFile = Path.Combine(Settings.SignaJobsPath, $"{fileName}.sdf");
+            //return destFile;
         }
 
         public void DuplicateSignaJob(IJob sourceJob, IJob targetJob)
         {
-            if (sourceJob.IsSignaJobExist(Settings.SignaFileShablon, Settings.SignaJobsPath, _profile))// IsSignaJobExist(signaJobsPath, sourceJob))
+            if (sourceJob.IsSignaJobExist(_profile))// IsSignaJobExist(signaJobsPath, sourceJob))
             {
                 if (targetJob is IJob j && sourceJob is IJob source)
                 {
-                    var sourceName = string.Format(Settings.SignaFileShablon, source.Customer, source.Number, source.Description);
-                    var sourceFile = Path.Combine(Settings.SignaJobsPath, $"{sourceName}.sdf");
+                    //var sourceName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, source.Customer.Transliteration(), source.Number, source.Description.Transliteration());
+                    //var sourceFile = Path.Combine(Settings.SignaJobsPath, $"{sourceName}.sdf");
+                    var sourceFile = Extensions.GetSignaFilePath(sourceJob,_profile);
 
-                    var fileName = string.Format(Settings.SignaFileShablon, j.Customer, j.Number, j.Description);
-                    var destFile = Path.Combine(Settings.SignaJobsPath, $"{fileName}.sdf");
+                    //var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, j.Customer.Transliteration(), j.Number, j.Description.Transliteration());
+                    //var destFile = Path.Combine(Settings.SignaJobsPath, $"{fileName}.sdf");
+                    var destFile = Extensions.GetSignaFilePath(targetJob,_profile);
+
 
                     File.Copy(sourceFile, destFile, true);
 
@@ -527,18 +535,18 @@ namespace Job.Fasades
             HttpDownloader.Download(link, _profile.Jobs.GetFullPathToWorkFolder(job));
         }
 
-        public bool ChangeJobDescription(IJob job, string s1)
+        public bool ChangeJobDescription(IJob job, string newDesc)
         {
             var oldPath = _profile.Jobs.GetFullPathToWorkFolder(job);
 
             var save = job.Description;
 
-            job.Description = s1.ToUpper();
-            job.Description = job.Description.Replace(' ', '_');
+            job.Description = newDesc;
+            //job.Description = job.Description;
 
             if (RenameJobDirectory(oldPath, job))
             {
-                _profile.Jobs.UpdateJob(job);
+                _profile.Jobs.UpdateJob(job,true);
                 return true;
             }
             job.Description = save;
@@ -564,7 +572,7 @@ namespace Job.Fasades
                     Directory.Move(oldDir, newDir);
 
                 }
-                catch (Exception e)
+                catch 
                 {
                     var message = FileUtil.GetNamesWhoBlock(oldDir);
                     if (MessageBox.Show($"Тека {oldDir} заблокована такими програмами: {message}", "Теку заблоковано", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Retry)

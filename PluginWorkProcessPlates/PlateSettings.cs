@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PluginWorkProcessPlates
 {
     [Serializable]
-    public class PlateSettings
+    public sealed class PlateSettings
     {
         public decimal PriceForPlate { get; set; } = 15;
 

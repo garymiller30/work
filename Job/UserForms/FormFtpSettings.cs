@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Job.UserForms
 {
-    public partial class FormFtpSettings : Form
+    public sealed partial class FormFtpSettings : Form
     {
         private readonly FtpSettings _settings;
 

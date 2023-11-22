@@ -5,9 +5,9 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Job.Statuses
 {
-    public class JobStatus : IJobStatus, IWithId
+    public sealed class JobStatus : IJobStatus, IWithId
     {
-        public ObjectId Id { get; set; } = new ObjectId();
+        public object Id { get; set; } = new ObjectId();
 
         public string Name { get; set; }
 

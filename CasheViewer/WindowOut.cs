@@ -73,33 +73,21 @@ namespace CasheViewer
         {
             if (_savedJob == job)
             {
-#pragma warning disable CS0612 // 'Job.IsCashePayed' is obsolete
                 if (!((Job.Job)job).IsCashePayed)
                 {
-#pragma warning disable CS0612 // 'Job.Parts' is obsolete
                     var cntForms = ((Job.Job)job).Parts?.Sum(x => x.Form.Count) ?? 0;
-#pragma warning restore CS0612 // 'Job.Parts' is obsolete
 
-#pragma warning disable CS0612 // 'Job.CachePayedSum' is obsolete
                     ((Job.Job)job).CachePayedSum += (cntForms - _savedCntForms) * _settings.PriceForPlate;
-#pragma warning restore CS0612 // 'Job.CachePayedSum' is obsolete
 
-#pragma warning disable CS0612 // 'Job.CachePayedSum' is obsolete
                     if (((Job.Job)job).CachePayedSum != 0)
                     {
-#pragma warning disable CS0612 // 'Job.IsCashe' is obsolete
                         ((Job.Job)job).IsCashe = true;
-#pragma warning restore CS0612 // 'Job.IsCashe' is obsolete
                     }
                     else
                     {
-#pragma warning disable CS0612 // 'Job.IsCashe' is obsolete
                         ((Job.Job)job).IsCashe = false;
-#pragma warning restore CS0612 // 'Job.IsCashe' is obsolete
                     }
-#pragma warning restore CS0612 // 'Job.CachePayedSum' is obsolete
                 }
-#pragma warning restore CS0612 // 'Job.IsCashePayed' is obsolete
 
             }
         }

@@ -5,10 +5,10 @@ using MongoDB.Bson;
 
 namespace Job
 {
-    public class Customer : IWithId, ICustomer
+    public sealed class Customer : IWithId, ICustomer
     {
         public bool Show { get; set; } = true;
-        public ObjectId Id { get; set; }
+        public object Id { get; set; } = ObjectId.GenerateNewId();
         public string Name { get; set; } = String.Empty;
 
         public string OwnerPlateDefault { get; set; }
@@ -103,7 +103,7 @@ namespace Job
         {
             if (obj is ICustomer o)
             {
-                return Name.Equals(o.Name);
+                return Name.Equals(o.Name, StringComparison.OrdinalIgnoreCase);
             }
             return false;
         }

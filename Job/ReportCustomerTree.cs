@@ -5,13 +5,13 @@ using Job.Profiles;
 
 namespace Job
 {
-    public class ReportCustomerTree
+    public sealed class ReportCustomerTree
     {
         public Profile UserProfile { get; set; }
 
         public string Name { get; set; }
 
-        public List<ReportPlateFormatTree> PlateFormat { get; private set; } = new List<ReportPlateFormatTree>();
+        public IEnumerable<ReportPlateFormatTree> PlateFormat { get; private set; } = new List<ReportPlateFormatTree>();
 
 
         public int TotalPlateCount()

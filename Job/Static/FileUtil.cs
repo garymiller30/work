@@ -155,13 +155,13 @@ namespace Job.Static
             try
             {
                 var processes = WhoIsLocking(path);
-                var message = processes.Select(x => x.ProcessName).Aggregate((a, n) => $"{a}/n{n}");
+                var message = processes.Select(x => x.ProcessName).Aggregate((a, n) => $"{a}\n{n}");
                 return message;
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                return "[не вдалося отримати список]";
+                return $"[не вдалося отримати список]\n{e.Message}";
             }
             
         }

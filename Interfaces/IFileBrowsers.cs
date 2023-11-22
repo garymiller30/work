@@ -13,5 +13,6 @@ namespace Interfaces
         List<IFileBrowser> Browsers { get; set; }
 
         void CreateEvents();
+        void InitBrowserToolStripUtils();
     }
 }

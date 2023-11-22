@@ -4,13 +4,13 @@ using MongoDB.Bson;
 
 namespace Job.CustomerNotify
 {
-    public class CustomerMailNotify : IWithId, ICustomerMailNotify
+    public sealed class CustomerMailNotify : IWithId, ICustomerMailNotify
     {
-        public ObjectId Id { get; set; } = new ObjectId();
+        public object Id { get; set; } = new ObjectId();
 
         public bool Enabled { get; set; } = true;
 
-        public ObjectId CustomerId { get; set; }
+        public object CustomerId { get; set; }
         public int StatusCode { get; set; }
         public string Tema { get; set; } = String.Empty;
         public string Body { get; set; } = String.Empty;

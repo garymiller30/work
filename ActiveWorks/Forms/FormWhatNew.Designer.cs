@@ -29,7 +29,7 @@ namespace ActiveWorks.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.kryptonRichTextBox1 = new ComponentFactory.Krypton.Toolkit.KryptonRichTextBox();
+            this.kryptonRichTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
             this.SuspendLayout();
             // 
             // kryptonRichTextBox1
@@ -58,6 +58,6 @@ namespace ActiveWorks.Forms
 
         #endregion
 
-        private ComponentFactory.Krypton.Toolkit.KryptonRichTextBox kryptonRichTextBox1;
+        private     Krypton.Toolkit.KryptonRichTextBox kryptonRichTextBox1;
     }
 }

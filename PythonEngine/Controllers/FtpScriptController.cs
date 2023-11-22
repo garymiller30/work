@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PythonEngine.Controllers
 {
-    public class FtpScriptController : AbstractScriptController
+    public sealed class FtpScriptController : AbstractScriptController
     {
         public FtpScriptController(ScriptControllerSettings settings):base(settings)
         {

@@ -1,10 +1,8 @@
-﻿using MongoDB.Bson;
-
+﻿
 namespace Interfaces
 {
-    public interface ICategory
+    public interface ICategory : IWithId
     {
-        ObjectId Id { get; set; }
         string Name { get;set; }
     }
 }

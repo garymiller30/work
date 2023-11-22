@@ -38,7 +38,7 @@
             this.buttonOpenSignaJobsFolder = new System.Windows.Forms.Button();
             this.label21 = new System.Windows.Forms.Label();
             this.textBoxFolderSignaJobs = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip_PlateFormat = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStrip_FolderNames = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
@@ -46,20 +46,17 @@
             this.label29 = new System.Windows.Forms.Label();
             this.numericUpDownBaseTimeOut = new System.Windows.Forms.NumericUpDown();
             this.label28 = new System.Windows.Forms.Label();
-            this.textBox_MongoPort = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
             this.textBoxBaseName = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox_Mongo_Pass = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox_MongoUser = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.textBox_mongoDB = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.checkBoxHideCategory = new System.Windows.Forms.CheckBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.textBox_FolderForSignaFileInJob = new System.Windows.Forms.TextBox();
+            this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
             this.label27 = new System.Windows.Forms.Label();
             this.textBoxSignaShablon = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
@@ -93,6 +90,10 @@
             this.выбратьПапкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPageOther = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.buttonAddFolderName = new System.Windows.Forms.Button();
+            this.textBoxFolderName = new System.Windows.Forms.TextBox();
+            this.listBoxFolderNames = new System.Windows.Forms.ListBox();
             this.checkBoxUseViewer = new System.Windows.Forms.CheckBox();
             this.groupBoxViewer = new System.Windows.Forms.GroupBox();
             this.buttonSelectViewer = new System.Windows.Forms.Button();
@@ -168,6 +169,13 @@
             this.objectListViewPlugins = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnPluginName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPluginDescription = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tabPageCategory = new System.Windows.Forms.TabPage();
+            this.objectListViewCategories = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumnCategory = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnDeleteCategory = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox_addCategory = new System.Windows.Forms.TextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip_PlateOwners = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.удалитьToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
@@ -183,8 +191,9 @@
             this.objectListViewProfiles = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.statusChangeParamBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.kryptonButton_MoveSignaFileToOrder = new Krypton.Toolkit.KryptonButton();
             this.groupBox1.SuspendLayout();
-            this.contextMenuStrip_PlateFormat.SuspendLayout();
+            this.contextMenuStrip_FolderNames.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -202,6 +211,7 @@
             this.contextMenuStrip_Explorer.SuspendLayout();
             this.tabPageOther.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBoxViewer.SuspendLayout();
             this.groupBox13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCountExplorers)).BeginInit();
@@ -224,6 +234,9 @@
             this.panelStatusParams.SuspendLayout();
             this.tabPagePlugins.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewPlugins)).BeginInit();
+            this.tabPageCategory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.objectListViewCategories)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.contextMenuStrip_PlateOwners.SuspendLayout();
             this.contextMenuStrip_Mail.SuspendLayout();
             this.groupBox17.SuspendLayout();
@@ -318,19 +331,19 @@
             this.textBoxFolderSignaJobs.Size = new System.Drawing.Size(349, 20);
             this.textBoxFolderSignaJobs.TabIndex = 7;
             // 
-            // contextMenuStrip_PlateFormat
+            // contextMenuStrip_FolderNames
             // 
-            this.contextMenuStrip_PlateFormat.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.contextMenuStrip_PlateFormat.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStrip_FolderNames.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.contextMenuStrip_FolderNames.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.удалитьToolStripMenuItem});
-            this.contextMenuStrip_PlateFormat.Name = "contextMenuStrip1";
-            this.contextMenuStrip_PlateFormat.Size = new System.Drawing.Size(126, 26);
+            this.contextMenuStrip_FolderNames.Name = "contextMenuStrip1";
+            this.contextMenuStrip_FolderNames.Size = new System.Drawing.Size(131, 26);
             // 
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Delete;
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.удалитьToolStripMenuItem.Text = "видалити";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.УдалитьToolStripMenuItem_Click);
             // 
@@ -345,6 +358,7 @@
             this.tabControlMain.Controls.Add(this.tabPage6);
             this.tabControlMain.Controls.Add(this.tabPage7);
             this.tabControlMain.Controls.Add(this.tabPagePlugins);
+            this.tabControlMain.Controls.Add(this.tabPageCategory);
             this.tabControlMain.Enabled = false;
             this.tabControlMain.ImageList = this.imageList1;
             this.tabControlMain.Location = new System.Drawing.Point(215, 12);
@@ -370,19 +384,13 @@
             this.groupBox5.Controls.Add(this.label29);
             this.groupBox5.Controls.Add(this.numericUpDownBaseTimeOut);
             this.groupBox5.Controls.Add(this.label28);
-            this.groupBox5.Controls.Add(this.textBox_MongoPort);
-            this.groupBox5.Controls.Add(this.label23);
             this.groupBox5.Controls.Add(this.textBoxBaseName);
             this.groupBox5.Controls.Add(this.label6);
-            this.groupBox5.Controls.Add(this.textBox_Mongo_Pass);
-            this.groupBox5.Controls.Add(this.label7);
-            this.groupBox5.Controls.Add(this.textBox_MongoUser);
-            this.groupBox5.Controls.Add(this.label8);
             this.groupBox5.Controls.Add(this.textBox_mongoDB);
             this.groupBox5.Controls.Add(this.label9);
             this.groupBox5.Location = new System.Drawing.Point(6, 6);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(568, 118);
+            this.groupBox5.Size = new System.Drawing.Size(568, 83);
             this.groupBox5.TabIndex = 9;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "MongoDB";
@@ -391,7 +399,7 @@
             // 
             this.label29.AutoSize = true;
             this.label29.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label29.Location = new System.Drawing.Point(536, 38);
+            this.label29.Location = new System.Drawing.Point(535, 50);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(25, 13);
             this.label29.TabIndex = 12;
@@ -399,7 +407,7 @@
             // 
             // numericUpDownBaseTimeOut
             // 
-            this.numericUpDownBaseTimeOut.Location = new System.Drawing.Point(471, 36);
+            this.numericUpDownBaseTimeOut.Location = new System.Drawing.Point(470, 48);
             this.numericUpDownBaseTimeOut.Minimum = new decimal(new int[] {
             3,
             0,
@@ -418,32 +426,15 @@
             // 
             this.label28.AutoSize = true;
             this.label28.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label28.Location = new System.Drawing.Point(293, 38);
+            this.label28.Location = new System.Drawing.Point(292, 50);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(166, 13);
             this.label28.TabIndex = 10;
             this.label28.Text = "таймаут для з\'єднання з базою";
             // 
-            // textBox_MongoPort
-            // 
-            this.textBox_MongoPort.Location = new System.Drawing.Point(148, 35);
-            this.textBox_MongoPort.Name = "textBox_MongoPort";
-            this.textBox_MongoPort.Size = new System.Drawing.Size(136, 20);
-            this.textBox_MongoPort.TabIndex = 9;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label23.Location = new System.Drawing.Point(151, 19);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(30, 13);
-            this.label23.TabIndex = 8;
-            this.label23.Text = "порт";
-            // 
             // textBoxBaseName
             // 
-            this.textBoxBaseName.Location = new System.Drawing.Point(302, 81);
+            this.textBoxBaseName.Location = new System.Drawing.Point(103, 47);
             this.textBoxBaseName.Name = "textBoxBaseName";
             this.textBoxBaseName.Size = new System.Drawing.Size(136, 20);
             this.textBoxBaseName.TabIndex = 7;
@@ -452,62 +443,28 @@
             // 
             this.label6.AutoSize = true;
             this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label6.Location = new System.Drawing.Point(305, 65);
+            this.label6.Location = new System.Drawing.Point(31, 50);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 13);
             this.label6.TabIndex = 6;
             this.label6.Text = "Назва бази";
             // 
-            // textBox_Mongo_Pass
-            // 
-            this.textBox_Mongo_Pass.Location = new System.Drawing.Point(148, 81);
-            this.textBox_Mongo_Pass.Name = "textBox_Mongo_Pass";
-            this.textBox_Mongo_Pass.Size = new System.Drawing.Size(136, 20);
-            this.textBox_Mongo_Pass.TabIndex = 5;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(151, 65);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(43, 13);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "пароль";
-            // 
-            // textBox_MongoUser
-            // 
-            this.textBox_MongoUser.Location = new System.Drawing.Point(6, 81);
-            this.textBox_MongoUser.Name = "textBox_MongoUser";
-            this.textBox_MongoUser.Size = new System.Drawing.Size(136, 20);
-            this.textBox_MongoUser.TabIndex = 3;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label8.Location = new System.Drawing.Point(9, 65);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(64, 13);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "користувач";
-            // 
             // textBox_mongoDB
             // 
-            this.textBox_mongoDB.Location = new System.Drawing.Point(6, 35);
+            this.textBox_mongoDB.Location = new System.Drawing.Point(103, 16);
             this.textBox_mongoDB.Name = "textBox_mongoDB";
-            this.textBox_mongoDB.Size = new System.Drawing.Size(136, 20);
+            this.textBox_mongoDB.Size = new System.Drawing.Size(458, 20);
             this.textBox_mongoDB.TabIndex = 1;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label9.Location = new System.Drawing.Point(9, 19);
+            this.label9.Location = new System.Drawing.Point(6, 19);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(44, 13);
+            this.label9.Size = new System.Drawing.Size(91, 13);
             this.label9.TabIndex = 0;
-            this.label9.Text = "Сервер";
+            this.label9.Text = "Рядок з\'єднання";
             // 
             // tabPage1
             // 
@@ -546,6 +503,10 @@
             // 
             // groupBox14
             // 
+            this.groupBox14.Controls.Add(this.kryptonButton_MoveSignaFileToOrder);
+            this.groupBox14.Controls.Add(this.kryptonLabel1);
+            this.groupBox14.Controls.Add(this.textBox_FolderForSignaFileInJob);
+            this.groupBox14.Controls.Add(this.kryptonCheckBox1);
             this.groupBox14.Controls.Add(this.label27);
             this.groupBox14.Controls.Add(this.textBoxSignaShablon);
             this.groupBox14.Controls.Add(this.label26);
@@ -554,10 +515,33 @@
             this.groupBox14.Controls.Add(this.buttonOpenSignaJobsFolder);
             this.groupBox14.Location = new System.Drawing.Point(285, 6);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(408, 133);
+            this.groupBox14.Size = new System.Drawing.Size(408, 254);
             this.groupBox14.TabIndex = 12;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Prinect Signa 16+";
+            // 
+            // kryptonLabel1
+            // 
+            this.kryptonLabel1.Location = new System.Drawing.Point(15, 171);
+            this.kryptonLabel1.Name = "kryptonLabel1";
+            this.kryptonLabel1.Size = new System.Drawing.Size(125, 20);
+            this.kryptonLabel1.TabIndex = 15;
+            this.kryptonLabel1.Values.Text = "папка в  замовленні";
+            // 
+            // textBox_FolderForSignaFileInJob
+            // 
+            this.textBox_FolderForSignaFileInJob.Location = new System.Drawing.Point(146, 171);
+            this.textBox_FolderForSignaFileInJob.Name = "textBox_FolderForSignaFileInJob";
+            this.textBox_FolderForSignaFileInJob.Size = new System.Drawing.Size(169, 20);
+            this.textBox_FolderForSignaFileInJob.TabIndex = 14;
+            // 
+            // kryptonCheckBox1
+            // 
+            this.kryptonCheckBox1.Location = new System.Drawing.Point(18, 136);
+            this.kryptonCheckBox1.Name = "kryptonCheckBox1";
+            this.kryptonCheckBox1.Size = new System.Drawing.Size(240, 20);
+            this.kryptonCheckBox1.TabIndex = 13;
+            this.kryptonCheckBox1.Values.Text = "зберігати файл у папці з замовленням";
             // 
             // label27
             // 
@@ -748,19 +732,19 @@
             // 
             // contextMenuStrip_Utils
             // 
-            this.contextMenuStrip_Utils.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.contextMenuStrip_Utils.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.contextMenuStrip_Utils.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавитьToolStripMenuItem1,
             this.удалитьToolStripMenuItem2,
             this.выбратьФайлToolStripMenuItem});
             this.contextMenuStrip_Utils.Name = "contextMenuStrip_Utils";
-            this.contextMenuStrip_Utils.Size = new System.Drawing.Size(152, 70);
+            this.contextMenuStrip_Utils.Size = new System.Drawing.Size(160, 70);
             // 
             // добавитьToolStripMenuItem1
             // 
             this.добавитьToolStripMenuItem1.Image = global::ActiveWorks.Properties.Resources.Create;
             this.добавитьToolStripMenuItem1.Name = "добавитьToolStripMenuItem1";
-            this.добавитьToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
+            this.добавитьToolStripMenuItem1.Size = new System.Drawing.Size(159, 22);
             this.добавитьToolStripMenuItem1.Text = "додати";
             this.добавитьToolStripMenuItem1.Click += new System.EventHandler(this.ДобавитьToolStripMenuItem1_Click);
             // 
@@ -768,14 +752,14 @@
             // 
             this.удалитьToolStripMenuItem2.Image = global::ActiveWorks.Properties.Resources.Delete;
             this.удалитьToolStripMenuItem2.Name = "удалитьToolStripMenuItem2";
-            this.удалитьToolStripMenuItem2.Size = new System.Drawing.Size(151, 22);
+            this.удалитьToolStripMenuItem2.Size = new System.Drawing.Size(159, 22);
             this.удалитьToolStripMenuItem2.Text = "видалити";
             this.удалитьToolStripMenuItem2.Click += new System.EventHandler(this.УдалитьToolStripMenuItem2_Click);
             // 
             // выбратьФайлToolStripMenuItem
             // 
             this.выбратьФайлToolStripMenuItem.Name = "выбратьФайлToolStripMenuItem";
-            this.выбратьФайлToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.выбратьФайлToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.выбратьФайлToolStripMenuItem.Text = "вибрати файл";
             this.выбратьФайлToolStripMenuItem.Click += new System.EventHandler(this.ВыбратьФайлToolStripMenuItem_Click);
             // 
@@ -836,19 +820,19 @@
             // 
             // contextMenuStrip_Explorer
             // 
-            this.contextMenuStrip_Explorer.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.contextMenuStrip_Explorer.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.contextMenuStrip_Explorer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавитьToolStripMenuItem,
             this.удалитьToolStripMenuItem1,
             this.выбратьПапкуToolStripMenuItem});
             this.contextMenuStrip_Explorer.Name = "contextMenuStrip_Explorer";
-            this.contextMenuStrip_Explorer.Size = new System.Drawing.Size(155, 70);
+            this.contextMenuStrip_Explorer.Size = new System.Drawing.Size(163, 70);
             // 
             // добавитьToolStripMenuItem
             // 
             this.добавитьToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Create;
             this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
-            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.добавитьToolStripMenuItem.Text = "додати";
             this.добавитьToolStripMenuItem.Click += new System.EventHandler(this.ДобавитьToolStripMenuItem_Click);
             // 
@@ -856,7 +840,7 @@
             // 
             this.удалитьToolStripMenuItem1.Image = global::ActiveWorks.Properties.Resources.Delete;
             this.удалитьToolStripMenuItem1.Name = "удалитьToolStripMenuItem1";
-            this.удалитьToolStripMenuItem1.Size = new System.Drawing.Size(154, 22);
+            this.удалитьToolStripMenuItem1.Size = new System.Drawing.Size(162, 22);
             this.удалитьToolStripMenuItem1.Text = "видалити";
             this.удалитьToolStripMenuItem1.Click += new System.EventHandler(this.УдалитьToolStripMenuItem1_Click);
             // 
@@ -864,7 +848,7 @@
             // 
             this.выбратьПапкуToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Folder;
             this.выбратьПапкуToolStripMenuItem.Name = "выбратьПапкуToolStripMenuItem";
-            this.выбратьПапкуToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.выбратьПапкуToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.выбратьПапкуToolStripMenuItem.Text = "вибрати папку";
             this.выбратьПапкуToolStripMenuItem.Click += new System.EventHandler(this.ВыбратьПапкуToolStripMenuItem_Click);
             // 
@@ -881,6 +865,7 @@
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.groupBox3);
             this.groupBox8.Controls.Add(this.checkBoxUseViewer);
             this.groupBox8.Controls.Add(this.groupBoxViewer);
             this.groupBox8.Controls.Add(this.groupBox13);
@@ -893,6 +878,45 @@
             this.groupBox8.Size = new System.Drawing.Size(564, 316);
             this.groupBox8.TabIndex = 3;
             this.groupBox8.TabStop = false;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.buttonAddFolderName);
+            this.groupBox3.Controls.Add(this.textBoxFolderName);
+            this.groupBox3.Controls.Add(this.listBoxFolderNames);
+            this.groupBox3.Location = new System.Drawing.Point(278, 103);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(237, 136);
+            this.groupBox3.TabIndex = 13;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Папки для швидкого створення";
+            // 
+            // buttonAddFolderName
+            // 
+            this.buttonAddFolderName.Image = global::ActiveWorks.Properties.Resources.Actions_list_add_icon;
+            this.buttonAddFolderName.Location = new System.Drawing.Point(184, 16);
+            this.buttonAddFolderName.Name = "buttonAddFolderName";
+            this.buttonAddFolderName.Size = new System.Drawing.Size(47, 23);
+            this.buttonAddFolderName.TabIndex = 2;
+            this.buttonAddFolderName.UseVisualStyleBackColor = true;
+            this.buttonAddFolderName.Click += new System.EventHandler(this.buttonAddFolderName_Click);
+            // 
+            // textBoxFolderName
+            // 
+            this.textBoxFolderName.Location = new System.Drawing.Point(7, 20);
+            this.textBoxFolderName.Name = "textBoxFolderName";
+            this.textBoxFolderName.Size = new System.Drawing.Size(170, 20);
+            this.textBoxFolderName.TabIndex = 1;
+            // 
+            // listBoxFolderNames
+            // 
+            this.listBoxFolderNames.ContextMenuStrip = this.contextMenuStrip_FolderNames;
+            this.listBoxFolderNames.FormattingEnabled = true;
+            this.listBoxFolderNames.Location = new System.Drawing.Point(7, 46);
+            this.listBoxFolderNames.Name = "listBoxFolderNames";
+            this.listBoxFolderNames.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.listBoxFolderNames.Size = new System.Drawing.Size(224, 82);
+            this.listBoxFolderNames.TabIndex = 0;
             // 
             // checkBoxUseViewer
             // 
@@ -967,7 +991,7 @@
             this.groupBox13.Controls.Add(this.buttonExtBrowsersSettings);
             this.groupBox13.Controls.Add(this.numericUpDownCountExplorers);
             this.groupBox13.Controls.Add(this.label25);
-            this.groupBox13.Location = new System.Drawing.Point(278, 43);
+            this.groupBox13.Location = new System.Drawing.Point(278, 16);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(237, 81);
             this.groupBox13.TabIndex = 11;
@@ -1448,32 +1472,32 @@
             // 
             // contextMenuStripMails
             // 
-            this.contextMenuStripMails.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.contextMenuStripMails.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.contextMenuStripMails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.копіюватиToolStripMenuItem,
             this.toolStripSeparator1,
             this.deleteToolStripMenuItem});
             this.contextMenuStripMails.Name = "contextMenuStripMails";
-            this.contextMenuStripMails.Size = new System.Drawing.Size(135, 54);
+            this.contextMenuStripMails.Size = new System.Drawing.Size(142, 54);
             // 
             // копіюватиToolStripMenuItem
             // 
             this.копіюватиToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Copy;
             this.копіюватиToolStripMenuItem.Name = "копіюватиToolStripMenuItem";
-            this.копіюватиToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.копіюватиToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.копіюватиToolStripMenuItem.Text = "копіювати ";
             this.копіюватиToolStripMenuItem.Click += new System.EventHandler(this.копіюватиToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(131, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Delete;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.deleteToolStripMenuItem.Text = "видалити";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -1699,6 +1723,88 @@
             this.olvColumnPluginDescription.Text = "Description";
             this.olvColumnPluginDescription.Width = 300;
             // 
+            // tabPageCategory
+            // 
+            this.tabPageCategory.Controls.Add(this.objectListViewCategories);
+            this.tabPageCategory.Controls.Add(this.groupBox2);
+            this.tabPageCategory.Location = new System.Drawing.Point(4, 23);
+            this.tabPageCategory.Name = "tabPageCategory";
+            this.tabPageCategory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCategory.Size = new System.Drawing.Size(699, 367);
+            this.tabPageCategory.TabIndex = 8;
+            this.tabPageCategory.Text = "Категорії";
+            this.tabPageCategory.UseVisualStyleBackColor = true;
+            // 
+            // objectListViewCategories
+            // 
+            this.objectListViewCategories.AllColumns.Add(this.olvColumnCategory);
+            this.objectListViewCategories.AllColumns.Add(this.olvColumnDeleteCategory);
+            this.objectListViewCategories.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.objectListViewCategories.CellEditUseWholeCell = false;
+            this.objectListViewCategories.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumnCategory,
+            this.olvColumnDeleteCategory});
+            this.objectListViewCategories.Cursor = System.Windows.Forms.Cursors.Default;
+            this.objectListViewCategories.FullRowSelect = true;
+            this.objectListViewCategories.GridLines = true;
+            this.objectListViewCategories.HideSelection = false;
+            this.objectListViewCategories.Location = new System.Drawing.Point(6, 65);
+            this.objectListViewCategories.Name = "objectListViewCategories";
+            this.objectListViewCategories.ShowGroups = false;
+            this.objectListViewCategories.Size = new System.Drawing.Size(360, 296);
+            this.objectListViewCategories.TabIndex = 1;
+            this.objectListViewCategories.UseCompatibleStateImageBehavior = false;
+            this.objectListViewCategories.View = System.Windows.Forms.View.Details;
+            this.objectListViewCategories.ButtonClick += new System.EventHandler<BrightIdeasSoftware.CellClickEventArgs>(this.objectListViewCategories_ButtonClick);
+            // 
+            // olvColumnCategory
+            // 
+            this.olvColumnCategory.AspectName = "Name";
+            this.olvColumnCategory.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
+            this.olvColumnCategory.Text = "Категорія";
+            this.olvColumnCategory.Width = 276;
+            // 
+            // olvColumnDeleteCategory
+            // 
+            this.olvColumnDeleteCategory.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
+            this.olvColumnDeleteCategory.Groupable = false;
+            this.olvColumnDeleteCategory.Hideable = false;
+            this.olvColumnDeleteCategory.IsButton = true;
+            this.olvColumnDeleteCategory.Text = "Видалити";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.textBox_addCategory);
+            this.groupBox2.Location = new System.Drawing.Point(6, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(360, 53);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "додати категорію";
+            // 
+            // button1
+            // 
+            this.button1.Image = global::ActiveWorks.Properties.Resources.Actions_list_add_icon;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(275, 17);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "додати";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBox_addCategory
+            // 
+            this.textBox_addCategory.Location = new System.Drawing.Point(6, 19);
+            this.textBox_addCategory.Name = "textBox_addCategory";
+            this.textBox_addCategory.Size = new System.Drawing.Size(260, 20);
+            this.textBox_addCategory.TabIndex = 0;
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -1727,17 +1833,17 @@
             // 
             // contextMenuStrip_Mail
             // 
-            this.contextMenuStrip_Mail.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.contextMenuStrip_Mail.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.contextMenuStrip_Mail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.удалитьToolStripMenuItem3});
             this.contextMenuStrip_Mail.Name = "contextMenuStrip_Mail";
-            this.contextMenuStrip_Mail.Size = new System.Drawing.Size(126, 26);
+            this.contextMenuStrip_Mail.Size = new System.Drawing.Size(131, 26);
             // 
             // удалитьToolStripMenuItem3
             // 
             this.удалитьToolStripMenuItem3.Image = global::ActiveWorks.Properties.Resources.Delete;
             this.удалитьToolStripMenuItem3.Name = "удалитьToolStripMenuItem3";
-            this.удалитьToolStripMenuItem3.Size = new System.Drawing.Size(125, 22);
+            this.удалитьToolStripMenuItem3.Size = new System.Drawing.Size(130, 22);
             this.удалитьToolStripMenuItem3.Text = "видалити";
             this.удалитьToolStripMenuItem3.Click += new System.EventHandler(this.УдалитьToolStripMenuItem3_Click);
             // 
@@ -1847,6 +1953,16 @@
             this.olvColumnName.Text = "Ім\'я профілю";
             this.olvColumnName.Width = 200;
             // 
+            // kryptonButton_MoveSignaFileToOrder
+            // 
+            this.kryptonButton_MoveSignaFileToOrder.CornerRoundingRadius = -1F;
+            this.kryptonButton_MoveSignaFileToOrder.Location = new System.Drawing.Point(87, 214);
+            this.kryptonButton_MoveSignaFileToOrder.Name = "kryptonButton_MoveSignaFileToOrder";
+            this.kryptonButton_MoveSignaFileToOrder.Size = new System.Drawing.Size(228, 25);
+            this.kryptonButton_MoveSignaFileToOrder.TabIndex = 16;
+            this.kryptonButton_MoveSignaFileToOrder.Values.Text = "перенести файл signa до замовлення";
+            this.kryptonButton_MoveSignaFileToOrder.Click += new System.EventHandler(this.kryptonButton_MoveSignaFileToOrder_Click);
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1862,7 +1978,7 @@
             this.Text = "Налаштування";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.contextMenuStrip_PlateFormat.ResumeLayout(false);
+            this.contextMenuStrip_FolderNames.ResumeLayout(false);
             this.tabControlMain.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
@@ -1883,6 +1999,8 @@
             this.contextMenuStrip_Explorer.ResumeLayout(false);
             this.tabPageOther.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBoxViewer.ResumeLayout(false);
             this.groupBoxViewer.PerformLayout();
             this.groupBox13.ResumeLayout(false);
@@ -1912,6 +2030,10 @@
             this.panelStatusParams.PerformLayout();
             this.tabPagePlugins.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewPlugins)).EndInit();
+            this.tabPageCategory.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.objectListViewCategories)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.contextMenuStrip_PlateOwners.ResumeLayout(false);
             this.contextMenuStrip_Mail.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);
@@ -1928,7 +2050,7 @@
         private System.Windows.Forms.Button button_WorkFolder;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox_Work;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_PlateFormat;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_FolderNames;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControlMain;
         private System.Windows.Forms.TabPage tabPage2;
@@ -1966,14 +2088,8 @@
         private System.Windows.Forms.TextBox textBoxFolderSignaJobs;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.TextBox textBox_MongoPort;
-        private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox textBoxBaseName;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox_Mongo_Pass;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox_MongoUser;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox textBox_mongoDB;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TabPage tabPage6;
@@ -2076,5 +2192,20 @@
         private System.Windows.Forms.Button buttonExtBrowsersSettings;
         private System.Windows.Forms.TabPage tabPagePdfConvertor;
         private System.Windows.Forms.CheckBox checkBoxMoveOriginalFileToTrash;
+        private System.Windows.Forms.TabPage tabPageCategory;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox_addCategory;
+        private BrightIdeasSoftware.ObjectListView objectListViewCategories;
+        private BrightIdeasSoftware.OLVColumn olvColumnCategory;
+        private BrightIdeasSoftware.OLVColumn olvColumnDeleteCategory;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button buttonAddFolderName;
+        private System.Windows.Forms.TextBox textBoxFolderName;
+        private System.Windows.Forms.ListBox listBoxFolderNames;
+        private Krypton.Toolkit.KryptonCheckBox kryptonCheckBox1;
+        private System.Windows.Forms.TextBox textBox_FolderForSignaFileInJob;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonButton kryptonButton_MoveSignaFileToOrder;
     }
 }

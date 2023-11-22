@@ -6,7 +6,7 @@ using PluginWorkPrepress.Forms;
 
 namespace PluginWorkPrepress
 {
-    public class PrepressProcess : AbstractProcess<PrepressPay>
+    public sealed class PrepressProcess : AbstractProcess<PrepressPay>
     {
         public override string Name { get; set; }
         public override decimal Price { get; set; }

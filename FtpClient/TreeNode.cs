@@ -3,7 +3,7 @@ using Interfaces;
 
 namespace FtpClient
 {
-    public class TreeNode
+    public sealed class TreeNode
     {
         public IFtpFileExt Folder { get; set; }
         public List<TreeNode> ChildFolders { get; set; }

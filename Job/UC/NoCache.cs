@@ -13,9 +13,10 @@ using Logger;
 
 namespace Job.UC
 {
-    public class NoCache : ICache<IFileSystemInfoExt>
+    public sealed class NoCache : ICache<IFileSystemInfoExt>
     {
         private readonly IWatcher _watcher;
+        private List<string> _ignoreFolders = new List<string>(){"temp",".signa" };
 
         readonly List<IFileSystemInfoExt> _files = new List<IFileSystemInfoExt>();
 
@@ -77,8 +78,9 @@ namespace Job.UC
         {
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
-                // tem пропускаємо
-                if (!e.Name.Equals("temp", StringComparison.InvariantCultureIgnoreCase))
+
+                // temp пропускаємо
+                if (!_ignoreFolders.Contains(e.Name.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase)) 
                 {
                     Debug.WriteLine($"- OnCreated: e.FullPath: {e.FullPath}");
                     try
@@ -140,26 +142,57 @@ namespace Job.UC
 
             _files.Clear();
 
-            if (Directory.Exists(path))
-            {
-                var dirs = Directory.GetDirectories(path)
-                    .Where(y => !y.EndsWith("temp", StringComparison.CurrentCultureIgnoreCase))
-                    .Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
-                dirs.Sort(_naturalCompaper);
+            if (!Directory.Exists(path)) return _files;
+           
+            var dirs = Directory.GetDirectories(path)
+                .Where(y => !_ignoreFolders.Contains(Path.GetFileName(y).ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
+                .Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            dirs.Sort(_naturalCompaper);
 
 
-                _files.AddRange(dirs);
-                var f = Directory.GetFiles(path).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
-                f.Sort(_naturalCompaper);
+            _files.AddRange(dirs);
+            var f = Directory.GetFiles(path).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            f.Sort(_naturalCompaper);
 
-                _files.AddRange(f);
+            _files.AddRange(f);
 
 
-                SetWatcher(path);
-            }
+            SetWatcher(path);
 
             return _files;
         }
+
+        public List<IFileSystemInfoExt> GetDirs(string path)
+        {
+
+            if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
+
+            var dirs = Directory.GetDirectories(path)
+                 .Where(y => !_ignoreFolders.Contains(Path.GetFileName(y).ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
+                 .Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            dirs.Sort(_naturalCompaper);
+
+            return dirs.Cast<IFileSystemInfoExt>().ToList();
+        }
+
+        public List<IFileSystemInfoExt> GetAllFiles(string path)
+        {
+            DisableWatcher();
+
+            _files.Clear();
+
+            if (!Directory.Exists(path)) return _files;
+
+            var f = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            f.Sort(_naturalCompaper);
+
+            _files.AddRange(f);
+
+            SetWatcher(path);
+
+            return _files;
+        }
+
 
         private void DisableWatcher()
         {

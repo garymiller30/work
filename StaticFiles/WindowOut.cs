@@ -10,7 +10,7 @@ using Job.UC;
 
 namespace StaticFiles
 {
-    public partial class WindowOut: UserControl, Interfaces.IPluginInfo
+    public sealed partial class WindowOut: UserControl, IPluginInfo
     {
         private const string StaticFolderName = ".static";
 

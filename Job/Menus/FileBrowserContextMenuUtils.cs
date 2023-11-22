@@ -10,7 +10,7 @@ using Interfaces;
 
 namespace Job.Menus
 {
-    public class FileBrowserContextMenuUtils : FileBrowserContextMenuSendTo
+    public sealed class FileBrowserContextMenuUtils : FileBrowserContextMenuSendTo
     {
         public FileBrowserContextMenuUtils(IUserProfile profile, string fileName) : base(profile, fileName)
         {
@@ -89,18 +89,6 @@ namespace Job.Menus
                             button.DropDownItems.Add(tsmiEdit);
 
                             l.Add(button);
-
-                            //var rb = new RoundedButton();
-                            //var roundButton = new ToolStripControlHost(rb)
-                            //{
-                            //    DisplayStyle = ToolStripItemDisplayStyle.Text,
-                            //    Text = menuSendTo.Name,
-                            //    Tag = menuSendTo
-                            //};
-                            //roundButton.Click += ttmClick;
-                            //roundButton.ToolTipText = $"{menuSendTo.Name} ({menuSendTo.Path})";
-                            //l.Add(roundButton);
-
                         }
                         else
                         {
@@ -115,9 +103,7 @@ namespace Job.Menus
                             ttm.Click += ttmClick;
                             l.Add(ttm);
                         }
-
                     }
-
                 }
                 else
                 {

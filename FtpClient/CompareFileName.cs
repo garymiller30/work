@@ -7,7 +7,7 @@ using System;
 
 namespace FtpClient
 {
-    class CompareFileName : IEqualityComparer<IFtpFileExt>
+    sealed class CompareFileName : IEqualityComparer<IFtpFileExt>
     {
         public bool Equals(IFtpFileExt f1, IFtpFileExt f2)
         {

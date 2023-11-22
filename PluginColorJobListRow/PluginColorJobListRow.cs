@@ -1,10 +1,13 @@
-﻿using Interfaces;
+﻿using ExtensionMethods;
+using Interfaces;
 using Interfaces.Plugins;
+using Job.Static;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace PluginColorJobListRow
 {
-    class PluginColorJobListRow : IPluginJobList
+    sealed class PluginColorJobListRow : IPluginJobList
     {
 
 
@@ -26,14 +29,18 @@ namespace PluginColorJobListRow
         public IUserProfile UserProfile { get; set; }
         public void SetRow(object row)
         {
-
-
             var item = (dynamic)row;
             IJob job = (IJob)item.RowObject;
 
-            item.BackColor = Settings.Get(UserProfile).GetColor(job.StatusCode);
+            var color = Settings.Get(UserProfile).GetColor(job.StatusCode);
+            var backColor = color.Back;
+            var foreColor = color.Fore;
+            backColor = backColor == Color.Transparent ? ThemeController.Back : backColor;
+            foreColor = foreColor == Color.Transparent ? ThemeController.Fore : foreColor;
+            item.BackColor = backColor;
+            item.ForeColor = foreColor;
 
-            Settings.SetJob($"{job.Number}_{job.Customer}_{job.Description}", job.StatusCode);
+            Settings.SetJob($"{job.Number}_{job.Customer.Transliteration()}", job.StatusCode);
 
         }
     }

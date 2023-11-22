@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using Ghostscript.NET.Rasterizer;
 using ImageMagick;
 using Interfaces;
 using Interfaces.PdfUtils;
@@ -15,7 +17,7 @@ namespace Job.Static
 
         public static void GetColorspaces(IFileSystemInfoExt sfi)
         {
-            var ext = sfi.FileInfo.Extension.ToLower();
+            var ext = sfi.FileInfo.Extension.ToLower(System.Globalization.CultureInfo.InvariantCulture);
 
             switch (ext)
             {
@@ -64,21 +66,10 @@ namespace Job.Static
                         break;
                 }
             }
-
             catch (Exception e)
             {
               Logger.Log.Error(null, "GetColorspaceImage",e.Message);
             }
-           // Read from file
-           
-
-            //Console.WriteLine(info.Width);
-            //Console.WriteLine(info.Height);
-            //Console.WriteLine(info.ColorSpace);
-            //Console.WriteLine(info.Format);
-            //Console.WriteLine(info.Density.X);
-            //Console.WriteLine(info.Density.Y);
-            //Console.WriteLine(info.Density.Units);
         }
 
         private static void GetColorspacePdf(IFileSystemInfoExt sfi)
@@ -87,6 +78,7 @@ namespace Job.Static
             if (File.Exists(sfi.FileInfo.FullName))
             {
                 var p = new PDFlib();
+                
                 try
                 {
                     _ = p.begin_document("", "");
@@ -108,7 +100,7 @@ namespace Job.Static
                 }
                 finally
                 {
-                    p.Dispose();
+                    p?.Dispose();
                 }
 
 
@@ -123,7 +115,7 @@ namespace Job.Static
                 foreach (var colorspace in remDup)
                 {
 
-                    if (colorspace.ToLower().StartsWith("pantone"))
+                    if (colorspace.StartsWith("pantone", StringComparison.OrdinalIgnoreCase))
                     {
                         sfi.UsedColorSpace |= ColorSpaces.Spot;
                         continue;
@@ -176,66 +168,34 @@ namespace Job.Static
 
             if (colorspacecount > 0)
             {
-               
-
                 for (int i = 0; i < colorspacecount; i++)
                 {
                     var opt = $"pages[{page}]/colorspaces[{i}]";
-                    //colorList.Add(opt);
-                    //Debug.WriteLine("main:" + opt);
                     colorList.AddRange(PrintColorspace(p,doc,i, opt));
                 }
-
-                //var s = _colorList.Except(_ignoreColorList);
-                //string output = string.Empty;
-                //if (s.Any()) output = s.Aggregate((c, n) => c + ", " + n);
-
-                //Console.Write(output);
-
             }
-
             return colorList;
         }
 
         private static List<string> PrintColorspace(PDFlib p, int doc,int page, string colorSpacePath)
         {
-
             var colorlist = new List<string>();
-
             var colorspace = p.pcos_get_string(doc, $"{colorSpacePath}/name");
-
-            //colorlist.Add(colorspace);
-
-            
-            //Debug.WriteLine($"ColorSpace name: {colorspace}");
 
             if (colorspace.Equals("Separation"))
             {
                 var colorant = p.pcos_get_string(doc, $"{colorSpacePath}/colorantname");
                 colorlist.Add(colorant);
-                //Debug.WriteLine($"  ColorrantName: {colorant}");
-                //if (!_colorList.Contains(colorant)) _colorList.Add(colorant);
-
-            //    int alternateid = (int)_p.pcos_get_number(_doc, colorSpacePath + "/alternateid");
-            //    PrintColorspace("colorspaces[" + alternateid + "]");
             }
             else if (colorspace.Equals("DeviceN"))
             {
                 var colorantcount = (int)p.pcos_get_number(doc, $"length:{colorSpacePath}/colorantnames");
 
-            //    Debug.WriteLine($"Count colorant: {colorantcount}");
-
                 for (var j = 0; j < colorantcount; j += 1)
                 {
                     var colorname = p.pcos_get_string(doc, $"{colorSpacePath}/colorantnames[{j}]");
                     colorlist.Add(colorname);
-            //        Debug.WriteLine($"   Color name: {colorname}");
-
-            //        if (!_colorList.Contains(colorname)) _colorList.Add(colorname);
-
                 }
-            //    var alternateid = (int)_p.pcos_get_number(_doc, colorSpacePath + "/alternateid");
-            //    PrintColorspace("colorspaces[" + alternateid + "]");
             }
             else
             {
@@ -271,6 +231,52 @@ namespace Job.Static
         static  void _setTrimBox(string fileName, float width)
         {
 
+        }
+
+        public static void PdfToJpg(string fileName,int dpi, long quality)
+        {
+            try
+            {
+                using (GhostscriptRasterizer rasterizer = new GhostscriptRasterizer())
+                {
+                    byte[] buffer = File.ReadAllBytes(fileName);
+                    MemoryStream ms = new MemoryStream(buffer);
+                    rasterizer.Open(ms);
+
+                    for (int pageNumber = 1; pageNumber <= rasterizer.PageCount; pageNumber++)
+                    {
+                        string output = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + $"_{pageNumber}.jpg");
+                        string pageFilePath = output;
+
+                        var img = rasterizer.GetPage(dpi, pageNumber);
+
+                        ImageCodecInfo jpegCodec = GetEncoderInfo(ImageFormat.Jpeg);
+                        EncoderParameters encoderParameters = new EncoderParameters(1);
+                        encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, quality);
+                        img.Save(pageFilePath, jpegCodec, encoderParameters);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                string output = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + ".log");
+                File.WriteAllText(output, e.Message);
+            }
+        }
+
+        private static ImageCodecInfo GetEncoderInfo(ImageFormat format)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+
+            return null;
         }
     }
 }

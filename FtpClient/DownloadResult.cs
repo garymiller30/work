@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FtpClient
 {
-    public class DownloadResult : IDownloadResult
+    public sealed class DownloadResult : IDownloadResult
     {
         public List<IFtpFileExt> Files {get;}
 

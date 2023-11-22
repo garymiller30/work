@@ -6,7 +6,7 @@ namespace Job
 {
     public class ColorProof: IWithId
     {
-        public ObjectId Id { get; set; }
+        public object Id { get; set; }
         public string Customer { get; set; }
         public decimal Width { get; set; }
         public decimal Height { get; set; }

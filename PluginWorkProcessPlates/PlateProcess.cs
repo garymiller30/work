@@ -6,7 +6,7 @@ using PluginWorkProcessPlates.Forms;
 
 namespace PluginWorkProcessPlates
 {
-    public class PlateProcess : AbstractProcess<Pay>
+    public sealed class PlateProcess : AbstractProcess<Pay>
 
     {
         public int CountPlates { get; set; }

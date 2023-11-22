@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Job.UC
 {
-    public partial class RoundedButton : Button
+    public sealed partial class RoundedButton : Button
     {
         public RoundedButton()
         {

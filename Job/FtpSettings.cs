@@ -5,9 +5,9 @@ using MongoDB.Bson;
 namespace Job
 {
     [Serializable]
-    public class FtpSettings : IWithId, IFtpSettings
+    public sealed class FtpSettings : IWithId, IFtpSettings
     {
-        public ObjectId Id { get; set; }
+        public object Id { get; set; }
         /// <summary>
         /// адрес сервера
         /// </summary>

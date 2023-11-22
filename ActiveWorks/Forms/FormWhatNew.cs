@@ -2,7 +2,7 @@
 
 namespace ActiveWorks.Forms
 {
-    public partial class FormWhatNew : Form
+    public sealed partial class FormWhatNew : Form
     {
         public FormWhatNew(string text)
         {

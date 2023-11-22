@@ -1,12 +1,11 @@
 ﻿using System.Drawing;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+
 
 namespace Interfaces
 {
     public interface IJobStatus
     {
-        ObjectId Id { get; set; }
+        object Id { get; set; }
         
         string Name { get; set; }
         
@@ -16,7 +15,7 @@ namespace Interfaces
         
         string ImgBase64 { get; set; }
         
-        [BsonIgnore]
+        
         Image Img { get; set; }
 
 

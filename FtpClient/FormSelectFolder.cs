@@ -6,7 +6,7 @@ using BrightIdeasSoftware;
 
 namespace FtpClient
 {
-    public partial class FormSelectFolder : Form
+    public sealed partial class FormSelectFolder : Form
     {
         private readonly List<object> _ftpParams;
         private readonly Client _client;

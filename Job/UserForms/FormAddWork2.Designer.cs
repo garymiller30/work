@@ -1,5 +1,4 @@
-﻿using Job.UC;
-namespace Job.UserForms
+﻿namespace Job.UserForms
 {
     partial class FormAddWork2
     {
@@ -32,26 +31,26 @@ namespace Job.UserForms
             this.components = new System.ComponentModel.Container();
             this.labelRetryNumber = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.kryptonLabel3 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonTextBoxNumber = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.kryptonPanel2 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
-            this.kryptonComboBox_Customers = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
-            this.kryptonLabel1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonComboBox_Customers = new Krypton.Toolkit.KryptonComboBox();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.panelCategory = new System.Windows.Forms.Panel();
-            this.kryptonLabel2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.kryptonComboBoxCategory = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
+            this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonComboBoxCategory = new Krypton.Toolkit.KryptonComboBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.checkBoxCloseAfterPaste = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonLabel4 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.textBox_Description = new UcTexBox(this.components);
-            this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
-            this.kryptonSplitContainer1 = new ComponentFactory.Krypton.Toolkit.KryptonSplitContainer();
-            this.kryptonGroupBox1 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.ucNote1 = new UcNote();
-            this.kryptonGroupBox2 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.ucAddWorkPluginsContainer1 = new UcAddWorkPluginsContainer();
-            this.kryptonButton_OK = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.checkBoxCloseAfterPaste = new Krypton.Toolkit.KryptonCheckBox();
+            this.kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
+            this.textBox_Description = new UC.UcTexBox(this.components);
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonSplitContainer1 = new Krypton.Toolkit.KryptonSplitContainer();
+            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.ucNote1 = new UC.UcNote();
+            this.kryptonGroupBox2 = new Krypton.Toolkit.KryptonGroupBox();
+            this.ucAddWorkPluginsContainer1 = new UC.UcAddWorkPluginsContainer();
+            this.kryptonButton_OK = new Krypton.Toolkit.KryptonButton();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -103,7 +102,7 @@ namespace Job.UserForms
             // 
             this.kryptonLabel3.Location = new System.Drawing.Point(6, 10);
             this.kryptonLabel3.Name = "kryptonLabel3";
-            this.kryptonLabel3.Size = new System.Drawing.Size(103, 21);
+            this.kryptonLabel3.Size = new System.Drawing.Size(95, 20);
             this.kryptonLabel3.TabIndex = 51;
             this.kryptonLabel3.Values.Text = "№ замовлення";
             // 
@@ -140,20 +139,22 @@ namespace Job.UserForms
             // 
             this.kryptonComboBox_Customers.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.kryptonComboBox_Customers.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.kryptonComboBox_Customers.CornerRoundingRadius = -1F;
             this.kryptonComboBox_Customers.DropDownWidth = 147;
             this.kryptonComboBox_Customers.FormattingEnabled = true;
             this.kryptonComboBox_Customers.IntegralHeight = false;
             this.kryptonComboBox_Customers.Location = new System.Drawing.Point(90, 10);
             this.kryptonComboBox_Customers.Name = "kryptonComboBox_Customers";
-            this.kryptonComboBox_Customers.Size = new System.Drawing.Size(142, 23);
-            this.kryptonComboBox_Customers.StateCommon.ComboBox.Content.TextH = ComponentFactory.Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonComboBox_Customers.Size = new System.Drawing.Size(142, 21);
+            this.kryptonComboBox_Customers.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonComboBox_Customers.TabIndex = 51;
+            this.kryptonComboBox_Customers.SelectedIndexChanged += new System.EventHandler(this.kryptonComboBox_Customers_SelectedIndexChanged);
             // 
             // kryptonLabel1
             // 
             this.kryptonLabel1.Location = new System.Drawing.Point(13, 11);
             this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(71, 21);
+            this.kryptonLabel1.Size = new System.Drawing.Size(66, 20);
             this.kryptonLabel1.TabIndex = 0;
             this.kryptonLabel1.Values.Text = "Замовник";
             // 
@@ -170,7 +171,7 @@ namespace Job.UserForms
             // 
             this.kryptonLabel2.Location = new System.Drawing.Point(3, 11);
             this.kryptonLabel2.Name = "kryptonLabel2";
-            this.kryptonLabel2.Size = new System.Drawing.Size(69, 21);
+            this.kryptonLabel2.Size = new System.Drawing.Size(64, 20);
             this.kryptonLabel2.TabIndex = 51;
             this.kryptonLabel2.Values.Text = "Категорія";
             // 
@@ -178,13 +179,14 @@ namespace Job.UserForms
             // 
             this.kryptonComboBoxCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.kryptonComboBoxCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.kryptonComboBoxCategory.CornerRoundingRadius = -1F;
             this.kryptonComboBoxCategory.DropDownWidth = 135;
             this.kryptonComboBoxCategory.IntegralHeight = false;
             this.kryptonComboBoxCategory.Location = new System.Drawing.Point(78, 9);
             this.kryptonComboBoxCategory.Name = "kryptonComboBoxCategory";
-            this.kryptonComboBoxCategory.Size = new System.Drawing.Size(163, 23);
+            this.kryptonComboBoxCategory.Size = new System.Drawing.Size(163, 21);
             this.kryptonComboBoxCategory.Sorted = true;
-            this.kryptonComboBoxCategory.StateCommon.ComboBox.Content.TextH = ComponentFactory.Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonComboBoxCategory.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonComboBoxCategory.TabIndex = 51;
             // 
             // panel4
@@ -204,7 +206,7 @@ namespace Job.UserForms
             this.checkBoxCloseAfterPaste.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxCloseAfterPaste.Location = new System.Drawing.Point(524, 3);
             this.checkBoxCloseAfterPaste.Name = "checkBoxCloseAfterPaste";
-            this.checkBoxCloseAfterPaste.Size = new System.Drawing.Size(199, 21);
+            this.checkBoxCloseAfterPaste.Size = new System.Drawing.Size(185, 20);
             this.checkBoxCloseAfterPaste.TabIndex = 51;
             this.checkBoxCloseAfterPaste.Values.Text = "закрити після вставки тексту";
             this.checkBoxCloseAfterPaste.CheckedChanged += new System.EventHandler(this.CheckBoxCloseAfterPaste_CheckedChanged);
@@ -213,7 +215,7 @@ namespace Job.UserForms
             // 
             this.kryptonLabel4.Location = new System.Drawing.Point(5, 2);
             this.kryptonLabel4.Name = "kryptonLabel4";
-            this.kryptonLabel4.Size = new System.Drawing.Size(43, 21);
+            this.kryptonLabel4.Size = new System.Drawing.Size(40, 20);
             this.kryptonLabel4.TabIndex = 51;
             this.kryptonLabel4.Values.Text = "Опис";
             // 
@@ -221,7 +223,6 @@ namespace Job.UserForms
             // 
             this.textBox_Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Description.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.textBox_Description.Location = new System.Drawing.Point(49, 3);
             this.textBox_Description.Name = "textBox_Description";
             this.textBox_Description.Size = new System.Drawing.Size(463, 20);
@@ -277,7 +278,7 @@ namespace Job.UserForms
             this.ucNote1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucNote1.Location = new System.Drawing.Point(0, 0);
             this.ucNote1.Name = "ucNote1";
-            this.ucNote1.Size = new System.Drawing.Size(347, 197);
+            this.ucNote1.Size = new System.Drawing.Size(347, 198);
             this.ucNote1.TabIndex = 0;
             // 
             // kryptonGroupBox2
@@ -298,12 +299,13 @@ namespace Job.UserForms
             this.ucAddWorkPluginsContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucAddWorkPluginsContainer1.Location = new System.Drawing.Point(0, 0);
             this.ucAddWorkPluginsContainer1.Name = "ucAddWorkPluginsContainer1";
-            this.ucAddWorkPluginsContainer1.Size = new System.Drawing.Size(351, 197);
+            this.ucAddWorkPluginsContainer1.Size = new System.Drawing.Size(351, 198);
             this.ucAddWorkPluginsContainer1.TabIndex = 0;
             // 
             // kryptonButton_OK
             // 
             this.kryptonButton_OK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.kryptonButton_OK.CornerRoundingRadius = -1F;
             this.kryptonButton_OK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.kryptonButton_OK.Location = new System.Drawing.Point(297, 328);
             this.kryptonButton_OK.Name = "kryptonButton_OK";
@@ -368,19 +370,19 @@ namespace Job.UserForms
         private System.Windows.Forms.Panel panelCategory;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TextBox kryptonTextBoxNumber;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButton_OK;
-        private ComponentFactory.Krypton.Toolkit.KryptonSplitContainer kryptonSplitContainer1;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox2;
-        private ComponentFactory.Krypton.Toolkit.KryptonComboBox kryptonComboBoxCategory;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel2;
-        private ComponentFactory.Krypton.Toolkit.KryptonComboBox kryptonComboBox_Customers;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel3;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel2;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel4;
-        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox checkBoxCloseAfterPaste;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel1;
+        private Krypton.Toolkit.KryptonButton kryptonButton_OK;
+        private Krypton.Toolkit.KryptonSplitContainer kryptonSplitContainer1;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox2;
+        private Krypton.Toolkit.KryptonComboBox kryptonComboBoxCategory;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel2;
+        private Krypton.Toolkit.KryptonComboBox kryptonComboBox_Customers;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel3;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel2;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel4;
+        private Krypton.Toolkit.KryptonCheckBox checkBoxCloseAfterPaste;
         private UC.UcNote ucNote1;
         private UC.UcAddWorkPluginsContainer ucAddWorkPluginsContainer1;
     }

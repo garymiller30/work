@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Job.Profiles
 {
-    public class SearchHistorySettings
+    public sealed class SearchHistorySettings
     {
-        public string[] SearchHistory { get; set; } = new string[0];
+        public string[] SearchHistory { get; set; } = Array.Empty<string>();
 
     }
 }

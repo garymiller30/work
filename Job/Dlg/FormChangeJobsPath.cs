@@ -2,7 +2,7 @@
 
 namespace Job.Dlg
 {
-    public partial class FormChangeJobsPath : Form
+    public sealed partial class FormChangeJobsPath : Form
     {
         public FormChangeJobsPath()
         {

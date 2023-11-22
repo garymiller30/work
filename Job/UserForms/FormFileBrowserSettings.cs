@@ -7,22 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 using Job.UC;
 
 namespace Job.UserForms
 {
-    public partial class FormFileBrowserSettings : KryptonForm
+    public sealed partial class FormFileBrowserSettings : KryptonForm
     {
         public FormFileBrowserSettings(FileBrowserSettings fileManagerSettings)
         {
             InitializeComponent();
 
             propertyGrid1.SelectedObject = fileManagerSettings;
+            DialogResult = DialogResult.Cancel;
         }
 
         private void kryptonButton1_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.OK;
             Close();
         }
     }

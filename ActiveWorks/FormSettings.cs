@@ -4,7 +4,7 @@
 
 using ActiveWorks.Forms;
 using BrightIdeasSoftware;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 using Interfaces;
 using Job;
 using Job.CustomForms;
@@ -30,8 +30,6 @@ namespace ActiveWorks
 
             objectListViewProfiles.AddObjects(ProfilesController.GetProfiles());
 
-            //          SetLanguagesList();
-
             panelStatusParams.DataBindings.Add("Enabled", checkBoxStatusEnable, "Checked");
             groupBoxViewer.DataBindings.Add("Enabled", checkBoxUseViewer, "Checked");
 
@@ -41,6 +39,9 @@ namespace ActiveWorks
             olvColumnUsedExplorer2.AspectGetter += r => ((MenuSendTo)r).UsedInExplorer[2];
             olvColumnUsedExplorer3.AspectGetter += r => ((MenuSendTo)r).UsedInExplorer[3];
             olvColumnChangeStatus.AspectGetter += GetChangeStatus;
+
+            olvColumnDeleteCategory.IsButton = true;
+            olvColumnDeleteCategory.AspectGetter = s => "видатити";
         }
 
         private object GetChangeStatus(object r)
@@ -75,26 +76,6 @@ namespace ActiveWorks
             }
         }
 
-        /*
-                /// <summary>
-                /// добавить формат пластины
-                /// </summary>
-                /// <param name="sender"></param>
-                /// <param name="e"></param>
-                private void Button_AddPlateFormat_Click(object sender, EventArgs e)
-                {
-                    if (!string.IsNullOrEmpty(textBox_EnterPlateFormat.Text))
-                    {
-                        var f = _currentProfile.Forms.AddKnownForm(textBox_EnterPlateFormat.Text);
-                        if (f != null)
-                        {
-                            listBox_PlateFormates.Items.Add(f);
-                        }
-
-                    }
-                }
-        */
-
         /// <summary>
         /// удалить формат пластины
         /// </summary>
@@ -102,11 +83,11 @@ namespace ActiveWorks
         /// <param name="e"></param>
         private void УдалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (listBox_PlateFormates.SelectedItem != null)
-            //{
-            //    _currentProfile.Forms.RemoveKnownForm((Job.Forms)listBox_PlateFormates.SelectedItem);
-            //    listBox_PlateFormates.Items.Remove(listBox_PlateFormates.SelectedItem);
-            //}
+            if (listBoxFolderNames.SelectedItems.Count == 0) return;
+
+            var selIdx = new List<int>(listBoxFolderNames.SelectedIndices.Cast<int>());
+            selIdx.Reverse();
+            selIdx.ForEach(i =>listBoxFolderNames.Items.RemoveAt(i));
         }
 
         private void ДобавитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -216,46 +197,6 @@ namespace ActiveWorks
                 textBoxFolderSignaJobs.Text = vistaFolderBrowserDialog1.SelectedPath;
             }
         }
-
-        /*
-                /// <summary>
-                /// выбрать файл для проигрывания при входящей почте
-                /// </summary>
-                /// <param name="sender"></param>
-                /// <param name="e"></param>
-                private void Button_SelectPlayFile_Click(object sender, EventArgs e)
-                {
-                    vistaOpenFileDialog1.Filter = "*.mp3|*.mp3";
-
-                    var defPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sounds");
-
-                    if (Directory.Exists(defPath))
-                        vistaOpenFileDialog1.InitialDirectory = defPath+"\\";
-
-                    if (vistaOpenFileDialog1.ShowDialog() == DialogResult.OK)
-                    {
-                        textBox_Mp3File.Text = vistaOpenFileDialog1.FileName;
-                    }
-                }
-        */
-        /*
-                /// <summary>
-                /// добавить владельца формы
-                /// </summary>
-                /// <param name="sender"></param>
-                /// <param name="e"></param>
-                private void ButtonAddPlateOwner_Click(object sender, EventArgs e)
-                {
-                    if (!string.IsNullOrEmpty(textBoxPlateOwner.Text))
-                    {
-                        var po = _currentProfile.PlateOwners.Add(textBoxPlateOwner.Text);
-                        if (po != null)
-                        {
-                            listBox_PlateOwners.Items.Add(po);
-                        }
-                    }
-                }
-        */
         /// <summary>
         /// удалить из списка владельцев форм
         /// </summary>
@@ -263,11 +204,6 @@ namespace ActiveWorks
         /// <param name="e"></param>
         private void УдалитьToolStripMenuItem4_Click(object sender, EventArgs e)
         {
-            //if (listBox_PlateOwners.SelectedItem != null)
-            //{
-            //    _currentProfile.PlateOwners.Remove(listBox_PlateOwners.SelectedItem);
-            //    listBox_PlateOwners.Items.Remove(listBox_PlateOwners.SelectedItem);
-            //}
         }
 
         private void УдалитьToolStripMenuItem5_Click(object sender, EventArgs e)
@@ -276,35 +212,6 @@ namespace ActiveWorks
 
                 listBox_CustomButtonFolder.Items.Remove(listBox_CustomButtonFolder.SelectedItem);
         }
-
-        /*
-                private void buttonOpenLocationConfig_Click(object sender, EventArgs e)
-                {
-                    var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
-                    Process.Start("explorer.exe","/select,"+path);
-                }
-        */
-
-        /*
-                private void comboBoxStatuses_SelectedIndexChanged(object sender, EventArgs e)
-                {
-                    if (comboBoxStatuses.SelectedItem != null)
-                    {
-                        var status =  (Job.Settings.JobStatus) Enum.Parse(typeof(Job.Settings.JobStatus),comboBoxStatuses.SelectedItem.ToString());
-
-                        var param = StatusesParams.GetParam(status);
-
-                        checkBoxStatusEnable.DataBindings.Clear();
-                        textBoxStatusCommandLineParam.DataBindings.Clear();
-                        textBoxStatusFileName.DataBindings.Clear();
-
-                        checkBoxStatusEnable.DataBindings.Add("Checked",param,"Enable") ;
-                        textBoxStatusCommandLineParam.DataBindings.Add("Text", param, "CommandLineParams");
-                        textBoxStatusFileName.DataBindings.Add("Text", param, "ProgramPath");
-                    }
-
-                }
-        */
 
         private void buttonStatusSelectProgram_Click(object sender, EventArgs e)
         {
@@ -320,8 +227,6 @@ namespace ActiveWorks
                     textBoxStatusFileName.Text = vistaOpenFileDialog1.FileName;
                 }
             }
-
-
         }
 
         private void buttonSelectViewer_Click(object sender, EventArgs e)
@@ -341,62 +246,6 @@ namespace ActiveWorks
                 listBox_SendEmails.Items.Remove(listBox_SendEmails.SelectedItem);
             }
         }
-
-/*
-        private void objectListView_Utils_CellEditFinished(object sender, CellEditEventArgs e)
-        {
-            if (e.Column == olvColumnUsedExplorer0)
-            {
-                ((MenuSendTo)e.RowObject).UsedInExplorer[0] = (bool)e.NewValue;
-            }
-            else if (e.Column == olvColumnUsedExplorerRight)
-            {
-                ((MenuSendTo)e.RowObject).UsedInExplorer[1] = (bool)e.NewValue;
-            }
-            else if (e.Column == olvColumnUsedExplorer2)
-            {
-                ((MenuSendTo)e.RowObject).UsedInExplorer[2] = (bool)e.NewValue;
-            }
-            else if (e.Column == olvColumnUsedExplorer3)
-            {
-                ((MenuSendTo)e.RowObject).UsedInExplorer[3] = (bool)e.NewValue;
-            }
-
-        }
-*/
-
-        /*
-                private void buttonSaveConfig_Click(object sender, EventArgs e)
-                {
-                    var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
-                    var localPath = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(path));
-                    File.Copy(path,localPath,true);
-
-                    MessageBox.Show($"Config saved in {localPath} !");
-
-                }
-        */
-
-        /*
-                private void buttonRestoreConfig_Click(object sender, EventArgs e)
-                {
-                    using (var f = new VistaOpenFileDialog())
-                    {
-                        f.CheckFileExists = true;
-                        f.InitialDirectory = Directory.GetCurrentDirectory();
-
-                        if (f.ShowDialog() == DialogResult.OK)
-                        {
-
-                            var targetPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
-
-                            File.Copy(f.FileName,targetPath,true);
-
-                            MessageBox.Show(@"Config restored!");
-                        }
-                    }
-                }
-        */
 
         private void buttonAddProfile_Click(object sender, EventArgs e)
         {
@@ -446,17 +295,14 @@ namespace ActiveWorks
 
             setup.GetJobSettings().WorkPath = textBox_Work.Text;
             setup.GetJobSettings().SignaJobsPath = textBoxFolderSignaJobs.Text;
+            setup.GetJobSettings().UseJobFolder = kryptonCheckBox1.Checked;
+            setup.GetJobSettings().SubFolderForSignaFile = textBox_FolderForSignaFileInJob.Text;
 
             var baseSettings = setup.GetBaseSettings();
 
             baseSettings.MongoDbBaseName = textBoxBaseName.Text;
             baseSettings.MongoDbServer = textBox_mongoDB.Text;
-            baseSettings.MongoDbPassword = textBox_Mongo_Pass.Text;
-            baseSettings.MongoDbUser = textBox_MongoUser.Text;
             baseSettings.BaseTimeOut = (int)numericUpDownBaseTimeOut.Value;
-
-            int.TryParse(textBox_MongoPort.Text, out var port);
-            baseSettings.MongoDbPort = port;
 
             var mail = setup.GetMail();
 
@@ -479,9 +325,12 @@ namespace ActiveWorks
 
             var browser = setup.GetFileBrowser();
 
-            if (browser.CustomButtonPath == null) browser.CustomButtonPath = new List<string>();
-            browser.CustomButtonPath.Clear();
+            browser.CustomButtonPath = new List<string>();
             browser.CustomButtonPath.AddRange(listBox_CustomButtonFolder.Items.Cast<string>().ToArray());
+
+            browser.FolderNamesForCreate = new List<string>();
+            browser.FolderNamesForCreate.AddRange(listBoxFolderNames.Items.Cast<string>().ToArray());
+
 
             setup.CountExplorers = numericUpDownCountExplorers.Value;
             //setup.ExplorerInRightPanel = checkBoxExplorerInRightPanel.Checked;
@@ -506,7 +355,7 @@ namespace ActiveWorks
 
             _currentProfile.Ftp?.FtpScriptController.SetList(objectListViewFtpScripts.Objects?.Cast<IFtpScript>() ??
                                                             new List<IFtpScript>());
-            
+            ReloadCategories();
         }
 
         private void BindProfile()
@@ -522,9 +371,6 @@ namespace ActiveWorks
 
             textBoxBaseName.Text = setup.GetBaseSettings().MongoDbBaseName;
             textBox_mongoDB.Text = setup.GetBaseSettings().MongoDbServer;
-            textBox_MongoUser.Text = setup.GetBaseSettings().MongoDbUser;
-            textBox_Mongo_Pass.Text = setup.GetBaseSettings().MongoDbPassword;
-            textBox_MongoPort.Text = setup.GetBaseSettings().MongoDbPort.ToString();
 
             objectListViewSendTo.ClearObjects();
             objectListViewSendTo.AddObjects(_currentProfile.MenuManagers.SendTo.Get());
@@ -532,15 +378,16 @@ namespace ActiveWorks
             objectListView_Utils.AddObjects(_currentProfile.MenuManagers.Utils.Get());
 
             textBoxFolderSignaJobs.Text = setup.GetJobSettings().SignaJobsPath;
+            kryptonCheckBox1.Checked = setup.GetJobSettings().UseJobFolder;
+            textBox_FolderForSignaFileInJob.Text = setup.GetJobSettings().SubFolderForSignaFile;
+
             textBox_MailFrom.Text = setup.GetMail().MailFrom;
             textBox_MailPassword.Text = setup.GetMail().MailFromPassword;
             textBox_ImapServer.Text = setup.GetMail().MailImapHost;
             numericUpDown_ImapPort.Value = setup.GetMail().MailImapPort;
             textBoxSmtpServer.Text = setup.GetMail().MailSmtpServer;
             numericUpDownSmtpPort.Value = setup.GetMail().MailSmtpPort;
-            //checkBox_PlayMailNotifySound.Checked = setup.GetMail().MailNotifyEnable;
-            //textBox_Mp3File.Text = setup.GetMail().MailNotifySoundFile;
-
+ 
             listBox_SendEmails.Items.Clear();
             if (setup.GetMail().MailTo.Any())
             {
@@ -553,20 +400,15 @@ namespace ActiveWorks
                 listBox_CustomButtonFolder.Items.AddRange(setup.GetFileBrowser().CustomButtonPath.ToArray());
             }
 
+            listBoxFolderNames.Items.Clear();
+            listBoxFolderNames.Items.AddRange(setup.GetFileBrowser().FolderNamesForCreate?.ToArray());
+
             listBox_Ftp_Servers.Items.Clear();
             listBox_Ftp_Servers.DisplayMember = "Name";
             if (_currentProfile.Ftp != null)
                 listBox_Ftp_Servers.Items.AddRange(_currentProfile.Ftp.GetCollection().ToArray());
 
-            //listBox_PlateOwners.Items.Clear();
-            //listBox_PlateOwners.DisplayMember = "Name";
-            //if (_currentProfile.PlateOwners!=null)
-            //    listBox_PlateOwners.Items.AddRange(_currentProfile.PlateOwners.GetCollection().ToArray());
-
-            //checkBoxNotifymailShowBaloon.Checked = setup.MailNotifyShowBaloon;
-
             numericUpDownCountExplorers.Value = setup.CountExplorers;
-            //checkBoxExplorerInRightPanel.Checked = setup.ExplorerInRightPanel;
             textBoxSignaShablon.Text = setup.GetJobSettings().SignaFileShablon;
 
             checkBoxMailAutoRelogon.Checked = setup.GetMail().MailAutoRelogon;
@@ -587,6 +429,7 @@ namespace ActiveWorks
             LoadPluginsInfo();
 
             LoadFtpScripts();
+            ReloadCategories();
         }
 
         private void LoadFtpScripts()
@@ -858,6 +701,44 @@ namespace ActiveWorks
             {
 
                 form.ShowDialog();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox_addCategory.Text)) return;
+
+            _ = _currentProfile.Categories.Add(textBox_addCategory.Text);
+
+            ReloadCategories();
+        }
+
+        private void ReloadCategories()
+        {
+            objectListViewCategories.ClearObjects();
+            
+            objectListViewCategories.AddObjects(_currentProfile.Categories.GetAll().ToArray());
+        }
+
+        private void objectListViewCategories_ButtonClick(object sender, CellClickEventArgs e)
+        {
+            _currentProfile.Categories.Remove((ICategory)e.Model);
+            ReloadCategories();
+        }
+
+        private void buttonAddFolderName_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty( textBoxFolderName.Text)) return;
+            
+            listBoxFolderNames.Items.Add(textBoxFolderName.Text);
+            textBoxFolderName.Clear();
+        }
+
+        private void kryptonButton_MoveSignaFileToOrder_Click(object sender, EventArgs e)
+        {
+            using (var form = new FormMoveSignaFileToOrder(_currentProfile))
+            {
+               form.ShowDialog();
             }
         }
     }

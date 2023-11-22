@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PythonEngine.Controllers
 {
-    public class JobListScriptController : AbstractScriptController
+    public sealed class JobListScriptController : AbstractScriptController
     {
         public JobListScriptController(ScriptControllerSettings settings) : base(settings)
         {

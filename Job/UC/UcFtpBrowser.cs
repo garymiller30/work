@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 using FtpClient;
 using Interfaces;
 using Interfaces.Ftp;
@@ -13,7 +13,7 @@ using Job.Static;
 
 namespace Job.UC
 {
-    public partial class UcFtpBrowser : UserControl, IUcFtpBrowser
+    public sealed partial class UcFtpBrowser : UserControl, IUcFtpBrowser
     {
         public IFtpState FtpStates { get; set; } = new FtpState();
         public IUserProfile UserProfile { get; set; }

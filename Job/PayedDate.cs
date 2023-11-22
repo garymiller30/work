@@ -6,7 +6,7 @@ namespace Job
     /// <summary>
     /// оплата 
     /// </summary>
-    public class PayedDate
+    public sealed class PayedDate
     {
         public ObjectId Id { get; set; }
         /// <summary>

@@ -5,7 +5,7 @@ using Interfaces.Plugins;
 
 namespace PluginWorkPrepress
 {
-    public class WorkPrepressPlugin : AbstractPluginAddWork<PrepressProcess>, IPluginBase
+    public sealed class WorkPrepressPlugin : AbstractPluginAddWork<PrepressProcess>, IPluginBase
     {
    
         protected override void CreateContextMenu()

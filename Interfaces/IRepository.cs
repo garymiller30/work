@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using MongoDB.Bson;
+
 
 namespace Interfaces
 {
     public interface IRepository
     {
-        void CreateConnection(string server, int port, string user, string password, string databaseName);
-
-        void Add<T>(T item) where T : class, new();
+        bool IsConnected { get; }
+        void CreateConnection(string connectionString,  string databaseName);
+        void Add<T>(T item) where T : class,  new();
         void Add<T>(string collection,T item) where T : class, new();
 
         void Delete<T>(T item) where T : IWithId;
@@ -22,5 +22,7 @@ namespace Interfaces
         T GetById<T>(string collection, object id) where T : class,IWithId;
 
         object GetRawCollection<T>(string collection) where T : class, new();
+
+        object GetRawCollection<T>() where T: class, new();
     }
 }

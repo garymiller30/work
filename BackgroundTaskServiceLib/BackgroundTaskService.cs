@@ -14,7 +14,7 @@ namespace BackgroundTaskServiceLib
     public static class BackgroundTaskService
     {
         static object _lock = new object();
-        const int MaxThreads = 10;
+        const int MaxThreads = 1;
         const int DefaultInterval = 2000;
         private static int countThreads;
         private static readonly System.Timers.Timer timer = new System.Timers.Timer(DefaultInterval);
@@ -23,6 +23,8 @@ namespace BackgroundTaskServiceLib
 
         public static event EventHandler<BackgroundTaskItem> OnAdd = delegate { };
         public static event EventHandler<BackgroundTaskItem> OnFinish = delegate { };
+        public static event EventHandler OnAllFinish = delegate { };
+
         static BackgroundTaskService()
         {
             timer.Elapsed += Timer_Elapsed;
@@ -91,7 +93,11 @@ namespace BackgroundTaskServiceLib
             lock (_lock)
             {
                 processTask.Remove(e);
-                if (processTask.Count == 0) Application.UseWaitCursor = false;
+                if (processTask.Count == 0)
+                {
+                    Application.UseWaitCursor = false;
+                    OnAllFinish(null, null);
+                }
             }
             OnFinish(null, e);
         }

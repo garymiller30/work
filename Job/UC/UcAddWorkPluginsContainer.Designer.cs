@@ -49,7 +49,6 @@
             this.treeListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeListView1.FullRowSelect = true;
-            this.treeListView1.GridLines = true;
             this.treeListView1.HideSelection = false;
             this.treeListView1.Location = new System.Drawing.Point(0, 0);
             this.treeListView1.Name = "treeListView1";

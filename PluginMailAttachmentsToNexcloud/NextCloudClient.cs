@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PluginMailAttachmentsToNextcloud
 {
-    public class NextCloudClient
+    public sealed class NextCloudClient
     {
         private readonly CloudSettings _settings;
 

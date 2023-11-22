@@ -39,14 +39,18 @@
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.objectListView_FtpServers = new BrightIdeasSoftware.ObjectListView();
             this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.kryptonButtonNotify = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.kryptonGroupBoxParameters = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonGroupBoxFTP = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonCheckBoxUseFtp = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
-            this.kryptonSplitContainer1 = new ComponentFactory.Krypton.Toolkit.KryptonSplitContainer();
-            this.kryptonTextBoxCustomerFilter = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.kryptonLabel1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
+            this.kryptonButtonNotify = new Krypton.Toolkit.KryptonButton();
+            this.kryptonGroupBoxParameters = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonGroupBoxFTP = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonCheckBoxUseFtp = new Krypton.Toolkit.KryptonCheckBox();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonSplitContainer1 = new Krypton.Toolkit.KryptonSplitContainer();
+            this.kryptonTextBoxCustomerFilter = new Krypton.Toolkit.KryptonTextBox();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonSplitContainer2 = new Krypton.Toolkit.KryptonSplitContainer();
+            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.objectListView_Categories = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_Customers)).BeginInit();
             this.contextMenuStrip_Customers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_FtpServers)).BeginInit();
@@ -66,6 +70,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1.Panel2)).BeginInit();
             this.kryptonSplitContainer1.Panel2.SuspendLayout();
             this.kryptonSplitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer2.Panel1)).BeginInit();
+            this.kryptonSplitContainer2.Panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer2.Panel2)).BeginInit();
+            this.kryptonSplitContainer2.Panel2.SuspendLayout();
+            this.kryptonSplitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
+            this.kryptonGroupBox1.Panel.SuspendLayout();
+            this.kryptonGroupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.objectListView_Categories)).BeginInit();
             this.SuspendLayout();
             // 
             // objectListView_Customers
@@ -91,7 +106,7 @@
             this.objectListView_Customers.Name = "objectListView_Customers";
             this.objectListView_Customers.ShowGroups = false;
             this.objectListView_Customers.ShowImagesOnSubItems = true;
-            this.objectListView_Customers.Size = new System.Drawing.Size(209, 436);
+            this.objectListView_Customers.Size = new System.Drawing.Size(260, 436);
             this.objectListView_Customers.TabIndex = 0;
             this.objectListView_Customers.UseCompatibleStateImageBehavior = false;
             this.objectListView_Customers.UseFiltering = true;
@@ -118,30 +133,31 @@
             // 
             // contextMenuStrip_Customers
             // 
+            this.contextMenuStrip_Customers.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.contextMenuStrip_Customers.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавиьToolStripMenuItem,
             this.toolStripSeparator1,
             this.удалитьToolStripMenuItem});
             this.contextMenuStrip_Customers.Name = "contextMenuStrip1";
-            this.contextMenuStrip_Customers.Size = new System.Drawing.Size(133, 54);
+            this.contextMenuStrip_Customers.Size = new System.Drawing.Size(131, 54);
             // 
             // добавиьToolStripMenuItem
             // 
             this.добавиьToolStripMenuItem.Name = "добавиьToolStripMenuItem";
-            this.добавиьToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
-            this.добавиьToolStripMenuItem.Text = "добавить";
+            this.добавиьToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.добавиьToolStripMenuItem.Text = "додати";
             this.добавиьToolStripMenuItem.Click += new System.EventHandler(this.добавиьToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(129, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(127, 6);
             // 
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
-            this.удалитьToolStripMenuItem.Text = "удалить";
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.удалитьToolStripMenuItem.Text = "видалити";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
             // objectListView_FtpServers
@@ -160,7 +176,7 @@
             this.objectListView_FtpServers.Location = new System.Drawing.Point(0, 0);
             this.objectListView_FtpServers.Name = "objectListView_FtpServers";
             this.objectListView_FtpServers.ShowGroups = false;
-            this.objectListView_FtpServers.Size = new System.Drawing.Size(218, 323);
+            this.objectListView_FtpServers.Size = new System.Drawing.Size(223, 323);
             this.objectListView_FtpServers.TabIndex = 1;
             this.objectListView_FtpServers.UseCompatibleStateImageBehavior = false;
             this.objectListView_FtpServers.View = System.Windows.Forms.View.Details;
@@ -175,12 +191,13 @@
             // kryptonButtonNotify
             // 
             this.kryptonButtonNotify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kryptonButtonNotify.CornerRoundingRadius = -1F;
             this.kryptonButtonNotify.Location = new System.Drawing.Point(17, 394);
             this.kryptonButtonNotify.Name = "kryptonButtonNotify";
             this.kryptonButtonNotify.Size = new System.Drawing.Size(220, 43);
-            this.kryptonButtonNotify.StateNormal.Content.LongText.MultiLine = ComponentFactory.Krypton.Toolkit.InheritBool.True;
-            this.kryptonButtonNotify.StatePressed.Content.LongText.MultiLine = ComponentFactory.Krypton.Toolkit.InheritBool.True;
-            this.kryptonButtonNotify.StateTracking.Content.LongText.MultiLine = ComponentFactory.Krypton.Toolkit.InheritBool.True;
+            this.kryptonButtonNotify.StateNormal.Content.LongText.MultiLine = Krypton.Toolkit.InheritBool.True;
+            this.kryptonButtonNotify.StatePressed.Content.LongText.MultiLine = Krypton.Toolkit.InheritBool.True;
+            this.kryptonButtonNotify.StateTracking.Content.LongText.MultiLine = Krypton.Toolkit.InheritBool.True;
             this.kryptonButtonNotify.TabIndex = 10;
             this.kryptonButtonNotify.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButtonNotify.Values.Image")));
             this.kryptonButtonNotify.Values.Text = "настройка відправки \r\nповідомлень";
@@ -197,7 +214,7 @@
             this.kryptonGroupBoxParameters.Panel.Controls.Add(this.kryptonGroupBoxFTP);
             this.kryptonGroupBoxParameters.Panel.Controls.Add(this.kryptonCheckBoxUseFtp);
             this.kryptonGroupBoxParameters.Panel.Controls.Add(this.kryptonButtonNotify);
-            this.kryptonGroupBoxParameters.Size = new System.Drawing.Size(252, 471);
+            this.kryptonGroupBoxParameters.Size = new System.Drawing.Size(257, 471);
             this.kryptonGroupBoxParameters.TabIndex = 5;
             this.kryptonGroupBoxParameters.Values.Heading = "Параметри замовника";
             // 
@@ -213,7 +230,7 @@
             // kryptonGroupBoxFTP.Panel
             // 
             this.kryptonGroupBoxFTP.Panel.Controls.Add(this.objectListView_FtpServers);
-            this.kryptonGroupBoxFTP.Size = new System.Drawing.Size(222, 348);
+            this.kryptonGroupBoxFTP.Size = new System.Drawing.Size(227, 348);
             this.kryptonGroupBoxFTP.TabIndex = 15;
             this.kryptonGroupBoxFTP.Values.Heading = "FTP";
             // 
@@ -232,7 +249,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(472, 471);
+            this.kryptonPanel1.Size = new System.Drawing.Size(822, 471);
             this.kryptonPanel1.TabIndex = 6;
             // 
             // kryptonSplitContainer1
@@ -250,9 +267,9 @@
             // 
             // kryptonSplitContainer1.Panel2
             // 
-            this.kryptonSplitContainer1.Panel2.Controls.Add(this.kryptonGroupBoxParameters);
-            this.kryptonSplitContainer1.Size = new System.Drawing.Size(472, 471);
-            this.kryptonSplitContainer1.SplitterDistance = 215;
+            this.kryptonSplitContainer1.Panel2.Controls.Add(this.kryptonSplitContainer2);
+            this.kryptonSplitContainer1.Size = new System.Drawing.Size(822, 471);
+            this.kryptonSplitContainer1.SplitterDistance = 266;
             this.kryptonSplitContainer1.TabIndex = 8;
             // 
             // kryptonTextBoxCustomerFilter
@@ -268,16 +285,78 @@
             this.kryptonLabel1.Location = new System.Drawing.Point(3, 6);
             this.kryptonLabel1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(22, 18);
+            this.kryptonLabel1.Size = new System.Drawing.Size(22, 20);
             this.kryptonLabel1.TabIndex = 6;
             this.kryptonLabel1.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonLabel1.Values.Image")));
             this.kryptonLabel1.Values.Text = "";
+            // 
+            // kryptonSplitContainer2
+            // 
+            this.kryptonSplitContainer2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.kryptonSplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonSplitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.kryptonSplitContainer2.Name = "kryptonSplitContainer2";
+            // 
+            // kryptonSplitContainer2.Panel1
+            // 
+            this.kryptonSplitContainer2.Panel1.Controls.Add(this.kryptonGroupBoxParameters);
+            this.kryptonSplitContainer2.Panel1MinSize = 50;
+            // 
+            // kryptonSplitContainer2.Panel2
+            // 
+            this.kryptonSplitContainer2.Panel2.Controls.Add(this.kryptonGroupBox1);
+            this.kryptonSplitContainer2.Panel2MinSize = 50;
+            this.kryptonSplitContainer2.Size = new System.Drawing.Size(551, 471);
+            this.kryptonSplitContainer2.SplitterDistance = 257;
+            this.kryptonSplitContainer2.TabIndex = 7;
+            // 
+            // kryptonGroupBox1
+            // 
+            this.kryptonGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonGroupBox1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonGroupBox1.Name = "kryptonGroupBox1";
+            // 
+            // kryptonGroupBox1.Panel
+            // 
+            this.kryptonGroupBox1.Panel.Controls.Add(this.objectListView_Categories);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(289, 471);
+            this.kryptonGroupBox1.TabIndex = 6;
+            this.kryptonGroupBox1.Values.Heading = "Категорії";
+            // 
+            // objectListView_Categories
+            // 
+            this.objectListView_Categories.AllColumns.Add(this.olvColumn2);
+            this.objectListView_Categories.CellEditUseWholeCell = false;
+            this.objectListView_Categories.CheckBoxes = true;
+            this.objectListView_Categories.CheckedAspectName = "isChecked";
+            this.objectListView_Categories.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn2});
+            this.objectListView_Categories.Cursor = System.Windows.Forms.Cursors.Default;
+            this.objectListView_Categories.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.objectListView_Categories.FullRowSelect = true;
+            this.objectListView_Categories.GridLines = true;
+            this.objectListView_Categories.HideSelection = false;
+            this.objectListView_Categories.Location = new System.Drawing.Point(0, 0);
+            this.objectListView_Categories.Name = "objectListView_Categories";
+            this.objectListView_Categories.ShowGroups = false;
+            this.objectListView_Categories.Size = new System.Drawing.Size(285, 446);
+            this.objectListView_Categories.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.objectListView_Categories.TabIndex = 0;
+            this.objectListView_Categories.UseCompatibleStateImageBehavior = false;
+            this.objectListView_Categories.View = System.Windows.Forms.View.Details;
+            this.objectListView_Categories.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.objectListView_Categories_ItemChecked);
+            // 
+            // olvColumn2
+            // 
+            this.olvColumn2.AspectName = "Name";
+            this.olvColumn2.Text = "Ім\'я";
+            this.olvColumn2.Width = 120;
             // 
             // FormCustomers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(472, 471);
+            this.ClientSize = new System.Drawing.Size(822, 471);
             this.Controls.Add(this.kryptonPanel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -306,6 +385,17 @@
             this.kryptonSplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1)).EndInit();
             this.kryptonSplitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer2.Panel1)).EndInit();
+            this.kryptonSplitContainer2.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer2.Panel2)).EndInit();
+            this.kryptonSplitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer2)).EndInit();
+            this.kryptonSplitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
+            this.kryptonGroupBox1.Panel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
+            this.kryptonGroupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.objectListView_Categories)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -320,14 +410,18 @@
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
         private BrightIdeasSoftware.ObjectListView objectListView_FtpServers;
         private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButtonNotify;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBoxParameters;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBoxFTP;
-        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox kryptonCheckBoxUseFtp;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox kryptonTextBoxCustomerFilter;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonSplitContainer kryptonSplitContainer1;
+        private Krypton.Toolkit.KryptonButton kryptonButtonNotify;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBoxParameters;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBoxFTP;
+        private Krypton.Toolkit.KryptonCheckBox kryptonCheckBoxUseFtp;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel1;
+        private Krypton.Toolkit.KryptonTextBox kryptonTextBoxCustomerFilter;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonSplitContainer kryptonSplitContainer1;
         private BrightIdeasSoftware.OLVColumn olvColumnFTP;
+        private Krypton.Toolkit.KryptonSplitContainer kryptonSplitContainer2;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
+        private BrightIdeasSoftware.ObjectListView objectListView_Categories;
+        private BrightIdeasSoftware.OLVColumn olvColumn2;
     }
 }

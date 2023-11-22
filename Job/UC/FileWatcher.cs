@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Job.UC
 {
-    public class FileWatcher : IWatcher
+    public sealed class FileWatcher : IWatcher
     {
         private readonly FileSystemWatcher _watcher;
 

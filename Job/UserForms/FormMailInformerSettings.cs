@@ -4,14 +4,14 @@
 
 using System;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 using Interfaces;
 using Job.CustomerNotify;
 using Job.Statuses;
 
 namespace Job.UserForms
 {
-    public partial class FormMailInformerSettings : KryptonForm
+    public sealed partial class FormMailInformerSettings : KryptonForm
     {
         public IUserProfile UserProfile { get; set; }
 

@@ -10,7 +10,7 @@ using Interfaces.MQ;
 
 namespace Job.Fasades
 {
-    public class CustomerManager : ICustomerManager
+    public sealed class CustomerManager : ICustomerManager
     {
         //public IUserProfile UserProfile { get; set; }
         private readonly IUserProfile _profile;
@@ -25,7 +25,7 @@ namespace Job.Fasades
 
 
         List<Customer> _customers = new List<Customer>();
-        
+
         public ICustomer CurrentCustomer { get; set; }
 
 
@@ -39,7 +39,7 @@ namespace Job.Fasades
 
         private void Jobs_OnSetCurrentJob(object sender, IJob e)
         {
-            if (e == null) { CurrentCustomer = null;return;};
+            if (e == null) { CurrentCustomer = null; return; }
 
             SetCurrentCustomer(e.Customer);
         }
@@ -216,60 +216,54 @@ namespace Job.Fasades
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public bool CheckCustomerPresent(string text)
+        public bool CheckCustomerPresent(string text, bool addSilence = false)
         {
             var customer = _profile.Customers.FindCustomer(text);
 
-            if (string.IsNullOrEmpty(customer.Name))
-            {
+            if (!string.IsNullOrEmpty(customer.Name)) return true;
+
+            if (!addSilence)
                 if (MessageBox.Show("Такого замовника не існує. Додати до бази?", text,
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) return false;
+
+            customer.Name = text;
+
+            string customerDir;
+
+            if (string.IsNullOrEmpty(_profile.Jobs.Settings.WorkPath))
+            {
+                using (var fd = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog())
                 {
-
-                    customer.Name = text;
-
-                    string customerDir;
-
-                    if (string.IsNullOrEmpty(_profile.Jobs.Settings.WorkPath))
+                    if (fd.ShowDialog() == DialogResult.OK)
                     {
-                        using (var fd = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog())
+                        try
                         {
-                            if (fd.ShowDialog() == DialogResult.OK)
-                            {
-                                try
-                                {
-                                    customerDir = Path.Combine(fd.SelectedPath, text);
+                            customerDir = Path.Combine(fd.SelectedPath, text);
 
-
-                                }
-                                catch (Exception e)
-                                {
-                                    MessageBox.Show(e.Message, Localize.FormAddWork_CheckCustomerPresent_Не_вдалося_створити_папку, MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error);
-                                    return false;
-                                }
-                                //customer.CustomFolder = fd.SelectedPath;
-                            }
-                            else
-                            {
-                                return false;
-                            }
 
                         }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show(e.Message, Localize.FormAddWork_CheckCustomerPresent_Не_вдалося_створити_папку, MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                            return false;
+                        }
+                        //customer.CustomFolder = fd.SelectedPath;
                     }
                     else
                     {
-                        customerDir = Path.Combine(_profile.Jobs.Settings.WorkPath, text);
+                        return false;
                     }
 
-                    Directory.CreateDirectory(customerDir);
-                    _profile.Customers.Add(customer);
-                }
-                else
-                {
-                    return false;
                 }
             }
+            else
+            {
+                customerDir = Path.Combine(_profile.Jobs.Settings.WorkPath, text);
+            }
+
+            Directory.CreateDirectory(customerDir);
+            _profile.Customers.Add(customer);
 
             return true;
         }

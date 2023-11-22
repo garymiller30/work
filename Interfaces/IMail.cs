@@ -6,6 +6,7 @@ namespace Interfaces
 {
     public interface IMail
     {
+        event EventHandler<Exception> OnError;
         IMailSettings Settings { get; set; }
 
         void StopWatching();
