@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace Job.CustomForms
 {
-    public partial class FormEnterText : Form
+    public sealed partial class FormEnterText : Form
     {
         public string SelectedText { get; set; } = string.Empty;
         public FormEnterText()

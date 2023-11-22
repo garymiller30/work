@@ -5,7 +5,7 @@ using Interfaces;
 
 namespace Job.Profiles.ProfileEvents
 {
-    public class JobEvents : AbstractEvents, IJobEvents
+    public sealed class JobEvents : AbstractEvents, IJobEvents
     {
         public event EventHandler<IJob> OnSetCurrentJob = delegate { };
         public event EventHandler<IJob> OnJobAdd = delegate { };
@@ -25,6 +25,11 @@ namespace Job.Profiles.ProfileEvents
             profile.Jobs.OnJobFinishEdit +=  (sender,job ) => OnJobFinishEdit(sender,job);
             profile.Jobs.OnDeleteJob +=  (sender,job ) => OnJobDelete(sender,job);
 
+        }
+
+        public void RiseOnJobChange(IJob job)
+        {
+            OnSetCurrentJob(null,job);
         }
     }
 }

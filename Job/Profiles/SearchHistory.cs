@@ -4,7 +4,7 @@ using Interfaces;
 
 namespace Job.Profiles
 {
-    public class SearchHistory : ISearchHistory
+    public sealed class SearchHistory : ISearchHistory
     {
         private readonly Stack<string> _queue = new Stack<string>(10);
         IUserProfile _profile;

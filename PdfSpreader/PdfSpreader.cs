@@ -18,7 +18,7 @@ using Timer = System.Timers.Timer;
 
 namespace PdfSpreader
 {
-    public class PdfSpreader : IPluginFileBrowser
+    public sealed class PdfSpreader : IPluginFileBrowser
     {
         private readonly RulesService.RulesService _rulesService;
         List<AbstractRule> _formatRules = new List<AbstractRule>();

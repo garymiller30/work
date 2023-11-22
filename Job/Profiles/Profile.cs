@@ -19,7 +19,7 @@ using PythonEngine;
 
 namespace Job.Profiles
 {
-    public class Profile : IUserProfile
+    public sealed class Profile : IUserProfile
     {
         public bool IsInitialized { get; private set; }
         public string ProfilePath { get; set; }
@@ -47,7 +47,7 @@ namespace Job.Profiles
         public void InitProfile()
         {
             LoadPlugins();
-            ScriptEngine =  new PythonScriptEngine(this);
+            ScriptEngine = new PythonScriptEngine(this);
             LoadSettingsFromDisk();
             LoadSettingsFromBase();
             
@@ -75,8 +75,7 @@ namespace Job.Profiles
                 CustomersNotifyManager = new CustomerMailNotifyManager(this);
                 Jobs = new JobManager(this, Settings.GetJobSettings());
             }
-
-        }
+         }
 
         private void LoadSettingsFromDisk()
         {

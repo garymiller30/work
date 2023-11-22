@@ -6,6 +6,8 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Interfaces;
+using Interfaces.Plugins;
+using Job.Static;
 
 namespace PluginColorJobListRow
 {
@@ -40,9 +42,9 @@ namespace PluginColorJobListRow
             }
         }
 
-        public static Color GetJobColor(string job)
+        public static IRowColor GetJobColor(string job)
         {
-            Color color = Color.White;
+            IRowColor color = null;
 
             foreach (var i in _jobs)
             {

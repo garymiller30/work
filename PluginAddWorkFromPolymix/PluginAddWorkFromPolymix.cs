@@ -1,5 +1,8 @@
 ﻿using Interfaces;
 using Interfaces.Plugins;
+using Job.Models;
+using Job.Profiles;
+using Job;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +11,7 @@ using System.Windows.Forms;
 
 namespace PluginAddWorkFromPolymix
 {
-    class PluginAddWorkFromPolymix : IPluginNewOrder
+    sealed class PluginAddWorkFromPolymix : IPluginNewOrder
     {
         public string PluginName => "з Polymix";
         public string PluginDescription => "Створити замовлення з Polymix";
@@ -72,9 +75,11 @@ namespace PluginAddWorkFromPolymix
 
             using (var form = new FormAddOrder(AddWorkFromPolymixSettings, profile, job))
             {
+
                 result = form.ShowDialog();
                 if (result == DialogResult.OK)
                 {
+                    CreateOrders(profile,form.OrderList);
                     SaveSettings();
                 }
             }
@@ -83,12 +88,40 @@ namespace PluginAddWorkFromPolymix
 
         }
 
+        private void CreateOrders(IUserProfile profile,List<PolymixOrder> orderList)
+        {
+            if (!orderList.Any() || profile == null) return;
+
+            for (int i = 0; i < orderList.Count; i++)
+            {
+                var order = orderList[i];
+
+                var job = Factory.CreateJob(profile);
+
+                var jobParameters = new JobParameters(job);
+
+                jobParameters.Customer = order.Customer;
+                jobParameters.Number = order.Number.ToString("D5");
+                jobParameters.Description = order.Description.Split(',').First();
+                jobParameters.Note = order.Description;
+
+                jobParameters.ApplyToJob();
+
+                profile.Customers.CheckCustomerPresent(job.Customer, true);
+
+                profile.Jobs.AddJob(job);
+
+                if (i == 0)
+                {
+                    profile.Jobs.JobListControl.SelectJob(job);
+                    profile.Jobs.SetCurrentJob(job);
+                }
+            }
+        }
+
         private void SaveSettings()
         {
-
             UserProfile.Plugins.SaveSettings(AddWorkFromPolymixSettings);
-            //var str = JsonConvert.SerializeObject(_settings);
-            //File.WriteAllText(_fileSettingsPath, str,Encoding.Unicode);
         }
     }
 }

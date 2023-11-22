@@ -15,7 +15,39 @@
       <Value Profile="(Default)">800, 600</Value>
     </Setting>
     <Setting Name="WhatNew" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">7.5.10
+      <Value Profile="(Default)">8.6.1
+-----------------
++ в утіліти для PDF -&gt; змінення розміру сторінок
++ в утіліти для PDF -&gt; розділення розворотів навпіл
+
+8.4.1
+-----------------
++ додав стандартні формати у діалог виставлення трім боксів
+
+8.3.1
+-----------------
++ можливість зберігати файли Signa Station у папці з замовленням
++ Скидання положень вікон без перезапуску програми
++ Зміни в браузері без перезапуску програми
+
+
+8.0.0
+-----------------
+Перехід на net 4.8 і mongodb 4.4. Несумісно з попередньою версією
++ створення jpg прев'ю з pdf
++ видалення категорій у налаштуваннях
+
+7.8.10
+-----------------
++ додав "Утиліти для PDF" -&gt; "Розвернути сторінки на 90° дзеркально". Непарні сторінки розветаються на 90° проти годинникової стрілки. Парні - за годинниковою стрілкою.
++ при відправлені листа показує сумартий об'єм вкладень
+
+
+7.6.10
+-----------------
++ додав генератор пустишок Pdf з тиражами для Signa. Викликається через контекстне меню у браузері: "Утиліти для PDF" -&gt; "Створити "пустишки" з тиражами"
+
+7.5.10
 ------------------
 + переробив фонові задачі.
 
@@ -68,6 +100,18 @@
 ---------------------
 + додано можливість зупиняти таймер автоматичної перевірки FTP із скрипта.
   Викликається так: FtpExplorer.TimerStop()</Value>
+    </Setting>
+    <Setting Name="VirtualScreenX" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="VirtualScreenY" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="VirtualScreenW" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="VirtualScreenH" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

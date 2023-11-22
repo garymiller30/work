@@ -1,7 +1,8 @@
-﻿using ComponentFactory.Krypton.Docking;
-using ComponentFactory.Krypton.Navigator;
-using ComponentFactory.Krypton.Workspace;
+﻿
 using Interfaces;
+using Krypton.Docking;
+using Krypton.Navigator;
+using Krypton.Workspace;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -10,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ActiveWorks.UserControls
 {
-    public partial class UcTabProfile3 : KryptonDockableWorkspace, IProfileTab
+    public sealed partial class UcTabProfile3 : KryptonDockableWorkspace, IProfileTab
     {
         private const string LayoutFile = "layout.xml";
         private IUserProfile _profile;
@@ -66,12 +67,15 @@ namespace ActiveWorks.UserControls
 
         private void Init(IUserProfile profile)
         {
-
+            var saveStatus = SplashScreen.Splash.GetStatus();
             profile.InitProfile();
-
+            SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладку зі списком робіт");
             CreateJobListTab();
+            SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладки з провідниками");
             CreateBrowserTab();
+            SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладки з ftp");
             CreateFtpTab();
+            SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладки з плагінами");
             CreatePluginsTab();
             CreateEvents();
             IsInitializedControl = true;
@@ -80,7 +84,7 @@ namespace ActiveWorks.UserControls
 
             //profile.Jobs.LoadJobs();
            
-                profile.Jobs?.ApplyStatusViewFilter();
+            profile.Jobs?.ApplyStatusViewFilter();
         }
 
         private void CreateJobListTab()
@@ -218,7 +222,9 @@ namespace ActiveWorks.UserControls
         {
             try
             {
-                LoadLayoutFromFile(Path.Combine(_profile.ProfilePath, LayoutFile));
+                var layoutPath = Path.Combine(_profile.ProfilePath, LayoutFile);
+                if (File.Exists(layoutPath)) { LoadLayoutFromFile(layoutPath); }
+                
             }
             catch (Exception e)
             {

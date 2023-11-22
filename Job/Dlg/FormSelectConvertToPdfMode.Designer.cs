@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSelectConvertToPdfMode));
-            this.kryptonButtonMultiple = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.kryptonButtonSingle = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.kryptonCheckBoxMoveToTrash = new ComponentFactory.Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonGroupBox1 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonRadioButton5mm = new ComponentFactory.Krypton.Toolkit.KryptonRadioButton();
-            this.kryptonRadioButton3mm = new ComponentFactory.Krypton.Toolkit.KryptonRadioButton();
-            this.kryptonRadioButton2mm = new ComponentFactory.Krypton.Toolkit.KryptonRadioButton();
-            this.kryptonRadioButton1mm = new ComponentFactory.Krypton.Toolkit.KryptonRadioButton();
-            this.kryptonRadioButtonNone = new ComponentFactory.Krypton.Toolkit.KryptonRadioButton();
+            this.kryptonButtonMultiple = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButtonSingle = new Krypton.Toolkit.KryptonButton();
+            this.kryptonCheckBoxMoveToTrash = new Krypton.Toolkit.KryptonCheckBox();
+            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonRadioButton5mm = new Krypton.Toolkit.KryptonRadioButton();
+            this.kryptonRadioButton3mm = new Krypton.Toolkit.KryptonRadioButton();
+            this.kryptonRadioButton2mm = new Krypton.Toolkit.KryptonRadioButton();
+            this.kryptonRadioButton1mm = new Krypton.Toolkit.KryptonRadioButton();
+            this.kryptonRadioButtonNone = new Krypton.Toolkit.KryptonRadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
             this.kryptonGroupBox1.Panel.SuspendLayout();
@@ -49,7 +49,7 @@
             this.kryptonButtonMultiple.Location = new System.Drawing.Point(12, 118);
             this.kryptonButtonMultiple.Name = "kryptonButtonMultiple";
             this.kryptonButtonMultiple.Size = new System.Drawing.Size(156, 125);
-            this.kryptonButtonMultiple.StateCommon.Content.ShortText.TextV = ComponentFactory.Krypton.Toolkit.PaletteRelativeAlign.Far;
+            this.kryptonButtonMultiple.StateCommon.Content.ShortText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Far;
             this.kryptonButtonMultiple.TabIndex = 0;
             this.kryptonButtonMultiple.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButtonMultiple.Values.Image")));
             this.kryptonButtonMultiple.Values.Text = "все у один файл";
@@ -60,7 +60,7 @@
             this.kryptonButtonSingle.Location = new System.Drawing.Point(174, 118);
             this.kryptonButtonSingle.Name = "kryptonButtonSingle";
             this.kryptonButtonSingle.Size = new System.Drawing.Size(156, 125);
-            this.kryptonButtonSingle.StateCommon.Content.ShortText.TextV = ComponentFactory.Krypton.Toolkit.PaletteRelativeAlign.Far;
+            this.kryptonButtonSingle.StateCommon.Content.ShortText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Far;
             this.kryptonButtonSingle.TabIndex = 1;
             this.kryptonButtonSingle.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButtonSingle.Values.Image")));
             this.kryptonButtonSingle.Values.Text = "кожний файл окремо";
@@ -158,14 +158,14 @@
 
         #endregion
 
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButtonMultiple;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButtonSingle;
-        private ComponentFactory.Krypton.Toolkit.KryptonCheckBox kryptonCheckBoxMoveToTrash;
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
-        private ComponentFactory.Krypton.Toolkit.KryptonRadioButton kryptonRadioButton5mm;
-        private ComponentFactory.Krypton.Toolkit.KryptonRadioButton kryptonRadioButton3mm;
-        private ComponentFactory.Krypton.Toolkit.KryptonRadioButton kryptonRadioButton2mm;
-        private ComponentFactory.Krypton.Toolkit.KryptonRadioButton kryptonRadioButton1mm;
-        private ComponentFactory.Krypton.Toolkit.KryptonRadioButton kryptonRadioButtonNone;
+        private Krypton.Toolkit.KryptonButton kryptonButtonMultiple;
+        private Krypton.Toolkit.KryptonButton kryptonButtonSingle;
+        private Krypton.Toolkit.KryptonCheckBox kryptonCheckBoxMoveToTrash;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
+        private Krypton.Toolkit.KryptonRadioButton kryptonRadioButton5mm;
+        private Krypton.Toolkit.KryptonRadioButton kryptonRadioButton3mm;
+        private Krypton.Toolkit.KryptonRadioButton kryptonRadioButton2mm;
+        private Krypton.Toolkit.KryptonRadioButton kryptonRadioButton1mm;
+        private Krypton.Toolkit.KryptonRadioButton kryptonRadioButtonNone;
     }
 }

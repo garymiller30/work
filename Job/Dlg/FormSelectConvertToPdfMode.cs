@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 using Interfaces;
 using PDFManipulate.Converters;
 
 namespace Job.Dlg
 {
-    public partial class FormSelectConvertToPdfMode : KryptonForm
+    public sealed partial class FormSelectConvertToPdfMode : KryptonForm
     {
         public ConvertModeEnum ConvertMode { get; private set; } = ConvertModeEnum.NotAssigned;
         public bool MoveToTrash { get; private set; }

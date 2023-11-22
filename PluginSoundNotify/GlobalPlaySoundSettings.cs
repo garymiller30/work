@@ -8,7 +8,7 @@ using Interfaces.Plugins;
 
 namespace PluginSoundNotify
 {
-    public class  GlobalPlaySoundSettings
+    public sealed class  GlobalPlaySoundSettings
     {
         public Dictionary<AvailableSound, PlaySoundSettings> _settinges { get; set; } = new Dictionary<AvailableSound, PlaySoundSettings>();
 

@@ -6,7 +6,7 @@ using Interfaces;
 
 namespace Job.Profiles.ProfileEvents
 {
-    public class BrowserEvents : AbstractEvents, IBrowserEvents
+    public sealed class BrowserEvents : AbstractEvents, IBrowserEvents
     {
         public event EventHandler OnCustomButtonClick = delegate { };
         public event EventHandler<string[]> OnFtpUpload = delegate { };

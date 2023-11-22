@@ -9,7 +9,7 @@ namespace Job.CustomerNotify
     /// <summary>
     /// уведомление заказчика по почте о смене статуса заказа
     /// </summary>
-    public class CustomerMailNotifyManager : ICustomerMailNotifyManager
+    public sealed class CustomerMailNotifyManager : ICustomerMailNotifyManager
     {
 
         //public Profile UserProfile { get; set; }
@@ -51,7 +51,8 @@ namespace Job.CustomerNotify
             {
 
                 var q = (from o in _customerNotifyList
-                         where o.CustomerId == id.Id
+                         where string.Equals(o.CustomerId.ToString(), id.Id.ToString()
+, System.StringComparison.OrdinalIgnoreCase)
                          select o).Cast<ICustomerMailNotify>().ToList();
 
                 return q;
@@ -102,19 +103,20 @@ namespace Job.CustomerNotify
                         var header = notify.Tema.SendNotifyCovertString(job);
                         var body = notify.Body.SendNotifyCovertString(job);
 
-
+                        _profile.MailNotifier.OnError += MailNotifier_OnError;
 
                         _profile.MailNotifier.ShowSendMailDialog(notify.Email, header, body);
 
-                        //ShowProgress.FormProgress.ShowProgress(()=> UserProfile.MailNotifier.Send(job,notify.Email,notify.Tema,notify.Body));
-
-                        if (Mail.ExceptionMessage != null)
-                        {
-                            Logger.Log.Error(_profile,"CustomerNotifyManager",Mail.ExceptionMessage);
-                        }
+                        _profile.MailNotifier.OnError -= MailNotifier_OnError;
+                        
                     }
                 }
             }
+        }
+
+        private void MailNotifier_OnError(object sender, System.Exception e)
+        {
+            Logger.Log.Error(_profile, "CustomerNotifyManager", e.Message);
         }
 
         public ICustomerMailNotify Add(ICustomer customer, int code)
@@ -136,7 +138,7 @@ namespace Job.CustomerNotify
 
         private CustomerMailNotify GetNotify(ICustomer customer, int statusCode)
         {
-            return _customerNotifyList.FirstOrDefault(x => x.CustomerId == customer.Id && x.StatusCode == statusCode && x.Enabled);
+            return _customerNotifyList.FirstOrDefault(x => string.Equals(x.CustomerId.ToString(), customer.Id.ToString(), System.StringComparison.OrdinalIgnoreCase) && x.StatusCode == statusCode && x.Enabled);
             
         }
 
@@ -148,14 +150,7 @@ namespace Job.CustomerNotify
         {
             if (IsNeedNotify(job))
             {
-
                 SendNotify(job);
-
-                //if (MessageBox.Show(Localize.QuestionSendMessageToCustomerAboutChangeOrderStatus,
-                //        $@"{job.Number}_{job.Description}",MessageBoxButtons.OKCancel,MessageBoxIcon.Question) == DialogResult.OK)
-                //{
-                //   SendNotify(job);
-                //}
             }
         }
     }

@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace FtpClient
 {
-    public partial class UcFtpExplorer : UserControl
+    public sealed partial class UcFtpExplorer : UserControl
     {
         public IUserProfile UserProfile { get; set; }
 

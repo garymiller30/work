@@ -9,5 +9,7 @@ namespace Interfaces
         string ViewerCommandLine { get; set; }
         
         List<string> CustomButtonPath { get; set; }
+
+        List<string> FolderNamesForCreate { get; set; }
     }
 }

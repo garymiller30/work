@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Plugins
 {
-    public class MqController : IMqController
+    public sealed class MqController : IMqController
     {
         readonly List<IMqPlugin> _plugins = new List<IMqPlugin>();
 

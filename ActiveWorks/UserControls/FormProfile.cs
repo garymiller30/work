@@ -1,11 +1,11 @@
-﻿using ComponentFactory.Krypton.Docking;
-using ComponentFactory.Krypton.Toolkit;
-using Interfaces;
+﻿using Interfaces;
+using Krypton.Docking;
+using Krypton.Toolkit;
 using System.Windows.Forms;
 
 namespace ActiveWorks.UserControls
 {
-    public partial class FormProfile : KryptonForm, IFormProfile
+    public sealed partial class FormProfile : KryptonForm, IFormProfile
     {
         private IProfileTab _profileTab;
 

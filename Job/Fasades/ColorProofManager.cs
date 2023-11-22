@@ -3,7 +3,7 @@ using Job.Profiles;
 
 namespace Job.Fasades
 {
-    public class ColorProofManager
+    public sealed class ColorProofManager
     {
         public Profile UserProfile { get; set; }
 

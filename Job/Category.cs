@@ -5,7 +5,7 @@ namespace Job
 {
     public class Category :ICategory, IWithId
     {
-        public ObjectId Id { get; set; }
+        public object Id { get; set; } = ObjectId.GenerateNewId();
         public string Name { get;set; }
     }
 }

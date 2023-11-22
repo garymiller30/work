@@ -1,32 +1,31 @@
-﻿using System;
+﻿
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Windows.Forms;
-using Microsoft.WindowsAPICodePack.Dialogs;
+
 
 namespace MailNotifier
 {
-    public partial class FormMailDialog : Form
+    public sealed partial class FormMailDialog : Form
     {
         private Mail _mail;
 
         public FormMailDialog(Mail mail)
         {
             InitializeComponent();
-            _mail = mail;
+            //_mail = mail;
 
-            _mail.OnNewMail+= MailOnOnNewMail;
-            _mail.OnDeleteMail+= MailOnOnDeleteMail;
-            _mail.OnError+= MailOnOnError;
+            //_mail.OnNewMail+= MailOnOnNewMail;
+            //_mail.OnDeleteMail+= MailOnOnDeleteMail;
+            //_mail.
 
-            objectListViewInbox.AddObjects(_mail.GetInboxMessages());
+            //objectListViewInbox.AddObjects(_mail.GetInboxMessages());
         }
 
-        private void MailOnOnError(object sender, EventArgs e)
-        {
-            
-        }
+      
 
         private void MailOnOnDeleteMail(object sender, uint e)
         {
@@ -156,15 +155,15 @@ namespace MailNotifier
 
         private void RefreshMailbox()
         {
-            objectListViewInbox.ClearObjects();
-            objectListViewInbox.AddObjects(_mail.GetInboxMessages());
+            //objectListViewInbox.ClearObjects();
+            //objectListViewInbox.AddObjects(_mail.GetInboxMessages());
         }
 
         private void saveToToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (objectListViewAttachment.SelectedObjects != null)
 
-            using (CommonOpenFileDialog dialog = new CommonOpenFileDialog())
+            using (Microsoft.WindowsAPICodePack.Dialogs.CommonOpenFileDialog dialog = new CommonOpenFileDialog())
             {
                 dialog.IsFolderPicker = true;
                 if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
@@ -181,8 +180,8 @@ namespace MailNotifier
         {
             foreach (MessageEx ex in objectListViewInbox.SelectedObjects)
             {
-                _mail.Archive(ex);
-                objectListViewInbox.RemoveObject(ex);
+                //_mail.Archive(ex);
+                //objectListViewInbox.RemoveObject(ex);
             }
         }
     }

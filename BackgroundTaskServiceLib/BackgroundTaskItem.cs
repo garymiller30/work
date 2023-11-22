@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BackgroundTaskServiceLib
 {
-    public class BackgroundTaskItem
+    public sealed class BackgroundTaskItem
     {
         public string Name { get; set; }
         public CancellationToken CancelationToken { get; set; }

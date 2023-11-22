@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PythonEngine.Controllers
 {
-    public class FileBrowserScriptController : AbstractScriptController
+    public sealed class FileBrowserScriptController : AbstractScriptController
     {
         public FileBrowserScriptController(ScriptControllerSettings settings):base(settings)
         {

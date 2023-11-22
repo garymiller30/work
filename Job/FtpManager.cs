@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -14,7 +15,7 @@ using Job.UC;
 
 namespace ActiveWorks
 {
-    public class FtpManager : IFtpManager
+    public sealed class FtpManager : IFtpManager
     {
         //public Profile UserProfile { get; set; }
         private readonly IUserProfile _profile;
@@ -123,7 +124,7 @@ namespace ActiveWorks
             job.Number = downloadProperties.DownloadFileParam.OrderNumber ?? job.Number;
 
             job.Customer = downloadProperties.Customer.Name;
-            job.Description = downloadProperties.FtpDir.Transliteration().ToUpper();
+            job.Description = downloadProperties.FtpDir;
             _profile.Plugins.AfterJobChange(job);
             if (_profile.Jobs.AddJob(job))
             {
@@ -137,7 +138,7 @@ namespace ActiveWorks
 
             job.Customer = downloadProperties.Customer.Name;
             job.Number = downloadProperties.FtpDir;
-            job.Description = Path.GetFileNameWithoutExtension(downloadProperties.DownloadFileParam.File[0].Name)?.Transliteration().ToUpper();
+            job.Description = Path.GetFileNameWithoutExtension(downloadProperties.DownloadFileParam.File[0].Name);
             _profile.Plugins.AfterJobChange(job);
             if (_profile.Jobs.AddJob(job))
             {
@@ -154,8 +155,7 @@ namespace ActiveWorks
             job.Number = downloadProperties.DownloadFileParam.OrderNumber ?? job.Number;
             _profile.Plugins.AfterJobChange(job);
             //job.Number = $"{DateTime.Today.Year}-{DateTime.Today.Month}-{DateTime.Today.Day}";
-            job.Description = Path.GetFileNameWithoutExtension(downloadProperties.DownloadFileParam.File[0].Name)?.Transliteration()
-                .ToUpper();
+            job.Description = Path.GetFileNameWithoutExtension(downloadProperties.DownloadFileParam.File[0].Name);
 
 
             if (_profile.Jobs.AddJob(job))

@@ -14,7 +14,7 @@ using Microsoft.Scripting.Hosting;
 
 namespace PythonEngine
 {
-    public class PythonEngine
+    public sealed class PythonEngine
     {
         private readonly ScriptEngine _engine;
         //private readonly ScriptScope  _scope;

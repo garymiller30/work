@@ -7,21 +7,20 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
-using ExtensionMethods;
+using Krypton.Toolkit;
 using Interfaces;
 using Job.Profiles;
-using Job.Static;
 using MongoDB.Bson;
+using Job.Fasades;
 
 namespace Job.UserForms
 {
-    public partial class FormAddWork2 : KryptonForm
+    public sealed partial class FormAddWork2 : KryptonForm
     {
         #region ClipBoard
 
         [DllImport("User32.dll")]
-        protected static extern int SetClipboardViewer(int hWndNewViewer);
+        static extern int SetClipboardViewer(int hWndNewViewer);
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
@@ -51,10 +50,10 @@ namespace Job.UserForms
             
             AddPlugins(isNewJob);
 
-            Bind();
+            Bind(isNewJob);
         }
 
-        private void Bind()
+        private void Bind(bool isNewJob)
         {
             if (_job != null)
             {
@@ -64,7 +63,15 @@ namespace Job.UserForms
 
                 if (!UserProfile.Settings.HideCategory)
                 {
-                    kryptonComboBoxCategory.SelectedItem = kryptonComboBoxCategory.Items.Cast<Category>().FirstOrDefault(x => x.Id.Equals(_job.CategoryId));
+                    if (isNewJob)
+                    {
+                        kryptonComboBoxCategory.SelectedIndex = -1;
+                    }
+                    else
+                    {
+                        kryptonComboBoxCategory.SelectedItem = kryptonComboBoxCategory.Items.Cast<Category>().FirstOrDefault(x => x.Id.Equals(_job.CategoryId));
+                    }
+                    
                 }
 
                 if (string.IsNullOrEmpty( _job.Note ))
@@ -101,8 +108,9 @@ namespace Job.UserForms
 
             if (!UserProfile.Settings.HideCategory)
             {
-                var categories = UserProfile.Categories.GetAll().ToList();
-                kryptonComboBoxCategory.DataSource = categories;
+                //var categories = CategoryToCustomerAsignManager.GetCustomerCategories(UserProfile,)
+                //var categories = UserProfile.Categories.GetAll().ToList();
+                //kryptonComboBoxCategory.DataSource = categories;
                 kryptonComboBoxCategory.DisplayMember = "Name";
             }
 
@@ -145,15 +153,23 @@ namespace Job.UserForms
             if (CheckCustomerPresent())
             {
                 Unbind();
+                DialogResult = DialogResult.OK;
                 Close();
                 return;
             }
 
-            DialogResult = DialogResult.Cancel;
+            DialogResult = DialogResult.None;
+            
         }
         private bool CheckCustomerPresent()
         {
-            return UserProfile.Customers.CheckCustomerPresent(kryptonComboBox_Customers.Text);
+            if (string.IsNullOrEmpty(kryptonComboBox_Customers.Text))
+            {
+                MessageBox.Show("Вибери замовника");
+                return false;
+            }
+
+            return UserProfile.Customers.CheckCustomerPresent(kryptonComboBox_Customers.Text,false);
         }
         private void Unbind()
         {
@@ -163,6 +179,7 @@ namespace Job.UserForms
             if (!string.IsNullOrEmpty(kryptonComboBoxCategory.Text))
             {
                 _job.CategoryId = UserProfile.Categories.Add(kryptonComboBoxCategory.Text);
+                CategoryToCustomerAsignManager.SetCategory(UserProfile, ((Customer)kryptonComboBox_Customers.SelectedItem).Id, _job.CategoryId,true);
             }
             else
             {
@@ -174,42 +191,7 @@ namespace Job.UserForms
 
         }
 
-        //private void TextBox_Description_KeyPress(object sender, KeyPressEventArgs e)
-        //{
-        //    //if (e.KeyChar == (char)Keys.Delete || e.KeyChar == (char)'\b')
-        //    //    e.Handled = false;
-        //    //else if (ModifierKeys.HasFlag(Keys.Control) && e.KeyChar == 22)
-        //    //{
-        //    //    var clipboard = Clipboard.GetDataObject();
-        //    //    if (clipboard != null)
-        //    //    {
-        //    //        if (clipboard.GetDataPresent(DataFormats.StringFormat))
-        //    //        {
-        //    //            string fn = (string)clipboard.GetData(DataFormats.StringFormat);
 
-        //    //            try
-        //    //            {
-        //    //                fn = Path.GetFileNameWithoutExtension(fn);
-        //    //            }
-        //    //            catch { }
-
-        //    //            finally
-        //    //            {
-        //    //                fn = fn.Transliteration();
-        //    //            }
-        //    //            InsertTextToTextbox(textBox_Description, fn);
-        //    //            //InsertTextToTextbox(textBox_Description,Path.GetFileNameWithoutExtension( (string) clipboard.GetData(DataFormats.StringFormat)).Transliteration());
-        //    //            e.Handled = true;
-        //    //        }
-
-        //    //    }
-        //    //}
-        //    //else
-        //    //{
-        //    //    InsertTextToTextbox(textBox_Description, e.KeyChar.TransliterationChar());
-        //    //    e.Handled = true;
-        //    //}
-        //}
         private void InsertTextToTextbox(TextBox textBox, string txt)
         {
             var selStart = textBox.SelectionStart;
@@ -299,7 +281,7 @@ namespace Job.UserForms
                 {
                     try
                     {
-                        str = Path.GetFileNameWithoutExtension(str).Transliteration();
+                        str = Path.GetFileNameWithoutExtension(str);
                     }
                     catch
                     {
@@ -312,21 +294,21 @@ namespace Job.UserForms
             }
         }
 
-/*
-        private void ButtonCancel_Click(object sender, EventArgs e)
+        private void kryptonComboBox_Customers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Close();
+            var customer = kryptonComboBox_Customers.SelectedItem as Customer;
+
+            if (customer == null) return;
+
+            if (UserProfile.Settings.HideCategory) return;
+
+
+            var categories = CategoryToCustomerAsignManager.GetCustomerCategories(UserProfile, customer.Id);
+            //var categories = UserProfile.Categories.GetAll().ToList();
+            kryptonComboBoxCategory.DataSource = categories;
+            kryptonComboBoxCategory.DisplayMember = "Name";
+            kryptonComboBoxCategory.SelectedItem = null;
         }
-*/
-
-/*
-        private void ButtonSpecAny1_Click(object sender, EventArgs e)
-        {
-            kryptonTextBoxNumber.Text = String.Empty;
-        }
-*/
-
-
     }
 }
 

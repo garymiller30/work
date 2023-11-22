@@ -6,7 +6,7 @@ namespace Job
 {
     
     [Serializable]
-    public class Part : IPart
+    public sealed class Part : IPart
     {
         public ObjectId Id { get; set; }
         public string Name { get; set; }

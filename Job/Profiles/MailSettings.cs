@@ -7,7 +7,7 @@ namespace Job.Profiles
     [Serializable]
    
 
-    public class MailSettings : IMailSettings
+    public sealed class MailSettings : IMailSettings
     {
         public string SettingsFolder { get; set; }
         public bool MailNotifyEnable { get; set; }

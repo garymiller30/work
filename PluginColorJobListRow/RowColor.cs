@@ -1,0 +1,17 @@
+﻿using Interfaces.Plugins;
+using Job.Static;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PluginColorJobListRow
+{
+    public class RowColor : IRowColor
+    {
+        public Color Fore { get;set; } = Color.Transparent;
+        public Color Back { get;set; } = Color.Transparent;
+    }
+}

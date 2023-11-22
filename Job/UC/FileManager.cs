@@ -5,6 +5,7 @@ using Interfaces;
 using Job.Static;
 using Microsoft.VisualBasic.FileIO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -15,7 +16,7 @@ using FileSystem = Microsoft.VisualBasic.FileIO.FileSystem;
 
 namespace Job.UC
 {
-    public class FileManager : IFileManager
+    public sealed class FileManager : IFileManager
     {
 
         public FileBrowserSettings Settings { get; set; } = new FileBrowserSettings();
@@ -92,10 +93,23 @@ namespace Job.UC
             List<IFileSystemInfoExt> files = new List<IFileSystemInfoExt>(1);
             try
             {
-                await Task.Run(() =>
+                if (Settings.ShowAllFilesWithoutDir)
                 {
-                    files = _cache.GetFiles(Settings.CurFolder);
-                }).ConfigureAwait(false);
+
+                    GetAllFilesWithoutDir();
+
+                }
+                else
+                {
+                    await Task.Run(() =>
+                                   {
+                                       files = _cache.GetFiles(Settings.CurFolder);
+                                   }).ConfigureAwait(true);
+                    OnRefreshDirectory(this, files);
+                    if (!string.IsNullOrEmpty(selectFileName))
+                        OnSelectFileName(this, selectFileName);
+                }
+
             }
             catch
             {
@@ -104,9 +118,6 @@ namespace Job.UC
             }
 
 
-            OnRefreshDirectory(this, files);
-            if (!string.IsNullOrEmpty(selectFileName))
-                OnSelectFileName(this, selectFileName);
         }
 
         /// <summary>
@@ -159,31 +170,7 @@ namespace Job.UC
 
 
         }
-        //public void CreateJdf(IEnumerable<IFileSystemInfoExt> files)
-        //{
 
-        //    //StopWatcher();
-
-        //    var jdf = new Jdf { PatternSettings = { Separator = "~" } };
-
-        //    jdf.PatternSettings.AddPattern(PatternEnum.Customer);
-        //    jdf.PatternSettings.AddPattern(PatternEnum.JobName);
-        //    jdf.PatternSettings.AddPattern(PatternEnum.PageNumber);
-        //    jdf.PatternSettings.AddPattern(PatternEnum.FrontBack);
-        //    jdf.PatternSettings.AddPattern(PatternEnum.Color);
-
-        //    jdf.ShablonPath = @"JDF\JobStart.jdf";
-
-        //    foreach (IFileSystemInfoExt file in files)
-        //    {
-        //        jdf.AddFile(file.FileInfo.FullName);
-        //    }
-
-        //    jdf.CreateJdf(Settings.CurFolder);
-
-        //    Refresh();
-
-        //і}
 
         public void CreateDirectoryInCurrentFolder(string name)
         {
@@ -246,13 +233,11 @@ namespace Job.UC
 
                 try
                 {
-                    if (file.IsDir) Directory.Delete(file.FileInfo.FullName, true);
-                    else File.Delete(file.FileInfo.FullName);
+                    if (file.IsDir) FileSystem.DeleteDirectory(file.FileInfo.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);// Directory.Delete(file.FileInfo.FullName, true);
+                    else FileSystem.DeleteFile(file.FileInfo.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);// File.Delete(file.FileInfo.FullName);
                 }
                 catch (IOException)
                 {
-                    //var processes = FileUtil.WhoIsLocking(file.FileInfo.FullName);
-                    //var message = processes.Select(x => x.ProcessName).Aggregate((a, n) => $"{a}/n{n}");
                     var message = FileUtil.GetNamesWhoBlock(file.FileInfo.FullName);
                     if (MessageBox.Show($"Файл {file.FileInfo.FullName} заблоковано такими програмами: {message}", "Файл заблоковано", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Retry)
                     {
@@ -405,12 +390,19 @@ namespace Job.UC
 
         public void DirectoryUp()
         {
+
             if (Settings.RootFolder == null) return;
-            if (Settings.RootFolder.Equals(Settings.CurFolder, StringComparison.InvariantCultureIgnoreCase)) return;
 
-            var selectedFileName = Path.GetFileName(Settings.CurFolder);
+            string selectedFileName = Settings.CurFolder;
 
-            Settings.CurFolder = Path.GetDirectoryName(Settings.CurFolder);
+            if (!Settings.RootFolder.Equals(Settings.CurFolder, StringComparison.InvariantCultureIgnoreCase))
+            {
+                selectedFileName = Path.GetFileName(Settings.CurFolder);
+
+                Settings.CurFolder = Path.GetDirectoryName(Settings.CurFolder);
+            }
+
+
             RefreshAsync(selectedFileName);
         }
 
@@ -422,7 +414,15 @@ namespace Job.UC
             {
                 var destFolder = Path.GetDirectoryName(sourceFolder);
 
-                MoveDir(sourceFolder, destFolder);
+                try
+                {
+                    MoveDir(sourceFolder, destFolder);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
 
 
             }
@@ -467,6 +467,61 @@ namespace Job.UC
             }
 
             Directory.Delete(sourceFolder);
+        }
+
+        public async void GetAllFilesWithoutDir()
+        {
+            List<IFileSystemInfoExt> files = new List<IFileSystemInfoExt>(1);
+            try
+            {
+                await Task.Run(() =>
+                {
+                    files = _cache.GetAllFiles(Settings.CurFolder);
+
+                    if (Settings.IgnoreFolders.Length > 0)
+                    {
+                        files = files.Where(f => CheckForIgnoreFolders(f)).ToList();
+                    }
+                }).ConfigureAwait(true);
+            }
+            catch
+            {
+
+
+            }
+
+            OnRefreshDirectory(this, files);
+        }
+
+        public List<IFileSystemInfoExt> GetDirs()
+        {
+            List<IFileSystemInfoExt> files = new List<IFileSystemInfoExt>(1);
+
+            files = _cache.GetDirs(Settings.CurFolder);
+
+            return files;
+        }
+
+        private bool CheckForIgnoreFolders(IFileSystemInfoExt f)
+        {
+            foreach (var ignoreFolder in Settings.IgnoreFolders)
+            {
+                if (f.FileInfo.FullName.Contains($"\\{ignoreFolder}\\"))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void CreateDirectoryInCurrentFolder(string name, Action<string> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MoveTo(IFileSystemInfoExt file, string targetDir)
+        {
+            _moveFileOrDir(file, targetDir);
         }
     }
 

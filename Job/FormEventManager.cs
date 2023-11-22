@@ -9,7 +9,7 @@ using MongoDB.Bson;
 
 namespace Job
 {
-    public class FormEventManager : IEnumerable<FormEvent>
+    public sealed class FormEventManager : IEnumerable<FormEvent>
     {
         public Profile UserProfile { get; set; }
 

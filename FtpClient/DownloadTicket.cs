@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FtpClient
 {
-    public class DownloadTicket : IDownloadTicket
+    public sealed class DownloadTicket : IDownloadTicket
     {
         public object Sender{get;set; }
         public ICustomer Customer {get;set;}

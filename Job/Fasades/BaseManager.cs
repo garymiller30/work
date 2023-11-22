@@ -1,14 +1,18 @@
-﻿using Interfaces;
+﻿using ImageMagick;
+using Interfaces;
 using Logger;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace Job.Fasades
 {
-    public class BaseManager : IBaseManager
+    public sealed class BaseManager : IBaseManager
     {
 
         private readonly IRepository _repository;
@@ -27,9 +31,7 @@ namespace Job.Fasades
         {
             get
             {
-                if (_repository == null) return false;
-                //if (_mongoDatabase == null) return false;
-                return true;// _mongoDatabase.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(BaseTimeOut*1000);
+                return _repository != null && _repository.IsConnected;
 
             }
         }
@@ -43,32 +45,16 @@ namespace Job.Fasades
         public bool Connect()
         {
             if (string.IsNullOrEmpty(Settings.MongoDbServer) ||
-                string.IsNullOrEmpty(Settings.MongoDbUser) ||
-                string.IsNullOrEmpty(Settings.MongoDbPassword) ||
                 string.IsNullOrEmpty(Settings.MongoDbBaseName)
             ) return false;
 
-            //var credential = MongoCredential.CreateCredential(MongoDbBaseName, User, Password);
-
-            //var setting = new MongoClientSettings
-            //{
-            //    Credential = credential,
-            //    Server = new MongoServerAddress(MongoDbServer, Port)
-            //};
-
             try
             {
-                _repository.CreateConnection(
-                    Settings.MongoDbServer,
-                    Settings.MongoDbPort,
-                    Settings.MongoDbUser,
-                    Settings.MongoDbPassword,
-                    Settings.MongoDbBaseName);
-
+                _repository.CreateConnection(Settings.MongoDbServer, Settings.MongoDbBaseName);
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser})BaseManager", e.Message);
+                Log.Error(this, $"({Settings.MongoDbServer})BaseManager", e.Message);
                 MessageBox.Show(e.Message, "BaseManager.Connect()");
             }
 
@@ -76,32 +62,53 @@ namespace Job.Fasades
         }
 
 
-        [Obsolete]
-        public void CreateConnection(string server, int port, string user, string password, string databaseName)
+        public void CreateConnection(string connectionString, string databaseName)
         {
-            Settings.MongoDbServer = server;
-            Settings.MongoDbPort = port;
-            Settings.MongoDbUser = user;
-            Settings.MongoDbPassword = password;
+            Settings.MongoDbServer = connectionString;
             Settings.MongoDbBaseName = databaseName;
 
             Connect();
         }
 
-
-        public virtual void Add<T>(T item) where T : class, new()
+        public void Add<T>(T item) where T : class, new()
         {
-            _repository.Add(item);
+            try
+            {
+                _repository.Add(item);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public void Delete<T>(T item) where T : IWithId
         {
-            _repository.Delete(item);
+            try
+            {
+                _repository.Delete(item);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public List<T> All<T>() where T : class, new()
         {
-            return _repository.All<T>();
+            try
+            {
+                var list = _repository.All<T>();
+                return list;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public void Update<T>(T item) where T : IWithId
@@ -112,29 +119,76 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
+                throw;
+            }
+        }
+
+        public object GetRawCollection<T>() where T : class, new()
+        {
+            try
+            {
+                return _repository.GetRawCollection<T>();
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }
 
         public object GetRawCollection<T>(string collection) where T : class, new()
         {
-            return _repository.GetRawCollection<T>(collection);
+            try
+            {
+                var obj = _repository.GetRawCollection<T>(collection);
+                return obj;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         void IRepository.Add<T>(string collection, T item)
         {
-            _repository.Add<T>(collection, item);
+            try
+            {
+                _repository.Add<T>(collection, item);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public void Delete<T>(string collection, T item) where T : IWithId
         {
-            _repository.Delete(collection, item);
+            try
+            {
+                _repository.Delete(collection, item);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public List<T> All<T>(string collection) where T : class, new()
         {
-            return _repository.All<T>(collection);
+            try
+            {
+                return _repository.All<T>(collection);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
         public void Update<T>(string collection, T item) where T : IWithId
@@ -145,7 +199,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
                 throw;
             }
 
@@ -153,7 +207,16 @@ namespace Job.Fasades
 
         public T GetById<T>(string collection, object id) where T : class, IWithId
         {
-            return _repository.GetById<T>(collection, id);
+            try
+            {
+                return _repository.GetById<T>(collection, id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public bool Add<T>(string collection, T obj) where T : class, new()
@@ -165,7 +228,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
                 return false;
             }
         }
@@ -182,7 +245,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
             }
 
         }
@@ -197,12 +260,12 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
                 return false;
             }
         }
 
-        public List<T> GetCollection<T>(string collection) where T : class, new()
+        public List<T> GetCollection<T>(string collection) where T : class, IWithId, new()
         {
             try
             {
@@ -210,7 +273,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", e.InnerException?.Message);
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", e.InnerException?.Message);
             }
             return new List<T>();
         }
@@ -222,30 +285,25 @@ namespace Job.Fasades
                 var jobs = _repository.GetRawCollection<Job>("Jobs");
                 var job = ((IMongoCollection<Job>)jobs).Find(x => x.Number.Equals(orderNumber));
                 return job.ToList(default).LastOrDefault();
-
-                //return _repository.All<Job>("Jobs").LastOrDefault(x=>x.Number.Equals(orderNumber));
-
             }
             catch (Exception e)
             {
-                Log.Error(this, $"({Settings.MongoDbUser}) BaseManager", $"GetByOrderNumber: {e.Message}");
+                Log.Error(this, $"({Settings.MongoDbServer}) BaseManager", $"GetByOrderNumber: {e.Message}");
                 return null;
             }
         }
 
         public List<IJob> ApplyViewFilter(int[] statuses)
         {
+            if (statuses.Length == 0) new List<IJob>(0);
+
             try
             {
-                if (statuses.Length > 0)
-                {
-                    var jobs = _repository.GetRawCollection<Job>("Jobs");
-                    var jobFilter = ((IMongoCollection<Job>)jobs).Find(x => statuses.Contains(x.StatusCode));
-                    return jobFilter.ToList(default).ToList<IJob>();
+                var filter = new BsonDocument("StatusCode", new BsonDocument("$in", new BsonArray(statuses)));
 
-                }
-
-                return new List<IJob>(0);
+                var jobs = (IMongoCollection<Job>)_repository.GetRawCollection<Job>("Jobs");
+                var filteredJobs = jobs.Find(filter).ToList(default);
+                return filteredJobs.ToList<IJob>();
             }
             catch (Exception e)
             {
@@ -271,18 +329,20 @@ namespace Job.Fasades
 
                 var catList = catFilter.ToList();
 
-                var jobFilter = from j in ((IMongoCollection<Job>)jobs).AsQueryable()
-                                where j.Customer.ToLower().Contains(searchString) || j.Description.ToLower().Contains(searchString)
-                                                                                  || j.Note.ToLower().Contains(searchString)
-                                                                                  || j.Number.ToLower().Contains(searchString)
-                                                                                  || catList.Contains(j.CategoryId)
+                var filter = Builders<Job>.Filter.Or(
+                    Builders<Job>.Filter.Regex(j=>j.Number,new BsonRegularExpression($"/{text}/i")),
+                    Builders<Job>.Filter.Regex(j => j.Customer, new BsonRegularExpression($"/{text}/i")),
+                    Builders<Job>.Filter.Regex(j => j.Note, new BsonRegularExpression($"/{text}/i")),
+                    Builders<Job>.Filter.In("CategoryId", catFilter),
+                    Builders<Job>.Filter.Regex(j=>j.Description,new BsonRegularExpression($"/{text}/i")));
 
-                                select j;
-                return jobFilter.ToList().ToList<IJob>();
+                var filtered = ((IMongoCollection<Job>)jobs).Find(filter).ToList(default);
+                return filtered.ToList<IJob>();
+                
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Log.Error(this, "BaseManager: Search", e.Message);
                 throw;
             }
         }

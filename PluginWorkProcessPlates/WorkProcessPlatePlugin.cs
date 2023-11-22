@@ -6,7 +6,7 @@ using PluginWorkProcessPlates.Forms;
 
 namespace PluginWorkProcessPlates
 {
-    public class WorkProcessPlatePlugin : AbstractPluginAddWork<PlateProcess>, IPluginBase
+    public sealed class WorkProcessPlatePlugin : AbstractPluginAddWork<PlateProcess>, IPluginBase
     {
         private PlateSettings _settings;
 

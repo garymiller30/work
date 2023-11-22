@@ -1,11 +1,9 @@
 ﻿using System;
-using MongoDB.Bson;
 
 namespace Interfaces
 {
     public interface IJob : IWithId
     {
-        //ObjectId Id { get; set; }
         DateTime Date { get; set; }
         string Number { get; set; }
         string PreviousOrder { get; set; }
@@ -18,7 +16,7 @@ namespace Interfaces
         bool IsCashePayed { get; set; }
         [Obsolete]
         decimal CachePayedSum { get; set; }
-        ObjectId CategoryId { get; set; }
+        object CategoryId { get; set; }
 
         bool UseCustomFolder { get; set; }
         string Folder { get; set; }

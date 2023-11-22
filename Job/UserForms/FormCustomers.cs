@@ -2,12 +2,15 @@
 using System.Linq;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 using Interfaces;
+using Job.ModelView;
+using Job.Fasades;
+using System.Diagnostics;
 
 namespace Job.UserForms
 {
-    public partial class FormCustomers : KryptonForm
+    public sealed partial class FormCustomers : KryptonForm
     {
         private IUserProfile UserProfile { get; set; }
 
@@ -19,6 +22,13 @@ namespace Job.UserForms
             InitLVFtpServers();
             objectListView_Customers.AddObjects(UserProfile.Customers.ToList());
 
+            InitCategories();
+        }
+
+        private void InitCategories()
+        {
+            var categories = UserProfile.Categories.GetAll().Select(x=> new CategoryToCustomerView((Category)x));
+            objectListView_Categories.AddObjects(categories.ToArray());
         }
 
         private void InitLVFtpServers()
@@ -32,7 +42,7 @@ namespace Job.UserForms
             if (objectListView_FtpServers.Objects == null) return CheckState.Indeterminate;
             if (objectListView_Customers.SelectedObject == null) return CheckState.Indeterminate;
 
-            if (((Customer)objectListView_Customers.SelectedObject).FtpServers.Contains(((FtpSettings)r).Name))
+            if (((Customer)objectListView_Customers.SelectedObject).FtpServers.Contains(((FtpSettings)r).Name, StringComparer.OrdinalIgnoreCase))
             {
                 return CheckState.Checked;
             }
@@ -90,12 +100,34 @@ namespace Job.UserForms
                 
                 kryptonCheckBoxUseFtp.Checked = customer.IsFtpEnable;
                 SetFtpParam(customer);
-
+                objectListView_Categories.ItemChecked -= objectListView_Categories_ItemChecked;
+                SetCategoryToCustomer(customer);
+                objectListView_Categories.ItemChecked += objectListView_Categories_ItemChecked;
             }
             else
             {
                 kryptonGroupBoxParameters.Enabled = false;
             }
+        }
+
+        private void SetCategoryToCustomer(Customer customer)
+        {
+           
+
+            objectListView_Categories.UncheckAll();
+
+            var categories = CategoryToCustomerAsignManager.GetCustomerCategories(UserProfile,customer.Id);
+            
+            if (!categories.Any()) return;
+
+            var catIds = categories.Select(c => c.Id);
+            
+            var catToCus = objectListView_Categories.Objects.Cast<CategoryToCustomerView>().Where(x=> catIds.Contains(x.Id)).ToArray();
+
+            objectListView_Categories.CheckObjects(catToCus);
+
+            
+
         }
 
         private void SetFtpParam(Customer customer)
@@ -165,105 +197,7 @@ namespace Job.UserForms
             if (customer != null)
                 UserProfile.Customers.Refresh(customer);
         }
-        /// <summary>
-        /// добавить заказчику формат пластин по умолчанию
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-  
-
-/*
-        /// <summary>
-        /// змінити володаря пластин
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void objectListView_PlatesDefault_CellEditStarting(object sender, CellEditEventArgs e)
-        {
-            if (e.Column == olvColumnOwnerPlate)
-            {
-                var cb = new ComboBox
-                {
-                    Bounds = e.CellBounds,
-                    Font = ((ObjectListView)sender).Font,
-                    DropDownStyle = ComboBoxStyle.DropDownList,
-                    DisplayMember = "Name"
-                };
-                cb.Items.AddRange(UserProfile.PlateOwners.GetCollection().ToArray());
-
-                var sel = ((PlateFormat) e.RowObject).OwnerId;
-
-                cb.SelectedItem = cb.Items.Cast<PlateOwner>().FirstOrDefault(x => x.Id == sel);
-
-                e.Control = cb;
-
-            }
-        }
-*/
-
-/*
-        private void objectListView_PlatesDefault_CellEditFinishing(object sender, CellEditEventArgs e)
-        {
-            if (e.Column == olvColumnOwnerPlate)
-            {
-                if (e.Control is ComboBox box)
-                {
-                    if (box.SelectedItem != null)
-                    {
-                        var customer = objectListView_Customers.SelectedObject as Job.Customer;
-                        if (customer != null)
-                        {
-                            ((PlateFormat)e.RowObject).OwnerId = ((PlateOwner)box.SelectedItem).Id;
-                            UserProfile.Customers.Refresh(customer);
-
-                            objectListView_PlatesDefault.RefreshObject(e.RowObject);
-
-                        }
-                    }
-                }
-            }
-        }
-*/
-
-/*
-        private void удалитьToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            var pf = objectListView_PlatesDefault.SelectedObject as PlateFormat;
-
-            if (objectListView_Customers.SelectedObject is Job.Customer customer && pf != null)
-            {
-                if (UserProfile.Customers.RemoveCustomerPlate(customer, pf))
-                {
-                    objectListView_PlatesDefault.RemoveObject(pf);
-                }
-
-            }
-        }
-*/
-
-/*
-        private void нетВладельцаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var pf = objectListView_PlatesDefault.SelectedObject as PlateFormat;
-
-            if (objectListView_Customers.SelectedObject is Job.Customer customer && pf != null)
-            {
-                pf.OwnerId = ObjectId.Empty;
-                UserProfile.Customers.Refresh(customer);
-                
-                objectListView_PlatesDefault.RefreshObject(pf);
-            }
-        }
-*/
-
-        //private void textBoxDefaulEmail_Leave(object sender, EventArgs e)
-        //{
-        //    if (objectListView_Customers.SelectedObject is Job.Customer customer)
-        //    {
-        //        customer.DefaultEmail = textBoxDefaulEmail.Text;
-        //        UserProfile.Customers.Refresh(customer);
-        //    }
-        //}
+ 
 
         private void textBoxCustomerFilter_TextChanged(object sender, EventArgs e)
         {
@@ -275,6 +209,16 @@ namespace Job.UserForms
             {
                 objectListView_Customers.ModelFilter = null;
             }
+        }
+
+        private void objectListView_Categories_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            var category = (CategoryToCustomerView)((OLVListItem)e.Item).RowObject;
+            // add or change in database
+
+            var customer = (Customer)objectListView_Customers.SelectedObject;
+
+            CategoryToCustomerAsignManager.SetCategory(UserProfile,customer.Id,category.Id,e.Item.Checked);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Job.Profiles
 {
-    public class PdfConverterSettings : IPdfConverterSettings
+    public sealed class PdfConverterSettings : IPdfConverterSettings
     {
         public bool MoveOriginalsToTrash { get; set; }
     }

@@ -1,10 +1,9 @@
-﻿using MongoDB.Bson;
-
+﻿
 namespace Interfaces
 {
     public interface IFtpSettings
     {
-        ObjectId Id { get; set; }
+        object Id { get; set; }
         /// <summary>
         /// адрес сервера
         /// </summary>

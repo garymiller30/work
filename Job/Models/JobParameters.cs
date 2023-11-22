@@ -8,9 +8,9 @@ using MongoDB.Bson;
 
 namespace Job.Models
 {
-    public class JobParameters : IJob
+    public sealed class JobParameters : IJob
     {
-        public ObjectId Id { get; set; }
+        public object Id { get; set; }
         public DateTime Date { get; set; }
         public string Number { get; set; }
         public string PreviousOrder { get; set; }
@@ -23,7 +23,7 @@ namespace Job.Models
         public bool UseCustomFolder { get; set; }
 
         public decimal CachePayedSum { get; set; }
-        public ObjectId CategoryId { get; set; }
+        public object CategoryId { get; set; }
         public string Folder { get; set; }
 
         public int StatusCode { get; set; }

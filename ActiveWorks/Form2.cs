@@ -5,8 +5,9 @@
 using ActiveWorks.Forms;
 using ActiveWorks.Properties;
 using ActiveWorks.UserControls;
-using ComponentFactory.Krypton.Ribbon;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Ribbon;
+using Krypton.Toolkit;
+using ExtensionMethods;
 using Interfaces;
 using Interfaces.Plugins;
 using Job.Profiles;
@@ -18,33 +19,57 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Job.Static;
 
 namespace ActiveWorks
 {
-    public partial class Form2 : KryptonForm
+    public sealed partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 7.5.10";
+        private readonly string _version = $"{Localize.FormTitle} 8.6.3";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
-        Stopwatch _sw = new Stopwatch();
+        readonly Stopwatch _sw = new Stopwatch();
 
 
         public Form2()
         {
             InitializeComponent();
 
+            ThemeController.ThemeChanged += ThemeController_ThemeChanged;
+
             Text = _version;
 
             buttonSpecAnyWhatNew.Click += ButtonSpecAnyWhatNew_Click;
             buttonSpecBackgroundTasks.Click += ButtonSpecBackgroundTasks_Click;
+
+            BackgroundTaskServiceLib.BackgroundTaskService.OnAdd += BackgroundTaskService_OnAdd;
+            BackgroundTaskServiceLib.BackgroundTaskService.OnAllFinish += BackgroundTaskService_OnAllFinish;
+
             _sw.Start();
 
             SplashScreen.Splash.ShowSplashScreen();
-            SplashScreen.Splash.SetImage(Resources.SplashScreen7);
+            SplashScreen.Splash.SetImage(Resources.SplashScreen8);
             SplashScreen.Splash.SetVersion(_version, Color.Yellow, 12, 12);
             SplashScreen.Splash.SetHeader(string.Empty);
             SplashScreen.Splash.SetStatus(string.Empty);
+        }
+
+        private void ThemeController_ThemeChanged(object sender, EventArgs e)
+        {
+            kryptonManager1.GlobalPaletteMode = ThemeController.Theme == ThemeEnum.Light ? PaletteModeManager.Office2010Silver : PaletteModeManager.SparkleBlueDarkMode;
+        }
+
+        private void BackgroundTaskService_OnAllFinish(object sender, EventArgs e)
+        {
+            this.InvokeIfNeeded(new Action(() => buttonSpecBackgroundTasks.ExtraText = ""));
+        }
+
+
+        private void BackgroundTaskService_OnAdd(object sender, BackgroundTaskServiceLib.BackgroundTaskItem e)
+        {
+            this.InvokeIfNeeded(new Action(() => buttonSpecBackgroundTasks.ExtraText = "(...працюємо...)"));
+
         }
 
         private void ButtonSpecBackgroundTasks_Click(object sender, EventArgs e)
@@ -101,36 +126,49 @@ namespace ActiveWorks
         /// <summary>
         /// Create Profile Ribbon  Tab
         /// </summary>
-        private void CreateProfileTab()
+        private void CreateProfilesTab()
         {
-            var profiles = ProfilesController.GetProfiles(Settings.Default.ProfilesPath);
+            SplashScreen.Splash.SetHeader("профілі");
+            SplashScreen.Splash.SetStatus("завантажуємо...");
 
+            var profiles = ProfilesController.GetProfiles(Settings.Default.ProfilesPath);
+            SplashScreen.Splash.SetStatus("ок!");
             foreach (var profile in profiles)
             {
                 Stopwatch sw = Stopwatch.StartNew();
                 sw.Start();
-                var tab = new KryptonRibbonTab { Text = profile.Settings.ProfileName };
-                kryptonRibbon1.RibbonTabs.Add(tab);
 
-                var formProfile = new FormProfile
-                {
-                    Tag = profile,
-                    Text = profile.Settings.ProfileName,
-                    MdiParent = this
-                };
-
-                formProfile.InitProfile();
-
-                formProfile.Dock = DockStyle.Fill;
-                formProfile.Show();
-
-                tab.Tag = formProfile;
-                _profileTabs.Add(formProfile);
-
-                FillRibbonTab(formProfile, tab, profile);
+                CreateProfileTab(profile);
+                
                 sw.Stop();
                 Log.Info("App", "App", $"profile '{profile.Settings.ProfileName}' loaded by {sw.ElapsedMilliseconds} ms");
             }
+        }
+
+        private void CreateProfileTab(Profile profile)
+        {
+            var tab = new KryptonRibbonTab { Text = profile.Settings.ProfileName };
+            kryptonRibbon1.RibbonTabs.Add(tab);
+
+            var formProfile = new FormProfile
+            {
+                Tag = profile,
+                Text = profile.Settings.ProfileName,
+                MdiParent = this
+            };
+
+            SplashScreen.Splash.SetHeader(profile.Settings.ProfileName);
+            SplashScreen.Splash.SetStatus("завантажуємо налаштування...");
+
+            formProfile.InitProfile();
+
+            formProfile.Dock = DockStyle.Fill;
+            formProfile.Show();
+
+            tab.Tag = formProfile;
+            _profileTabs.Add(formProfile);
+
+            FillRibbonTab(formProfile, tab, profile);
         }
 
         private void KryptonRibbon1_SelectedTabChanged(object sender, EventArgs e)
@@ -172,6 +210,7 @@ namespace ActiveWorks
                 using (var s = new FormSettings())
                 {
                     s.ShowDialog();
+                    ApplySettings();
                 }
             };
             groupTriple.Items.Add(button);
@@ -230,13 +269,26 @@ namespace ActiveWorks
             button.Click += (sender, args) =>
             {
                 formProfile.ResetLayout();
+                _profileTabs.Remove((FormProfile)formProfile);
+                kryptonRibbon1.RibbonTabs.Remove(tab);
+                CreateProfileTab((Profile)((FormProfile)formProfile).Tag);
             };
+            groupTriple.Items.Add(button);
+            // --- Theme switcher button ---
+            button = new KryptonRibbonGroupButton { TextLine1 = @"Змінити тему"};
+            button.Click += (sender, args) => ThemeController.SwitchTheme();
             groupTriple.Items.Add(button);
             group.Items.Add(groupTriple);
 
         }
 
-
+        private void ApplySettings()
+        {
+            foreach (var tab in _profileTabs)
+            {
+                ((Profile)tab.Tag).FileBrowser.InitBrowserToolStripUtils();
+            }
+        }
 
         private void CreateSearchGroup(KryptonRibbonTab tab, Profile profile)
         {
@@ -266,6 +318,10 @@ namespace ActiveWorks
             AutoCompleteStringCollection data = new AutoCompleteStringCollection();
             if (profile.Customers != null)
                 data.AddRange(profile.Customers.Select(x => x.Name).ToArray());
+            if (profile.Categories != null)
+            {
+                data.AddRange(profile.Categories.GetAll().Select(x => x.Name).ToArray());
+            }
             combobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             combobox.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
@@ -366,17 +422,20 @@ namespace ActiveWorks
 
             foreach (IJobStatus status in profile.StatusManager.GetJobStatuses())
             {
+
+
                 var button = new KryptonRibbonGroupButton()
                 {
-                    ToolTipStyle = LabelStyle.ToolTip,
-                    ToolTipBody = status.Name,
+                    
+                    //ToolTipStyle = LabelStyle.ToolTip,
+                    //ToolTipBody = status.Name,
                     TextLine1 = status.Name,
-                    //TextLine2 = string.Empty,
                     ImageSmall = status.Img,
                     ButtonType = GroupButtonType.Check,
                     Tag = status
-
                 };
+
+
 
                 button.Click += (sender, args) =>
                 {
@@ -404,13 +463,12 @@ namespace ActiveWorks
                 Image = Resources.move_icon
             };
             var groupTriple = new KryptonRibbonGroupLines();
-            //groupTriple.MinimumSize = GroupItemSize.Small;
+            
 
             foreach (IJobStatus status in profile.StatusManager.GetJobStatuses())
             {
                 var button = new KryptonRibbonGroupButton
                 {
-                    ToolTipBody = status.Name,
                     TextLine1 = status.Name,
                     ImageSmall = status.Img,
                     Tag = status
@@ -440,41 +498,74 @@ namespace ActiveWorks
                 MinimumSize = GroupItemSize.Large
             };
             var button = new KryptonRibbonGroupButton { TextLine1 = @"нове", ImageLarge = Resources.File_new_icon };
-            button.Click += (sender, args) => profile.Jobs.CreateJob();
+
+            
+            void OnJobAdd(object sender,IJob job)
+            {
+                profile.Jobs.JobListControl.SelectJob(job);
+            }
+
+            button.Click += (sender, args) => {
+                
+                profile.Events.Jobs.OnJobAdd += OnJobAdd;
+                profile.Jobs.CreateJob();
+                profile.Events.Jobs.OnJobAdd -= OnJobAdd;
+                };
             groupTriple.Items.Add(button);
 
             IPluginNewOrder[] plugins = profile.Plugins?.GetPluginsNewOrder() ?? new IPluginNewOrder[0];
             if (plugins.Any())
             {
-                button = new KryptonRibbonGroupButton { TextLine1 = plugins[0].PluginName, ImageLarge = plugins[0].PluginImage, ToolTipBody = plugins[0].PluginDescription };
+                button = new KryptonRibbonGroupButton
+                {
+                    TextLine1 = plugins[0].PluginName,
+                    ImageLarge = plugins[0].PluginImage,
+
+                    //ToolTipBody = plugins[0].PluginDescription 
+                };
                 button.Click += (sender, args) => profile.Jobs.CreateJob(plugins[0]);
                 groupTriple.Items.Add(button);
             }
 
-            button = new KryptonRibbonGroupButton { TextLine1 = @"повторити", ImageLarge = Resources.Document_copy_icon };
-            button.Click += (sender, args) => profile.Jobs.RepeatSelectedJob();
-            groupTriple.Items.Add(button);
+            //button = new KryptonRibbonGroupButton { TextLine1 = @"повторити", ImageLarge = Resources.Document_copy_icon };
+            //button.Click += (sender, args) => profile.Jobs.RepeatSelectedJob();
+            //groupTriple.Items.Add(button);
             group.Items.Add(groupTriple);
             tab.Groups.Add(group);
         }
 
+        
 
         private void Form2_Load(object sender, EventArgs e)
         {
             SuspendLayout();
-            CreateProfileTab();
+            CreateProfilesTab();
 
             SetActiveDefaultProfile();
             kryptonRibbon1.SelectedTabChanged += KryptonRibbon1_SelectedTabChanged;
 
             var virtualSize = SystemInformation.VirtualScreen;
-            // Set window location
-            if (Settings.Default.WindowLocation.X >= virtualSize.X && Settings.Default.WindowLocation.Y >= virtualSize.Y)
-                if (Settings.Default.WindowLocation.X + Settings.Default.WindowSize.Width <= virtualSize.Width && Settings.Default.WindowLocation.Y + Settings.Default.WindowSize.Height <= virtualSize.Height)
-                    Location = Settings.Default.WindowLocation;
 
-            // Set window size
-            Size = Settings.Default.WindowSize;
+            if (Settings.Default.VirtualScreenX == virtualSize.X &&
+                Settings.Default.VirtualScreenY == virtualSize.Y &&
+                Settings.Default.VirtualScreenW == virtualSize.Width &&
+                Settings.Default.VirtualScreenH == virtualSize.Height)
+            {
+                Location = Settings.Default.WindowLocation;
+                // Set window size
+                Size = Settings.Default.WindowSize;
+            }
+            else
+            {
+                Size = RestoreBounds.Size;
+            }
+
+            //// Set window location
+            //if (Settings.Default.WindowLocation.X >= virtualSize.X && Settings.Default.WindowLocation.Y >= virtualSize.Y)
+            //    if (Settings.Default.WindowLocation.X + Settings.Default.WindowSize.Width <= virtualSize.Width && Settings.Default.WindowLocation.Y + Settings.Default.WindowSize.Height <= virtualSize.Height)
+            //        Location = Settings.Default.WindowLocation;
+
+
             ResumeLayout();
             SplashScreen.Splash.CloseForm();
             Activate();
@@ -488,11 +579,16 @@ namespace ActiveWorks
             // Copy window location to app settings
 
             Settings.Default.WindowLocation = Location;
-
+            Settings.Default.WindowSize = Size;
+            var vs = SystemInformation.VirtualScreen;
+            Settings.Default.VirtualScreenX = vs.X;
+            Settings.Default.VirtualScreenY = vs.Y;
+            Settings.Default.VirtualScreenW = vs.Width;
+            Settings.Default.VirtualScreenH = vs.Height;
             // Copy window size to app settings
-            Settings.Default.WindowSize =
-                WindowState == FormWindowState.Normal ?
-                Size : RestoreBounds.Size;
+            //Settings.Default.WindowSize =
+            //    WindowState == FormWindowState.Normal ?
+            //    Size : RestoreBounds.Size;
 
             // Save settings
             Settings.Default.Save();

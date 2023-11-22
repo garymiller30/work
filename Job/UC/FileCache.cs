@@ -5,7 +5,7 @@ using Interfaces;
 
 namespace Job.UC
 {
-    public class FileCache : ICache<IFileSystemInfoExt>
+    public sealed class FileCache : ICache<IFileSystemInfoExt>
     {
 #pragma warning disable CS0067 // The event 'FileCache.OnChanged' is never used
         public event EventHandler<IFileSystemInfoExt> OnChanged;
@@ -29,6 +29,16 @@ namespace Job.UC
         }
 
         public int GetCountFiles()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<IFileSystemInfoExt> GetAllFiles(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<IFileSystemInfoExt> GetDirs(string path)
         {
             throw new NotImplementedException();
         }

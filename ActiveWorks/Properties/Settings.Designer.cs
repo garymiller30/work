@@ -12,7 +12,7 @@ namespace ActiveWorks.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -73,62 +73,86 @@ namespace ActiveWorks.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"7.5.10
-------------------
-+ переробив фонові задачі.
-
-7.4.9
-------------------
-+ в PDF utils додав ""розділення файлу на обкладинку і блок""
-
-7.4.8
-------------------
-* при правому кліку у вікні з файлами, якщо нема активного замовлення, вискакувала помилка
-
-7.4.7
--------------------
-* зберігається історія пошуку при перезапуску програми
-
-7.4.6
--------------------
-* при видаленні файла, показує хто блокує файл.
-
-7.4.5
---------------------
-+ перенесено у плагін RabbitMq
-* виправлено помилки з відправкою лишніх повідомлень через RabbitMq
-
-7.3.3
---------------------
-+ опція в налаштуваннях для конвертації в PDF. 
-
-7.2.3
----------------------
-+ при нажатому Shift примусово створюється новий шаблон для Signa
-
-7.1.3
----------------------
-* не оновлювалось кількість файлів при видаленні
-
-7.1.2
----------------------
-* виправлено помилку з програванням звуків при нових файлах на ftp
-
-7.1.1
----------------------
-* виправлено подвійний запуск додатків
-
-7.0.0 beta 37
----------------------
-+ додана подія ""AvailableSound.Ftp_StopTimer"" для плагінів на FtpExplorer.TimerStop() 
-
-7.0.0 beta 36
----------------------
-+ додано можливість зупиняти таймер автоматичної перевірки FTP із скрипта.
-  Викликається так: FtpExplorer.TimerStop()")]
+        [global::System.Configuration.DefaultSettingValueAttribute("8.6.1\r\n-----------------\r\n+ в утіліти для PDF -> змінення розміру сторінок\r\n+ в у" +
+            "тіліти для PDF -> розділення розворотів навпіл\r\n\r\n8.4.1\r\n-----------------\r\n+ до" +
+            "дав стандартні формати у діалог виставлення трім боксів\r\n\r\n8.3.1\r\n--------------" +
+            "---\r\n+ можливість зберігати файли Signa Station у папці з замовленням\r\n+ Скиданн" +
+            "я положень вікон без перезапуску програми\r\n+ Зміни в браузері без перезапуску пр" +
+            "ограми\r\n\r\n\r\n8.0.0\r\n-----------------\r\nПерехід на net 4.8 і mongodb 4.4. Несумісн" +
+            "о з попередньою версією\r\n+ створення jpg прев\'ю з pdf\r\n+ видалення категорій у н" +
+            "алаштуваннях\r\n\r\n7.8.10\r\n-----------------\r\n+ додав \"Утиліти для PDF\" -> \"Розверн" +
+            "ути сторінки на 90° дзеркально\". Непарні сторінки розветаються на 90° проти годи" +
+            "нникової стрілки. Парні - за годинниковою стрілкою.\r\n+ при відправлені листа пок" +
+            "азує сумартий об\'єм вкладень\r\n\r\n\r\n7.6.10\r\n-----------------\r\n+ додав генератор п" +
+            "устишок Pdf з тиражами для Signa. Викликається через контекстне меню у браузері:" +
+            " \"Утиліти для PDF\" -> \"Створити \"пустишки\" з тиражами\"\r\n\r\n7.5.10\r\n--------------" +
+            "----\r\n+ переробив фонові задачі.\r\n\r\n7.4.9\r\n------------------\r\n+ в PDF utils дод" +
+            "ав \"розділення файлу на обкладинку і блок\"\r\n\r\n7.4.8\r\n------------------\r\n* при п" +
+            "равому кліку у вікні з файлами, якщо нема активного замовлення, вискакувала поми" +
+            "лка\r\n\r\n7.4.7\r\n-------------------\r\n* зберігається історія пошуку при перезапуску" +
+            " програми\r\n\r\n7.4.6\r\n-------------------\r\n* при видаленні файла, показує хто блок" +
+            "ує файл.\r\n\r\n7.4.5\r\n--------------------\r\n+ перенесено у плагін RabbitMq\r\n* випра" +
+            "влено помилки з відправкою лишніх повідомлень через RabbitMq\r\n\r\n7.3.3\r\n---------" +
+            "-----------\r\n+ опція в налаштуваннях для конвертації в PDF. \r\n\r\n7.2.3\r\n---------" +
+            "------------\r\n+ при нажатому Shift примусово створюється новий шаблон для Signa\r" +
+            "\n\r\n7.1.3\r\n---------------------\r\n* не оновлювалось кількість файлів при видаленн" +
+            "і\r\n\r\n7.1.2\r\n---------------------\r\n* виправлено помилку з програванням звуків пр" +
+            "и нових файлах на ftp\r\n\r\n7.1.1\r\n---------------------\r\n* виправлено подвійний за" +
+            "пуск додатків\r\n\r\n7.0.0 beta 37\r\n---------------------\r\n+ додана подія \"Available" +
+            "Sound.Ftp_StopTimer\" для плагінів на FtpExplorer.TimerStop() \r\n\r\n7.0.0 beta 36\r\n" +
+            "---------------------\r\n+ додано можливість зупиняти таймер автоматичної перевірк" +
+            "и FTP із скрипта.\r\n  Викликається так: FtpExplorer.TimerStop()")]
         public string WhatNew {
             get {
                 return ((string)(this["WhatNew"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int VirtualScreenX {
+            get {
+                return ((int)(this["VirtualScreenX"]));
+            }
+            set {
+                this["VirtualScreenX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int VirtualScreenY {
+            get {
+                return ((int)(this["VirtualScreenY"]));
+            }
+            set {
+                this["VirtualScreenY"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int VirtualScreenW {
+            get {
+                return ((int)(this["VirtualScreenW"]));
+            }
+            set {
+                this["VirtualScreenW"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int VirtualScreenH {
+            get {
+                return ((int)(this["VirtualScreenH"]));
+            }
+            set {
+                this["VirtualScreenH"] = value;
             }
         }
     }

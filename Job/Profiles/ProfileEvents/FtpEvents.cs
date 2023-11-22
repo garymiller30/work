@@ -4,7 +4,7 @@ using Interfaces.Ftp;
 
 namespace Job.Profiles.ProfileEvents
 {
-    public class FtpEvents: AbstractEvents, IFtpEvents
+    public sealed class FtpEvents: AbstractEvents, IFtpEvents
     {
         public event EventHandler<IDownloadTicket> OnCreateOrder = delegate { };
         public event EventHandler<IDownloadTicket> OnAddFilesToOrder = delegate { };

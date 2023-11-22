@@ -4,11 +4,12 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Job.Controllers
 {
-    public class SignaController : ISignaController
+    public sealed class SignaController : ISignaController
     {
 
         private readonly string _signaFile;
@@ -34,9 +35,9 @@ namespace Job.Controllers
             {
                 Replace = customer,
                 Cid = "{CID=2",
-                Offset = 4
+                Offset = 4,
             });
-            
+
             return this;
         }
 
@@ -46,7 +47,7 @@ namespace Job.Controllers
             {
                 Replace = number,
                 Cid = "{CID=1",
-                Offset = 5
+                Offset = 5,
             });
             return this;
         }
@@ -57,7 +58,7 @@ namespace Job.Controllers
             {
                 Replace = description,
                 Cid = "{CID=1",
-                Offset = 4
+                Offset = 4,
             });
 
             return this;
@@ -74,30 +75,30 @@ namespace Job.Controllers
         {
             _commands.Add(new CommandReplaceDecimal
             {
-                Replace = Math.Round(width,1)*2.83465m,
+                Replace = Math.Round(width, 1) * 2.83465m,
                 Cid = "{CID=63",
-                Offset = 4
+                Offset = 4,
             });
 
             _commands.Add(new CommandReplaceDecimal
             {
-                Replace = Math.Round(width,1)*2.83465m,
+                Replace = Math.Round(width, 1) * 2.83465m,
                 Cid = "{CID=81",
-                Offset = 4
+                Offset = 4,
             });
 
             _commands.Add(new CommandReplaceDecimal
             {
-                Replace = Math.Round(width,1)*2.83465m,
+                Replace = Math.Round(width, 1) * 2.83465m,
                 Cid = "{CID=87",
-                Offset = 4
+                Offset = 4,
             });
 
             _commands.Add(new CommandReplaceDecimal
             {
-                Replace = Math.Round(width,1)*2.83465m,
+                Replace = Math.Round(width, 1) * 2.83465m,
                 Cid = "{CID=105",
-                Offset = 4
+                Offset = 4,
             });
 
             return this;
@@ -107,29 +108,29 @@ namespace Job.Controllers
         {
             _commands.Add(new CommandReplaceDecimal
             {
-                Replace = Math.Round(height,1)*2.83465m,
+                Replace = Math.Round(height, 1) * 2.83465m,
                 Offset = 4,
-                Cid = "{CID=64"
+                Cid = "{CID=64",
             });
             _commands.Add(new CommandReplaceDecimal
             {
-                Replace = Math.Round(height,1)*2.83465m,
+                Replace = Math.Round(height, 1) * 2.83465m,
                 Offset = 4,
-                Cid = "{CID=82"
+                Cid = "{CID=82",
             });
             _commands.Add(new CommandReplaceDecimal
             {
-                Replace = Math.Round(height,1)*2.83465m,
+                Replace = Math.Round(height, 1) * 2.83465m,
                 Offset = 4,
-                Cid = "{CID=88"
+                Cid = "{CID=88",
             });
             _commands.Add(new CommandReplaceDecimal
             {
-                Replace = Math.Round(height,1)*2.83465m,
+                Replace = Math.Round(height, 1) * 2.83465m,
                 Offset = 4,
-                Cid = "{CID=106"
+                Cid = "{CID=106",
             });
-           
+
             return this;
         }
 
@@ -139,10 +140,10 @@ namespace Job.Controllers
             {
                 // extract data.sig
                 _dataSig = ExtractDataSigFile(_signaFile);
-            
+
                 // set parameters
                 SetParameters();
-            
+
                 // save data.sig
                 ReplaceDataSigFile();
 
@@ -177,8 +178,8 @@ namespace Job.Controllers
 
                 if (i != dataSig.Length - 1)
                 {
-                    sb.Append(";");
-                    sb.Append("\n");
+                    sb.Append(';');
+                    sb.Append('\n');
                 }
             }
 
@@ -188,89 +189,87 @@ namespace Job.Controllers
 
         public void ChangeSignaOrderNumber(string destFile, string number)
         {
-
-
             using (var archive = ZipFile.Open(destFile, ZipArchiveMode.Update))
             {
                 var entry = archive.GetEntry("data.sig");
-
                 using (var memoryWrite = new MemoryStream())    // 
                 {
-                    var tmp = Path.GetTempFileName();
+                    var bytes = GetBytes(entry);
 
-                    entry.ExtractToFile(tmp, true);
+                    int j = FindOrderNumberPlaceIdx(bytes);
 
-                    var bytes = File.ReadAllBytes(tmp);
+                    if (j == -1) return;
+                    
+                    ChangeNumberInMemoryStream(bytes,j, memoryWrite,number);
 
-                    var cnt = 4;
+                    //using (FileStream file = new FileStream("data.sig", FileMode.Create, FileAccess.Write))
+                    //{
+                    //    memoryWrite.Seek(0, SeekOrigin.Begin);
+                    //    memoryWrite.CopyTo(file);
+                    //}
 
-                    var j = 0;
-                    bool isFinded = false;
+                    entry.Delete();
 
-                    for (j = 0; j < bytes.Length; j++)
+                    var newEntry = archive.CreateEntry("data.sig", CompressionLevel.Optimal);
+                    using (var entryStream = newEntry.Open())
                     {
-                        if (bytes[j] == 0x22)
-                        {
-                            if (bytes[j - 1] == 0x0a)
-                            {
-                                if (cnt == 0)
-                                {
-                                    isFinded = true;
-                                    break;
-
-                                }
-                                else
-                                {
-                                    cnt--;
-                                }
-                            }
-                        }
+                        memoryWrite.Seek(0, SeekOrigin.Begin);
+                        memoryWrite.CopyTo(entryStream);
                     }
-
-                    if (isFinded)
-                    {
-                        // Знайшли місце з номером
-
-                        //взяли довжину минулого номеру
-                        var len = bytes[j + 2];
-
-                        memoryWrite.Write(bytes, 0, j + 1);
-
-                        var lenSize = BitConverter.GetBytes(number.Length);
-                        memoryWrite.Write(new byte[] { 0x00 }, 0, 1);
-                        memoryWrite.Write(lenSize, 0, 1);
-
-                        var str = Encoding.ASCII.GetBytes(number);
-
-                        memoryWrite.Write(str, 0, str.Length);
-
-                        memoryWrite.Write(bytes, j + 3 + len, bytes.Length - (j + 3 + len));
-
-                        using (FileStream file = new FileStream("data.sig", FileMode.Create, FileAccess.Write))
-                        {
-                            memoryWrite.Seek(0, SeekOrigin.Begin);
-                            memoryWrite.CopyTo(file);
-                        }
-                        entry.Delete();
-
-                        var newEntry = archive.CreateEntry("data.sig", CompressionLevel.Optimal);
-                        using (var entryStream = newEntry.Open())
-                        {
-                            memoryWrite.Seek(0, SeekOrigin.Begin);
-                            memoryWrite.CopyTo(entryStream);
-                        }
-                    }
-
-                    File.Delete(tmp);
+                    
                 }
             }
+        }
+
+        private void ChangeNumberInMemoryStream(byte[] bytes,int offset, MemoryStream memoryWrite, string number)
+        {
+            // Знайшли місце з номером
+            //взяли довжину минулого номеру
+            var len = bytes[offset + 2];
+            memoryWrite.Write(bytes, 0, offset + 1);
+            var lenSize = BitConverter.GetBytes(number.Length);
+            memoryWrite.Write(new byte[] { 0x00 }, 0, 1);
+            memoryWrite.Write(lenSize, 0, 1);
+            var str = Encoding.ASCII.GetBytes(number);
+            memoryWrite.Write(str, 0, str.Length);
+            memoryWrite.Write(bytes, offset + 3 + len, bytes.Length - (offset + 3 + len));
+        }
+
+        private int FindOrderNumberPlaceIdx(byte[] bytes)
+        {
+            var cnt = 4;
+
+            for (var j = 0; j < bytes.Length; j++)
+            {
+                if (bytes[j] == 0x22)
+                {
+                    if (bytes[j - 1] == 0x0a)
+                    {
+                        if (cnt == 0)
+                        {
+                            return j;
+                        }
+                        cnt--;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        byte[] GetBytes(ZipArchiveEntry entry)
+        {
+            var tmp = Path.GetTempFileName();
+            entry.ExtractToFile(tmp, overwrite: true);
+            var bytes = File.ReadAllBytes(tmp);
+
+            File.Delete(tmp);
+            return bytes;
 
         }
 
-
         private void SetParameters()
         {
-            _commands.ForEach(x=>x.Process(_dataSig));
+            _commands.ForEach(x => x.Process(_dataSig));
 
             //FindAndReplaceText(_dataSig, "{CID=1;", 5, _number);
             //FindAndReplaceText(_dataSig, "{CID=1;", 4, _description);
@@ -283,7 +282,7 @@ namespace Job.Controllers
             //FindAndReplaceDecimal(_dataSig, "{CID=82;", 4, _height*2.83465m);
             //FindAndReplaceDecimal(_dataSig, "{CID=88;", 4, _height*2.83465m);
             //FindAndReplaceDecimal(_dataSig, "{CID=106;", 4, _height*2.83465m);
-            
+
 
 
 
@@ -291,85 +290,85 @@ namespace Job.Controllers
 
         }
 
-/*
-        private void FindAndReplaceDecimal(string[] dataSig, string cid, int offset, decimal dcml)
-        {
-            var strCnt = dcml.ToString("F12",CultureInfo.CreateSpecificCulture("en-US"));
-
-            var idx = Array.FindIndex(dataSig, r => r.Contains(cid));
-            idx += offset;
-            byte[] buff = new byte[strCnt.Length + 2];
-
-            using (var stream = new MemoryStream(buff, true))
-            {
-
-                stream.WriteByte((byte)'=');
-                stream.Write(Encoding.Default.GetBytes(strCnt), 0, strCnt.Length);
-                stream.WriteByte((byte)';');
-
-                stream.Seek(0, SeekOrigin.Begin);
-                using (var reader = new StreamReader(stream))
+        /*
+                private void FindAndReplaceDecimal(string[] dataSig, string cid, int offset, decimal dcml)
                 {
-                    dataSig[idx] = reader.ReadToEnd();
+                    var strCnt = dcml.ToString("F12",CultureInfo.CreateSpecificCulture("en-US"));
+
+                    var idx = Array.FindIndex(dataSig, r => r.Contains(cid));
+                    idx += offset;
+                    byte[] buff = new byte[strCnt.Length + 2];
+
+                    using (var stream = new MemoryStream(buff, true))
+                    {
+
+                        stream.WriteByte((byte)'=');
+                        stream.Write(Encoding.Default.GetBytes(strCnt), 0, strCnt.Length);
+                        stream.WriteByte((byte)';');
+
+                        stream.Seek(0, SeekOrigin.Begin);
+                        using (var reader = new StreamReader(stream))
+                        {
+                            dataSig[idx] = reader.ReadToEnd();
+                        }
+
+                    }
                 }
+        */
 
-            }
-        }
-*/
-
-/*
-        private void FindAndReplaceInt(string[] dataSig, string cid, int offset, int cnt)
-        {
-            var strCnt = cnt.ToString();
-
-            var idx = Array.FindIndex(dataSig, r => r.Contains(cid));
-            idx += offset;
-            byte[] buff = new byte[strCnt.Length + 2];
-
-            using (var stream = new MemoryStream(buff, true))
-            {
-
-                stream.WriteByte((byte)'=');
-                stream.Write(Encoding.Default.GetBytes(strCnt), 0, strCnt.Length);
-                stream.WriteByte((byte)';');
-
-                stream.Seek(0, SeekOrigin.Begin);
-                using (var reader = new StreamReader(stream))
+        /*
+                private void FindAndReplaceInt(string[] dataSig, string cid, int offset, int cnt)
                 {
-                    dataSig[idx] = reader.ReadToEnd();
+                    var strCnt = cnt.ToString();
+
+                    var idx = Array.FindIndex(dataSig, r => r.Contains(cid));
+                    idx += offset;
+                    byte[] buff = new byte[strCnt.Length + 2];
+
+                    using (var stream = new MemoryStream(buff, true))
+                    {
+
+                        stream.WriteByte((byte)'=');
+                        stream.Write(Encoding.Default.GetBytes(strCnt), 0, strCnt.Length);
+                        stream.WriteByte((byte)';');
+
+                        stream.Seek(0, SeekOrigin.Begin);
+                        using (var reader = new StreamReader(stream))
+                        {
+                            dataSig[idx] = reader.ReadToEnd();
+                        }
+
+                    }
                 }
+        */
 
-            }
-        }
-*/
-
-/*
-        private void FindAndReplaceText(string[] dataSig, string cid, int offset, string replaceText)
-        {
-            var idx = Array.FindIndex(dataSig, r => r.Contains(cid));
-            idx += offset;
-            byte[] buff = new byte[replaceText.Length + 5];
-
-            using (var stream = new MemoryStream(buff, true))
-            {
-
-                stream.WriteByte((byte)'"');
-                stream.WriteByte(0);
-                stream.WriteByte((byte)replaceText.Length);
-                stream.Write(Encoding.Default.GetBytes(replaceText), 0, replaceText.Length);
-                stream.WriteByte((byte)'"');
-                stream.WriteByte((byte)';');
-
-                stream.Seek(0, SeekOrigin.Begin);
-                using (var reader = new StreamReader(stream))
+        /*
+                private void FindAndReplaceText(string[] dataSig, string cid, int offset, string replaceText)
                 {
-                    dataSig[idx] = reader.ReadToEnd();
+                    var idx = Array.FindIndex(dataSig, r => r.Contains(cid));
+                    idx += offset;
+                    byte[] buff = new byte[replaceText.Length + 5];
+
+                    using (var stream = new MemoryStream(buff, true))
+                    {
+
+                        stream.WriteByte((byte)'"');
+                        stream.WriteByte(0);
+                        stream.WriteByte((byte)replaceText.Length);
+                        stream.Write(Encoding.Default.GetBytes(replaceText), 0, replaceText.Length);
+                        stream.WriteByte((byte)'"');
+                        stream.WriteByte((byte)';');
+
+                        stream.Seek(0, SeekOrigin.Begin);
+                        using (var reader = new StreamReader(stream))
+                        {
+                            dataSig[idx] = reader.ReadToEnd();
+                        }
+
+                    }
+
                 }
-
-            }
-
-        }
-*/
+        */
 
         private string[] ExtractDataSigFile(string signaFile)
         {
@@ -380,12 +379,12 @@ namespace Job.Controllers
                 var entry = archive.GetEntry("data.sig");
                 var tmp = Path.GetTempFileName();
 
-                entry.ExtractToFile(tmp, true);
+                entry.ExtractToFile(tmp, overwrite: true);
 
                 using (var reader = new StreamReader(tmp))
                 {
                     var str = reader.ReadToEnd();
-                    bytes = str.Split(new string[]{";\n"},StringSplitOptions.None);
+                    bytes = str.Split(new string[] { ";\n" }, StringSplitOptions.None);
                 }
 
                 File.Delete(tmp);
@@ -405,14 +404,14 @@ namespace Job.Controllers
 
         class CommandReplaceText : AbstractCommand
         {
-            public override void Process(string [] dataSig)
+            public override void Process(string[] dataSig)
             {
-                var replaceText = (string) Replace;
+                var replaceText = (string)Replace;
                 var idx = Array.FindIndex(dataSig, r => r.Contains(Cid));
                 idx += Offset;
                 byte[] buff = new byte[replaceText.Length + 4];
 
-                using (var stream = new MemoryStream(buff, true))
+                using (var stream = new MemoryStream(buff, writable: true))
                 {
 
                     stream.WriteByte((byte)'"');
@@ -433,22 +432,22 @@ namespace Job.Controllers
             }
         }
 
-       
+
 
         class CommandReplaceDecimal : AbstractCommand
         {
-            public override void Process(string [] dataSig)
+            public override void Process(string[] dataSig)
             {
-                var dcml = (decimal) Replace;
+                var dcml = (decimal)Replace;
 
 
-                var strCnt = dcml.ToString("F12",CultureInfo.CreateSpecificCulture("en-US"));
+                var strCnt = dcml.ToString("F12", CultureInfo.CreateSpecificCulture("en-US"));
 
                 var idx = Array.FindIndex(dataSig, r => r.Contains(Cid));
                 idx += Offset;
                 byte[] buff = new byte[strCnt.Length + 1];
 
-                using (var stream = new MemoryStream(buff, true))
+                using (var stream = new MemoryStream(buff, writable: true))
                 {
 
                     stream.WriteByte((byte)'=');

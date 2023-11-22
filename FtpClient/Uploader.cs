@@ -13,7 +13,7 @@ namespace FtpClient
     /// <summary>
     /// закачка на фтп
     /// </summary>
-    public class Uploader
+    public sealed class Uploader
     {
         static readonly List<Uploader> _uploadTasks = new List<Uploader>();
         private static bool _isUploading;

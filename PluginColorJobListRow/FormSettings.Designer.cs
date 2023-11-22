@@ -29,14 +29,19 @@ namespace PluginColorJobListRow
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnStatus = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnColor = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.заЗамовчуваннямToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonOk = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.olvColumnForeColor = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -55,11 +60,14 @@ namespace PluginColorJobListRow
             // 
             this.objectListView1.AllColumns.Add(this.olvColumnStatus);
             this.objectListView1.AllColumns.Add(this.olvColumnColor);
+            this.objectListView1.AllColumns.Add(this.olvColumnForeColor);
             this.objectListView1.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
             this.objectListView1.CellEditUseWholeCell = false;
             this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumnStatus,
-            this.olvColumnColor});
+            this.olvColumnColor,
+            this.olvColumnForeColor});
+            this.objectListView1.ContextMenuStrip = this.contextMenuStrip1;
             this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListView1.FullRowSelect = true;
@@ -84,8 +92,23 @@ namespace PluginColorJobListRow
             // 
             // olvColumnColor
             // 
-            this.olvColumnColor.Text = "Колір";
+            this.olvColumnColor.Text = "Колір фону";
             this.olvColumnColor.Width = 100;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.заЗамовчуваннямToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(188, 26);
+            // 
+            // заЗамовчуваннямToolStripMenuItem
+            // 
+            this.заЗамовчуваннямToolStripMenuItem.Name = "заЗамовчуваннямToolStripMenuItem";
+            this.заЗамовчуваннямToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.заЗамовчуваннямToolStripMenuItem.Text = "за замовчуванням";
+            this.заЗамовчуваннямToolStripMenuItem.Click += new System.EventHandler(this.заЗамовчуваннямToolStripMenuItem_Click);
             // 
             // buttonOk
             // 
@@ -104,6 +127,11 @@ namespace PluginColorJobListRow
             this.colorDialog1.Color = System.Drawing.Color.White;
             this.colorDialog1.FullOpen = true;
             // 
+            // olvColumnForeColor
+            // 
+            this.olvColumnForeColor.Text = "Колір тексту";
+            this.olvColumnForeColor.Width = 100;
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -117,6 +145,7 @@ namespace PluginColorJobListRow
             this.Text = "налаштування";
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -129,5 +158,8 @@ namespace PluginColorJobListRow
         private BrightIdeasSoftware.OLVColumn olvColumnStatus;
         private BrightIdeasSoftware.OLVColumn olvColumnColor;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem заЗамовчуваннямToolStripMenuItem;
+        private BrightIdeasSoftware.OLVColumn olvColumnForeColor;
     }
 }

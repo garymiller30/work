@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace PluginMailAttachmentsToNextcloud
 {
-    class MailAttachmentToNextcloud : IPluginMail
+    sealed class MailAttachmentToNextcloud : IPluginMail
     {
 
         public IUserProfile UserProfile { get; set; }
@@ -159,6 +159,7 @@ namespace PluginMailAttachmentsToNextcloud
         public string PluginDescription { get; } = "Завантажує завеликі файли на сервер nextcloud і вставляє лінки в тіло листа";
         public void ShowSettingsDlg()
         {
+            LoadSettings();
             using (var form = new FormSettings(Settings))
             {
                 if (form.ShowDialog() == DialogResult.OK)

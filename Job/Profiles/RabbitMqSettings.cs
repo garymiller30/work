@@ -5,7 +5,7 @@ namespace Job.Profiles
 {
     [Serializable]
     //[XmlRoot("RabbitMqSettings")]
-    public class RabbitMqSettings : IMQSettings
+    public sealed class RabbitMqSettings : IMQSettings
     {
         public bool UseRabbitMq { get; set; }
         public string RabbitServer { get; set; }

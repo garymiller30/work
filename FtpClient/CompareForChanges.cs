@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace FtpClient
 {
-    public class CompareForChanges : IEqualityComparer<IFtpFileExt>
+    public sealed class CompareForChanges : IEqualityComparer<IFtpFileExt>
     {
         public bool Equals(IFtpFileExt x, IFtpFileExt y)
         {

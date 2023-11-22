@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Job.Dlg
 {
-    public partial class FormTirag : Form
+    public sealed partial class FormTirag : Form
     {
         public int Tirag => (int)numericUpDown1.Value;
 

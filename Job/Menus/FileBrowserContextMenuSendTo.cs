@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -82,7 +83,7 @@ namespace Job.Menus
             {
 				foreach (var item in _menus)
 				{
-					if (item.Name.ToUpper().Contains(_userProfile.Customers.CurrentCustomer.Name.ToUpper()) || item.Name.StartsWith("*"))
+					if (item.Name.ToUpper(CultureInfo.InvariantCulture).Contains(_userProfile.Customers.CurrentCustomer.Name.ToUpper(CultureInfo.InvariantCulture)) || item.Name.StartsWith("*"))
 					{
 						var ttm = new ToolStripMenuItem { Text = item.Name, Tag = item };
 

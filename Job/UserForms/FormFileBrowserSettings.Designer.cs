@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.kryptonButton1 = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.SuspendLayout();
             // 
             // propertyGrid1
@@ -72,6 +72,6 @@
         #endregion
 
         private System.Windows.Forms.PropertyGrid propertyGrid1;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton kryptonButton1;
+        private Krypton.Toolkit.KryptonButton kryptonButton1;
     }
 }

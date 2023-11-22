@@ -28,16 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.kryptonGroupBox1 = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonLabel1 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.kryptonLabel2 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.kryptonLabel3 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.kryptonLabel4 = new ComponentFactory.Krypton.Toolkit.KryptonLabel();
-            this.textBoxAddress = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.textBoxUser = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.textBoxPassword = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.textBoxBaseName = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
-            this.buttonOk = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
+            this.textBoxAddress = new Krypton.Toolkit.KryptonTextBox();
+            this.textBoxUser = new Krypton.Toolkit.KryptonTextBox();
+            this.textBoxPassword = new Krypton.Toolkit.KryptonTextBox();
+            this.textBoxBaseName = new Krypton.Toolkit.KryptonTextBox();
+            this.buttonOk = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
             this.kryptonGroupBox1.Panel.SuspendLayout();
@@ -167,15 +167,15 @@
 
         #endregion
 
-        private ComponentFactory.Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox textBoxBaseName;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox textBoxPassword;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox textBoxUser;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox textBoxAddress;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel4;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel3;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel2;
-        private ComponentFactory.Krypton.Toolkit.KryptonLabel kryptonLabel1;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton buttonOk;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
+        private Krypton.Toolkit.KryptonTextBox textBoxBaseName;
+        private Krypton.Toolkit.KryptonTextBox textBoxPassword;
+        private Krypton.Toolkit.KryptonTextBox textBoxUser;
+        private Krypton.Toolkit.KryptonTextBox textBoxAddress;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel4;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel3;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel2;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonButton buttonOk;
     }
 }

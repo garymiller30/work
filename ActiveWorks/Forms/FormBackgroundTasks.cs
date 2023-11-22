@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ActiveWorks.Forms
 {
-    public partial class FormBackgroundTasks : Form
+    public sealed partial class FormBackgroundTasks : Form
     {
         
 

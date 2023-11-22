@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using ComponentFactory.Krypton.Toolkit;
+using Krypton.Toolkit;
 using FtpClient;
 
 namespace Job.UserForms
 {
-    public partial class FormFtpDirectoryList : KryptonForm
+    public sealed partial class FormFtpDirectoryList : KryptonForm
     {
 
         private FtpFileExt _selectedDirectory;

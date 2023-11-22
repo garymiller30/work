@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using MongoDB.Bson;
 
 namespace Interfaces
 {
     public interface ICategoryManager
     {
-        string GetCategoryNameById(ObjectId categoryId);
-        ICategory GetCategoryById(ObjectId id);
+        string GetCategoryNameById(object categoryId);
+        ICategory GetCategoryById(object id);
         IEnumerable<ICategory> GetAll();
-        ObjectId Add(string category);
+        object Add(string category);
+        void Remove(ICategory model);
+        List<ICategory> GetCategoryByIds(List<object> categoriedIdList);
     }
 }

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace PluginAddWorkFromPolymix
 {
-    public class PolymixOrder
+    public sealed class PolymixOrder
     {
         public int Number { get; set; }
         public string  Customer { get; set; }
         public string  Description { get; set; }
-
+        public int OrderState { get;set; }
         public override string ToString()
         {
             return $"{Number} • {Customer} • {Description}";

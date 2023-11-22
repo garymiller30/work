@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PythonEngine
 {
-    public class PythonScriptEngine : IScriptEngine
+    public sealed class PythonScriptEngine : IScriptEngine
     {
         IUserProfile _profile;
         private readonly PythonEngine _pythonEngine;

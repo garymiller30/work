@@ -137,5 +137,15 @@ namespace PluginWorkProcessPlates.Forms
         {
             numericUpDownCount.Value += 4;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            numericUpDownCount.Value += 8;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            numericUpDownCount.Value += 16;
+        }
     }
 }

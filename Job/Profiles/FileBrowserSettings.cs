@@ -6,13 +6,13 @@ namespace Job.Profiles
 {
     [Serializable]
     //[XmlRoot("FileBrowserSettings")]
-    public class FileBrowserSettings : IFileBrowserSettings
+    public sealed class FileBrowserSettings : IFileBrowserSettings
     {
         public bool UseViewer { get; set; }
         public string Viewer { get; set; }
         public string ViewerCommandLine { get; set; }
 
         public List<string> CustomButtonPath { get; set; } = new List<string>();
-
+        public List<string> FolderNamesForCreate { get;set; } = new List<string>();
     }
 }

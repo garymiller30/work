@@ -6,7 +6,7 @@ using Interfaces;
 namespace Job.Menus
 {
     [Serializable]
-    public class MenuSendTo : IMenuSendTo
+    public sealed class MenuSendTo : IMenuSendTo
     {
         public bool Enable { get; set; }
         public string Name { get; set; }

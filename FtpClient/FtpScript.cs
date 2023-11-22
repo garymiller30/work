@@ -2,7 +2,7 @@
 
 namespace FtpClient
 {
-    public class FtpScript : IFtpScript
+    public sealed class FtpScript : IFtpScript
     {
         public bool Enable { get; set; } = true;
         public string ScriptPath { get; set; }

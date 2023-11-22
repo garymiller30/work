@@ -76,7 +76,7 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonCopySelectedFileListToClipboard = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonResetStatus = new System.Windows.Forms.ToolStripButton();
-            this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
@@ -585,7 +585,7 @@
         private System.Windows.Forms.ToolStripMenuItem новыйЗаказстрокаНовыйЗаказToolStripMenuItem;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ToolStrip toolStrip2FtpScripts;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel1;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCntFiles;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
