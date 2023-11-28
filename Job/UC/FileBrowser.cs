@@ -1591,42 +1591,44 @@ namespace Job.UC
         private void ConvertToPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
-            
-            using (var form = new FormSelectConvertToPdfMode(UserProfile.Settings.GetPdfConverterSettings()))
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
-                    var mode = form.ConvertMode;
-                    var trimBox = form.TrimBox;
-                    var moveToTrash = form.MoveToTrash;
 
-                    BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(
-                        () =>
-                        {
+            FileFormatsUtil.ConvertToPDF(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
 
-                            Thread t = new Thread(() =>
-                            {
-                                FileFormatsUtil.ConvertToPDF(files, mode);
+            //using (var form = new FormSelectConvertToPdfMode(UserProfile.Settings.GetPdfConverterSettings()))
+            //{
+            //    if (form.ShowDialog() == DialogResult.OK)
+            //    {
+            //        var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
+            //        var mode = form.ConvertMode;
+            //        var trimBox = form.TrimBox;
+            //        var moveToTrash = form.MoveToTrash;
 
-                                if (trimBox > 0)
-                                {
-                                    FileFormatsUtil.SetTrimBox(files, trimBox);
-                                }
-                                if (moveToTrash)
-                                {
-                                    MoveToTrash(files.ToArray());
-                                }
-                            });
+            //        BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(
+            //            () =>
+            //            {
 
-                            t.SetApartmentState(ApartmentState.STA);
-                            t.Start();
-                            t.Join();
-                        }
-                        )));
-                }
-            }
-            
+            //                Thread t = new Thread(() =>
+            //                {
+            //                    FileFormatsUtil.ConvertToPDF(files, mode);
+
+            //                    if (trimBox > 0)
+            //                    {
+            //                        FileFormatsUtil.SetTrimBox(files, trimBox);
+            //                    }
+            //                    if (moveToTrash)
+            //                    {
+            //                        MoveToTrash(files.ToArray());
+            //                    }
+            //                });
+
+            //                t.SetApartmentState(ApartmentState.STA);
+            //                t.Start();
+            //                t.Join();
+            //            }
+            //            )));
+            //    }
+            //}
+
         }
 
         private void SplitPDFToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1637,7 +1639,7 @@ namespace Job.UC
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    FileFormatsUtil.SplitPDF(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(),form.Params);
+                    FileFormatsUtil.SplitPDF(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Params);
                 }
             }
         }
@@ -1863,7 +1865,7 @@ namespace Job.UC
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        FileFormatsUtil.PdfToJpg(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Dpi,form.Quality);
+                        FileFormatsUtil.PdfToJpg(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Dpi, form.Quality);
                     }
                 }
             }
@@ -1898,7 +1900,7 @@ namespace Job.UC
             objectListView1.ClearObjects();
             objectListView1.EmptyListMsg = "Loading...";
             _fileManager.RefreshAsync();
-            
+
         }
 
         private void копіюватиІмяФайлуToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1910,11 +1912,11 @@ namespace Job.UC
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
 
-            using(var form = new FormSelectPdfNewSize())
+            using (var form = new FormSelectPdfNewSize())
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    FileFormatsUtil.ScalePdf(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(),form.Params);
+                    FileFormatsUtil.ScalePdf(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Params);
                 }
             }
         }
@@ -1930,6 +1932,25 @@ namespace Job.UC
                     FileFormatsUtil.SplitPdf(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Params);
                 }
             }
+        }
+
+        private void toolStripButtonCreatePdf_Click(object sender, EventArgs e)
+        {
+            ConvertToPDFToolStripMenuItem_Click(null, null);
+        }
+
+        private void зєднатиФайлиВОдинToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using (var form = new UserForms.PDF.FormList(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x=>x.FileInfo.FullName).ToArray()))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    FileFormatsUtil.MergePdf(form.ConvertFiles);
+                }
+            }
+
         }
     }
 }

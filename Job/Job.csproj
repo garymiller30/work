@@ -292,7 +292,10 @@
     <Compile Include="Static\Pdf\Common\PdfHelper.cs" />
     <Compile Include="Static\Pdf\Common\ExtendBoxHelpers.cs" />
     <Compile Include="Static\Pdf\Common\ExtendTargetSizeHelpers.cs" />
+    <Compile Include="Static\Pdf\Convert\PdfConvert.cs" />
+    <Compile Include="Static\Pdf\Convert\PdfConvertParams.cs" />
     <Compile Include="Static\Pdf\Divide\PdfDividerParams.cs" />
+    <Compile Include="Static\Pdf\Merge\PdfMerger.cs" />
     <Compile Include="Static\Pdf\Scale\PdfScaleParams.cs" />
     <Compile Include="Static\Pdf\Scale\PdfScaler.cs" />
     <Compile Include="Static\Pdf\Common\ScaleByEnum.cs" />
@@ -376,10 +379,10 @@
     <Compile Include="UserForms\FormCombineOrders.Designer.cs">
       <DependentUpon>FormCombineOrders.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserForms\FormCreateEmptiesWithCount.cs">
+    <Compile Include="UserForms\PDF\FormCreateEmptiesWithCount.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForms\FormCreateEmptiesWithCount.Designer.cs">
+    <Compile Include="UserForms\PDF\FormCreateEmptiesWithCount.Designer.cs">
       <DependentUpon>FormCreateEmptiesWithCount.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\FormCustomers.cs">
@@ -406,10 +409,10 @@
     <Compile Include="UserForms\FormFtpDirectoryList.Designer.cs">
       <DependentUpon>FormFtpDirectoryList.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserForms\FormGetTrimBox.cs">
+    <Compile Include="UserForms\PDF\FormGetTrimBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForms\FormGetTrimBox.Designer.cs">
+    <Compile Include="UserForms\PDF\FormGetTrimBox.Designer.cs">
       <DependentUpon>FormGetTrimBox.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\FormMailInformerSettings.cs">
@@ -418,10 +421,16 @@
     <Compile Include="UserForms\FormMailInformerSettings.Designer.cs">
       <DependentUpon>FormMailInformerSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserForms\FormPdfPreview.cs">
+    <Compile Include="UserForms\PDF\FormList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForms\FormPdfPreview.Designer.cs">
+    <Compile Include="UserForms\PDF\FormList.designer.cs">
+      <DependentUpon>FormList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfPreview.Designer.cs">
       <DependentUpon>FormPdfPreview.cs</DependentUpon>
     </Compile>
     <Compile Include="Static\Converter.cs" />
@@ -500,22 +509,22 @@
     <Compile Include="UserForms\FormFtpSettings.Designer.cs">
       <DependentUpon>FormFtpSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserForms\FormPdfSplitterParams.cs">
+    <Compile Include="UserForms\PDF\FormPdfSplitterParams.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForms\FormPdfSplitterParams.Designer.cs">
+    <Compile Include="UserForms\PDF\FormPdfSplitterParams.Designer.cs">
       <DependentUpon>FormPdfSplitterParams.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserForms\FormDividerParams.cs">
+    <Compile Include="UserForms\PDF\FormDividerParams.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForms\FormDividerParams.designer.cs">
+    <Compile Include="UserForms\PDF\FormDividerParams.designer.cs">
       <DependentUpon>FormDividerParams.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserForms\FormSelectPdfNewSize.cs">
+    <Compile Include="UserForms\PDF\FormSelectPdfNewSize.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForms\FormSelectPdfNewSize.Designer.cs">
+    <Compile Include="UserForms\PDF\FormSelectPdfNewSize.Designer.cs">
       <DependentUpon>FormSelectPdfNewSize.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\SpreadBox.cs" />
@@ -604,7 +613,7 @@
     <EmbeddedResource Include="UserForms\FormCombineOrders.resx">
       <DependentUpon>FormCombineOrders.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserForms\FormCreateEmptiesWithCount.resx">
+    <EmbeddedResource Include="UserForms\PDF\FormCreateEmptiesWithCount.resx">
       <DependentUpon>FormCreateEmptiesWithCount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\FormCustomers.resx">
@@ -625,7 +634,7 @@
     <EmbeddedResource Include="UserForms\FormFtpSettings.resx">
       <DependentUpon>FormFtpSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserForms\FormGetTrimBox.resx">
+    <EmbeddedResource Include="UserForms\PDF\FormGetTrimBox.resx">
       <DependentUpon>FormGetTrimBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\FormMailInformerSettings.resx">
@@ -634,7 +643,10 @@
     <EmbeddedResource Include="UserForms\FormMailInformerSettings.uk-UA.resx">
       <DependentUpon>FormMailInformerSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserForms\FormPdfPreview.resx">
+    <EmbeddedResource Include="UserForms\PDF\FormList.resx">
+      <DependentUpon>FormList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormPdfPreview.resx">
       <DependentUpon>FormPdfPreview.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UC\FileBrowser.resx">
@@ -656,13 +668,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserForms\FormPdfSplitterParams.resx">
+    <EmbeddedResource Include="UserForms\PDF\FormPdfSplitterParams.resx">
       <DependentUpon>FormPdfSplitterParams.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserForms\FormDividerParams.resx">
+    <EmbeddedResource Include="UserForms\PDF\FormDividerParams.resx">
       <DependentUpon>FormDividerParams.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserForms\FormSelectPdfNewSize.resx">
+    <EmbeddedResource Include="UserForms\PDF\FormSelectPdfNewSize.resx">
       <DependentUpon>FormSelectPdfNewSize.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -811,6 +823,9 @@
     <Content Include="PDFlib_dotnet_native.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\control_play_blue1.png" />
+    <None Include="Resources\folder_add.png" />
+    <None Include="Resources\control_play_blue.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

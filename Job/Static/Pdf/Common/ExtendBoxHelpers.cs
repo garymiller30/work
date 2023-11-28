@@ -15,5 +15,12 @@ namespace Job.Static.Pdf.Common
         public static double y(this Box box, double scaleFactor) => box.y * scaleFactor;
         public static double w(this Box box, double scaleFactor) => box.width * scaleFactor;
         public static double h(this Box box, double scaleFactor) => box.height * scaleFactor;
+
+        public static double xMn(this Box box) => box.x * PdfScaler.mn;
+        public static double yMn(this Box box) => box.y * PdfScaler.mn;
+        public static double wMn(this Box box) => box.width * PdfScaler.mn;
+        public static double hMn(this Box box) => box.height * PdfScaler.mn;
+
+        public static bool IsEmpty(this Box box) => box.width == 0 || box.height == 0;
     }
 }
