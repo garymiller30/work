@@ -10,9 +10,12 @@ using BackgroundTaskServiceLib;
 using ImageMagick;
 using Interfaces;
 using Interfaces.PdfUtils;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Job.Models;
+using Job.Static.Pdf.Convert;
 using Job.Static.Pdf.Divide;
+using Job.Static.Pdf.Merge;
 using Job.Static.Pdf.Scale;
 using Job.Static.Pdf.SplitSpread;
 using Job.UserForms;
@@ -143,7 +146,7 @@ namespace Job.Static
             {
                 using (var stream = new FileStream(sfi.FileInfo.FullName, FileMode.Open, FileAccess.Read))
                 {
-                    using (var tif = Image.FromStream(stream, false, false))
+                    using (var tif = System.Drawing.Image.FromStream(stream, false, false))
                     {
                         var width = tif.PhysicalDimension.Width;
                         var height = tif.PhysicalDimension.Height;
@@ -231,10 +234,20 @@ namespace Job.Static
 
         public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list)
         {
-            var converter = PDFManipulate.Fasades.Pdf.ConvertToPDF(list.Select(x => x.FileInfo.FullName));
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(() =>
+            {
+                foreach (IFileSystemInfoExt ext in list)
+                {
+                    var convert = new PdfConvert(new PdfConvertParams());
+                    convert.Run(ext.FileInfo.FullName);
+                }
 
-            if (converter != null)
-                BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(() => { converter.Start(); })));
+            })));
+
+            //var converter = PDFManipulate.Fasades.Pdf.ConvertToPDF(list.Select(x => x.FileInfo.FullName));
+
+            //if (converter != null)
+            //    BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(() => { converter.Start(); })));
         }
 
         public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list, ConvertModeEnum mode)
@@ -367,14 +380,14 @@ namespace Job.Static
                 )));
         }
 
-        public static void PdfToJpg(IEnumerable<IFileSystemInfoExt> list, int dpi,long quality)
+        public static void PdfToJpg(IEnumerable<IFileSystemInfoExt> list, int dpi, long quality)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("create jpg from pdf", new Action(
                 () =>
                 {
                     foreach (var file in list)
                     {
-                        PdfUtils.PdfToJpg(file.FileInfo.FullName,dpi, quality);
+                        PdfUtils.PdfToJpg(file.FileInfo.FullName, dpi, quality);
                     }
                 }
                 )));
@@ -402,6 +415,16 @@ namespace Job.Static
                     {
                         new PdfSpliter(param).Run(file.FileInfo.FullName);
                     }
+                }
+                )));
+        }
+
+        internal static void MergePdf(string[] convertFiles)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split pdf", new Action(
+                () =>
+                {
+                    new PdfMerger(convertFiles).Run();
                 }
                 )));
         }

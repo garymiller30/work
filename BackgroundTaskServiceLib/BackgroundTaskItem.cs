@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logger;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,8 @@ namespace BackgroundTaskServiceLib
             }
             catch (Exception e)
             {
-                throw e;
+                Logger.Log.Error(null, "BackgroundTaskItem", $"[{e.Message}]"); ;
+
             }
             finally
             {

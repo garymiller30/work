@@ -60,6 +60,7 @@
             this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.розділитиОбкладинкуІБлокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.розділитиРозворотиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.витягтиСторінкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.створитиПрямокутникToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,6 +91,8 @@
             this.отправитьВToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolStripLeft = new System.Windows.Forms.ToolStrip();
+            this.toolStripPDF = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonCreatePdf = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Up = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -128,14 +131,16 @@
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-            this.розділитиРозворотиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зєднатиФайлиВОдинToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
+            this.toolStripContainer1.RightToolStripPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            this.toolStripPDF.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
@@ -156,7 +161,7 @@
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
             this.toolStripContainer1.ContentPanel.Controls.Add(this.objectListView1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(494, 213);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(467, 213);
             // 
             // toolStripContainer1.LeftToolStripPanel
             // 
@@ -164,8 +169,11 @@
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.RightToolStripPanelVisible = false;
-            this.toolStripContainer1.Size = new System.Drawing.Size(520, 263);
+            // 
+            // toolStripContainer1.RightToolStripPanel
+            // 
+            this.toolStripContainer1.RightToolStripPanel.Controls.Add(this.toolStripPDF);
+            this.toolStripContainer1.Size = new System.Drawing.Size(517, 263);
             this.toolStripContainer1.TabIndex = 2;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -217,7 +225,7 @@
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
             this.objectListView1.ShowItemToolTips = true;
-            this.objectListView1.Size = new System.Drawing.Size(494, 213);
+            this.objectListView1.Size = new System.Drawing.Size(467, 213);
             this.objectListView1.SmallImageList = this.imageList1;
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
@@ -345,7 +353,7 @@
             this.додатиТираж000ToolStripMenuItem,
             this.отправитьВToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(298, 464);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(298, 442);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // предварительныйПросмотрToolStripMenuItem
@@ -372,6 +380,7 @@
             // утилітиДляPDFToolStripMenuItem
             // 
             this.утилітиДляPDFToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.зєднатиФайлиВОдинToolStripMenuItem,
             this.reversePagesToolStripMenuItem,
             this.repeatPagesPDFToolStripMenuItem,
             this.combineFrontsBackToolStripMenuItem,
@@ -473,6 +482,13 @@
             this.розділитиОбкладинкуІБлокToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.розділитиОбкладинкуІБлокToolStripMenuItem.Text = "Розділити обкладинку і блок";
             this.розділитиОбкладинкуІБлокToolStripMenuItem.Click += new System.EventHandler(this.розділитиОбкладинкуІБлокToolStripMenuItem_Click);
+            // 
+            // розділитиРозворотиToolStripMenuItem
+            // 
+            this.розділитиРозворотиToolStripMenuItem.Name = "розділитиРозворотиToolStripMenuItem";
+            this.розділитиРозворотиToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.розділитиРозворотиToolStripMenuItem.Text = "Розділити розвороти";
+            this.розділитиРозворотиToolStripMenuItem.Click += new System.EventHandler(this.розділитиРозворотиToolStripMenuItem_Click);
             // 
             // витягтиСторінкиToolStripMenuItem
             // 
@@ -678,6 +694,27 @@
             this.toolStripLeft.Name = "toolStripLeft";
             this.toolStripLeft.Size = new System.Drawing.Size(26, 111);
             this.toolStripLeft.TabIndex = 0;
+            // 
+            // toolStripPDF
+            // 
+            this.toolStripPDF.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStripPDF.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripPDF.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonCreatePdf});
+            this.toolStripPDF.Location = new System.Drawing.Point(0, 3);
+            this.toolStripPDF.Name = "toolStripPDF";
+            this.toolStripPDF.Size = new System.Drawing.Size(24, 34);
+            this.toolStripPDF.TabIndex = 0;
+            // 
+            // toolStripButtonCreatePdf
+            // 
+            this.toolStripButtonCreatePdf.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonCreatePdf.Image = global::Job.Properties.Resources.pdf_icon;
+            this.toolStripButtonCreatePdf.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonCreatePdf.Name = "toolStripButtonCreatePdf";
+            this.toolStripButtonCreatePdf.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButtonCreatePdf.Text = "Перетворити на PDF";
+            this.toolStripButtonCreatePdf.Click += new System.EventHandler(this.toolStripButtonCreatePdf_Click);
             // 
             // toolStrip1
             // 
@@ -991,12 +1028,12 @@
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
             // 
-            // розділитиРозворотиToolStripMenuItem
+            // зєднатиФайлиВОдинToolStripMenuItem
             // 
-            this.розділитиРозворотиToolStripMenuItem.Name = "розділитиРозворотиToolStripMenuItem";
-            this.розділитиРозворотиToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
-            this.розділитиРозворотиToolStripMenuItem.Text = "Розділити розвороти";
-            this.розділитиРозворотиToolStripMenuItem.Click += new System.EventHandler(this.розділитиРозворотиToolStripMenuItem_Click);
+            this.зєднатиФайлиВОдинToolStripMenuItem.Name = "зєднатиФайлиВОдинToolStripMenuItem";
+            this.зєднатиФайлиВОдинToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.зєднатиФайлиВОдинToolStripMenuItem.Text = "З\'єднати файли в один";
+            this.зєднатиФайлиВОдинToolStripMenuItem.Click += new System.EventHandler(this.зєднатиФайлиВОдинToolStripMenuItem_Click);
             // 
             // FileBrowser
             // 
@@ -1011,12 +1048,16 @@
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.LeftToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.LeftToolStripPanel.PerformLayout();
+            this.toolStripContainer1.RightToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.RightToolStripPanel.PerformLayout();
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            this.toolStripPDF.ResumeLayout(false);
+            this.toolStripPDF.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -1129,5 +1170,8 @@
         private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems1;
         private Krypton.Toolkit.KryptonContextMenuMonthCalendar kryptonContextMenuMonthCalendar1;
         private System.Windows.Forms.ToolStripMenuItem розділитиРозворотиToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStripPDF;
+        private System.Windows.Forms.ToolStripButton toolStripButtonCreatePdf;
+        private System.Windows.Forms.ToolStripMenuItem зєднатиФайлиВОдинToolStripMenuItem;
     }
 }
