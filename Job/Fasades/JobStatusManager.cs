@@ -130,7 +130,7 @@ namespace Job.Fasades
         {
             if (_profile.Base.Remove(CollectionString,(JobStatus) jobStatus))
             {
-                jobStatus.Img.Dispose();
+                jobStatus.Img?.Dispose();
                 
                 _statuses.Remove((JobStatus)jobStatus);
 
@@ -149,7 +149,8 @@ namespace Job.Fasades
 
             foreach (var statuse in _statuses)
             {
-                _imageList.Images.Add(statuse.Img);
+                if (statuse.Img != null)
+                    _imageList.Images.Add(statuse.Img);
             }
         }
 
