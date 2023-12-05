@@ -49,6 +49,7 @@
             this.отриматиДодатковуІнформаціюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.утилітиДляPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зєднатиФайлиВОдинToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reversePagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.repeatPagesPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.combineFrontsBackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -131,7 +132,8 @@
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-            this.зєднатиФайлиВОдинToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripDropDownButtonSplit = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripDropDownButtonMerge = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -161,7 +163,7 @@
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
             this.toolStripContainer1.ContentPanel.Controls.Add(this.objectListView1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(467, 213);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(459, 213);
             // 
             // toolStripContainer1.LeftToolStripPanel
             // 
@@ -225,7 +227,7 @@
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
             this.objectListView1.ShowItemToolTips = true;
-            this.objectListView1.Size = new System.Drawing.Size(467, 213);
+            this.objectListView1.Size = new System.Drawing.Size(459, 213);
             this.objectListView1.SmallImageList = this.imageList1;
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
@@ -403,6 +405,13 @@
             this.утилітиДляPDFToolStripMenuItem.Name = "утилітиДляPDFToolStripMenuItem";
             this.утилітиДляPDFToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.утилітиДляPDFToolStripMenuItem.Text = "Утиліти для PDF";
+            // 
+            // зєднатиФайлиВОдинToolStripMenuItem
+            // 
+            this.зєднатиФайлиВОдинToolStripMenuItem.Name = "зєднатиФайлиВОдинToolStripMenuItem";
+            this.зєднатиФайлиВОдинToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.зєднатиФайлиВОдинToolStripMenuItem.Text = "З\'єднати файли в один";
+            this.зєднатиФайлиВОдинToolStripMenuItem.Click += new System.EventHandler(this.зєднатиФайлиВОдинToolStripMenuItem_Click);
             // 
             // reversePagesToolStripMenuItem
             // 
@@ -700,10 +709,12 @@
             this.toolStripPDF.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStripPDF.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripPDF.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonCreatePdf});
+            this.toolStripButtonCreatePdf,
+            this.toolStripDropDownButtonSplit,
+            this.toolStripDropDownButtonMerge});
             this.toolStripPDF.Location = new System.Drawing.Point(0, 3);
             this.toolStripPDF.Name = "toolStripPDF";
-            this.toolStripPDF.Size = new System.Drawing.Size(24, 34);
+            this.toolStripPDF.Size = new System.Drawing.Size(32, 97);
             this.toolStripPDF.TabIndex = 0;
             // 
             // toolStripButtonCreatePdf
@@ -712,7 +723,7 @@
             this.toolStripButtonCreatePdf.Image = global::Job.Properties.Resources.pdf_icon;
             this.toolStripButtonCreatePdf.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCreatePdf.Name = "toolStripButtonCreatePdf";
-            this.toolStripButtonCreatePdf.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButtonCreatePdf.Size = new System.Drawing.Size(30, 20);
             this.toolStripButtonCreatePdf.Text = "Перетворити на PDF";
             this.toolStripButtonCreatePdf.Click += new System.EventHandler(this.toolStripButtonCreatePdf_Click);
             // 
@@ -1028,12 +1039,23 @@
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
             // 
-            // зєднатиФайлиВОдинToolStripMenuItem
+            // toolStripDropDownButtonSplit
             // 
-            this.зєднатиФайлиВОдинToolStripMenuItem.Name = "зєднатиФайлиВОдинToolStripMenuItem";
-            this.зєднатиФайлиВОдинToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
-            this.зєднатиФайлиВОдинToolStripMenuItem.Text = "З\'єднати файли в один";
-            this.зєднатиФайлиВОдинToolStripMenuItem.Click += new System.EventHandler(this.зєднатиФайлиВОдинToolStripMenuItem_Click);
+            this.toolStripDropDownButtonSplit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButtonSplit.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonSplit.Image")));
+            this.toolStripDropDownButtonSplit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonSplit.Name = "toolStripDropDownButtonSplit";
+            this.toolStripDropDownButtonSplit.Size = new System.Drawing.Size(30, 19);
+            this.toolStripDropDownButtonSplit.Text = "Р";
+            // 
+            // toolStripDropDownButtonMerge
+            // 
+            this.toolStripDropDownButtonMerge.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButtonMerge.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonMerge.Image")));
+            this.toolStripDropDownButtonMerge.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonMerge.Name = "toolStripDropDownButtonMerge";
+            this.toolStripDropDownButtonMerge.Size = new System.Drawing.Size(30, 19);
+            this.toolStripDropDownButtonMerge.Text = "О";
             // 
             // FileBrowser
             // 
@@ -1173,5 +1195,7 @@
         private System.Windows.Forms.ToolStrip toolStripPDF;
         private System.Windows.Forms.ToolStripButton toolStripButtonCreatePdf;
         private System.Windows.Forms.ToolStripMenuItem зєднатиФайлиВОдинToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonSplit;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonMerge;
     }
 }

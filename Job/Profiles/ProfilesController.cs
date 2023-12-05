@@ -64,9 +64,10 @@ namespace Job.Profiles
                     //todo:check for duplicate name profile
 
                     profile.InitProfile();
+                    
 
                     Profiles.Add(profile);
-
+                    Save();
 
                     return profile;
                 }

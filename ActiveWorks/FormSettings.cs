@@ -717,7 +717,7 @@ namespace ActiveWorks
         {
             objectListViewCategories.ClearObjects();
             
-            objectListViewCategories.AddObjects(_currentProfile.Categories.GetAll().ToArray());
+            objectListViewCategories.AddObjects(_currentProfile.Categories?.GetAll().ToArray());
         }
 
         private void objectListViewCategories_ButtonClick(object sender, CellClickEventArgs e)

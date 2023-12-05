@@ -79,6 +79,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundTaskServiceLib", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginGMail", "PluginGMail\PluginGMail.csproj", "{AF956FC7-DAE6-4BD5-89D7-869619A93262}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginFileshareWeb", "PluginFileshareWeb\PluginFileshareWeb.csproj", "{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -781,6 +783,30 @@ Global
 		{AF956FC7-DAE6-4BD5-89D7-869619A93262}.SERVER|x64.Build.0 = Debug|Any CPU
 		{AF956FC7-DAE6-4BD5-89D7-869619A93262}.SERVER|x86.ActiveCfg = Debug|Any CPU
 		{AF956FC7-DAE6-4BD5-89D7-869619A93262}.SERVER|x86.Build.0 = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Debug|x64.Build.0 = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Debug|x86.Build.0 = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Release|x64.ActiveCfg = Release|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Release|x64.Build.0 = Release|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Release|x86.ActiveCfg = Release|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.Release|x86.Build.0 = Release|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.SERVER|Any CPU.ActiveCfg = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.SERVER|Any CPU.Build.0 = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.SERVER|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.SERVER|Mixed Platforms.Build.0 = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.SERVER|x64.ActiveCfg = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.SERVER|x64.Build.0 = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.SERVER|x86.ActiveCfg = Debug|Any CPU
+		{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}.SERVER|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
