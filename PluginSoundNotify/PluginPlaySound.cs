@@ -71,11 +71,10 @@ namespace PluginSoundNotify
                         var voice = _synthesizer.GetInstalledVoices().FirstOrDefault(x => x.VoiceInfo.Description.Equals(settings.SpeechVoiceName));
                         if (voice != null)
                         {
-                            if (!string.IsNullOrEmpty(settings.SpeechText))
-                            {
-                                _synthesizer.SelectVoice(voice.VoiceInfo.Name);
-                                _synthesizer.SpeakAsync(settings.SpeechText);
-                            }
+
+                            _synthesizer.SelectVoice(voice.VoiceInfo.Name);
+                            _synthesizer.SpeakAsync(settings.SpeechText);
+
                         }
                     }
 
@@ -112,6 +111,11 @@ namespace PluginSoundNotify
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        ~PluginPlaySound()
+        {
+            _synthesizer?.Dispose();
         }
     }
 }

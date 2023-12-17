@@ -482,11 +482,6 @@ namespace Job.UC
                     }
                 }
                 )));
-
-                //foreach (var info in fileList)
-                //{
-                //    ProcessScriptFile(info, menuSendTo);
-                //}
             }
         }
 
@@ -634,7 +629,6 @@ namespace Job.UC
                     OnDropHttpLink(this, link.ToString());
                 }
             }
-
         }
 
         private void StartDownloadFilesFromFtp(IDownloadFileParam list)
@@ -1943,7 +1937,7 @@ namespace Job.UC
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
 
-            using (var form = new UserForms.PDF.FormList(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x=>x.FileInfo.FullName).ToArray()))
+            using (var form = new UserForms.PDF.FormList(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToArray()))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {

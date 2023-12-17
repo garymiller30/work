@@ -32,6 +32,9 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.panelMail = new System.Windows.Forms.Panel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.textBoxMails = new System.Windows.Forms.TextBox();
             this.panelFile = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.buttonPlayFile = new System.Windows.Forms.Button();
@@ -46,17 +49,14 @@
             this.comboBoxVoices = new System.Windows.Forms.ComboBox();
             this.comboBoxSoundType = new System.Windows.Forms.ComboBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.panelMail = new System.Windows.Forms.Panel();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.textBoxMails = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.panelMail.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.panelFile.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panelSpeech.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.panelMail.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // listBoxAvailableSoundsEvent
@@ -106,6 +106,33 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(328, 134);
             this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // panelMail
+            // 
+            this.panelMail.Controls.Add(this.groupBox4);
+            this.panelMail.Location = new System.Drawing.Point(3, 3);
+            this.panelMail.Name = "panelMail";
+            this.panelMail.Size = new System.Drawing.Size(322, 50);
+            this.panelMail.TabIndex = 2;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.textBoxMails);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox4.Location = new System.Drawing.Point(0, 0);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(322, 50);
+            this.groupBox4.TabIndex = 0;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Відправити повідомлення адресатам (через \',\')";
+            // 
+            // textBoxMails
+            // 
+            this.textBoxMails.Location = new System.Drawing.Point(6, 19);
+            this.textBoxMails.Name = "textBoxMails";
+            this.textBoxMails.Size = new System.Drawing.Size(309, 20);
+            this.textBoxMails.TabIndex = 0;
+            this.textBoxMails.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxMails_KeyUp);
             // 
             // panelFile
             // 
@@ -245,33 +272,6 @@
             // 
             this.openFileDialog1.Filter = "mp3|*.mp3|wav|*.wav";
             // 
-            // panelMail
-            // 
-            this.panelMail.Controls.Add(this.groupBox4);
-            this.panelMail.Location = new System.Drawing.Point(3, 3);
-            this.panelMail.Name = "panelMail";
-            this.panelMail.Size = new System.Drawing.Size(322, 50);
-            this.panelMail.TabIndex = 2;
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.textBoxMails);
-            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox4.Location = new System.Drawing.Point(0, 0);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(322, 50);
-            this.groupBox4.TabIndex = 0;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Відправити повідомлення адресатам (через \',\')";
-            // 
-            // textBoxMails
-            // 
-            this.textBoxMails.Location = new System.Drawing.Point(6, 19);
-            this.textBoxMails.Name = "textBoxMails";
-            this.textBoxMails.Size = new System.Drawing.Size(309, 20);
-            this.textBoxMails.TabIndex = 0;
-            this.textBoxMails.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBoxMails_KeyUp);
-            // 
             // FormSettings
             // 
             this.AcceptButton = this.buttonSave;
@@ -287,17 +287,18 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Налаштування";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSettings_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.panelMail.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.panelFile.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.panelSpeech.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.panelMail.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }

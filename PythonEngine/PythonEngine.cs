@@ -142,7 +142,7 @@ namespace PythonEngine
             if (path == null) return false;
 
             var ext = Path.GetExtension(path);
-            return ext?.Equals(".py", StringComparison.InvariantCultureIgnoreCase) ?? false;
+            return ext.Equals(".py", StringComparison.InvariantCultureIgnoreCase);
         }
 
         public void SetVariable(ScriptScope scope,string variable, object value)

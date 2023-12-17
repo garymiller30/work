@@ -31,5 +31,7 @@ namespace Interfaces
         T LoadSettings<T>() where T : class, new();
         void SaveSettings<T>(T settings) where T : class;
         void PlaySound(AvailableSound soundType,object param);
+
+        void RemoveProcessesByJobId(IWithId id);
     }
 }

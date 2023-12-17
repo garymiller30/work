@@ -296,18 +296,20 @@ namespace Job.Static
 
         public sealed class NaturalComparer : IComparer
         {
-            //SortOrder _order;
+            SortOrder _order;
 
             public NaturalComparer(SortOrder sortOrder)
             {
-                //_order = sortOrder;
+                _order = sortOrder;
             }
 
             public int Compare(object x, object y)
             {
                 if (x is FileSystemInfo a && y is FileSystemInfo b)
                 {
+                    if (_order == SortOrder.Ascending)
                     return SafeNativeMethods.StrCmpLogicalW(a.Name, b.Name);
+                    else return SafeNativeMethods.StrCmpLogicalW(b.Name, a.Name);
                 }
 
                 return -1;

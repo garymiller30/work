@@ -46,7 +46,7 @@ namespace FtpClient
 
                 return false;
             };
-            treeListView1.ChildrenGetter += model => ((TreeNode) model).ChildFolders;
+            treeListView1.ChildrenGetter += model => ((TreeNode)model).ChildFolders;
 
         }
 
@@ -73,7 +73,7 @@ namespace FtpClient
 
             // ftp
             var dirs = _client.GetDirectories();
-            var nodes = dirs.Select(x => new TreeNode {Folder = x}).ToList();
+            var nodes = dirs.Select(x => new TreeNode { Folder = x }).ToList();
 
             return nodes;
 
@@ -92,7 +92,7 @@ namespace FtpClient
                 var dirs = _client.GetDirectories();
                 if (dirs.Any())
                 {
-                    node.ChildFolders = dirs.Select(x => new TreeNode {Folder = x}).ToList();
+                    node.ChildFolders = dirs.Select(x => new TreeNode { Folder = x }).ToList();
 
                     treeListView1.RefreshObject(node);
                     if (node.ChildFolders.Any())
@@ -112,13 +112,14 @@ namespace FtpClient
 
         private void toolStripTextBoxFilter_TextChanged(object sender, EventArgs e)
         {
-            if (toolStripTextBoxFilter.Text.Length > 2)
-            {
-                treeListView1.ModelFilter = TextMatchFilter.Contains(treeListView1, toolStripTextBoxFilter.Text);
-            }
-            else if (string.IsNullOrEmpty(toolStripTextBoxFilter.Text))
+
+            if (string.IsNullOrEmpty(toolStripTextBoxFilter.Text))
             {
                 ClearFilter();
+            }
+            else if (toolStripTextBoxFilter.Text.Length > 2)
+            {
+                treeListView1.ModelFilter = TextMatchFilter.Contains(treeListView1, toolStripTextBoxFilter.Text);
             }
         }
 

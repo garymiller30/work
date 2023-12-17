@@ -70,7 +70,7 @@ namespace ActiveWorks
             }
             catch (Exception ee)
             {
-                MessageBox.Show(ee.Message, @"Ошибка");
+                MessageBox.Show(ee.Message, @"Помилка");
             }
         }
 
@@ -106,6 +106,7 @@ namespace ActiveWorks
         private void FormPdfPreview_FormClosing(object sender, FormClosingEventArgs e)
         {
 
+            _viewer?.Dispose();
             e.Cancel = true;
             Hide();
 

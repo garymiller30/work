@@ -316,7 +316,7 @@ namespace Job.Fasades
 
         public List<IJob> Search(string text)
         {
-            var searchString = text.ToLower();
+            var searchString = text.ToLower(CultureInfo.InvariantCulture);
 
             try
             {

@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using ExtensionMethods;
 using Interfaces;
+using Job.Controllers;
 using MongoDB.Bson;
 
 namespace Job.Ext
@@ -117,6 +118,19 @@ namespace Job.Ext
             return fileName;
         }
 
+        public static string GetSignaFileName(this IJob job, IUserProfile profile, string oldNumber)
+        {
+            var category = profile.Categories.GetCategoryNameById(job.CategoryId);
+            string fileName = string.Format(CultureInfo.InvariantCulture,
+                profile.Jobs.Settings.SignaFileShablon,
+                job.Customer.Transliteration(),
+                oldNumber,
+                job.Description.Transliteration(),
+                category.Transliteration());
+
+            return fileName;
+        }
+
         public static string GetSignaFilePath(this IJob job, IUserProfile profile)
         {
             string fileName = job.GetSignaFileName(profile);
@@ -135,7 +149,14 @@ namespace Job.Ext
             return destFile;
         }
 
+        public static string GetSignaFilePath(this IJob job, IUserProfile profile, string oldNumber)
+        {
+            string fileName = job.GetSignaFileName(profile,oldNumber);
+            var destFile = Path.Combine(profile.Jobs.GetFullPathToWorkFolder(job),
+                    profile.Settings.GetJobSettings().SubFolderForSignaFile, $"{fileName}.sdf");
 
+            return destFile;
+        }
 /*
         public static string SendNotifyCovertString(this string str,Job job)
         {

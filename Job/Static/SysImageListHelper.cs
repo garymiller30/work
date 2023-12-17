@@ -102,6 +102,8 @@ namespace Job.Static
         /// <returns>The index of the image or -1 if something goes wrong.</returns>
         public int GetImageIndex(string path)
         {
+            if (SmallImageCollection == null) return -1;
+
             if (Directory.Exists(path))
                 path = Environment.SystemDirectory; // optimization! give all directories the same image
             else if (Path.HasExtension(path))
@@ -112,8 +114,13 @@ namespace Job.Static
 
             try
             {
-                AddImageToCollection(path, SmallImageList, ShellUtilities.GetFileIcon(path, true, true));
-                AddImageToCollection(path, LargeImageList, ShellUtilities.GetFileIcon(path, false, true));
+                Icon smallIcon = ShellUtilities.GetFileIcon(path, true, true);
+                if (smallIcon != null)
+                    AddImageToCollection(path, SmallImageList, ShellUtilities.GetFileIcon(path, true, true));
+
+                Icon largeIcon = ShellUtilities.GetFileIcon(path, false, true);
+                if (largeIcon != null)
+                    AddImageToCollection(path, LargeImageList, ShellUtilities.GetFileIcon(path, false, true));
             }
             catch (ArgumentNullException)
             {

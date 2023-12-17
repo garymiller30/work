@@ -39,21 +39,23 @@ namespace PluginAddWorkFromPolymix
                     using (SqlCommand cmd = new SqlCommand(sb.ToString(), conn))
                     {
                         conn.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        if (reader.HasRows)
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-
-                            while (reader.Read()) // построчно считываем данные
+                            if (reader.HasRows)
                             {
-                                var order = new PolymixOrder
-                                {
-                                    Number = reader.GetInt32(0),
-                                    Customer = reader.GetString(1),
-                                    Description = reader.GetString(2),
-                                    OrderState = reader.GetInt32(3)
-                                };
 
-                                orders.Add(order);
+                                while (reader.Read()) // построчно считываем данные
+                                {
+                                    var order = new PolymixOrder
+                                    {
+                                        Number = reader.GetInt32(0),
+                                        Customer = reader.GetString(1),
+                                        Description = reader.GetString(2),
+                                        OrderState = reader.GetInt32(3)
+                                    };
+
+                                    orders.Add(order);
+                                }
                             }
                         }
                     }
@@ -145,19 +147,21 @@ namespace PluginAddWorkFromPolymix
                     using (SqlCommand cmd = new SqlCommand(sb.ToString(), conn))
                     {
                         conn.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        if (reader.HasRows)
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-
-                            while (reader.Read()) // построчно считываем данные
+                            if (reader.HasRows)
                             {
-                                var order = new KindOrder()
-                                {
-                                    KindID = reader.GetInt32(0),
-                                    KindDesc = reader.GetString(1),
-                                };
 
-                                kindList.Add(order);
+                                while (reader.Read()) // построчно считываем данные
+                                {
+                                    var order = new KindOrder()
+                                    {
+                                        KindID = reader.GetInt32(0),
+                                        KindDesc = reader.GetString(1),
+                                    };
+
+                                    kindList.Add(order);
+                                }
                             }
                         }
                     }
@@ -189,21 +193,24 @@ namespace PluginAddWorkFromPolymix
                     using (SqlCommand cmd = new SqlCommand(sb.ToString(), conn))
                     {
                         conn.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        if (reader.HasRows)
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-
-                            while (reader.Read()) // построчно считываем данные
+                            if (reader.HasRows)
                             {
-                                var order = new OrderState()
+
+                                while (reader.Read()) // построчно считываем данные
                                 {
-                                    Code = reader.GetInt32(0),
-                                    Name = reader.GetString(1),
-                                };
+                                    var order = new OrderState()
+                                    {
+                                        Code = reader.GetInt32(0),
+                                        Name = reader.GetString(1),
+                                    };
 
-                                order.Img = GetImageFromOrderStates((byte[])reader["A2"]);
+                                    order.Img = GetImageFromOrderStates((byte[])reader["A2"]);
 
-                                statusesList.Add(order);
+                                    statusesList.Add(order);
+                                }
                             }
                         }
                     }

@@ -91,7 +91,7 @@ namespace PluginAddWorkFromPolymix
             }
         }
 
-        public FormAddOrder(PluginAddWorkFromPolymixSettings addWorkFromPolymixSettings, IUserProfile profile, IJob job) : this()
+        public FormAddOrder(PluginAddWorkFromPolymixSettings addWorkFromPolymixSettings, IUserProfile profile) : this()
         {
             _addWorkFromPolymixSettings = addWorkFromPolymixSettings;
             _profile = profile;

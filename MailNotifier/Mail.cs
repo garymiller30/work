@@ -64,14 +64,14 @@ namespace MailNotifier
 
         public void Send(object job, string to, string tema, string body)
         {
-            
+            SmtpClient smtp = null;
 
             try
             {
                 var fromAddress = new MailAddress(Settings.MailFrom, Settings.MailFrom);
                 var toAddress = new MailAddress(to, to);
 
-                var smtp = new SmtpClient
+                smtp = new SmtpClient
                 {
                     Host = Settings.MailSmtpServer, // "smtp.gmail.com",
                     Port = Settings.MailSmtpPort, //587,
@@ -95,6 +95,9 @@ namespace MailNotifier
                 OnError(this,e);
                 //ExceptionMessage = e.Message;
             }
+            finally {
+                smtp?.Dispose();
+                }
         }
 
         /// <summary>
@@ -107,12 +110,12 @@ namespace MailNotifier
         /// <param name="attachFiles"></param>
         public void SendToMany(string to, string tema, string body, string[] attachFiles)
         {
-            
+            SmtpClient smtp = null;
             try
             {
                 var fromAddress = new MailAddress(Settings.MailFrom, Settings.MailFrom);
 
-                var smtp = new SmtpClient
+                smtp = new SmtpClient
                 {
                     Host = Settings.MailSmtpServer,// "smtp.gmail.com",
                     Port = Settings.MailSmtpPort,//587,
@@ -159,6 +162,10 @@ namespace MailNotifier
                 Logger.Log.Error(this, "Mail", e.Message);
                 OnError(this, e);
             }
+            finally
+            {
+                smtp?.Dispose();
+            }
         }
 
         private static string Convert(object job, string txt)
@@ -177,7 +184,9 @@ namespace MailNotifier
 
         public void SendFile(string to, string attachmentPath)
         {
-            
+
+            SmtpClient smtp = null;
+
             try
             {
                 var fromAddress = new MailAddress(Settings.MailFrom, Settings.MailFrom);
@@ -187,7 +196,7 @@ namespace MailNotifier
 
                 var attachment = new Attachment(attachmentPath);
 
-                var smtp = new SmtpClient
+                smtp = new SmtpClient
                 {
                     Host = Settings.MailSmtpServer,
                     Port = Settings.MailSmtpPort,
@@ -210,6 +219,10 @@ namespace MailNotifier
             {
                 Logger.Log.Error(this, "Mail", e.Message);
                 OnError(this,e);
+            }
+            finally
+            {
+                smtp?.Dispose();
             }
         }
 
