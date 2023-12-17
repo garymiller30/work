@@ -234,6 +234,7 @@
     <Compile Include="CachePay.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Controllers\ISignaController.cs" />
+    <Compile Include="Controllers\SignaChangeOrderNumberParams.cs" />
     <Compile Include="Controllers\SignaController.cs" />
     <Compile Include="CustomerCustomFolderPath.cs" />
     <Compile Include="CustomForms\FormEditStatus.cs">

@@ -231,16 +231,6 @@ namespace Plugins
             }
         }
 
-        //public object InvokeProperty(string pluginName, string propertyName)
-        //{
-        //    if (_plugins.ContainsKey(pluginName))
-        //    {
-        //        var property = _plugins[pluginName].GetType().GetProperty(propertyName);
-        //    }
-
-        //    return null;
-        //}
-
         public void SetProperty(string pluginName, string propertyName, object value)
         {
             if (_plugins.ContainsKey(pluginName))
@@ -409,6 +399,15 @@ namespace Plugins
 
             }
             return new T();
+        }
+
+        public void RemoveProcessesByJobId(IWithId id)
+        {
+            // почистити плагіни
+            foreach (var pluginFormAddWork in GetPluginFormAddWorks())
+            {
+                pluginFormAddWork.RemoveProcessByJobId(id);
+            }
         }
         #endregion
     }

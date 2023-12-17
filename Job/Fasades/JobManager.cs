@@ -20,6 +20,7 @@ using Job.Models;
 using Job.Static;
 using Job.UC;
 using Job.UserForms;
+using Krypton.Toolkit;
 using Logger;
 using Ookii.Dialogs.WinForms;
 
@@ -73,10 +74,7 @@ namespace Job.Fasades
                 else
                 {
                     // почистити плагіни
-                    foreach (var pluginFormAddWork in _profile.Plugins.GetPluginFormAddWorks())
-                    {
-                        pluginFormAddWork.RemoveProcessByJobId(job.Id);
-                    }
+                    _profile.Plugins.RemoveProcessesByJobId((IWithId)job.Id);
                 }
             }
         }
@@ -84,8 +82,6 @@ namespace Job.Fasades
         public void CreateJob(IPluginNewOrder pluginNewOrder)
         {
             pluginNewOrder.ShowDialogNewOrder(_profile, null);
-            
-            
         }
 
         public void ApplyStatusViewFilter()
@@ -118,7 +114,7 @@ namespace Job.Fasades
             Settings = settings;
             _profile = profile;
 
-            JobListControl = new UcJobList(_profile) { Dock = DockStyle.Fill};
+            JobListControl = new UcJobList(_profile) { Dock = DockStyle.Fill };
             Connect(false);
         }
 
@@ -175,7 +171,7 @@ namespace Job.Fasades
             if (!reconnect)
                 FollowToRabbit();
         }
-  
+
         private void FollowToRabbit()
         {
             if (_profile.Plugins == null) return;
@@ -214,9 +210,6 @@ namespace Job.Fasades
                 if (ff != null)
                     OnJobFinishEdit(this, ff);
             }
-
-
-
         }
 
         void MQ_OnJobBeginEdit(object sender, object id)
@@ -331,7 +324,7 @@ namespace Job.Fasades
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "JobManager:UpdateJob",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "JobManager:UpdateJob", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Log.Error(_profile, "JobManager:UpdateJob", e.Message);
             }
 
@@ -407,9 +400,9 @@ namespace Job.Fasades
         public void CreateSignaJobRev2(IUserProfile profile, IJob job)
         {
 
-            var destFile = Extensions.GetSignaFilePath(job,profile);
+            var destFile = Extensions.GetSignaFilePath(job, profile);
 
-            
+
 
             //if (!string.IsNullOrEmpty(signaJobsPath))
             //{
@@ -454,7 +447,7 @@ namespace Job.Fasades
                 .Save();
 
             Process.Start(destFile);
-           // }
+            // }
         }
 
         private Tuple<decimal, decimal> GetFormatFile(IJob j)
@@ -481,10 +474,7 @@ namespace Job.Fasades
 
         public void OpenSignaJob(IUserProfile profile, IJob job)
         {
-
-            //var category = _profile.Categories.GetCategoryNameById(job.CategoryId);
-            //var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(),category.Transliteration());
-            var destFile = Extensions.GetSignaFilePath(job,profile);
+            var destFile = Extensions.GetSignaFilePath(job, profile);
 
             if (File.Exists(destFile))
             {
@@ -494,12 +484,12 @@ namespace Job.Fasades
 
         public string GetSignaJobFilePath(IJob job)
         {
-            return Extensions.GetSignaFilePath(job,_profile);
+            return Extensions.GetSignaFilePath(job, _profile);
+        }
 
-            //var category = _profile.Categories.GetCategoryNameById(job.CategoryId);
-            //var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, job.Customer.Transliteration(), job.Number, job.Description.Transliteration(),category.Transliteration());
-            //var destFile = Path.Combine(Settings.SignaJobsPath, $"{fileName}.sdf");
-            //return destFile;
+        public string GetSignaJobFilePath(IJob job,string oldNumber)
+        {
+            return Extensions.GetSignaFilePath(job, _profile, oldNumber);
         }
 
         public void DuplicateSignaJob(IJob sourceJob, IJob targetJob)
@@ -508,24 +498,12 @@ namespace Job.Fasades
             {
                 if (targetJob is IJob j && sourceJob is IJob source)
                 {
-                    //var sourceName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, source.Customer.Transliteration(), source.Number, source.Description.Transliteration());
-                    //var sourceFile = Path.Combine(Settings.SignaJobsPath, $"{sourceName}.sdf");
-                    var sourceFile = Extensions.GetSignaFilePath(sourceJob,_profile);
-
-                    //var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, j.Customer.Transliteration(), j.Number, j.Description.Transliteration());
-                    //var destFile = Path.Combine(Settings.SignaJobsPath, $"{fileName}.sdf");
-                    var destFile = Extensions.GetSignaFilePath(targetJob,_profile);
-
+                    var sourceFile = Extensions.GetSignaFilePath(sourceJob, _profile);
+                    var destFile = Extensions.GetSignaFilePath(targetJob, _profile);
 
                     File.Copy(sourceFile, destFile, true);
 
                     new SignaController(destFile).ChangeSignaOrderNumber(destFile, j.Number);
-
-                    //new SignaController(destFile)
-                    //    .SetJobNumber(j.Number)
-                    //    .Save();
-
-                    //ChangeSignaOrderNumber(destFile,j.Number);
                 }
             }
         }
@@ -546,11 +524,46 @@ namespace Job.Fasades
 
             if (RenameJobDirectory(oldPath, job))
             {
-                _profile.Jobs.UpdateJob(job,true);
+                _profile.Jobs.UpdateJob(job, true);
                 return true;
             }
             job.Description = save;
             return false;
+        }
+
+        public bool RenameJobDirectory(SignaChangeOrderNumberParams param)
+        {
+            JobParameters oldJob = new JobParameters(param.Job);
+            JobParameters newJob = new JobParameters(param.Job);
+            newJob.Number = param.NewNumber;
+
+            var oldPath = GetFullPathToWorkFolder(oldJob);
+            var newPath = GetFullPathToWorkFolder(newJob);
+
+            if (string.Compare(oldPath, newPath, ignoreCase: true, CultureInfo.InvariantCulture) != 0)
+            {
+                var parent = Path.GetDirectoryName(newPath);
+                if (!Directory.Exists(parent)) Directory.CreateDirectory(parent);
+
+                Retry:
+                try
+                {
+                    Directory.Move(oldPath, newPath);
+
+                }
+                catch
+                {
+                    var message = FileUtil.GetNamesWhoBlock(oldPath);
+                    if (MessageBox.Show($"Тека {oldPath} заблокована такими програмами: {message}", "Теку заблоковано", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Retry)
+                    {
+                        goto Retry;
+                    }
+                    return false;
+                }
+            }
+
+            return true;
+
         }
 
         public bool RenameJobDirectory(string oldDir, IJob job)
@@ -572,7 +585,7 @@ namespace Job.Fasades
                     Directory.Move(oldDir, newDir);
 
                 }
-                catch 
+                catch
                 {
                     var message = FileUtil.GetNamesWhoBlock(oldDir);
                     if (MessageBox.Show($"Тека {oldDir} заблокована такими програмами: {message}", "Теку заблоковано", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Retry)
@@ -594,35 +607,50 @@ namespace Job.Fasades
         /// <returns></returns>
         public bool ChangeJobNumber(IJob job, string number)
         {
-            var sourceSigna = GetSignaJobFilePath(job);
-
-            var oldPath = _profile.Jobs.GetFullPathToWorkFolder(job);
-            var save = job.Number;
-
-            job.Number = number;
-
-            _profile.Plugins.AfterJobChange(job);
-
-            if (RenameJobDirectory(oldPath, job))
+            SignaChangeOrderNumberParams signaChangeOrderNumberParams = new SignaChangeOrderNumberParams
             {
-                _profile.Jobs.UpdateJob(job,true);
-                RenameSignaJob(sourceSigna, GetSignaJobFilePath(job), job);
+                OldNumber = job.Number,
+                NewNumber = number,
+                Job = job,
+                Profile = _profile,
+            };
+
+            if (RenameJobDirectory(signaChangeOrderNumberParams))
+            {
+                RenameSignaJob(signaChangeOrderNumberParams);
+                job.Number = number;
+                _profile.Plugins.AfterJobChange(job);
+                _profile.Jobs.UpdateJob(job, true);
+
                 return true;
             }
-            job.Number = save;
 
             return false;
         }
 
-        private void RenameSignaJob(string sourceSigna, string targetSigna, IJob job)
+        private void RenameSignaJob(SignaChangeOrderNumberParams param)
         {
-            if (File.Exists(sourceSigna) && !sourceSigna.Equals(targetSigna))
-            {
-                if (File.Exists(targetSigna)) File.Delete(targetSigna);
-                File.Move(sourceSigna, targetSigna);
+            JobParameters oldJob = new JobParameters(param.Job);
+            JobParameters newJob = new JobParameters(param.Job);
+            newJob.Number = param.NewNumber;
 
-                new SignaController(targetSigna).ChangeSignaOrderNumber(targetSigna, job.Number);
+            string oldPath;
+            string newPath = GetSignaJobFilePath(newJob);
+
+            if (param.Profile.Settings.GetJobSettings().UseJobFolder)
+            {
+                oldPath = GetSignaJobFilePath(newJob,param.OldNumber);
             }
+            else
+            {
+                oldPath = GetSignaJobFilePath(oldJob);
+            }
+
+            if (!File.Exists(oldPath)) return;
+            if (oldPath.Equals(newPath)) return;
+
+            File.Move(oldPath, newPath);
+            new SignaController(newPath).ChangeSignaOrderNumber(newPath, param.NewNumber);
         }
 
         public void ChangeStatusCode(string orderNumber, int statusCode)

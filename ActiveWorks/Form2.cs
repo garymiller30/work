@@ -1,8 +1,4 @@
-﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com 
-
-
-using ActiveWorks.Forms;
+﻿using ActiveWorks.Forms;
 using ActiveWorks.Properties;
 using ActiveWorks.UserControls;
 using Krypton.Ribbon;
@@ -25,7 +21,7 @@ namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 8.6.3";
+        private readonly string _version = $"{Localize.FormTitle} 8.6.4";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;

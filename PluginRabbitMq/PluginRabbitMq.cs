@@ -88,6 +88,7 @@ namespace PluginRabbitMq
 
         private void Connect()
         {
+            if (_settings == null) { Log.Error(this, $"(Connect) MQManager", "Settings are empty"); return; }
 
             if (!string.IsNullOrEmpty(_settings.RabbitServer) &&
                 !string.IsNullOrEmpty(_settings.RabbitUser) &&
@@ -108,18 +109,13 @@ namespace PluginRabbitMq
 
         private void CreateChanell()
         {
+            if (_settings == null) { Log.Error(this, $"(CreateChanell) MQManager", "Settings are empty"); return; }
             try
             {
                 Log.Info(this, $"({_settings?.RabbitUser}) MQManager", $"creating bus...{DateTime.Now}");
                 _bus =  RabbitHutch.CreateBus(
-                    $"host={_settings.RabbitServer};virtualHost={_settings.RabbitVirtualHost};username={_settings.RabbitUser};password={_settings.RabbitPassword}");
+                    $"host={_settings?.RabbitServer};virtualHost={_settings?.RabbitVirtualHost};username={_settings?.RabbitUser};password={_settings?.RabbitPassword}");
                 Log.Info(this, $"({_settings?.RabbitUser}) MQManager", $"creating bus...{DateTime.Now}...Ok");
-                //_queue = _bus.Advanced.QueueDeclare(_channelNumber);
-                //_bus.Advanced.Consume(_queue, x => x
-                //.Add<MessageMQ>((message, info) =>
-                //{
-                //    Debug.WriteLine(message.Body);
-                //}));
                 Log.Info(this, $"({_settings?.RabbitUser}) MQManager", $"subscribing...{DateTime.Now}");
                 _bus.PubSub.Subscribe<MessageMQ>(_channelNumber, msg => GetMessage(msg));
                 Log.Info(this, $"({_settings?.RabbitUser}) MQManager", $"subscribing...{DateTime.Now}...Ok");

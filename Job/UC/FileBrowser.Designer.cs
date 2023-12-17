@@ -94,6 +94,11 @@
             this.toolStripLeft = new System.Windows.Forms.ToolStrip();
             this.toolStripPDF = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonCreatePdf = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButtonSplit = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripDropDownButtonMerge = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Up = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -132,8 +137,6 @@
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-            this.toolStripDropDownButtonSplit = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripDropDownButtonMerge = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -408,6 +411,7 @@
             // 
             // зєднатиФайлиВОдинToolStripMenuItem
             // 
+            this.зєднатиФайлиВОдинToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("зєднатиФайлиВОдинToolStripMenuItem.Image")));
             this.зєднатиФайлиВОдинToolStripMenuItem.Name = "зєднатиФайлиВОдинToolStripMenuItem";
             this.зєднатиФайлиВОдинToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.зєднатиФайлиВОдинToolStripMenuItem.Text = "З\'єднати файли в один";
@@ -710,11 +714,14 @@
             this.toolStripPDF.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripPDF.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonCreatePdf,
+            this.toolStripButton1,
+            this.toolStripButton2,
+            this.toolStripButton3,
             this.toolStripDropDownButtonSplit,
             this.toolStripDropDownButtonMerge});
             this.toolStripPDF.Location = new System.Drawing.Point(0, 3);
             this.toolStripPDF.Name = "toolStripPDF";
-            this.toolStripPDF.Size = new System.Drawing.Size(32, 97);
+            this.toolStripPDF.Size = new System.Drawing.Size(32, 166);
             this.toolStripPDF.TabIndex = 0;
             // 
             // toolStripButtonCreatePdf
@@ -726,6 +733,54 @@
             this.toolStripButtonCreatePdf.Size = new System.Drawing.Size(30, 20);
             this.toolStripButtonCreatePdf.Text = "Перетворити на PDF";
             this.toolStripButtonCreatePdf.Click += new System.EventHandler(this.toolStripButtonCreatePdf_Click);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = global::Job.Properties.Resources.document_margins_icon;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(30, 20);
+            this.toolStripButton1.Text = "Виставити Trimbox";
+            this.toolStripButton1.Click += new System.EventHandler(this.SetTrimBoxToolStripMenuItem_Click);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(30, 20);
+            this.toolStripButton2.Text = "З\'єднати файли";
+            this.toolStripButton2.Click += new System.EventHandler(this.зєднатиФайлиВОдинToolStripMenuItem_Click);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = global::Job.Properties.Resources.Editing_Cut_Filled_icon;
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(30, 20);
+            this.toolStripButton3.Text = "Розділити файл";
+            this.toolStripButton3.Click += new System.EventHandler(this.SplitPDFToolStripMenuItem_Click);
+            // 
+            // toolStripDropDownButtonSplit
+            // 
+            this.toolStripDropDownButtonSplit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButtonSplit.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonSplit.Image")));
+            this.toolStripDropDownButtonSplit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonSplit.Name = "toolStripDropDownButtonSplit";
+            this.toolStripDropDownButtonSplit.Size = new System.Drawing.Size(30, 19);
+            this.toolStripDropDownButtonSplit.Text = "Р";
+            // 
+            // toolStripDropDownButtonMerge
+            // 
+            this.toolStripDropDownButtonMerge.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButtonMerge.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonMerge.Image")));
+            this.toolStripDropDownButtonMerge.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButtonMerge.Name = "toolStripDropDownButtonMerge";
+            this.toolStripDropDownButtonMerge.Size = new System.Drawing.Size(30, 19);
+            this.toolStripDropDownButtonMerge.Text = "О";
             // 
             // toolStrip1
             // 
@@ -917,7 +972,6 @@
             // 
             // toolStripTextBox_Filter
             // 
-            this.toolStripTextBox_Filter.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBox_Filter.Name = "toolStripTextBox_Filter";
             this.toolStripTextBox_Filter.Size = new System.Drawing.Size(80, 25);
             this.toolStripTextBox_Filter.ToolTipText = "Filter";
@@ -1038,24 +1092,6 @@
             // kryptonContextMenuHeading1
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
-            // 
-            // toolStripDropDownButtonSplit
-            // 
-            this.toolStripDropDownButtonSplit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButtonSplit.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonSplit.Image")));
-            this.toolStripDropDownButtonSplit.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButtonSplit.Name = "toolStripDropDownButtonSplit";
-            this.toolStripDropDownButtonSplit.Size = new System.Drawing.Size(30, 19);
-            this.toolStripDropDownButtonSplit.Text = "Р";
-            // 
-            // toolStripDropDownButtonMerge
-            // 
-            this.toolStripDropDownButtonMerge.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripDropDownButtonMerge.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonMerge.Image")));
-            this.toolStripDropDownButtonMerge.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButtonMerge.Name = "toolStripDropDownButtonMerge";
-            this.toolStripDropDownButtonMerge.Size = new System.Drawing.Size(30, 19);
-            this.toolStripDropDownButtonMerge.Text = "О";
             // 
             // FileBrowser
             // 
@@ -1197,5 +1233,8 @@
         private System.Windows.Forms.ToolStripMenuItem зєднатиФайлиВОдинToolStripMenuItem;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonSplit;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonMerge;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
     }
 }

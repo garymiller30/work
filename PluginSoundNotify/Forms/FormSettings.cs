@@ -195,5 +195,10 @@ namespace PluginSoundNotify.Forms
         {
             _selectedSoundSettings.Emails = textBoxMails.Text;
         }
+
+        private void FormSettings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _speechSynthesizer?.Dispose();
+        }
     }
 }

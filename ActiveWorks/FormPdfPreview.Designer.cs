@@ -51,7 +51,7 @@
             this.Name = "FormPdfPreview";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Просмотр PDF";
+            this.Text = "Перегляд PDF";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPdfPreview_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormPdfPreview_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

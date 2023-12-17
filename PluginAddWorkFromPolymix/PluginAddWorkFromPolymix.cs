@@ -73,7 +73,7 @@ namespace PluginAddWorkFromPolymix
         {
             DialogResult result;
 
-            using (var form = new FormAddOrder(AddWorkFromPolymixSettings, profile, job))
+            using (var form = new FormAddOrder(AddWorkFromPolymixSettings, profile))
             {
 
                 result = form.ShowDialog();
