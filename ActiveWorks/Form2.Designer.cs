@@ -34,6 +34,7 @@
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.buttonSpecAnyWhatNew = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecBackgroundTasks = new Krypton.Toolkit.ButtonSpecAny();
+            this.buttonSpecAnyIssue = new Krypton.Toolkit.ButtonSpecAny();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,8 +45,9 @@
             this.kryptonRibbon1.QATUserChange = false;
             this.kryptonRibbon1.RibbonAppButton.AppButtonShowRecentDocs = false;
             this.kryptonRibbon1.RibbonAppButton.AppButtonVisible = false;
+            this.kryptonRibbon1.SelectedContext = null;
             this.kryptonRibbon1.SelectedTab = null;
-            this.kryptonRibbon1.Size = new System.Drawing.Size(800, 122);
+            this.kryptonRibbon1.Size = new System.Drawing.Size(800, 112);
             this.kryptonRibbon1.TabIndex = 0;
             // 
             // kryptonManager1
@@ -68,14 +70,23 @@
             // 
             // buttonSpecBackgroundTasks
             // 
+            this.buttonSpecBackgroundTasks.ColorMap = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.buttonSpecBackgroundTasks.Text = "Фонові процеси";
             this.buttonSpecBackgroundTasks.UniqueName = "90dfe7b80d0d4b578e00f70e48de4f2f";
+            // 
+            // buttonSpecAnyIssue
+            // 
+            this.buttonSpecAnyIssue.Text = "Знайшли помилку?";
+            this.buttonSpecAnyIssue.ToolTipBody = "Якщо є обліковий запис на Github, то можете залишити повідомлення.";
+            this.buttonSpecAnyIssue.ToolTipTitle = "Знайшли помилку?";
+            this.buttonSpecAnyIssue.UniqueName = "eadddcf11d5943559a8440e83cbba81e";
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ButtonSpecs.AddRange(new Krypton.Toolkit.ButtonSpecAny[] {
+            this.buttonSpecAnyIssue,
             this.buttonSpecAnyWhatNew,
             this.buttonSpecBackgroundTasks});
             this.ClientSize = new System.Drawing.Size(800, 450);
@@ -105,5 +116,6 @@
         private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAnyWhatNew;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecBackgroundTasks;
+        private Krypton.Toolkit.ButtonSpecAny buttonSpecAnyIssue;
     }
 }

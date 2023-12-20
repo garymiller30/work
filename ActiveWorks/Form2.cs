@@ -21,7 +21,7 @@ namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 8.6.4";
+        private readonly string _version = $"{Localize.FormTitle} 8.6.5";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
@@ -37,6 +37,7 @@ namespace ActiveWorks
             Text = _version;
 
             buttonSpecAnyWhatNew.Click += ButtonSpecAnyWhatNew_Click;
+            buttonSpecAnyIssue.Click += ButtonSpecAnyIssue_Click;
             buttonSpecBackgroundTasks.Click += ButtonSpecBackgroundTasks_Click;
 
             BackgroundTaskServiceLib.BackgroundTaskService.OnAdd += BackgroundTaskService_OnAdd;
@@ -49,6 +50,11 @@ namespace ActiveWorks
             SplashScreen.Splash.SetVersion(_version, Color.Yellow, 12, 12);
             SplashScreen.Splash.SetHeader(string.Empty);
             SplashScreen.Splash.SetStatus(string.Empty);
+        }
+
+        private void ButtonSpecAnyIssue_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/garymiller30/work/issues");
         }
 
         private void ThemeController_ThemeChanged(object sender, EventArgs e)

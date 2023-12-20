@@ -29,12 +29,12 @@ namespace Job.Ext
         /// </summary>
         /// <param name="part"></param>
         /// <returns></returns>
-        public static Part Duplicate(this Part part)
-        {
-            var p = DuplicateBase(part);
-            p.Id = ObjectId.GenerateNewId();
-            return p;
-        }
+        //public static Part Duplicate(this Part part)
+        //{
+        //    var p = DuplicateBase(part);
+        //    p.Id = ObjectId.GenerateNewId();
+        //    return p;
+        //}
 
         public static Job Duplicate(this Job job)
         {
