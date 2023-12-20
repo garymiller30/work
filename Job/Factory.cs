@@ -46,9 +46,10 @@ namespace Job
             job.Customer = j.Customer;
             job.Number = $"{DateTime.Today.Year}-{DateTime.Today.Month}-{DateTime.Today.Day}";
             job.Description = Path.GetFileNameWithoutExtension(filePath);
+            job.CategoryId = j.CategoryId;
+
             if (userProfile.Jobs.AddJob(job))
             {
-                    
                 if (Directory.Exists(filePath))
                 {
                     var target =  Path.Combine(userProfile.Jobs.GetFullPathToWorkFolder(job), Path.GetFileName(filePath));
@@ -57,7 +58,6 @@ namespace Job
                 else
                 {
                     var target =  userProfile.Jobs.GetFullPathToWorkFolder(job);
-
                     FileSystem.CopyFile(filePath, Path.Combine(target, Path.GetFileName(filePath) ),UIOption.AllDialogs);
                 }
             }
