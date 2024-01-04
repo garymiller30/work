@@ -1,7 +1,4 @@
-﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com 
-
-using BrightIdeasSoftware;
+﻿using BrightIdeasSoftware;
 using ExtensionMethods;
 using Interfaces;
 using Job.Ext;
@@ -129,7 +126,7 @@ namespace Job.UC
                         }
                     }
                     _profile.Jobs.UnlockJob(j);
-                    
+
                 }
 
             }
@@ -171,21 +168,17 @@ namespace Job.UC
 
         private void ToolsStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (objectListView_NewWorks.SelectedObjects == null) return;
-
             var menuSendTo = (MenuSendTo)((ToolStripItem)sender).Tag;
 
-            if (string.IsNullOrEmpty(menuSendTo.CommandLine)) return;
+            if (objectListView_NewWorks.SelectedObjects.Count == 0 || string.IsNullOrEmpty(menuSendTo.CommandLine))
+            {
+                Process.Start(menuSendTo.Path);
+            }
 
             var jobs = objectListView_NewWorks.SelectedObjects.Cast<IJob>().ToArray();
 
             foreach (var job in jobs)
             {
-                //if (menuSendTo.CommandLine.Contains("{0}")) // file
-                //{
-                //    ProcessSingleFile(job, menuSendTo);
-                //}
-                //else 
                 if (menuSendTo.CommandLine.Contains("{1}")) //folder
                 {
                     ProcessFolder(job, menuSendTo);
@@ -288,12 +281,12 @@ namespace Job.UC
                 if (column == olvColumn_Date)
                 {
                     objectListView_NewWorks.ListViewItemSorter = new OrderDateComparer(order);
-                    
+
                 }
                 else if (column == olvColumn_Customer)
                 {
                     objectListView_NewWorks.ListViewItemSorter = new OrderCustomerComparer(order);
-                    
+
                 }
                 else if (column == olvColumnCategories)
                 {
