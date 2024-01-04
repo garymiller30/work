@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace FtpClient
 {
-    public sealed partial class UcFtpExplorer : UserControl
+    public sealed partial class UcFtpExplorer : UserControl,IDisposable
     {
         public IUserProfile UserProfile { get; set; }
 
@@ -49,13 +49,15 @@ namespace FtpClient
         //private readonly string _mp3AddFile;
         readonly List<FtpScript> _scripts = new List<FtpScript>();
 
-        ~UcFtpExplorer()
+        public new void Dispose()
         {
             _fileNewFont.Dispose();
             _fileNormFont.Dispose();
             _fileChangeFont.Dispose();
             _fileDelFont.Dispose();
+            base.Dispose();
         }
+
         public UcFtpExplorer(IFtpSettings settings)
         {
             _client = new Client();
@@ -237,7 +239,7 @@ namespace FtpClient
 
         private void ToolStripButtonRefresh_Click(object sender, EventArgs e)
         {
-            RefreshFtpObjectsList(true);
+            RefreshFtpObjectsList(false);
         }
 
         private void RefreshFtpObjectsList(bool notify)

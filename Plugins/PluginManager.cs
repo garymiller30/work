@@ -401,7 +401,7 @@ namespace Plugins
             return new T();
         }
 
-        public void RemoveProcessesByJobId(IWithId id)
+        public void RemoveProcessesByJobId(object id)
         {
             // почистити плагіни
             foreach (var pluginFormAddWork in GetPluginFormAddWorks())

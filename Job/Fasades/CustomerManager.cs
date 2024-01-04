@@ -12,7 +12,6 @@ namespace Job.Fasades
 {
     public sealed class CustomerManager : ICustomerManager
     {
-        //public IUserProfile UserProfile { get; set; }
         private readonly IUserProfile _profile;
 
         const string CollectionString = "Customers";
@@ -106,10 +105,7 @@ namespace Job.Fasades
             var o = _profile.Base.GetById<Customer>(CollectionString, id);
             if (o != null)
             {
-                //if (o.UseCustomFolder)
-                //{
-                //    CustomerCustomFolderPath.ForceReload();
-                //}
+            
                 _customers.Add(o);
                 OnCustomerAdd(o);
             }
