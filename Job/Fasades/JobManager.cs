@@ -74,7 +74,7 @@ namespace Job.Fasades
                 else
                 {
                     // почистити плагіни
-                    _profile.Plugins.RemoveProcessesByJobId((IWithId)job.Id);
+                    _profile.Plugins.RemoveProcessesByJobId(job.Id);
                 }
             }
         }
@@ -536,6 +536,8 @@ namespace Job.Fasades
             JobParameters oldJob = new JobParameters(param.Job);
             JobParameters newJob = new JobParameters(param.Job);
             newJob.Number = param.NewNumber;
+
+            _profile.Plugins.AfterJobChange(newJob);
 
             var oldPath = GetFullPathToWorkFolder(oldJob);
             var newPath = GetFullPathToWorkFolder(newJob);

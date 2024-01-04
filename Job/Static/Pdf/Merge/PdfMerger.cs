@@ -21,7 +21,7 @@ namespace Job.Static.Pdf.Merge
 
         public void Run()
         {
-            string fileName = Path.Combine(Path.GetDirectoryName(files[0]), $" {Path.GetFileNameWithoutExtension(files[0])}_merged.pdf");
+            string fileName = Path.Combine(Path.GetDirectoryName(files[0]), $"{Path.GetFileNameWithoutExtension(files[0])}_merged.pdf");
 
             PDFlib p = new PDFlib();
 

@@ -93,7 +93,7 @@
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBoxFilter,
             this.toolStripButtonClearFilter,
@@ -106,7 +106,7 @@
             this.toolStripButtonAutoCheck});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(375, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(342, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -167,7 +167,7 @@
             // toolStripLabelMin
             // 
             this.toolStripLabelMin.Name = "toolStripLabelMin";
-            this.toolStripLabelMin.Size = new System.Drawing.Size(24, 22);
+            this.toolStripLabelMin.Size = new System.Drawing.Size(22, 22);
             this.toolStripLabelMin.Text = "хв.";
             // 
             // toolStripButtonAutoCheck
@@ -183,7 +183,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelPath,
             this.toolStripProgressBar1,
@@ -219,25 +219,25 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(51, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(48, 17);
             this.toolStripStatusLabel1.Text = "Файлів:";
             // 
             // toolStripStatusLabelCntFiles
             // 
             this.toolStripStatusLabelCntFiles.Name = "toolStripStatusLabelCntFiles";
-            this.toolStripStatusLabelCntFiles.Size = new System.Drawing.Size(15, 17);
+            this.toolStripStatusLabelCntFiles.Size = new System.Drawing.Size(13, 17);
             this.toolStripStatusLabelCntFiles.Text = "0";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(63, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(58, 17);
             this.toolStripStatusLabel2.Text = "Вибрано:";
             // 
             // toolStripStatusLabelSelectedFiles
             // 
             this.toolStripStatusLabelSelectedFiles.Name = "toolStripStatusLabelSelectedFiles";
-            this.toolStripStatusLabelSelectedFiles.Size = new System.Drawing.Size(15, 17);
+            this.toolStripStatusLabelSelectedFiles.Size = new System.Drawing.Size(13, 17);
             this.toolStripStatusLabelSelectedFiles.Text = "0";
             // 
             // objectListView1
@@ -264,7 +264,7 @@
             this.objectListView1.Location = new System.Drawing.Point(0, 0);
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(603, 302);
+            this.objectListView1.Size = new System.Drawing.Size(595, 302);
             this.objectListView1.SmallImageList = this.imageList1;
             this.objectListView1.TabIndex = 2;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
@@ -311,60 +311,60 @@
             this.удалитьФайлToolStripMenuItem,
             this.markToolStripMenuItem});
             this.contextMenuStripBrowser.Name = "contextMenuStripBrowser";
-            this.contextMenuStripBrowser.Size = new System.Drawing.Size(360, 164);
+            this.contextMenuStripBrowser.Size = new System.Drawing.Size(332, 164);
             // 
             // новыйЗаказToolStripMenuItem
             // 
             this.новыйЗаказToolStripMenuItem.Name = "новыйЗаказToolStripMenuItem";
-            this.новыйЗаказToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
+            this.новыйЗаказToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
             this.новыйЗаказToolStripMenuItem.Text = "нове замовлення (папка = номер замовлення)";
             this.новыйЗаказToolStripMenuItem.Click += new System.EventHandler(this.НовыйЗаказToolStripMenuItem_Click);
             // 
             // новыйЗаказпапкаОписаниеЗаказаToolStripMenuItem
             // 
             this.новыйЗаказпапкаОписаниеЗаказаToolStripMenuItem.Name = "новыйЗаказпапкаОписаниеЗаказаToolStripMenuItem";
-            this.новыйЗаказпапкаОписаниеЗаказаToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
+            this.новыйЗаказпапкаОписаниеЗаказаToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
             this.новыйЗаказпапкаОписаниеЗаказаToolStripMenuItem.Text = "нове замовлення (папка = опис замовлення)";
             this.новыйЗаказпапкаОписаниеЗаказаToolStripMenuItem.Click += new System.EventHandler(this.НовыйЗаказпапкаОписаниеЗаказаToolStripMenuItem_Click);
             // 
             // новыйЗаказстрокаНовыйЗаказToolStripMenuItem
             // 
             this.новыйЗаказстрокаНовыйЗаказToolStripMenuItem.Name = "новыйЗаказстрокаНовыйЗаказToolStripMenuItem";
-            this.новыйЗаказстрокаНовыйЗаказToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
+            this.новыйЗаказстрокаНовыйЗаказToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
             this.новыйЗаказстрокаНовыйЗаказToolStripMenuItem.Text = "нове замовлення (рядок = нове замовлення)";
             this.новыйЗаказстрокаНовыйЗаказToolStripMenuItem.Click += new System.EventHandler(this.НовыйЗаказстрокаНовыйЗаказToolStripMenuItem_Click);
             // 
             // добавитьВТекущийЗаказToolStripMenuItem
             // 
             this.добавитьВТекущийЗаказToolStripMenuItem.Name = "добавитьВТекущийЗаказToolStripMenuItem";
-            this.добавитьВТекущийЗаказToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
+            this.добавитьВТекущийЗаказToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
             this.добавитьВТекущийЗаказToolStripMenuItem.Text = "додати файли в поточне замовлення";
             this.добавитьВТекущийЗаказToolStripMenuItem.Click += new System.EventHandler(this.ДобавитьВТекущийЗаказToolStripMenuItem_Click);
             // 
             // downloadToToolStripMenuItem
             // 
             this.downloadToToolStripMenuItem.Name = "downloadToToolStripMenuItem";
-            this.downloadToToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
+            this.downloadToToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
             this.downloadToToolStripMenuItem.Text = "Завантажити до...";
             this.downloadToToolStripMenuItem.Click += new System.EventHandler(this.DownloadToToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(356, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(328, 6);
             // 
             // удалитьФайлToolStripMenuItem
             // 
             this.удалитьФайлToolStripMenuItem.Image = global::FtpClient.Properties.Resources.Erase;
             this.удалитьФайлToolStripMenuItem.Name = "удалитьФайлToolStripMenuItem";
-            this.удалитьФайлToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
+            this.удалитьФайлToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
             this.удалитьФайлToolStripMenuItem.Text = "видалити файл";
             this.удалитьФайлToolStripMenuItem.Click += new System.EventHandler(this.УдалитьФайлToolStripMenuItem_Click);
             // 
             // markToolStripMenuItem
             // 
             this.markToolStripMenuItem.Name = "markToolStripMenuItem";
-            this.markToolStripMenuItem.Size = new System.Drawing.Size(359, 22);
+            this.markToolStripMenuItem.Size = new System.Drawing.Size(331, 22);
             this.markToolStripMenuItem.Text = "прибрати мітку \"новий\"";
             this.markToolStripMenuItem.Click += new System.EventHandler(this.MarkToolStripMenuItem_Click);
             // 
@@ -394,7 +394,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.objectListView1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(603, 302);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(595, 302);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // toolStripContainer1.LeftToolStripPanel
@@ -413,7 +413,7 @@
             // toolStrip2FtpScripts
             // 
             this.toolStrip2FtpScripts.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2FtpScripts.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.toolStrip2FtpScripts.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip2FtpScripts.Location = new System.Drawing.Point(3, 0);
             this.toolStrip2FtpScripts.Name = "toolStrip2FtpScripts";
             this.toolStrip2FtpScripts.Size = new System.Drawing.Size(111, 25);
@@ -422,7 +422,7 @@
             // toolStrip2
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip2.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.toolStrip2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonRefresh,
             this.toolStripButtonBack,
@@ -435,7 +435,7 @@
             this.toolStripButtonResetStatus});
             this.toolStrip2.Location = new System.Drawing.Point(0, 3);
             this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(24, 167);
+            this.toolStrip2.Size = new System.Drawing.Size(32, 186);
             this.toolStrip2.TabIndex = 0;
             // 
             // toolStripButtonRefresh
@@ -444,7 +444,7 @@
             this.toolStripButtonRefresh.Image = global::FtpClient.Properties.Resources.arrow_refresh;
             this.toolStripButtonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonRefresh.Name = "toolStripButtonRefresh";
-            this.toolStripButtonRefresh.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButtonRefresh.Size = new System.Drawing.Size(30, 20);
             this.toolStripButtonRefresh.Text = "Оновити";
             this.toolStripButtonRefresh.Click += new System.EventHandler(this.ToolStripButtonRefresh_Click);
             // 
@@ -454,14 +454,14 @@
             this.toolStripButtonBack.Image = global::FtpClient.Properties.Resources.arrow_turn_left;
             this.toolStripButtonBack.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonBack.Name = "toolStripButtonBack";
-            this.toolStripButtonBack.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButtonBack.Size = new System.Drawing.Size(30, 20);
             this.toolStripButtonBack.Text = "Назад";
             this.toolStripButtonBack.Click += new System.EventHandler(this.ToolStripButtonBack_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(22, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(30, 6);
             // 
             // toolStripButtonDisconnect
             // 
@@ -469,14 +469,14 @@
             this.toolStripButtonDisconnect.Image = global::FtpClient.Properties.Resources.plug_disconnect_prohibition_icon;
             this.toolStripButtonDisconnect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDisconnect.Name = "toolStripButtonDisconnect";
-            this.toolStripButtonDisconnect.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButtonDisconnect.Size = new System.Drawing.Size(30, 20);
             this.toolStripButtonDisconnect.Text = "Роз\'єднати";
             this.toolStripButtonDisconnect.Click += new System.EventHandler(this.ToolStripButtonDisconnect_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(22, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(30, 6);
             // 
             // toolStripButtonCreateNewFolder
             // 
@@ -484,14 +484,14 @@
             this.toolStripButtonCreateNewFolder.Image = global::FtpClient.Properties.Resources.folder_new_icon;
             this.toolStripButtonCreateNewFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCreateNewFolder.Name = "toolStripButtonCreateNewFolder";
-            this.toolStripButtonCreateNewFolder.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButtonCreateNewFolder.Size = new System.Drawing.Size(30, 20);
             this.toolStripButtonCreateNewFolder.Text = "Створити папку";
             this.toolStripButtonCreateNewFolder.Click += new System.EventHandler(this.ToolStripButtonNewFolder_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(22, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(30, 6);
             // 
             // toolStripButtonCopySelectedFileListToClipboard
             // 
@@ -499,7 +499,7 @@
             this.toolStripButtonCopySelectedFileListToClipboard.Image = global::FtpClient.Properties.Resources.application_view_list_icon;
             this.toolStripButtonCopySelectedFileListToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCopySelectedFileListToClipboard.Name = "toolStripButtonCopySelectedFileListToClipboard";
-            this.toolStripButtonCopySelectedFileListToClipboard.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButtonCopySelectedFileListToClipboard.Size = new System.Drawing.Size(30, 20);
             this.toolStripButtonCopySelectedFileListToClipboard.Text = "скопіювати у буфер імена файлів";
             this.toolStripButtonCopySelectedFileListToClipboard.ToolTipText = "скопіювати у буфер імена вибраних файлів";
             this.toolStripButtonCopySelectedFileListToClipboard.Click += new System.EventHandler(this.toolStripButtonCopySelectedFileListToClipboard_Click);
@@ -510,7 +510,7 @@
             this.toolStripButtonResetStatus.Image = global::FtpClient.Properties.Resources.Actions_dialog_ok_icon;
             this.toolStripButtonResetStatus.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonResetStatus.Name = "toolStripButtonResetStatus";
-            this.toolStripButtonResetStatus.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButtonResetStatus.Size = new System.Drawing.Size(30, 20);
             this.toolStripButtonResetStatus.Text = "прибрати мітку \"новий\" у файлах";
             this.toolStripButtonResetStatus.Click += new System.EventHandler(this.MarkToolStripMenuItem_Click);
             // 

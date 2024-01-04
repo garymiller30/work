@@ -21,7 +21,7 @@ namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 8.6.5";
+        private readonly string _version = $"{Localize.FormTitle} 8.6.8";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
@@ -71,7 +71,6 @@ namespace ActiveWorks
         private void BackgroundTaskService_OnAdd(object sender, BackgroundTaskServiceLib.BackgroundTaskItem e)
         {
             this.InvokeIfNeeded(new Action(() => buttonSpecBackgroundTasks.ExtraText = "(...працюємо...)"));
-
         }
 
         private void ButtonSpecBackgroundTasks_Click(object sender, EventArgs e)
@@ -553,20 +552,21 @@ namespace ActiveWorks
                 Settings.Default.VirtualScreenW == virtualSize.Width &&
                 Settings.Default.VirtualScreenH == virtualSize.Height)
             {
-                Location = Settings.Default.WindowLocation;
+                if (Settings.Default.WindowLocation.X >= virtualSize.X && Settings.Default.WindowLocation.Y >= virtualSize.Y)
+                    Location = Settings.Default.WindowLocation;
                 // Set window size
-                Size = Settings.Default.WindowSize;
+                if (Settings.Default.WindowSize.Width >= RestoreBounds.Size.Width && Settings.Default.WindowSize.Height >= RestoreBounds.Height)
+                    Size = Settings.Default.WindowSize;
+                else
+                {
+                    Size = RestoreBounds.Size;
+                }
+                
             }
             else
             {
                 Size = RestoreBounds.Size;
             }
-
-            //// Set window location
-            //if (Settings.Default.WindowLocation.X >= virtualSize.X && Settings.Default.WindowLocation.Y >= virtualSize.Y)
-            //    if (Settings.Default.WindowLocation.X + Settings.Default.WindowSize.Width <= virtualSize.Width && Settings.Default.WindowLocation.Y + Settings.Default.WindowSize.Height <= virtualSize.Height)
-            //        Location = Settings.Default.WindowLocation;
-
 
             ResumeLayout();
             SplashScreen.Splash.CloseForm();
@@ -579,6 +579,10 @@ namespace ActiveWorks
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Copy window location to app settings
+            if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+            }
 
             Settings.Default.WindowLocation = Location;
             Settings.Default.WindowSize = Size;
