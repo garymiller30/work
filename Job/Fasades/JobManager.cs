@@ -619,10 +619,11 @@ namespace Job.Fasades
 
             if (RenameJobDirectory(signaChangeOrderNumberParams))
             {
-                RenameSignaJob(signaChangeOrderNumberParams);
                 job.Number = number;
                 _profile.Plugins.AfterJobChange(job);
-                _profile.Jobs.UpdateJob(job, true);
+                RenameSignaJob(signaChangeOrderNumberParams);
+                
+                _profile.Jobs.UpdateJob(job, getEvent: true);
 
                 return true;
             }
