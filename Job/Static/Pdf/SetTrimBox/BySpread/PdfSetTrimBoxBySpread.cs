@@ -73,7 +73,7 @@ namespace Job.Static.Pdf.SetTrimBox.BySpread
             }
             catch (PDFlibException e)
             {
-                Logger.Log.Error(null, "PdfSetTrimBoxByBleed", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+                Logger.Log.Error(null, "PdfSetTrimBoxBySpread", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
             }
             finally
             {
