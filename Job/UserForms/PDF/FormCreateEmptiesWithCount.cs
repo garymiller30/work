@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Job.Static.Pdf.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -7,15 +8,14 @@ namespace Job.UserForms
 {
     public sealed partial class FormCreateEmptiesWithCount : Form
     {
-        // TODO: need to refactor
-        //public List<EmptyTemplate> PdfTemplates { get; } = new List<EmptyTemplate>();
+        
+        public List<EmptyTemplate> PdfTemplates { get; } = new List<EmptyTemplate>();
         
         public FormCreateEmptiesWithCount()
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
-            // TODO: need to refactor
-            //objectListView1.AddObjects(PdfTemplates);
+            objectListView1.AddObjects(PdfTemplates);
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -26,21 +26,19 @@ namespace Job.UserForms
 
         private void AddTemplate()
         {
+            var template = new EmptyTemplate()
+            {
+                Width = (double)nW.Value,
+                Height = (double)nH.Value,
+                Count = (int)nCount.Value,
+                Multiplier = (int)nMul.Value
+            };
 
-            // TODO: need to refactor
-            //var template = new EmptyTemplate() { 
-            //    Width = (double)nW.Value,
-            //    Height = (double)nH.Value,
-            //    Count = (int) nCount.Value,
-            //    Multiplier = (int) nMul.Value
-            //};
-
-            //if (template.IsValidated())
-            //{
-            //    PdfTemplates.Add(template);
-            //    objectListView1.AddObject(template);
-            //}
-            
+            if (template.IsValidated())
+            {
+                PdfTemplates.Add(template);
+                objectListView1.AddObject(template);
+            }
         }
 
         private void buttonCreate_Click(object sender, EventArgs e)
@@ -66,16 +64,15 @@ namespace Job.UserForms
         {
             if (objectListView1.SelectedObjects.Count > 0)
             {
-                // TODO: need to refactor
-                //var delList = objectListView1.SelectedObjects.Cast< EmptyTemplate>().ToList();
+                var delList = objectListView1.SelectedObjects.Cast<EmptyTemplate>().ToList();
 
-                //foreach (var item in delList)
-                //{
-                    
-                //    PdfTemplates.Remove(item);
-                    
-                //}
-                //objectListView1.RemoveObjects(delList);
+                foreach (var item in delList)
+                {
+
+                    PdfTemplates.Remove(item);
+
+                }
+                objectListView1.RemoveObjects(delList);
 
             }
         }
