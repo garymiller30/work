@@ -3,20 +3,18 @@ using Job.Static.Pdf.Scale;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace Job.Static.Pdf.SetTrimBox.ByBleed
+namespace Job.Static.Pdf.SetTrimBox.BySpread
 {
-    public sealed class PdfSetTrimBoxByBleed : SetTrimBoxBase
+    public sealed class PdfSetTrimBoxBySpread : SetTrimBoxBase
     {
-        PdfSetTrimBoxByBleedParams _params;
-
-        public PdfSetTrimBoxByBleed(PdfSetTrimBoxByBleedParams param)
+        PdfSetTrimBoxBySpreadParams _params;
+        public PdfSetTrimBoxBySpread(PdfSetTrimBoxBySpreadParams param)
         {
             _params = param;
         }
@@ -39,20 +37,29 @@ namespace Job.Static.Pdf.SetTrimBox.ByBleed
                 for (var pageno = 1; pageno <= endpage; pageno++)
                 {
                     var page = p.open_pdi_page(indoc, pageno, "");
-
-                    Box media = new Box();
-                    media.GetMediabox(p,indoc,page);
-
-                    double bleed = _params.Bleed * PdfScaler.mn;
-
-                    double x = bleed;
-                    double y = bleed;
-                    double w = media.width - bleed;
-                    double h = media.height - bleed;
-
                     if (page == -1) throw new Exception("Error: " + p.get_errmsg());
 
-                    p.begin_page_ext(0,0,"");
+                    Box media = new Box();
+                    
+                    media.GetMediabox(p, indoc, page);
+
+                    double x,y,w,h;
+
+                    if (pageno % 2  == 0) // парна
+                    {
+                        x = _params.Outside * PdfScaler.mn;
+                        w = media.width - _params.Inside * PdfScaler.mn;
+                    }
+                    else //непарна
+                    {
+                        x = _params.Inside * PdfScaler.mn;
+                        w = media.width - _params.Outside * PdfScaler.mn;
+                    }
+
+                    y = _params.Bottom * PdfScaler.mn;
+                    h = media.height - _params.Top * PdfScaler.mn;
+
+                    p.begin_page_ext(0, 0, "");
                     p.fit_pdi_page(page, 0, 0, "adjustpage");
                     p.end_page_ext($"trimbox {{{x} {y} {w} {h}}}");
 
@@ -74,7 +81,5 @@ namespace Job.Static.Pdf.SetTrimBox.ByBleed
                 File.Delete(tmpFile);
             }
         }
-
-        
     }
 }

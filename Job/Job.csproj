@@ -303,6 +303,11 @@
     <Compile Include="Static\Pdf\Common\TargetSize.cs" />
     <Compile Include="Static\Pdf\SetTrimBox\ByBleed\PdfSetTrimBoxByBleed.cs" />
     <Compile Include="Static\Pdf\SetTrimBox\ByBleed\PdfSetTrimBoxByBleedParams.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByFormat\PdfSetTrimBoxByFormat.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByFormat\PdfSetTrimBoxByFormatParams.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\BySpread\PdfSetTrimBoxBySpread.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\BySpread\PdfSetTrimBoxBySpreadParams.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\SetTrimBoxBase.cs" />
     <Compile Include="Static\Pdf\SplitOddAndEven\PdfSplitOddAndEven.cs" />
     <Compile Include="Static\Pdf\SplitSpread\PdfSpliter.cs" />
     <Compile Include="Static\Pdf\SplitSpread\PdfSplitterParams.cs" />
