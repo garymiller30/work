@@ -18,6 +18,8 @@ using Job.Static.Pdf.Merge;
 using Job.Static.Pdf.MergeOddAndEven;
 using Job.Static.Pdf.Scale;
 using Job.Static.Pdf.SetTrimBox.ByBleed;
+using Job.Static.Pdf.SetTrimBox.ByFormat;
+using Job.Static.Pdf.SetTrimBox.BySpread;
 using Job.Static.Pdf.SplitOddAndEven;
 using Job.Static.Pdf.SplitSpread;
 using Job.Static.Pdf.ToJpg;
@@ -189,31 +191,34 @@ namespace Job.Static
                                     foreach (FileSystemInfoExt ext in objects)
                                     {
                                         new PdfSetTrimBoxByBleed(param).Run(ext.FileInfo.FullName);
-                                        //PDFManipulate.Fasades.Pdf.SetTrimBoxByBleed(ext.FileInfo.FullName, result.Bleed);
+                                        
                                     }
                                 }
                                 else if (result.ResultType == TrimBoxResultEnum.byTrimbox)
                                 {
+                                    PdfSetTrimBoxByFormatParams param = 
+                                    new PdfSetTrimBoxByFormatParams { Width = result.TrimBox.Width,Height = result.TrimBox.Height };
+
                                     foreach (FileSystemInfoExt ext in objects)
                                     {
-                                        // TODO: need to refactor
-                                        //PDFManipulate.Fasades.Pdf.SetTrimBox(
-                                        //    ext.FileInfo.FullName,
-                                        //    width: result.TrimBox.Width,
-                                        //    height: result.TrimBox.Height);
+                                        new PdfSetTrimBoxByFormat(param).Run(ext.FileInfo.FullName);
                                     }
+
                                 }
                                 else if (result.ResultType == TrimBoxResultEnum.bySpread)
                                 {
+
+                                    PdfSetTrimBoxBySpreadParams param = new PdfSetTrimBoxBySpreadParams
+                                    {
+                                        Top = result.Spread.Top,
+                                        Bottom = result.Spread.Bottom,
+                                        Inside = result.Spread.Inside,
+                                        Outside = result.Spread.Outside,
+                                    };
+
                                     foreach (FileSystemInfoExt ext in objects)
                                     {
-                                        // TODO: need to refactor
-                                        //PDFManipulate.Fasades.Pdf.SetTrimBoxBySpread(
-                                        //    file: ext.FileInfo.FullName,
-                                        //    inside: result.Spread.Inside,
-                                        //    outside: result.Spread.Outside,
-                                        //    top: result.Spread.Top,
-                                        //    bottom: result.Spread.Bottom);
+                                        new PdfSetTrimBoxBySpread(param).Run(ext.FileInfo.FullName);
                                     }
                                 }
                             }
@@ -223,20 +228,20 @@ namespace Job.Static
             }
         }
 
-        internal static void SetTrimBox(IEnumerable objects, double trimBox)
-        {
-            if (objects != null)
-            {
-                BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("set trimbox by bleed", new Action(() =>
-                {
-                    foreach (FileSystemInfoExt ext in objects)
-                    {
-                        // TODO: need to refactor
-                        //PDFManipulate.Fasades.Pdf.SetTrimBoxByBleed($"{ext.FileInfo.FullName}.pdf", trimBox);
-                    }
-                })));
-            }
-        }
+        //internal static void SetTrimBox(IEnumerable objects, double trimBox)
+        //{
+        //    if (objects != null)
+        //    {
+        //        BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("set trimbox by bleed", new Action(() =>
+        //        {
+        //            foreach (FileSystemInfoExt ext in objects)
+        //            {
+        //                // TODO: need to refactor
+        //                //PDFManipulate.Fasades.Pdf.SetTrimBoxByBleed($"{ext.FileInfo.FullName}.pdf", trimBox);
+        //            }
+        //        })));
+        //    }
+        //}
 
         public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list)
         {
