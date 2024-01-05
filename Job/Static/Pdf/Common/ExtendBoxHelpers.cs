@@ -1,4 +1,5 @@
 ﻿using Job.Static.Pdf.Scale;
+using PDFlib_dotnet;
 using System;
 
 namespace Job.Static.Pdf.Common
@@ -22,5 +23,11 @@ namespace Job.Static.Pdf.Common
         public static double hMn(this Box box) => box.height * PdfScaler.mn;
 
         public static bool IsEmpty(this Box box) => box.width == 0 || box.height == 0;
+
+        public static void GetMediabox(this Box box, PDFlib p, int indoc,int page)
+        {
+            box.width = p.pcos_get_number(indoc, "pages[" + page + "]/width");
+            box.height = p.pcos_get_number(indoc, "pages[" + page + "]/height");
+        }
     }
 }

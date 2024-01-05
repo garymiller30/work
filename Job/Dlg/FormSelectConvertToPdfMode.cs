@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Krypton.Toolkit;
 using Interfaces;
-using PDFManipulate.Converters;
 
 namespace Job.Dlg
 {
+    // TODO: need to refactor
+
     public sealed partial class FormSelectConvertToPdfMode : KryptonForm
     {
-        public ConvertModeEnum ConvertMode { get; private set; } = ConvertModeEnum.NotAssigned;
+        // TODO: need to refactor
+        //public ConvertModeEnum ConvertMode { get; private set; } = ConvertModeEnum.NotAssigned;
         public bool MoveToTrash { get; private set; }
 
         public double TrimBox { get; private set; } = 0;
@@ -34,8 +36,8 @@ namespace Job.Dlg
         private void kryptonButtonMultiple_Click(object sender, EventArgs e)
         {
             GetParameters();
-
-            ConvertMode = ConvertModeEnum.MultipleFiles;
+            // TODO: need to refactor
+            //ConvertMode = ConvertModeEnum.MultipleFiles;
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -54,8 +56,8 @@ namespace Job.Dlg
         private void kryptonButtonSingle_Click(object sender, EventArgs e)
         {
             GetParameters();
-
-            ConvertMode = ConvertModeEnum.SingleFile;
+            // TODO: need to refactor
+            //ConvertMode = ConvertModeEnum.SingleFile;
             DialogResult = DialogResult.OK;
             Close();
         }
