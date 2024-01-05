@@ -93,7 +93,7 @@ namespace Job.Static.Pdf.SplitSpread
             }
             catch (PDFlibException e)
             {
-                Logger.Log.Error(null, "ScalePdf", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+                Logger.Log.Error(null, "PdfSpliter", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
             }
             finally
             {

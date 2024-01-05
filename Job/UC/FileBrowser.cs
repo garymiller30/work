@@ -8,6 +8,7 @@ using Job.Dlg;
 using Job.Menus;
 using Job.Models;
 using Job.Static;
+using Job.Static.Pdf.MergeOddAndEven;
 using Job.UserForms;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
@@ -1834,7 +1835,20 @@ namespace Job.UC
         {
             if (objectListView1.SelectedObjects.Count == 2)
             {
-                FileFormatsUtil.MergeOddAndEven(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+                PdfMergeOddAndEvenParams param = new PdfMergeOddAndEvenParams();
+
+                var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
+                if (files[0].FileInfo.Name.ToLower(CultureInfo.InvariantCulture).Contains("_even"))
+                {
+                    param.EvenFile = files[0].FileInfo.FullName;
+                    param.OddFile = files[1].FileInfo.FullName;
+                }
+                else
+                {
+                    param.EvenFile = files[1].FileInfo.FullName;
+                    param.OddFile = files[0].FileInfo.FullName;
+                }
+                FileFormatsUtil.MergeOddAndEven(param);
             }
             else
             {
@@ -1854,12 +1868,13 @@ namespace Job.UC
         {
             if (objectListView1.SelectedObjects.Count > 0)
             {
-
                 using (var form = new FormSelectDpi())
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        FileFormatsUtil.PdfToJpg(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), form.Dpi, form.Quality);
+                        FileFormatsUtil.PdfToJpg(
+                            objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), 
+                            new Static.Pdf.ToJpg.PdfToJpgParams{Dpi = form.Dpi,Quality = form.Quality });
                     }
                 }
             }
