@@ -16,8 +16,11 @@ using Job.Models;
 using Job.Static.Pdf.Convert;
 using Job.Static.Pdf.Divide;
 using Job.Static.Pdf.Merge;
+using Job.Static.Pdf.MergeOddAndEven;
 using Job.Static.Pdf.Scale;
+using Job.Static.Pdf.SplitOddAndEven;
 using Job.Static.Pdf.SplitSpread;
+using Job.Static.Pdf.ToJpg;
 using Job.UserForms;
 using PDFManipulate.Converters;
 using PDFManipulate.Fasades;
@@ -366,28 +369,38 @@ namespace Job.Static
                 )));
         }
 
-        public static void MergeOddAndEven(IEnumerable<IFileSystemInfoExt> list)
+        public static void MergeOddAndEven(PdfMergeOddAndEvenParams param)
         {
-            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge odd and even paegs pdf", new Action(
-                () => { PDFManipulate.Fasades.Pdf.MergeOddAndEven(list.Select(x => x.FileInfo.FullName)); }
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge odd and even pages pdf", new Action(
+                () =>
+                {
+                    new PdfMergeOddAndEven(param).Run();
+                }
+                
                 )));
         }
 
         public static void SplitOddAndEven(IEnumerable<IFileSystemInfoExt> list)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge odd and even pages pdf", new Action(
-                () => { PDFManipulate.Fasades.Pdf.SplitOddAndEven(list.Select(x => x.FileInfo.FullName)); }
+                () =>
+                {
+                    foreach (IFileSystemInfoExt file in list)
+                    {
+                        new PdfSplitOddAndEven().Run(file.FileInfo.FullName);
+                    }
+                }
                 )));
         }
 
-        public static void PdfToJpg(IEnumerable<IFileSystemInfoExt> list, int dpi, long quality)
+        public static void PdfToJpg(IEnumerable<IFileSystemInfoExt> list, PdfToJpgParams param)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("create jpg from pdf", new Action(
                 () =>
                 {
                     foreach (var file in list)
                     {
-                        PdfUtils.PdfToJpg(file.FileInfo.FullName, dpi, quality);
+                        new PdfToJpg(param).Run(file.FileInfo.FullName);
                     }
                 }
                 )));

@@ -13,8 +13,6 @@ namespace Job.Static
 {
     public static class PdfUtils
     {
-        
-
         public static void GetColorspaces(IFileSystemInfoExt sfi)
         {
             var ext = sfi.FileInfo.Extension.ToLower(System.Globalization.CultureInfo.InvariantCulture);
@@ -233,50 +231,6 @@ namespace Job.Static
 
         }
 
-        public static void PdfToJpg(string fileName,int dpi, long quality)
-        {
-            try
-            {
-                using (GhostscriptRasterizer rasterizer = new GhostscriptRasterizer())
-                {
-                    byte[] buffer = File.ReadAllBytes(fileName);
-                    MemoryStream ms = new MemoryStream(buffer);
-                    rasterizer.Open(ms);
-
-                    for (int pageNumber = 1; pageNumber <= rasterizer.PageCount; pageNumber++)
-                    {
-                        string output = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + $"_{pageNumber}.jpg");
-                        string pageFilePath = output;
-
-                        var img = rasterizer.GetPage(dpi, pageNumber);
-
-                        ImageCodecInfo jpegCodec = GetEncoderInfo(ImageFormat.Jpeg);
-                        EncoderParameters encoderParameters = new EncoderParameters(1);
-                        encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, quality);
-                        img.Save(pageFilePath, jpegCodec, encoderParameters);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                string output = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + ".log");
-                File.WriteAllText(output, e.Message);
-            }
-        }
-
-        private static ImageCodecInfo GetEncoderInfo(ImageFormat format)
-        {
-            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
-
-            foreach (ImageCodecInfo codec in codecs)
-            {
-                if (codec.FormatID == format.Guid)
-                {
-                    return codec;
-                }
-            }
-
-            return null;
-        }
+        
     }
 }
