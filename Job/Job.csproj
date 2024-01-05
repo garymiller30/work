@@ -141,9 +141,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\_Components\PDFLIB\10.0.1\dll\PDFlib_dotnet.dll</HintPath>
     </Reference>
-    <Reference Include="PDFManipulate">
-      <HintPath>..\..\Tiff2PDF\Convert\bin\Debug\PDFManipulate.dll</HintPath>
-    </Reference>
     <Reference Include="SharpCompress, Version=0.34.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.34.1\lib\net462\SharpCompress.dll</HintPath>
     </Reference>
@@ -304,6 +301,8 @@
     <Compile Include="Static\Pdf\Common\ScaleByEnum.cs" />
     <Compile Include="Static\Pdf\Common\ScaleVariantEnum.cs" />
     <Compile Include="Static\Pdf\Common\TargetSize.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByBleed\PdfSetTrimBoxByBleed.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByBleed\PdfSetTrimBoxByBleedParams.cs" />
     <Compile Include="Static\Pdf\SplitOddAndEven\PdfSplitOddAndEven.cs" />
     <Compile Include="Static\Pdf\SplitSpread\PdfSpliter.cs" />
     <Compile Include="Static\Pdf\SplitSpread\PdfSplitterParams.cs" />
