@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Krypton.Toolkit;
 using Interfaces;
-using PDFManipulate.Converters;
+using Job.Static.Pdf.Common;
 
 namespace Job.Dlg
 {
@@ -34,7 +34,7 @@ namespace Job.Dlg
         private void kryptonButtonMultiple_Click(object sender, EventArgs e)
         {
             GetParameters();
-
+            
             ConvertMode = ConvertModeEnum.MultipleFiles;
             DialogResult = DialogResult.OK;
             Close();
@@ -48,13 +48,11 @@ namespace Job.Dlg
                 kryptonRadioButton1mm.Checked ? 1 :
                 kryptonRadioButton2mm.Checked ? 2 :
                 kryptonRadioButton3mm.Checked ? 3 : 5;
-
         }
 
         private void kryptonButtonSingle_Click(object sender, EventArgs e)
         {
             GetParameters();
-
             ConvertMode = ConvertModeEnum.SingleFile;
             DialogResult = DialogResult.OK;
             Close();

@@ -43,5 +43,10 @@ namespace Job.Static.Pdf.Common
                 height = trims[3] - trims[1]
             };
         }
+
+        public static void LogException(PDFlibException e, string title)
+        {
+            Logger.Log.Error(null, title, $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+        }
     }
 }
