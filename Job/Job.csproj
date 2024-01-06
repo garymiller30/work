@@ -141,9 +141,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\_Components\PDFLIB\10.0.1\dll\PDFlib_dotnet.dll</HintPath>
     </Reference>
-    <Reference Include="PDFManipulate">
-      <HintPath>..\..\Tiff2PDF\Convert\bin\Debug\PDFManipulate.dll</HintPath>
-    </Reference>
     <Reference Include="SharpCompress, Version=0.34.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.34.1\lib\net462\SharpCompress.dll</HintPath>
     </Reference>
@@ -244,11 +241,29 @@
       <DependentUpon>FormEditStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\MongoRepository.cs" />
+    <Compile Include="Dlg\FormInputCountPages.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dlg\FormInputCountPages.Designer.cs">
+      <DependentUpon>FormInputCountPages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dlg\FormSelectBackFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dlg\FormSelectBackFile.Designer.cs">
+      <DependentUpon>FormSelectBackFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dlg\FormSelectConvertToPdfMode.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dlg\FormSelectConvertToPdfMode.Designer.cs">
       <DependentUpon>FormSelectConvertToPdfMode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dlg\FormSelectCountPages.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dlg\FormSelectCountPages.designer.cs">
+      <DependentUpon>FormSelectCountPages.cs</DependentUpon>
     </Compile>
     <Compile Include="Dlg\FormSelectDpi.cs">
       <SubType>Form</SubType>
@@ -289,21 +304,45 @@
     <Compile Include="Properties\CanBeNullAttribute.cs" />
     <Compile Include="Static\FileUtil.cs" />
     <Compile Include="Static\Pdf\Common\Box.cs" />
+    <Compile Include="Static\Pdf\Common\ConvertModeEnum.cs" />
     <Compile Include="Static\Pdf\Common\DivideModeEnum.cs" />
+    <Compile Include="Static\Pdf\Common\EmptyTemplate.cs" />
     <Compile Include="Static\Pdf\Common\PdfHelper.cs" />
     <Compile Include="Static\Pdf\Common\ExtendBoxHelpers.cs" />
     <Compile Include="Static\Pdf\Common\ExtendTargetSizeHelpers.cs" />
     <Compile Include="Static\Pdf\Convert\PdfConvert.cs" />
     <Compile Include="Static\Pdf\Convert\PdfConvertParams.cs" />
+    <Compile Include="Static\Pdf\Create\Ellipse\PdfCreateEllipse.cs" />
+    <Compile Include="Static\Pdf\Create\EmptyPdfTemplateWithCount\PdfCreateEmptyPdfTemplateWithCount.cs" />
+    <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateRectangle.cs" />
     <Compile Include="Static\Pdf\Divide\PdfDividerParams.cs" />
+    <Compile Include="Static\Pdf\ExtractPages\PdfExtractPages.cs" />
+    <Compile Include="Static\Pdf\ExtractPages\PdfExtractPagesParams.cs" />
+    <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBack.cs" />
+    <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBackParams.cs" />
     <Compile Include="Static\Pdf\MergeOddAndEven\PdfMergeOddAndEven.cs" />
     <Compile Include="Static\Pdf\MergeOddAndEven\PdfMergeOddAndEvenParams.cs" />
     <Compile Include="Static\Pdf\Merge\PdfMerger.cs" />
+    <Compile Include="Static\Pdf\Repeat\Document\PdfRepeatDocument.cs" />
+    <Compile Include="Static\Pdf\Repeat\Document\PdfRepeatDocumentParams.cs" />
+    <Compile Include="Static\Pdf\Repeat\Pages\PdfRepeatPages.cs" />
+    <Compile Include="Static\Pdf\Repeat\Pages\PdfRepeatPagesParams.cs" />
+    <Compile Include="Static\Pdf\Repeat\PdfRepeatParamsBase.cs" />
+    <Compile Include="Static\Pdf\Reverse\PdfReverse.cs" />
+    <Compile Include="Static\Pdf\RotateMirrorFrontAndBack\PdfRotateMirrorFrontAndBack.cs" />
     <Compile Include="Static\Pdf\Scale\PdfScaleParams.cs" />
     <Compile Include="Static\Pdf\Scale\PdfScaler.cs" />
     <Compile Include="Static\Pdf\Common\ScaleByEnum.cs" />
     <Compile Include="Static\Pdf\Common\ScaleVariantEnum.cs" />
     <Compile Include="Static\Pdf\Common\TargetSize.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByBleed\PdfSetTrimBoxByBleed.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByBleed\PdfSetTrimBoxByBleedParams.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByFormat\PdfSetTrimBoxByFormat.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByFormat\PdfSetTrimBoxByFormatParams.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\BySpread\PdfSetTrimBoxBySpread.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\BySpread\PdfSetTrimBoxBySpreadParams.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\SetTrimBoxBase.cs" />
+    <Compile Include="Static\Pdf\SplitCoverAndBlock\PdfSplitCoverAndBlock.cs" />
     <Compile Include="Static\Pdf\SplitOddAndEven\PdfSplitOddAndEven.cs" />
     <Compile Include="Static\Pdf\SplitSpread\PdfSpliter.cs" />
     <Compile Include="Static\Pdf\SplitSpread\PdfSplitterParams.cs" />
@@ -592,8 +631,17 @@
     <EmbeddedResource Include="CustomForms\FormEnterText.resx">
       <DependentUpon>FormEnterText.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dlg\FormInputCountPages.resx">
+      <DependentUpon>FormInputCountPages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dlg\FormSelectBackFile.resx">
+      <DependentUpon>FormSelectBackFile.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dlg\FormSelectConvertToPdfMode.resx">
       <DependentUpon>FormSelectConvertToPdfMode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dlg\FormSelectCountPages.resx">
+      <DependentUpon>FormSelectCountPages.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dlg\FormSelectDpi.resx">
       <DependentUpon>FormSelectDpi.cs</DependentUpon>

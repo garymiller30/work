@@ -1501,16 +1501,6 @@ namespace Job.UC
                     objectListView1.RefreshObjects(fileSystemInfoExts.ToArray());
                 },
             });
-
-            //ShowProgress.FormProgress.ShowProgress(() =>
-            //{
-            //    foreach (IFileSystemInfoExt infoExt in fileSystemInfoExts)
-            //    {
-            //        infoExt.GetExtendedFileInfo();
-            //    }
-
-            //    objectListView1.RefreshObjects(fileSystemInfoExts.ToArray());
-            //});
         }
 
         private void ПереместитьВTEMPToolStripMenuItem_Click(object sender, EventArgs e)

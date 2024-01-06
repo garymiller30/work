@@ -1,20 +1,14 @@
-﻿using Job.Models;
-using PDFManipulate.Shema;
+﻿using Job.Static.Pdf.Common;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Job.UserForms
 {
     public sealed partial class FormCreateEmptiesWithCount : Form
     {
+        
         public List<EmptyTemplate> PdfTemplates { get; } = new List<EmptyTemplate>();
         
         public FormCreateEmptiesWithCount()
@@ -32,11 +26,12 @@ namespace Job.UserForms
 
         private void AddTemplate()
         {
-            var template = new EmptyTemplate() { 
+            var template = new EmptyTemplate()
+            {
                 Width = (double)nW.Value,
                 Height = (double)nH.Value,
-                Count = (int) nCount.Value,
-                Multiplier = (int) nMul.Value
+                Count = (int)nCount.Value,
+                Multiplier = (int)nMul.Value
             };
 
             if (template.IsValidated())
@@ -44,7 +39,6 @@ namespace Job.UserForms
                 PdfTemplates.Add(template);
                 objectListView1.AddObject(template);
             }
-            
         }
 
         private void buttonCreate_Click(object sender, EventArgs e)
@@ -70,12 +64,13 @@ namespace Job.UserForms
         {
             if (objectListView1.SelectedObjects.Count > 0)
             {
-                var delList = objectListView1.SelectedObjects.Cast< EmptyTemplate>().ToList();
+                var delList = objectListView1.SelectedObjects.Cast<EmptyTemplate>().ToList();
 
                 foreach (var item in delList)
                 {
+
                     PdfTemplates.Remove(item);
-                    
+
                 }
                 objectListView1.RemoveObjects(delList);
 
