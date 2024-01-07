@@ -1,4 +1,5 @@
-﻿using PDFlib_dotnet;
+﻿using Job.Static.Pdf.Common;
+using PDFlib_dotnet;
 using System.Collections.Generic;
 using System.IO;
 
@@ -43,7 +44,7 @@ namespace Job.Static.Pdf.Merge
             }
             catch (PDFlibException e)
             {
-                Logger.Log.Error(null, "ScalePdf", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+                PdfHelper.LogException(e, "PdfMerger");
             }
             finally { p?.Dispose(); }
         }

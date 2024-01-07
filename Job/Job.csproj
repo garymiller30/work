@@ -212,6 +212,7 @@
     <Reference Include="System.Text.Encoding.CodePages, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encoding.CodePages.7.0.0\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
     </Reference>
+    <Reference Include="System.Text.Json, Version=7.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL" />
     <Reference Include="System.Threading.Channels, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Channels.7.0.0\lib\net462\System.Threading.Channels.dll</HintPath>
     </Reference>
@@ -290,6 +291,7 @@
     <Compile Include="CustomForms\FormEnterText.Designer.cs">
       <DependentUpon>FormEnterText.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ext\ToolStripItemExtention.cs" />
     <Compile Include="Fasades\CategoryToCustomerAsignManager.cs" />
     <Compile Include="FormEventStatus.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -310,6 +312,7 @@
     <Compile Include="Static\Pdf\Common\PdfHelper.cs" />
     <Compile Include="Static\Pdf\Common\ExtendBoxHelpers.cs" />
     <Compile Include="Static\Pdf\Common\ExtendTargetSizeHelpers.cs" />
+    <Compile Include="Static\Pdf\Common\PdfMergeFile.cs" />
     <Compile Include="Static\Pdf\Convert\PdfConvert.cs" />
     <Compile Include="Static\Pdf\Convert\PdfConvertParams.cs" />
     <Compile Include="Static\Pdf\Create\Ellipse\PdfCreateEllipse.cs" />
@@ -322,6 +325,8 @@
     <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBackParams.cs" />
     <Compile Include="Static\Pdf\MergeOddAndEven\PdfMergeOddAndEven.cs" />
     <Compile Include="Static\Pdf\MergeOddAndEven\PdfMergeOddAndEvenParams.cs" />
+    <Compile Include="Static\Pdf\MergeTemporary\PdfMergeTemporary.cs" />
+    <Compile Include="Static\Pdf\MergeTemporary\PdfMergeTemporaryParams.cs" />
     <Compile Include="Static\Pdf\Merge\PdfMerger.cs" />
     <Compile Include="Static\Pdf\Repeat\Document\PdfRepeatDocument.cs" />
     <Compile Include="Static\Pdf\Repeat\Document\PdfRepeatDocumentParams.cs" />
@@ -347,6 +352,7 @@
     <Compile Include="Static\Pdf\SplitSpread\PdfSpliter.cs" />
     <Compile Include="Static\Pdf\SplitSpread\PdfSplitterParams.cs" />
     <Compile Include="Static\Pdf\Divide\PdfDivider.cs" />
+    <Compile Include="Static\Pdf\SplitTemporary\PdfSplitTemporary.cs" />
     <Compile Include="Static\Pdf\ToJpg\PdfToJpg.cs" />
     <Compile Include="Static\Pdf\ToJpg\PdfToJpgParams.cs" />
     <Compile Include="Static\SysImageListHelper.cs" />

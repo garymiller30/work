@@ -399,21 +399,8 @@ namespace Job.Fasades
 
         public void CreateSignaJobRev2(IUserProfile profile, IJob job)
         {
-
             var destFile = Extensions.GetSignaFilePath(job, profile);
 
-
-
-            //if (!string.IsNullOrEmpty(signaJobsPath))
-            //{
-            //    var customer = job.Customer.Transliteration();
-            //    var description = job.Description.Transliteration();
-            //    var category = _profile.Categories.GetCategoryNameById(job.CategoryId)?.Transliteration();
-
-
-            //    var fileName = string.Format(CultureInfo.InvariantCulture, Settings.SignaFileShablon, customer, job.Number, description,category);
-
-            //    var destFile = Path.Combine(signaJobsPath, $"{fileName}.sdf");
             if (File.Exists(destFile))
             {
                 if (MessageBox.Show("Файл з таким ім'ям існує. Замінити?", "Питання", MessageBoxButtons.YesNo,
@@ -437,7 +424,6 @@ namespace Job.Fasades
             var category = _profile.Categories.GetCategoryNameById(job.CategoryId)?.Transliteration();
 
             var signaDesc = string.IsNullOrEmpty(category) ? description : $"{category}_{description}";
-
 
             new SignaController(destFile).SetJobNumber(job.Number)
                 .SetCustomer(customer)
@@ -537,8 +523,6 @@ namespace Job.Fasades
             JobParameters newJob = new JobParameters(param.Job);
             newJob.Number = param.NewNumber;
 
-            _profile.Plugins.AfterJobChange(newJob);
-
             var oldPath = GetFullPathToWorkFolder(oldJob);
             var newPath = GetFullPathToWorkFolder(newJob);
 
@@ -609,20 +593,26 @@ namespace Job.Fasades
         /// <returns></returns>
         public bool ChangeJobNumber(IJob job, string number)
         {
+            JobParameters newJob = new JobParameters(job);
+            newJob.Number = number;
+
+            _profile.Plugins.AfterJobChange(newJob);
+        
+
+
             SignaChangeOrderNumberParams signaChangeOrderNumberParams = new SignaChangeOrderNumberParams
             {
                 OldNumber = job.Number,
-                NewNumber = number,
+                NewNumber = newJob.Number,
                 Job = job,
                 Profile = _profile,
             };
 
             if (RenameJobDirectory(signaChangeOrderNumberParams))
             {
-                job.Number = number;
-                _profile.Plugins.AfterJobChange(job);
                 RenameSignaJob(signaChangeOrderNumberParams);
                 
+                job.Number = newJob.Number;
                 _profile.Jobs.UpdateJob(job, getEvent: true);
 
                 return true;
@@ -651,6 +641,8 @@ namespace Job.Fasades
 
             if (!File.Exists(oldPath)) return;
             if (oldPath.Equals(newPath)) return;
+
+            if (File.Exists(newPath)) { File.Delete(newPath); }
 
             File.Move(oldPath, newPath);
             new SignaController(newPath).ChangeSignaOrderNumber(newPath, param.NewNumber);

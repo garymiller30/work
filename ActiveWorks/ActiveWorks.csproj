@@ -359,7 +359,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localize.uk-UA.resx</DependentUpon>
     </Compile>
-    <Compile Include="Static\Localisation.cs" />
     <Compile Include="FormColorProof.cs" />
     <Compile Include="FormColorProof.Designer.cs">
       <DependentUpon>FormColorProof.cs</DependentUpon>
