@@ -182,10 +182,20 @@
             0,
             0,
             0});
+            this.nMul.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.nMul.Name = "nMul";
             this.nMul.Size = new System.Drawing.Size(60, 20);
             this.nMul.TabIndex = 7;
             this.nMul.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nMul.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.nMul.Enter += new System.EventHandler(this.nW_Enter);
             // 
             // buttonAdd

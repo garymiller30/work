@@ -22,6 +22,7 @@ using Job.Static.Pdf.ExtractPages;
 using Job.Static.Pdf.Merge;
 using Job.Static.Pdf.MergeFrontsAndBack;
 using Job.Static.Pdf.MergeOddAndEven;
+using Job.Static.Pdf.MergeTemporary;
 using Job.Static.Pdf.Repeat.Document;
 using Job.Static.Pdf.RepeatPages;
 using Job.Static.Pdf.Reverse;
@@ -33,6 +34,7 @@ using Job.Static.Pdf.SetTrimBox.BySpread;
 using Job.Static.Pdf.SplitCoverAndBlock;
 using Job.Static.Pdf.SplitOddAndEven;
 using Job.Static.Pdf.SplitSpread;
+using Job.Static.Pdf.SplitTemporary;
 using Job.Static.Pdf.ToJpg;
 using Job.UserForms;
 using PDFManipulate.Forms;
@@ -181,7 +183,7 @@ namespace Job.Static
             }
         }
 
-        internal static void SetTrimBox(IEnumerable objects)
+        public static void SetTrimBox(IEnumerable objects)
         {
             if (objects != null)
             {
@@ -503,7 +505,7 @@ namespace Job.Static
                 )));
         }
 
-        internal static void MergePdf(string[] convertFiles)
+        public static void MergePdf(string[] convertFiles)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split pdf", new Action(
                 () =>
@@ -511,6 +513,29 @@ namespace Job.Static
                     new PdfMerger(convertFiles).Run();
                 }
                 )));
+        }
+
+        public static void PdfMergeTemporary(PdfMergeTemporaryParams param)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("PdfMergeTemporary", new Action(
+               () =>
+               {
+                   new PdfMergeTemporary(param).Run();
+               }
+               )));
+        }
+
+        internal static void SplitTemporary(List<string> list)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("SplitTemporary", new Action(
+               () =>
+               {
+                   foreach(var file in list)
+                   {
+                       new PdfSplitTemporary().Run(file);
+                   }
+               }
+               )));
         }
     }
 }

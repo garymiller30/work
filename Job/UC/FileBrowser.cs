@@ -5,10 +5,12 @@ using FtpClient;
 using Interfaces;
 using Interfaces.PdfUtils;
 using Job.Dlg;
+using Job.Ext;
 using Job.Menus;
 using Job.Models;
 using Job.Static;
 using Job.Static.Pdf.MergeOddAndEven;
+using Job.Static.Pdf.MergeTemporary;
 using Job.UserForms;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
@@ -29,6 +31,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using static Job.Static.NaturalSorting;
 
 namespace Job.UC
@@ -74,6 +77,23 @@ namespace Job.UC
             SetTheme();
 
             ApplySettings();
+
+            ClonePdfMenu();
+        }
+
+        private void ClonePdfMenu()
+        {
+            foreach (var item in утилітиДляPDFToolStripMenuItem.DropDownItems)
+            {
+                if (item is ToolStripMenuItem ttmi)
+                {
+                    toolStripDropDownButtonSplitPdfMenu.DropDownItems.Add(ttmi.Clone());
+                }
+                else if (item is ToolStripSeparator)
+                {
+                    toolStripDropDownButtonSplitPdfMenu.DropDownItems.Add(new ToolStripSeparator());
+                }
+            }
         }
 
         private void InitListView()
@@ -1863,8 +1883,8 @@ namespace Job.UC
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         FileFormatsUtil.PdfToJpg(
-                            objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(), 
-                            new Static.Pdf.ToJpg.PdfToJpgParams{Dpi = form.Dpi,Quality = form.Quality });
+                            objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(),
+                            new Static.Pdf.ToJpg.PdfToJpgParams { Dpi = form.Dpi, Quality = form.Quality });
                     }
                 }
             }
@@ -1949,6 +1969,24 @@ namespace Job.UC
                     FileFormatsUtil.MergePdf(form.ConvertFiles);
                 }
             }
+        }
+
+        private void зєднатиФайлиВОдинтимчасовоToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            FileFormatsUtil.PdfMergeTemporary(
+                new PdfMergeTemporaryParams
+                {
+                    Files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToList()
+                });
+        }
+
+        private void розділитиТимчасовоЗібранийФайлToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            FileFormatsUtil.SplitTemporary(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToList());
 
         }
     }
