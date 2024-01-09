@@ -146,6 +146,8 @@ namespace Job.UC
 
         public void MoveFileOrDirectoryToCurrentFolder(IFileSystemInfoExt file, string newName)
         {
+            if (file.FileInfo.FullName.Equals(newName,StringComparison.InvariantCultureIgnoreCase)) return;
+
             _moveFileOrDir(file, Path.Combine(Settings.CurFolder, newName));
         }
 
