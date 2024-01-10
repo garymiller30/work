@@ -41,7 +41,7 @@ namespace ActiveWorks
             olvColumnChangeStatus.AspectGetter += GetChangeStatus;
 
             olvColumnDeleteCategory.IsButton = true;
-            olvColumnDeleteCategory.AspectGetter = s => "видатити";
+            olvColumnDeleteCategory.AspectGetter = s => "видалити";
         }
 
         private object GetChangeStatus(object r)
@@ -140,13 +140,7 @@ namespace ActiveWorks
             listBox_SendEmails.Items.Add(textBox_MailTo.Text);
         }
 
-        private void УдалитьToolStripMenuItem3_Click(object sender, EventArgs e)
-        {
-            if (listBox_SendEmails.SelectedItem != null)
-            {
-                listBox_SendEmails.Items.Remove(listBox_SendEmails.SelectedItem);
-            }
-        }
+
 
         private void Button_CustomButtonPath_Click(object sender, EventArgs e)
         {

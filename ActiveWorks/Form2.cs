@@ -21,7 +21,7 @@ namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 8.7.10";
+        private readonly string _version = $"{Localize.FormTitle} 8.7.11";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
