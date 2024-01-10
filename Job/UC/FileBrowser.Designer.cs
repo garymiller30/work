@@ -59,6 +59,7 @@
             this.змінитиРозмірToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.splitPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.розділитиОбкладинкуІБлокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -137,7 +138,6 @@
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -485,6 +485,13 @@
             this.splitPDFToolStripMenuItem.Text = "Розділити PDF";
             this.splitPDFToolStripMenuItem.Click += new System.EventHandler(this.SplitPDFToolStripMenuItem_Click);
             // 
+            // розділитиТимчасовоЗібранийФайлToolStripMenuItem
+            // 
+            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Name = "розділитиТимчасовоЗібранийФайлToolStripMenuItem";
+            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Text = "Розділити тимчасово зібраний файл";
+            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Click += new System.EventHandler(this.розділитиТимчасовоЗібранийФайлToolStripMenuItem_Click);
+            // 
             // розділитиНаПарніІНепарніСторінкиToolStripMenuItem
             // 
             this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem.Name = "розділитиНаПарніІНепарніСторінкиToolStripMenuItem";
@@ -701,7 +708,7 @@
             // 
             this.отправитьВToolStripMenuItem.Name = "отправитьВToolStripMenuItem";
             this.отправитьВToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
-            this.отправитьВToolStripMenuItem.Text = "Надіслати у";
+            this.отправитьВToolStripMenuItem.Text = "Скопіювати --->";
             // 
             // imageList1
             // 
@@ -1093,13 +1100,6 @@
             // kryptonContextMenuHeading1
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
-            // 
-            // розділитиТимчасовоЗібранийФайлToolStripMenuItem
-            // 
-            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Name = "розділитиТимчасовоЗібранийФайлToolStripMenuItem";
-            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
-            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Text = "Розділити тимчасово зібраний файл";
-            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Click += new System.EventHandler(this.розділитиТимчасовоЗібранийФайлToolStripMenuItem_Click);
             // 
             // FileBrowser
             // 

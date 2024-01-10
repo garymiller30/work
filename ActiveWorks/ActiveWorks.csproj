@@ -375,10 +375,10 @@
     <Compile Include="FormPdfPreview.Designer.cs">
       <DependentUpon>FormPdfPreview.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSettings.cs">
+    <Compile Include="Forms\FormSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSettings.Designer.cs">
+    <Compile Include="Forms\FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="JobRenderer.cs">
@@ -399,7 +399,7 @@
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormSettings.uk-UA.resx">
+    <EmbeddedResource Include="Forms\FormSettings.uk-UA.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormBackgroundTasks.resx">
@@ -439,7 +439,7 @@
     <EmbeddedResource Include="FormPdfPreview.resx">
       <DependentUpon>FormPdfPreview.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormSettings.resx">
+    <EmbeddedResource Include="Forms\FormSettings.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

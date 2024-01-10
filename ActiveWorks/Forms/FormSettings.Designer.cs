@@ -1845,7 +1845,7 @@
             this.удалитьToolStripMenuItem3.Name = "удалитьToolStripMenuItem3";
             this.удалитьToolStripMenuItem3.Size = new System.Drawing.Size(130, 22);
             this.удалитьToolStripMenuItem3.Text = "видалити";
-            this.удалитьToolStripMenuItem3.Click += new System.EventHandler(this.УдалитьToolStripMenuItem3_Click);
+            this.удалитьToolStripMenuItem3.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // vistaOpenFileDialog1
             // 
