@@ -131,6 +131,7 @@ namespace Job
 
         private void FormPdfPreview_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _viewer?.Dispose();
             //axAcroPDF1.Dispose();
         }
 
