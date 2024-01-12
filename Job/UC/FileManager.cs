@@ -95,9 +95,7 @@ namespace Job.UC
             {
                 if (Settings.ShowAllFilesWithoutDir)
                 {
-
                     GetAllFilesWithoutDir();
-
                 }
                 else
                 {
@@ -109,15 +107,12 @@ namespace Job.UC
                     if (!string.IsNullOrEmpty(selectFileName))
                         OnSelectFileName(this, selectFileName);
                 }
-
             }
             catch
             {
 
 
             }
-
-
         }
 
         /// <summary>
@@ -126,7 +121,7 @@ namespace Job.UC
         /// <param name="rootDir"></param>
         public void SetRootDirectory(string rootDir)
         {
-            OnChangeRootDirectory(this, null);
+            OnChangeRootDirectory(this, EventArgs.Empty);
 
             if (string.IsNullOrEmpty(rootDir)) { OnError(this, "rootDir is null or empty"); return; }
 

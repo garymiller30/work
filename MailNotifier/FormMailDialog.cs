@@ -16,7 +16,7 @@ namespace MailNotifier
         public FormMailDialog(Mail mail)
         {
             InitializeComponent();
-            //_mail = mail;
+            _mail = mail;
 
             //_mail.OnNewMail+= MailOnOnNewMail;
             //_mail.OnDeleteMail+= MailOnOnDeleteMail;
@@ -27,20 +27,20 @@ namespace MailNotifier
 
       
 
-        private void MailOnOnDeleteMail(object sender, uint e)
-        {
-            var message = objectListViewInbox.Objects?.Cast<MessageEx>().FirstOrDefault(x => x.Id == e);
+        //private void MailOnOnDeleteMail(object sender, uint e)
+        //{
+        //    var message = objectListViewInbox.Objects?.Cast<MessageEx>().FirstOrDefault(x => x.Id == e);
 
-            if (message != null)
-                objectListViewInbox.RemoveObject(message);
+        //    if (message != null)
+        //        objectListViewInbox.RemoveObject(message);
 
 
-        }
+        //}
 
-        private void MailOnOnNewMail(object sender, MessageEx e)
-        {
-           objectListViewInbox.AddObject(e);
-        }
+        //private void MailOnOnNewMail(object sender, MessageEx e)
+        //{
+        //   objectListViewInbox.AddObject(e);
+        //}
 
         private void FormMailDialog_FormClosing(object sender, FormClosingEventArgs e)
         {

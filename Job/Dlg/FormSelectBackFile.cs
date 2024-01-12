@@ -32,17 +32,16 @@ namespace Job.Dlg
             DialogResult = DialogResult.OK;
             Close();
         }
-    }
-
-    public class DisplayFile
-    {
-        public string Name { get; set; }
-        public string FullName { get; set; }
-
-        public DisplayFile(string file)
+        public class DisplayFile
         {
-            FullName = file;
-            Name = Path.GetFileName(file);
+            public string Name { get; set; }
+            public string FullName { get; set; }
+
+            public DisplayFile(string file)
+            {
+                FullName = file;
+                Name = Path.GetFileName(file);
+            }
         }
     }
 }
