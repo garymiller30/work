@@ -321,6 +321,25 @@
     <Compile Include="Static\Pdf\Divide\PdfDividerParams.cs" />
     <Compile Include="Static\Pdf\ExtractPages\PdfExtractPages.cs" />
     <Compile Include="Static\Pdf\ExtractPages\PdfExtractPagesParams.cs" />
+    <Compile Include="Static\Pdf\Imposition\Common\BindingMethodEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Common\Fields.cs" />
+    <Compile Include="Static\Pdf\Imposition\Common\Position.cs" />
+    <Compile Include="Static\Pdf\Imposition\Common\SchemeModeEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Common\SheetWorkStyleEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Common\WorkModeEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Content\PdfContent.cs" />
+    <Compile Include="Static\Pdf\Imposition\Controllers\PdfImpositionController.cs" />
+    <Compile Include="Static\Pdf\Imposition\Page\PdfMasterPage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Page\PdfPage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Page\PdfPageRunList.cs" />
+    <Compile Include="Static\Pdf\Imposition\PdfImposTest.cs" />
+    <Compile Include="Static\Pdf\Imposition\Product\PdfProduct.cs" />
+    <Compile Include="Static\Pdf\Imposition\Product\PdfProductPart.cs" />
+    <Compile Include="Static\Pdf\Imposition\Scheme\PdfScheme.cs" />
+    <Compile Include="Static\Pdf\Imposition\Scheme\PdfSchemePage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Scheme\PdfSchemePageSide.cs" />
+    <Compile Include="Static\Pdf\Imposition\Sheet\PdfSheet.cs" />
+    <Compile Include="Static\Pdf\Imposition\Subject\PdfSubjectSettings.cs" />
     <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBack.cs" />
     <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBackParams.cs" />
     <Compile Include="Static\Pdf\MergeOddAndEven\PdfMergeOddAndEven.cs" />
@@ -871,6 +890,7 @@
   <ItemGroup>
     <Folder Include="Core\Compression\Snappy\lib\" />
     <Folder Include="Core\Compression\Zstandard\lib\" />
+    <Folder Include="Static\Pdf\Imposition\Binding\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\users-2-icon.png" />

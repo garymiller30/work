@@ -349,11 +349,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localize.resx</DependentUpon>
     </Compile>
-    <Compile Include="Localize.ru-RU.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Localize.ru-RU.resx</DependentUpon>
-    </Compile>
     <Compile Include="Localize.uk-UA.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -421,10 +416,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localize.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localize.ru-RU.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Localize.ru-RU.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Localize.uk-UA.resx">
       <Generator>ResXFileCodeGenerator</Generator>
