@@ -14,7 +14,5 @@ namespace Job.Static.Pdf.Imposition.Scheme
         public Fields Gaps { get;set; } = new Fields();
         public PdfSchemePageSide Front {  get; set; } = new PdfSchemePageSide();
         public PdfSchemePageSide Back { get; set; } = new PdfSchemePageSide();
-
-       
     }
 }

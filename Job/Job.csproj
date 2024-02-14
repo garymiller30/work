@@ -54,7 +54,8 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -63,7 +64,8 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
@@ -137,9 +139,9 @@
     <Reference Include="Ookii.Dialogs.WinForms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
       <HintPath>..\packages\Ookii.Dialogs.WinForms.4.0.0\lib\net462\Ookii.Dialogs.WinForms.dll</HintPath>
     </Reference>
-    <Reference Include="PDFlib_dotnet, Version=9.3.1.0, Culture=neutral, PublicKeyToken=af0805f2b25bb299, processorArchitecture=AMD64">
+    <Reference Include="PDFlib_dotnet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=af0805f2b25bb299, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\_Components\PDFLIB\10.0.1\dll\PDFlib_dotnet.dll</HintPath>
+      <HintPath>..\..\_Components\PDFLIB\10.0.2\bind\dotnet\cracked\PDFlib_dotnet.dll</HintPath>
     </Reference>
     <Reference Include="SharpCompress, Version=0.34.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.34.1\lib\net462\SharpCompress.dll</HintPath>
@@ -306,6 +308,7 @@
     <Compile Include="Properties\CanBeNullAttribute.cs" />
     <Compile Include="Static\FileUtil.cs" />
     <Compile Include="Static\Pdf\Common\Box.cs" />
+    <Compile Include="Static\Pdf\Common\Boxes.cs" />
     <Compile Include="Static\Pdf\Common\ConvertModeEnum.cs" />
     <Compile Include="Static\Pdf\Common\DivideModeEnum.cs" />
     <Compile Include="Static\Pdf\Common\EmptyTemplate.cs" />
@@ -313,6 +316,7 @@
     <Compile Include="Static\Pdf\Common\ExtendBoxHelpers.cs" />
     <Compile Include="Static\Pdf\Common\ExtendTargetSizeHelpers.cs" />
     <Compile Include="Static\Pdf\Common\PdfMergeFile.cs" />
+    <Compile Include="Static\Pdf\Common\PdfPageInfo.cs" />
     <Compile Include="Static\Pdf\Convert\PdfConvert.cs" />
     <Compile Include="Static\Pdf\Convert\PdfConvertParams.cs" />
     <Compile Include="Static\Pdf\Create\Ellipse\PdfCreateEllipse.cs" />
@@ -323,22 +327,36 @@
     <Compile Include="Static\Pdf\ExtractPages\PdfExtractPagesParams.cs" />
     <Compile Include="Static\Pdf\Imposition\Common\BindingMethodEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Common\Fields.cs" />
+    <Compile Include="Static\Pdf\Imposition\Common\PdfFormat.cs" />
+    <Compile Include="Static\Pdf\Imposition\Common\PdfPlacementInstruction.cs" />
+    <Compile Include="Static\Pdf\Imposition\Common\PdfSideEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Common\Position.cs" />
     <Compile Include="Static\Pdf\Imposition\Common\SchemeModeEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Common\SheetWorkStyleEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Common\WorkModeEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Content\PdfContent.cs" />
+    <Compile Include="Static\Pdf\Imposition\Content\PdfContentFile.cs" />
+    <Compile Include="Static\Pdf\Imposition\Content\PdfContentFilePage.cs" />
     <Compile Include="Static\Pdf\Imposition\Controllers\PdfImpositionController.cs" />
+    <Compile Include="Static\Pdf\Imposition\Export\EDocument.cs" />
+    <Compile Include="Static\Pdf\Imposition\Export\EPage.cs" />
     <Compile Include="Static\Pdf\Imposition\Page\PdfMasterPage.cs" />
     <Compile Include="Static\Pdf\Imposition\Page\PdfPage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Page\PdfPageRun.cs" />
     <Compile Include="Static\Pdf\Imposition\Page\PdfPageRunList.cs" />
     <Compile Include="Static\Pdf\Imposition\PdfImposTest.cs" />
     <Compile Include="Static\Pdf\Imposition\Product\PdfProduct.cs" />
     <Compile Include="Static\Pdf\Imposition\Product\PdfProductPart.cs" />
+    <Compile Include="Static\Pdf\Imposition\Scheme\PdfMasterScheme.cs" />
     <Compile Include="Static\Pdf\Imposition\Scheme\PdfScheme.cs" />
+    <Compile Include="Static\Pdf\Imposition\Scheme\PdfSchemeList.cs" />
     <Compile Include="Static\Pdf\Imposition\Scheme\PdfSchemePage.cs" />
     <Compile Include="Static\Pdf\Imposition\Scheme\PdfSchemePageSide.cs" />
-    <Compile Include="Static\Pdf\Imposition\Sheet\PdfSheet.cs" />
+    <Compile Include="Static\Pdf\Imposition\Sheet\PdfMasterSheetList.cs" />
+    <Compile Include="Static\Pdf\Imposition\Sheet\PdfMasterSheet.cs" />
+    <Compile Include="Static\Pdf\Imposition\Sheet\PdfSheetRun.cs" />
+    <Compile Include="Static\Pdf\Imposition\Sheet\PdfSheetRunList.cs" />
+    <Compile Include="Static\Pdf\Imposition\Subject\PdfSubject.cs" />
     <Compile Include="Static\Pdf\Imposition\Subject\PdfSubjectSettings.cs" />
     <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBack.cs" />
     <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBackParams.cs" />
@@ -602,11 +620,18 @@
     <Compile Include="UserForms\TrimBoxResultEnum.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\DependencyValidation1\DependencyValidation1.layerdiagram">
+      <Link>DependencyValidation1.layerdiagram</Link>
+      <Visible>False</Visible>
+    </AdditionalFiles>
     <None Include=".editorconfig" />
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Graph1.dgml" />
     <None Include="libmongocrypt.dylib" />
     <None Include="libmongocrypt.so" />
     <None Include="packages.config" />
+    <None Include="Static\Pdf\Imposition\PdfImpos.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackgroundTaskServiceLib\BackgroundTaskServiceLib.csproj">
@@ -897,11 +922,13 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\AWSSDK.SecurityToken.3.7.101.36\analyzers\dotnet\cs\AWSSDK.SecurityToken.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="mongocrypt.dll" />
     <Content Include="PDFlib_dotnet_native.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\control_play_blue1.png" />
     <None Include="Resources\folder_add.png" />

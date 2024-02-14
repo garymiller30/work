@@ -81,6 +81,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\DependencyValidation1\DependencyValidation1.layerdiagram">
+      <Link>DependencyValidation1.layerdiagram</Link>
+      <Visible>False</Visible>
+    </AdditionalFiles>
     <None Include="app.config" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -91,6 +95,10 @@
     <EmbeddedResource Include="FormLogger.resx">
       <DependentUpon>FormLogger.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

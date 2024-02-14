@@ -46,7 +46,7 @@ namespace Job.Static.Pdf.Scale
 
                     if (_params.ScaleBy == ScaleByEnum.TrimBox)
                     {
-                        Box box = GetTrimbox(p, indoc, pageno - 1);
+                        Box box = PdfHelper.GetTrimbox(p, indoc, pageno - 1);
 
                         double xScale = _params.TargetSize.Width / box.wMM();
                         double yScale = _params.TargetSize.Height / box.hMM();
@@ -70,8 +70,8 @@ namespace Job.Static.Pdf.Scale
                             _params.TargetSize.HeightWithBleedInch(),
                             $"trimbox={{{trim_left} {trim_bottom} {trim_right} {trim_top}}}");
 
-                        double pageX = trim_left - box.x * xScale + deltaX;
-                        double pageY = trim_bottom - box.y * yScale + deltaY;
+                        double pageX = trim_left - box.left * xScale + deltaX;
+                        double pageY = trim_bottom - box.bottom * yScale + deltaY;
 
                         p.fit_pdi_page(page, pageX, pageY, $"scale={{{xScale} {yScale}}}");
                         p.end_page_ext("");
@@ -133,43 +133,7 @@ namespace Job.Static.Pdf.Scale
             }
         }
 
-        Box GetTrimbox(PDFlib p, int doc, int page)
-        {
-            var trims = new double[] { 0, 0, 0, 0 };
-            var media = new double[] { 0, 0, 0, 0 };
-
-            for (int i = 0; i < 4; i++)
-            {
-                media[i] = p.pcos_get_number(doc, $"pages[{page}]/MediaBox[{i}]");
-
-            }
-
-            string trimtype = p.pcos_get_string(doc, $"type:pages[{page}]/TrimBox");
-
-            if (string.Equals(trimtype, "array", StringComparison.OrdinalIgnoreCase))
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    trims[i] = p.pcos_get_number(doc, $"pages[{page}]/TrimBox[{i}]");
-                }
-            }
-            else
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    trims[i] = media[i];
-
-                }
-            }
-
-            return new Box()
-            {
-                x = trims[0] - media[0],
-                y = trims[1] - media[1],
-                width = trims[2] - trims[0],
-                height = trims[3] - trims[1]
-            };
-        }
+        
 
     }
 }

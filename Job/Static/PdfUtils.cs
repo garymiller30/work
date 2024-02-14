@@ -7,6 +7,7 @@ using Ghostscript.NET.Rasterizer;
 using ImageMagick;
 using Interfaces;
 using Interfaces.PdfUtils;
+using Job.Static.Pdf.Common;
 using PDFlib_dotnet;
 
 namespace Job.Static
@@ -79,22 +80,22 @@ namespace Job.Static
                 
                 try
                 {
-                    _ = p.begin_document("", "");
+                    p.begin_document("", "");
 
                     var doc = p.open_pdi_document(sfi.FileInfo.FullName, "");
 
-                    var pagecount = p.pcos_get_number(doc, "length:pages"); // узнаем количество страниц
+                    var pagecount = p.pcos_get_number(doc, "length:pages"); // кількість сторінок
 
                     for (int i = 1; i <= pagecount; i++)
                     {
-                        var page = p.open_pdi_page(doc, i, ""); // открываем страницу
+                        var page = p.open_pdi_page(doc, i, ""); // 
                         colorList.AddRange(PrintColorspaces(p, doc, page));
                     }
 
                 }
-                catch (Exception e)
+                catch (PDFlibException e)
                 {
-                    Logger.Log.Error(null, "GetColorspacePdf", e.Message);
+                    PdfHelper.LogException(e, "GetColorspacePdf");
                 }
                 finally
                 {

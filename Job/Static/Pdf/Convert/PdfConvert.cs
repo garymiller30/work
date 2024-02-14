@@ -112,7 +112,7 @@ namespace Job.Static.Pdf.Convert
                 }
                 else
                 {
-                    p.end_page_ext($"trimbox {{{_params.TrimBox.x} {_params.TrimBox.y} {_params.TrimBox.width} {_params.TrimBox.height}}}");
+                    p.end_page_ext($"trimbox {{{_params.TrimBox.left} {_params.TrimBox.bottom} {_params.TrimBox.width} {_params.TrimBox.height}}}");
                 }
                 p.end_document("");
 

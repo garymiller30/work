@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Job.Static.Pdf.Imposition.Sheet
 {
-    public class PdfSheet
+    public class PdfMasterSheet
     {
         public double Width { get;set; }
         public double Height { get;set; }

@@ -13,7 +13,7 @@ namespace Job.Static.Pdf.Imposition.Common
         public double Top { get; set;}
         public double Bottom { get; set;}
 
-        public void SetAll(double value)
+        public void Set(double value)
         {
             Outer = value;
             Inner = value;

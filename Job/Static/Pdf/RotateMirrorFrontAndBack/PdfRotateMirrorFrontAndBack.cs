@@ -51,7 +51,7 @@ namespace Job.Static.Pdf.RotateMirrorFrontAndBack
 
                     p.begin_page_ext(height, width, "");
                     p.fit_pdi_page(page, 0, 0, $"adjustpage orientate={angles[back ? 1 : 0]}");
-                    p.end_page_ext($"trimbox {{{trimbox.x} {trimbox.y} {trimbox.x + trimbox.width} {trimbox.height + trimbox.y}}}");
+                    p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
                     p.close_pdi_page(page);
 
                     back = !back;

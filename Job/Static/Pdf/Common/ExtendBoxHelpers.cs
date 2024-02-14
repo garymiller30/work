@@ -7,18 +7,18 @@ namespace Job.Static.Pdf.Common
     internal static class ExtendBoxHelpers
     {
 
-        public static double xMM(this Box box) => Math.Round(box.x / PdfScaler.mn, 1);
-        public static double yMM(this Box box) => Math.Round(box.y / PdfScaler.mn, 1);
+        public static double xMM(this Box box) => Math.Round(box.left / PdfScaler.mn, 1);
+        public static double yMM(this Box box) => Math.Round(box.bottom / PdfScaler.mn, 1);
         public static double wMM(this Box box) => Math.Round(box.width / PdfScaler.mn, 1);
         public static double hMM(this Box box) => Math.Round(box.height / PdfScaler.mn, 1);
 
-        public static double x(this Box box, double scaleFactor) => box.x * scaleFactor;
-        public static double y(this Box box, double scaleFactor) => box.y * scaleFactor;
+        public static double x(this Box box, double scaleFactor) => box.left * scaleFactor;
+        public static double y(this Box box, double scaleFactor) => box.bottom * scaleFactor;
         public static double w(this Box box, double scaleFactor) => box.width * scaleFactor;
         public static double h(this Box box, double scaleFactor) => box.height * scaleFactor;
 
-        public static double xMn(this Box box) => box.x * PdfScaler.mn;
-        public static double yMn(this Box box) => box.y * PdfScaler.mn;
+        public static double xMn(this Box box) => box.left * PdfScaler.mn;
+        public static double yMn(this Box box) => box.bottom * PdfScaler.mn;
         public static double wMn(this Box box) => box.width * PdfScaler.mn;
         public static double hMn(this Box box) => box.height * PdfScaler.mn;
 
@@ -32,16 +32,16 @@ namespace Job.Static.Pdf.Common
 
         public static void RotateCounerClockWise90deg(this Box box, Box media)
         {
-            box.x = media.width - box.x - box.width;
-            box.y = media.height - box.y - box.height;
+            box.left = media.width - box.left - box.width;
+            box.bottom = media.height - box.bottom - box.height;
 
             var tmp = box.width;
             box.width = box.height;
             box.height = tmp;
 
-            tmp = box.x;
-            box.x = box.y;
-            box.y = tmp;
+            tmp = box.left;
+            box.left = box.bottom;
+            box.bottom = tmp;
         }
 
         public static void RotateClockWise90deg(this Box box)
@@ -50,16 +50,16 @@ namespace Job.Static.Pdf.Common
             box.width = box.height;
             box.height = tmp;
 
-            tmp = box.x;
-            box.x = box.y;
-            box.y = tmp;
+            tmp = box.left;
+            box.left = box.bottom;
+            box.bottom = tmp;
 
         }
 
         public static void CreateCustomBox(this Box box, double width, double height, double bleeds)
         {
-            box.x = bleeds * PdfHelper.mn;
-            box.y = bleeds * PdfHelper.mn;
+            box.left = bleeds * PdfHelper.mn;
+            box.bottom = bleeds * PdfHelper.mn;
             box.width = width * PdfHelper.mn;
             box.height = height * PdfHelper.mn;
 
@@ -67,7 +67,7 @@ namespace Job.Static.Pdf.Common
 
         public static (double Width, double Height) GetMediaBox(this Box box)
         {
-            return (Width: box.width + box.x * 2, Height: box.height + box.y * 2);
+            return (Width: box.width + box.left * 2, Height: box.height + box.bottom * 2);
 
         }
     }
