@@ -19,8 +19,18 @@ namespace Job.Static.Pdf.Imposition.Product
 
         public PdfMasterPage MasterPage { get; set; } = new PdfMasterPage();
 
-        public List<PdfSheet> Sheets { get; set; } = new List<PdfSheet>();
-        public List<PdfScheme> Schemes { get; set; } = new List<PdfScheme>();
-        public PdfContent Content { get; set; } = new PdfContent();
+        public PdfMasterSheetList MasterSheets { get; set; }
+        public PdfSchemeList MasterSchemes { get; set; }
+    
+        public PdfPageRunList PageRunList { get; set; }
+        public PdfSheetRunList SheetRunList { get; set; }   
+
+        public PdfProductPart()
+        {
+            MasterSheets = new PdfMasterSheetList(this);
+            MasterSchemes = new PdfSchemeList(this);
+            PageRunList = new PdfPageRunList(this);
+            SheetRunList = new PdfSheetRunList(this);
+        }
     }
 }

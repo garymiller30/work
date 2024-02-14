@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Job.Static.Pdf.Imposition;
+using System;
 using System.Windows.Forms;
 
 namespace ActiveWorks
@@ -13,6 +14,9 @@ namespace ActiveWorks
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            //var test = new PdfImposTest();
+           // test.Run();
 
             Application.Run(new Form2());
         }

@@ -1,5 +1,4 @@
-﻿using Job.Static.Pdf.Imposition.Common;
-using Org.BouncyCastle.Asn1.Mozilla;
+﻿using Job.Static.Pdf.Imposition.Page;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,26 +9,36 @@ namespace Job.Static.Pdf.Imposition.Scheme
 {
     public class PdfScheme
     {
-       
-        public int Rows { get; set; }
-        public int Columns { get;set; }
+        public PdfMasterScheme MasterScheme { get; }
+        public PdfMasterPage MasterPage { get;}
 
-        public PdfSchemePage[,] SchemePages { get;set; }
+        public int RowIdx { get;set;}
+        public int ColumnIdx { get; set; }
+        public double Rotate { get; set; }
 
-        public void CreateSchemePages(int rows,int columns)
+        public PdfScheme(PdfMasterScheme masterScheme, PdfMasterPage masterPage)
         {
-            Rows = rows;
-            Columns = columns;
+            MasterScheme = masterScheme;
+            MasterPage = masterPage;
+        }
 
-            SchemePages = new PdfSchemePage[rows, columns];
-
-            for (int i = 0; i < SchemePages.GetLength(0); i++)
-            {
-                for (int j = 0; j < SchemePages.GetLength(1); j++)
-                {
-                    SchemePages[i,j] = new PdfSchemePage();
-                }
-            }
+        /// <summary>
+        /// отримати ширину в залежності від поворота
+        /// </summary>
+        /// <returns></returns>
+        public double GetRotatedWidth()
+        {
+            if (Rotate == 0 || Rotate == 180) return MasterPage.Width;
+            return MasterPage.Height;
+        }
+        /// <summary>
+        /// отримати висоту в залежності від поворота
+        /// </summary>
+        /// <returns></returns>
+        public double GetRotatedHeight()
+        {
+            if (Rotate == 0 || Rotate == 180) return MasterPage.Height;
+            return MasterPage.Width;
         }
     }
 }

@@ -579,7 +579,9 @@ namespace Job.UC
             Process.Start(pi);
         }
 
+#pragma warning disable CS0649 // Field 'FileBrowser._copyPathToClipboadToSend' is never assigned to, and will always have its default value false
         private bool _copyPathToClipboadToSend;
+#pragma warning restore CS0649 // Field 'FileBrowser._copyPathToClipboadToSend' is never assigned to, and will always have its default value false
 
         private void ObjectListView1_DoubleClick(object sender, EventArgs e)
         {

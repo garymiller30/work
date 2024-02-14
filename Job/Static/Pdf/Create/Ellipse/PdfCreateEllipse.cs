@@ -58,7 +58,7 @@ namespace Job.Static.Pdf.Create.Ellipse
                 p.stroke();
 
                 p.close_pdi_page(pagehdl);
-                p.end_page_ext($"trimbox {{{trimbox.x} {trimbox.y} {trimbox.x + trimbox.width} {trimbox.height + trimbox.y}}}");
+                p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
                 p.end_document("");
                 p.close_pdi_document(indoc);
             }
