@@ -1,4 +1,5 @@
-﻿using Job.Static.Pdf.Common;
+﻿using ImageMagick;
+using Job.Static.Pdf.Common;
 using Job.Static.Pdf.Scale;
 using System;
 using System.Windows.Forms;
@@ -32,6 +33,19 @@ namespace Job.UserForms
         private void numericUpDownWidth_Enter(object sender, EventArgs e)
         {
             ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
+
+        private void ucSelectStandartPageFormat1_PaperFormatChanged(object sender, PaperFormat e)
+        {
+            numericUpDownWidth.Value = e.Width;
+            numericUpDownHeight.Value = e.Height;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            var tmp = numericUpDownWidth.Value;
+            numericUpDownWidth.Value = numericUpDownHeight.Value;
+            numericUpDownHeight.Value = tmp;
         }
     }
 }

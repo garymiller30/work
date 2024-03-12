@@ -244,49 +244,50 @@
       <DependentUpon>FormEditStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\MongoRepository.cs" />
-    <Compile Include="Dlg\FormInputCountPages.cs">
+    <Compile Include="Static\Pdf\Common\PaperFormat.cs" />
+    <Compile Include="UC\UcSelectStandartPageFormat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UcSelectStandartPageFormat.Designer.cs">
+      <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormInputCountPages.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dlg\FormInputCountPages.Designer.cs">
+    <Compile Include="UserForms\PDF\FormInputCountPages.Designer.cs">
       <DependentUpon>FormInputCountPages.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dlg\FormSelectBackFile.cs">
+    <Compile Include="UserForms\PDF\FormSelectBackFile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dlg\FormSelectBackFile.Designer.cs">
+    <Compile Include="UserForms\PDF\FormSelectBackFile.Designer.cs">
       <DependentUpon>FormSelectBackFile.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dlg\FormSelectConvertToPdfMode.cs">
+    <Compile Include="UserForms\PDF\FormSelectConvertToPdfMode.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dlg\FormSelectConvertToPdfMode.Designer.cs">
+    <Compile Include="UserForms\PDF\FormSelectConvertToPdfMode.Designer.cs">
       <DependentUpon>FormSelectConvertToPdfMode.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dlg\FormSelectCountPages.cs">
+    <Compile Include="UserForms\PDF\FormSelectCountPages.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dlg\FormSelectCountPages.designer.cs">
+    <Compile Include="UserForms\PDF\FormSelectCountPages.designer.cs">
       <DependentUpon>FormSelectCountPages.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dlg\FormSelectDpi.cs">
+    <Compile Include="UserForms\PDF\FormSelectDpi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dlg\FormSelectDpi.Designer.cs">
+    <Compile Include="UserForms\PDF\FormSelectDpi.Designer.cs">
       <DependentUpon>FormSelectDpi.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dlg\FormTirag.cs">
+    <Compile Include="UserForms\PDF\FormTirag.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dlg\FormTirag.Designer.cs">
+    <Compile Include="UserForms\PDF\FormTirag.Designer.cs">
       <DependentUpon>FormTirag.cs</DependentUpon>
     </Compile>
     <Compile Include="Ext\Extensions.cs" />
-    <Compile Include="Dlg\FormChangeJobsPath.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dlg\FormChangeJobsPath.Designer.cs">
-      <DependentUpon>FormChangeJobsPath.cs</DependentUpon>
-    </Compile>
     <Compile Include="CustomForms\FormEnterText.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -675,28 +676,28 @@
     <EmbeddedResource Include="CustomForms\FormEditStatus.resx">
       <DependentUpon>FormEditStatus.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\FormChangeJobsPath.resx">
-      <DependentUpon>FormChangeJobsPath.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CustomForms\FormEnterText.resx">
       <DependentUpon>FormEnterText.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\FormInputCountPages.resx">
+    <EmbeddedResource Include="UC\UcSelectStandartPageFormat.resx">
+      <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormInputCountPages.resx">
       <DependentUpon>FormInputCountPages.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\FormSelectBackFile.resx">
+    <EmbeddedResource Include="UserForms\PDF\FormSelectBackFile.resx">
       <DependentUpon>FormSelectBackFile.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\FormSelectConvertToPdfMode.resx">
+    <EmbeddedResource Include="UserForms\PDF\FormSelectConvertToPdfMode.resx">
       <DependentUpon>FormSelectConvertToPdfMode.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\FormSelectCountPages.resx">
+    <EmbeddedResource Include="UserForms\PDF\FormSelectCountPages.resx">
       <DependentUpon>FormSelectCountPages.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\FormSelectDpi.resx">
+    <EmbeddedResource Include="UserForms\PDF\FormSelectDpi.resx">
       <DependentUpon>FormSelectDpi.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dlg\FormTirag.resx">
+    <EmbeddedResource Include="UserForms\PDF\FormTirag.resx">
       <DependentUpon>FormTirag.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UC\UcAddWorkPluginsContainer.resx">

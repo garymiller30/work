@@ -28,7 +28,7 @@ namespace Job.Static.Pdf.Convert
             {
                 case ".jpg":
                 case ".png":
-                case "jpeg":
+                case ".jpeg":
                 case ".tif":
                 case ".tiff":
                     ConvertImage(filePath);
