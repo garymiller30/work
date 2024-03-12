@@ -1599,43 +1599,20 @@ namespace Job.UC
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
 
-            FileFormatsUtil.ConvertToPDF(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+            List<IFileSystemInfoExt> files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
 
-            //using (var form = new FormSelectConvertToPdfMode(UserProfile.Settings.GetPdfConverterSettings()))
-            //{
-            //    if (form.ShowDialog() == DialogResult.OK)
-            //    {
-            //        var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
-            //        var mode = form.ConvertMode;
-            //        var trimBox = form.TrimBox;
-            //        var moveToTrash = form.MoveToTrash;
+            FileFormatsUtil.ConvertToPDF(files, CreateMoveToTrashAction(files));
 
-            //        BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(
-            //            () =>
-            //            {
+        }
 
-            //                Thread t = new Thread(() =>
-            //                {
-            //                    FileFormatsUtil.ConvertToPDF(files, mode);
+        private Action CreateMoveToTrashAction(List<IFileSystemInfoExt> files)
+        {
+            Action moveToTrash = null;
 
-            //                    if (trimBox > 0)
-            //                    {
-            //                        FileFormatsUtil.SetTrimBox(files, trimBox);
-            //                    }
-            //                    if (moveToTrash)
-            //                    {
-            //                        MoveToTrash(files.ToArray());
-            //                    }
-            //                });
+            if (UserProfile.Settings.GetPdfConverterSettings().MoveOriginalsToTrash)
+                moveToTrash = () => MoveToTrash(files.ToArray());
 
-            //                t.SetApartmentState(ApartmentState.STA);
-            //                t.Start();
-            //                t.Join();
-            //            }
-            //            )));
-            //    }
-            //}
-
+            return moveToTrash;
         }
 
         private void SplitPDFToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1964,11 +1941,13 @@ namespace Job.UC
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
 
-            using (var form = new UserForms.PDF.FormList(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToArray()))
+            var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
+
+            using (var form = new UserForms.PDF.FormList(files.Select(x => x.FileInfo.FullName).ToArray()))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    FileFormatsUtil.MergePdf(form.ConvertFiles);
+                    FileFormatsUtil.MergePdf(form.ConvertFiles, CreateMoveToTrashAction(files));
                 }
             }
         }

@@ -29,13 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGetTrimBox));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.buttonOk = new Krypton.Toolkit.KryptonButton();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonComboBoxNumber = new Krypton.Toolkit.KryptonComboBox();
-            this.kryptonComboBox_Serial = new Krypton.Toolkit.KryptonComboBox();
-            this.kryptonLabel8 = new Krypton.Toolkit.KryptonLabel();
-            this.kryptonLabel7 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonButtonExChange = new Krypton.Toolkit.KryptonButton();
             this.kryptonButtonBleed3 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButtonBleed5 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButtonBleed1 = new Krypton.Toolkit.KryptonButton();
@@ -59,14 +57,13 @@
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
             this.formGetTrimBoxBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.ucSelectStandartPageFormat1 = new UC.UcSelectStandartPageFormat();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
             this.kryptonGroupBox1.Panel.SuspendLayout();
             this.kryptonGroupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBoxNumber)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox_Serial)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownByBleeds)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
@@ -106,10 +103,8 @@
             // 
             // kryptonGroupBox1.Panel
             // 
-            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonComboBoxNumber);
-            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonComboBox_Serial);
-            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonLabel8);
-            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonLabel7);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.ucSelectStandartPageFormat1);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonButtonExChange);
             this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonButtonBleed3);
             this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonButtonBleed5);
             this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonButtonBleed1);
@@ -127,45 +122,16 @@
             this.kryptonGroupBox1.TabIndex = 0;
             this.kryptonGroupBox1.Values.Heading = "";
             // 
-            // kryptonComboBoxNumber
+            // kryptonButtonExChange
             // 
-            this.kryptonComboBoxNumber.CornerRoundingRadius = -1F;
-            this.kryptonComboBoxNumber.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.kryptonComboBoxNumber.DropDownWidth = 30;
-            this.kryptonComboBoxNumber.IntegralHeight = false;
-            this.kryptonComboBoxNumber.Location = new System.Drawing.Point(344, 27);
-            this.kryptonComboBoxNumber.Name = "kryptonComboBoxNumber";
-            this.kryptonComboBoxNumber.Size = new System.Drawing.Size(49, 21);
-            this.kryptonComboBoxNumber.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonComboBoxNumber.TabIndex = 26;
-            // 
-            // kryptonComboBox_Serial
-            // 
-            this.kryptonComboBox_Serial.CornerRoundingRadius = -1F;
-            this.kryptonComboBox_Serial.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.kryptonComboBox_Serial.DropDownWidth = 30;
-            this.kryptonComboBox_Serial.IntegralHeight = false;
-            this.kryptonComboBox_Serial.Location = new System.Drawing.Point(287, 27);
-            this.kryptonComboBox_Serial.Name = "kryptonComboBox_Serial";
-            this.kryptonComboBox_Serial.Size = new System.Drawing.Size(49, 21);
-            this.kryptonComboBox_Serial.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonComboBox_Serial.TabIndex = 25;
-            // 
-            // kryptonLabel8
-            // 
-            this.kryptonLabel8.Location = new System.Drawing.Point(344, 6);
-            this.kryptonLabel8.Name = "kryptonLabel8";
-            this.kryptonLabel8.Size = new System.Drawing.Size(49, 20);
-            this.kryptonLabel8.TabIndex = 24;
-            this.kryptonLabel8.Values.Text = "Номер";
-            // 
-            // kryptonLabel7
-            // 
-            this.kryptonLabel7.Location = new System.Drawing.Point(287, 6);
-            this.kryptonLabel7.Name = "kryptonLabel7";
-            this.kryptonLabel7.Size = new System.Drawing.Size(41, 20);
-            this.kryptonLabel7.TabIndex = 23;
-            this.kryptonLabel7.Values.Text = "Серія";
+            this.kryptonButtonExChange.CornerRoundingRadius = -1F;
+            this.kryptonButtonExChange.Location = new System.Drawing.Point(184, 24);
+            this.kryptonButtonExChange.Name = "kryptonButtonExChange";
+            this.kryptonButtonExChange.Size = new System.Drawing.Size(21, 25);
+            this.kryptonButtonExChange.TabIndex = 27;
+            this.kryptonButtonExChange.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButtonExChange.Values.Image")));
+            this.kryptonButtonExChange.Values.Text = "";
+            this.kryptonButtonExChange.Click += new System.EventHandler(this.kryptonButtonExChange_Click);
             // 
             // kryptonButtonBleed3
             // 
@@ -250,7 +216,7 @@
             // numericUpDownHeight
             // 
             this.numericUpDownHeight.DecimalPlaces = 1;
-            this.numericUpDownHeight.Location = new System.Drawing.Point(192, 27);
+            this.numericUpDownHeight.Location = new System.Drawing.Point(211, 27);
             this.numericUpDownHeight.Maximum = new decimal(new int[] {
             999999,
             0,
@@ -408,7 +374,7 @@
             // 
             // kryptonLabel2
             // 
-            this.kryptonLabel2.Location = new System.Drawing.Point(195, 6);
+            this.kryptonLabel2.Location = new System.Drawing.Point(214, 6);
             this.kryptonLabel2.Name = "kryptonLabel2";
             this.kryptonLabel2.Size = new System.Drawing.Size(49, 20);
             this.kryptonLabel2.TabIndex = 18;
@@ -437,6 +403,16 @@
             this.buttonSpecAny1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Close;
             this.buttonSpecAny1.UniqueName = "f423ee8272694c09961083c2f8053335";
             // 
+            // ucSelectStandartPageFormat1
+            // 
+            this.ucSelectStandartPageFormat1.AutoSize = true;
+            this.ucSelectStandartPageFormat1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ucSelectStandartPageFormat1.Location = new System.Drawing.Point(282, 3);
+            this.ucSelectStandartPageFormat1.Name = "ucSelectStandartPageFormat1";
+            this.ucSelectStandartPageFormat1.Size = new System.Drawing.Size(112, 48);
+            this.ucSelectStandartPageFormat1.TabIndex = 28;
+            this.ucSelectStandartPageFormat1.PaperFormatChanged += new System.EventHandler<Static.Pdf.Common.PaperFormat>(this.ucSelectStandartPageFormat1_PaperFormatChanged);
+            // 
             // FormGetTrimBox
             // 
             this.AcceptButton = this.buttonOk;
@@ -458,8 +434,6 @@
             this.kryptonGroupBox1.Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
             this.kryptonGroupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBoxNumber)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox_Serial)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownByBleeds)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();
@@ -501,10 +475,8 @@
         private Krypton.Toolkit.KryptonButton kryptonButtonBleed2;
         private Krypton.Toolkit.KryptonButton kryptonButtonBleed3;
         private Krypton.Toolkit.KryptonButton kryptonButtonBleed5;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel8;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel7;
-        private Krypton.Toolkit.KryptonComboBox kryptonComboBoxNumber;
-        private Krypton.Toolkit.KryptonComboBox kryptonComboBox_Serial;
         private System.Windows.Forms.BindingSource formGetTrimBoxBindingSource;
+        private Krypton.Toolkit.KryptonButton kryptonButtonExChange;
+        private UC.UcSelectStandartPageFormat ucSelectStandartPageFormat1;
     }
 }

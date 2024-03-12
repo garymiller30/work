@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSelectPdfNewSize));
             this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -41,6 +42,8 @@
             this.radioButtonTrimbox = new System.Windows.Forms.RadioButton();
             this.radioButtonMediabox = new System.Windows.Forms.RadioButton();
             this.buttonOk = new System.Windows.Forms.Button();
+            this.ucSelectStandartPageFormat1 = new UC.UcSelectStandartPageFormat();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBleed)).BeginInit();
@@ -80,7 +83,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(102, 13);
+            this.label2.Location = new System.Drawing.Point(125, 13);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 2;
@@ -89,7 +92,7 @@
             // numericUpDownHeight
             // 
             this.numericUpDownHeight.DecimalPlaces = 1;
-            this.numericUpDownHeight.Location = new System.Drawing.Point(101, 31);
+            this.numericUpDownHeight.Location = new System.Drawing.Point(130, 29);
             this.numericUpDownHeight.Maximum = new decimal(new int[] {
             9999999,
             0,
@@ -109,7 +112,7 @@
             // numericUpDownBleed
             // 
             this.numericUpDownBleed.DecimalPlaces = 1;
-            this.numericUpDownBleed.Location = new System.Drawing.Point(194, 31);
+            this.numericUpDownBleed.Location = new System.Drawing.Point(12, 72);
             this.numericUpDownBleed.Maximum = new decimal(new int[] {
             9999999,
             0,
@@ -129,7 +132,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(191, 13);
+            this.label3.Location = new System.Drawing.Point(9, 54);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(90, 13);
             this.label3.TabIndex = 4;
@@ -139,7 +142,7 @@
             // 
             this.groupBox1.Controls.Add(this.radioButtonNonProportial);
             this.groupBox1.Controls.Add(this.radioButtonProportial);
-            this.groupBox1.Location = new System.Drawing.Point(13, 69);
+            this.groupBox1.Location = new System.Drawing.Point(12, 111);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(132, 69);
             this.groupBox1.TabIndex = 6;
@@ -172,7 +175,7 @@
             // 
             this.groupBox2.Controls.Add(this.radioButtonTrimbox);
             this.groupBox2.Controls.Add(this.radioButtonMediabox);
-            this.groupBox2.Location = new System.Drawing.Point(152, 69);
+            this.groupBox2.Location = new System.Drawing.Point(150, 111);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(129, 69);
             this.groupBox2.TabIndex = 7;
@@ -203,7 +206,7 @@
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(83, 144);
+            this.buttonOk.Location = new System.Drawing.Point(128, 192);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(118, 39);
             this.buttonOk.TabIndex = 8;
@@ -211,11 +214,33 @@
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.button1_Click);
             // 
+            // ucSelectStandartPageFormat1
+            // 
+            this.ucSelectStandartPageFormat1.AutoSize = true;
+            this.ucSelectStandartPageFormat1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ucSelectStandartPageFormat1.Location = new System.Drawing.Point(226, 4);
+            this.ucSelectStandartPageFormat1.Name = "ucSelectStandartPageFormat1";
+            this.ucSelectStandartPageFormat1.Size = new System.Drawing.Size(112, 48);
+            this.ucSelectStandartPageFormat1.TabIndex = 9;
+            this.ucSelectStandartPageFormat1.PaperFormatChanged += new System.EventHandler<Static.Pdf.Common.PaperFormat>(this.ucSelectStandartPageFormat1_PaperFormatChanged);
+            // 
+            // button1
+            // 
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.Location = new System.Drawing.Point(101, 28);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(23, 23);
+            this.button1.TabIndex = 10;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // FormSelectPdfNewSize
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(291, 195);
+            this.ClientSize = new System.Drawing.Size(381, 243);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ucSelectStandartPageFormat1);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -258,5 +283,7 @@
         private System.Windows.Forms.RadioButton radioButtonTrimbox;
         private System.Windows.Forms.RadioButton radioButtonMediabox;
         private System.Windows.Forms.Button buttonOk;
+        private UC.UcSelectStandartPageFormat ucSelectStandartPageFormat1;
+        private System.Windows.Forms.Button button1;
     }
 }
