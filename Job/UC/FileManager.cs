@@ -102,7 +102,7 @@ namespace Job.UC
                     await Task.Run(() =>
                                    {
                                        files = _cache.GetFiles(Settings.CurFolder);
-                                   }).ConfigureAwait(true);
+                                   });
                     OnRefreshDirectory(this, files);
                     if (!string.IsNullOrEmpty(selectFileName))
                         OnSelectFileName(this, selectFileName);
