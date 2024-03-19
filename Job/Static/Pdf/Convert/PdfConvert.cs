@@ -106,14 +106,8 @@ namespace Job.Static.Pdf.Convert
 
                 p.close_image(image);
 
-                if (_params.TrimBox.IsEmpty())
-                {
-                    p.end_page_ext("");
-                }
-                else
-                {
-                    p.end_page_ext($"trimbox {{{_params.TrimBox.left} {_params.TrimBox.bottom} {_params.TrimBox.width} {_params.TrimBox.height}}}");
-                }
+                p.end_page_ext($"trimbox {{{_params.TrimBox.left} {_params.TrimBox.bottom} {width - _params.TrimBox.right} {height - _params.TrimBox.top}}}");
+
                 p.end_document("");
 
             }
