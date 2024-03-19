@@ -1,8 +1,11 @@
 ﻿using Job.Static.Pdf.Common;
+using Job.Static.Pdf.Convert;
 using Job.Static.Pdf.Scale;
 using PDFlib_dotnet;
+using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -23,58 +26,90 @@ namespace Job.Static.Pdf.SetTrimBox.ByBleed
 
         public void Run(string filePath)
         {
-            var tmpFile = Path.GetTempFileName();
+            string fileExt = Path.GetExtension(filePath);
 
-            PDFlib p = null;
+            if (string.Equals(fileExt, ".pdf", StringComparison.OrdinalIgnoreCase)){
+                var tmpFile = Path.GetTempFileName();
 
-            try
-            {
-                p = new PDFlib();
+                PDFlib p = null;
 
-                p.begin_document(tmpFile, "");
-
-                var indoc = p.open_pdi_document(filePath, "");
-                var endpage = (int)p.pcos_get_number(indoc, "length:pages");
-
-                for (var pageno = 1; pageno <= endpage; pageno++)
+                try
                 {
-                    var page = p.open_pdi_page(indoc, pageno, "");
+                    p = new PDFlib();
 
-                    Box media = new Box();
-                    media.GetMediabox(p,indoc,page);
+                    p.begin_document(tmpFile, "");
 
-                    double bleed = _params.Bleed * PdfScaler.mn;
+                    if (string.Equals(fileExt, ".pdf", StringComparison.OrdinalIgnoreCase))
+                    {
+                        SetTrimToPdf(p, filePath);
+                    }
+                    else
+                    {
 
-                    double x = bleed;
-                    double y = bleed;
-                    double w = media.width - bleed;
-                    double h = media.height - bleed;
+                    }
 
-                    if (page == -1) throw new Exception("Error: " + p.get_errmsg());
 
-                    p.begin_page_ext(0,0,"");
-                    p.fit_pdi_page(page, 0, 0, "adjustpage");
-                    p.end_page_ext($"trimbox {{{x} {y} {w} {h}}}");
 
-                    p.close_pdi_page(page);
+                    p.end_document("");
+
+                    RewriteFile(tmpFile, filePath);
                 }
-                p.close_pdi_document(indoc);
-
-                p.end_document("");
-
-                RewriteFile(tmpFile, filePath);
+                catch (PDFlibException e)
+                {
+                    Logger.Log.Error(null, "PdfSetTrimBoxByBleed", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+                }
+                finally
+                {
+                    p?.Dispose();
+                    File.Delete(tmpFile);
+                }
             }
-            catch (PDFlibException e)
+            else
             {
-                Logger.Log.Error(null, "PdfSetTrimBoxByBleed", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+                double bleed = _params.Bleed * PdfScaler.mn;
+                var convert = new PdfConvert(
+                    new PdfConvertParams { 
+                        TrimBox = {
+                            bottom = bleed,
+                            top = bleed,
+                            left = bleed,
+                            right = bleed
+                        }});
+                convert.Run(filePath);
             }
-            finally
-            {
-                p?.Dispose();
-                File.Delete(tmpFile);
-            }
+
+
+            
         }
 
-        
+        void SetTrimToPdf(PDFlib p,string filePath)
+        {
+            var indoc = p.open_pdi_document(filePath, "");
+            var endpage = (int)p.pcos_get_number(indoc, "length:pages");
+
+            for (var pageno = 1; pageno <= endpage; pageno++)
+            {
+                var page = p.open_pdi_page(indoc, pageno, "");
+
+                Box media = new Box();
+                media.GetMediabox(p, indoc, page);
+
+                double bleed = _params.Bleed * PdfScaler.mn;
+
+                double x = bleed;
+                double y = bleed;
+                double w = media.width - bleed;
+                double h = media.height - bleed;
+
+                if (page == -1) throw new Exception("Error: " + p.get_errmsg());
+
+                p.begin_page_ext(0, 0, "");
+                p.fit_pdi_page(page, 0, 0, "adjustpage");
+                p.end_page_ext($"trimbox {{{x} {y} {w} {h}}}");
+
+                p.close_pdi_page(page);
+            }
+            p.close_pdi_document(indoc);
+        }
     }
 }
