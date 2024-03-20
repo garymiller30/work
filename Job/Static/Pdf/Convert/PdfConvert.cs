@@ -106,8 +106,16 @@ namespace Job.Static.Pdf.Convert
 
                 p.close_image(image);
 
-                p.end_page_ext($"trimbox {{{_params.TrimBox.left} {_params.TrimBox.bottom} {width - _params.TrimBox.right} {height - _params.TrimBox.top}}}");
-
+                if (_params.TrimBox.IsEmpty())
+                {
+                    p.end_page_ext($"trimbox {{{_params.TrimBox.left} {_params.TrimBox.bottom} {width - _params.TrimBox.right} {height - _params.TrimBox.top}}}");
+                }
+                else
+                {
+                    double l = (width - _params.TrimBox.width)/2;
+                    double b = (height - _params.TrimBox.height)/2;
+                    p.end_page_ext($"trimbox {{{l} {b} {width - l} {height - b}}}");
+                }
                 p.end_document("");
 
             }
