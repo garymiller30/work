@@ -21,41 +21,10 @@ namespace CasheViewer.Reports
         public List<JobNodeRoot> GetJobsByCustomers(bool isPayed)
         {
 
-            //var jobs = UserProfile.Base.GetCollection<Job.Job>("Jobs")
-            //    .Where(x => x.IsCashe && x.IsCashePayed == isPayed)
-            //    .GroupBy(y => y.Customer);
-
             var reportDate = new List<JobNodeRoot>();
-
-            //foreach (var job in jobs)
-            //{
-            //    var rd = new JobNodeRoot() { Name = job.Key };
-
-            //    rd.Children =
-            //        job.GroupBy(x => x.Date.ToString("yy.MM"))
-            //            .Select(y => (INode)new JobNodeRoot()
-            //            {
-            //                Name = y.Key,
-            //                Children = y
-            //                .Select(u => (INode)new JobNode()
-            //                {
-            //                    Date = u.Date,
-            //                    Number = u.Number,
-            //                    Description = u.Description,
-            //                    Category = UserProfile.Categories.GetCategoryNameById(u.CategoryId),
-            //                    Sum = u.CachePayedSum,
-            //                    Job = u,
-            //                    ForegroundColor = Color.Black,
-            //                    ReportVersion = ReportVersionEnum.Version1
-            //                }).ToList()
-            //            }).ToList();
-
-            //    reportDate.Add(rd);
-            //}
 
             // тепер візьмемо інфу з плагінів
             var preportPlugins = GetJobsByCustomerRootByPlugin(isPayed);
-
 
             var comparer = new CustomerComparer();
             // об'єднаємо в один
@@ -104,6 +73,7 @@ namespace CasheViewer.Reports
         List<JobNodeRoot> GetJobsByCustomerRootByPlugin(bool isPayed)
         {
             var reportDate = new List<JobNodeRoot>();
+
             Dictionary<object, decimal> jobDictionary = new Dictionary<object, decimal>();
 
             // отримати плагіни
@@ -125,10 +95,23 @@ namespace CasheViewer.Reports
                 }
             }
 
-            var jobs = jobDictionary.Select(x =>
-                    //UserProfile.Jobs.GetJobs().First(j => j.Id == x.Key))
-                    UserProfile.Base.GetById<Job.Job>("Jobs",x.Key))
-                .GroupBy(c => c.Customer);
+            List<Job.Job> rawJobs = new List<Job.Job>();
+
+            foreach (var pair in jobDictionary)
+            {
+                var j = UserProfile.Base.GetById<Job.Job>("Jobs", pair.Key);
+                if (j != null)
+                {
+                    rawJobs.Add(j);
+                }
+                else
+                {
+                    Logger.Log.Error(null, $"Job not found",$"{pair.Key}");
+                }
+            }
+
+            var jobs = rawJobs.GroupBy(c => c.Customer);
+           //IEnumerable<IGrouping<string,Job.Job>> jobs = jobDictionary.Select(x => UserProfile.Base.GetById<Job.Job>("Jobs",x.Key)).GroupBy(c => c.Customer);
 
             foreach (var job in jobs)
             {
@@ -152,6 +135,8 @@ namespace CasheViewer.Reports
                                     ReportVersion = ReportVersionEnum.Version2
                                 }).ToList()
                         }));
+
+                rd.Children.Sort((x, y) => x.Date.CompareTo(y.Date));
 
                 reportDate.Add(rd);
             }

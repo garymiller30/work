@@ -192,13 +192,13 @@ namespace WeekReport
 
         void SetWeekBar()
         {
-            var root = new  ReportGenerator().GetReportCustomerTreeByCurrentWeek(dateForWeekReport);
-            totalMaxPlate = root.Max(x => x.TotalPlateCount());
-            treeListView_Week.Roots = root;
+            //var root = new  ReportGenerator().GetReportCustomerTreeByCurrentWeek(dateForWeekReport);
+            //totalMaxPlate = root.Max(x => x.TotalPlateCount());
+            //treeListView_Week.Roots = root;
 
 
 
-            toolStripLabelCurWeek.Text = $"{JobManager.GetWeekDate(dateForWeekReport, DayOfWeek.Monday).ToShortDateString()} - {JobManager.GetWeekDate(dateForWeekReport, DayOfWeek.Sunday).ToShortDateString()}";
+            //toolStripLabelCurWeek.Text = $"{JobManager.GetWeekDate(dateForWeekReport, DayOfWeek.Monday).ToShortDateString()} - {JobManager.GetWeekDate(dateForWeekReport, DayOfWeek.Sunday).ToShortDateString()}";
         }
 
         private void LoadWeekJobsReport()

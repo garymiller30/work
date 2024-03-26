@@ -133,7 +133,6 @@
             this.toolStripStatusLabelSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonLabelPath = new Krypton.Toolkit.KryptonLinkLabel();
-            this.kryptonPalette1 = new Krypton.Toolkit.KryptonPalette(this.components);
             this.kryptonContextMenuSeparator1 = new Krypton.Toolkit.KryptonContextMenuSeparator();
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
@@ -1207,7 +1206,6 @@
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButtonTrash;
         private System.Windows.Forms.ToolStripMenuItem openTrashToolStripMenuItem;
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private Krypton.Toolkit.KryptonPalette kryptonPalette1;
         private Krypton.Toolkit.KryptonLinkLabel kryptonLabelPath;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripMenuItem перенестиВмістПапкиСюдиToolStripMenuItem;

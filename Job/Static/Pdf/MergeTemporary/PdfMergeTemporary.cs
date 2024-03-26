@@ -16,8 +16,11 @@ namespace Job.Static.Pdf.MergeTemporary
         }
 
 
-        public void Run()
+        public bool Run()
         {
+
+            bool success =false;
+
             string fileName = Path.Combine(Path.GetDirectoryName(_params.Files[0]), $"{Path.GetFileNameWithoutExtension(_params.Files[0])}_merged.pdf");
             PDFlib p = new PDFlib();
 
@@ -63,15 +66,17 @@ namespace Job.Static.Pdf.MergeTemporary
                     string mergeFilePath = Path.ChangeExtension(fileName,".json");
 
                     File.WriteAllText(mergeFilePath, textWriter.ToString());
-
                 }
-                
+
+                success = true;
             }
             catch (PDFlibException e)
             {
                 PdfHelper.LogException(e, "PdfMerger");
             }
             finally { p?.Dispose(); }
+
+            return success;
         }
     }
 }

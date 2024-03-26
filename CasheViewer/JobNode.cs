@@ -19,5 +19,12 @@ namespace CasheViewer
         public string Name { get; set; }
         public decimal Sum { get; set; }
         public List<INode> Children { get; set; } = new List<INode>();
+
+        public int CompareTo(JobNode other)
+        {
+            if (other == null) return 1;
+
+            return Date.CompareTo(other.Date);
+        }
     }
 }

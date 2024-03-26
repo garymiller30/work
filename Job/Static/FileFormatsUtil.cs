@@ -518,12 +518,16 @@ namespace Job.Static
                 )));
         }
 
-        public static void PdfMergeTemporary(PdfMergeTemporaryParams param)
+        public static void PdfMergeTemporary(PdfMergeTemporaryParams param, Action action)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("PdfMergeTemporary", new Action(
                () =>
                {
-                   new PdfMergeTemporary(param).Run();
+                   bool result = new PdfMergeTemporary(param).Run();
+                   if (result)
+                   {
+                       action?.Invoke();
+                   }
                }
                )));
         }

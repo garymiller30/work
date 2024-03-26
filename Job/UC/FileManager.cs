@@ -99,10 +99,13 @@ namespace Job.UC
                 }
                 else
                 {
+                    //files = _cache.GetFiles(Settings.CurFolder);
+
+
                     await Task.Run(() =>
                                    {
                                        files = _cache.GetFiles(Settings.CurFolder);
-                                   });
+                                   }).ConfigureAwait(false);
                     OnRefreshDirectory(this, files);
                     if (!string.IsNullOrEmpty(selectFileName))
                         OnSelectFileName(this, selectFileName);
