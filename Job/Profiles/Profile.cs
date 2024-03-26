@@ -75,6 +75,10 @@ namespace Job.Profiles
                 CustomersNotifyManager = new CustomerMailNotifyManager(this);
                 Jobs = new JobManager(this, Settings.GetJobSettings());
             }
+            else
+            {
+                Logger.Log.Error(this, "LoadSettingsFromBase","Can't connect to base");
+            }
          }
 
         private void LoadSettingsFromDisk()
