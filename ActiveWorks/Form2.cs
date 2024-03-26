@@ -15,13 +15,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Job.Static;
 
 namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 8.10.12";
+        private readonly string _version = $"{Localize.FormTitle} 8.11.13";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
@@ -31,8 +30,9 @@ namespace ActiveWorks
         public Form2()
         {
             InitializeComponent();
+            kryptonRibbon1.AllowFormIntegrate = false;
 
-            ThemeController.ThemeChanged += ThemeController_ThemeChanged;
+            //ThemeController.ThemeChanged += ThemeController_ThemeChanged;
 
             Text = _version;
 
@@ -57,10 +57,10 @@ namespace ActiveWorks
             Process.Start("https://github.com/garymiller30/work/issues");
         }
 
-        private void ThemeController_ThemeChanged(object sender, EventArgs e)
-        {
-            kryptonManager1.GlobalPaletteMode = ThemeController.Theme == ThemeEnum.Light ? PaletteModeManager.Office2010Silver : PaletteModeManager.SparkleBlueDarkMode;
-        }
+        //private void ThemeController_ThemeChanged(object sender, EventArgs e)
+        //{
+        //    kryptonManager1.GlobalPaletteMode = ThemeController.Theme == ThemeEnum.Light ? PaletteMode.Office2010Silver : PaletteMode.SparkleBlueDarkMode;
+        //}
 
         private void BackgroundTaskService_OnAllFinish(object sender, EventArgs e)
         {
@@ -275,10 +275,10 @@ namespace ActiveWorks
                 CreateProfileTab((Profile)((FormProfile)formProfile).Tag);
             };
             groupTriple.Items.Add(button);
-            // --- Theme switcher button ---
-            button = new KryptonRibbonGroupButton { TextLine1 = @"Змінити тему"};
-            button.Click += (sender, args) => ThemeController.SwitchTheme();
-            groupTriple.Items.Add(button);
+            //// --- Theme switcher button ---
+            //button = new KryptonRibbonGroupButton { TextLine1 = @"Змінити тему"};
+            //button.Click += (sender, args) => ThemeController.SwitchTheme();
+            //groupTriple.Items.Add(button);
             group.Items.Add(groupTriple);
 
         }
