@@ -41,20 +41,8 @@
     <OutputPath>bin\x86\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Krypton.Docking, Version=70.22.11.312, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Docking.70.22.11.312\lib\net48\Krypton.Docking.dll</HintPath>
-    </Reference>
-    <Reference Include="Krypton.Navigator, Version=70.22.11.312, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Navigator.70.22.11.312\lib\net48\Krypton.Navigator.dll</HintPath>
-    </Reference>
-    <Reference Include="Krypton.Ribbon, Version=70.22.11.312, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Ribbon.70.22.11.312\lib\net48\Krypton.Ribbon.dll</HintPath>
-    </Reference>
-    <Reference Include="Krypton.Toolkit, Version=70.22.11.312, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Toolkit.70.22.11.312\lib\net48\Krypton.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="Krypton.Workspace, Version=70.22.11.312, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Workspace.70.22.11.312\lib\net48\Krypton.Workspace.dll</HintPath>
+    <Reference Include="Krypton.Toolkit, Version=80.24.3.64, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Krypton.Toolkit.80.24.3.64\lib\net48\Krypton.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -134,10 +122,17 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\DependencyValidation1\DependencyValidation1.layerdiagram">
+      <Link>DependencyValidation1.layerdiagram</Link>
+      <Visible>False</Visible>
+    </AdditionalFiles>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\New-Database-icon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

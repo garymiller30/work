@@ -46,11 +46,15 @@ namespace Job.Fasades
         {
             if (string.IsNullOrEmpty(Settings.MongoDbServer) ||
                 string.IsNullOrEmpty(Settings.MongoDbBaseName)
-            ) return false;
+            ) { 
+                Log.Error(this, $"({Settings.MongoDbServer})BaseManager", "Empty MongoDbServer or MongoDbBaseName");
+                
+                return false; 
+                } //return false;
 
             try
             {
-                _repository.CreateConnection(Settings.MongoDbServer, Settings.MongoDbBaseName);
+                _repository.CreateConnection(Settings.MongoDbServer, Settings.MongoDbBaseName, Settings.BaseTimeOut);
             }
             catch (Exception e)
             {
@@ -62,10 +66,11 @@ namespace Job.Fasades
         }
 
 
-        public void CreateConnection(string connectionString, string databaseName)
+        public void CreateConnection(string connectionString, string databaseName, int baseTimeOut)
         {
             Settings.MongoDbServer = connectionString;
             Settings.MongoDbBaseName = databaseName;
+            Settings.BaseTimeOut = baseTimeOut;
 
             Connect();
         }

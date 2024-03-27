@@ -1,6 +1,8 @@
 ﻿using Job.Static.Pdf.Common;
+using Job.Static.Pdf.Convert;
 using Job.Static.Pdf.Scale;
 using PDFlib_dotnet;
+using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +23,37 @@ namespace Job.Static.Pdf.SetTrimBox.ByFormat
 
         public void Run(string filePath)
         {
+            string fileExt = Path.GetExtension(filePath);
+            if (string.Equals(fileExt, ".pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                SetTrimToPdf(filePath);
+            }
+            else
+            {
+                SetTrimToImage(filePath);
+            }
+
+
+
+
+        }
+
+        private void SetTrimToImage(string filePath)
+        {
+            
+            var convert = new PdfConvert(
+                new PdfConvertParams
+                {
+                    TrimBox = {
+                            width = _params.Width  * PdfScaler.mn,
+                            height = _params.Height *  PdfScaler.mn
+                    }
+                });
+            convert.Run(filePath);
+        }
+
+        void SetTrimToPdf(string filePath)
+        {
             var tmpFile = Path.GetTempFileName();
 
             PDFlib p = null;
@@ -40,12 +73,12 @@ namespace Job.Static.Pdf.SetTrimBox.ByFormat
 
                     Box media = new Box();
                     media.GetMediabox(p, indoc, page);
-                    
+
                     double paramW = _params.Width * PdfScaler.mn;
                     double paramH = _params.Height * PdfScaler.mn;
 
-                    double bleedX = (media.width - paramW)/2;
-                    double bleedY = (media.height - paramH)/2;
+                    double bleedX = (media.width - paramW) / 2;
+                    double bleedY = (media.height - paramH) / 2;
 
                     double x = bleedX;
                     double y = bleedY;
@@ -61,7 +94,6 @@ namespace Job.Static.Pdf.SetTrimBox.ByFormat
                     p.close_pdi_page(page);
                 }
                 p.close_pdi_document(indoc);
-
                 p.end_document("");
 
                 RewriteFile(tmpFile, filePath);
@@ -77,4 +109,6 @@ namespace Job.Static.Pdf.SetTrimBox.ByFormat
             }
         }
     }
+
+
 }

@@ -36,11 +36,13 @@ namespace Job.Static.Pdf.SplitSpread
                             {
                                 Box box = PdfHelper.GetTrimbox(p, indoc, pageno - 1);
 
-                                double pageW = box.width / 2 + _param.Bleed * PdfHelper.mn;
-                                double pageH = box.height + _param.Bleed * 2 * PdfHelper.mn;
+                                double bleed = _param.Bleed * PdfHelper.mn;
 
-                                double trim_left = _param.Bleed * PdfHelper.mn;
-                                double trim_bottom = _param.Bleed * PdfHelper.mn;
+                                double pageW = box.width / 2 + bleed;
+                                double pageH = box.height + bleed * 2;
+
+                                double trim_left = bleed;
+                                double trim_bottom = bleed;
                                 double trim_right = pageW;
                                 double trim_top = trim_bottom + box.height;
 
@@ -50,16 +52,10 @@ namespace Job.Static.Pdf.SplitSpread
                                 pageH,
                                 $"trimbox={{{trim_left} {trim_bottom} {trim_right} {trim_top}}}");
 
-                                double pageX = _param.Bleed * PdfHelper.mn - box.x;
-                                double pageY = _param.Bleed * PdfHelper.mn - box.y;
-
-                                double clipX = 0;
-
-                                double clipW = pageW;
-                                double clipH = pageH;
-
-                                p.fit_pdi_page(page, pageX, pageY, $"matchbox={{clipping={{{clipX} 0 {clipW} {clipH}}}}}");
-
+                                double pageX = bleed - box.left;
+                                double pageY = bleed - box.bottom;
+                           
+                                p.fit_pdi_page(page, pageX, pageY, "");
                                 p.end_page_ext("");
 
                                 // right page
@@ -69,12 +65,10 @@ namespace Job.Static.Pdf.SplitSpread
                                 pageW,
                                 pageH,
                                 $"trimbox={{{0} {trim_bottom} {trim_right} {trim_top}}}");
-                                pageY = _param.Bleed * PdfHelper.mn - box.y;
 
-                                clipX = pageW - pageX;
-                                pageX = 0;
+                                pageX -= pageW;
 
-                                p.fit_pdi_page(page, pageX, pageY, $"matchbox={{clipping={{{clipX} 0 {pageW + pageW} {pageH}}}}}");
+                                p.fit_pdi_page(page, pageX, pageY, "");
                                 p.end_page_ext("");
                             }
                         }

@@ -8,9 +8,11 @@ namespace Job.Static.Pdf.Common
 {
     public class Box
     {
-        public double x;
-        public double y;
         public double width;
         public double height;
+        public double left;
+        public double right;
+        public double top;
+        public double bottom;
     }
 }

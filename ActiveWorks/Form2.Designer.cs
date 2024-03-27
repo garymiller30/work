@@ -28,10 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.kryptonRibbon1 = new Krypton.Ribbon.KryptonRibbon();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.buttonSpecAnyWhatNew = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecBackgroundTasks = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAnyIssue = new Krypton.Toolkit.ButtonSpecAny();
@@ -40,6 +38,7 @@
             // 
             // kryptonRibbon1
             // 
+            this.kryptonRibbon1.AllowFormIntegrate = true;
             this.kryptonRibbon1.InDesignHelperMode = true;
             this.kryptonRibbon1.Name = "kryptonRibbon1";
             this.kryptonRibbon1.QATUserChange = false;
@@ -49,19 +48,6 @@
             this.kryptonRibbon1.SelectedTab = null;
             this.kryptonRibbon1.Size = new System.Drawing.Size(800, 112);
             this.kryptonRibbon1.TabIndex = 0;
-            // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteModeManager.Office2010Silver;
-            this.kryptonManager1.GlobalStrings.Abort = "Перервати";
-            this.kryptonManager1.GlobalStrings.Cancel = "Скасувати";
-            this.kryptonManager1.GlobalStrings.Close = "Закрити";
-            this.kryptonManager1.GlobalStrings.Help = "Допомога";
-            this.kryptonManager1.GlobalStrings.Ignore = "Ігнорувати";
-            this.kryptonManager1.GlobalStrings.No = "Ні";
-            this.kryptonManager1.GlobalStrings.Retry = "Повторити";
-            this.kryptonManager1.GlobalStrings.Today = "Сьогодні";
-            this.kryptonManager1.GlobalStrings.Yes = "Так";
             // 
             // buttonSpecAnyWhatNew
             // 
@@ -85,23 +71,20 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ButtonSpecs.AddRange(new Krypton.Toolkit.ButtonSpecAny[] {
-            this.buttonSpecAnyIssue,
-            this.buttonSpecAnyWhatNew,
-            this.buttonSpecBackgroundTasks});
+            this.ButtonSpecs.Add(this.buttonSpecAnyIssue);
+            this.ButtonSpecs.Add(this.buttonSpecAnyWhatNew);
+            this.ButtonSpecs.Add(this.buttonSpecBackgroundTasks);
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.kryptonRibbon1);
-            this.CornerRoundingRadius = 10F;
-            this.HeaderStyle = Krypton.Toolkit.HeaderStyle.Primary;
+            this.CornerRoundingRadius = 0F;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "Form2";
             this.StateCommon.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
             | Krypton.Toolkit.PaletteDrawBorders.Left) 
             | Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.StateCommon.Border.Rounding = 10F;
+            this.StateCommon.Border.Rounding = 0F;
             this.Text = "Active Works";
-            this.TextExtra = "";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).EndInit();
@@ -113,7 +96,6 @@
         #endregion
 
         private Krypton.Ribbon.KryptonRibbon kryptonRibbon1;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAnyWhatNew;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecBackgroundTasks;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAnyIssue;

@@ -242,7 +242,7 @@ namespace Job.Static
             }
         }
 
-        public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list)
+        public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list,Action action)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(() =>
             {
@@ -251,6 +251,8 @@ namespace Job.Static
                     var convert = new PdfConvert(new PdfConvertParams());
                     convert.Run(ext.FileInfo.FullName);
                 }
+
+                action?.Invoke();
 
             })));
         }
@@ -505,22 +507,27 @@ namespace Job.Static
                 )));
         }
 
-        public static void MergePdf(string[] convertFiles)
+        public static void MergePdf(string[] convertFiles, Action action)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split pdf", new Action(
                 () =>
                 {
                     new PdfMerger(convertFiles).Run();
+                    action?.Invoke();
                 }
                 )));
         }
 
-        public static void PdfMergeTemporary(PdfMergeTemporaryParams param)
+        public static void PdfMergeTemporary(PdfMergeTemporaryParams param, Action action)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("PdfMergeTemporary", new Action(
                () =>
                {
-                   new PdfMergeTemporary(param).Run();
+                   bool result = new PdfMergeTemporary(param).Run();
+                   if (result)
+                   {
+                       action?.Invoke();
+                   }
                }
                )));
         }
