@@ -21,6 +21,7 @@ namespace Job.Static.Pdf.ExtractPages
         {
             PDFlib p = null;
 
+#pragma warning disable CS0168 // Variable is declared but never used
             try
             {
                 p = new PDFlib();
@@ -72,6 +73,7 @@ namespace Job.Static.Pdf.ExtractPages
             {
                 p?.Dispose();
             }
+#pragma warning restore CS0168 // Variable is declared but never used
         }
     }
 }

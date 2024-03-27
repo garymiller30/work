@@ -73,8 +73,8 @@ namespace Job.UC
             InitFileManager();
             InitListView();
 
-            UseTheme();
-            SetTheme();
+            //UseTheme();
+            //SetTheme();
 
             ApplySettings();
 
@@ -150,29 +150,29 @@ namespace Job.UC
             };
         }
 
-        private void SetTheme()
-        {
-            objectListView1.BackColor = ThemeController.Back;
-            objectListView1.ForeColor = ThemeController.Fore;
+        //private void SetTheme()
+        //{
+        //    objectListView1.BackColor = ThemeController.Back;
+        //    objectListView1.ForeColor = ThemeController.Fore;
 
-            objectListView1.HeaderUsesThemes = false;
-            objectListView1.HeaderFormatStyle = new HeaderFormatStyle();
-            objectListView1.HeaderFormatStyle.SetForeColor(ThemeController.HeaderFore);
-            objectListView1.HeaderFormatStyle.SetBackColor(ThemeController.HeaderBack);
-        }
+        //    objectListView1.HeaderUsesThemes = false;
+        //    objectListView1.HeaderFormatStyle = new HeaderFormatStyle();
+        //    objectListView1.HeaderFormatStyle.SetForeColor(ThemeController.HeaderFore);
+        //    objectListView1.HeaderFormatStyle.SetBackColor(ThemeController.HeaderBack);
+        //}
 
-        private void UseTheme()
-        {
-            ThemeController.ThemeChanged += ThemeController_ThemeChanged;
-        }
+        //private void UseTheme()
+        //{
+        //    ThemeController.ThemeChanged += ThemeController_ThemeChanged;
+        //}
 
-        private void ThemeController_ThemeChanged(object sender, EventArgs e)
-        {
-            SetTheme();
-            var objects = (ICollection)objectListView1.Objects;
-            objectListView1.ClearObjects();
-            objectListView1.AddObjects(objects);
-        }
+        //private void ThemeController_ThemeChanged(object sender, EventArgs e)
+        //{
+        //    SetTheme();
+        //    var objects = (ICollection)objectListView1.Objects;
+        //    objectListView1.ClearObjects();
+        //    objectListView1.AddObjects(objects);
+        //}
 
 
 
@@ -287,8 +287,14 @@ namespace Job.UC
 
         void StopTaskGetExtendedInfo()
         {
-            _cts?.Cancel();
-            _taskGetExtendedFileInfo?.Wait();
+            if (_cts == null) return;
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+            if (_taskGetExtendedFileInfo == null) return;
+            if (!_taskGetExtendedFileInfo.IsCompleted) return;
+            _taskGetExtendedFileInfo.Wait();
+            
         }
 
         private void UpdateStatusControl()
@@ -579,7 +585,9 @@ namespace Job.UC
             Process.Start(pi);
         }
 
+#pragma warning disable CS0649 // Field 'FileBrowser._copyPathToClipboadToSend' is never assigned to, and will always have its default value false
         private bool _copyPathToClipboadToSend;
+#pragma warning restore CS0649 // Field 'FileBrowser._copyPathToClipboadToSend' is never assigned to, and will always have its default value false
 
         private void ObjectListView1_DoubleClick(object sender, EventArgs e)
         {
@@ -1597,43 +1605,20 @@ namespace Job.UC
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
 
-            FileFormatsUtil.ConvertToPDF(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+            List<IFileSystemInfoExt> files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
 
-            //using (var form = new FormSelectConvertToPdfMode(UserProfile.Settings.GetPdfConverterSettings()))
-            //{
-            //    if (form.ShowDialog() == DialogResult.OK)
-            //    {
-            //        var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
-            //        var mode = form.ConvertMode;
-            //        var trimBox = form.TrimBox;
-            //        var moveToTrash = form.MoveToTrash;
+            FileFormatsUtil.ConvertToPDF(files, CreateMoveToTrashAction(files));
 
-            //        BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(
-            //            () =>
-            //            {
+        }
 
-            //                Thread t = new Thread(() =>
-            //                {
-            //                    FileFormatsUtil.ConvertToPDF(files, mode);
+        private Action CreateMoveToTrashAction(List<IFileSystemInfoExt> files)
+        {
+            Action moveToTrash = null;
 
-            //                    if (trimBox > 0)
-            //                    {
-            //                        FileFormatsUtil.SetTrimBox(files, trimBox);
-            //                    }
-            //                    if (moveToTrash)
-            //                    {
-            //                        MoveToTrash(files.ToArray());
-            //                    }
-            //                });
+            if (UserProfile.Settings.GetPdfConverterSettings().MoveOriginalsToTrash)
+                moveToTrash = () => MoveToTrash(files.ToArray());
 
-            //                t.SetApartmentState(ApartmentState.STA);
-            //                t.Start();
-            //                t.Join();
-            //            }
-            //            )));
-            //    }
-            //}
-
+            return moveToTrash;
         }
 
         private void SplitPDFToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1962,11 +1947,13 @@ namespace Job.UC
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
 
-            using (var form = new UserForms.PDF.FormList(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToArray()))
+            var files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList();
+
+            using (var form = new UserForms.PDF.FormList(files.Select(x => x.FileInfo.FullName).ToArray()))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    FileFormatsUtil.MergePdf(form.ConvertFiles);
+                    FileFormatsUtil.MergePdf(form.ConvertFiles, CreateMoveToTrashAction(files));
                 }
             }
         }
@@ -1979,7 +1966,7 @@ namespace Job.UC
                 new PdfMergeTemporaryParams
                 {
                     Files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToList()
-                });
+                },CreateMoveToTrashAction(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList()));
         }
 
         private void розділитиТимчасовоЗібранийФайлToolStripMenuItem_Click(object sender, EventArgs e)

@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com 
 
 
+using System;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -38,9 +39,9 @@ namespace FtpClient
                     a = (T)obj;
                     reader.Close();
                 }
-                catch
+                catch (Exception e)
                 {
-                    // ignored
+                    Logger.Log.Error(null, "DeserializeXML",$"{e.Message}");
                 }
             }
 

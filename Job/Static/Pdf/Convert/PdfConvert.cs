@@ -28,7 +28,7 @@ namespace Job.Static.Pdf.Convert
             {
                 case ".jpg":
                 case ".png":
-                case "jpeg":
+                case ".jpeg":
                 case ".tif":
                 case ".tiff":
                     ConvertImage(filePath);
@@ -108,11 +108,13 @@ namespace Job.Static.Pdf.Convert
 
                 if (_params.TrimBox.IsEmpty())
                 {
-                    p.end_page_ext("");
+                    p.end_page_ext($"trimbox {{{_params.TrimBox.left} {_params.TrimBox.bottom} {width - _params.TrimBox.right} {height - _params.TrimBox.top}}}");
                 }
                 else
                 {
-                    p.end_page_ext($"trimbox {{{_params.TrimBox.x} {_params.TrimBox.y} {_params.TrimBox.width} {_params.TrimBox.height}}}");
+                    double l = (width - _params.TrimBox.width)/2;
+                    double b = (height - _params.TrimBox.height)/2;
+                    p.end_page_ext($"trimbox {{{l} {b} {width - l} {height - b}}}");
                 }
                 p.end_document("");
 

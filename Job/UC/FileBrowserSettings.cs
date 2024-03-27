@@ -12,7 +12,9 @@ namespace Job.UC
     public sealed class FileBrowserSettings : IFileBrowserControlSettings, INotifyPropertyChanged
     {
         private string _title;
+#pragma warning disable CS0169 // The field 'FileBrowserSettings._ignoreFolders' is never used
         private string[] _ignoreFolders;
+#pragma warning restore CS0169 // The field 'FileBrowserSettings._ignoreFolders' is never used
 
         public string Title
         {

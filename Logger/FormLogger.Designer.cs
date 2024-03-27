@@ -65,8 +65,12 @@
             this.objectListView1.Sorting = System.Windows.Forms.SortOrder.Descending;
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
+            this.objectListView1.UseExplorerTheme = true;
+            this.objectListView1.UseFilterIndicator = true;
+            this.objectListView1.UseFiltering = true;
             this.objectListView1.UseNotifyPropertyChanged = true;
             this.objectListView1.View = System.Windows.Forms.View.Details;
+            this.objectListView1.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.objectListView1_FormatRow);
             // 
             // olvColumnDate
             // 
@@ -97,12 +101,12 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearWindowToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(145, 26);
             // 
             // clearWindowToolStripMenuItem
             // 
             this.clearWindowToolStripMenuItem.Name = "clearWindowToolStripMenuItem";
-            this.clearWindowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.clearWindowToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.clearWindowToolStripMenuItem.Text = "clear window";
             this.clearWindowToolStripMenuItem.Click += new System.EventHandler(this.clearWindowToolStripMenuItem_Click);
             // 

@@ -39,7 +39,7 @@ namespace Job.Data
             Debug.WriteLine($"Mongodb description:{e.NewClusterDescription.State}");
         }
 
-        public void CreateConnection(string connectingString,string databaseName)
+        public void CreateConnection(string connectingString,string databaseName,int timeout = 10)
         {
             var client = new MongoClient(connectingString);
 
@@ -48,7 +48,7 @@ namespace Job.Data
             
             _mongoDatabase = client.GetDatabase(databaseName);
 
-            IsConnected = _mongoDatabase.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(1000);
+            IsConnected = _mongoDatabase.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(timeout * 1000);
         }
 
         public void Add<T>(T item) where T : class, new()

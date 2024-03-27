@@ -108,5 +108,33 @@ namespace PluginFileshareWeb
                 }
             }
         }
+
+        private void toolStripButtonGo_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(toolStripTextBoxUrl.Text))
+            {
+                try
+                {
+                    webView21.Source = new Uri(EnsureUrlHasProtocol(toolStripTextBoxUrl.Text));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    
+                }
+                
+            }
+                
+        }
+
+        string EnsureUrlHasProtocol(string urlWithoutProtocol)
+        {
+            if (!urlWithoutProtocol.StartsWith("http://") && !urlWithoutProtocol.StartsWith("https://"))
+            {
+                return "https://" + urlWithoutProtocol;
+            }
+            return urlWithoutProtocol;
+        }
+
     }
 }

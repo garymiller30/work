@@ -56,12 +56,12 @@ namespace Job.Static.Pdf.Create.Rectangle
                 p.setlinewidth(1.0);
 
                 p.setcolor("stroke", "spot", spot, 1.0, 0.0, 0.0);
-                p.rect(trimbox.x, trimbox.y, trimbox.width, trimbox.height);
+                p.rect(trimbox.left, trimbox.bottom, trimbox.width, trimbox.height);
                 p.stroke();
 
                 p.close_pdi_page(pagehdl);
 
-                p.end_page_ext($"trimbox {{{trimbox.x} {trimbox.y} {trimbox.x + trimbox.width} {trimbox.height + trimbox.y}}}");
+                p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
 
                 p.end_document("");
 
