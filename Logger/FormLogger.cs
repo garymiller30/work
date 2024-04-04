@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Krypton.Toolkit;
+using System;
 using System.Windows.Forms;
 
 namespace Logger
 {
-    public partial class FormLogger : Form
+    public partial class FormLogger : KryptonForm
     {
         readonly object _lock = new object();
 

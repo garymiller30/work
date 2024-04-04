@@ -112,12 +112,12 @@
             // 
             // FormLogger
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            //this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.objectListView1);
             this.Name = "FormLogger";
-            this.ShowIcon = false;
+            //this.ShowIcon = false;
             this.Text = "Logger";
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

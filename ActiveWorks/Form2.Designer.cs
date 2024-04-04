@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.kryptonRibbon1 = new Krypton.Ribbon.KryptonRibbon();
             this.buttonSpecAnyWhatNew = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecBackgroundTasks = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAnyIssue = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,6 +69,10 @@
             this.buttonSpecAnyIssue.ToolTipTitle = "Знайшли помилку?";
             this.buttonSpecAnyIssue.UniqueName = "eadddcf11d5943559a8440e83cbba81e";
             // 
+            // kryptonManager1
+            // 
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -80,6 +86,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "Form2";
+            this.PaletteMode = Krypton.Toolkit.PaletteMode.SparklePurpleLightMode;
             this.StateCommon.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
             | Krypton.Toolkit.PaletteDrawBorders.Left) 
             | Krypton.Toolkit.PaletteDrawBorders.Right)));
@@ -99,5 +106,6 @@
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAnyWhatNew;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecBackgroundTasks;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAnyIssue;
+        private Krypton.Toolkit.KryptonManager kryptonManager1;
     }
 }
