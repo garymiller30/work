@@ -6,10 +6,29 @@ namespace Job.Static.Pdf.Common
 {
     internal static class ExtendBoxHelpers
     {
-
+        /// <summary>
+        /// х координата в мм
+        /// </summary>
+        /// <param name="box"></param>
+        /// <returns></returns>
         public static double xMM(this Box box) => Math.Round(box.left / PdfScaler.mn, 1);
+        /// <summary>
+        /// у координата в мм
+        /// </summary>
+        /// <param name="box"></param>
+        /// <returns></returns>
         public static double yMM(this Box box) => Math.Round(box.bottom / PdfScaler.mn, 1);
+        /// <summary>
+        /// Ширина в мм
+        /// </summary>
+        /// <param name="box"></param>
+        /// <returns></returns>
         public static double wMM(this Box box) => Math.Round(box.width / PdfScaler.mn, 1);
+        /// <summary>
+        /// Висота в мм
+        /// </summary>
+        /// <param name="box"></param>
+        /// <returns></returns>
         public static double hMM(this Box box) => Math.Round(box.height / PdfScaler.mn, 1);
 
         public static double x(this Box box, double scaleFactor) => box.left * scaleFactor;
