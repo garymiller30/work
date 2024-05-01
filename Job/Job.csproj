@@ -236,12 +236,22 @@
       <DependentUpon>FormEditStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\MongoRepository.cs" />
+    <Compile Include="Static\Pdf\Common\CMYKColor.cs" />
+    <Compile Include="Static\Pdf\Common\DirectionEnum.cs" />
     <Compile Include="Static\Pdf\Common\PaperFormat.cs" />
+    <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarks.cs" />
+    <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarksParams.cs" />
     <Compile Include="UC\UcSelectStandartPageFormat.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UC\UcSelectStandartPageFormat.Designer.cs">
       <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateBigovkaMarks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateBigovkaMarks.Designer.cs">
+      <DependentUpon>FormCreateBigovkaMarks.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\FormInputCountPages.cs">
       <SubType>Form</SubType>
@@ -620,6 +630,9 @@
     <None Include=".editorconfig" />
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
+    <None Include="ColorTables\PANTONE PLUS solid coated-V3.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Graph1.dgml" />
     <None Include="libmongocrypt.dylib" />
     <None Include="libmongocrypt.so" />
@@ -673,6 +686,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UC\UcSelectStandartPageFormat.resx">
       <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateBigovkaMarks.resx">
+      <DependentUpon>FormCreateBigovkaMarks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormInputCountPages.resx">
       <DependentUpon>FormInputCountPages.cs</DependentUpon>

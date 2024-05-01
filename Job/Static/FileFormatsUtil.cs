@@ -9,11 +9,13 @@ using BackgroundTaskServiceLib;
 using ImageMagick;
 using Interfaces;
 using Interfaces.PdfUtils;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Job.Dlg;
 using Job.Models;
 using Job.Static.Pdf.Common;
 using Job.Static.Pdf.Convert;
+using Job.Static.Pdf.Create.BigovkaMarks;
 using Job.Static.Pdf.Create.Ellipse;
 using Job.Static.Pdf.Create.EmptyPdfTemplateWithCount;
 using Job.Static.Pdf.Create.Rectangle;
@@ -205,7 +207,6 @@ namespace Job.Static
                                     foreach (FileSystemInfoExt ext in objects)
                                     {
                                         new PdfSetTrimBoxByBleed(param).Run(ext.FileInfo.FullName);
-
                                     }
                                 }
                                 else if (result.ResultType == TrimBoxResultEnum.byTrimbox)
@@ -532,7 +533,7 @@ namespace Job.Static
                )));
         }
 
-        internal static void SplitTemporary(List<string> list)
+        public static void SplitTemporary(List<string> list)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("SplitTemporary", new Action(
                () =>
@@ -540,6 +541,19 @@ namespace Job.Static
                    foreach(var file in list)
                    {
                        new PdfSplitTemporary().Run(file);
+                   }
+               }
+               )));
+        }
+
+        public static void CreateBigovkaMarks(IEnumerable<string> files, CreateBigovkaMarksParams param)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("SplitTemporary", new Action(
+               () =>
+               {
+                   foreach (var file in files)
+                   {
+                       new CreateBigovkaMarks(param).Run(file);
                    }
                }
                )));
