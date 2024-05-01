@@ -81,5 +81,9 @@ namespace Job
             }
             return false;
         }
+
+        internal class Fasades
+        {
+        }
     }
 }

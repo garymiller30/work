@@ -101,7 +101,7 @@ namespace Job.UC
         {
             var rbd = new RowBorderDecoration
             {
-                BorderPen = new Pen(Color.FromArgb(255, Color.DarkGreen), 1),
+                BorderPen = new Pen(System.Drawing.Color.FromArgb(255, System.Drawing.Color.DarkGreen), 1),
                 BoundsPadding = new Size(0, -1),
                 CornerRounding = 3.0F,
             };
@@ -1995,6 +1995,31 @@ namespace Job.UC
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             AddTirag();
+        }
+
+        private void створитиПлашкуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var form = new FormCreateFillRectangle())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    var color = form.PdfColorResult;
+
+                    FileFormatsUtil.CreateFillRectangle(new Static.Pdf.Create.Rectangle.PdfCreateFillRectangleParams
+                    {
+                        Width = (double)form.PdfWidth,
+                        Height = (double)form.PdfHeight,
+                        isSpot = color.IsSpot,
+                        C = color.C,
+                        M = color.M,
+                        Y = color.Y,
+                        K = color.K,
+                        Name = color.Name,
+                        Lab = color.Lab
+                    }, _fileManager.Settings.CurFolder);
+                    
+                }
+            }
         }
     }
 }
