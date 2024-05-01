@@ -101,6 +101,7 @@
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripDropDownButtonSplitPdfMenu = new System.Windows.Forms.ToolStripDropDownButton();
+			this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton_Up = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -138,7 +139,7 @@
 			this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
 			this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
 			this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-			this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+			this.створитиПлашкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -360,7 +361,7 @@
             this.додатиТираж000ToolStripMenuItem,
             this.отправитьВToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(298, 442);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(298, 464);
 			this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
 			// 
 			// предварительныйПросмотрToolStripMenuItem
@@ -405,6 +406,7 @@
             this.витягтиСторінкиToolStripMenuItem,
             this.toolStripSeparator15,
             this.створитиПрямокутникToolStripMenuItem,
+            this.створитиПлашкуToolStripMenuItem,
             this.створитиЕліпсToolStripMenuItem,
             this.створитипустишкиЗТиражамиToolStripMenuItem,
             this.створитиМіткиДляБіговкиToolStripMenuItem,
@@ -747,7 +749,7 @@
             this.toolStripButton4});
 			this.toolStripPDF.Location = new System.Drawing.Point(0, 3);
 			this.toolStripPDF.Name = "toolStripPDF";
-			this.toolStripPDF.Size = new System.Drawing.Size(32, 167);
+			this.toolStripPDF.Size = new System.Drawing.Size(32, 148);
 			this.toolStripPDF.TabIndex = 0;
 			// 
 			// toolStripButtonCreatePdf
@@ -798,6 +800,16 @@
 			this.toolStripDropDownButtonSplitPdfMenu.Name = "toolStripDropDownButtonSplitPdfMenu";
 			this.toolStripDropDownButtonSplitPdfMenu.Size = new System.Drawing.Size(30, 19);
 			this.toolStripDropDownButtonSplitPdfMenu.Text = "M";
+			// 
+			// toolStripButton4
+			// 
+			this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButton4.Image = global::Job.Properties.Resources._0_Hash_icon;
+			this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton4.Name = "toolStripButton4";
+			this.toolStripButton4.Size = new System.Drawing.Size(30, 20);
+			this.toolStripButton4.Text = "Додати тиражі";
+			this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
 			// 
 			// toolStrip1
 			// 
@@ -1111,15 +1123,12 @@
 			// 
 			this.kryptonContextMenuHeading1.ExtraText = "";
 			// 
-			// toolStripButton4
+			// створитиПлашкуToolStripMenuItem
 			// 
-			this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton4.Image = global::Job.Properties.Resources._0_Hash_icon;
-			this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton4.Name = "toolStripButton4";
-			this.toolStripButton4.Size = new System.Drawing.Size(30, 20);
-			this.toolStripButton4.Text = "Додати тиражі";
-			this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
+			this.створитиПлашкуToolStripMenuItem.Name = "створитиПлашкуToolStripMenuItem";
+			this.створитиПлашкуToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+			this.створитиПлашкуToolStripMenuItem.Text = "Створити плашку";
+			this.створитиПлашкуToolStripMenuItem.Click += new System.EventHandler(this.створитиПлашкуToolStripMenuItem_Click);
 			// 
 			// FileBrowser
 			// 
@@ -1266,5 +1275,6 @@
         private System.Windows.Forms.ToolStripMenuItem розділитиТимчасовоЗібранийФайлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem створитиМіткиДляБіговкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripMenuItem створитиПлашкуToolStripMenuItem;
     }
 }

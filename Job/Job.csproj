@@ -236,11 +236,15 @@
       <DependentUpon>FormEditStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\MongoRepository.cs" />
+    <Compile Include="Models\PantoneTable.cs" />
+    <Compile Include="Models\PdfColorResult.cs" />
     <Compile Include="Static\Pdf\Common\CMYKColor.cs" />
     <Compile Include="Static\Pdf\Common\DirectionEnum.cs" />
     <Compile Include="Static\Pdf\Common\PaperFormat.cs" />
     <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarks.cs" />
     <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarksParams.cs" />
+    <Compile Include="Static\Pdf\Create\FillRectangle\PdfCreateFillRectangle.cs" />
+    <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateFillRectangleParams.cs" />
     <Compile Include="UC\UcSelectStandartPageFormat.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -252,6 +256,12 @@
     </Compile>
     <Compile Include="UserForms\PDF\FormCreateBigovkaMarks.Designer.cs">
       <DependentUpon>FormCreateBigovkaMarks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateFillRectangle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateFillRectangle.Designer.cs">
+      <DependentUpon>FormCreateFillRectangle.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\FormInputCountPages.cs">
       <SubType>Form</SubType>
@@ -633,10 +643,20 @@
     <None Include="ColorTables\PANTONE PLUS solid coated-V3.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="ColorTables\PANTONE PLUS solid uncoated-V3.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ColorTables\PANTONE Solid Coated-V4.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ColorTables\PANTONE Solid Uncoated-V4.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Graph1.dgml" />
     <None Include="libmongocrypt.dylib" />
     <None Include="libmongocrypt.so" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Job.UserForms.PDF.FormCreateFillRectangle.datasource" />
     <None Include="Static\Pdf\Imposition\PdfImpos.cd" />
   </ItemGroup>
   <ItemGroup>
@@ -689,6 +709,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormCreateBigovkaMarks.resx">
       <DependentUpon>FormCreateBigovkaMarks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateFillRectangle.resx">
+      <DependentUpon>FormCreateFillRectangle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormInputCountPages.resx">
       <DependentUpon>FormInputCountPages.cs</DependentUpon>

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using BackgroundTaskServiceLib;
+using ExtensionMethods;
 using ImageMagick;
 using Interfaces;
 using Interfaces.PdfUtils;
@@ -18,6 +19,7 @@ using Job.Static.Pdf.Convert;
 using Job.Static.Pdf.Create.BigovkaMarks;
 using Job.Static.Pdf.Create.Ellipse;
 using Job.Static.Pdf.Create.EmptyPdfTemplateWithCount;
+using Job.Static.Pdf.Create.FillRectangle;
 using Job.Static.Pdf.Create.Rectangle;
 using Job.Static.Pdf.Divide;
 using Job.Static.Pdf.ExtractPages;
@@ -557,6 +559,18 @@ namespace Job.Static
                    }
                }
                )));
+        }
+
+        internal static void CreateFillRectangle(PdfCreateFillRectangleParams param,string pathTo)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("SplitTemporary", new Action(
+               () =>
+               {
+
+                   new PdfCreateFillRectangle(param).Run(Path.Combine(pathTo,$"{param.Width}x{param.Height}.pdf"));
+               }
+               )));
+            
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Job.UC
             InitializeComponent();
             var rbd = new RowBorderDecoration
             {
-                BorderPen = new Pen(Color.FromArgb(255, Color.DarkBlue), 1),
+                BorderPen = new Pen(System.Drawing.Color.FromArgb(255, System.Drawing.Color.DarkBlue), 1),
                 BoundsPadding = new Size(0, -1),
                 CornerRounding = 3.0F,
             };
