@@ -12,6 +12,7 @@ using Job.Static;
 using Job.Static.Pdf.MergeOddAndEven;
 using Job.Static.Pdf.MergeTemporary;
 using Job.UserForms;
+using Job.UserForms.PDF;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
 using PDFManipulate.Forms;
@@ -1975,6 +1976,25 @@ namespace Job.UC
 
             FileFormatsUtil.SplitTemporary(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToList());
 
+        }
+
+        private void створитиМіткиДляБіговкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using (var form = new FormCreateBigovkaMarks())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    FileFormatsUtil.CreateBigovkaMarks(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName),form.BigovkaMarksParams);
+                }
+            }
+
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            AddTirag();
         }
     }
 }
