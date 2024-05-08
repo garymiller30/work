@@ -25,13 +25,13 @@ namespace Job.UserForms.PDF
 
         private void buttonCreate_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
+            
             if (CreateParameters())
             {
+                DialogResult = DialogResult.OK;
                 Close();
-
             }
-            else { MessageBox.Show("Перевір біговки"); }
+            else { MessageBox.Show("Перевір біговки"); return; }
             
         }
 
