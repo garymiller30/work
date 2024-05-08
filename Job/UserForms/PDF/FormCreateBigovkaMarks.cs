@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,7 +53,7 @@ namespace Job.UserForms.PDF
 
             for (int i = 0; i < bigovki.Length; i++)
             {
-                if (!double.TryParse(bigovki[i], out double result))
+                if (!double.TryParse(bigovki[i], NumberStyles.AllowDecimalPoint,CultureInfo.InvariantCulture, out double result))
                 {
                     return false;
                 }
