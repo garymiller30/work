@@ -93,7 +93,7 @@ namespace Job.Static
                 {
                     Width = info.Width * 25.4M / (decimal)info.Density.X,
                     Height = info.Height * 25.4M / (decimal)info.Density.Y,
-                    Bleeds = (decimal)(info.Density.X + info.Density.Y) / 2
+                    Bleeds = (decimal)(info.Density.X + info.Density.Y) / 2,
                 };
             }
             catch
@@ -123,7 +123,7 @@ namespace Job.Static
                         Width = (decimal)media.Width / Mn,
                         Height = (decimal)media.Height / Mn,
                         Bleeds = 0,
-                        cntPages = pages
+                        cntPages = pages,
                     };
                 }
                 else
@@ -133,7 +133,7 @@ namespace Job.Static
                         Width = (decimal)rect.Width / Mn,
                         Height = (decimal)rect.Height / Mn,
                         Bleeds = (decimal)(media.Width - rect.Width) / 2 / Mn,
-                        cntPages = pages
+                        cntPages = pages,
                     };
                 }
             }
@@ -146,7 +146,7 @@ namespace Job.Static
                         Width = (decimal)media.Width / Mn,
                         Height = (decimal)media.Height / Mn,
                         Bleeds = 0,
-                        cntPages = pages
+                        cntPages = pages,
                     };
                 }
                 else
@@ -177,7 +177,7 @@ namespace Job.Static
                         {
                             Width = (decimal)(width / (hresolution / 25.4F)),
                             Height = (decimal)(height / (vresolution / 25.4F)),
-                            Bleeds = (decimal)hresolution
+                            Bleeds = (decimal)hresolution,
                         };
                     }
                 }
@@ -238,7 +238,7 @@ namespace Job.Static
                                         new PdfSetTrimBoxBySpread(param).Run(ext.FileInfo.FullName);
                                     }
                                 }
-                            }
+                            },
                         });
                     }
                 }
@@ -304,9 +304,11 @@ namespace Job.Static
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    PdfMergeFrontsAndBackParams param = new PdfMergeFrontsAndBackParams();
-                    param.BackFile = form.Back;
-                    param.FrontsFiles = files.Except(new[] { param.BackFile }, StringComparer.OrdinalIgnoreCase).ToArray();
+                    PdfMergeFrontsAndBackParams param = new PdfMergeFrontsAndBackParams
+                    {
+                        BackFile = form.Back,
+                    };
+                    param.FrontsFiles = files.Except(new[] { param.BackFile, }, StringComparer.OrdinalIgnoreCase).ToArray();
 
                     BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge front and back pdf", new Action(
                 () =>
@@ -382,8 +384,10 @@ namespace Job.Static
                 if (form.ShowDialog() == DialogResult.OK)
                 {
 
-                    PdfExtractPagesParams param = new PdfExtractPagesParams();
-                    param.Pages = form.Pages;
+                    PdfExtractPagesParams param = new PdfExtractPagesParams
+                    {
+                        Pages = form.Pages,
+                    };
 
                     BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("extract pages pdf", new Action(() =>
                     {
@@ -567,7 +571,7 @@ namespace Job.Static
                () =>
                {
 
-                   new PdfCreateFillRectangle(param).Run(Path.Combine(pathTo,$"{param.Width}x{param.Height}.pdf"));
+                   new PdfCreateFillRectangle(param).Run(Path.Combine(pathTo, $"{param.Width}x{param.Height}.pdf"));
                }
                )));
             
