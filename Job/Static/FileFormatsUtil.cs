@@ -12,6 +12,7 @@ using Interfaces;
 using Interfaces.PdfUtils;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.parser;
 using Job.Dlg;
 using Job.Models;
 using Job.Static.Pdf.Common;
@@ -245,7 +246,7 @@ namespace Job.Static
             }
         }
 
-        public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list,Action action)
+        public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list, Action action)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("convert to pdf", new Action(() =>
             {
@@ -544,7 +545,7 @@ namespace Job.Static
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("SplitTemporary", new Action(
                () =>
                {
-                   foreach(var file in list)
+                   foreach (var file in list)
                    {
                        new PdfSplitTemporary().Run(file);
                    }
@@ -565,16 +566,41 @@ namespace Job.Static
                )));
         }
 
-        internal static void CreateFillRectangle(PdfCreateFillRectangleParams param,string pathTo)
+        internal static void CreateFillRectangle(PdfCreateFillRectangleParams param, string pathTo)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("SplitTemporary", new Action(
                () =>
                {
 
-                   new PdfCreateFillRectangle(param).Run(Path.Combine(pathTo, $"{param.Width}x{param.Height}.pdf"));
+                   new PdfCreateFillRectangle(param).Run(System.IO.Path.Combine(pathTo, $"{param.Width}x{param.Height}.pdf"));
                }
                )));
-            
+
+        }
+
+        internal static void NumericFiles(IEnumerable<string> files)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Numeric files", new Action(
+            () =>
+            {
+                var arr = files.ToArray();
+                int count = files.Count();
+                int numCnt = count.ToString().Length;
+
+                for (int i = 1; i <= count; i++) {
+
+                    File.Move(arr[i - 1],
+                        System.IO.Path.Combine(
+                            System.IO.Path.GetDirectoryName(arr[i - 1]), $"{i.ToString($"D0{numCnt}")}.{System.IO.Path.GetFileName(arr[i - 1])}"
+                            )
+                        );
+                   
+
+                    }
+
+
+            }
+               )));
         }
     }
 }

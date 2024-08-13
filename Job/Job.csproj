@@ -269,6 +269,12 @@
     <Compile Include="UserForms\PDF\FormInputCountPages.Designer.cs">
       <DependentUpon>FormInputCountPages.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\FormPdfImposition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfImposition.Designer.cs">
+      <DependentUpon>FormPdfImposition.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\FormSelectBackFile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -715,6 +721,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormInputCountPages.resx">
       <DependentUpon>FormInputCountPages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormPdfImposition.resx">
+      <DependentUpon>FormPdfImposition.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormSelectBackFile.resx">
       <DependentUpon>FormSelectBackFile.cs</DependentUpon>

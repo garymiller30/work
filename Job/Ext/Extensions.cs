@@ -164,7 +164,7 @@ namespace Job.Ext
                 .Replace("$OrderDescription", job.Description);
         }
 */
-        public static string SendNotifyCovertString(this string str,IJob job)
+        public static string SendNotifyConvertString(this string str,IJob job)
         {
             return str.Replace("$OrderNumber", job.Number)
                 .Replace("$OrderDescription", job.Description);

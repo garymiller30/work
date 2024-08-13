@@ -28,7 +28,7 @@ namespace Job.Static.Pdf.Scale
 
             try
             {
-                string targetFile = Path.Combine(Path.GetDirectoryName(filePath), $"{Path.GetFileNameWithoutExtension(filePath)}_{_params.TargetSize.Width}x{_params.TargetSize.Height}.pdf");
+                string targetFile = Path.Combine(Path.GetDirectoryName(filePath), $"{Path.GetFileNameWithoutExtension(filePath)}_{_params.TargetSize.Width.ToString("N01")}x{_params.TargetSize.Height.ToString("N01")}.pdf");
 
                 p = new PDFlib();
 

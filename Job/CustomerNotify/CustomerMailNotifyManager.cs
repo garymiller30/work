@@ -100,8 +100,8 @@ namespace Job.CustomerNotify
                 {
                     if (notify.Enabled)
                     {
-                        var header = notify.Tema.SendNotifyCovertString(job);
-                        var body = notify.Body.SendNotifyCovertString(job);
+                        var header = notify.Tema.SendNotifyConvertString(job);
+                        var body = notify.Body.SendNotifyConvertString(job);
 
                         _profile.MailNotifier.OnError += MailNotifier_OnError;
 
