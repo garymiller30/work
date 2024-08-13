@@ -12,8 +12,8 @@ namespace PDFManipulate.Forms
 {
     public partial class FormSelectCountPages : Form
     {
-        public int[] Pages { get;set; }
-        
+        public int[] Pages { get; set; }
+
         //public int CountPages { get; set; } = 1;
         public FormSelectCountPages()
         {
@@ -23,10 +23,10 @@ namespace PDFManipulate.Forms
 
         private void ButtonOk_Click(object sender, EventArgs e)
         {
-        
+
             if (radioButtonFixed.Checked)
             {
-                Pages = new int[1] {(int)numericUpDown1.Value};
+                Pages = new int[1] { (int)numericUpDown1.Value };
             }
             else
             {
@@ -34,7 +34,7 @@ namespace PDFManipulate.Forms
 
                 if (!res)
                 {
-                   return;
+                    return;
                 }
 
                 Pages = customs;
@@ -49,7 +49,7 @@ namespace PDFManipulate.Forms
 
             var listInt = new List<int>();
 
-            var splitted = text.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+            var splitted = text.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
             if (splitted.Any())
             {
 
@@ -57,13 +57,32 @@ namespace PDFManipulate.Forms
 
                 foreach (var s in splitted)
                 {
-                    var r = int.TryParse(s, out int res);
-                    if (r)
-                        listInt.Add(res);
+                    if (s.Contains('-')) // вказаний діапазон, 
+                    {
+                        var diapazon = s.Split('-');
+
+                        var rFrom = int.TryParse(diapazon[0], out int from);
+                        var rTo = int.TryParse(diapazon[1], out int to);
+
+                        if (rFrom == rTo && rTo)
+                        {
+                            for (int i = from; i <= to; i++)
+                            {
+                                listInt.Add(i); 
+                            }
+                        }
+
+                    }
                     else
                     {
-                        err = true;
-                        break;
+                        var r = int.TryParse(s, out int res);
+                        if (r)
+                            listInt.Add(res);
+                        else
+                        {
+                            err = true;
+                            break;
+                        }
                     }
                 }
 
@@ -78,6 +97,6 @@ namespace PDFManipulate.Forms
             return false;
         }
 
-        
+
     }
 }

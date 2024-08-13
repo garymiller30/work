@@ -2021,5 +2021,20 @@ namespace Job.UC
                 }
             }
         }
+
+        private void спускПолосToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            using (var form = new FormPdfImposition())
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void toolStripButtonNumericFiles_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            FileFormatsUtil.NumericFiles(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName));
+        }
     }
 }

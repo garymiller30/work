@@ -94,7 +94,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(320, 61);
             this.label1.TabIndex = 4;
-            this.label1.Text = "номери сторінок вказуються через пробіл.\r\nНаприклад: 2 12 4";
+            this.label1.Text = "номери сторінок вказуються через пробіл.\r\nНаприклад: 2 12 4 15-20";
             // 
             // textBoxCustom
             // 

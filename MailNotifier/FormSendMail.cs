@@ -31,11 +31,6 @@ namespace MailNotifier
 
             CreateShablonMenuItems();
 
-
-            //richTextBoxMessage.Rtf =
-            //    "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1058{\\field{\\*\\fldinst HYPERLINK \"http://www.google.com/\"}{\\fldrslt http://www.google.com}} \\par }";
-
-
         }
 
         public string GetHeader() => textBoxHeader.Text;

@@ -168,7 +168,7 @@ namespace MailNotifier
             }
         }
 
-        private static string Convert(object job, string txt)
+        public static string Convert(object job, string txt)
         {
             //var str = txt.Split(' ');
             var sb = new StringBuilder(txt);
