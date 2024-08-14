@@ -23,9 +23,13 @@ namespace Job.Profiles
 
             if (history != null)
             {
-                for (int i = history.Length - 1; i >= 0; i--)
+                int limit = 20;
+
+                for (int i = 0; i < history.Length; i++)
                 {
                     _queue.Push(history[i]);
+                    limit--;
+                    if (limit == 0) break;
                 }
             }
 

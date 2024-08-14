@@ -33,10 +33,7 @@ namespace Job.Profiles
                     var profile = new Profile { Settings = profileSetting, ProfilePath = dir};
                     Profiles.Add(profile);
                 }
-
-               
             }
-
         }
 
         public static Profile[] GetProfiles()
