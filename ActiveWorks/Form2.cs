@@ -133,6 +133,13 @@ namespace ActiveWorks
             SplashScreen.Splash.SetStatus("завантажуємо...");
 
             var profiles = ProfilesController.GetProfiles(Settings.Default.ProfilesPath);
+
+            if (profiles.Length == 0)
+            {
+                //потрібно створити типчасовий профіль
+                profiles = new[] {ProfilesController.AddProfile()}; 
+            }
+
             SplashScreen.Splash.SetStatus("ок!");
             foreach (var profile in profiles)
             {
