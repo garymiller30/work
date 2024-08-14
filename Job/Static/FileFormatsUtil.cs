@@ -6,13 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using BackgroundTaskServiceLib;
-using ExtensionMethods;
 using ImageMagick;
 using Interfaces;
 using Interfaces.PdfUtils;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.text.pdf.parser;
 using Job.Dlg;
 using Job.Models;
 using Job.Static.Pdf.Common;
@@ -104,7 +102,7 @@ namespace Job.Static
 
         private static void GetPdf(IFileSystemInfoExt sfi)
         {
-            iTextSharp.text.Rectangle media = null;
+            Rectangle media = null;
 
             PdfReader pdfReader = null;
             int pages = 0;
@@ -540,7 +538,7 @@ namespace Job.Static
                )));
         }
 
-        public static void SplitTemporary(List<string> list)
+        public static void SplitTemporary(IEnumerable<string> list)
         {
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("SplitTemporary", new Action(
                () =>
@@ -572,7 +570,7 @@ namespace Job.Static
                () =>
                {
 
-                   new PdfCreateFillRectangle(param).Run(System.IO.Path.Combine(pathTo, $"{param.Width}x{param.Height}.pdf"));
+                   new PdfCreateFillRectangle(param).Run(Path.Combine(pathTo, $"{param.Width}x{param.Height}.pdf"));
                }
                )));
 
@@ -585,13 +583,13 @@ namespace Job.Static
             {
                 var arr = files.ToArray();
                 int count = files.Count();
-                int numCnt = count.ToString().Length;
+                int numCnt = $"{count}".Length;
 
                 for (int i = 1; i <= count; i++) {
 
                     File.Move(arr[i - 1],
-                        System.IO.Path.Combine(
-                            System.IO.Path.GetDirectoryName(arr[i - 1]), $"{i.ToString($"D0{numCnt}")}.{System.IO.Path.GetFileName(arr[i - 1])}"
+                        Path.Combine(
+                            Path.GetDirectoryName(arr[i - 1]), $"{i.ToString($"D0{numCnt}", CultureInfo.InvariantCulture)}.{Path.GetFileName(arr[i - 1])}"
                             )
                         );
                    
