@@ -365,10 +365,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localize.uk-UA.resx</DependentUpon>
     </Compile>
-    <Compile Include="FormColorProof.cs" />
-    <Compile Include="FormColorProof.Designer.cs">
-      <DependentUpon>FormColorProof.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormEditFolder.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -431,9 +427,6 @@
     <EmbeddedResource Include="Localize.uk-UA.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Localize.uk-UA.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormColorProof.resx">
-      <DependentUpon>FormColorProof.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormEditFolder.resx">
       <DependentUpon>FormEditFolder.cs</DependentUpon>

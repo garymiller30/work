@@ -9,7 +9,7 @@ namespace Interfaces
         event EventHandler<Exception> OnError;
         IMailSettings Settings { get; set; }
 
-        void StopWatching();
+        //void StopWatching();
         List<ToolStripItem> GetMenu(EventHandler ttmClick);
         void ShowSendMailDialog(string mailTo, string header, string body);
         void SendFile(string to, string attachmentPath);

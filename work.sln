@@ -5,6 +5,7 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4E8727C8-DA41-4C8F-A9D5-EC838A777BC7}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		Local.testsettings = Local.testsettings
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 		work4.vsmdi = work4.vsmdi

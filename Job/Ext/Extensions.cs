@@ -157,13 +157,7 @@ namespace Job.Ext
 
             return destFile;
         }
-/*
-        public static string SendNotifyCovertString(this string str,Job job)
-        {
-            return str.Replace("$OrderNumber", job.Number)
-                .Replace("$OrderDescription", job.Description);
-        }
-*/
+
         public static string SendNotifyConvertString(this string str,IJob job)
         {
             return str.Replace("$OrderNumber", job.Number)

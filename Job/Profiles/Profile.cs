@@ -106,7 +106,7 @@ namespace Job.Profiles
         {
             if (IsInitialized)
             {
-                MailNotifier?.StopWatching();
+                //MailNotifier?.StopWatching();
                 Plugins?.MqController?.Disconnect();
                 FileBrowser?.SaveSettings();
                 StatusManager?.SaveViewStatuses();

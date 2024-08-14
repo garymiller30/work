@@ -28,39 +28,33 @@ namespace MailNotifier
         private IJob _curJob;
         private readonly List<string> _attachmentsList = new List<string>();
         public bool ShowBaloon;
-        //private readonly string _mailPath;
        
-        private AutoResetEvent _reconnectEvent;
+        //private AutoResetEvent _reconnectEvent;
 
-        private CancellationTokenSource _tokenSource;
+        //private CancellationTokenSource _tokenSource;
        
-        //public static string ExceptionMessage;
-
         public MailShablonManager ShablonManager;
-        //private FormMailDialog _mailDialog;
 
         public Mail(IUserProfile userProfile, IMailSettings settings)
         {
             _profile = userProfile;
-            //_mailPath = Path.Combine(Application.StartupPath, "Mail");
 
             Settings = settings;
             Settings.SettingsFolder = userProfile.ProfilePath;
             if (Settings.MailTo == null) Settings.MailTo = new List<string>();
 
             InitShablonManager();
-            //StartWatching();
         }
 
         private void InitShablonManager()
         {
             ShablonManager = new MailShablonManager(this);
         }
-        public void StopWatching()
-        {
-            _tokenSource?.Cancel();
-            _reconnectEvent?.Set();
-        }
+        //public void StopWatching()
+        //{
+        //    _tokenSource?.Cancel();
+        //    _reconnectEvent?.Set();
+        //}
 
         public void Send(object job, string to, string tema, string body)
         {
