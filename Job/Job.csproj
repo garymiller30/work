@@ -555,9 +555,7 @@
     </Compile>
     <Compile Include="Factory.cs" />
     <Compile Include="Fasades\BaseManager.cs" />
-    <Compile Include="ColorProof.cs" />
     <Compile Include="Fasades\CategoryManager.cs" />
-    <Compile Include="Fasades\ColorProofManager.cs" />
     <Compile Include="Commons.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Fasades\CustomerManager.cs" />

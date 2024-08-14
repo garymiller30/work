@@ -99,9 +99,6 @@ namespace Job.UC
                 }
                 else
                 {
-                    //files = _cache.GetFiles(Settings.CurFolder);
-
-
                     await Task.Run(() =>
                                    {
                                        files = _cache.GetFiles(Settings.CurFolder);

@@ -18,7 +18,6 @@ using Microsoft.VisualBasic.FileIO;
 using PDFManipulate.Forms;
 using PythonEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -295,7 +294,7 @@ namespace Job.UC
             if (_taskGetExtendedFileInfo == null) return;
             if (!_taskGetExtendedFileInfo.IsCompleted) return;
             _taskGetExtendedFileInfo.Wait();
-            
+
         }
 
         private void UpdateStatusControl()
@@ -1732,11 +1731,6 @@ namespace Job.UC
             }
         }
 
-        private void objectListView1_ColumnClick_1(object sender, ColumnClickEventArgs e)
-        {
-            //olvColumn_FileName.Sortable = e.Column != 0;
-        }
-
         private void toolStripButtonSettings_Click(object sender, EventArgs e)
         {
             using (var form = new FormFileBrowserSettings(_fileManager.Settings))
@@ -1967,7 +1961,7 @@ namespace Job.UC
                 new PdfMergeTemporaryParams
                 {
                     Files = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToList()
-                },CreateMoveToTrashAction(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList()));
+                }, CreateMoveToTrashAction(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList()));
         }
 
         private void розділитиТимчасовоЗібранийФайлToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1986,7 +1980,7 @@ namespace Job.UC
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    FileFormatsUtil.CreateBigovkaMarks(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName),form.BigovkaMarksParams);
+                    FileFormatsUtil.CreateBigovkaMarks(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), form.BigovkaMarksParams);
                 }
             }
 
@@ -2017,7 +2011,7 @@ namespace Job.UC
                         Name = color.Name,
                         Lab = color.Lab
                     }, _fileManager.Settings.CurFolder);
-                    
+
                 }
             }
         }

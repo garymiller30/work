@@ -8,7 +8,7 @@ namespace Interfaces
         IBaseSettings Settings { get; set; }
 
         bool Connect();
-        bool IsConnected { get; }
+        //bool IsConnected { get; }
 
         List<T> GetCollection<T>(string collection) where T : class, IWithId, new();
         void Update<T>(string collection, List<T> list) where T : IWithId;

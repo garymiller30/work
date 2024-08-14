@@ -248,7 +248,7 @@
             this.objectListView1.ModelCanDrop += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.ObjectListView1_ModelCanDrop);
             this.objectListView1.ModelDropped += new System.EventHandler<BrightIdeasSoftware.ModelDropEventArgs>(this.ObjectListView1_ModelDropped);
             this.objectListView1.SelectionChanged += new System.EventHandler(this.ObjectListView1_SelectionChanged);
-            this.objectListView1.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.objectListView1_ColumnClick_1);
+            
             this.objectListView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.ObjectListView1_ItemDrag);
             this.objectListView1.Click += new System.EventHandler(this.objectListView1_Click);
             this.objectListView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.ObjectListView1_DragDrop);

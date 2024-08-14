@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace FtpClient
@@ -63,16 +64,6 @@ namespace FtpClient
             _ftpClient = new FluentFTP.FtpClient(fileServer, new NetworkCredential(user, password),21,ftpConfig);
             _ftpClient.Encoding = _encoding;
             _ftpClient.Config.RetryAttempts = 3;
-
-            //_ftpClient = new FluentFTP.FtpClient()
-            //{
-            //    Host = fileServer,
-            //    Credentials = new NetworkCredential(user, password),
-            //    Encoding = _encoding,
-                
-
-            //};
-
         }
 
         public IEnumerable<IFtpFileExt> GetDirectories()
@@ -89,6 +80,7 @@ namespace FtpClient
             }
             catch (Exception e)
             {
+                _exception = e;
                 Log.Error(this, "FtpClient", e.Message);
             }
             finally
@@ -135,6 +127,7 @@ namespace FtpClient
             }
             catch (Exception e)
             {
+                _exception = e;
                 Log.Error(this, "FtpClient", e.Message);
             }
         }
@@ -182,7 +175,7 @@ namespace FtpClient
 
             }
             catch (Exception e)
-            {
+            {_exception = e;
                 Log.Error(this, "FtpClient", e.Message);
             }
 
@@ -258,7 +251,7 @@ namespace FtpClient
                 }
             }
             catch (Exception e)
-            {
+            {_exception = e;
                 Log.Error(this, "FtpClient", e.Message);
             }
             finally
@@ -301,7 +294,7 @@ namespace FtpClient
                 }
             }
             catch (Exception e)
-            {
+            {_exception = e;
                 Log.Error(this, "FtpClient", e.Message);
             }
             finally
@@ -324,7 +317,7 @@ namespace FtpClient
                 CurrentDirectory = path;
             }
             catch (Exception e)
-            {
+            {_exception = e;
                 Log.Error(this, "FtpClient", e.Message);
             }
             finally
