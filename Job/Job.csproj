@@ -248,6 +248,49 @@
     <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarksParams.cs" />
     <Compile Include="Static\Pdf\Create\FillRectangle\PdfCreateFillRectangle.cs" />
     <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateFillRectangleParams.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Commons.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Crop\Back.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Crop\Front.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Pdf\Back.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Pdf\Front.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Text\Back.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Text\Front.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\PdfDrawer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Proof.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\Back.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\Front.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\AnchorOfset.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\AnchorPoint.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ClipBox.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\CropDirection.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposRunList.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposRunPage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\MarkColor.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\CropMark.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\CropMarksParam.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\MarksContainer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\PdfMark.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\PdfMarkParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\TextMark.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\TextMarkParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PdfBox.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PdfFile.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PdfFilePage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PDFLIBDocument.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PointD.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ProductPart.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\RectangleD.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\TemplatePage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\TemplatePageContainer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\TemplateSheet.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\CropMarkCreator.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\CropMarksController.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\CropMarksService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PdfLineDrawer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\PdfMarksService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\PositioningService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextMarksService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariablesService.cs" />
     <Compile Include="UC\UcSelectStandartPageFormat.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -347,39 +390,6 @@
     <Compile Include="Static\Pdf\Divide\PdfDividerParams.cs" />
     <Compile Include="Static\Pdf\ExtractPages\PdfExtractPages.cs" />
     <Compile Include="Static\Pdf\ExtractPages\PdfExtractPagesParams.cs" />
-    <Compile Include="Static\Pdf\Imposition\Common\BindingMethodEnum.cs" />
-    <Compile Include="Static\Pdf\Imposition\Common\Fields.cs" />
-    <Compile Include="Static\Pdf\Imposition\Common\PdfFormat.cs" />
-    <Compile Include="Static\Pdf\Imposition\Common\PdfPlacementInstruction.cs" />
-    <Compile Include="Static\Pdf\Imposition\Common\PdfSideEnum.cs" />
-    <Compile Include="Static\Pdf\Imposition\Common\Position.cs" />
-    <Compile Include="Static\Pdf\Imposition\Common\SchemeModeEnum.cs" />
-    <Compile Include="Static\Pdf\Imposition\Common\SheetWorkStyleEnum.cs" />
-    <Compile Include="Static\Pdf\Imposition\Common\WorkModeEnum.cs" />
-    <Compile Include="Static\Pdf\Imposition\Content\PdfContent.cs" />
-    <Compile Include="Static\Pdf\Imposition\Content\PdfContentFile.cs" />
-    <Compile Include="Static\Pdf\Imposition\Content\PdfContentFilePage.cs" />
-    <Compile Include="Static\Pdf\Imposition\Controllers\PdfImpositionController.cs" />
-    <Compile Include="Static\Pdf\Imposition\Export\EDocument.cs" />
-    <Compile Include="Static\Pdf\Imposition\Export\EPage.cs" />
-    <Compile Include="Static\Pdf\Imposition\Page\PdfMasterPage.cs" />
-    <Compile Include="Static\Pdf\Imposition\Page\PdfPage.cs" />
-    <Compile Include="Static\Pdf\Imposition\Page\PdfPageRun.cs" />
-    <Compile Include="Static\Pdf\Imposition\Page\PdfPageRunList.cs" />
-    <Compile Include="Static\Pdf\Imposition\PdfImposTest.cs" />
-    <Compile Include="Static\Pdf\Imposition\Product\PdfProduct.cs" />
-    <Compile Include="Static\Pdf\Imposition\Product\PdfProductPart.cs" />
-    <Compile Include="Static\Pdf\Imposition\Scheme\PdfMasterScheme.cs" />
-    <Compile Include="Static\Pdf\Imposition\Scheme\PdfScheme.cs" />
-    <Compile Include="Static\Pdf\Imposition\Scheme\PdfSchemeList.cs" />
-    <Compile Include="Static\Pdf\Imposition\Scheme\PdfSchemePage.cs" />
-    <Compile Include="Static\Pdf\Imposition\Scheme\PdfSchemePageSide.cs" />
-    <Compile Include="Static\Pdf\Imposition\Sheet\PdfMasterSheetList.cs" />
-    <Compile Include="Static\Pdf\Imposition\Sheet\PdfMasterSheet.cs" />
-    <Compile Include="Static\Pdf\Imposition\Sheet\PdfSheetRun.cs" />
-    <Compile Include="Static\Pdf\Imposition\Sheet\PdfSheetRunList.cs" />
-    <Compile Include="Static\Pdf\Imposition\Subject\PdfSubject.cs" />
-    <Compile Include="Static\Pdf\Imposition\Subject\PdfSubjectSettings.cs" />
     <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBack.cs" />
     <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBackParams.cs" />
     <Compile Include="Static\Pdf\MergeOddAndEven\PdfMergeOddAndEven.cs" />
@@ -664,7 +674,6 @@
     <None Include="libmongocrypt.so" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Job.UserForms.PDF.FormCreateFillRectangle.datasource" />
-    <None Include="Static\Pdf\Imposition\PdfImpos.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackgroundTaskServiceLib\BackgroundTaskServiceLib.csproj">
@@ -957,7 +966,6 @@
   <ItemGroup>
     <Folder Include="Core\Compression\Snappy\lib\" />
     <Folder Include="Core\Compression\Zstandard\lib\" />
-    <Folder Include="Static\Pdf\Imposition\Binding\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\users-2-icon.png" />
