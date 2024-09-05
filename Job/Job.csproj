@@ -282,11 +282,14 @@
     <Compile Include="Static\Pdf\Imposition\Models\RectangleD.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\TemplatePage.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\TemplatePageContainer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\TemplatePlate.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\TemplateSheet.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\CropMarkCreator.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\CropMarksController.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\CropMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PdfLineDrawer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\LooseBindingParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\LooseBindingService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PdfMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PositioningService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextMarksService.cs" />

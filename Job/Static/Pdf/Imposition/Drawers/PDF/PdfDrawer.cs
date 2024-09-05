@@ -42,6 +42,7 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF
                 {
                     TextVariablesService.SetValue(ValueList.SheetIdx, sheetIdx + 1);
                     TextVariablesService.SetValue(ValueList.SheetSide, "Лице");
+                    TextVariablesService.SetValue(ValueList.SheetFormat,$"{sheet.W}x{sheet.H}");
 
                     DrawSheet.Front(p, impos, sheetIdx);
 

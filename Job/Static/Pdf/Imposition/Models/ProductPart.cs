@@ -11,6 +11,7 @@ namespace Job.Static.Pdf.Imposition.Models
     public class ProductPart
     {
 
+        public TemplatePlate TemplatePlate { get; set; } = new TemplatePlate();
         public List<PdfFile> PdfFiles { get; set; } = new List<PdfFile>();
         public ImposRunList RunList { get; set; } = new ImposRunList();
 
@@ -24,14 +25,14 @@ namespace Job.Static.Pdf.Imposition.Models
             return file;
         }
 
-        public TemplateSheet AddTemplateSheet()
+        public TemplateSheet CreateTemplateSheet()
         {
             Sheet = new TemplateSheet();
 
             return Sheet;
         }
 
-        public TemplateSheet AddTemplateSheet(double w, double h)
+        public TemplateSheet CreateTemplateSheet(double w, double h)
         {
             Sheet = new TemplateSheet(w, h);
             return Sheet;

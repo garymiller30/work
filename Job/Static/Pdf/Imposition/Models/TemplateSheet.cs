@@ -29,7 +29,7 @@ namespace Job.Static.Pdf.Imposition.Models
         /// <summary>
         /// додаткове поле навколо сторінки
         /// </summary>
-        public double ExtraSpace { get; set; } = 3;
+        public double ExtraSpace { get; set; }
 
         /// <summary>
         /// поля, що не задруковуються

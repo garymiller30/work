@@ -76,13 +76,53 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
             TextMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
             DrawTextMarks.Front(p, sheet.TemplatePageContainer.Marks);
 
-            string mediabox = $"{-sheet.ExtraSpace * PdfHelper.mn} {-sheet.ExtraSpace * PdfHelper.mn} {(sheet.W + sheet.ExtraSpace) * PdfHelper.mn} {(sheet.H + sheet.ExtraSpace) * PdfHelper.mn}";
+            string mediabox;
             //string trimbox = $"{0} {0} {(sheet.W) * PdfHelper.mn} {(sheet.H) * PdfHelper.mn}";
 
 
             Proof.DrawSheet(p, sheet);
 
-            p.end_page_ext($"mediabox={{{mediabox}}}");
+            p.end_page_ext($"mediabox={{{GetMediabox(impos)}}}");
+        }
+
+
+        static string GetMediabox(ProductPart impos)
+        {
+            string mediabox;
+
+            var sheet = impos.Sheet;
+
+            if (impos.TemplatePlate.IsLikePaperFormat)
+            {
+                mediabox = $"{-sheet.ExtraSpace * PdfHelper.mn} {-sheet.ExtraSpace * PdfHelper.mn} {(sheet.W + sheet.ExtraSpace) * PdfHelper.mn} {(sheet.H + sheet.ExtraSpace) * PdfHelper.mn}";
+            }
+            else
+            {
+
+                double x;
+                if (impos.TemplatePlate.IsCenterHorizontal)
+                {
+                    x = (impos.TemplatePlate.W - sheet.W) / 2;
+                }
+                else
+                {
+                    x = impos.TemplatePlate.Xofs;
+                }
+
+                double y;
+                if (impos.TemplatePlate.IsCenterVertical)
+                {
+                    y = (impos.TemplatePlate.H - sheet.H) / 2;
+                }
+                else
+                {
+                    y = impos.TemplatePlate.Yofs;
+                }
+
+                mediabox = $"{-x * PdfHelper.mn} {-y * PdfHelper.mn} {(impos.TemplatePlate.W - x) * PdfHelper.mn} {(impos.TemplatePlate.H - y) * PdfHelper.mn}";
+            }
+
+            return mediabox ;
         }
     }
 }
