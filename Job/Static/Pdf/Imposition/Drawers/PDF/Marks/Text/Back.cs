@@ -16,6 +16,14 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
         {
             foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack))
             {
+                p.save();
+
+                if (mark.Color.IsOverprint)
+                {
+                    int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
+                    p.set_gstate(gstate);
+                }
+
                 string fillColor = mark.Color.IsSpot ? $"fillcolor={{spotname {{{mark.Color.Name}}} {mark.Color.Opasity / 100} {{cmyk {mark.Color.C / 100} {mark.Color.M / 100} {mark.Color.Y / 100} {mark.Color.K / 100}}}}}" :
                     $"fillcolor={{cmyk {mark.Color.C / 100} {mark.Color.M / 100} {mark.Color.Y / 100} {mark.Color.K / 100}}}";
 
@@ -28,6 +36,7 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                 }
 
                 p.fit_textline(txt, x * PdfHelper.mn, mark.Back.Y * PdfHelper.mn, $"fontname={mark.FontName} fontsize={mark.FontSize} {fillColor} orientate={Commons.Orientate[mark.Angle]}");
+                p.restore();
             }
         }
     }

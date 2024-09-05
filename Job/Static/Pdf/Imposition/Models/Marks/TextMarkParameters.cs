@@ -11,7 +11,7 @@ namespace Job.Static.Pdf.Imposition.Models.Marks
         public double Xofs { get; set; } = 0;
         public double Yofs { get; set; } = 0;
 
-        public AnchorOfset AnchorOfset { get; set; } = new AnchorOfset();
+        //public AnchorOfset AnchorOfset { get; set; } = new AnchorOfset();
         public AnchorPoint MarkAnchorPoint { get; set; } = AnchorPoint.BottomLeft;
         public AnchorPoint ParentAnchorPoint { get; set; } = AnchorPoint.BottomLeft;
         public bool IsFront { get; set; } = true;
