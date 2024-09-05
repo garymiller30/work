@@ -78,12 +78,9 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
             TextMarksService.RecalcMarkCoordBack(sheet, sheet.TemplatePageContainer);
             DrawTextMarks.Back(p, sheet.TemplatePageContainer.Marks);
 
-            string mediabox = $"{-sheet.ExtraSpace * PdfHelper.mn} {-sheet.ExtraSpace * PdfHelper.mn} {(sheet.W + sheet.ExtraSpace) * PdfHelper.mn} {(sheet.H + sheet.ExtraSpace) * PdfHelper.mn}";
-            //string trimbox = $"{0} {0} {(sheet.W) * PdfHelper.mn} {(sheet.H) * PdfHelper.mn}";
-
             Proof.DrawSheet(p, sheet);
 
-            p.end_page_ext($"mediabox={{{mediabox}}}");
+            p.end_page_ext($"mediabox={{{GetMediabox(impos)}}}");
         }
     }
 }

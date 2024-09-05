@@ -11,8 +11,13 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF
 {
     public static class Proof
     {
+        public static bool IsDrawProof = false;
+
         public static void DrawPageFront(PDFlib p, TemplatePage templatePage)
         {
+
+            if (!IsDrawProof) return;
+
             double x = templatePage.GetPageDrawX();
             double y = templatePage.GetPageDrawY();
             double w = templatePage.GetPageDrawW();
@@ -32,6 +37,8 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF
 
         public static void DrawPageBack(PDFlib p, TemplateSheet sheet, TemplatePage templatePage)
         {
+            if (!IsDrawProof) return;
+
             double w = templatePage.GetPageDrawW();
             double h = templatePage.GetPageDrawH();
 
@@ -47,8 +54,6 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF
                     X2 = x + w,
                     Y2 = y + h
                 });
-
-
         }
 
         static void DrawStrokeRect(PDFlib p, MarkColor color, RectangleD rect)
@@ -64,11 +69,13 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF
             p.stroke();
 
             p.restore();
-
         }
 
         public static void DrawSheet(PDFlib p, TemplateSheet sheet)
         {
+
+            if (!IsDrawProof) return;
+
             DrawStrokeRect(p, MarkColor.ProofColor,
                new RectangleD
                {
