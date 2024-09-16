@@ -13,6 +13,8 @@ namespace Job.Static.Pdf.Imposition.Models
         public int FrontIdx { get; set; } = 1;
         public int BackIdx { get; set; } = 0;
 
+        public double Bleeds { get; set; } = 0;
+
         public double W { get; set; } = 210;
         public double H { get; set; } = 297;
         public double X { get; set; } = 10;
@@ -20,11 +22,11 @@ namespace Job.Static.Pdf.Imposition.Models
 
         public double Angle { get; set; } = 0;
 
-        public ClipBox Clip { get; set; } = new ClipBox();
+        public ClipBox Margins { get; set; } = new ClipBox();
 
-        public double GetClippedW => W + Clip.Left + Clip.Right;
+        public double GetClippedW => W + Margins.Left + Margins.Right;
 
-        public double GetClippedH => H + Clip.Top + Clip.Bottom;
+        public double GetClippedH => H + Margins.Top + Margins.Bottom;
 
         public TemplatePage()
         {
@@ -35,6 +37,11 @@ namespace Job.Static.Pdf.Imposition.Models
         {
             W = width;
             H = height;
+        }
+
+        public TemplatePage(double width, double height, double bleeds):this(width,height)
+        {
+            Bleeds = bleeds;
         }
 
         public TemplatePage(double x, double y, double width, double height, double angle)
@@ -128,14 +135,14 @@ namespace Job.Static.Pdf.Imposition.Models
                 case 0:
                     break;
                 case 90:
-                    return X + Clip.Top;
+                    return X + Margins.Top;
                 case 180:
-                    return X + Clip.Bottom;
+                    return X + Margins.Bottom;
                 case 270:
-                    return X + Clip.Right;
+                    return X + Margins.Right;
             }
 
-            return X + Clip.Left;
+            return X + Margins.Left;
 
         }
 
@@ -147,14 +154,14 @@ namespace Job.Static.Pdf.Imposition.Models
                 case 0:
                     break;
                 case 90:
-                    return Y + Clip.Right;
+                    return Y + Margins.Right;
                 case 180:
-                    return Y + Clip.Top;
+                    return Y + Margins.Top;
                 case 270:
-                    return Y + Clip.Left;
+                    return Y + Margins.Left;
 
             }
-            return Y + Clip.Bottom;
+            return Y + Margins.Bottom;
         }
 
         public double GetPageDrawW()

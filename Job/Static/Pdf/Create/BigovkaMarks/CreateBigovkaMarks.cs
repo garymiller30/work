@@ -43,9 +43,8 @@ namespace Job.Static.Pdf.Create.BigovkaMarks
                     var page = p.open_pdi_page(doc, i, "cloneboxes");
                     p.begin_page_ext(0, 0, "");
                     p.fit_pdi_page(page, 0, 0, "cloneboxes");
-                    
 
-                    Box trimbox = PdfHelper.GetTrimbox(p, doc, i-1);
+                    Boxes trimbox = PdfHelper.GetBoxes(p, doc, i-1);
                     p.close_pdi_page(page);
                     CreateBigovki(p, trimbox);
 
@@ -54,7 +53,6 @@ namespace Job.Static.Pdf.Create.BigovkaMarks
 
                 p.close_pdi_document(doc);
                 p.end_document("");
-
             }
             catch (PDFlibException e)
             {
@@ -67,8 +65,10 @@ namespace Job.Static.Pdf.Create.BigovkaMarks
 
         }
 
-        private void CreateBigovki(PDFlib p,Box box)
+        private void CreateBigovki(PDFlib p,Boxes boxes)
         {
+            var box = boxes.Trim;
+
             p.setcolor("fillstroke", "cmyk", _param.Color.C/100, _param.Color.M/100, _param.Color.Y/100, _param.Color.K/100);
             p.setlinewidth(2.0);
 
@@ -78,33 +78,32 @@ namespace Job.Static.Pdf.Create.BigovkaMarks
             if (_param.Direction == DirectionEnum.Horizontal)
             {
                 y -= (_param.DistanceFromTrim + _param.Lenght) * PdfHelper.mn;
-                double xOfs = x;
+                double xOfs = x + boxes.Media.left;
                 for (int i = 0; i < _param.Bigovki.Length; i++)
                 {
-                    xOfs += _param.Bigovki[i] * PdfHelper.mn;
-                    p.moveto(xOfs,y);
-                    p.lineto(xOfs,y + _param.Lenght * PdfHelper.mn);
+                    xOfs +=  _param.Bigovki[i] * PdfHelper.mn;
+                    p.moveto(xOfs,y + boxes.Media.bottom);
+                    p.lineto(xOfs,y + boxes.Media.bottom + _param.Lenght * PdfHelper.mn);
                     p.stroke();
 
-                    p.moveto(xOfs,box.bottom + box.height + _param.DistanceFromTrim * PdfHelper.mn);
-                    p.lineto(xOfs, box.bottom + box.height + (_param.DistanceFromTrim + _param.Lenght) * PdfHelper.mn);
+                    p.moveto(xOfs, box.bottom + boxes.Media.bottom + box.height + _param.DistanceFromTrim * PdfHelper.mn);
+                    p.lineto(xOfs, box.bottom + boxes.Media.bottom + box.height + (_param.DistanceFromTrim + _param.Lenght) * PdfHelper.mn);
                     p.stroke();
                 } 
-
             }
             else
             {
-                double ofsY = y;
+                double ofsY = y + boxes.Media.bottom ;
 
                 for (int i = 0; i < _param.Bigovki.Length; i++)
                 {
-                    ofsY += _param.Bigovki[i] * PdfHelper.mn;
-                    p.moveto(box.left - (_param.DistanceFromTrim + _param.Lenght) * PdfHelper.mn, ofsY);
-                    p.lineto(box.left - (_param.DistanceFromTrim ) * PdfHelper.mn, ofsY);
+                    ofsY +=  _param.Bigovki[i] * PdfHelper.mn;
+                    p.moveto(box.left + boxes.Media.left - (_param.DistanceFromTrim + _param.Lenght) * PdfHelper.mn, ofsY);
+                    p.lineto(box.left + boxes.Media.left - (_param.DistanceFromTrim) * PdfHelper.mn, ofsY);
                     p.stroke();
 
-                    p.moveto(box.left + box.width + _param.DistanceFromTrim* PdfHelper.mn , ofsY);
-                    p.lineto(box.left + box.width + (_param.DistanceFromTrim + _param.Lenght) * PdfHelper.mn,ofsY);
+                    p.moveto(box.left + boxes.Media.left + box.width + _param.DistanceFromTrim* PdfHelper.mn , ofsY);
+                    p.lineto(box.left + boxes.Media.left + box.width + (_param.DistanceFromTrim + _param.Lenght) * PdfHelper.mn,ofsY);
                     p.stroke();
                 }
 

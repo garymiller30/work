@@ -32,7 +32,7 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                 double x = mark.Back.X;
                 if (mark.Parameters.IsBackMirrored)
                 {
-
+                    //TODO: хз, що тут робити. Поки не знадобилося
                 }
 
                 p.fit_textline(txt, x * PdfHelper.mn, mark.Back.Y * PdfHelper.mn, $"fontname={mark.FontName} fontsize={mark.FontSize} {fillColor} orientate={Commons.Orientate[mark.Angle]}");

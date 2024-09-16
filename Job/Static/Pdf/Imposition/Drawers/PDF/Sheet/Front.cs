@@ -17,6 +17,11 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
     {
         public static void Front(PDFlib p, ProductPart impos, int curSheetIdx)
         {
+            TextVariablesService.SetValue(ValueList.SheetIdx, curSheetIdx + 1);
+            TextVariablesService.SetValue(ValueList.SheetSide, "Лице");
+            TextVariablesService.SetValue(ValueList.SheetFormat, $"{impos.Sheet.W}x{impos.Sheet.H}");
+            TextVariablesService.SetValue(ValueList.CurDate, DateTime.Now.ToString());
+
             var sheet = impos.Sheet;
 
             p.begin_page_ext(sheet.W * PdfHelper.mn, sheet.H * PdfHelper.mn, "");
@@ -40,13 +45,13 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
                     if (pdfFile.IsMediaboxCentered)
                     {
-                        c_llx = (pdfPage.Media.W - templatePage.W) / 2 - templatePage.Clip.Left;
-                        c_lly = (pdfPage.Media.H - templatePage.H) / 2 - templatePage.Clip.Bottom;
+                        c_llx = (pdfPage.Media.W - templatePage.W) / 2 - templatePage.Margins.Left;
+                        c_lly = (pdfPage.Media.H - templatePage.H) / 2 - templatePage.Margins.Bottom;
                     }
                     else
                     {
-                        c_llx = pdfPage.Trim.X1 - templatePage.Clip.Left - pdfPage.Media.X1;
-                        c_lly = pdfPage.Trim.Y1 - templatePage.Clip.Bottom - pdfPage.Media.Y1;
+                        c_llx = pdfPage.Trim.X1 - templatePage.Margins.Left - pdfPage.Media.X1;
+                        c_lly = pdfPage.Trim.Y1 - templatePage.Margins.Bottom - pdfPage.Media.Y1;
                     }
 
                     double c_urx = c_llx + templatePage.GetClippedW;
@@ -76,7 +81,7 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
             TextMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
             DrawTextMarks.Front(p, sheet.TemplatePageContainer.Marks);
 
-            string mediabox;
+            //string mediabox;
             //string trimbox = $"{0} {0} {(sheet.W) * PdfHelper.mn} {(sheet.H) * PdfHelper.mn}";
 
 
