@@ -17,6 +17,9 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
     {
         public static void Back(PDFlib p, ProductPart impos, int curSheetIdx)
         {
+            TextVariablesService.SetValue(ValueList.SheetSide, "Зворот");
+
+
             var sheet = impos.Sheet;
 
 
@@ -40,14 +43,14 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
                     if (pdfFile.IsMediaboxCentered)
                     {
-                        c_llx = (pdfPage.Media.W - templatePage.W) / 2 - templatePage.Clip.Left;
-                        c_lly = (pdfPage.Media.H - templatePage.H) / 2 - templatePage.Clip.Bottom;
+                        c_llx = (pdfPage.Media.W - templatePage.W) / 2 - templatePage.Margins.Left;
+                        c_lly = (pdfPage.Media.H - templatePage.H) / 2 - templatePage.Margins.Bottom;
 
                     }
                     else
                     {
-                        c_llx = pdfPage.Trim.X1 - templatePage.Clip.Left - pdfPage.Media.X1;
-                        c_lly = pdfPage.Trim.Y1 - templatePage.Clip.Bottom - pdfPage.Media.Y1;
+                        c_llx = pdfPage.Trim.X1 - templatePage.Margins.Left - pdfPage.Media.X1;
+                        c_lly = pdfPage.Trim.Y1 - templatePage.Margins.Bottom - pdfPage.Media.Y1;
                     }
 
                     double c_urx = c_llx + templatePage.GetClippedW;

@@ -104,28 +104,28 @@ namespace Job.Static.Pdf.Imposition.Services
             {
                 {000, new AnchorOfset[]
                 {
-                    new AnchorOfset{X = llx + templatePage.Clip.Left, Y = lly + templatePage.Clip.Bottom}, //BL
+                    new AnchorOfset{X = llx + templatePage.Margins.Left, Y = lly + templatePage.Margins.Bottom}, //BL
                     new AnchorOfset{Y = templatePage.H},                                                   //TL
                     new AnchorOfset{X = templatePage.W},                                                   //TR
                     new AnchorOfset{Y = -templatePage.H}                                                   //BR
                 }},
                 {090, new AnchorOfset[]
                 {
-                    new AnchorOfset{X = llx - templatePage.Clip.Bottom + templatePage.GetClippedH, Y = lly + templatePage.Clip.Left}, //BL
+                    new AnchorOfset{X = llx - templatePage.Margins.Bottom + templatePage.GetClippedH, Y = lly + templatePage.Margins.Left}, //BL
                     new AnchorOfset{X = -templatePage.H},                                                   //TL
                     new AnchorOfset{Y = templatePage.W},                                                   //TR
                     new AnchorOfset{X = templatePage.H}                                                   //BR
                 }},
                 {180, new AnchorOfset[]
                 {
-                    new AnchorOfset{X = llx  - templatePage.Clip.Left + templatePage.GetClippedW, Y = lly - templatePage.Clip.Bottom + templatePage.GetClippedH}, //BL
+                    new AnchorOfset{X = llx  - templatePage.Margins.Left + templatePage.GetClippedW, Y = lly - templatePage.Margins.Bottom + templatePage.GetClippedH}, //BL
                     new AnchorOfset{Y = -templatePage.H},                                                   //TL
                     new AnchorOfset{X = -templatePage.W},                                                   //TR
                     new AnchorOfset{Y = templatePage.H}                                                   //BR
                 }},
                 {270, new AnchorOfset[]
                 {
-                    new AnchorOfset{X = llx + templatePage.Clip.Bottom, Y = lly - templatePage.Clip.Left+ templatePage.GetClippedW}, //BL
+                    new AnchorOfset{X = llx + templatePage.Margins.Bottom, Y = lly - templatePage.Margins.Left+ templatePage.GetClippedW}, //BL
                     new AnchorOfset{X = templatePage.H},                                                  //TL
                     new AnchorOfset{Y = -templatePage.W},                                                   //TR
                     new AnchorOfset{X = -templatePage.H}                                                    //BR
@@ -151,28 +151,28 @@ namespace Job.Static.Pdf.Imposition.Services
             {
                 {000, new AnchorOfset[]
                 {
-                    new AnchorOfset{X = sheet.W - (llx + templatePage.Clip.Left), Y = lly + templatePage.Clip.Bottom}, //BL
+                    new AnchorOfset{X = sheet.W - (llx + templatePage.Margins.Left), Y = lly + templatePage.Margins.Bottom}, //BL
                     new AnchorOfset{Y = templatePage.H},                                                   //TL
                     new AnchorOfset{X = -templatePage.W},                                                   //TR
                     new AnchorOfset{Y = -templatePage.H}                                                   //BR
                 }},
                 {090, new AnchorOfset[]
                 {
-                    new AnchorOfset{X = sheet.W - llx + templatePage.Clip.Bottom - templatePage.GetClippedH , Y = lly + templatePage.GetClippedW - templatePage.Clip.Left  }, //BL
+                    new AnchorOfset{X = sheet.W - llx + templatePage.Margins.Bottom - templatePage.GetClippedH , Y = lly + templatePage.GetClippedW - templatePage.Margins.Left  }, //BL
                     new AnchorOfset{X = templatePage.H},                                                   //TL
                     new AnchorOfset{Y = -templatePage.W},                                                   //TR
                     new AnchorOfset{X = -templatePage.H}                                                   //BR
                 }},
                 {180, new AnchorOfset[]
                 {
-                    new AnchorOfset{X = sheet.W - llx  - templatePage.Clip.Left, Y = lly + templatePage.GetClippedH - templatePage.Clip.Bottom}, //BL
+                    new AnchorOfset{X = sheet.W - llx  - templatePage.Margins.Left, Y = lly + templatePage.GetClippedH - templatePage.Margins.Bottom}, //BL
                     new AnchorOfset{Y = -templatePage.H},                                                   //TL
                     new AnchorOfset{X = -templatePage.W},                                                   //TR
                     new AnchorOfset{Y = templatePage.H}                                                   //BR
                 }},
                 {270, new AnchorOfset[]
                 {
-                    new AnchorOfset{X = sheet.W - llx - templatePage.Clip.Bottom, Y = lly + templatePage.Clip.Left}, //BL
+                    new AnchorOfset{X = sheet.W - llx - templatePage.Margins.Bottom, Y = lly + templatePage.Margins.Left}, //BL
                     new AnchorOfset{X = -templatePage.H},                                                  //TL
                     new AnchorOfset{Y = templatePage.W},                                                   //TR
                     new AnchorOfset{X = templatePage.H}                                                    //BR

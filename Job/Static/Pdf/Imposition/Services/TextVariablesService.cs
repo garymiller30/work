@@ -42,5 +42,6 @@ namespace Job.Static.Pdf.Imposition.Services
         public const string SheetIdx = "$[sheetIdx]";
         public const string SheetSide = "$[sheetSide]";
         public const string SheetFormat  = "$[sheetFormat]";
+        public const string CurDate = "$[datetime]";
     }
 }

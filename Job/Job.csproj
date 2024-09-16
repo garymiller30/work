@@ -255,10 +255,14 @@
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Pdf\Front.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Text\Back.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Text\Front.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Models\PdfPage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Models\PdfPagePlacer.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\PdfDrawer.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Proof.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\Back.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\Front.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Services\DrawSheetwiseService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Services\DrawSingleSideService.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorOfset.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorPoint.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ClipBox.cs" />
@@ -284,12 +288,19 @@
     <Compile Include="Static\Pdf\Imposition\Models\TemplatePageContainer.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\TemplatePlate.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\TemplateSheet.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\TemplateSheetPlaceType.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\CropMarkCreator.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\CropMarksController.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\CropMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PdfLineDrawer.cs" />
-    <Compile Include="Static\Pdf\Imposition\Services\Impos\LooseBindingParameters.cs" />
-    <Compile Include="Static\Pdf\Imposition\Services\Impos\LooseBindingService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingTypeEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\Sheetwise\LooseBindingSheetwise.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\SingleSide\LooseBindingSingleSide.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\AbstractPlaceVariant.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantNonRotated.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantRotated.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PdfMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PositioningService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextMarksService.cs" />
@@ -969,6 +980,8 @@
   <ItemGroup>
     <Folder Include="Core\Compression\Snappy\lib\" />
     <Folder Include="Core\Compression\Zstandard\lib\" />
+    <Folder Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\Perfecting\" />
+    <Folder Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\WorkAndTurn\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\users-2-icon.png" />

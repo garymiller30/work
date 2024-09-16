@@ -16,6 +16,8 @@ namespace Job.Static.Pdf.Imposition.Models
         public double W { get; set; }
         public double H { get; set; }
 
+        public TemplateSheetPlaceType SheetPlaceType { get; set; } = TemplateSheetPlaceType.SingleSide;
+
         public TemplateSheet()
         {
 

@@ -40,7 +40,12 @@ namespace PythonEngine.Controllers
 
         public override void ProccessScriptByName(IDownloadTicket ticket, string scriptName)
         {
-            throw new NotImplementedException();
+            var script = Settings.Profile.MenuManagers.Utils.Get().FirstOrDefault(x => x.Name.ToLower().Equals(scriptName.ToLower()) && x.IsScript());
+            if (script == null) return;
+
+            var param = PrepareScriptToStart(ticket.Job, script);
+
+            ScriptExecuter.AddToQuery(this, param);
         }
     }
 }
