@@ -27,16 +27,23 @@ namespace Job.Static.Pdf.Imposition.Services.Impos.Models
             Parameters = bindingParameters;
         }
 
-        protected void Calc(double w, double h)
-        {
+        public virtual (double sheetW, double sheetH) GetSheetFormat() {
+            
             var _sheet = Parameters.Sheet;
-
             double sheetW = _sheet.W - _sheet.SafeFields.Left - _sheet.SafeFields.Right;
             double sheetH = _sheet.H - _sheet.SafeFields.Top - _sheet.SafeFields.Bottom;
 
-            if (!Parameters.IsCenterHorizontal) sheetW += Parameters.Xofs;
+            return (sheetW, sheetH);
+        }
 
-            if (!Parameters.IsCenterVertical) sheetH += Parameters.Yofs;
+        protected void Calc(double w, double h)
+        {
+            
+            (double sheetW,double sheetH) = GetSheetFormat();
+
+            if (!Parameters.IsCenterHorizontal) sheetW -= Parameters.Xofs;
+
+            if (!Parameters.IsCenterVertical) sheetH -= Parameters.Yofs;
 
             CntX = (int)(sheetW / w);
             CntY = (int)(sheetH / h);
@@ -44,6 +51,5 @@ namespace Job.Static.Pdf.Imposition.Services.Impos.Models
             BlockWidth = CntX * w;
             BlockHeight = CntY * h;
         }
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Job.Static.Pdf.Imposition.Models;
 using Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise;
+using Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTurn;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Job.Static.Pdf.Imposition.Services.Impos.Binding
                 case TemplateSheetPlaceType.Sheetwise:
                     return LooseBindingSheetwise.Impos(parameters);
                 case TemplateSheetPlaceType.WorkAndTurn:
-                    throw new NotImplementedException();
+                    return LooseBindingWorkAndTurn.Impos(parameters);
                 case TemplateSheetPlaceType.Perfecting:
                     throw new NotImplementedException();
                 default:

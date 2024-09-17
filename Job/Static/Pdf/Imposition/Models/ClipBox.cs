@@ -20,6 +20,15 @@ namespace Job.Static.Pdf.Imposition.Models
             Top = all;
             Bottom = all;
         }
+
+        public void Set(ClipBox box)
+        {
+            Right = box.Right;
+            Left = box.Left;
+            Top = box.Top;
+            Bottom = box.Bottom;
+
+        }
         public ClipBox()
         {
 

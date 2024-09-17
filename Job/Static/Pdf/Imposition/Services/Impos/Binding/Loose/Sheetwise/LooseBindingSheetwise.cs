@@ -16,8 +16,6 @@ namespace Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
             TemplatePage page = parameters.TemplatePage;
 
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
-            TemplatePage tPage = new TemplatePage(page.W, page.H);
-            tPage.Margins.Set(page.Bleeds);
 
             AbstractPlaceVariant nonRotated = new PlaceVariantNonRotated(parameters);
             AbstractPlaceVariant rotated = new PlaceVariantRotated(parameters);
@@ -41,7 +39,7 @@ namespace Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
                 selVariant = rotated;
             }
 
-            tPage.Angle = selVariant.IsRotated ? 90 : 0;
+            double angle = selVariant.IsRotated ? 90 : 0;
 
             double x = sheet.SafeFields.Left + parameters.Xofs;
             double y = sheet.SafeFields.Bottom + parameters.Yofs;
@@ -59,8 +57,8 @@ namespace Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
                 TemplatePage templatePage = new TemplatePage();
                 for (int cx = 0; cx < selVariant.CntX; cx++)
                 {
-                    templatePage = new TemplatePage(xOfs, y, tPage.W, tPage.H, tPage.Angle);
-                    templatePage.Margins.Set(page.Bleeds);
+                    templatePage = new TemplatePage(xOfs, y, page.W, page.H, angle);
+                    templatePage.Margins.Set(page.Margins);
                     templatePage.FrontIdx = 1;
                     templatePage.BackIdx = 2;
 
