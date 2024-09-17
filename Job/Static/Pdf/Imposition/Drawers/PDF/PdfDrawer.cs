@@ -33,8 +33,11 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF
                 case TemplateSheetPlaceType.Sheetwise: 
                     DrawSheetwiseService.Draw(impos,TargetFile);
                     break;
-                case TemplateSheetPlaceType.WorkAndTurn: throw new NotImplementedException();
-                case TemplateSheetPlaceType.Perfecting: throw new NotImplementedException();
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    DrawWorkAndTurnService.Draw(impos,TargetFile);
+                    break;
+                case TemplateSheetPlaceType.Perfecting: 
+                    throw new NotImplementedException();
                 default:
                     throw new NotImplementedException();
             }

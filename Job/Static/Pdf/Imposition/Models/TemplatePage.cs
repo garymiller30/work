@@ -42,6 +42,7 @@ namespace Job.Static.Pdf.Imposition.Models
         public TemplatePage(double width, double height, double bleeds):this(width,height)
         {
             Bleeds = bleeds;
+            Margins.Set(bleeds);
         }
 
         public TemplatePage(double x, double y, double width, double height, double angle)

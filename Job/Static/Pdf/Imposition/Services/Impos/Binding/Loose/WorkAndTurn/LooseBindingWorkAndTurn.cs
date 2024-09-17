@@ -1,5 +1,4 @@
 ﻿using Job.Static.Pdf.Imposition.Models;
-using Job.Static.Pdf.Imposition.Services.Impos.Binding;
 using Job.Static.Pdf.Imposition.Services.Impos.Models;
 using System;
 using System.Collections.Generic;
@@ -7,23 +6,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Services.Impos
+namespace Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTurn
 {
-    public static class LooseBindingSingleSide
+    public static class LooseBindingWorkAndTurn
     {
         public static TemplatePageContainer Impos(LooseBindingParameters parameters)
         {
+            TemplatePageContainer templatePageContainer = new TemplatePageContainer();
+
             TemplateSheet sheet = parameters.Sheet;
             TemplatePage page = parameters.TemplatePage;
 
-            TemplatePageContainer templatePageContainer = new TemplatePageContainer();
-           
+            //TemplatePage tPage = new TemplatePage(page.W, page.H);
+            //tPage.Margins.Set(page.Bleeds);
 
-            AbstractPlaceVariant nonRotated = new PlaceVariantNonRotated(parameters);
-            AbstractPlaceVariant rotated = new PlaceVariantRotated(parameters);
+            AbstractPlaceVariant nonRotated = new PlaceVariantWorkAndTurnNonRotated(parameters);
+            AbstractPlaceVariant rotated = new PlaceVariantWorkAndTurnRotated(parameters);
 
             AbstractPlaceVariant selVariant;
-
             if (nonRotated.Total > rotated.Total)
             {
                 selVariant = nonRotated;
@@ -41,13 +41,14 @@ namespace Job.Static.Pdf.Imposition.Services.Impos
                 selVariant = rotated;
             }
 
-            double angle = selVariant.IsRotated ? 90 : 0;
+            double angle_front = selVariant.IsRotated ? 90 : 0;
+            double angle_back = selVariant.IsRotated ? 270 : 0;
 
-            double x = sheet.SafeFields.Left + parameters.Xofs;
+            double x = sheet.W / 2 - selVariant.BlockWidth;
             double y = sheet.SafeFields.Bottom + parameters.Yofs;
 
             if (parameters.IsCenterHorizontal)
-                x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - selVariant.BlockWidth) / 2;
+                x = (sheet.W/2 - selVariant.BlockWidth) / 2;
 
             if (parameters.IsCenterVertical)
                 y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Top - selVariant.BlockHeight) / 2;
@@ -59,19 +60,24 @@ namespace Job.Static.Pdf.Imposition.Services.Impos
                 TemplatePage templatePage = new TemplatePage();
                 for (int cx = 0; cx < selVariant.CntX; cx++)
                 {
-                    templatePage = new TemplatePage(xOfs, y, page.W, page.H, angle);
+                    templatePage = new TemplatePage(xOfs, y, page.W, page.H, angle_front);
                     templatePage.Margins.Set(page.Margins);
                     templatePage.FrontIdx = 1;
                     templatePage.BackIdx = 0;
-
-
                     templatePageContainer.AddPage(templatePage);
+
+                    double x_back = sheet.W - xOfs - templatePage.GetClippedWByRotate();
+                    templatePage = new TemplatePage(x_back, y, page.W, page.H, angle_back);
+                    templatePage.Margins.Set(page.Margins);
+                    templatePage.FrontIdx = 2;
+                    templatePage.BackIdx = 0;
+                    templatePageContainer.AddPage(templatePage);
+
                     xOfs += templatePage.GetClippedWByRotate();
                 }
                 xOfs = x;
                 y += templatePage.GetClippedHByRotate();
             }
-
             return templatePageContainer;
         }
     }
