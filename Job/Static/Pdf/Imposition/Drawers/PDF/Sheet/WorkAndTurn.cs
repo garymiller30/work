@@ -65,7 +65,7 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
                     CropMarksService.FixCropMarksFront(sheet.TemplatePageContainer);
                     DrawCropMarks.Front(p, templatePage);
 
-                    Proof.DrawPageFront(p, templatePage);
+                    Proof.DrawPageFront(p, templatePage, impos.Proof);
                 }
             }
 
@@ -81,7 +81,7 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
             TextMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
             DrawTextMarks.Front(p, sheet.TemplatePageContainer.Marks);
 
-            Proof.DrawSheet(p, sheet);
+            Proof.DrawSheet(p, sheet, impos.Proof);
 
             p.end_page_ext($"mediabox={{{GetMediabox(impos)}}}");
         }

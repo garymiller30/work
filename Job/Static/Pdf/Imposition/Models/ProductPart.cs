@@ -17,6 +17,8 @@ namespace Job.Static.Pdf.Imposition.Models
 
         public TemplateSheet Sheet { get; set; } = new TemplateSheet();
 
+        public ProofParameters Proof {  get; set; } = new ProofParameters();
+
         public PdfFile AddPdfFile(string filePath)
         {
             var file = new PdfFile(filePath);
