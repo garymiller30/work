@@ -65,7 +65,7 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
                     CropMarksService.FixCropMarksFront(sheet.TemplatePageContainer);
                     DrawCropMarks.Front(p, templatePage);
 
-                    Proof.DrawPageFront(p, templatePage);
+                    Proof.DrawPageFront(p, templatePage, impos.Proof);
                 }
             }
 
@@ -85,7 +85,7 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
             //string trimbox = $"{0} {0} {(sheet.W) * PdfHelper.mn} {(sheet.H) * PdfHelper.mn}";
 
 
-            Proof.DrawSheet(p, sheet);
+            Proof.DrawSheet(p, sheet, impos.Proof);
 
             p.end_page_ext($"mediabox={{{GetMediabox(impos)}}}");
         }

@@ -30,12 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSimple = new System.Windows.Forms.TabPage();
-            this.kryptonHeaderGroup1 = new Krypton.Toolkit.KryptonHeaderGroup();
             this.tabControl1.SuspendLayout();
-            this.tabPageSimple.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonHeaderGroup1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonHeaderGroup1.Panel)).BeginInit();
-            this.kryptonHeaderGroup1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -50,7 +45,6 @@
             // 
             // tabPageSimple
             // 
-            this.tabPageSimple.Controls.Add(this.kryptonHeaderGroup1);
             this.tabPageSimple.Location = new System.Drawing.Point(4, 22);
             this.tabPageSimple.Name = "tabPageSimple";
             this.tabPageSimple.Padding = new System.Windows.Forms.Padding(3);
@@ -58,13 +52,6 @@
             this.tabPageSimple.TabIndex = 0;
             this.tabPageSimple.Text = "простий";
             this.tabPageSimple.UseVisualStyleBackColor = true;
-            // 
-            // kryptonHeaderGroup1
-            // 
-            this.kryptonHeaderGroup1.Location = new System.Drawing.Point(3, 6);
-            this.kryptonHeaderGroup1.Name = "kryptonHeaderGroup1";
-            this.kryptonHeaderGroup1.Size = new System.Drawing.Size(251, 150);
-            this.kryptonHeaderGroup1.TabIndex = 0;
             // 
             // FormPdfImposition
             // 
@@ -75,10 +62,6 @@
             this.Name = "FormPdfImposition";
             this.Text = "Спуск полос";
             this.tabControl1.ResumeLayout(false);
-            this.tabPageSimple.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonHeaderGroup1.Panel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonHeaderGroup1)).EndInit();
-            this.kryptonHeaderGroup1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -87,6 +70,5 @@
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageSimple;
-        private Krypton.Toolkit.KryptonHeaderGroup kryptonHeaderGroup1;
     }
 }
