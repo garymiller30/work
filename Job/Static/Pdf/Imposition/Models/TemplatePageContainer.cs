@@ -96,5 +96,32 @@ namespace Job.Static.Pdf.Imposition.Models
                 page.CropMarksController.Parameters = param;
             }
         }
+
+
+        public void FlipPagesAngle(TemplatePage page)
+        {
+            if (page.Angle == 0 || page.Angle == 180)
+            {
+                // міняємо кут у всіх з однаковим Y
+                foreach (var item in TemplatePages)
+                {
+                    if (item.Y == page.Y)
+                    {
+                        item.FlipAngle();
+                    }
+                }
+            }
+            else
+            {
+                // міняємо кут у всіх з однаковим X
+                foreach (var item in TemplatePages)
+                {
+                    if (item.X == page.X)
+                    {
+                        item.FlipAngle();
+                    }
+                }
+            }
+        }
     }
 }

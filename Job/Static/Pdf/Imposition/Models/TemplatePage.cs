@@ -39,7 +39,7 @@ namespace Job.Static.Pdf.Imposition.Models
             H = height;
         }
 
-        public TemplatePage(double width, double height, double bleeds):this(width,height)
+        public TemplatePage(double width, double height, double bleeds) : this(width, height)
         {
             Bleeds = bleeds;
             Margins.Set(bleeds);
@@ -175,6 +175,11 @@ namespace Job.Static.Pdf.Imposition.Models
         {
             if (Angle == 0 || Angle == 180) return H;
             return W;
+        }
+
+        public void FlipAngle()
+        {
+            Angle = (Angle + 180) % 360;
         }
     }
 }

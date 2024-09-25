@@ -1,4 +1,6 @@
-﻿namespace Job.UC
+﻿using System;
+
+namespace Job.UC
 {
     partial class FileBrowser
     {
@@ -104,6 +106,7 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButtonSplitPdfMenu = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Up = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -764,6 +767,7 @@
             this.toolStripButton3,
             this.toolStripDropDownButtonSplitPdfMenu,
             this.toolStripButton4,
+            this.toolStripButton5,
             this.toolStripButtonNumericFiles});
             this.toolStripPDF.Location = new System.Drawing.Point(0, 3);
             this.toolStripPDF.Name = "toolStripPDF";
@@ -828,6 +832,15 @@
             this.toolStripButton4.Size = new System.Drawing.Size(30, 20);
             this.toolStripButton4.Text = "Додати тиражі";
             this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
+            // 
+            // toolStripButton5
+            // 
+            
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(30, 20);
+            this.toolStripButton5.Text = "СП";
+            this.toolStripButton5.ToolTipText = "спуск полос";
+            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
             // 
             // toolStrip1
             // 
@@ -1185,6 +1198,10 @@
 
         }
 
+      
+
+
+
         #endregion
 
         private BrightIdeasSoftware.ObjectListView objectListView1;
@@ -1296,6 +1313,7 @@
         private System.Windows.Forms.ToolStripMenuItem розділитиТимчасовоЗібранийФайлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem створитиМіткиДляБіговкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripButton toolStripButton5;
         private System.Windows.Forms.ToolStripMenuItem створитиПлашкуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem спускПолосToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButtonNumericFiles;

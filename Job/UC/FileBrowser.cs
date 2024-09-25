@@ -2018,12 +2018,25 @@ namespace Job.UC
 
         private void спускПолосToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ShowImposDialog();
+        }
 
-            using (var form = new FormPdfImposition())
+        void ShowImposDialog()
+        {
+            
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using (var form = new FormPdfImposition(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), _fileManager.Settings.CurFolder))
             {
                 form.ShowDialog();
             }
         }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            ShowImposDialog();
+        }
+
 
         private void toolStripButtonNumericFiles_Click(object sender, EventArgs e)
         {

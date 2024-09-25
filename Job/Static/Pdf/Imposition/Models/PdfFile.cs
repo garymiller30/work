@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace Job.Static.Pdf.Imposition.Models
         public int Id { get; set; }
         public string FileName { get; set; }
 
+        public string ShortName { get; set; }
         public bool IsMediaboxCentered { get; set; } = true;
 
         public PdfFilePage[] Pages { get; private set; }
@@ -25,6 +27,8 @@ namespace Job.Static.Pdf.Imposition.Models
 
         private void GetPagesInfo()
         {
+            ShortName = Path.GetFileName(FileName);
+
             PDFlib p = new PDFlib();
 
             try
@@ -48,6 +52,7 @@ namespace Job.Static.Pdf.Imposition.Models
                     int page = p.open_pdi_page(doc, i, "");
 
                     PdfFilePage filePage = new PdfFilePage();
+                    filePage.Idx = i;
 
                     var trims = new double[] { 0, 0, 0, 0 };
                     var media = new double[] { 0, 0, 0, 0 };
@@ -105,6 +110,20 @@ namespace Job.Static.Pdf.Imposition.Models
             {
                 p?.Dispose();
             }
+        }
+
+        public static int GetParentId(List<PdfFile> files, PdfFilePage page)
+        {
+            foreach (PdfFile file in files)
+            {
+                if (file.Pages.Contains(page))
+                {
+                    return file.Id;
+
+                }
+            }
+
+            return -1;
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Job.Static.Pdf.Imposition.Models
 {
     public sealed class TemplateSheet
     {
+        public string Description { get; set; } = "sheet";
         public TemplatePageContainer TemplatePageContainer { get; set; } = new TemplatePageContainer();
 
         public double W { get; set; }

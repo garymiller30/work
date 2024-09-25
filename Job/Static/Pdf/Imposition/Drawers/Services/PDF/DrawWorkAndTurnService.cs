@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Drawers.Services
+namespace Job.Static.Pdf.Imposition.Drawers.Services.PDF
 {
     public static class DrawWorkAndTurnService
     {
@@ -32,7 +32,7 @@ namespace Job.Static.Pdf.Imposition.Drawers.Services
                 for (int sheetIdx = 0; sheetIdx < cSheets; sheetIdx++)
                 {
                     DrawSheet.WorkAndTurn(p, productPart, sheetIdx);
-                    
+
                 }
                 p.end_document("");
             }

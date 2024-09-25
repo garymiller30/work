@@ -1,7 +1,7 @@
 ﻿using Job.Static.Pdf.Common;
 using Job.Static.Pdf.Imposition.Drawers.PDF.Models;
 using Job.Static.Pdf.Imposition.Drawers.PDF.Sheet;
-using Job.Static.Pdf.Imposition.Drawers.Services;
+using Job.Static.Pdf.Imposition.Drawers.Services.PDF;
 using Job.Static.Pdf.Imposition.Models;
 using Job.Static.Pdf.Imposition.Services;
 using PDFlib_dotnet;

@@ -8,6 +8,7 @@ namespace Job.Static.Pdf.Imposition.Models
 {
     public class PdfFilePage
     {
+        public int Idx { get; set; }
         public PdfBox Media { get; set; } = new PdfBox();
         public PdfBox Trim { get; set; } = new PdfBox();
         // public double Angle { get; internal set; }

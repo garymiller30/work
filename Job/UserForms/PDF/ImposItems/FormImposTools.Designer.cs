@@ -1,0 +1,206 @@
+﻿namespace Job.UserForms.PDF.ImposItems
+{
+    partial class FormImposTools
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormImposTools));
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.cb_select = new System.Windows.Forms.CheckBox();
+            this.cb_rotate_180 = new System.Windows.Forms.CheckBox();
+            this.tb_front = new System.Windows.Forms.TextBox();
+            this.tb_back = new System.Windows.Forms.TextBox();
+            this.btn_switch_front_back = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cb_EnableNumering = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel1.Controls.Add(this.cb_select, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.cb_rotate_180, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tb_front, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.tb_back, 3, 6);
+            this.tableLayoutPanel1.Controls.Add(this.btn_switch_front_back, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 3, 5);
+            this.tableLayoutPanel1.Controls.Add(this.cb_EnableNumering, 1, 4);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(133, 275);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // cb_select
+            // 
+            this.cb_select.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_select.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.cb_select, 2);
+            this.cb_select.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cb_select.Image = ((System.Drawing.Image)(resources.GetObject("cb_select.Image")));
+            this.cb_select.Location = new System.Drawing.Point(3, 3);
+            this.cb_select.Name = "cb_select";
+            this.cb_select.Size = new System.Drawing.Size(59, 33);
+            this.cb_select.TabIndex = 0;
+            this.cb_select.UseVisualStyleBackColor = true;
+            // 
+            // cb_rotate_180
+            // 
+            this.cb_rotate_180.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_rotate_180.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.cb_rotate_180, 2);
+            this.cb_rotate_180.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cb_rotate_180.Image = ((System.Drawing.Image)(resources.GetObject("cb_rotate_180.Image")));
+            this.cb_rotate_180.Location = new System.Drawing.Point(68, 3);
+            this.cb_rotate_180.Name = "cb_rotate_180";
+            this.cb_rotate_180.Size = new System.Drawing.Size(62, 33);
+            this.cb_rotate_180.TabIndex = 1;
+            this.cb_rotate_180.UseVisualStyleBackColor = true;
+            this.cb_rotate_180.CheckedChanged += new System.EventHandler(this.cb_rotate_180_CheckedChanged);
+            // 
+            // tb_front
+            // 
+            this.tb_front.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tb_front.Location = new System.Drawing.Point(3, 251);
+            this.tb_front.Name = "tb_front";
+            this.tb_front.Size = new System.Drawing.Size(40, 20);
+            this.tb_front.TabIndex = 2;
+            this.tb_front.Text = "1";
+            this.tb_front.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tb_front.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_front_MouseClick);
+            this.tb_front.TextChanged += new System.EventHandler(this.tb_front_TextChanged);
+            // 
+            // tb_back
+            // 
+            this.tb_back.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tb_back.Location = new System.Drawing.Point(87, 251);
+            this.tb_back.Name = "tb_back";
+            this.tb_back.Size = new System.Drawing.Size(43, 20);
+            this.tb_back.TabIndex = 3;
+            this.tb_back.Text = "0";
+            this.tb_back.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tb_back.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tb_back_MouseClick);
+            this.tb_back.TextChanged += new System.EventHandler(this.tb_back_TextChanged);
+            // 
+            // btn_switch_front_back
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.btn_switch_front_back, 2);
+            this.btn_switch_front_back.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_switch_front_back.FlatAppearance.BorderSize = 0;
+            this.btn_switch_front_back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_switch_front_back.Image = ((System.Drawing.Image)(resources.GetObject("btn_switch_front_back.Image")));
+            this.btn_switch_front_back.Location = new System.Drawing.Point(49, 251);
+            this.btn_switch_front_back.Name = "btn_switch_front_back";
+            this.btn_switch_front_back.Size = new System.Drawing.Size(32, 21);
+            this.btn_switch_front_back.TabIndex = 4;
+            this.btn_switch_front_back.UseVisualStyleBackColor = true;
+            this.btn_switch_front_back.Click += new System.EventHandler(this.btn_switch_front_back_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Location = new System.Drawing.Point(3, 235);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "лице";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(87, 235);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(43, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "зворот";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cb_EnableNumering
+            // 
+            this.cb_EnableNumering.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_EnableNumering.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.cb_EnableNumering, 2);
+            this.cb_EnableNumering.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cb_EnableNumering.Image = ((System.Drawing.Image)(resources.GetObject("cb_EnableNumering.Image")));
+            this.cb_EnableNumering.Location = new System.Drawing.Point(49, 203);
+            this.cb_EnableNumering.Name = "cb_EnableNumering";
+            this.cb_EnableNumering.Size = new System.Drawing.Size(32, 29);
+            this.cb_EnableNumering.TabIndex = 7;
+            this.cb_EnableNumering.UseVisualStyleBackColor = true;
+            this.cb_EnableNumering.CheckedChanged += new System.EventHandler(this.cb_EnableNumering_CheckedChanged);
+            // 
+            // FormImposTools
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(133, 275);
+            this.Controls.Add(this.tableLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "FormImposTools";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.Text = "Інструменти";
+            this.TopMost = true;
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.CheckBox cb_select;
+        private System.Windows.Forms.CheckBox cb_rotate_180;
+        private System.Windows.Forms.TextBox tb_front;
+        private System.Windows.Forms.TextBox tb_back;
+        private System.Windows.Forms.Button btn_switch_front_back;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox cb_EnableNumering;
+    }
+}
