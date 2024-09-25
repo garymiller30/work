@@ -10,7 +10,6 @@ namespace Job.Static.Pdf.Imposition.Models
 {
     public class ProductPart
     {
-
         public TemplatePlate TemplatePlate { get; set; } = new TemplatePlate();
         public List<PdfFile> PdfFiles { get; set; } = new List<PdfFile>();
         public ImposRunList RunList { get; set; } = new ImposRunList();
@@ -40,6 +39,11 @@ namespace Job.Static.Pdf.Imposition.Models
             return Sheet;
         }
 
+        public void Save(string filePath)
+        {
+            Save(this,filePath);
+        }
+
         public static void Save(ProductPart impos, string fileName)
         {
             var imposStr = JsonSerializer.Serialize(impos);
@@ -55,8 +59,8 @@ namespace Job.Static.Pdf.Imposition.Models
         public PdfFilePage GetPdfPage(ImposRunPage runPage)
         {
             var file = GetPdfFile(runPage);
-            if (runPage.PageIdx >= file.Pages.Length) throw new Exception($"No page with index {runPage.PageIdx}");
-            return file.Pages[runPage.PageIdx];
+            if (runPage.PageIdx > file.Pages.Length) throw new Exception($"No page with index {runPage.PageIdx}");
+            return file.Pages[runPage.PageIdx-1];
 
         }
 

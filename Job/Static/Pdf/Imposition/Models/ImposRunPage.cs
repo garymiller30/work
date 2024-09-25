@@ -21,5 +21,11 @@ namespace Job.Static.Pdf.Imposition.Models
             FileId = pdfFile.Id;
             PageIdx = pageIdx;
         }
+
+        public ImposRunPage(int fileId, int pageIdx)
+        {
+            FileId = fileId;
+            PageIdx = pageIdx;
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Drawers.Services
+namespace Job.Static.Pdf.Imposition.Drawers.Services.PDF
 {
     public static class DrawSheetwiseService
     {

@@ -12,16 +12,24 @@ namespace Job.Static.Pdf.Imposition.Models
         public void AddPage(ImposRunPage page)
         {
             RunPages.Add(page);
-
         }
 
-        public void AddFile(PdfFile file)
+        public void AddPages(IEnumerable<ImposRunPage> pages)
         {
-            int idx = 0;
+            RunPages.AddRange(pages);
+        }
+
+        public List<ImposRunPage> AddFile(PdfFile file)
+        {
+            List<ImposRunPage> pages = new List<ImposRunPage>();
+
+            int idx = 1;
             foreach (var page in file.Pages)
             {
-                RunPages.Add(new ImposRunPage(file, idx++));
+                pages.Add(new ImposRunPage(file, idx++));
             }
+            AddPages(pages);
+            return pages;
         }
     }
 }

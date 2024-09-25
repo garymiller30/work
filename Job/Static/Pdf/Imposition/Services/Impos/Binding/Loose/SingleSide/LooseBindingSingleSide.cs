@@ -17,7 +17,6 @@ namespace Job.Static.Pdf.Imposition.Services.Impos
             TemplatePage page = parameters.TemplatePage;
 
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
-           
 
             AbstractPlaceVariant nonRotated = new PlaceVariantNonRotated(parameters);
             AbstractPlaceVariant rotated = new PlaceVariantRotated(parameters);
@@ -47,10 +46,10 @@ namespace Job.Static.Pdf.Imposition.Services.Impos
             double y = sheet.SafeFields.Bottom + parameters.Yofs;
 
             if (parameters.IsCenterHorizontal)
-                x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - selVariant.BlockWidth) / 2;
+                x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - selVariant.BlockWidth) / 2 + sheet.SafeFields.Left;
 
             if (parameters.IsCenterVertical)
-                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Top - selVariant.BlockHeight) / 2;
+                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Top - selVariant.BlockHeight) / 2 + sheet.SafeFields.Bottom;
 
             double xOfs = x;
 
@@ -64,14 +63,12 @@ namespace Job.Static.Pdf.Imposition.Services.Impos
                     templatePage.FrontIdx = 1;
                     templatePage.BackIdx = 0;
 
-
                     templatePageContainer.AddPage(templatePage);
                     xOfs += templatePage.GetClippedWByRotate();
                 }
                 xOfs = x;
                 y += templatePage.GetClippedHByRotate();
             }
-
             return templatePageContainer;
         }
     }
