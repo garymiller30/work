@@ -41,6 +41,7 @@
             this.tsb_toPrint = new System.Windows.Forms.ToolStripButton();
             this.tsb_delete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_fillAll = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -108,11 +109,12 @@
             this.toolStripSeparator1,
             this.tsb_toPrint,
             this.tsb_delete,
-            this.toolStripSeparator2});
-            this.toolStrip1.Location = new System.Drawing.Point(311, 0);
+            this.toolStripSeparator2,
+            this.tsb_fillAll});
+            this.toolStrip1.Location = new System.Drawing.Point(303, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(24, 158);
+            this.toolStrip1.Size = new System.Drawing.Size(32, 158);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -122,7 +124,7 @@
             this.tsb_add.Image = ((System.Drawing.Image)(resources.GetObject("tsb_add.Image")));
             this.tsb_add.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_add.Name = "tsb_add";
-            this.tsb_add.Size = new System.Drawing.Size(21, 20);
+            this.tsb_add.Size = new System.Drawing.Size(29, 20);
             this.tsb_add.Text = "додати шаблон листа";
             this.tsb_add.Click += new System.EventHandler(this.tsb_add_Click);
             // 
@@ -132,14 +134,14 @@
             this.tsb_edit.Image = ((System.Drawing.Image)(resources.GetObject("tsb_edit.Image")));
             this.tsb_edit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_edit.Name = "tsb_edit";
-            this.tsb_edit.Size = new System.Drawing.Size(21, 20);
+            this.tsb_edit.Size = new System.Drawing.Size(29, 20);
             this.tsb_edit.Text = "редагувати шаблон листа";
             this.tsb_edit.Click += new System.EventHandler(this.tsb_edit_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(21, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(29, 6);
             // 
             // tsb_toPrint
             // 
@@ -147,7 +149,7 @@
             this.tsb_toPrint.Image = ((System.Drawing.Image)(resources.GetObject("tsb_toPrint.Image")));
             this.tsb_toPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_toPrint.Name = "tsb_toPrint";
-            this.tsb_toPrint.Size = new System.Drawing.Size(21, 20);
+            this.tsb_toPrint.Size = new System.Drawing.Size(29, 20);
             this.tsb_toPrint.Text = "копіювати до друкарських листів";
             this.tsb_toPrint.Click += new System.EventHandler(this.tsb_toPrint_Click);
             // 
@@ -158,14 +160,24 @@
             this.tsb_delete.Image = ((System.Drawing.Image)(resources.GetObject("tsb_delete.Image")));
             this.tsb_delete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_delete.Name = "tsb_delete";
-            this.tsb_delete.Size = new System.Drawing.Size(21, 20);
+            this.tsb_delete.Size = new System.Drawing.Size(29, 20);
             this.tsb_delete.Text = "видалити шаблон листа";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(21, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(29, 6);
+            // 
+            // tsb_fillAll
+            // 
+            this.tsb_fillAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_fillAll.Image = ((System.Drawing.Image)(resources.GetObject("tsb_fillAll.Image")));
+            this.tsb_fillAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_fillAll.Name = "tsb_fillAll";
+            this.tsb_fillAll.Size = new System.Drawing.Size(29, 20);
+            this.tsb_fillAll.Text = "Заповнити все";
+            this.tsb_fillAll.Click += new System.EventHandler(this.tsb_fillAll_Click);
             // 
             // AddTemplateSheetControl
             // 
@@ -199,5 +211,6 @@
         private System.Windows.Forms.ToolStripButton tsb_toPrint;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton tsb_delete;
+        private System.Windows.Forms.ToolStripButton tsb_fillAll;
     }
 }

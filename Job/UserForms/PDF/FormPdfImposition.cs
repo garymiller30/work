@@ -43,24 +43,32 @@ namespace JobSpace.UserForms.PDF
             addTemplateSheetControl1.OnSheetSelected += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetsChanged += OnTemplateSheetSelected;
             addTemplateSheetControl1.OnSheetAddToPrint += OnAddSheetToPrintEvent;
+            addTemplateSheetControl1.OnSheetAddManyToPrint += OnSheetAddManyToPrintEvent;
         }
 
-        private void OnSheetAddToPrintEvent(object sender, TemplateSheet e)
+        private void OnSheetAddManyToPrintEvent(object sender, TemplateSheet e)
         {
-            throw new NotImplementedException();
+            // Отримати сторінки, що не задіяні
+            int cnt = runListControl1.GetUnassignedPagesCount();
+            int maxId = e.TemplatePageContainer.GetMaxIdx();
+            int sheetCnt = cnt / maxId;
+
+            for (int i = 0; i<sheetCnt; i++)
+            {
+                AddPrintSheet(e);
+            }
+        }
+
+        void AddPrintSheet(TemplateSheet e)
+        {
+            PrintSheet sheet = PrintSheet.ConvertTemplateSheetToPrintSheet(e);
+            runListControl1.AssignPrintSheet(sheet);
+            printSheetsControl1.AddSheet(sheet);
         }
 
         private void OnAddSheetToPrintEvent(object sender, TemplateSheet e)
         {
-            //TODO: маніпуляції зі сторінками
-            // переназначити сторінки згідно шаблону
-            PrintSheet sheet = PrintSheet.ConvertTemplateSheetToPrintSheet(e);
-            sheet.TemplateId = e.Id;
-            sheet.Id = printId++;
-
-
-            runListControl1.AssignPrintSheet(sheet);
-            printSheetsControl1.AddSheet(sheet);
+            AddPrintSheet(e);
 
         }
 

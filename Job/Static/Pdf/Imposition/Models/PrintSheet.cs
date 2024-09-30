@@ -10,6 +10,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public class PrintSheet : TemplateSheet 
     {
+        public static int printId = 1;
+
         public int TemplateId { get; set; } = 0;
         public int RunPageIdx { get;set; } = 0;
 
@@ -24,6 +26,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         {
             var str = JsonSerializer.Serialize(sheet);
             PrintSheet print = JsonSerializer.Deserialize<PrintSheet>(str);
+            print.TemplateId = sheet.Id;
+            print.Id = printId++;
             return print;
         }
 

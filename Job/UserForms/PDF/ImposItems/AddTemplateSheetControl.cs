@@ -83,5 +83,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             return objectListView1.Objects.Cast<TemplateSheet>().ToList();
         }
+
+        private void tsb_fillAll_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is TemplateSheet sheet)
+                OnSheetAddManyToPrint(this,sheet);
+        }
     }
 }
