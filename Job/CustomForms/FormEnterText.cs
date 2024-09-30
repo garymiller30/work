@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Job.CustomForms
+namespace JobSpace.CustomForms
 {
     public sealed partial class FormEnterText : Form
     {

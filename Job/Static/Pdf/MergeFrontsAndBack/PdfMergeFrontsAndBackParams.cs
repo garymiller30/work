@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.MergeFrontsAndBack
+namespace JobSpace.Static.Pdf.MergeFrontsAndBack
 {
     public sealed class PdfMergeFrontsAndBackParams
     {

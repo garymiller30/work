@@ -1,4 +1,4 @@
-﻿namespace Job.UserForms
+﻿namespace JobSpace.UserForms
 {
     partial class FormAddWork2
     {
@@ -363,7 +363,7 @@
         }
 
         #endregion
-        private global::Job.UC.UcTexBox textBox_Description;
+        private global::JobSpace.UC.UcTexBox textBox_Description;
         private System.Windows.Forms.Label labelRetryNumber;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;

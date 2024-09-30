@@ -1,10 +1,10 @@
-﻿using Job.Static.Pdf.Common;
+﻿using JobSpace.Static.Pdf.Common;
 using Newtonsoft.Json;
 using PDFlib_dotnet;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Job.Static.Pdf.MergeTemporary
+namespace JobSpace.Static.Pdf.MergeTemporary
 {
     public sealed class PdfMergeTemporary
     {

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Job.Static
+namespace JobSpace.Static
 {
     public class SysImageListHelper
     {

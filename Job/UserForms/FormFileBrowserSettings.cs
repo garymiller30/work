@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Krypton.Toolkit;
-using Job.UC;
+using JobSpace.UC;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public sealed partial class FormFileBrowserSettings : KryptonForm
     {

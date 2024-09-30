@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
-using Job;
-using Job.Profiles;
-using Job.UC;
+using JobSpace;
+using JobSpace.Profiles;
+using JobSpace.UC;
 
 namespace StaticFiles
 {
@@ -82,7 +82,7 @@ namespace StaticFiles
 
         private void SetStaticFolder(object curJob)
         {
-            if (curJob is Job.Job job)
+            if (curJob is JobSpace.Job job)
             {
                 var customer = job.Customer;
 

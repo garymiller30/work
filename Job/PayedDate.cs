@@ -1,7 +1,7 @@
 ﻿using System;
 using MongoDB.Bson;
 
-namespace Job
+namespace JobSpace
 {
     /// <summary>
     /// оплата 

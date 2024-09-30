@@ -8,7 +8,7 @@ using ExtensionMethods;
 using Interfaces;
 using Interfaces.MQ;
 
-namespace Job.Fasades
+namespace JobSpace.Fasades
 {
     public sealed class CustomerManager : ICustomerManager
     {

@@ -1,12 +1,14 @@
-﻿using System;
+﻿using JobSpace.Static.Pdf.Imposition.Models;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Models
+namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public class ProductPart
     {
@@ -14,7 +16,11 @@ namespace Job.Static.Pdf.Imposition.Models
         public List<PdfFile> PdfFiles { get; set; } = new List<PdfFile>();
         public ImposRunList RunList { get; set; } = new ImposRunList();
 
+        [Obsolete]
         public TemplateSheet Sheet { get; set; } = new TemplateSheet();
+
+        public List<TemplateSheet> TemplateSheets { get; set; } = new List<TemplateSheet>();
+        public List<PrintSheet> PrintSheets { get; set; } = new List<PrintSheet>();
 
         public ProofParameters Proof {  get; set; } = new ProofParameters();
 
@@ -53,6 +59,12 @@ namespace Job.Static.Pdf.Imposition.Models
         public static ProductPart Load(string fileName)
         {
             var imposStr = File.ReadAllText(fileName);
+            return JsonSerializer.Deserialize<ProductPart>(imposStr);
+        }
+
+        public static ProductPart Copy (ProductPart part)
+        {
+            var imposStr = JsonSerializer.Serialize(part);
             return JsonSerializer.Deserialize<ProductPart>(imposStr);
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Interfaces;
 
-namespace Job.Profiles
+namespace JobSpace.Profiles
 {
     [Serializable]
     //[XmlRoot("FileBrowserSettings")]

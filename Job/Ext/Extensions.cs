@@ -6,10 +6,10 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using ExtensionMethods;
 using Interfaces;
-using Job.Controllers;
+using JobSpace.Controllers;
 using MongoDB.Bson;
 
-namespace Job.Ext
+namespace JobSpace.Ext
 {
     public static class Extensions
     {

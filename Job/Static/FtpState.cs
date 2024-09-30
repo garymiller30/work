@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Interfaces.Ftp;
 
-namespace Job.Static
+namespace JobSpace.Static
 {
     public class FtpState : IFtpState
     {

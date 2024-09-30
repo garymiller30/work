@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Krypton.Toolkit;
 using FtpClient;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public sealed partial class FormFtpDirectoryList : KryptonForm
     {

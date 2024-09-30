@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public sealed partial class RoundedButton : Button
     {

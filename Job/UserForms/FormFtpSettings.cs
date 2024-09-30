@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public sealed partial class FormFtpSettings : Form
     {

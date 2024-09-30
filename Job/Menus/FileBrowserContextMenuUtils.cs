@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
 
-namespace Job.Menus
+namespace JobSpace.Menus
 {
     public sealed class FileBrowserContextMenuUtils : FileBrowserContextMenuSendTo
     {

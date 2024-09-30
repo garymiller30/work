@@ -6,14 +6,14 @@ using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
 
-namespace Job.Statuses
+namespace JobSpace.Statuses
 {
     [Serializable]
     public sealed class StatusChangeParam : IStatusChangeParam
     {
         public bool Enable { get; set; } = false;
         [Obsolete]
-        public global::Job.Settings.JobStatus Status { get; set; }
+        public global::JobSpace.Settings.JobStatus Status { get; set; }
 
         public int StatusCode { get; set; }
 

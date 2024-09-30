@@ -8,16 +8,16 @@ using ActiveWorks;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.Script;
-using Job.CustomerNotify;
-using Job.Data;
-using Job.Fasades;
-using Job.Menus;
+using JobSpace.CustomerNotify;
+using JobSpace.Data;
+using JobSpace.Fasades;
+using JobSpace.Menus;
 using MailNotifier;
 using Newtonsoft.Json;
 using Plugins;
 using PythonEngine;
 
-namespace Job.Profiles
+namespace JobSpace.Profiles
 {
     public sealed class Profile : IUserProfile
     {

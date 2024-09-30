@@ -2,7 +2,7 @@
 using Interfaces;
 using Interfaces.Ftp;
 
-namespace Job.Profiles.ProfileEvents
+namespace JobSpace.Profiles.ProfileEvents
 {
     public sealed class FtpEvents: AbstractEvents, IFtpEvents
     {

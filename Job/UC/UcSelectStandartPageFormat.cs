@@ -1,4 +1,4 @@
-﻿using Job.Static.Pdf.Common;
+﻿using JobSpace.Static.Pdf.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
 
 

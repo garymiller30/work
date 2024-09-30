@@ -1,4 +1,4 @@
-﻿using Job.Static.Pdf.Common;
+﻿using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Create.EmptyPdfTemplateWithCount
+namespace JobSpace.Static.Pdf.Create.EmptyPdfTemplateWithCount
 {
     public sealed class PdfCreateEmptyPdfTemplateWithCount
     {

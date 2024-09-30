@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static
+namespace JobSpace.Static
 {
     static public class FileUtil
     {

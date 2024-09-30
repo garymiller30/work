@@ -1,4 +1,4 @@
-﻿namespace Job.UserForms.PDF.ImposItems
+﻿namespace JobSpace.UserForms.PDF.ImposItems
 {
     partial class FormAddSheet
     {

@@ -1,19 +1,19 @@
-﻿using Job.Static.Pdf.Imposition.Models;
-using Job.Static.Pdf.Imposition.Services.Impos.Models;
+﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
+namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
 {
     public static class LooseBindingSheetwise
     {
         public static TemplatePageContainer Impos(LooseBindingParameters parameters)
         {
             TemplateSheet sheet = parameters.Sheet;
-            TemplatePage page = parameters.TemplatePage;
+            TemplatePage page = sheet.MasterPage;
 
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
 
@@ -45,10 +45,10 @@ namespace Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
             double y = sheet.SafeFields.Bottom + parameters.Yofs;
 
             if (parameters.IsCenterHorizontal)
-                x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - selVariant.BlockWidth) / 2;
+                x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - selVariant.BlockWidth) / 2 + sheet.SafeFields.Left;
 
             if (parameters.IsCenterVertical)
-                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Top - selVariant.BlockHeight) / 2;
+                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - selVariant.BlockHeight) / 2 + sheet.SafeFields.Bottom;
 
             double xOfs = x;
 

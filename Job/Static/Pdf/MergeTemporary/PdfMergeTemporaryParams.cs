@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.MergeTemporary
+namespace JobSpace.Static.Pdf.MergeTemporary
 {
     public sealed class PdfMergeTemporaryParams
     {

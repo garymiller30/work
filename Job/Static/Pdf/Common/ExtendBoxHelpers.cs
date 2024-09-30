@@ -1,8 +1,8 @@
-﻿using Job.Static.Pdf.Scale;
+﻿using JobSpace.Static.Pdf.Scale;
 using PDFlib_dotnet;
 using System;
 
-namespace Job.Static.Pdf.Common
+namespace JobSpace.Static.Pdf.Common
 {
     internal static class ExtendBoxHelpers
     {

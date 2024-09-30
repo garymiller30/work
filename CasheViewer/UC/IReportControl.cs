@@ -1,7 +1,7 @@
 ﻿using System;
 using CasheViewer.Reports;
 using Interfaces;
-using Job.Profiles;
+using JobSpace.Profiles;
 
 namespace CasheViewer.UC
 {

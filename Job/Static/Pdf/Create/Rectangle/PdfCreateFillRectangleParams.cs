@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Create.Rectangle
+namespace JobSpace.Static.Pdf.Create.Rectangle
 {
     public class PdfCreateFillRectangleParams
     {

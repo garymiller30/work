@@ -1,6 +1,6 @@
-﻿using Job.Static.Pdf.Common;
-using Job.Static.Pdf.Imposition.Drawers.Services.Screen;
-using Job.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
+using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Job.Static.Pdf.Imposition.Drawers.Screen
+namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
 {
     public class ScreenDrawer
     {
@@ -27,6 +27,26 @@ namespace Job.Static.Pdf.Imposition.Drawers.Screen
                 case TemplateSheetPlaceType.WorkAndTurn:
                     return DrawSingleSideService.Draw(impos);
                
+                case TemplateSheetPlaceType.Perfecting:
+                    throw new NotImplementedException();
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public Bitmap Draw(TemplateSheet sheet)
+        {
+            switch (sheet.SheetPlaceType)
+            {
+                case TemplateSheetPlaceType.SingleSide:
+                    return DrawSingleSideService.Draw(sheet);
+
+                case TemplateSheetPlaceType.Sheetwise:
+                    return DrawSingleSideService.Draw(sheet);
+
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    return DrawSingleSideService.Draw(sheet);
+
                 case TemplateSheetPlaceType.Perfecting:
                     throw new NotImplementedException();
                 default:

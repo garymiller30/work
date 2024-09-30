@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Interfaces;
-using Job.Statuses;
+using JobSpace.Statuses;
 
 namespace CasheViewer
 {

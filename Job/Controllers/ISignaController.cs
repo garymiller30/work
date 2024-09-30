@@ -1,4 +1,4 @@
-﻿namespace Job.Controllers
+﻿namespace JobSpace.Controllers
 {
     public interface ISignaController
     {

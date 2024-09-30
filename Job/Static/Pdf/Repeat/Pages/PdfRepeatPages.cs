@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.RepeatPages
+namespace JobSpace.Static.Pdf.RepeatPages
 {
     public sealed class PdfRepeatPages
     {

@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Krypton.Toolkit;
 using Interfaces;
-using Job.Profiles;
+using JobSpace.Profiles;
 using MongoDB.Bson;
-using Job.Fasades;
+using JobSpace.Fasades;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public sealed partial class FormAddWork2 : KryptonForm
     {

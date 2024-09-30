@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using Interfaces;
 using MongoDB.Bson;
 
-namespace Job
+namespace JobSpace
 {
     [DataContract]
     [Serializable]

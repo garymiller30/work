@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ucNote1 = new Job.UC.UcNote();
+            this.ucNote1 = new JobSpace.UC.UcNote();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.ucAddWorkPluginsContainer1 = new Job.UC.UcAddWorkPluginsContainer();
+            this.ucAddWorkPluginsContainer1 = new JobSpace.UC.UcAddWorkPluginsContainer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -89,8 +89,8 @@
 
         #endregion
 
-        private Job.UC.UcNote ucNote1;
+        private JobSpace.UC.UcNote ucNote1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private Job.UC.UcAddWorkPluginsContainer ucAddWorkPluginsContainer1;
+        private JobSpace.UC.UcAddWorkPluginsContainer ucAddWorkPluginsContainer1;
     }
 }

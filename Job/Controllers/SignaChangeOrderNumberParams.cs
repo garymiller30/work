@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Controllers
+namespace JobSpace.Controllers
 {
     public sealed class SignaChangeOrderNumberParams
     {

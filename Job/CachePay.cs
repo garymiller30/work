@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MongoDB.Bson;
 
-namespace Job
+namespace JobSpace
 {
     /// <summary>
     /// Оплата наличкой

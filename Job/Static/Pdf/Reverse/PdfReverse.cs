@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Reverse
+namespace JobSpace.Static.Pdf.Reverse
 {
     public sealed class PdfReverse
     {

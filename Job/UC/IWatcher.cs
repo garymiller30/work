@@ -1,4 +1,4 @@
-﻿namespace Job.UC
+﻿namespace JobSpace.UC
 {
     public interface IWatcher
     {

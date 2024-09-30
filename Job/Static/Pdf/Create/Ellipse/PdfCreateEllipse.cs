@@ -1,4 +1,4 @@
-﻿using Job.Static.Pdf.Common;
+﻿using JobSpace.Static.Pdf.Common;
 using MongoDB.Driver;
 using PDFlib_dotnet;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Create.Ellipse
+namespace JobSpace.Static.Pdf.Create.Ellipse
 {
     public sealed class PdfCreateEllipse
     {

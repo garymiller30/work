@@ -1,4 +1,4 @@
-﻿using Job.Fasades;
+﻿using JobSpace.Fasades;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,7 +6,7 @@ using System.IO;
 using System.Text.Json;
 using System.Windows.Forms;
 
-namespace Job.UserForms.PDF
+namespace JobSpace.UserForms.PDF
 {
     public partial class FormCreateFillRectangle : Form
     {

@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Job.Statuses
+namespace JobSpace.Statuses
 {
     /// <summary>
     /// при зміні статусу запускати вказану програму

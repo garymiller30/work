@@ -2,7 +2,7 @@
 using Interfaces;
 using MongoDB.Bson;
 
-namespace Job.CustomerNotify
+namespace JobSpace.CustomerNotify
 {
     public sealed class CustomerMailNotify : IWithId, ICustomerMailNotify
     {

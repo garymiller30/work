@@ -6,15 +6,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     [Serializable]
     public sealed class FileBrowserSettings : IFileBrowserControlSettings, INotifyPropertyChanged
     {
         private string _title;
-#pragma warning disable CS0169 // The field 'FileBrowserSettings._ignoreFolders' is never used
         private string[] _ignoreFolders;
-#pragma warning restore CS0169 // The field 'FileBrowserSettings._ignoreFolders' is never used
 
         public string Title
         {
@@ -34,14 +32,7 @@ namespace Job.UC
         /// </summary>
         public bool ShowAllFilesWithoutDir { get;set; }
 
-        //[Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor))]
         public string[] IgnoreFolders { get;set;}
-        [Obsolete]
-        public static bool UseViewer { get; set; }
-        [Obsolete]
-        public static string Viewer { get; set; }
-        [Obsolete]
-        public static string ViewerCommandLine { get; set; }
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;

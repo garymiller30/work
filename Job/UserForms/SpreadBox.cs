@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public struct SpreadBox
     {

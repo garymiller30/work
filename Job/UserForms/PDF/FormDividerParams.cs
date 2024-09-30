@@ -1,5 +1,5 @@
-﻿using Job.Static.Pdf.Common;
-using Job.Static.Pdf.Divide;
+﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Divide;
 using System;
 using System.Collections.Generic;
 using System.Linq;

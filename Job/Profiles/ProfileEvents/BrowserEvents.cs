@@ -4,7 +4,7 @@
 using System;
 using Interfaces;
 
-namespace Job.Profiles.ProfileEvents
+namespace JobSpace.Profiles.ProfileEvents
 {
     public sealed class BrowserEvents : AbstractEvents, IBrowserEvents
     {

@@ -1,4 +1,4 @@
-﻿namespace Job.CustomForms
+﻿namespace JobSpace.CustomForms
 {
     partial class FormEditStatus
     {

@@ -1,4 +1,4 @@
-﻿namespace Job
+﻿namespace JobSpace
 {
     partial class FormPdfPreview
     {

@@ -3,11 +3,11 @@ using System.Globalization;
 using System.IO;
 using ExtensionMethods;
 using Interfaces;
-using Job.Static;
-using Job.UC;
+using JobSpace.Static;
+using JobSpace.UC;
 using Microsoft.VisualBasic.FileIO;
 
-namespace Job
+namespace JobSpace
 {
     public static class Factory
     {

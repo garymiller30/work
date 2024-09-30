@@ -10,7 +10,7 @@ using System.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 
-namespace Job.Fasades
+namespace JobSpace.Fasades
 {
     public sealed class BaseManager : IBaseManager
     {

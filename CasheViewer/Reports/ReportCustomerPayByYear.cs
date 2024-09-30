@@ -133,7 +133,7 @@ namespace CasheViewer.Reports
                 }
             }
 
-            var jobs = jobDictionary.Select(x => UserProfile.Base.GetById<Job.Job>("Jobs",x.Key))
+            var jobs = jobDictionary.Select(x => UserProfile.Base.GetById<JobSpace.Job>("Jobs",x.Key))
                 .GroupBy(c => c.Customer);
 
             foreach (var job in jobs)

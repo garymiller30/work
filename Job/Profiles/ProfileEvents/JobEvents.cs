@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Interfaces;
 
-namespace Job.Profiles.ProfileEvents
+namespace JobSpace.Profiles.ProfileEvents
 {
     public sealed class JobEvents : AbstractEvents, IJobEvents
     {

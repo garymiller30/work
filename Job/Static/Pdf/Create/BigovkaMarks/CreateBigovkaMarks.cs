@@ -1,4 +1,4 @@
-﻿using Job.Static.Pdf.Common;
+﻿using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace Job.Static.Pdf.Create.BigovkaMarks
+namespace JobSpace.Static.Pdf.Create.BigovkaMarks
 {
     public class CreateBigovkaMarks
     {

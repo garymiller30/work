@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Job.Dlg
+namespace JobSpace.Dlg
 {
     public partial class FormInputCountPages : Form
     {

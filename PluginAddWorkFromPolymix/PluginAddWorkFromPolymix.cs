@@ -1,8 +1,8 @@
 ﻿using Interfaces;
 using Interfaces.Plugins;
-using Job.Models;
-using Job.Profiles;
-using Job;
+using JobSpace.Models;
+using JobSpace.Profiles;
+using JobSpace;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

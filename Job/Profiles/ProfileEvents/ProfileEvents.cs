@@ -1,6 +1,6 @@
 ﻿using Interfaces;
 
-namespace Job.Profiles.ProfileEvents
+namespace JobSpace.Profiles.ProfileEvents
 {
     public sealed class ProfileEvents : IProfileEvents
     {

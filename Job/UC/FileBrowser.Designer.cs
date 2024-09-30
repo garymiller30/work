@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     partial class FileBrowser
     {
@@ -371,7 +371,7 @@ namespace Job.UC
             // 
             // предварительныйПросмотрToolStripMenuItem
             // 
-            this.предварительныйПросмотрToolStripMenuItem.Image = global::Job.Properties.Resources.preview_results1;
+            this.предварительныйПросмотрToolStripMenuItem.Image = global::JobSpace.Properties.Resources.preview_results1;
             this.предварительныйПросмотрToolStripMenuItem.Name = "предварительныйПросмотрToolStripMenuItem";
             this.предварительныйПросмотрToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.предварительныйПросмотрToolStripMenuItem.Text = "попередній перегляд";
@@ -379,7 +379,7 @@ namespace Job.UC
             // 
             // отриматиДодатковуІнформаціюToolStripMenuItem
             // 
-            this.отриматиДодатковуІнформаціюToolStripMenuItem.Image = global::Job.Properties.Resources.sign_info_icon;
+            this.отриматиДодатковуІнформаціюToolStripMenuItem.Image = global::JobSpace.Properties.Resources.sign_info_icon;
             this.отриматиДодатковуІнформаціюToolStripMenuItem.Name = "отриматиДодатковуІнформаціюToolStripMenuItem";
             this.отриматиДодатковуІнформаціюToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.отриматиДодатковуІнформаціюToolStripMenuItem.Text = "отримати додаткову інформацію";
@@ -439,7 +439,7 @@ namespace Job.UC
             // 
             // reversePagesToolStripMenuItem
             // 
-            this.reversePagesToolStripMenuItem.Image = global::Job.Properties.Resources.page_refresh_icon;
+            this.reversePagesToolStripMenuItem.Image = global::JobSpace.Properties.Resources.page_refresh_icon;
             this.reversePagesToolStripMenuItem.Name = "reversePagesToolStripMenuItem";
             this.reversePagesToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.reversePagesToolStripMenuItem.Text = "Сторінки в зворотньому порядку";
@@ -447,7 +447,7 @@ namespace Job.UC
             // 
             // repeatPagesPDFToolStripMenuItem
             // 
-            this.repeatPagesPDFToolStripMenuItem.Image = global::Job.Properties.Resources.Duplicate_Layer_icon;
+            this.repeatPagesPDFToolStripMenuItem.Image = global::JobSpace.Properties.Resources.Duplicate_Layer_icon;
             this.repeatPagesPDFToolStripMenuItem.Name = "repeatPagesPDFToolStripMenuItem";
             this.repeatPagesPDFToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.repeatPagesPDFToolStripMenuItem.Text = "Повторити сторінки в PDF";
@@ -455,7 +455,7 @@ namespace Job.UC
             // 
             // combineFrontsBackToolStripMenuItem
             // 
-            this.combineFrontsBackToolStripMenuItem.Image = global::Job.Properties.Resources.Arrow_Merge_icon;
+            this.combineFrontsBackToolStripMenuItem.Image = global::JobSpace.Properties.Resources.Arrow_Merge_icon;
             this.combineFrontsBackToolStripMenuItem.Name = "combineFrontsBackToolStripMenuItem";
             this.combineFrontsBackToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.combineFrontsBackToolStripMenuItem.Text = "З\'єднати Лице + Зворот";
@@ -489,7 +489,7 @@ namespace Job.UC
             // 
             // splitPDFToolStripMenuItem
             // 
-            this.splitPDFToolStripMenuItem.Image = global::Job.Properties.Resources.Editing_Cut_Filled_icon;
+            this.splitPDFToolStripMenuItem.Image = global::JobSpace.Properties.Resources.Editing_Cut_Filled_icon;
             this.splitPDFToolStripMenuItem.Name = "splitPDFToolStripMenuItem";
             this.splitPDFToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.splitPDFToolStripMenuItem.Text = "Розділити PDF";
@@ -544,7 +544,7 @@ namespace Job.UC
             // 
             // створитиПрямокутникToolStripMenuItem
             // 
-            this.створитиПрямокутникToolStripMenuItem.Image = global::Job.Properties.Resources.Editing_Rectangle_icon;
+            this.створитиПрямокутникToolStripMenuItem.Image = global::JobSpace.Properties.Resources.Editing_Rectangle_icon;
             this.створитиПрямокутникToolStripMenuItem.Name = "створитиПрямокутникToolStripMenuItem";
             this.створитиПрямокутникToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.створитиПрямокутникToolStripMenuItem.Text = "Створити прямокутник";
@@ -559,7 +559,7 @@ namespace Job.UC
             // 
             // створитиЕліпсToolStripMenuItem
             // 
-            this.створитиЕліпсToolStripMenuItem.Image = global::Job.Properties.Resources.Editing_Ellipse_Stroked_icon;
+            this.створитиЕліпсToolStripMenuItem.Image = global::JobSpace.Properties.Resources.Editing_Ellipse_Stroked_icon;
             this.створитиЕліпсToolStripMenuItem.Name = "створитиЕліпсToolStripMenuItem";
             this.створитиЕліпсToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.створитиЕліпсToolStripMenuItem.Text = "Створити еліпс";
@@ -600,7 +600,7 @@ namespace Job.UC
             // 
             // convertToPDFToolStripMenuItem
             // 
-            this.convertToPDFToolStripMenuItem.Image = global::Job.Properties.Resources.pdf_icon;
+            this.convertToPDFToolStripMenuItem.Image = global::JobSpace.Properties.Resources.pdf_icon;
             this.convertToPDFToolStripMenuItem.Name = "convertToPDFToolStripMenuItem";
             this.convertToPDFToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.convertToPDFToolStripMenuItem.Text = "Зробити PDF";
@@ -608,7 +608,7 @@ namespace Job.UC
             // 
             // setTrimBoxToolStripMenuItem
             // 
-            this.setTrimBoxToolStripMenuItem.Image = global::Job.Properties.Resources.document_margins_icon;
+            this.setTrimBoxToolStripMenuItem.Image = global::JobSpace.Properties.Resources.document_margins_icon;
             this.setTrimBoxToolStripMenuItem.Name = "setTrimBoxToolStripMenuItem";
             this.setTrimBoxToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.setTrimBoxToolStripMenuItem.Text = "Виставити TrimBox";
@@ -633,7 +633,7 @@ namespace Job.UC
             // 
             // удалитьToolStripMenuItem
             // 
-            this.удалитьToolStripMenuItem.Image = global::Job.Properties.Resources.Delete;
+            this.удалитьToolStripMenuItem.Image = global::JobSpace.Properties.Resources.Delete;
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
             this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.удалитьToolStripMenuItem.Text = "Видалити";
@@ -646,7 +646,7 @@ namespace Job.UC
             // 
             // копирвоатьToolStripMenuItem
             // 
-            this.копирвоатьToolStripMenuItem.Image = global::Job.Properties.Resources.Copy;
+            this.копирвоатьToolStripMenuItem.Image = global::JobSpace.Properties.Resources.Copy;
             this.копирвоатьToolStripMenuItem.Name = "копирвоатьToolStripMenuItem";
             this.копирвоатьToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.копирвоатьToolStripMenuItem.Text = "копіювати";
@@ -654,7 +654,7 @@ namespace Job.UC
             // 
             // вырезатьToolStripMenuItem
             // 
-            this.вырезатьToolStripMenuItem.Image = global::Job.Properties.Resources.cut;
+            this.вырезатьToolStripMenuItem.Image = global::JobSpace.Properties.Resources.cut;
             this.вырезатьToolStripMenuItem.Name = "вырезатьToolStripMenuItem";
             this.вырезатьToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.вырезатьToolStripMenuItem.Text = "вирізати";
@@ -662,7 +662,7 @@ namespace Job.UC
             // 
             // вставитьToolStripMenuItem
             // 
-            this.вставитьToolStripMenuItem.Image = global::Job.Properties.Resources.Paste;
+            this.вставитьToolStripMenuItem.Image = global::JobSpace.Properties.Resources.Paste;
             this.вставитьToolStripMenuItem.Name = "вставитьToolStripMenuItem";
             this.вставитьToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.вставитьToolStripMenuItem.Text = "вставити";
@@ -683,7 +683,7 @@ namespace Job.UC
             // 
             // переместитьВTEMPToolStripMenuItem
             // 
-            this.переместитьВTEMPToolStripMenuItem.Image = global::Job.Properties.Resources.Trash_Full_icon;
+            this.переместитьВTEMPToolStripMenuItem.Image = global::JobSpace.Properties.Resources.Trash_Full_icon;
             this.переместитьВTEMPToolStripMenuItem.Name = "переместитьВTEMPToolStripMenuItem";
             this.переместитьВTEMPToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.переместитьВTEMPToolStripMenuItem.Text = "перемістити у TEMP";
@@ -716,7 +716,7 @@ namespace Job.UC
             // 
             // SendEmailToolStripMenuItem
             // 
-            this.SendEmailToolStripMenuItem.Image = global::Job.Properties.Resources.mail_green;
+            this.SendEmailToolStripMenuItem.Image = global::JobSpace.Properties.Resources.mail_green;
             this.SendEmailToolStripMenuItem.Name = "SendEmailToolStripMenuItem";
             this.SendEmailToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.SendEmailToolStripMenuItem.Text = "надіслати e-mail";
@@ -729,7 +729,7 @@ namespace Job.UC
             // 
             // додатиТираж000ToolStripMenuItem
             // 
-            this.додатиТираж000ToolStripMenuItem.Image = global::Job.Properties.Resources._0_Hash_icon;
+            this.додатиТираж000ToolStripMenuItem.Image = global::JobSpace.Properties.Resources._0_Hash_icon;
             this.додатиТираж000ToolStripMenuItem.Name = "додатиТираж000ToolStripMenuItem";
             this.додатиТираж000ToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.додатиТираж000ToolStripMenuItem.Text = "додати тираж (#123)";
@@ -777,7 +777,7 @@ namespace Job.UC
             // toolStripButtonCreatePdf
             // 
             this.toolStripButtonCreatePdf.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonCreatePdf.Image = global::Job.Properties.Resources.pdf_icon;
+            this.toolStripButtonCreatePdf.Image = global::JobSpace.Properties.Resources.pdf_icon;
             this.toolStripButtonCreatePdf.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCreatePdf.Name = "toolStripButtonCreatePdf";
             this.toolStripButtonCreatePdf.Size = new System.Drawing.Size(30, 20);
@@ -787,7 +787,7 @@ namespace Job.UC
             // toolStripButton1
             // 
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::Job.Properties.Resources.document_margins_icon;
+            this.toolStripButton1.Image = global::JobSpace.Properties.Resources.document_margins_icon;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(30, 20);
@@ -807,7 +807,7 @@ namespace Job.UC
             // toolStripButton3
             // 
             this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = global::Job.Properties.Resources.Editing_Cut_Filled_icon;
+            this.toolStripButton3.Image = global::JobSpace.Properties.Resources.Editing_Cut_Filled_icon;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(30, 20);
@@ -826,7 +826,7 @@ namespace Job.UC
             // toolStripButton4
             // 
             this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = global::Job.Properties.Resources._0_Hash_icon;
+            this.toolStripButton4.Image = global::JobSpace.Properties.Resources._0_Hash_icon;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
             this.toolStripButton4.Size = new System.Drawing.Size(30, 20);
@@ -877,7 +877,7 @@ namespace Job.UC
             // toolStripButton_Up
             // 
             this.toolStripButton_Up.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Up.Image = global::Job.Properties.Resources.arrow_turn_left;
+            this.toolStripButton_Up.Image = global::JobSpace.Properties.Resources.arrow_turn_left;
             this.toolStripButton_Up.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_Up.Name = "toolStripButton_Up";
             this.toolStripButton_Up.Size = new System.Drawing.Size(23, 22);
@@ -894,7 +894,7 @@ namespace Job.UC
             this.toolStripButton_Refresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButton_Refresh.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.показатиВсіФайлибезПапокToolStripMenuItem});
-            this.toolStripButton_Refresh.Image = global::Job.Properties.Resources.Refresh;
+            this.toolStripButton_Refresh.Image = global::JobSpace.Properties.Resources.Refresh;
             this.toolStripButton_Refresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_Refresh.Name = "toolStripButton_Refresh";
             this.toolStripButton_Refresh.Size = new System.Drawing.Size(32, 22);
@@ -917,7 +917,7 @@ namespace Job.UC
             // toolStripButton_NewFolder
             // 
             this.toolStripButton_NewFolder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_NewFolder.Image = global::Job.Properties.Resources.folder_new_icon;
+            this.toolStripButton_NewFolder.Image = global::JobSpace.Properties.Resources.folder_new_icon;
             this.toolStripButton_NewFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_NewFolder.Name = "toolStripButton_NewFolder";
             this.toolStripButton_NewFolder.Size = new System.Drawing.Size(32, 22);
@@ -928,7 +928,7 @@ namespace Job.UC
             // toolStripButton_Rename
             // 
             this.toolStripButton_Rename.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Rename.Image = global::Job.Properties.Resources.Rename_icon;
+            this.toolStripButton_Rename.Image = global::JobSpace.Properties.Resources.Rename_icon;
             this.toolStripButton_Rename.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_Rename.Name = "toolStripButton_Rename";
             this.toolStripButton_Rename.Size = new System.Drawing.Size(23, 22);
@@ -945,7 +945,7 @@ namespace Job.UC
             this.toolStripButtonCopyToClipboard.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonCopyToClipboard.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.копіюватиІмяФайлуToolStripMenuItem});
-            this.toolStripButtonCopyToClipboard.Image = global::Job.Properties.Resources.Copy;
+            this.toolStripButtonCopyToClipboard.Image = global::JobSpace.Properties.Resources.Copy;
             this.toolStripButtonCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCopyToClipboard.Name = "toolStripButtonCopyToClipboard";
             this.toolStripButtonCopyToClipboard.Size = new System.Drawing.Size(32, 22);
@@ -963,7 +963,7 @@ namespace Job.UC
             // toolStripButtonCut
             // 
             this.toolStripButtonCut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonCut.Image = global::Job.Properties.Resources.cut;
+            this.toolStripButtonCut.Image = global::JobSpace.Properties.Resources.cut;
             this.toolStripButtonCut.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCut.Name = "toolStripButtonCut";
             this.toolStripButtonCut.Size = new System.Drawing.Size(23, 22);
@@ -973,7 +973,7 @@ namespace Job.UC
             // toolStripButtonPaste
             // 
             this.toolStripButtonPaste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonPaste.Image = global::Job.Properties.Resources.Paste;
+            this.toolStripButtonPaste.Image = global::JobSpace.Properties.Resources.Paste;
             this.toolStripButtonPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonPaste.Name = "toolStripButtonPaste";
             this.toolStripButtonPaste.Size = new System.Drawing.Size(23, 22);
@@ -983,7 +983,7 @@ namespace Job.UC
             // toolStripButton_Delete
             // 
             this.toolStripButton_Delete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_Delete.Image = global::Job.Properties.Resources.Delete;
+            this.toolStripButton_Delete.Image = global::JobSpace.Properties.Resources.Delete;
             this.toolStripButton_Delete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_Delete.Name = "toolStripButton_Delete";
             this.toolStripButton_Delete.Size = new System.Drawing.Size(23, 22);
@@ -998,7 +998,7 @@ namespace Job.UC
             // toolStripButtonCopyPathToClipboard
             // 
             this.toolStripButtonCopyPathToClipboard.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonCopyPathToClipboard.Image = global::Job.Properties.Resources.blackboard_drawing;
+            this.toolStripButtonCopyPathToClipboard.Image = global::JobSpace.Properties.Resources.blackboard_drawing;
             this.toolStripButtonCopyPathToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCopyPathToClipboard.Name = "toolStripButtonCopyPathToClipboard";
             this.toolStripButtonCopyPathToClipboard.Size = new System.Drawing.Size(23, 22);
@@ -1013,7 +1013,7 @@ namespace Job.UC
             // toolStripButtonFileInfo
             // 
             this.toolStripButtonFileInfo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonFileInfo.Image = global::Job.Properties.Resources.sign_info_icon;
+            this.toolStripButtonFileInfo.Image = global::JobSpace.Properties.Resources.sign_info_icon;
             this.toolStripButtonFileInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonFileInfo.Name = "toolStripButtonFileInfo";
             this.toolStripButtonFileInfo.Size = new System.Drawing.Size(23, 22);
@@ -1024,7 +1024,7 @@ namespace Job.UC
             // 
             this.toolStripButton_Custom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButton_Custom.Enabled = false;
-            this.toolStripButton_Custom.Image = global::Job.Properties.Resources.button_navigation;
+            this.toolStripButton_Custom.Image = global::JobSpace.Properties.Resources.button_navigation;
             this.toolStripButton_Custom.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_Custom.Name = "toolStripButton_Custom";
             this.toolStripButton_Custom.Size = new System.Drawing.Size(23, 22);
@@ -1041,7 +1041,7 @@ namespace Job.UC
             // toolStripButton_ClearFilter
             // 
             this.toolStripButton_ClearFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_ClearFilter.Image = global::Job.Properties.Resources.filter_clear;
+            this.toolStripButton_ClearFilter.Image = global::JobSpace.Properties.Resources.filter_clear;
             this.toolStripButton_ClearFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_ClearFilter.Name = "toolStripButton_ClearFilter";
             this.toolStripButton_ClearFilter.Size = new System.Drawing.Size(23, 22);
@@ -1058,7 +1058,7 @@ namespace Job.UC
             this.toolStripSplitButtonTrash.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripSplitButtonTrash.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTrashToolStripMenuItem});
-            this.toolStripSplitButtonTrash.Image = global::Job.Properties.Resources.Trash_Full_icon;
+            this.toolStripSplitButtonTrash.Image = global::JobSpace.Properties.Resources.Trash_Full_icon;
             this.toolStripSplitButtonTrash.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButtonTrash.Name = "toolStripSplitButtonTrash";
             this.toolStripSplitButtonTrash.Size = new System.Drawing.Size(32, 22);
@@ -1076,7 +1076,7 @@ namespace Job.UC
             // 
             this.toolStripButtonSettings.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripButtonSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonSettings.Image = global::Job.Properties.Resources.Settings_icon;
+            this.toolStripButtonSettings.Image = global::JobSpace.Properties.Resources.Settings_icon;
             this.toolStripButtonSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSettings.Name = "toolStripButtonSettings";
             this.toolStripButtonSettings.Size = new System.Drawing.Size(23, 22);

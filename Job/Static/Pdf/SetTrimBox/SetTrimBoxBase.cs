@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Job.Static.Pdf.SetTrimBox
+namespace JobSpace.Static.Pdf.SetTrimBox
 {
     public class SetTrimBoxBase
     {

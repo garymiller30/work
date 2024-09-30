@@ -1,11 +1,11 @@
-﻿using Job.Static.Pdf.Common;
-using Job.Static.PdfScale;
+﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.PdfScale;
 using PDFlib_dotnet;
 using System;
 using System.IO;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace Job.Static.Pdf.Scale
+namespace JobSpace.Static.Pdf.Scale
 {
     public class PdfScaler
     {

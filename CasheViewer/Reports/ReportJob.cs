@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using Interfaces;
-using Job.Profiles;
+using JobSpace.Profiles;
 using MongoDB.Bson;
 
 namespace CasheViewer.Reports

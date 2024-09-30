@@ -1,31 +1,27 @@
-﻿using Job.Static.Pdf.Imposition.Services;
+﻿using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Models
+namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public sealed class TemplatePage
     {
         public CropMarksController CropMarksController { get; } = new CropMarksController();
         public int FrontIdx { get; set; } = 1;
         public int BackIdx { get; set; } = 0;
-
         public double Bleeds { get; set; } = 0;
-
         public double W { get; set; } = 210;
         public double H { get; set; } = 297;
         public double X { get; set; } = 10;
         public double Y { get; set; } = 10;
-
         public double Angle { get; set; } = 0;
-
         public ClipBox Margins { get; set; } = new ClipBox();
-
         public double GetClippedW => W + Margins.Left + Margins.Right;
-
         public double GetClippedH => H + Margins.Top + Margins.Bottom;
 
         public TemplatePage()
@@ -177,9 +173,14 @@ namespace Job.Static.Pdf.Imposition.Models
             return W;
         }
 
-        public void FlipAngle()
+        public void FlipAngle() => Angle = (Angle + 180) % 360;
+
+        public void SetMarginsLikeBleed() => Margins.Set(Bleeds);
+
+        public TemplatePage Copy()
         {
-            Angle = (Angle + 180) % 360;
+            var str = JsonSerializer.Serialize(this);
+            return JsonSerializer.Deserialize<TemplatePage>(str);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Job.Profiles
+﻿namespace JobSpace.Profiles
 {
     public sealed class ExtendedSettings
     {

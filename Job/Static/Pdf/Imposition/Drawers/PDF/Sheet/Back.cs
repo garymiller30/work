@@ -1,9 +1,9 @@
-﻿using Job.Static.Pdf.Common;
-using Job.Static.Pdf.Imposition.Drawers.PDF.Marks.Crop;
-using Job.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf;
-using Job.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
-using Job.Static.Pdf.Imposition.Models;
-using Job.Static.Pdf.Imposition.Services;
+﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Crop;
+using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf;
+using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
+using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
@@ -11,24 +11,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
+namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 {
     public static partial class DrawSheet
     {
-        public static void Back(PDFlib p, ProductPart impos, int curSheetIdx)
+        public static void Back(PDFlib p, ProductPart impos, PrintSheet sheet)
         {
-            TextVariablesService.SetValue(ValueList.SheetSide, "Зворот");
-
-
-            var sheet = impos.Sheet;
-
 
             p.begin_page_ext(sheet.W * PdfHelper.mn, sheet.H * PdfHelper.mn, "");
 
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
                 // отримати сторінку з ран листа
-                int runListPageIdx = curSheetIdx * sheet.TemplatePageContainer.GetMaxIdx() + templatePage.BackIdx - 1;
+                int runListPageIdx = sheet.RunPageIdx + templatePage.FrontIdx - 1;
                 ImposRunPage runPage = impos.RunList.RunPages[runListPageIdx];
 
                 if (runPage.FileId == 0 && runPage.PageIdx == 0)
@@ -89,7 +84,7 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
             Proof.DrawSheet(p, sheet, impos.Proof);
 
-            p.end_page_ext($"mediabox={{{GetMediabox(impos)}}}");
+            p.end_page_ext($"mediabox={{{GetMediabox(impos,sheet)}}}");
         }
     }
 }

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Interfaces.MQ;
-using Job.Profiles;
+using JobSpace.Profiles;
 using MongoDB.Bson;
 
-namespace Job
+namespace JobSpace
 {
     public sealed class FormEventManager : IEnumerable<FormEvent>
     {

@@ -7,10 +7,10 @@ using Ghostscript.NET.Rasterizer;
 using ImageMagick;
 using Interfaces;
 using Interfaces.PdfUtils;
-using Job.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
 
-namespace Job.Static
+namespace JobSpace.Static
 {
     public static class PdfUtils
     {

@@ -1,5 +1,5 @@
 ﻿using Interfaces.Plugins;
-using Job.Static;
+using JobSpace.Static;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

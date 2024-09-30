@@ -1,4 +1,4 @@
-﻿using Job.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Job.UserForms.PDF.ImposItems
+namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class FormAddSheet : Form
     {

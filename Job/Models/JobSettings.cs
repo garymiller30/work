@@ -1,7 +1,7 @@
 ﻿using System;
 using Interfaces;
 
-namespace Job.Models
+namespace JobSpace.Models
 {
     [Serializable]
     public sealed class JobSettings : IJobSettings

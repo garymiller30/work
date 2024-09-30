@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static
+namespace JobSpace.Static
 {
     public static class ThemeController
     {

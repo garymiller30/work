@@ -1,11 +1,11 @@
-﻿using Job.Static.Pdf.Imposition.Models.Marks;
+﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Models
+namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public struct RectangleD
     {

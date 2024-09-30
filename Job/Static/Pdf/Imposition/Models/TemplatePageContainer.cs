@@ -1,4 +1,4 @@
-﻿using Job.Static.Pdf.Imposition.Models.Marks;
+﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Models
+namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public sealed class TemplatePageContainer
     {

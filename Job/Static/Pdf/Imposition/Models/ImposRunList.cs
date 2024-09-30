@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Models
+namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public class ImposRunList
     {
@@ -21,6 +21,13 @@ namespace Job.Static.Pdf.Imposition.Models
 
         public List<ImposRunPage> AddFile(PdfFile file)
         {
+            var pages = CreatePagesFromFile(file);
+            AddPages(pages);
+            return pages;
+        }
+
+        public static List<ImposRunPage> CreatePagesFromFile(PdfFile file)
+        {
             List<ImposRunPage> pages = new List<ImposRunPage>();
 
             int idx = 1;
@@ -28,7 +35,7 @@ namespace Job.Static.Pdf.Imposition.Models
             {
                 pages.Add(new ImposRunPage(file, idx++));
             }
-            AddPages(pages);
+            
             return pages;
         }
     }

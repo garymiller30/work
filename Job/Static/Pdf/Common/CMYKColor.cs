@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Common
+namespace JobSpace.Static.Pdf.Common
 {
     public class CMYKColor
     {

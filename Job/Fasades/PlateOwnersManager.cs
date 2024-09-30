@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Job.Profiles;
+using JobSpace.Profiles;
 using MongoDB.Bson;
 
-namespace Job.Fasades
+namespace JobSpace.Fasades
 {
     public sealed class PlateOwnersManager
     {

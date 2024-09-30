@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using CasheViewer.Reports;
 using CasheViewer.UC;
 using Interfaces;
-using Job.Profiles;
+using JobSpace.Profiles;
 
 namespace CasheViewer
 {
@@ -60,7 +60,7 @@ namespace CasheViewer
 
         public void BeforeJobChange(IJob job)
         {
-            if (job is Job.Job j)
+            if (job is JobSpace.Job j)
             {
                 _savedJob = job;
 #pragma warning disable CS0612 // 'Job.Parts' is obsolete
@@ -73,19 +73,19 @@ namespace CasheViewer
         {
             if (_savedJob == job)
             {
-                if (!((Job.Job)job).IsCashePayed)
+                if (!((JobSpace.Job)job).IsCashePayed)
                 {
-                    var cntForms = ((Job.Job)job).Parts?.Sum(x => x.Form.Count) ?? 0;
+                    var cntForms = ((JobSpace.Job)job).Parts?.Sum(x => x.Form.Count) ?? 0;
 
-                    ((Job.Job)job).CachePayedSum += (cntForms - _savedCntForms) * _settings.PriceForPlate;
+                    ((JobSpace.Job)job).CachePayedSum += (cntForms - _savedCntForms) * _settings.PriceForPlate;
 
-                    if (((Job.Job)job).CachePayedSum != 0)
+                    if (((JobSpace.Job)job).CachePayedSum != 0)
                     {
-                        ((Job.Job)job).IsCashe = true;
+                        ((JobSpace.Job)job).IsCashe = true;
                     }
                     else
                     {
-                        ((Job.Job)job).IsCashe = false;
+                        ((JobSpace.Job)job).IsCashe = false;
                     }
                 }
 

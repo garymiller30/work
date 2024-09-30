@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.MergeOddAndEven
+namespace JobSpace.Static.Pdf.MergeOddAndEven
 {
     public sealed class PdfMergeOddAndEvenParams
     {

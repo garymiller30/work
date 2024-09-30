@@ -1,4 +1,4 @@
-﻿using Job.Static.Pdf.SplitSpread;
+﻿using JobSpace.Static.Pdf.SplitSpread;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public partial class FormPdfSplitterParams : Form
     {

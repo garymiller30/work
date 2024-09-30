@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 
-namespace Job.Static
+namespace JobSpace.Static
 {
     public static class SaveAndLoad
     {
