@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PDFlib_dotnet;
-using Job.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Common;
 
-namespace Job.Static.Pdf.SplitTemporary
+namespace JobSpace.Static.Pdf.SplitTemporary
 {
     public class PdfSplitTemporary
     {

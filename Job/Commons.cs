@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace Job
+namespace JobSpace
 {
     public static class Commons
     {

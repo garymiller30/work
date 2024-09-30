@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Interfaces;
-using Job.UC;
+using JobSpace.UC;
 
-namespace Job.Profiles
+namespace JobSpace.Profiles
 {
     public sealed class FileBrowsers : IFileBrowsers
     {

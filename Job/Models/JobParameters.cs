@@ -6,7 +6,7 @@ using System;
 using Interfaces;
 using MongoDB.Bson;
 
-namespace Job.Models
+namespace JobSpace.Models
 {
     public sealed class JobParameters : IJob
     {

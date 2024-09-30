@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Job.Data
+namespace JobSpace.Data
 {
     public sealed class MongoRepository : IRepository
     {

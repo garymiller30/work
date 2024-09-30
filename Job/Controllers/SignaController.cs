@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Job.Controllers
+namespace JobSpace.Controllers
 {
     public sealed class SignaController : ISignaController
     {

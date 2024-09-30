@@ -2,7 +2,7 @@
 using Interfaces;
 using MongoDB.Bson;
 
-namespace Job
+namespace JobSpace
 {
     [Serializable]
     public sealed class FormEvent : IWithId

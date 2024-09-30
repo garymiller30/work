@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.ToJpg
+namespace JobSpace.Static.Pdf.ToJpg
 {
     public sealed class PdfToJpg
     {

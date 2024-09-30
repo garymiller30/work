@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Xml.Serialization;
 using Interfaces;
 
-namespace Job.Menus
+namespace JobSpace.Menus
 {
     [Serializable]
     public sealed class MenuSendTo : IMenuSendTo

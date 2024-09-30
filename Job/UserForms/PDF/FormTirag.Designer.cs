@@ -1,5 +1,5 @@
 ﻿
-namespace Job.Dlg
+namespace JobSpace.Dlg
 {
     partial class FormTirag
     {

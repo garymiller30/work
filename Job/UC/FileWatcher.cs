@@ -3,7 +3,7 @@
 
 using System.IO;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public sealed class FileWatcher : IWatcher
     {

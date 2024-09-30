@@ -7,7 +7,7 @@ using Ghostscript.NET;
 using Ghostscript.NET.Processor;
 using Ghostscript.NET.Viewer;
 
-namespace Job
+namespace JobSpace
 {
     public sealed partial  class FormPdfPreview : Form
     {

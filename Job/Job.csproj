@@ -263,14 +263,12 @@
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\Front.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\WorkAndTurn.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Screen\ScreenDrawer.cs" />
-    <Compile Include="Static\Pdf\Imposition\Drawers\Services\PDF\DrawSheetwiseService.cs" />
-    <Compile Include="Static\Pdf\Imposition\Drawers\Services\PDF\DrawSingleSideService.cs" />
-    <Compile Include="Static\Pdf\Imposition\Drawers\Services\PDF\DrawWorkAndTurnService.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\DrawSheetwiseService.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\DrawSingleSideService.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorOfset.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorPoint.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ClipBox.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ControlBindParameters.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\CropDirection.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ImposRunList.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ImposRunPage.cs" />
@@ -288,6 +286,7 @@
     <Compile Include="Static\Pdf\Imposition\Models\PdfFilePage.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\PDFLIBDocument.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\PointD.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PrintSheet.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ProductPart.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ProofParameters.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\RectangleD.cs" />
@@ -670,17 +669,53 @@
     <Compile Include="UserForms\PDF\FormSelectPdfNewSize.Designer.cs">
       <DependentUpon>FormSelectPdfNewSize.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\AddTemplateSheetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\AddTemplateSheetControl.Designer.cs">
+      <DependentUpon>AddTemplateSheetControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\ImposItems\FormAddSheet.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserForms\PDF\ImposItems\FormAddSheet.Designer.cs">
       <DependentUpon>FormAddSheet.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserForms\PDF\ImposItems\FormImposTools.cs">
+    <Compile Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForms\PDF\ImposItems\FormImposTools.Designer.cs">
-      <DependentUpon>FormImposTools.cs</DependentUpon>
+    <Compile Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.Designer.cs">
+      <DependentUpon>Form_AddTemplateSheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\ImposToolsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\ImposToolsControl.Designer.cs">
+      <DependentUpon>ImposToolsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PdfFileListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PdfFileListControl.Designer.cs">
+      <DependentUpon>PdfFileListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PreviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PreviewControl.Designer.cs">
+      <DependentUpon>PreviewControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PrintSheetsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PrintSheetsControl.Designer.cs">
+      <DependentUpon>PrintSheetsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\RunListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\RunListControl.Designer.cs">
+      <DependentUpon>RunListControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\SpreadBox.cs" />
     <Compile Include="UserForms\TrimBoxResult.cs" />
@@ -868,11 +903,29 @@
     <EmbeddedResource Include="UserForms\PDF\FormSelectPdfNewSize.resx">
       <DependentUpon>FormSelectPdfNewSize.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\AddTemplateSheetControl.resx">
+      <DependentUpon>AddTemplateSheetControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddSheet.resx">
       <DependentUpon>FormAddSheet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormImposTools.resx">
-      <DependentUpon>FormImposTools.cs</DependentUpon>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.resx">
+      <DependentUpon>Form_AddTemplateSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\ImposToolsControl.resx">
+      <DependentUpon>ImposToolsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\PdfFileListControl.resx">
+      <DependentUpon>PdfFileListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\PreviewControl.resx">
+      <DependentUpon>PreviewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\PrintSheetsControl.resx">
+      <DependentUpon>PrintSheetsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\RunListControl.resx">
+      <DependentUpon>RunListControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -1009,6 +1062,7 @@
   <ItemGroup>
     <Folder Include="Core\Compression\Snappy\lib\" />
     <Folder Include="Core\Compression\Zstandard\lib\" />
+    <Folder Include="Static\Pdf\Imposition\Drawers\Services\PDF\" />
     <Folder Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\Perfecting\" />
   </ItemGroup>
   <ItemGroup>

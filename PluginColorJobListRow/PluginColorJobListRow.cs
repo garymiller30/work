@@ -1,7 +1,7 @@
 ﻿using ExtensionMethods;
 using Interfaces;
 using Interfaces.Plugins;
-using Job.Static;
+using JobSpace.Static;
 using System.Drawing;
 using System.Windows.Forms;
 

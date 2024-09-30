@@ -1,10 +1,10 @@
 ﻿using Interfaces;
-using Job.Models;
+using JobSpace.Models;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Job.Profiles
+namespace JobSpace.Profiles
 {
     [Serializable]
     public   class ProfileSettings : IProfileSettings, INotifyPropertyChanged

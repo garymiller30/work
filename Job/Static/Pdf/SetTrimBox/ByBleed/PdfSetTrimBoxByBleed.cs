@@ -1,6 +1,6 @@
-﻿using Job.Static.Pdf.Common;
-using Job.Static.Pdf.Convert;
-using Job.Static.Pdf.Scale;
+﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Convert;
+using JobSpace.Static.Pdf.Scale;
 using PDFlib_dotnet;
 using SharpCompress.Common;
 using System;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Job.Static.Pdf.SetTrimBox.ByBleed
+namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
 {
     public sealed class PdfSetTrimBoxByBleed : SetTrimBoxBase
     {

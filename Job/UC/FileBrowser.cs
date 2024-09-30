@@ -4,15 +4,15 @@ using ExtensionMethods;
 using FtpClient;
 using Interfaces;
 using Interfaces.PdfUtils;
-using Job.Dlg;
-using Job.Ext;
-using Job.Menus;
-using Job.Models;
-using Job.Static;
-using Job.Static.Pdf.MergeOddAndEven;
-using Job.Static.Pdf.MergeTemporary;
-using Job.UserForms;
-using Job.UserForms.PDF;
+using JobSpace.Dlg;
+using JobSpace.Ext;
+using JobSpace.Menus;
+using JobSpace.Models;
+using JobSpace.Static;
+using JobSpace.Static.Pdf.MergeOddAndEven;
+using JobSpace.Static.Pdf.MergeTemporary;
+using JobSpace.UserForms;
+using JobSpace.UserForms.PDF;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
 using PDFManipulate.Forms;
@@ -32,9 +32,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using static Job.Static.NaturalSorting;
+using static JobSpace.Static.NaturalSorting;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public sealed partial class FileBrowser : UserControl, IFileBrowser
     {

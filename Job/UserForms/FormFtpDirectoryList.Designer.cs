@@ -1,4 +1,4 @@
-﻿namespace Job.UserForms
+﻿namespace JobSpace.UserForms
 {
     partial class FormFtpDirectoryList
     {
@@ -86,7 +86,7 @@
             this.kryptonButton1.Name = "kryptonButton1";
             this.kryptonButton1.Size = new System.Drawing.Size(80, 25);
             this.kryptonButton1.TabIndex = 3;
-            this.kryptonButton1.Values.Image = global::Job.Properties.Resources.arrow_turn_left;
+            this.kryptonButton1.Values.Image = global::JobSpace.Properties.Resources.arrow_turn_left;
             this.kryptonButton1.Values.Text = "назад";
             this.kryptonButton1.Click += new System.EventHandler(this.button_Up_Click);
             // 

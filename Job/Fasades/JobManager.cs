@@ -14,18 +14,18 @@ using FtpClient;
 using Interfaces;
 using Interfaces.MQ;
 using Interfaces.Plugins;
-using Job.Controllers;
-using Job.Ext;
-using Job.Models;
-using Job.Static;
-using Job.UC;
-using Job.UserForms;
+using JobSpace.Controllers;
+using JobSpace.Ext;
+using JobSpace.Models;
+using JobSpace.Static;
+using JobSpace.UC;
+using JobSpace.UserForms;
 using Krypton.Toolkit;
 using Logger;
 using Ookii.Dialogs.WinForms;
 
 
-namespace Job.Fasades
+namespace JobSpace.Fasades
 {
     public sealed class JobManager : IJobManager
     {

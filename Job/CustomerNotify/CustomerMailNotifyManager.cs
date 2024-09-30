@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Interfaces;
-using Job.Ext;
+using JobSpace.Ext;
 using MailNotifier;
 
-namespace Job.CustomerNotify
+namespace JobSpace.CustomerNotify
 {
     /// <summary>
     /// уведомление заказчика по почте о смене статуса заказа

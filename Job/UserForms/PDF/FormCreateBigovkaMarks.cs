@@ -1,9 +1,9 @@
-﻿using Job.Static.Pdf.Create.BigovkaMarks;
+﻿using JobSpace.Static.Pdf.Create.BigovkaMarks;
 using System;
 using System.Globalization;
 using System.Windows.Forms;
 
-namespace Job.UserForms.PDF
+namespace JobSpace.UserForms.PDF
 {
     public partial class FormCreateBigovkaMarks : Form
     {

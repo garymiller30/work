@@ -3,7 +3,7 @@
 
 using BrightIdeasSoftware;
 using Interfaces;
-using Job.Models;
+using JobSpace.Models;
 using Logger;
 using RulesService;
 using System;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 
-namespace Job.UserForms.PDF
+namespace JobSpace.UserForms.PDF
 {
     public partial class FormList : Form
     {

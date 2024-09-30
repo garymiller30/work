@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Drawers.PDF
+namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 {
     public static partial class Commons
     {

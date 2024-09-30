@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using Interfaces;
-using Job.Models;
+using JobSpace.Models;
 
-namespace Job.Static
+namespace JobSpace.Static
 {
     public static class Converter
     {

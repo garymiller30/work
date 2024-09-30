@@ -4,11 +4,11 @@ using System.Windows.Forms;
 using BrightIdeasSoftware;
 using Krypton.Toolkit;
 using Interfaces;
-using Job.ModelView;
-using Job.Fasades;
+using JobSpace.ModelView;
+using JobSpace.Fasades;
 using System.Diagnostics;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public sealed partial class FormCustomers : KryptonForm
     {

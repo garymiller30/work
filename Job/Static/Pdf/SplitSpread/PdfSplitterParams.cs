@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.SplitSpread
+namespace JobSpace.Static.Pdf.SplitSpread
 {
     public sealed class PdfSplitterParams
     {

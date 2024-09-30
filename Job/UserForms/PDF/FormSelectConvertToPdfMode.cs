@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Krypton.Toolkit;
 using Interfaces;
-using Job.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Common;
 
-namespace Job.Dlg
+namespace JobSpace.Dlg
 {
     public sealed partial class FormSelectConvertToPdfMode : KryptonForm
     {

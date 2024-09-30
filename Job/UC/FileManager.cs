@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com 
 
 using Interfaces;
-using Job.Static;
+using JobSpace.Static;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FileSystem = Microsoft.VisualBasic.FileIO.FileSystem;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public sealed class FileManager : IFileManager
     {
@@ -250,31 +250,23 @@ namespace Job.UC
 
         }
 
-
-
         /// <summary>
         /// завантажити налаштування провідника
         /// </summary>
         public void LoadSettings(string settingFile)
         {
-            //_cacheManager.LoadCache(settingFile+".cache");
-
-
             var setting = SaveAndLoad.Load<FileBrowserSettings>(settingFile);
             if (setting != null)
             {
                 Settings = setting;
                 SetRootDirectory(Settings.RootFolder);
             }
-
         }
         /// <summary>
         /// зберегти налаштування провідника
         /// </summary>
         public void SaveSettings(string settingFile)
         {
-            //_cacheManager.SaveCache(settingFile+".cache");
-
             SaveAndLoad.Save(settingFile, Settings);
         }
 

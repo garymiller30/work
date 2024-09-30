@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Interfaces;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public interface IFileManager
     {

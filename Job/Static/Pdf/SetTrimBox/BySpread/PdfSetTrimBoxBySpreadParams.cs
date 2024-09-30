@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.SetTrimBox.BySpread
+namespace JobSpace.Static.Pdf.SetTrimBox.BySpread
 {
     public sealed class PdfSetTrimBoxBySpreadParams
     {

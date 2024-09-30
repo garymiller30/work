@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
-using Job.Profiles;
+using JobSpace.Profiles;
 
 namespace OrderInfo
 {

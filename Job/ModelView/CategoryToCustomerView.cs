@@ -1,12 +1,12 @@
 ﻿using Interfaces;
-using Job.Models;
+using JobSpace.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.ModelView
+namespace JobSpace.ModelView
 {
     public sealed class CategoryToCustomerView
     {

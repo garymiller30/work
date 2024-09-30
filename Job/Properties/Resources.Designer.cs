@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Job.Properties {
+namespace JobSpace.Properties {
     using System;
     
     

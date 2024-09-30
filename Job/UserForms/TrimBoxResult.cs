@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public class TrimBoxResult
     {

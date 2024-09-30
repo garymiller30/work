@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using CasheViewer.Reports;
 using Interfaces;
-using Job.Profiles;
+using JobSpace.Profiles;
 
 namespace CasheViewer.UC
 {
@@ -54,7 +54,7 @@ namespace CasheViewer.UC
                         if (reportJob.ReportVersion == ReportVersionEnum.Version1)
                         {
 #pragma warning disable CS0612 // 'Job.IsCashePayed' is obsolete
-                            ((Job.Job)reportJob.Job).IsCashePayed = true;
+                            ((JobSpace.Job)reportJob.Job).IsCashePayed = true;
 #pragma warning restore CS0612 // 'Job.IsCashePayed' is obsolete
                         }
                         else
@@ -62,8 +62,8 @@ namespace CasheViewer.UC
                             ApplyPayPlugins(_profile, reportJob);
                         }
 
-                        ((Job.Job)reportJob.Job).StatusCode = status.Code;
-                        _profile.Jobs.UpdateJob((Job.Job)reportJob.Job, true);
+                        ((JobSpace.Job)reportJob.Job).StatusCode = status.Code;
+                        _profile.Jobs.UpdateJob((JobSpace.Job)reportJob.Job, true);
                     }
                 }
             }

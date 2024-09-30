@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Interfaces;
-using Job.Profiles;
+using JobSpace.Profiles;
 
 namespace CasheViewer.Reports
 {

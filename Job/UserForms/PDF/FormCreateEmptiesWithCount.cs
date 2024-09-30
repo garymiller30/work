@@ -1,10 +1,10 @@
-﻿using Job.Static.Pdf.Common;
+﻿using JobSpace.Static.Pdf.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public sealed partial class FormCreateEmptiesWithCount : Form
     {

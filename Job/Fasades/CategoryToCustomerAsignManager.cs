@@ -1,6 +1,6 @@
 ﻿using BrightIdeasSoftware;
 using Interfaces;
-using Job.Models;
+using JobSpace.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Fasades
+namespace JobSpace.Fasades
 {
     public static class CategoryToCustomerAsignManager
     {

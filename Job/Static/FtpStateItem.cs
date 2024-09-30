@@ -1,4 +1,4 @@
-﻿namespace Job.Static
+﻿namespace JobSpace.Static
 {
     internal class FtpStateItem
     {

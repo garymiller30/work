@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Models.Marks
+namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 {
     public class MarksContainer
     {

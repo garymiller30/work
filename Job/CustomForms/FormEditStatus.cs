@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using Interfaces;
-using Job.Profiles;
+using JobSpace.Profiles;
 using Ookii.Dialogs.WinForms;
 
-namespace Job.CustomForms
+namespace JobSpace.CustomForms
 {
     public sealed partial class FormEditStatus : Form
     {

@@ -1,8 +1,8 @@
-﻿using Job.Static.Pdf.Common;
+﻿using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
 using System.IO;
 
-namespace Job.Static.Pdf.SplitSpread
+namespace JobSpace.Static.Pdf.SplitSpread
 {
     public sealed class PdfSpliter
     {

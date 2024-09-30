@@ -1,17 +1,13 @@
-﻿using Job.Static.Pdf.Common;
-using Job.Static.Pdf.Imposition.Drawers.PDF.Models;
-using Job.Static.Pdf.Imposition.Drawers.PDF.Sheet;
-using Job.Static.Pdf.Imposition.Drawers.Services.PDF;
-using Job.Static.Pdf.Imposition.Models;
-using Job.Static.Pdf.Imposition.Services;
+﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Models;
+using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet;
+using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Drawers.PDF
+namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 {
     public class PdfDrawer
     {
@@ -24,24 +20,63 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF
 
         public void Draw(ProductPart impos)
         {
+            PDFlib p = new PDFlib();
 
-            switch (impos.Sheet.SheetPlaceType)
+            try
             {
-                case TemplateSheetPlaceType.SingleSide:
-                    DrawSingleSideService.Draw(impos,TargetFile);
-                    break;
-                case TemplateSheetPlaceType.Sheetwise: 
-                    DrawSheetwiseService.Draw(impos,TargetFile);
-                    break;
-                case TemplateSheetPlaceType.WorkAndTurn:
-                    DrawWorkAndTurnService.Draw(impos,TargetFile);
-                    break;
-                case TemplateSheetPlaceType.Perfecting: 
-                    throw new NotImplementedException();
-                default:
-                    throw new NotImplementedException();
+                p.begin_document(TargetFile, "");
+
+                for (int i = 0; i< impos.PrintSheets.Count; i++) {
+
+                    var sheet = impos.PrintSheets[i];
+
+                    TextVariablesService.SetValue(ValueList.SheetIdx, i + 1);
+                    
+                    TextVariablesService.SetValue(ValueList.SheetFormat, $"{sheet.W}x{sheet.H}");
+                    TextVariablesService.SetValue(ValueList.CurDate, DateTime.Now.ToString());
+
+                    switch (sheet.SheetPlaceType)
+                    {
+                        case TemplateSheetPlaceType.SingleSide:
+                            TextVariablesService.SetValue(ValueList.SheetSide, "Без звороту");
+                            DrawSheet.Front(p, impos, sheet);
+                            break;
+                        
+                            case TemplateSheetPlaceType.Sheetwise:
+
+                            TextVariablesService.SetValue(ValueList.SheetSide, "Лице");
+                            DrawSheet.Front(p, impos, sheet);
+                            TextVariablesService.SetValue(ValueList.SheetSide, "Зворот");
+                            DrawSheet.Back(p, impos, sheet);
+                            break;
+                        
+                            case TemplateSheetPlaceType.WorkAndTurn:
+                            TextVariablesService.SetValue(ValueList.SheetSide, "Свій зворот");
+                            DrawSheet.WorkAndTurn(p, impos, sheet);
+                            break;
+
+                        case TemplateSheetPlaceType.Perfecting:
+                            throw new NotImplementedException();
+                        default:
+                            throw new NotImplementedException();
+                    }
+
+                }
+               
+                p.end_document("");
             }
-           
+            catch (PDFlibException e)
+            {
+            }
+            finally
+            {
+                p?.Dispose();
+            }
+
+
+
+            
+
         }
 
         void DrawPages(List<PdfPage> pages)
@@ -56,9 +91,9 @@ namespace Job.Static.Pdf.Imposition.Drawers.PDF
                 foreach (PdfPage page in pages)
                 {
                     p.begin_page_ext(page.W * PdfHelper.mn, page.H * PdfHelper.mn, "");
-                    
 
-                    
+
+
                     p.end_page_ext("");
                 }
 

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Interfaces;
 using Interfaces.Plugins;
-using Job.Static;
+using JobSpace.Static;
 
 namespace PluginColorJobListRow
 {

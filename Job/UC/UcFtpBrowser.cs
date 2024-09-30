@@ -9,9 +9,9 @@ using Krypton.Toolkit;
 using FtpClient;
 using Interfaces;
 using Interfaces.Ftp;
-using Job.Static;
+using JobSpace.Static;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public sealed partial class UcFtpBrowser : UserControl, IUcFtpBrowser
     {

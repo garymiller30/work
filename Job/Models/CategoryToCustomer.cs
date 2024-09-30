@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Models
+namespace JobSpace.Models
 {
     public class CategoryToCustomer
     {

@@ -1,11 +1,11 @@
-﻿using Job.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Services
+namespace JobSpace.Static.Pdf.Imposition.Services
 {
     public static class PdfMarksService
     {

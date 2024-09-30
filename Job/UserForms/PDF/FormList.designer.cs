@@ -1,4 +1,4 @@
-﻿namespace Job.UserForms.PDF
+﻿namespace JobSpace.UserForms.PDF
 {
     partial class FormList
     {

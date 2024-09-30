@@ -5,7 +5,7 @@ using Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Job
+namespace JobSpace
 {
     [Serializable]
     [BsonDiscriminator("Jobs")]

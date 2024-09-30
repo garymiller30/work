@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public sealed class NoWatcher : IWatcher
     {

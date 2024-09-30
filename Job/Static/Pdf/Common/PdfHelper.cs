@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace Job.Static.Pdf.Common
+namespace JobSpace.Static.Pdf.Common
 {
     public static class PdfHelper
     {

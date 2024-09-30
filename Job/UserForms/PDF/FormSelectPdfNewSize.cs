@@ -1,10 +1,10 @@
 ﻿using ImageMagick;
-using Job.Static.Pdf.Common;
-using Job.Static.Pdf.Scale;
+using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Scale;
 using System;
 using System.Windows.Forms;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public partial class FormSelectPdfNewSize : Form
     {

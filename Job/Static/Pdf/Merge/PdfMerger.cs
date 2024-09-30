@@ -1,10 +1,10 @@
-﻿using Job.Static.Pdf.Common;
+﻿using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace Job.Static.Pdf.Merge
+namespace JobSpace.Static.Pdf.Merge
 {
     public class PdfMerger
     {

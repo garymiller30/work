@@ -1,4 +1,4 @@
-﻿namespace Job.UserForms
+﻿namespace JobSpace.UserForms
 {
     partial class FormGetTrimBox
     {

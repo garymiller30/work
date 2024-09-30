@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using Interfaces;
 using Interfaces.PdfUtils;
 
-namespace Job.Models
+namespace JobSpace.Models
 {
     [Serializable]
     public  class FileSystemInfoExt : INotifyPropertyChanged, IFileSystemInfoExt

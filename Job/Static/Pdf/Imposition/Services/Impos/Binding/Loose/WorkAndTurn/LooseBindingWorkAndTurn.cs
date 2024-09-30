@@ -1,12 +1,12 @@
-﻿using Job.Static.Pdf.Imposition.Models;
-using Job.Static.Pdf.Imposition.Services.Impos.Models;
+﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTurn
+namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTurn
 {
     public static class LooseBindingWorkAndTurn
     {
@@ -15,10 +15,7 @@ namespace Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTurn
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
 
             TemplateSheet sheet = parameters.Sheet;
-            TemplatePage page = parameters.TemplatePage;
-
-            //TemplatePage tPage = new TemplatePage(page.W, page.H);
-            //tPage.Margins.Set(page.Bleeds);
+            TemplatePage page = sheet.MasterPage;
 
             AbstractPlaceVariant nonRotated = new PlaceVariantWorkAndTurnNonRotated(parameters);
             AbstractPlaceVariant rotated = new PlaceVariantWorkAndTurnRotated(parameters);
@@ -48,10 +45,11 @@ namespace Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTurn
             double y = sheet.SafeFields.Bottom + parameters.Yofs;
 
             if (parameters.IsCenterHorizontal)
-                x = (sheet.W/2 - selVariant.BlockWidth) / 2;
+                x = (sheet.W/2 - selVariant.BlockWidth) / 2 + sheet.SafeFields.Left;
+
 
             if (parameters.IsCenterVertical)
-                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Top - selVariant.BlockHeight) / 2;
+                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - selVariant.BlockHeight) / 2 + sheet.SafeFields.Bottom;
 
             double xOfs = x;
 

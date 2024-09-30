@@ -10,8 +10,8 @@ using FtpClient;
 using FtpClient.Controllers;
 using Interfaces;
 using Interfaces.Ftp;
-using Job;
-using Job.UC;
+using JobSpace;
+using JobSpace.UC;
 
 namespace ActiveWorks
 {

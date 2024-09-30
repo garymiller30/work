@@ -3,7 +3,7 @@ using Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Job.Statuses
+namespace JobSpace.Statuses
 {
     public sealed class JobStatus : IJobStatus, IWithId
     {

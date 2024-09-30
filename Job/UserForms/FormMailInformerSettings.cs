@@ -6,16 +6,16 @@ using System;
 using System.Windows.Forms;
 using Krypton.Toolkit;
 using Interfaces;
-using Job.CustomerNotify;
-using Job.Statuses;
+using JobSpace.CustomerNotify;
+using JobSpace.Statuses;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public sealed partial class FormMailInformerSettings : KryptonForm
     {
         public IUserProfile UserProfile { get; set; }
 
-        private readonly global::Job.Customer _customer;
+        private readonly global::JobSpace.Customer _customer;
 
         private CustomerMailNotify _curNotify;
 
@@ -58,7 +58,7 @@ namespace Job.UserForms
 
         private void Bind()
         {
-            _curNotify = (global::Job.CustomerNotify.CustomerMailNotify)objectListViewStatuses.SelectedObject;
+            _curNotify = (global::JobSpace.CustomerNotify.CustomerMailNotify)objectListViewStatuses.SelectedObject;
 
             if (_curNotify != null)
             {

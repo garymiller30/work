@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Interfaces;
 using MongoDB.Bson;
 
-namespace Job
+namespace JobSpace
 {
     public sealed class Customer : IWithId, ICustomer
     {

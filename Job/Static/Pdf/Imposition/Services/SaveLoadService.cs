@@ -1,5 +1,5 @@
 ﻿using ExtensionMethods;
-using Job.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Services
+namespace JobSpace.Static.Pdf.Imposition.Services
 {
     public static class SaveLoadService
     {

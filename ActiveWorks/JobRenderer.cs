@@ -1,5 +1,5 @@
 ﻿using BrightIdeasSoftware;
-using Job.Profiles;
+using JobSpace.Profiles;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -67,7 +67,7 @@ namespace ActiveWorks
 
             g.Clip = new Region(itemBounds);
 
-            if (rowObject is Job.Job job)
+            if (rowObject is JobSpace.Job job)
             {
 
                 //// Now draw the text portion

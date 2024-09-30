@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using Interfaces;
 
-namespace Job.Profiles
+namespace JobSpace.Profiles
 {
     public static class ProfilesController
     {

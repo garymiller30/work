@@ -1,6 +1,6 @@
-﻿using Job.Static.Pdf.Common;
-using Job.Static.Pdf.Convert;
-using Job.Static.Pdf.Scale;
+﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Convert;
+using JobSpace.Static.Pdf.Scale;
 using PDFlib_dotnet;
 using SharpCompress.Common;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.SetTrimBox.ByFormat
+namespace JobSpace.Static.Pdf.SetTrimBox.ByFormat
 {
     public sealed class PdfSetTrimBoxByFormat : SetTrimBoxBase
     {

@@ -1,12 +1,12 @@
-﻿using Job.Static.Pdf.Common;
-using Job.Static.Pdf.Scale;
+﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Scale;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.PdfScale
+namespace JobSpace.Static.PdfScale
 {
     internal static class ExtendTargetSizeHelpers
     {

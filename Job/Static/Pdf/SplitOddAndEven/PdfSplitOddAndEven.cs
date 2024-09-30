@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.SplitOddAndEven
+namespace JobSpace.Static.Pdf.SplitOddAndEven
 {
     public class PdfSplitOddAndEven
     {

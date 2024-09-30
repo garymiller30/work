@@ -4,15 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Services.Impos.Models
+namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Models
 {
     public class PlaceVariantWorkAndTurnRotated : AbstractPlaceVariant
     {
         public PlaceVariantWorkAndTurnRotated(LooseBindingParameters bindingParameters) : base(bindingParameters)
         {
             IsRotated = true;
-            Calc(Parameters.TemplatePage.H + Parameters.TemplatePage.Margins.Bottom + Parameters.TemplatePage.Margins.Top,
-                 Parameters.TemplatePage.W + Parameters.TemplatePage.Margins.Left + Parameters.TemplatePage.Margins.Right);
+            var page = bindingParameters.Sheet.MasterPage;
+
+            Calc(page.H + page.Margins.Bottom + page.Margins.Top,
+                 page.W + page.Margins.Left + page.Margins.Right);
         }
 
         public override (double sheetW, double sheetH) GetSheetFormat()

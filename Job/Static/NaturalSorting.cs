@@ -7,10 +7,10 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
-using Job.Models;
+using JobSpace.Models;
 using Org.BouncyCastle.Asn1.Mozilla;
 
-namespace Job.Static
+namespace JobSpace.Static
 {
     public static class NaturalSorting
     {

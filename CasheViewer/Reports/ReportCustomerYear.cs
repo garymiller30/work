@@ -95,11 +95,11 @@ namespace CasheViewer.Reports
                 }
             }
 
-            List<Job.Job> rawJobs = new List<Job.Job>();
+            List<JobSpace.Job> rawJobs = new List<JobSpace.Job>();
 
             foreach (var pair in jobDictionary)
             {
-                var j = UserProfile.Base.GetById<Job.Job>("Jobs", pair.Key);
+                var j = UserProfile.Base.GetById<JobSpace.Job>("Jobs", pair.Key);
                 if (j != null)
                 {
                     rawJobs.Add(j);

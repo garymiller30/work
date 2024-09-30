@@ -1,5 +1,5 @@
 ﻿using Interfaces;
-using Job;
+using JobSpace;
 using Krypton.Toolkit;
 using Microsoft.Scripting.Utils;
 using System;
@@ -55,7 +55,7 @@ namespace ActiveWorks.Forms
 
         private void CheckTemplates()
         {
-            var jobs = _profile.Base.All<Job.Job>("Jobs");
+            var jobs = _profile.Base.All<JobSpace.Job>("Jobs");
             foreach (var job in jobs)
             {
 

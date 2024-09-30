@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Interfaces;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public sealed class FileCache : ICache<IFileSystemInfoExt>
     {

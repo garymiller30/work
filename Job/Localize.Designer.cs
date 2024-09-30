@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Job {
+namespace JobSpace {
     using System;
     
     

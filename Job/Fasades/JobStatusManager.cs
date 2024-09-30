@@ -5,11 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
-using Job.Static;
-using Job.Statuses;
+using JobSpace.Static;
+using JobSpace.Statuses;
 using Logger;
 
-namespace Job.Fasades
+namespace JobSpace.Fasades
 {
     public sealed class JobStatusManager : IJobStatusManager
     {

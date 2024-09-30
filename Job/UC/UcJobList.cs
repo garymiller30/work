@@ -1,12 +1,12 @@
 ﻿using BrightIdeasSoftware;
 using ExtensionMethods;
 using Interfaces;
-using Job.Ext;
-using Job.Menus;
-using Job.Models;
-using Job.Profiles;
-using Job.Static;
-using Job.UserForms;
+using JobSpace.Ext;
+using JobSpace.Menus;
+using JobSpace.Models;
+using JobSpace.Profiles;
+using JobSpace.Static;
+using JobSpace.UserForms;
 using Logger;
 using Ookii.Dialogs.WinForms;
 using System;
@@ -18,9 +18,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Job.Static.NaturalSorting;
+using static JobSpace.Static.NaturalSorting;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public sealed partial class UcJobList : UserControl, IUcJobList
     {

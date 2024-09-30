@@ -1,4 +1,4 @@
-﻿using Job.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,16 +9,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Job.UserForms.PDF.ImposItems
+namespace JobSpace.UserForms.PDF.ImposItems
 {
-    public partial class FormImposTools : Form
+
+
+    public partial class ImposToolsControl : UserControl
     {
         ImposToolsParameters parameters;
+        public ImposToolsControl()
+        {
+            InitializeComponent();
+            tb_front.MouseClick += tb_front_MouseClick;
+            tb_back.MouseClick += tb_back_MouseClick;
+            cb_rotate_180.CheckedChanged += cb_rotate_180_CheckedChanged;
+            cb_EnableNumering.CheckedChanged += cb_EnableNumering_CheckedChanged;
+            tb_front.TextChanged += tb_front_TextChanged;
+            tb_back.TextChanged += tb_back_TextChanged;
+            btn_switch_front_back.Click += btn_switch_front_back_Click;
 
-        public FormImposTools(ImposToolsParameters param)
+            tb_front.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
+            tb_back.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
+            btn_switch_front_back.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
+        }
+
+        public void InitParameters(ImposToolsParameters param)
         {
             parameters = param;
-
             parameters.BackNumChanged += delegate (object sender, int num)
             {
                 tb_back.Text = num.ToString();
@@ -29,25 +45,6 @@ namespace Job.UserForms.PDF.ImposItems
                 tb_front.Text = num.ToString();
             };
 
-            InitializeComponent();
-            tb_front.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
-            tb_back.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
-            btn_switch_front_back.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
-        }
-
-        private void tb_front_MouseEnter(object sender, EventArgs e)
-        {
-            tb_front.SelectAll();
-        }
-
-        private void tb_back_MouseEnter(object sender, EventArgs e)
-        {
-            tb_back.SelectAll();
-        }
-
-        private void tb_front_Enter(object sender, EventArgs e)
-        {
-            tb_front.SelectAll();
         }
 
         private void tb_front_MouseClick(object sender, MouseEventArgs e)

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Job.Ext
+namespace JobSpace.Ext
 {
     public static class ToolStripItemExtention
     {

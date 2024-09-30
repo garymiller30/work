@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Repeat
+namespace JobSpace.Static.Pdf.Repeat
 {
     public class PdfRepeatParamsBase
     {

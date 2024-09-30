@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Job.UserForms
+namespace JobSpace.UserForms
 {
     public sealed partial class FormCombineOrders : Form
     {

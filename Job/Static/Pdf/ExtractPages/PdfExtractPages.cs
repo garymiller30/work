@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.ExtractPages
+namespace JobSpace.Static.Pdf.ExtractPages
 {
     public sealed class PdfExtractPages
     {

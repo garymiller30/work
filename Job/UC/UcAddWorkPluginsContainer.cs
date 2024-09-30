@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Interfaces;
-using Job.Static;
+using JobSpace.Static;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public sealed partial class UcAddWorkPluginsContainer : UserControl
     {

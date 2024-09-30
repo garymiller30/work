@@ -1,13 +1,13 @@
-﻿using Job.Static.Pdf.Imposition.Models;
-using Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise;
-using Job.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTurn;
+﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTurn;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Services.Impos.Binding
+namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding
 {
     public static class BindingService
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public interface ICache<T>
     {

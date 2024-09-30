@@ -7,11 +7,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Interfaces;
-using Job.Models;
-using Job.Static;
+using JobSpace.Models;
+using JobSpace.Static;
 using Logger;
 
-namespace Job.UC
+namespace JobSpace.UC
 {
     public sealed class NoCache : ICache<IFileSystemInfoExt>
     {

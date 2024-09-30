@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Job.Static.Pdf.Imposition.Models
+namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public class ClipBox
     {
@@ -45,5 +46,7 @@ namespace Job.Static.Pdf.Imposition.Models
             Top = top;
             Bottom = bottom;
         }
+
+        
     }
 }
