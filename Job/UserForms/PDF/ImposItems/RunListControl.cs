@@ -157,5 +157,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             ReasignPages();
         }
+
+        public int GetUnassignedPagesCount()
+        {
+            return objectListViewRunList.Objects.Cast<ImposRunPage>().ToList().Count - UnassignedIdx;
+        }
     }
 }
