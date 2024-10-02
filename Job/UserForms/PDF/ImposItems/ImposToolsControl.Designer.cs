@@ -38,6 +38,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cb_EnableNumering = new System.Windows.Forms.CheckBox();
+            this.btn_sameNumber = new System.Windows.Forms.Button();
+            this.btn_listNumber = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,16 +58,19 @@
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.label2, 3, 5);
             this.tableLayoutPanel1.Controls.Add(this.cb_EnableNumering, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.btn_sameNumber, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.btn_listNumber, 2, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(136, 290);
             this.tableLayoutPanel1.TabIndex = 1;
@@ -99,7 +104,7 @@
             // tb_front
             // 
             this.tb_front.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tb_front.Location = new System.Drawing.Point(3, 266);
+            this.tb_front.Location = new System.Drawing.Point(3, 239);
             this.tb_front.Name = "tb_front";
             this.tb_front.Size = new System.Drawing.Size(41, 20);
             this.tb_front.TabIndex = 2;
@@ -109,7 +114,7 @@
             // tb_back
             // 
             this.tb_back.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tb_back.Location = new System.Drawing.Point(90, 266);
+            this.tb_back.Location = new System.Drawing.Point(90, 239);
             this.tb_back.Name = "tb_back";
             this.tb_back.Size = new System.Drawing.Size(43, 20);
             this.tb_back.TabIndex = 3;
@@ -123,7 +128,7 @@
             this.btn_switch_front_back.FlatAppearance.BorderSize = 0;
             this.btn_switch_front_back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_switch_front_back.Image = ((System.Drawing.Image)(resources.GetObject("btn_switch_front_back.Image")));
-            this.btn_switch_front_back.Location = new System.Drawing.Point(50, 266);
+            this.btn_switch_front_back.Location = new System.Drawing.Point(50, 239);
             this.btn_switch_front_back.Name = "btn_switch_front_back";
             this.btn_switch_front_back.Size = new System.Drawing.Size(34, 21);
             this.btn_switch_front_back.TabIndex = 4;
@@ -133,7 +138,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 250);
+            this.label1.Location = new System.Drawing.Point(3, 223);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 5;
@@ -144,7 +149,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(90, 250);
+            this.label2.Location = new System.Drawing.Point(90, 223);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 6;
@@ -158,11 +163,33 @@
             this.tableLayoutPanel1.SetColumnSpan(this.cb_EnableNumering, 2);
             this.cb_EnableNumering.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cb_EnableNumering.Image = ((System.Drawing.Image)(resources.GetObject("cb_EnableNumering.Image")));
-            this.cb_EnableNumering.Location = new System.Drawing.Point(50, 218);
+            this.cb_EnableNumering.Location = new System.Drawing.Point(50, 191);
             this.cb_EnableNumering.Name = "cb_EnableNumering";
             this.cb_EnableNumering.Size = new System.Drawing.Size(34, 29);
             this.cb_EnableNumering.TabIndex = 7;
             this.cb_EnableNumering.UseVisualStyleBackColor = true;
+            // 
+            // btn_sameNumber
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.btn_sameNumber, 2);
+            this.btn_sameNumber.Location = new System.Drawing.Point(3, 266);
+            this.btn_sameNumber.Name = "btn_sameNumber";
+            this.btn_sameNumber.Size = new System.Drawing.Size(61, 21);
+            this.btn_sameNumber.TabIndex = 8;
+            this.btn_sameNumber.Text = "1-1-1-1";
+            this.btn_sameNumber.UseVisualStyleBackColor = true;
+            this.btn_sameNumber.Click += new System.EventHandler(this.btn_sameNumber_Click);
+            // 
+            // btn_listNumber
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.btn_listNumber, 2);
+            this.btn_listNumber.Location = new System.Drawing.Point(70, 266);
+            this.btn_listNumber.Name = "btn_listNumber";
+            this.btn_listNumber.Size = new System.Drawing.Size(63, 21);
+            this.btn_listNumber.TabIndex = 9;
+            this.btn_listNumber.Text = "1-2-3-4";
+            this.btn_listNumber.UseVisualStyleBackColor = true;
+            this.btn_listNumber.Click += new System.EventHandler(this.btn_listNumber_Click);
             // 
             // ImposToolsControl
             // 
@@ -188,5 +215,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox cb_EnableNumering;
+        private System.Windows.Forms.Button btn_sameNumber;
+        private System.Windows.Forms.Button btn_listNumber;
     }
 }

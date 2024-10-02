@@ -19,9 +19,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         {
             
         }
-
-       
-
         public static PrintSheet ConvertTemplateSheetToPrintSheet(TemplateSheet sheet)
         {
             var str = JsonSerializer.Serialize(sheet);
@@ -31,5 +28,9 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             return print;
         }
 
+        public static void ResetId()
+        {
+            printId = 1;
+        }
     }
 }

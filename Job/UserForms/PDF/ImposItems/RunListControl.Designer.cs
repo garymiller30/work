@@ -38,13 +38,17 @@
             this.olvColumIdx = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnRunListPages = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnAsign = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tssl_status = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewRunList)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.statusStrip1);
             this.groupBox2.Controls.Add(this.toolStrip1);
             this.groupBox2.Controls.Add(this.objectListViewRunList);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -111,7 +115,7 @@
             this.objectListViewRunList.Location = new System.Drawing.Point(3, 44);
             this.objectListViewRunList.Name = "objectListViewRunList";
             this.objectListViewRunList.ShowGroups = false;
-            this.objectListViewRunList.Size = new System.Drawing.Size(118, 338);
+            this.objectListViewRunList.Size = new System.Drawing.Size(118, 310);
             this.objectListViewRunList.TabIndex = 0;
             this.objectListViewRunList.UseCompatibleStateImageBehavior = false;
             this.objectListViewRunList.View = System.Windows.Forms.View.Details;
@@ -132,6 +136,22 @@
             this.olvColumnAsign.Text = "";
             this.olvColumnAsign.Width = 30;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tssl_status});
+            this.statusStrip1.Location = new System.Drawing.Point(3, 360);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(118, 22);
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tssl_status
+            // 
+            this.tssl_status.Name = "tssl_status";
+            this.tssl_status.Size = new System.Drawing.Size(66, 17);
+            this.tssl_status.Text = "◌ : 0 | ● : 0, ";
+            // 
             // RunListControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -144,6 +164,8 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewRunList)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -159,5 +181,7 @@
         private BrightIdeasSoftware.OLVColumn olvColumIdx;
         private BrightIdeasSoftware.OLVColumn olvColumnRunListPages;
         private BrightIdeasSoftware.OLVColumn olvColumnAsign;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel tssl_status;
     }
 }

@@ -64,7 +64,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.previewControl1 = new JobSpace.UserForms.PDF.ImposItems.PreviewControl();
-            this.btn_apply = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -260,11 +259,7 @@
             this.nud_info_h.Name = "nud_info_h";
             this.nud_info_h.Size = new System.Drawing.Size(48, 20);
             this.nud_info_h.TabIndex = 3;
-            this.nud_info_h.Value = new decimal(new int[] {
-            450,
-            0,
-            0,
-            0});
+            this.nud_info_h.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // nud_info_w
             // 
@@ -278,11 +273,7 @@
             this.nud_info_w.Name = "nud_info_w";
             this.nud_info_w.Size = new System.Drawing.Size(52, 20);
             this.nud_info_w.TabIndex = 2;
-            this.nud_info_w.Value = new decimal(new int[] {
-            640,
-            0,
-            0,
-            0});
+            this.nud_info_w.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label2
             // 
@@ -458,11 +449,6 @@
             this.nud_page_bleed.Size = new System.Drawing.Size(52, 20);
             this.nud_page_bleed.TabIndex = 11;
             this.nud_page_bleed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_page_bleed.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
             // 
             // nud_page_h
             // 
@@ -476,11 +462,7 @@
             this.nud_page_h.Name = "nud_page_h";
             this.nud_page_h.Size = new System.Drawing.Size(48, 20);
             this.nud_page_h.TabIndex = 7;
-            this.nud_page_h.Value = new decimal(new int[] {
-            210,
-            0,
-            0,
-            0});
+            this.nud_page_h.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // nud_page_w
             // 
@@ -494,11 +476,7 @@
             this.nud_page_w.Name = "nud_page_w";
             this.nud_page_w.Size = new System.Drawing.Size(52, 20);
             this.nud_page_w.TabIndex = 6;
-            this.nud_page_w.Value = new decimal(new int[] {
-            148,
-            0,
-            0,
-            0});
+            this.nud_page_w.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label7
             // 
@@ -528,22 +506,16 @@
             this.previewControl1.Size = new System.Drawing.Size(745, 559);
             this.previewControl1.TabIndex = 7;
             // 
-            // btn_apply
-            // 
-            this.btn_apply.Location = new System.Drawing.Point(12, 526);
-            this.btn_apply.Name = "btn_apply";
-            this.btn_apply.Size = new System.Drawing.Size(92, 45);
-            this.btn_apply.TabIndex = 8;
-            this.btn_apply.Text = "застосувати";
-            this.btn_apply.UseVisualStyleBackColor = true;
-            // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(163, 526);
+            this.buttonSave.Image = ((System.Drawing.Image)(resources.GetObject("buttonSave.Image")));
+            this.buttonSave.Location = new System.Drawing.Point(12, 526);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(76, 45);
+            this.buttonSave.Size = new System.Drawing.Size(227, 45);
             this.buttonSave.TabIndex = 9;
             this.buttonSave.Text = "Зберегти";
+            this.buttonSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.buttonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -553,13 +525,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1007, 583);
             this.Controls.Add(this.buttonSave);
-            this.Controls.Add(this.btn_apply);
             this.Controls.Add(this.previewControl1);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox3);
             this.Name = "Form_AddTemplateSheet";
-            this.Text = "Form_AddTemplateSheet";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Додати шаблон листа";
             this.groupBox3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -624,7 +596,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private PreviewControl previewControl1;
-        private System.Windows.Forms.Button btn_apply;
         private System.Windows.Forms.Button buttonSave;
     }
 }

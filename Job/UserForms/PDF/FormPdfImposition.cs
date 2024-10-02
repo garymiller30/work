@@ -42,12 +42,20 @@ namespace JobSpace.UserForms.PDF
 
             addTemplateSheetControl1.OnSheetSelected += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetsChanged += OnTemplateSheetSelected;
+            printSheetsControl1.OnPrintSheetDeleted += OnPrintSheetDeleted;
             addTemplateSheetControl1.OnSheetAddToPrint += OnAddSheetToPrintEvent;
             addTemplateSheetControl1.OnSheetAddManyToPrint += OnSheetAddManyToPrintEvent;
+            PrintSheet.ResetId();
+        }
+
+        private void OnPrintSheetDeleted(object sender, PrintSheet e)
+        {
+            runListControl1.ReassignPrintSheets(printSheetsControl1.GetSheets());
         }
 
         private void OnSheetAddManyToPrintEvent(object sender, TemplateSheet e)
         {
+            
             // Отримати сторінки, що не задіяні
             int cnt = runListControl1.GetUnassignedPagesCount();
             int maxId = e.TemplatePageContainer.GetMaxIdx();
@@ -80,6 +88,7 @@ namespace JobSpace.UserForms.PDF
         private void InitBindParameters()
         {
             _controlBindParameters.PdfFiles = _pdfFiles;
+            
             pdfFileListControl1.SetControlBindParameters(_controlBindParameters);
 
         }
@@ -88,6 +97,8 @@ namespace JobSpace.UserForms.PDF
         {
             previewControl1.InitBindParameters(_parameters);
         }
+
+     
 
         public FormPdfImposition(IEnumerable<string> files, string curFolder) : this()
         {
@@ -105,7 +116,7 @@ namespace JobSpace.UserForms.PDF
 
             _controlBindParameters.MasterPage.W = _pdfFiles[0].Pages[0].Trim.W;
             _controlBindParameters.MasterPage.H = _pdfFiles[0].Pages[0].Trim.H;
-            _controlBindParameters.MasterPage.Bleeds = _pdfFiles[0].Pages[0].Media.W - _pdfFiles[0].Pages[0].Trim.W;
+            _controlBindParameters.MasterPage.Bleeds = (_pdfFiles[0].Pages[0].Media.W - _pdfFiles[0].Pages[0].Trim.W)/2;
             _controlBindParameters.MasterPage.SetMarginsLikeBleed();
 
             addTemplateSheetControl1.SetControlBindParameters(_controlBindParameters);

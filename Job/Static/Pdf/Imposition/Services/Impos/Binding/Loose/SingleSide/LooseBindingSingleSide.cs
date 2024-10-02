@@ -69,6 +69,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                 xOfs = x;
                 y += templatePage.GetClippedHByRotate();
             }
+
+            CropMarksService.FixCropMarksFront(templatePageContainer);
             return templatePageContainer;
         }
     }

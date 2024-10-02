@@ -11,7 +11,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public sealed class TemplatePage
     {
-        public CropMarksController CropMarksController { get; } = new CropMarksController();
+        public CropMarksController CropMarksController { get; set; } = new CropMarksController();
         public int FrontIdx { get; set; } = 1;
         public int BackIdx { get; set; } = 0;
         public double Bleeds { get; set; } = 0;

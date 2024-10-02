@@ -17,19 +17,20 @@ namespace JobSpace.UserForms.PDF.ImposItems
     public partial class Form_AddTemplateSheet : Form
     {
         public TemplateSheet Sheet { get; set; }
-        ControlBindParameters _parameters;
+        //ControlBindParameters _parameters;
         ImposToolsParameters _imposParameters = new ImposToolsParameters();
 
         public Form_AddTemplateSheet(ControlBindParameters parameters)
         {
             InitializeComponent();
-            _parameters = parameters;
+            //_parameters = parameters;
             InitSheets();
             DialogResult = DialogResult.Cancel;
-            Sheet = new TemplateSheet();
-            Sheet.MasterPage = _parameters.MasterPage.Copy();
-            InitUIEvents();
+            Sheet = TemplateSheet.Create();
+            Sheet.MasterPage = parameters.MasterPage.Copy();
+            
             SetSheetToIU();
+            InitUIEvents();
 
         }
 
@@ -39,9 +40,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
             InitSheets();
             Sheet = sheet;
             DialogResult = DialogResult.Cancel;
-            InitUIEvents();
+           
             SetSheetToIU();
-            UpdatePreview();
+            InitUIEvents();
+
+            previewControl1.SetSheet(Sheet);
 
         }
 
@@ -49,7 +52,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             comboBoxSheetPlaceType.SelectedIndex = (int)Sheet.SheetPlaceType;
             nud_info_w.Value = (decimal)Sheet.W;
-            nud_info_h.Value = (decimal)(Sheet.H);
+            nud_info_h.Value = (decimal)Sheet.H;
             nud_info_extraSpace.Value = (decimal)(Sheet.ExtraSpace);
             nud_info_fieldTop.Value = (decimal)Sheet.SafeFields.Top;
             nud_info_fieldBottom.Value = (decimal)Sheet.SafeFields.Bottom;
@@ -67,8 +70,31 @@ namespace JobSpace.UserForms.PDF.ImposItems
             buttonAddSheet.Click += buttonAddSheet_Click;
             buttonEditSheet.Click += buttonEditSheet_Click;
             comboBoxSheets.SelectedIndexChanged += comboBoxSheets_SelectedIndexChanged;
-            btn_apply.Click += btn_Apply_Click;
+            
+
+            nud_info_w.ValueChanged += ValueChanged;
+            nud_info_h.ValueChanged += ValueChanged;
+            nud_info_extraSpace.ValueChanged += ValueChanged;
+            nud_info_fieldTop.ValueChanged += ValueChanged;
+            nud_info_fieldBottom.ValueChanged += ValueChanged;
+            nud_info_fieldLeft.ValueChanged += ValueChanged;
+            nud_info_fieldRight.ValueChanged += ValueChanged;
+            nud_page_bleed.ValueChanged += ValueChanged;
+            nud_page_w.ValueChanged += ValueChanged;
+            nud_page_h.ValueChanged += ValueChanged;
+            nud_Xofs.ValueChanged += ValueChanged;
+            nud_Yofs.ValueChanged += ValueChanged;
+
+            comboBoxSheetPlaceType.SelectedIndexChanged+= ValueChanged;
+            cb_centerHeight.CheckedChanged+= ValueChanged;
+            cb_centerWidth.CheckedChanged+= ValueChanged;
+
             InitPreview();
+        }
+
+        private void ValueChanged(object sender, EventArgs e)
+        {
+            UpdatePreview();
         }
 
         private void InitPreview()

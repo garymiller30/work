@@ -35,5 +35,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public EventHandler<int> FrontNumChanged = delegate { };
         public EventHandler<int> BackNumChanged = delegate { };
+        public EventHandler OnTheSameNumberClick = delegate { };
+        public EventHandler OnListNumberClick = delegate { };
     }
 }

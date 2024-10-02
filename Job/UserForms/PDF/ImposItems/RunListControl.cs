@@ -111,6 +111,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public void AddPages(List<ImposRunPage> pages)
         {
             objectListViewRunList.AddObjects(pages);
+            UpdateStatusString();
         }
 
         private void tsb_RemovePage_Click(object sender, EventArgs e)
@@ -118,12 +119,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (objectListViewRunList.SelectedObjects.Count > 0)
             {
                 objectListViewRunList.RemoveObjects(objectListViewRunList.SelectedObjects);
+                UpdateStatusString();
             }
         }
 
         private void tsb_AddEmptyPage_Click(object sender, EventArgs e)
         {
             objectListViewRunList.AddObject(new ImposRunPage() { FileId = 0, PageIdx = 0 });
+            UpdateStatusString();
         }
 
         public void AssignPrintSheet(PrintSheet sheet)
@@ -150,7 +153,17 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     cnt++;
                 }
             }
-            objectListViewRunList.UpdateObjects(objectListViewRunList.Objects.Cast<ImposRunPage>().ToList())    ;
+            objectListViewRunList.UpdateObjects(objectListViewRunList.Objects.Cast<ImposRunPage>().ToList());
+            UpdateStatusString();
+        }
+
+        private void UpdateStatusString()
+        {
+            int assigned = objectListViewRunList.Objects.Cast<ImposRunPage>().Where(x => x.IsAssumed).Count();
+            int unassigned = objectListViewRunList.Objects.Cast<ImposRunPage>().Where(x => !x.IsAssumed).Count();
+
+            tssl_status.Text = $"◌ : {unassigned} | ● : {assigned}";
+
         }
 
         private void objectListViewRunList_Dropped_1(object sender, OlvDropEventArgs e)
@@ -161,6 +174,21 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public int GetUnassignedPagesCount()
         {
             return objectListViewRunList.Objects.Cast<ImposRunPage>().ToList().Count - UnassignedIdx;
+        }
+
+        public void ReassignPrintSheets(List<PrintSheet> printSheets)
+        {
+            UnassignedIdx = 0;
+
+            foreach (var item in objectListViewRunList.Objects)
+            {
+                ((ImposRunPage)item).IsAssumed = false;
+            }
+
+            foreach (PrintSheet printSheet in printSheets)
+            {
+                AssignPrintSheet(printSheet);
+            }
         }
     }
 }

@@ -89,5 +89,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             (tb_front.Text, tb_back.Text) = (tb_back.Text, tb_front.Text);
         }
+
+        private void btn_sameNumber_Click(object sender, EventArgs e)
+        {
+            parameters.OnTheSameNumberClick(sender, e);
+        }
+
+        private void btn_listNumber_Click(object sender, EventArgs e)
+        {
+            parameters.OnListNumberClick(sender, e);
+        }
     }
 }

@@ -41,14 +41,49 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             pb_preview.Width = (int)_sheet.W + 1;
             pb_preview.Height = (int)_sheet.H + 1;
-            
+
             pb_preview.Image = screenDrawer.Draw(_sheet);
         }
 
         public void InitBindParameters(ImposToolsParameters parameters)
         {
             _parameters = parameters;
+            _parameters.OnListNumberClick += OnToolsListNumberClick;
+            _parameters.OnTheSameNumberClick += OnTheSameNumberClick;
             imposToolsControl1.InitParameters(parameters);
+        }
+
+        private void OnTheSameNumberClick(object sender, EventArgs e)
+        {
+            if (_sheet == null) return;
+            foreach (var page in _sheet.TemplatePageContainer.TemplatePages)
+            {
+                page.FrontIdx = _parameters.FrontNum;
+                if (_sheet.SheetPlaceType == TemplateSheetPlaceType.Sheetwise)
+                {
+                    page.BackIdx = _parameters.BackNum;
+                }
+            }
+            RedrawSheet();
+
+        }
+
+        private void OnToolsListNumberClick(object sender, EventArgs e)
+        {
+            if (_sheet == null) return;
+
+            int front = _parameters.FrontNum;
+            int back = _parameters.BackNum;
+
+            foreach (var page in _sheet.TemplatePageContainer.TemplatePages)
+            {
+                page.FrontIdx = front++;
+                if (_sheet.SheetPlaceType == TemplateSheetPlaceType.Sheetwise)
+                {
+                    page.BackIdx = back++;
+                }
+            }
+            RedrawSheet();
         }
 
         private void pb_preview_MouseMove(object sender, MouseEventArgs e)

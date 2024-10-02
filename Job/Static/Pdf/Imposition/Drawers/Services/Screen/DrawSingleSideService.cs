@@ -9,6 +9,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
@@ -39,7 +40,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             // draw pages
             foreach (var page in templateContainer.TemplatePages)
             {
-                DrawPage(g,sheet, page, (int)sheet.H);
+                DrawPage(g, sheet, page, (int)sheet.H);
             }
 
             g.Dispose();
@@ -124,8 +125,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         static void DrawPage(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
-            int dist = 5;
-            int height = 7;
+            
 
             int x = (int)page.GetPageDrawX();
             int y = sH - (int)page.GetPageDrawY() - (int)page.GetPageDrawH();
@@ -134,8 +134,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             Brush brush = new SolidBrush(Color.AliceBlue);
             Pen pen = new Pen(Color.Black);
-
-
 
             var rect = new Rectangle
             {
@@ -150,7 +148,43 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             brush.Dispose();
             pen.Dispose();
 
-            brush = new SolidBrush(Color.Gray);
+            DrawBleeds(g, page, rect, sH);
+            DrawPageRotateMarker(g,page,rect,sH);
+            DrawText(g, sheet, page, sH);
+            DrawCropsMark(g,page,sH);
+        }
+
+        private static void DrawCropsMark(Graphics g, TemplatePage page, int sH)
+        {
+            var marks = page.CropMarksController.CropMarks;
+            Pen pen = new Pen(Color.Black);
+
+            foreach (var mark in marks.Where(x=>x.IsFront))
+            {
+                Point p1 = new Point
+                {
+                    X = (int)mark.From.X,
+                    Y = sH - (int)(mark.From.Y)
+                };
+                Point p2 = new Point
+                {
+                    X = (int) mark.To.X,
+                    Y = sH - (int)mark.To.Y
+                };
+                g.DrawLine(pen,p1,p2);
+            }
+            pen.Dispose();
+        }
+
+        private static void DrawPageRotateMarker(Graphics g, TemplatePage page,Rectangle rect, int sH)
+        {
+            int dist = 5;
+            int height = 7;
+
+            var brush = new SolidBrush(Color.Gray);
+
+            int x = rect.X;
+            int y = rect.Y;
 
             int sx = 0;
             int sy = 0;
@@ -176,7 +210,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     sy = y + (int)page.GetPageDrawH() - dist - height;
                     sw = (int)page.GetPageDrawW() - dist * 2;
                     sh = height;
-
                     break;
                 case 270:
 
@@ -189,11 +222,189 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 default:
                     break;
             }
-            g.FillRectangle(brush, new Rectangle(sx, sy, sw, sh));
+            g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
             brush.Dispose();
+        }
 
-            DrawText(g, sheet, page, sH);
+        private static void DrawBleeds(Graphics g, TemplatePage page, Rectangle rect, int sH)
+        {
+            var brush = new SolidBrush(Color.LightGreen);
 
+            DrawBleedLeft(g,page,sH,brush);
+            DrawBleedTop(g, page, sH, brush);
+            DrawBleedRight(g, page, sH,brush);
+            DrawBleedBottom(g, page, sH,brush);
+            
+            brush.Dispose();
+        }
+
+        private static void DrawBleedBottom(Graphics g, TemplatePage page, int sH, SolidBrush brush)
+        {
+
+            if (page.Margins.Bottom == 0) return;
+
+            int sx = 0;
+            int sy = 0;
+            int sw = 0;
+            int sh = 0;
+            
+            switch (page.Angle)
+            {
+                case 0:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Left);
+                    sy = sH - (int) page.GetPageDrawY();
+                    sw = (int)(page.Margins.Left + page.W + page.Margins.Right);
+                    sh = (int)(page.Margins.Bottom);
+                    break;
+                case 90:
+                    sx = (int)(page.GetPageDrawX() + page.GetPageDrawW());
+                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Margins.Right);
+                    sw = (int)(page.Margins.Bottom);
+                    sh = (int)(page.Margins.Left + page.W + page.Margins.Right);
+                    break;
+                case 180:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Right);
+                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Margins.Bottom);
+                    sw = (int)(page.Margins.Left + page.W + page.Margins.Right);
+                    sh = (int)(page.Margins.Bottom);
+                    break;
+                case 270:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Bottom);
+                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Margins.Left);
+                    sw = (int)(page.Margins.Bottom);
+                    sh = (int)(page.Margins.Left + page.W + page.Margins.Right);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
+        }
+
+        private static void DrawBleedRight(Graphics g, TemplatePage page, int sH, SolidBrush brush)
+        {
+            if (page.Margins.Right == 0) return;
+
+            int sx = 0;
+            int sy = 0;
+            int sw = 0;
+            int sh = 0;
+
+            switch (page.Angle)
+            {
+                case 0:
+                    sx = (int)(page.GetPageDrawX() + page.W);
+                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Margins.Top);
+                    sw = (int)page.Margins.Right;
+                    sh = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
+                    break;
+                case 90:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Top);
+                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH()+ page.Margins.Right );
+                    sw = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
+                    sh = (int)page.Margins.Right;
+                    break;
+                case 180:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Right);
+                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Margins.Top);
+                    sw = (int)page.Margins.Right;
+                    sh = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
+                    break;
+                case 270:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Bottom);
+                    sy = sH - (int)(page.GetPageDrawY());
+                    sw = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
+                    sh = (int)page.Margins.Right;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
+        }
+
+        private static void DrawBleedTop(Graphics g, TemplatePage page, int sH, SolidBrush brush)
+        {
+            if (page.Margins.Top == 0) return;
+
+            int sx = 0;
+            int sy = 0;
+            int sw = 0;
+            int sh = 0;
+
+            switch (page.Angle)
+            {
+                case 0:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Left);
+                    sy = sH - (int)( page.H + page.GetPageDrawY() + page.Margins.Top);
+                    sw = (int)(page.Margins.Left + page.W + page.Margins.Right);
+                    sh = (int)(page.Margins.Top);
+                    break;
+                case 90:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Top);
+                    sy = sH - (int)(page.GetPageDrawH() + page.GetPageDrawY() + page.Margins.Top);
+                    sw = (int)(page.Margins.Top);
+                    sh = (int)(page.GetPageDrawH() + page.Margins.Left + page.Margins.Right);
+                    break;
+                case 180:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Right);
+                    sy = sH - (int)(page.GetPageDrawY());
+                    sw = (int)(page.Margins.Left + page.W + page.Margins.Right);
+                    sh = (int)(page.Margins.Top);
+                    break;
+                case 270:
+                    sx = (int)(page.GetPageDrawX() +page.GetPageDrawW());
+                    sy = sH - (int)(page.GetPageDrawH() + page.GetPageDrawY() + page.Margins.Top);
+                    sw = (int)(page.Margins.Top);
+                    sh = (int)(page.GetPageDrawH() + page.Margins.Left + page.Margins.Right);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
+        }
+
+        private static void DrawBleedLeft(Graphics g, TemplatePage page, int sH, SolidBrush brush)
+        {
+            if (page.Margins.Left == 0) return;
+
+            int sx = 0;
+            int sy = 0;
+            int sw = 0;
+            int sh = 0;
+
+            switch (page.Angle)
+            {
+                case 0:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Left);
+                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Margins.Top);
+                    sw = (int)page.Margins.Left;
+                    sh = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
+                    break;
+                case 90:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Top);
+                    sy = sH - (int)page.GetPageDrawY();
+                    sw = (int)(page.Margins.Top + page.GetPageDrawW() + page.Margins.Bottom);
+                    sh = (int)(page.Margins.Left);
+                    break;
+                case 180:
+                    sx = (int)(page.GetPageDrawX() + page.W);
+                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Margins.Top);
+                    sw = (int)page.Margins.Left;
+                    sh = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
+                    break;
+                case 270:
+                    sx = (int)(page.GetPageDrawX() - page.Margins.Bottom);
+                    sy = sH - (int)(page.GetPageDrawY() + page.Margins.Left+ page.GetPageDrawH());
+                    sw = (int)(page.Margins.Top + page.GetPageDrawW() + page.Margins.Bottom);
+                    sh = (int)(page.Margins.Left);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
         }
 
         private static void DrawText(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)

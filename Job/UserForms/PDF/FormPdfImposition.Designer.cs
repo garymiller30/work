@@ -28,17 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPdfImposition));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSimple = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.btn_SaveToPdf = new System.Windows.Forms.Button();
             this.pdfFileListControl1 = new JobSpace.UserForms.PDF.ImposItems.PdfFileListControl();
             this.previewControl1 = new JobSpace.UserForms.PDF.ImposItems.PreviewControl();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.addTemplateSheetControl1 = new JobSpace.UserForms.PDF.ImposItems.AddTemplateSheetControl();
             this.printSheetsControl1 = new JobSpace.UserForms.PDF.ImposItems.PrintSheetsControl();
             this.runListControl1 = new JobSpace.UserForms.PDF.ImposItems.RunListControl();
+            this.btn_SaveToPdf = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageSimple.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -91,6 +92,24 @@
             this.splitContainer1.SplitterDistance = 205;
             this.splitContainer1.TabIndex = 2;
             // 
+            // pdfFileListControl1
+            // 
+            this.pdfFileListControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pdfFileListControl1.Location = new System.Drawing.Point(0, 0);
+            this.pdfFileListControl1.Name = "pdfFileListControl1";
+            this.pdfFileListControl1.Size = new System.Drawing.Size(205, 601);
+            this.pdfFileListControl1.TabIndex = 0;
+            // 
+            // previewControl1
+            // 
+            this.previewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.previewControl1.Location = new System.Drawing.Point(477, 0);
+            this.previewControl1.Name = "previewControl1";
+            this.previewControl1.Size = new System.Drawing.Size(375, 596);
+            this.previewControl1.TabIndex = 3;
+            // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -122,38 +141,6 @@
             this.splitContainer2.SplitterDistance = 211;
             this.splitContainer2.TabIndex = 8;
             // 
-            // btn_SaveToPdf
-            // 
-            this.btn_SaveToPdf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_SaveToPdf.BackColor = System.Drawing.Color.SeaGreen;
-            this.btn_SaveToPdf.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btn_SaveToPdf.ForeColor = System.Drawing.SystemColors.Window;
-            this.btn_SaveToPdf.Location = new System.Drawing.Point(212, 528);
-            this.btn_SaveToPdf.Name = "btn_SaveToPdf";
-            this.btn_SaveToPdf.Size = new System.Drawing.Size(153, 47);
-            this.btn_SaveToPdf.TabIndex = 3;
-            this.btn_SaveToPdf.Text = "Зберегти в PDF";
-            this.btn_SaveToPdf.UseVisualStyleBackColor = false;
-            this.btn_SaveToPdf.Click += new System.EventHandler(this.btn_SaveToPdf_Click);
-            // 
-            // pdfFileListControl1
-            // 
-            this.pdfFileListControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pdfFileListControl1.Location = new System.Drawing.Point(0, 0);
-            this.pdfFileListControl1.Name = "pdfFileListControl1";
-            this.pdfFileListControl1.Size = new System.Drawing.Size(205, 601);
-            this.pdfFileListControl1.TabIndex = 0;
-            // 
-            // previewControl1
-            // 
-            this.previewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.previewControl1.Location = new System.Drawing.Point(477, 0);
-            this.previewControl1.Name = "previewControl1";
-            this.previewControl1.Size = new System.Drawing.Size(375, 596);
-            this.previewControl1.TabIndex = 3;
-            // 
             // addTemplateSheetControl1
             // 
             this.addTemplateSheetControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -168,6 +155,7 @@
             this.printSheetsControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.printSheetsControl1.Location = new System.Drawing.Point(0, 0);
             this.printSheetsControl1.Name = "printSheetsControl1";
+            this.printSheetsControl1.OnPrintSheetsChanged = ((System.EventHandler<JobSpace.Static.Pdf.Imposition.Models.PrintSheet>)(resources.GetObject("printSheetsControl1.OnPrintSheetsChanged")));
             this.printSheetsControl1.Size = new System.Drawing.Size(340, 291);
             this.printSheetsControl1.TabIndex = 7;
             // 
@@ -180,6 +168,20 @@
             this.runListControl1.Size = new System.Drawing.Size(111, 587);
             this.runListControl1.TabIndex = 5;
             // 
+            // btn_SaveToPdf
+            // 
+            this.btn_SaveToPdf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_SaveToPdf.BackColor = System.Drawing.Color.SeaGreen;
+            this.btn_SaveToPdf.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_SaveToPdf.ForeColor = System.Drawing.SystemColors.Window;
+            this.btn_SaveToPdf.Location = new System.Drawing.Point(212, 528);
+            this.btn_SaveToPdf.Name = "btn_SaveToPdf";
+            this.btn_SaveToPdf.Size = new System.Drawing.Size(153, 47);
+            this.btn_SaveToPdf.TabIndex = 3;
+            this.btn_SaveToPdf.Text = "Зберегти в PDF";
+            this.btn_SaveToPdf.UseVisualStyleBackColor = false;
+            this.btn_SaveToPdf.Click += new System.EventHandler(this.btn_SaveToPdf_Click);
+            // 
             // FormPdfImposition
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -187,6 +189,7 @@
             this.ClientSize = new System.Drawing.Size(1075, 633);
             this.Controls.Add(this.tabControl1);
             this.Name = "FormPdfImposition";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Спуск полос";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPdfImposition_FormClosing);
             this.tabControl1.ResumeLayout(false);
