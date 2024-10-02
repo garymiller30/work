@@ -18,6 +18,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public EventHandler<TemplateSheet> OnSheetSelected = delegate { };
         public EventHandler<TemplateSheet> OnSheetAddToPrint = delegate { };
         public EventHandler<TemplateSheet> OnSheetAddManyToPrint = delegate { };
+        
 
         ControlBindParameters _parameters;
 
@@ -88,6 +89,16 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (objectListView1.SelectedObject is TemplateSheet sheet)
                 OnSheetAddManyToPrint(this,sheet);
+        }
+
+        private void tbs_dublicate_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is TemplateSheet sheet)
+            {
+                TemplateSheet s = TemplateSheet.Duplicate(sheet);
+                objectListView1.AddObject(s);
+            }
+                
         }
     }
 }

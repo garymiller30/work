@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Imposition.Models
 {
-    public struct PointD
+    public class PointD
     {
-        public double X;
-        public double Y;
+        public double X { get; set; }
+        public double Y { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public class TemplateSheet
     {
+        public static int SheetId = 1;
         public int Id { get;set; } = 0;
         public string Description { get; set; } = "sheet";
 
@@ -58,7 +59,20 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public TemplateSheet Copy()
         {
-            return JsonSerializer.Deserialize<TemplateSheet>(JsonSerializer.Serialize(this));
+            return Duplicate(this);
+        }
+
+        public static TemplateSheet Duplicate(TemplateSheet e)
+        {
+            var str = JsonSerializer.Serialize(e);
+            var sheet = JsonSerializer.Deserialize<TemplateSheet>(str);
+            sheet.Id = SheetId++;
+            return sheet;
+        }
+
+        public static TemplateSheet Create()
+        {
+            return new TemplateSheet { Id = SheetId++ };
         }
     }
 }

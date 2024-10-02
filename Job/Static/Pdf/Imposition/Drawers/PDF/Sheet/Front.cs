@@ -64,7 +64,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                         document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
                     }
                 }
-                CropMarksService.FixCropMarksFront(sheet.TemplatePageContainer);
+                
                 DrawCropMarks.Front(p, templatePage);
 
                 Proof.DrawPageFront(p, templatePage, impos.Proof);

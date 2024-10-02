@@ -13,7 +13,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class PrintSheetsControl : UserControl
     {
-        public EventHandler<TemplateSheet> OnPrintSheetsChanged {get;set; } = delegate{ };
+        public EventHandler<PrintSheet> OnPrintSheetsChanged { get; set; } = delegate { };
+        public EventHandler<PrintSheet> OnPrintSheetDeleted { get; set; } = delegate { };
+
         int id = 1;
         ControlBindParameters _controlBindParameters;
         public PrintSheetsControl()
@@ -25,11 +27,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
             olvColumnPlaceType.AspectGetter += (r) => ((PrintSheet)r).SheetPlaceType;
             objectListView1.SelectionChanged += (o, e) =>
             {
-                if (objectListView1.SelectedObject is PrintSheet sheet) {
-                    OnPrintSheetsChanged(this,sheet);
-                    }
+                if (objectListView1.SelectedObject is PrintSheet sheet)
+                {
+                    OnPrintSheetsChanged(this, sheet);
+                }
             };
-
         }
 
         public void SetControlBindParameters(ControlBindParameters controlBindParameters)
@@ -45,6 +47,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public List<PrintSheet> GetSheets()
         {
             return objectListView1.Objects.Cast<PrintSheet>().ToList();
+        }
+
+        private void tsb_delete_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is PrintSheet sheet)
+            {
+                objectListView1.RemoveObject(sheet);
+                OnPrintSheetDeleted(this, sheet);
+            }
         }
     }
 }

@@ -7,7 +7,7 @@
     <ProjectGuid>{20640AA0-AB38-4499-8B96-99143A3B033E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Job</RootNamespace>
+    <RootNamespace>JobSpace</RootNamespace>
     <AssemblyName>Job</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -806,6 +806,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormPdfImposition.resx">
       <DependentUpon>FormPdfImposition.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormSelectBackFile.resx">
       <DependentUpon>FormSelectBackFile.cs</DependentUpon>
