@@ -2043,5 +2043,11 @@ namespace JobSpace.UC
             if (objectListView1.SelectedObjects.Count == 0) return;
             FileFormatsUtil.NumericFiles(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName));
         }
+
+        private void tsb_ExtractPages_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            FileFormatsUtil.ExtractPages(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
     }
 }

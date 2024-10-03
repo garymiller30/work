@@ -145,6 +145,7 @@ namespace JobSpace.UC
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
+            this.tsb_ExtractPages = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -747,6 +748,7 @@ namespace JobSpace.UC
             this.tsb_set_trims,
             this.tsb_CombineFile,
             this.tsb_splitFile,
+            this.tsb_ExtractPages,
             this.toolStripDropDownButtonSplitPdfMenu,
             this.tsb_SetCount,
             this.tsb_spusk,
@@ -829,7 +831,7 @@ namespace JobSpace.UC
             this.tsb_NumericFiles.Image = ((System.Drawing.Image)(resources.GetObject("tsb_NumericFiles.Image")));
             this.tsb_NumericFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_NumericFiles.Name = "tsb_NumericFiles";
-            this.tsb_NumericFiles.Size = new System.Drawing.Size(30, 20);
+            this.tsb_NumericFiles.Size = new System.Drawing.Size(23, 20);
             this.tsb_NumericFiles.Text = "Пронумерувати файли";
             this.tsb_NumericFiles.Click += new System.EventHandler(this.toolStripButtonNumericFiles_Click);
             // 
@@ -1059,7 +1061,7 @@ namespace JobSpace.UC
             // openTrashToolStripMenuItem
             // 
             this.openTrashToolStripMenuItem.Name = "openTrashToolStripMenuItem";
-            this.openTrashToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openTrashToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.openTrashToolStripMenuItem.Text = "відкрити кошик";
             this.openTrashToolStripMenuItem.Click += new System.EventHandler(this.openTrashToolStripMenuItem_Click);
             // 
@@ -1144,6 +1146,16 @@ namespace JobSpace.UC
             // kryptonContextMenuHeading1
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
+            // 
+            // tsb_ExtractPages
+            // 
+            this.tsb_ExtractPages.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_ExtractPages.Image = ((System.Drawing.Image)(resources.GetObject("tsb_ExtractPages.Image")));
+            this.tsb_ExtractPages.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_ExtractPages.Name = "tsb_ExtractPages";
+            this.tsb_ExtractPages.Size = new System.Drawing.Size(30, 20);
+            this.tsb_ExtractPages.Text = "\"Витягти\" сторінки";
+            this.tsb_ExtractPages.Click += new System.EventHandler(this.tsb_ExtractPages_Click);
             // 
             // FileBrowser
             // 
@@ -1298,5 +1310,6 @@ namespace JobSpace.UC
         private System.Windows.Forms.ToolStripMenuItem створитиПлашкуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem спускПолосToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton tsb_NumericFiles;
+        private System.Windows.Forms.ToolStripButton tsb_ExtractPages;
     }
 }

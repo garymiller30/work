@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcNote));
             this.kryptonRichTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonBold = new System.Windows.Forms.ToolStripButton();
@@ -84,7 +85,7 @@
             // toolStripButtonBold
             // 
             this.toolStripButtonBold.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonBold.Image = global::JobSpace.Properties.Resources.Actions_format_text_bold_icon;
+            this.toolStripButtonBold.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonBold.Image")));
             this.toolStripButtonBold.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonBold.Name = "toolStripButtonBold";
             this.toolStripButtonBold.Size = new System.Drawing.Size(23, 22);
@@ -94,7 +95,7 @@
             // toolStripButtonItalic
             // 
             this.toolStripButtonItalic.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonItalic.Image = global::JobSpace.Properties.Resources.Actions_format_text_italic_icon;
+            this.toolStripButtonItalic.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonItalic.Image")));
             this.toolStripButtonItalic.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonItalic.Name = "toolStripButtonItalic";
             this.toolStripButtonItalic.Size = new System.Drawing.Size(23, 22);
@@ -104,7 +105,7 @@
             // toolStripButtonStrikethrough
             // 
             this.toolStripButtonStrikethrough.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonStrikethrough.Image = global::JobSpace.Properties.Resources.Actions_format_text_strikethrough_icon;
+            this.toolStripButtonStrikethrough.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonStrikethrough.Image")));
             this.toolStripButtonStrikethrough.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonStrikethrough.Name = "toolStripButtonStrikethrough";
             this.toolStripButtonStrikethrough.Size = new System.Drawing.Size(23, 22);
@@ -114,7 +115,7 @@
             // toolStripButtonUnderline
             // 
             this.toolStripButtonUnderline.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonUnderline.Image = global::JobSpace.Properties.Resources.Actions_format_text_underline_icon;
+            this.toolStripButtonUnderline.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonUnderline.Image")));
             this.toolStripButtonUnderline.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonUnderline.Name = "toolStripButtonUnderline";
             this.toolStripButtonUnderline.Size = new System.Drawing.Size(23, 22);
@@ -124,7 +125,7 @@
             // toolStripButtonReset
             // 
             this.toolStripButtonReset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonReset.Image = global::JobSpace.Properties.Resources.Clear_icon;
+            this.toolStripButtonReset.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonReset.Image")));
             this.toolStripButtonReset.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonReset.Name = "toolStripButtonReset";
             this.toolStripButtonReset.Size = new System.Drawing.Size(23, 22);
@@ -139,7 +140,7 @@
             // toolStripButtonAlignLeft
             // 
             this.toolStripButtonAlignLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonAlignLeft.Image = global::JobSpace.Properties.Resources.Editing_Align_Left_icon;
+            this.toolStripButtonAlignLeft.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAlignLeft.Image")));
             this.toolStripButtonAlignLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonAlignLeft.Name = "toolStripButtonAlignLeft";
             this.toolStripButtonAlignLeft.Size = new System.Drawing.Size(23, 22);
@@ -149,7 +150,7 @@
             // toolStripButtonAlignCenter
             // 
             this.toolStripButtonAlignCenter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonAlignCenter.Image = global::JobSpace.Properties.Resources.Editing_Align_Center_icon;
+            this.toolStripButtonAlignCenter.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAlignCenter.Image")));
             this.toolStripButtonAlignCenter.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonAlignCenter.Name = "toolStripButtonAlignCenter";
             this.toolStripButtonAlignCenter.Size = new System.Drawing.Size(23, 22);
@@ -159,7 +160,7 @@
             // toolStripButtonAlignRight
             // 
             this.toolStripButtonAlignRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonAlignRight.Image = global::JobSpace.Properties.Resources.Editing_Align_Right_icon;
+            this.toolStripButtonAlignRight.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAlignRight.Image")));
             this.toolStripButtonAlignRight.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonAlignRight.Name = "toolStripButtonAlignRight";
             this.toolStripButtonAlignRight.Size = new System.Drawing.Size(23, 22);
@@ -183,7 +184,7 @@
             // toolStripButtonColor
             // 
             this.toolStripButtonColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonColor.Image = global::JobSpace.Properties.Resources.preferences_color_icon;
+            this.toolStripButtonColor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonColor.Image")));
             this.toolStripButtonColor.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonColor.Name = "toolStripButtonColor";
             this.toolStripButtonColor.Size = new System.Drawing.Size(23, 22);
