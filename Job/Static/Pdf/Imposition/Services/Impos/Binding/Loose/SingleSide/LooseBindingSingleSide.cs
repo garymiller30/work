@@ -15,6 +15,10 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
         {
             TemplateSheet sheet = parameters.Sheet;
             TemplatePage page = sheet.MasterPage;
+            if (parameters.IsOneCut)
+            {
+                page.Margins.Set(0);
+            }
 
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
 
@@ -59,6 +63,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                 for (int cx = 0; cx < selVariant.CntX; cx++)
                 {
                     templatePage = new TemplatePage(xOfs, y, page.W, page.H, angle);
+                    templatePage.Bleeds = page.Bleeds;
                     templatePage.Margins.Set(page.Margins);
                     templatePage.FrontIdx = 1;
                     templatePage.BackIdx = 0;
@@ -70,8 +75,44 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                 y += templatePage.GetClippedHByRotate();
             }
 
+            if (parameters.IsOneCut)
+            {
+                FixBleeds(templatePageContainer);
+            }
+
             CropMarksService.FixCropMarksFront(templatePageContainer);
             return templatePageContainer;
+        }
+
+        private static void FixBleeds(TemplatePageContainer templatePageContainer)
+        {
+            foreach (var page in templatePageContainer.TemplatePages)
+            {
+                foreach (var pageTarget in templatePageContainer.TemplatePages)
+                {
+                    if (page != pageTarget)
+                    {
+
+
+
+                        switch (page.Angle)
+                        {
+                            case 0:
+                                
+                                
+                                break;
+                            case 90:
+                                break;
+                            case 180:
+                                break;
+                            case 270:
+                                break;
+                            default:
+                                throw new NotImplementedException();
+                        }
+                    }
+                }
+            }
         }
     }
 }

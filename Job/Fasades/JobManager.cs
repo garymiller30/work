@@ -246,7 +246,7 @@ namespace JobSpace.Fasades
                 {
                     WindowTitle = @"Увага!",
                     MainIcon = TaskDialogIcon.Custom,
-                    CustomMainIcon = Properties.Resources.emotion_misdoubt,
+                    //CustomMainIcon = Properties.Resources.emotion_misdoubt,
                     MainInstruction =
                     $"У {job.Customer} робота з номером {job.Number} вже існує. Все одно створити?"
                 };
