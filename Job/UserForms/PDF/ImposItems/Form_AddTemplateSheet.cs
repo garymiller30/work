@@ -63,6 +63,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             nud_page_h.Value = (decimal)Sheet.MasterPage.H;
             nud_page_bleed.Value = (decimal)Sheet.MasterPage.Bleeds;
             
+            
         }
 
         void InitUIEvents()
@@ -88,6 +89,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             comboBoxSheetPlaceType.SelectedIndexChanged+= ValueChanged;
             cb_centerHeight.CheckedChanged+= ValueChanged;
             cb_centerWidth.CheckedChanged+= ValueChanged;
+            cb_OneCut.CheckedChanged+= ValueChanged;
 
             InitPreview();
         }
@@ -194,6 +196,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             LooseBindingParameters bindingParameters = new LooseBindingParameters();
             bindingParameters.IsCenterHorizontal = cb_centerWidth.Checked;
             bindingParameters.IsCenterVertical = cb_centerHeight.Checked;
+            bindingParameters.IsOneCut = cb_OneCut.Checked;
             bindingParameters.Xofs = (double)nud_Xofs.Value;
             bindingParameters.Yofs = (double)nud_Yofs.Value;
             bindingParameters.Sheet = Sheet;

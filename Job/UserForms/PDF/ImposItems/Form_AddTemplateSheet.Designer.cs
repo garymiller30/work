@@ -65,6 +65,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.previewControl1 = new JobSpace.UserForms.PDF.ImposItems.PreviewControl();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.cb_OneCut = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -95,7 +96,7 @@
             this.groupBox3.Controls.Add(this.comboBoxSheets);
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(232, 276);
+            this.groupBox3.Size = new System.Drawing.Size(232, 262);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Формат матеріалу";
@@ -108,9 +109,9 @@
             this.panel1.Controls.Add(this.nud_info_w);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(6, 50);
+            this.panel1.Location = new System.Drawing.Point(6, 73);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(210, 184);
+            this.panel1.Size = new System.Drawing.Size(220, 184);
             this.panel1.TabIndex = 4;
             // 
             // groupBox5
@@ -296,7 +297,7 @@
             // buttonEditSheet
             // 
             this.buttonEditSheet.Image = ((System.Drawing.Image)(resources.GetObject("buttonEditSheet.Image")));
-            this.buttonEditSheet.Location = new System.Drawing.Point(189, 17);
+            this.buttonEditSheet.Location = new System.Drawing.Point(199, 17);
             this.buttonEditSheet.Name = "buttonEditSheet";
             this.buttonEditSheet.Size = new System.Drawing.Size(27, 27);
             this.buttonEditSheet.TabIndex = 3;
@@ -306,7 +307,7 @@
             // buttonAddSheet
             // 
             this.buttonAddSheet.Image = ((System.Drawing.Image)(resources.GetObject("buttonAddSheet.Image")));
-            this.buttonAddSheet.Location = new System.Drawing.Point(156, 17);
+            this.buttonAddSheet.Location = new System.Drawing.Point(165, 17);
             this.buttonAddSheet.Name = "buttonAddSheet";
             this.buttonAddSheet.Size = new System.Drawing.Size(27, 27);
             this.buttonAddSheet.TabIndex = 2;
@@ -317,9 +318,9 @@
             // 
             this.comboBoxSheetPlaceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxSheetPlaceType.FormattingEnabled = true;
-            this.comboBoxSheetPlaceType.Location = new System.Drawing.Point(48, 240);
+            this.comboBoxSheetPlaceType.Location = new System.Drawing.Point(6, 46);
             this.comboBoxSheetPlaceType.Name = "comboBoxSheetPlaceType";
-            this.comboBoxSheetPlaceType.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxSheetPlaceType.Size = new System.Drawing.Size(144, 21);
             this.comboBoxSheetPlaceType.TabIndex = 1;
             // 
             // comboBoxSheets
@@ -334,14 +335,15 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.cb_OneCut);
             this.groupBox7.Controls.Add(this.cb_DrawProofColor);
             this.groupBox7.Controls.Add(this.nud_Yofs);
             this.groupBox7.Controls.Add(this.nud_Xofs);
             this.groupBox7.Controls.Add(this.cb_centerHeight);
             this.groupBox7.Controls.Add(this.cb_centerWidth);
-            this.groupBox7.Location = new System.Drawing.Point(12, 408);
+            this.groupBox7.Location = new System.Drawing.Point(11, 389);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(227, 112);
+            this.groupBox7.Size = new System.Drawing.Size(227, 131);
             this.groupBox7.TabIndex = 6;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Додаткові параметри";
@@ -419,7 +421,7 @@
             this.groupBox6.Controls.Add(this.nud_page_w);
             this.groupBox6.Controls.Add(this.label7);
             this.groupBox6.Controls.Add(this.label8);
-            this.groupBox6.Location = new System.Drawing.Point(12, 294);
+            this.groupBox6.Location = new System.Drawing.Point(12, 275);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(232, 108);
             this.groupBox6.TabIndex = 5;
@@ -519,6 +521,18 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.button2_Click);
             // 
+            // cb_OneCut
+            // 
+            this.cb_OneCut.AutoSize = true;
+            this.cb_OneCut.Checked = true;
+            this.cb_OneCut.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_OneCut.Location = new System.Drawing.Point(43, 108);
+            this.cb_OneCut.Name = "cb_OneCut";
+            this.cb_OneCut.Size = new System.Drawing.Size(76, 17);
+            this.cb_OneCut.TabIndex = 10;
+            this.cb_OneCut.Text = "в один різ";
+            this.cb_OneCut.UseVisualStyleBackColor = true;
+            // 
             // Form_AddTemplateSheet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -597,5 +611,6 @@
         private System.Windows.Forms.Label label8;
         private PreviewControl previewControl1;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.CheckBox cb_OneCut;
     }
 }
