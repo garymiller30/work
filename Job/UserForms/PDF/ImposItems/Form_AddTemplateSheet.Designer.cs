@@ -136,6 +136,7 @@
             this.nud_info_extraSpace.Size = new System.Drawing.Size(52, 20);
             this.nud_info_extraSpace.TabIndex = 11;
             this.nud_info_extraSpace.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_info_extraSpace.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // groupBox4
             // 
@@ -167,6 +168,7 @@
             this.nud_info_fieldBottom.Size = new System.Drawing.Size(52, 20);
             this.nud_info_fieldBottom.TabIndex = 10;
             this.nud_info_fieldBottom.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_info_fieldBottom.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // label6
             // 
@@ -191,6 +193,7 @@
             this.nud_info_fieldTop.Size = new System.Drawing.Size(52, 20);
             this.nud_info_fieldTop.TabIndex = 8;
             this.nud_info_fieldTop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_info_fieldTop.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // label5
             // 
@@ -214,6 +217,7 @@
             this.nud_info_fieldRight.Size = new System.Drawing.Size(52, 20);
             this.nud_info_fieldRight.TabIndex = 6;
             this.nud_info_fieldRight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_info_fieldRight.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // label4
             // 
@@ -237,6 +241,7 @@
             this.nud_info_fieldLeft.Size = new System.Drawing.Size(52, 20);
             this.nud_info_fieldLeft.TabIndex = 4;
             this.nud_info_fieldLeft.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_info_fieldLeft.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // label3
             // 
@@ -260,6 +265,7 @@
             this.nud_info_h.Size = new System.Drawing.Size(48, 20);
             this.nud_info_h.TabIndex = 3;
             this.nud_info_h.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_info_h.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // nud_info_w
             // 
@@ -274,6 +280,7 @@
             this.nud_info_w.Size = new System.Drawing.Size(52, 20);
             this.nud_info_w.TabIndex = 2;
             this.nud_info_w.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_info_w.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // label2
             // 
@@ -368,6 +375,7 @@
             this.nud_Yofs.Name = "nud_Yofs";
             this.nud_Yofs.Size = new System.Drawing.Size(52, 20);
             this.nud_Yofs.TabIndex = 8;
+            this.nud_Yofs.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // nud_Xofs
             // 
@@ -381,6 +389,7 @@
             this.nud_Xofs.Name = "nud_Xofs";
             this.nud_Xofs.Size = new System.Drawing.Size(52, 20);
             this.nud_Xofs.TabIndex = 7;
+            this.nud_Xofs.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // cb_centerHeight
             // 
@@ -447,6 +456,7 @@
             this.nud_page_bleed.Size = new System.Drawing.Size(52, 20);
             this.nud_page_bleed.TabIndex = 11;
             this.nud_page_bleed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_page_bleed.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // nud_page_h
             // 
@@ -461,6 +471,7 @@
             this.nud_page_h.Size = new System.Drawing.Size(48, 20);
             this.nud_page_h.TabIndex = 7;
             this.nud_page_h.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_page_h.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // nud_page_w
             // 
@@ -475,6 +486,7 @@
             this.nud_page_w.Size = new System.Drawing.Size(52, 20);
             this.nud_page_w.TabIndex = 6;
             this.nud_page_w.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_page_w.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nud_info_w_MouseClick);
             // 
             // label7
             // 

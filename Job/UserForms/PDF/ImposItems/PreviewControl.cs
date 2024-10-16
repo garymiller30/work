@@ -43,7 +43,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             pb_preview.Width = (int)_sheet.W + 1;
             pb_preview.Height = (int)_sheet.H + 1;
 
-            
+
 
             pb_preview.Image = screenDrawer.Draw(_sheet);
         }
@@ -81,7 +81,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             foreach (var page in _sheet.TemplatePageContainer.TemplatePages)
             {
 
-                
+
                 if (_sheet.SheetPlaceType == TemplateSheetPlaceType.Sheetwise)
                 {
                     page.FrontIdx = front;
@@ -147,66 +147,96 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void pb_preview_MouseClick(object sender, MouseEventArgs e)
         {
+            if (_hover == null) return;
+
             if (e.Button == MouseButtons.Left)
             {
                 if (_parameters.IsFlipAngle)
                 {
-                    if (_hover != null)
-                    {
-                        _hover.FlipAngle();
-                        LooseBindingSingleSide.FixBleedsFront(_sheet.TemplatePageContainer);
-                        RedrawSheet();
-                    }
+                    ToolFlipSinglePage();
                 }
                 else if (_parameters.IsNumering)
                 {
-                    if (_hover != null)
-                    {
-                        _hover.FrontIdx = _parameters.FrontNum;
-
-                        if (_sheet.SheetPlaceType != TemplateSheetPlaceType.SingleSide ||
-                            _sheet.SheetPlaceType != TemplateSheetPlaceType.WorkAndTurn)
-                        {
-                            _hover.BackIdx = _parameters.BackNum;
-                        }
-                        RedrawSheet();
-                    }
+                    ToolNumeringSinglePage();
                 }
-
             }
             else if (e.Button == MouseButtons.Right)
             {
                 if (_parameters.IsFlipAngle)
                 {
-                    if (_hover != null)
-                    {
-                        _sheet.TemplatePageContainer.FlipPagesAngle(_hover);
-                        LooseBindingSingleSide.FixBleedsFront(_sheet.TemplatePageContainer);
-                        RedrawSheet();
-                    }
+                    ToolFlipPageRow();
                 }
                 if (_parameters.IsNumering)
                 {
-                    if (_hover != null)
-                    {
-                        if (_sheet.SheetPlaceType == TemplateSheetPlaceType.SingleSide ||
-                            _sheet.SheetPlaceType == TemplateSheetPlaceType.WorkAndTurn)
-                        {
-                            _hover.FrontIdx = _parameters.FrontNum++;
-                        }
-                        else
-
-                        {
-                            _hover.FrontIdx = _parameters.FrontNum;
-                            _parameters.FrontNum += 2;
-                            _hover.BackIdx = _parameters.BackNum;
-                            _parameters.BackNum += 2;
-                        }
-
-                        RedrawSheet();
-                    }
+                    ToolNumericWithContinue();
                 }
             }
+        }
+
+        private void ToolNumericWithContinue()
+        {
+            if (_sheet.SheetPlaceType == TemplateSheetPlaceType.SingleSide ||
+                       _sheet.SheetPlaceType == TemplateSheetPlaceType.WorkAndTurn)
+            {
+                _hover.FrontIdx = _parameters.FrontNum++;
+            }
+            else
+            {
+                _hover.FrontIdx = _parameters.FrontNum;
+                _parameters.FrontNum += 2;
+                _hover.BackIdx = _parameters.BackNum;
+                _parameters.BackNum += 2;
+            }
+
+            RedrawSheet();
+        }
+
+        private void ToolFlipPageRow()
+        {
+            _sheet.TemplatePageContainer.FlipPagesAngle(_hover);
+            LooseBindingSingleSide.FixBleedsFront(_sheet.TemplatePageContainer);
+            RedrawSheet();
+
+        }
+
+        private void ToolNumeringSinglePage()
+        {
+
+            if (ModifierKeys.HasFlag(Keys.Control) && ModifierKeys.HasFlag(Keys.Shift))
+            {
+                _hover.FrontIdx = _parameters.FrontNum;
+                _parameters.FrontNum++;
+
+            }
+            else if (ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (_sheet.SheetPlaceType != TemplateSheetPlaceType.SingleSide ||
+                    _sheet.SheetPlaceType != TemplateSheetPlaceType.WorkAndTurn)
+                {
+                    _hover.BackIdx = _parameters.FrontNum;
+                    _parameters.FrontNum++;
+                }
+            }
+            else
+            {
+                _hover.FrontIdx = _parameters.FrontNum;
+
+                if (_sheet.SheetPlaceType != TemplateSheetPlaceType.SingleSide ||
+                    _sheet.SheetPlaceType != TemplateSheetPlaceType.WorkAndTurn)
+                {
+                    _hover.BackIdx = _parameters.BackNum;
+                }
+            }
+           
+            RedrawSheet();
+
+        }
+
+        private void ToolFlipSinglePage()
+        {
+            _hover.FlipAngle();
+            LooseBindingSingleSide.FixBleedsFront(_sheet.TemplatePageContainer);
+            RedrawSheet();
         }
     }
 }

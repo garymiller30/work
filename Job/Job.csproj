@@ -686,6 +686,12 @@
     <Compile Include="UserForms\PDF\ImposItems\ImposToolsControl.Designer.cs">
       <DependentUpon>ImposToolsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MarksControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MarksControl.Designer.cs">
+      <DependentUpon>MarksControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\ImposItems\PdfFileListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -887,6 +893,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormPdfSplitterParams.resx">
       <DependentUpon>FormPdfSplitterParams.cs</DependentUpon>
@@ -908,6 +915,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\ImposToolsControl.resx">
       <DependentUpon>ImposToolsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\MarksControl.resx">
+      <DependentUpon>MarksControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\PdfFileListControl.resx">
       <DependentUpon>PdfFileListControl.cs</DependentUpon>

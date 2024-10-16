@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -83,6 +84,7 @@ namespace JobSpace.UserForms.PDF
         private void OnTemplateSheetSelected(object sender, TemplateSheet e)
         {
             previewControl1.SetSheet(e);
+            marksControl1.SetSheet(e);
         }
 
         private void InitBindParameters()
@@ -170,13 +172,17 @@ namespace JobSpace.UserForms.PDF
             _productPart.TemplateSheets = addTemplateSheetControl1.GetSheets();
             _productPart.PrintSheets = printSheetsControl1.GetSheets();
 
-
             _productPart.RunList.RunPages = runListControl1.GetRunPages();
             _productPart.PdfFiles = _pdfFiles;
 
-            var drawer = new PdfDrawer(_files.ToList()[0] + ".impos.pdf");
+            string imposFile = _files.ToList()[0] + ".impos.pdf";
+
+            var drawer = new PdfDrawer(imposFile);
             drawer.Draw(_productPart);
-            MessageBox.Show("Виконано!");
+            if (MessageBox.Show("Відкрити?","Виконано!",MessageBoxButtons.OKCancel,MessageBoxIcon.Question)== DialogResult.OK)
+            {
+                Process.Start(imposFile);
+            }
 
         }
         private void FormPdfImposition_FormClosing(object sender, FormClosingEventArgs e)

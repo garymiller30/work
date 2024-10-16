@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPdfImposition));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSimple = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pdfFileListControl1 = new JobSpace.UserForms.PDF.ImposItems.PdfFileListControl();
             this.previewControl1 = new JobSpace.UserForms.PDF.ImposItems.PreviewControl();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cb_UseProofColor = new System.Windows.Forms.CheckBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.addTemplateSheetControl1 = new JobSpace.UserForms.PDF.ImposItems.AddTemplateSheetControl();
             this.printSheetsControl1 = new JobSpace.UserForms.PDF.ImposItems.PrintSheetsControl();
             this.runListControl1 = new JobSpace.UserForms.PDF.ImposItems.RunListControl();
             this.btn_SaveToPdf = new System.Windows.Forms.Button();
-            this.cb_UseProofColor = new System.Windows.Forms.CheckBox();
+            this.marksControl1 = new JobSpace.UserForms.PDF.ImposItems.MarksControl();
             this.tabControl1.SuspendLayout();
             this.tabPageSimple.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -87,10 +87,11 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.marksControl1);
             this.splitContainer1.Panel2.Controls.Add(this.previewControl1);
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
             this.splitContainer1.Size = new System.Drawing.Size(1061, 601);
-            this.splitContainer1.SplitterDistance = 205;
+            this.splitContainer1.SplitterDistance = 141;
             this.splitContainer1.TabIndex = 2;
             // 
             // pdfFileListControl1
@@ -98,7 +99,7 @@
             this.pdfFileListControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pdfFileListControl1.Location = new System.Drawing.Point(0, 0);
             this.pdfFileListControl1.Name = "pdfFileListControl1";
-            this.pdfFileListControl1.Size = new System.Drawing.Size(205, 601);
+            this.pdfFileListControl1.Size = new System.Drawing.Size(141, 601);
             this.pdfFileListControl1.TabIndex = 0;
             // 
             // previewControl1
@@ -108,7 +109,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.previewControl1.Location = new System.Drawing.Point(477, 0);
             this.previewControl1.Name = "previewControl1";
-            this.previewControl1.Size = new System.Drawing.Size(375, 596);
+            this.previewControl1.Size = new System.Drawing.Size(203, 596);
             this.previewControl1.TabIndex = 3;
             // 
             // panel2
@@ -123,6 +124,17 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(468, 593);
             this.panel2.TabIndex = 2;
+            // 
+            // cb_UseProofColor
+            // 
+            this.cb_UseProofColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cb_UseProofColor.AutoSize = true;
+            this.cb_UseProofColor.Location = new System.Drawing.Point(228, 500);
+            this.cb_UseProofColor.Name = "cb_UseProofColor";
+            this.cb_UseProofColor.Size = new System.Drawing.Size(129, 17);
+            this.cb_UseProofColor.TabIndex = 9;
+            this.cb_UseProofColor.Text = "малювати ProofColor";
+            this.cb_UseProofColor.UseVisualStyleBackColor = true;
             // 
             // splitContainer2
             // 
@@ -157,7 +169,7 @@
             this.printSheetsControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.printSheetsControl1.Location = new System.Drawing.Point(0, 0);
             this.printSheetsControl1.Name = "printSheetsControl1";
-            this.printSheetsControl1.OnPrintSheetDeleted = ((System.EventHandler<JobSpace.Static.Pdf.Imposition.Models.PrintSheet>)(resources.GetObject("printSheetsControl1.OnPrintSheetDeleted")));
+            this.printSheetsControl1.OnPrintSheetDeleted = null;
             this.printSheetsControl1.OnPrintSheetsChanged = null;
             this.printSheetsControl1.Size = new System.Drawing.Size(340, 278);
             this.printSheetsControl1.TabIndex = 7;
@@ -185,16 +197,14 @@
             this.btn_SaveToPdf.UseVisualStyleBackColor = false;
             this.btn_SaveToPdf.Click += new System.EventHandler(this.btn_SaveToPdf_Click);
             // 
-            // cb_UseProofColor
+            // marksControl1
             // 
-            this.cb_UseProofColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cb_UseProofColor.AutoSize = true;
-            this.cb_UseProofColor.Location = new System.Drawing.Point(228, 500);
-            this.cb_UseProofColor.Name = "cb_UseProofColor";
-            this.cb_UseProofColor.Size = new System.Drawing.Size(129, 17);
-            this.cb_UseProofColor.TabIndex = 9;
-            this.cb_UseProofColor.Text = "малювати ProofColor";
-            this.cb_UseProofColor.UseVisualStyleBackColor = true;
+            this.marksControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.marksControl1.Location = new System.Drawing.Point(686, 6);
+            this.marksControl1.Name = "marksControl1";
+            this.marksControl1.Size = new System.Drawing.Size(225, 590);
+            this.marksControl1.TabIndex = 4;
             // 
             // FormPdfImposition
             // 
@@ -236,5 +246,6 @@
         private ImposItems.AddTemplateSheetControl addTemplateSheetControl1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.CheckBox cb_UseProofColor;
+        private ImposItems.MarksControl marksControl1;
     }
 }

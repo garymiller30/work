@@ -212,5 +212,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
             DialogResult = DialogResult.OK;
             Close();            
         }
+
+        private void nud_info_w_MouseClick(object sender, MouseEventArgs e)
+        {
+            ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
     }
 }
