@@ -46,6 +46,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         public List<PrintSheet> GetSheets()
         {
+            if (objectListView1.Objects == null) return new List<PrintSheet> { };
             return objectListView1.Objects.Cast<PrintSheet>().ToList();
         }
 

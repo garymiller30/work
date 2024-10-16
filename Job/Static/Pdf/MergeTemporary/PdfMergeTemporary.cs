@@ -1,8 +1,8 @@
 ﻿using JobSpace.Static.Pdf.Common;
-using Newtonsoft.Json;
 using PDFlib_dotnet;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 
 namespace JobSpace.Static.Pdf.MergeTemporary
 {
@@ -58,15 +58,20 @@ namespace JobSpace.Static.Pdf.MergeTemporary
                 }
                 p.end_document("");
 
-                using (var textWriter =  new StringWriter())
-                {
-                    var serializer = new JsonSerializer();
-                    serializer.Serialize(textWriter, mergedList);
+                var str = JsonSerializer.Serialize(mergedList);
+                string mergeFilePath = Path.ChangeExtension(fileName, ".json");
 
-                    string mergeFilePath = Path.ChangeExtension(fileName,".json");
+                File.WriteAllText(mergeFilePath, str);
 
-                    File.WriteAllText(mergeFilePath, textWriter.ToString());
-                }
+                //using (var textWriter =  new StringWriter())
+                //{
+                //    var serializer = new JsonSerializer();
+                //    serializer.Serialize(textWriter, mergedList);
+
+                //    string mergeFilePath = Path.ChangeExtension(fileName,".json");
+
+                //    File.WriteAllText(mergeFilePath, textWriter.ToString());
+                //}
 
                 success = true;
             }

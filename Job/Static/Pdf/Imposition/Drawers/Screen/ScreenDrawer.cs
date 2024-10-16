@@ -13,27 +13,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
 {
     public class ScreenDrawer
     {
-
-        public Bitmap Draw(ProductPart impos)
-        {
-            switch (impos.Sheet.SheetPlaceType)
-            {
-                case TemplateSheetPlaceType.SingleSide:
-                     return DrawSingleSideService.Draw(impos);
-                    
-                case TemplateSheetPlaceType.Sheetwise:
-                    return DrawSingleSideService.Draw(impos);
-                
-                case TemplateSheetPlaceType.WorkAndTurn:
-                    return DrawSingleSideService.Draw(impos);
-               
-                case TemplateSheetPlaceType.Perfecting:
-                    throw new NotImplementedException();
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
         public Bitmap Draw(TemplateSheet sheet)
         {
             switch (sheet.SheetPlaceType)

@@ -74,9 +74,6 @@
     <Reference Include="AWSSDK.SecurityToken, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>..\packages\AWSSDK.SecurityToken.3.7.300.62\lib\net45\AWSSDK.SecurityToken.dll</HintPath>
     </Reference>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
       <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
     </Reference>
@@ -123,9 +120,6 @@
     </Reference>
     <Reference Include="MongoDB.Libmongocrypt, Version=1.11.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Libmongocrypt.1.11.0\lib\net472\MongoDB.Libmongocrypt.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
       <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
@@ -263,7 +257,6 @@
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\Front.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\WorkAndTurn.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Screen\ScreenDrawer.cs" />
-    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\DrawSheetwiseService.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\DrawSingleSideService.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorOfset.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorPoint.cs" />

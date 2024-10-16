@@ -14,6 +14,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
         {
             TemplateSheet sheet = parameters.Sheet;
             TemplatePage page = sheet.MasterPage;
+            
+            if (parameters.IsOneCut) page.Margins.Set(0);
 
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
 
@@ -58,10 +60,10 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
                 for (int cx = 0; cx < selVariant.CntX; cx++)
                 {
                     templatePage = new TemplatePage(xOfs, y, page.W, page.H, angle);
+                    templatePage.Bleeds.SetDefault(page.Bleeds.Default);
                     templatePage.Margins.Set(page.Margins);
                     templatePage.FrontIdx = 1;
                     templatePage.BackIdx = 2;
-
 
                     templatePageContainer.AddPage(templatePage);
                     xOfs += templatePage.GetClippedWByRotate();
@@ -69,8 +71,71 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
                 xOfs = x;
                 y += templatePage.GetClippedHByRotate();
             }
+
+            if (parameters.IsOneCut)
+            {
+                FixBleedsBack(templatePageContainer);
+            }
+
             CropMarksService.FixCropMarksFront(templatePageContainer);
             return templatePageContainer;
+        }
+
+        public static void FixBleedsBack(TemplatePageContainer templatePageContainer)
+        {
+            templatePageContainer.TemplatePages.ForEach(x => x.Bleeds.Set(x.Bleeds.Default));
+
+            foreach (var page in templatePageContainer.TemplatePages)
+            {
+                RectangleD left = page.GetDrawBleedLeft();
+                RectangleD right = page.GetDrawBleedRight();
+                RectangleD top = page.GetDrawBleedTop();
+                RectangleD bottom = page.GetDrawBleedBottom();
+
+                foreach (var pageTarget in templatePageContainer.TemplatePages)
+                {
+                    if (page != pageTarget)
+                    {
+                        RectangleD pageRect = new RectangleD
+                        {
+                            X1 = pageTarget.GetPageDrawX(),
+                            Y1 = pageTarget.GetPageDrawY(),
+                            X2 = pageTarget.GetPageDrawX() + pageTarget.GetPageDrawW(),
+                            Y2 = pageTarget.GetPageDrawY() + pageTarget.GetPageDrawH()
+                        };
+
+                        List<RectangleD> rects = new List<RectangleD>(){
+                            pageTarget.GetDrawBleedLeft(),
+                            pageTarget.GetDrawBleedRight(),
+                            pageTarget.GetDrawBleedTop(),
+                            pageTarget.GetDrawBleedBottom()
+                        };
+
+                        foreach (var rect in rects)
+                        {
+                            if (left.IntersectsWith(rect) || left.IntersectsWith(pageRect))
+                            {
+                                page.Bleeds.Left = 0;
+
+                            }
+                            if (right.IntersectsWith(rect) || right.IntersectsWith(pageRect))
+                            {
+                                page.Bleeds.Right = 0;
+
+                            }
+                            if (top.IntersectsWith(rect) || top.IntersectsWith(pageRect))
+                            {
+                                page.Bleeds.Top = 0;
+                            }
+                            if (bottom.IntersectsWith(rect) || bottom.IntersectsWith(pageRect))
+                            {
+                                page.Bleeds.Bottom = 0;
+                            }
+                        }
+                    }
+                }
+
+            }
         }
     }
 }

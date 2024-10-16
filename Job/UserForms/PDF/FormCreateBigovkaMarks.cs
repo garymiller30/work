@@ -58,5 +58,27 @@ namespace JobSpace.UserForms.PDF
 
             return true;
         }
+
+       
+
+        private void cb_c_CheckedChanged(object sender, EventArgs e)
+        {
+            numC.Value = cb_c.Checked ? 100 : 0;
+        }
+
+        private void cb_m_CheckedChanged(object sender, EventArgs e)
+        {
+            numM.Value = cb_m.Checked ? 100 : 0;
+        }
+
+        private void cb_y_CheckedChanged(object sender, EventArgs e)
+        {
+            numY.Value = cb_y.Checked ? 100 : 0;
+        }
+
+        private void cb_b_CheckedChanged(object sender, EventArgs e)
+        {
+            numK.Value = cb_b.Checked ? 100 : 0;
+        }
     }
 }

@@ -136,5 +136,19 @@ namespace PluginFileshareWeb
             return urlWithoutProtocol;
         }
 
+        private void toolStripTextBoxUrl_Click(object sender, EventArgs e)
+        {
+            toolStripTextBoxUrl.SelectAll();
+        }
+
+        private void tsb_zoomOk_Click(object sender, EventArgs e)
+        {
+            if (webView21.CoreWebView2 == null) return;
+
+            var res = double.TryParse(tstb_zoomFactor.Text, out var factor);
+
+            if (res)
+            webView21.ZoomFactor = factor/100;
+        }
     }
 }

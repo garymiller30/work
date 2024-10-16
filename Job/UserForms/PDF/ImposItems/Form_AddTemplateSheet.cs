@@ -61,7 +61,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             nud_page_w.Value = (decimal)Sheet.MasterPage.W;
             nud_page_h.Value = (decimal)Sheet.MasterPage.H;
-            nud_page_bleed.Value = (decimal)Sheet.MasterPage.Bleeds;
+            nud_page_bleed.Value = (decimal)Sheet.MasterPage.Bleeds.Left;
             
             
         }
@@ -189,7 +189,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             Sheet.MasterPage.W = (double)nud_page_w.Value;
             Sheet.MasterPage.H = (double)nud_page_h.Value;
-            Sheet.MasterPage.Bleeds = (double)nud_page_bleed.Value;
+            Sheet.MasterPage.Bleeds.SetDefault((double)nud_page_bleed.Value);
             Sheet.MasterPage.SetMarginsLikeBleed();
             
 

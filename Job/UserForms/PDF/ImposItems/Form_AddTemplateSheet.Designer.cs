@@ -51,7 +51,7 @@
             this.comboBoxSheetPlaceType = new System.Windows.Forms.ComboBox();
             this.comboBoxSheets = new System.Windows.Forms.ComboBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.cb_DrawProofColor = new System.Windows.Forms.CheckBox();
+            this.cb_OneCut = new System.Windows.Forms.CheckBox();
             this.nud_Yofs = new System.Windows.Forms.NumericUpDown();
             this.nud_Xofs = new System.Windows.Forms.NumericUpDown();
             this.cb_centerHeight = new System.Windows.Forms.CheckBox();
@@ -65,7 +65,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.previewControl1 = new JobSpace.UserForms.PDF.ImposItems.PreviewControl();
             this.buttonSave = new System.Windows.Forms.Button();
-            this.cb_OneCut = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -336,7 +335,6 @@
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.cb_OneCut);
-            this.groupBox7.Controls.Add(this.cb_DrawProofColor);
             this.groupBox7.Controls.Add(this.nud_Yofs);
             this.groupBox7.Controls.Add(this.nud_Xofs);
             this.groupBox7.Controls.Add(this.cb_centerHeight);
@@ -348,17 +346,15 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Додаткові параметри";
             // 
-            // cb_DrawProofColor
+            // cb_OneCut
             // 
-            this.cb_DrawProofColor.AutoSize = true;
-            this.cb_DrawProofColor.Checked = true;
-            this.cb_DrawProofColor.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_DrawProofColor.Location = new System.Drawing.Point(43, 89);
-            this.cb_DrawProofColor.Name = "cb_DrawProofColor";
-            this.cb_DrawProofColor.Size = new System.Drawing.Size(133, 17);
-            this.cb_DrawProofColor.TabIndex = 9;
-            this.cb_DrawProofColor.Text = "ProofColor на спусках";
-            this.cb_DrawProofColor.UseVisualStyleBackColor = true;
+            this.cb_OneCut.AutoSize = true;
+            this.cb_OneCut.Location = new System.Drawing.Point(75, 100);
+            this.cb_OneCut.Name = "cb_OneCut";
+            this.cb_OneCut.Size = new System.Drawing.Size(76, 17);
+            this.cb_OneCut.TabIndex = 10;
+            this.cb_OneCut.Text = "в один різ";
+            this.cb_OneCut.UseVisualStyleBackColor = true;
             // 
             // nud_Yofs
             // 
@@ -521,18 +517,6 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.button2_Click);
             // 
-            // cb_OneCut
-            // 
-            this.cb_OneCut.AutoSize = true;
-            this.cb_OneCut.Checked = true;
-            this.cb_OneCut.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_OneCut.Location = new System.Drawing.Point(43, 108);
-            this.cb_OneCut.Name = "cb_OneCut";
-            this.cb_OneCut.Size = new System.Drawing.Size(76, 17);
-            this.cb_OneCut.TabIndex = 10;
-            this.cb_OneCut.Text = "в один різ";
-            this.cb_OneCut.UseVisualStyleBackColor = true;
-            // 
             // Form_AddTemplateSheet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -597,7 +581,6 @@
         private System.Windows.Forms.ComboBox comboBoxSheetPlaceType;
         private System.Windows.Forms.ComboBox comboBoxSheets;
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.CheckBox cb_DrawProofColor;
         private System.Windows.Forms.NumericUpDown nud_Yofs;
         private System.Windows.Forms.NumericUpDown nud_Xofs;
         private System.Windows.Forms.CheckBox cb_centerHeight;
