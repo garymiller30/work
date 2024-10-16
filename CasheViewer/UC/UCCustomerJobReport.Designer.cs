@@ -49,6 +49,7 @@
             this.treeListView1.AllColumns.Add(this.olvColumn_Price);
             this.treeListView1.AllowColumnReorder = true;
             this.treeListView1.CellEditUseWholeCell = false;
+            this.treeListView1.CheckBoxes = true;
             this.treeListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumn_Customer,
             this.olvColumnDate,

@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Imposition.Models
 {
@@ -14,7 +15,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public CropMarksController CropMarksController { get; set; } = new CropMarksController();
         public int FrontIdx { get; set; } = 1;
         public int BackIdx { get; set; } = 0;
-        public double Bleeds { get; set; } = 0;
+        public ClipBox Bleeds { get; set; } = new ClipBox();
         public double W { get; set; } = 210;
         public double H { get; set; } = 297;
         public double X { get; set; } = 10;
@@ -23,6 +24,9 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public ClipBox Margins { get; set; } = new ClipBox();
         public double GetClippedW => W + Margins.Left + Margins.Right;
         public double GetClippedH => H + Margins.Top + Margins.Bottom;
+
+        public double GetPageWidthWithBleeds => W + Bleeds.Left + Bleeds.Right;
+        public double GetPageHeightWithBleeds => H + Bleeds.Top + Bleeds.Bottom;
 
         public TemplatePage()
         {
@@ -37,7 +41,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public TemplatePage(double width, double height, double bleeds) : this(width, height)
         {
-            Bleeds = bleeds;
+            Bleeds.SetDefault(bleeds);
             Margins.Set(bleeds);
         }
 
@@ -52,59 +56,138 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public (double x, double y, double angle) GetPageStartCoordFront()
         {
-            double llx = X;
-            double lly = Y;
+            (double xOfs, double yOfs) = FixPositionFront(this);
+
+            double llx = X + xOfs;
+            double lly = Y + yOfs;
 
             if (Angle == 90)
             {
-                llx = X + GetClippedH;
+                llx = X + xOfs + GetPageHeightWithBleeds;
             }
             else if (Angle == 180)
             {
-                llx = X + GetClippedW;
-                lly = Y + GetClippedH;
+                llx = X + xOfs + GetPageWidthWithBleeds;
+                lly = Y + yOfs + GetPageHeightWithBleeds;
             }
             else if (Angle == 270)
             {
-                lly = Y + GetClippedW;
+                lly = Y + yOfs + GetPageWidthWithBleeds;
             }
 
             return (llx, lly, Angle);
         }
 
+        (double xOfs, double yOfs) FixPositionFront(TemplatePage page)
+        {
+            double left = page.Bleeds.Left;
+            double bottom = page.Bleeds.Bottom;
+            double top = page.Bleeds.Top;
+            double right = page.Bleeds.Right;
 
+            double xOfs = 0;
+            double yOfs = 0;
+
+
+            switch (page.Angle)
+            {
+                case 0:
+                    if (left > page.Margins.Left) xOfs = -left;
+                    if (bottom > page.Margins.Bottom) yOfs = -bottom;
+                    break;
+
+                case 90:
+                    if (top > page.Margins.Top) xOfs = -top;
+                    if (left > page.Margins.Left) yOfs = -left;
+                    break;
+
+                case 180:
+                    if (right > page.Margins.Right) xOfs = -right;
+                    if (top > page.Margins.Top) yOfs = -top;
+                    break;
+
+                case 270:
+                    if (bottom > page.Margins.Bottom) xOfs = -bottom;
+                    if (right > page.Margins.Right) yOfs = -right;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            return (xOfs, yOfs);
+
+        }
+
+        (double xOfs, double yOfs) FixPositionBack(TemplatePage page)
+        {
+            double left = page.Bleeds.Left;
+            double bottom = page.Bleeds.Bottom;
+            double top = page.Bleeds.Top;
+            double right = page.Bleeds.Right;
+
+            double xOfs = 0;
+            double yOfs = 0;
+
+
+            switch (page.Angle)
+            {
+                case 0:
+                    if (left > page.Margins.Left)xOfs = -left;
+                    if (bottom > page.Margins.Bottom) yOfs = -bottom;
+                    break;
+
+                case 180:
+                    if (right > page.Margins.Right) xOfs = -right;
+                    if (top > page.Margins.Top) yOfs = -top;
+                    break;
+
+                case 90:
+                    if (top > page.Margins.Top) xOfs = -top;
+                    if (left > page.Margins.Left) yOfs = -left;
+                    break;
+
+                case 270:
+                    if (bottom > page.Margins.Bottom) xOfs = -bottom;
+                    if (right > page.Margins.Right) yOfs = -right;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            return (xOfs, yOfs);
+        }
 
 
         public (double x, double y, double angle) GetPageStartCoordBack(TemplateSheet sheet)
         {
-            double llx = X;
-            double lly = Y;
+            (double xOfs, double yOfs) = FixPositionBack(this);
+
 
             double correctedAngle = Angle;
 
-            llx = sheet.W - X;
-            lly = Y + GetClippedW;
+            double llx = 0;// sheet.W - (X + xOfs);
+            double lly =  0;//Y + GetPageHeightWithBleeds + yOfs;
 
             if (Angle == 0)
             {
-                llx = sheet.W - (X + GetClippedW);
-                lly = Y;
+                llx = sheet.W - (X + xOfs + GetPageWidthWithBleeds);
+                lly = Y + yOfs;
             }
 
             else if (Angle == 90)
             {
                 correctedAngle = 270;
-                llx = sheet.W - (X + GetClippedH);
+                llx = sheet.W - (X + xOfs + GetPageHeightWithBleeds);
+                lly = Y + GetPageWidthWithBleeds + yOfs;
             }
             else if (Angle == 180)
             {
-                llx = sheet.W - X;
-                lly = Y + GetClippedH;
+                llx = sheet.W - (X + xOfs);
+                lly = Y +  yOfs;
             }
             else if (Angle == 270)
             {
                 correctedAngle = 90;
-                lly = Y;
+                llx = sheet.W - (X + xOfs);
+                lly = Y + yOfs;
             }
 
             return (llx, lly, correctedAngle);
@@ -181,6 +264,168 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         {
             var str = JsonSerializer.Serialize(this);
             return JsonSerializer.Deserialize<TemplatePage>(str);
+        }
+
+        public RectangleD GetDrawBleedLeft()
+        {
+            switch (Angle)
+            {
+                case 0:
+                    return new RectangleD()
+                    {
+                        X1 = X - Bleeds.Left,
+                        Y1 = Y,
+                        X2 = X,
+                        Y2 = Y + GetPageDrawH(),
+                    }
+                        ;
+                case 90:
+                    return new RectangleD()
+                    {
+                        X1 = X,
+                        Y1 = Y - Bleeds.Left,
+                        X2 = X + GetPageDrawW(),
+                        Y2 = Y
+                    };
+                case 180:
+                    return new RectangleD()
+                    {
+                        X1 = X + GetPageDrawW(),
+                        Y1 = Y,
+                        X2 = X + GetPageDrawW() + Bleeds.Left,
+                        Y2 = Y + GetPageDrawH(),
+                    };
+                case 270:
+                    return new RectangleD()
+                    {
+                        X1 = X,
+                        Y1 = Y + GetPageDrawH(),
+                        X2 = X + GetPageDrawW(),
+                        Y2 = Y + GetPageDrawH() + Bleeds.Left,
+                    };
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        public RectangleD GetDrawBleedRight()
+        {
+            switch (Angle)
+            {
+                case 0:
+                    return new RectangleD()
+                    {
+                        X1 = X + GetPageDrawW(),
+                        Y1 = Y,
+                        X2 = X + GetPageDrawW() + Bleeds.Right,
+                        Y2 = Y + GetPageDrawH(),
+                    };
+                case 90:
+                    return new RectangleD()
+                    {
+                        X1 = X,
+                        Y1 = Y + GetPageDrawH(),
+                        X2 = X + GetPageDrawW(),
+                        Y2 = Y + GetPageDrawH() + Bleeds.Right
+                    };
+                case 180:
+                    return new RectangleD()
+                    {
+                        X1 = X - Bleeds.Right,
+                        Y1 = Y,
+                        X2 = X,
+                        Y2 = Y + GetPageDrawH()
+                    };
+                case 270:
+                    return new RectangleD()
+                    {
+                        X1 = X,
+                        Y1 = Y - Bleeds.Right,
+                        X2 = X + GetPageDrawW(),
+                        Y2 = Y
+                    };
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        public RectangleD GetDrawBleedBottom()
+        {
+            switch (Angle)
+            {
+                case 0:
+                    return new RectangleD()
+                    {
+                        X1 = X,
+                        Y1 = Y - Bleeds.Bottom,
+                        X2 = X + GetPageDrawW(),
+                        Y2 = Y
+                    };
+                case 90:
+                    return new RectangleD()
+                    {
+                        X1 = X + GetPageDrawW(),
+                        Y1 = Y,
+                        X2 = X + GetPageDrawW() + Bleeds.Bottom,
+                        Y2 = Y + GetPageDrawH()
+                    };
+                case 180:
+                    return new RectangleD()
+                    {
+                        X1 = X,
+                        Y1 = Y + GetPageDrawH(),
+                        X2 = X + GetPageDrawW(),
+                        Y2 = Y + GetPageDrawH() + Bleeds.Bottom,
+                    };
+                case 270:
+                    return new RectangleD()
+                    {
+                        X1 = X - Bleeds.Bottom,
+                        Y1 = Y,
+                        X2 = X,
+                        Y2 = Y + GetPageDrawH()
+                    };
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        public RectangleD GetDrawBleedTop()
+        {
+            switch (Angle)
+            {
+                case 0:
+                    return new RectangleD()
+                    {
+                        X1 = X,
+                        Y1 = Y + GetPageDrawH(),
+                        X2 = X + GetPageDrawW(),
+                        Y2 = Y + GetPageDrawH() + Bleeds.Top
+                    };
+                case 90:
+                    return new RectangleD()
+                    {
+                        X1 = X - Bleeds.Top,
+                        Y1 = Y,
+                        X2 = X,
+                        Y2 = Y + GetPageDrawH()
+                    };
+                case 180:
+                    return new RectangleD()
+                    {
+                        X1 = X,
+                        Y1 = Y - Bleeds.Top,
+                        X2 = X + GetPageDrawW(),
+                        Y2 = Y
+                    };
+                case 270:
+                    return new RectangleD()
+                    {
+                        X1 = X + GetPageDrawW(),
+                        Y1 = Y,
+                        X2 = X + GetPageDrawW() + Bleeds.Top,
+                        Y2 = Y + GetPageDrawH()
+                    };
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 }

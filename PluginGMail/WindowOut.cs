@@ -112,5 +112,15 @@ namespace PluginGMail
         {
             //throw new NotImplementedException();
         }
+
+        private void tsb_ok_Click(object sender, EventArgs e)
+        {
+            var res = double.TryParse(toolStripTextBox1.Text, out double factor);
+
+            if (res)
+            {
+                webView21.ZoomFactor = factor / 100;
+            }
+        }
     }
 }

@@ -116,7 +116,7 @@ namespace JobSpace.UserForms.PDF
 
             _controlBindParameters.MasterPage.W = _pdfFiles[0].Pages[0].Trim.W;
             _controlBindParameters.MasterPage.H = _pdfFiles[0].Pages[0].Trim.H;
-            _controlBindParameters.MasterPage.Bleeds = (_pdfFiles[0].Pages[0].Media.W - _pdfFiles[0].Pages[0].Trim.W)/2;
+            _controlBindParameters.MasterPage.Bleeds.SetDefault((_pdfFiles[0].Pages[0].Media.W - _pdfFiles[0].Pages[0].Trim.W)/2);
             _controlBindParameters.MasterPage.SetMarginsLikeBleed();
 
             addTemplateSheetControl1.SetControlBindParameters(_controlBindParameters);
@@ -152,12 +152,21 @@ namespace JobSpace.UserForms.PDF
         private void btn_SaveToPdf_Click(object sender, EventArgs e)
         {
             //_productPart.Proof.Enable = cb_DrawProofColor.Checked;
-            SaveToPdf();
+            if (printSheetsControl1.GetSheets().Count == 0)
+            {
+                MessageBox.Show("Нема листів для друку");
+            }
+            else
+            {
+                SaveToPdf();
+            }
+            
         }
 
         private void SaveToPdf()
         {
             _productPart = new ProductPart();
+            _productPart.Proof.Enable = cb_UseProofColor.Checked;
             _productPart.TemplateSheets = addTemplateSheetControl1.GetSheets();
             _productPart.PrintSheets = printSheetsControl1.GetSheets();
 

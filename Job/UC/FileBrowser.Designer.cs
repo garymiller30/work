@@ -104,6 +104,7 @@ namespace JobSpace.UC
             this.tsb_set_trims = new System.Windows.Forms.ToolStripButton();
             this.tsb_CombineFile = new System.Windows.Forms.ToolStripButton();
             this.tsb_splitFile = new System.Windows.Forms.ToolStripButton();
+            this.tsb_ExtractPages = new System.Windows.Forms.ToolStripButton();
             this.toolStripDropDownButtonSplitPdfMenu = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsb_SetCount = new System.Windows.Forms.ToolStripButton();
             this.tsb_spusk = new System.Windows.Forms.ToolStripButton();
@@ -145,7 +146,6 @@ namespace JobSpace.UC
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-            this.tsb_ExtractPages = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -623,6 +623,7 @@ namespace JobSpace.UC
             // 
             // удалитьToolStripMenuItem
             // 
+            this.удалитьToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("удалитьToolStripMenuItem.Image")));
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
             this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.удалитьToolStripMenuItem.Text = "Видалити";
@@ -635,6 +636,7 @@ namespace JobSpace.UC
             // 
             // копирвоатьToolStripMenuItem
             // 
+            this.копирвоатьToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копирвоатьToolStripMenuItem.Image")));
             this.копирвоатьToolStripMenuItem.Name = "копирвоатьToolStripMenuItem";
             this.копирвоатьToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.копирвоатьToolStripMenuItem.Text = "копіювати";
@@ -642,6 +644,7 @@ namespace JobSpace.UC
             // 
             // вырезатьToolStripMenuItem
             // 
+            this.вырезатьToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("вырезатьToolStripMenuItem.Image")));
             this.вырезатьToolStripMenuItem.Name = "вырезатьToolStripMenuItem";
             this.вырезатьToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.вырезатьToolStripMenuItem.Text = "вирізати";
@@ -649,6 +652,7 @@ namespace JobSpace.UC
             // 
             // вставитьToolStripMenuItem
             // 
+            this.вставитьToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("вставитьToolStripMenuItem.Image")));
             this.вставитьToolStripMenuItem.Name = "вставитьToolStripMenuItem";
             this.вставитьToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.вставитьToolStripMenuItem.Text = "вставити";
@@ -701,6 +705,7 @@ namespace JobSpace.UC
             // 
             // SendEmailToolStripMenuItem
             // 
+            this.SendEmailToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("SendEmailToolStripMenuItem.Image")));
             this.SendEmailToolStripMenuItem.Name = "SendEmailToolStripMenuItem";
             this.SendEmailToolStripMenuItem.Size = new System.Drawing.Size(297, 22);
             this.SendEmailToolStripMenuItem.Text = "надіслати e-mail";
@@ -798,6 +803,16 @@ namespace JobSpace.UC
             this.tsb_splitFile.Text = "Розділити файл";
             this.tsb_splitFile.Click += new System.EventHandler(this.SplitPDFToolStripMenuItem_Click);
             // 
+            // tsb_ExtractPages
+            // 
+            this.tsb_ExtractPages.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_ExtractPages.Image = ((System.Drawing.Image)(resources.GetObject("tsb_ExtractPages.Image")));
+            this.tsb_ExtractPages.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_ExtractPages.Name = "tsb_ExtractPages";
+            this.tsb_ExtractPages.Size = new System.Drawing.Size(30, 20);
+            this.tsb_ExtractPages.Text = "\"Витягти\" сторінки";
+            this.tsb_ExtractPages.Click += new System.EventHandler(this.tsb_ExtractPages_Click);
+            // 
             // toolStripDropDownButtonSplitPdfMenu
             // 
             this.toolStripDropDownButtonSplitPdfMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -831,7 +846,7 @@ namespace JobSpace.UC
             this.tsb_NumericFiles.Image = ((System.Drawing.Image)(resources.GetObject("tsb_NumericFiles.Image")));
             this.tsb_NumericFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_NumericFiles.Name = "tsb_NumericFiles";
-            this.tsb_NumericFiles.Size = new System.Drawing.Size(23, 20);
+            this.tsb_NumericFiles.Size = new System.Drawing.Size(30, 20);
             this.tsb_NumericFiles.Text = "Пронумерувати файли";
             this.tsb_NumericFiles.Click += new System.EventHandler(this.toolStripButtonNumericFiles_Click);
             // 
@@ -863,7 +878,7 @@ namespace JobSpace.UC
             this.toolStripButtonSettings});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(488, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(514, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -1146,16 +1161,6 @@ namespace JobSpace.UC
             // kryptonContextMenuHeading1
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
-            // 
-            // tsb_ExtractPages
-            // 
-            this.tsb_ExtractPages.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_ExtractPages.Image = ((System.Drawing.Image)(resources.GetObject("tsb_ExtractPages.Image")));
-            this.tsb_ExtractPages.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_ExtractPages.Name = "tsb_ExtractPages";
-            this.tsb_ExtractPages.Size = new System.Drawing.Size(30, 20);
-            this.tsb_ExtractPages.Text = "\"Витягти\" сторінки";
-            this.tsb_ExtractPages.Click += new System.EventHandler(this.tsb_ExtractPages_Click);
             // 
             // FileBrowser
             // 

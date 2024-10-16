@@ -1,5 +1,6 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services.Impos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,6 +43,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
             pb_preview.Width = (int)_sheet.W + 1;
             pb_preview.Height = (int)_sheet.H + 1;
 
+            
+
             pb_preview.Image = screenDrawer.Draw(_sheet);
         }
 
@@ -77,10 +80,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             foreach (var page in _sheet.TemplatePageContainer.TemplatePages)
             {
-                page.FrontIdx = front++;
+
+                
                 if (_sheet.SheetPlaceType == TemplateSheetPlaceType.Sheetwise)
                 {
-                    page.BackIdx = back++;
+                    page.FrontIdx = front;
+                    page.BackIdx = back;
+
+                    front += 2;
+                    back += 2;
+                }
+                else
+                {
+                    page.FrontIdx = front++;
                 }
             }
             RedrawSheet();
@@ -142,6 +154,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (_hover != null)
                     {
                         _hover.FlipAngle();
+                        LooseBindingSingleSide.FixBleedsFront(_sheet.TemplatePageContainer);
                         RedrawSheet();
                     }
                 }
@@ -168,6 +181,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (_hover != null)
                     {
                         _sheet.TemplatePageContainer.FlipPagesAngle(_hover);
+                        LooseBindingSingleSide.FixBleedsFront(_sheet.TemplatePageContainer);
                         RedrawSheet();
                     }
                 }

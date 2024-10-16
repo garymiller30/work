@@ -4,6 +4,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.Json;
 using ActiveWorks;
 using ExtensionMethods;
 using Interfaces;
@@ -13,7 +14,6 @@ using JobSpace.Data;
 using JobSpace.Fasades;
 using JobSpace.Menus;
 using MailNotifier;
-using Newtonsoft.Json;
 using Plugins;
 using PythonEngine;
 
@@ -116,10 +116,12 @@ namespace JobSpace.Profiles
 
         public void SaveSettings<T>(T settings) where T : class
         {
-            var str = JsonConvert.SerializeObject(settings, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
+            var str = JsonSerializer.Serialize(settings); 
+            
+            //JsonConvert.SerializeObject(settings, new JsonSerializerSettings
+            //{
+             //   TypeNameHandling = TypeNameHandling.Auto
+            //});
 
             var pluginSettingsPath =
                 Path.Combine(ProfilePath, $"{typeof(T).Name}.json");
@@ -137,10 +139,11 @@ namespace JobSpace.Profiles
             try
             {
                 var str = File.ReadAllText(pluginSettingsPath, Encoding.Unicode);
-                var s = JsonConvert.DeserializeObject<T>(str, new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.Auto
-                });
+                var s = JsonSerializer.Deserialize<T>(str);
+                //var s = JsonConvert.DeserializeObject<T>(str, new JsonSerializerSettings
+                //{
+                //    TypeNameHandling = TypeNameHandling.Auto
+                //});
                 return s;
             }
             catch

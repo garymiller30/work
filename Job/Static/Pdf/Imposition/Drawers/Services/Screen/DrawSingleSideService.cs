@@ -15,41 +15,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
     public static class DrawSingleSideService
     {
-
-
-        public static Bitmap Draw(ProductPart productPart)
-        {
-            var sheet = productPart.Sheet;
-            var templateContainer = sheet.TemplatePageContainer;
-
-            Bitmap bitmap = new Bitmap((int)sheet.W + 1, ((int)sheet.H + 1));
-
-            Graphics g = Graphics.FromImage(bitmap);
-            g.SmoothingMode = SmoothingMode.HighQuality;
-
-            // draw sheet
-            Pen pen = new Pen(Color.Black);
-            Rectangle rect = new Rectangle(0, 0, (int)sheet.W, (int)sheet.H);
-
-            g.DrawRectangle(pen, rect);
-            pen.Dispose();
-
-            // draw safe field
-            DrawSheetSafeField(g, sheet);
-
-            // draw pages
-            foreach (var page in templateContainer.TemplatePages)
-            {
-                DrawPage(g, sheet, page, (int)sheet.H);
-            }
-
-            g.Dispose();
-
-            return bitmap;
-
-        }
-
-
         public static Bitmap Draw(TemplateSheet sheet)
         {
             var templateContainer = sheet.TemplatePageContainer;
@@ -148,7 +113,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             brush.Dispose();
             pen.Dispose();
 
-            DrawBleeds(g, page, rect, sH);
+            DrawBleeds(g, page, sH);
             DrawPageRotateMarker(g,page,rect,sH);
             DrawText(g, sheet, page, sH);
             DrawCropsMark(g,page,sH);
@@ -226,7 +191,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             brush.Dispose();
         }
 
-        private static void DrawBleeds(Graphics g, TemplatePage page, Rectangle rect, int sH)
+        private static void DrawBleeds(Graphics g, TemplatePage page,  int sH)
         {
             var brush = new SolidBrush(Color.LightGreen);
 
@@ -241,7 +206,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
         private static void DrawBleedBottom(Graphics g, TemplatePage page, int sH, SolidBrush brush)
         {
 
-            if (page.Margins.Bottom == 0) return;
+            if (page.Bleeds.Bottom == 0) return;
 
             int sx = 0;
             int sy = 0;
@@ -251,28 +216,28 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             switch (page.Angle)
             {
                 case 0:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Left);
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Left);
                     sy = sH - (int) page.GetPageDrawY();
-                    sw = (int)(page.Margins.Left + page.W + page.Margins.Right);
-                    sh = (int)(page.Margins.Bottom);
+                    sw = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
+                    sh = (int)(page.Bleeds.Bottom);
                     break;
                 case 90:
                     sx = (int)(page.GetPageDrawX() + page.GetPageDrawW());
-                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Margins.Right);
-                    sw = (int)(page.Margins.Bottom);
-                    sh = (int)(page.Margins.Left + page.W + page.Margins.Right);
+                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Bleeds.Right);
+                    sw = (int)(page.Bleeds.Bottom);
+                    sh = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
                     break;
                 case 180:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Right);
-                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Margins.Bottom);
-                    sw = (int)(page.Margins.Left + page.W + page.Margins.Right);
-                    sh = (int)(page.Margins.Bottom);
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Right);
+                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Bleeds.Bottom);
+                    sw = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
+                    sh = (int)(page.Bleeds.Bottom);
                     break;
                 case 270:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Bottom);
-                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Margins.Left);
-                    sw = (int)(page.Margins.Bottom);
-                    sh = (int)(page.Margins.Left + page.W + page.Margins.Right);
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Bottom);
+                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Bleeds.Left);
+                    sw = (int)(page.Bleeds.Bottom);
+                    sh = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -283,7 +248,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawBleedRight(Graphics g, TemplatePage page, int sH, SolidBrush brush)
         {
-            if (page.Margins.Right == 0) return;
+            if (page.Bleeds.Right == 0) return;
 
             int sx = 0;
             int sy = 0;
@@ -294,27 +259,27 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             {
                 case 0:
                     sx = (int)(page.GetPageDrawX() + page.W);
-                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Margins.Top);
-                    sw = (int)page.Margins.Right;
-                    sh = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
+                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Bleeds.Top);
+                    sw = (int)page.Bleeds.Right;
+                    sh = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
                     break;
                 case 90:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Top);
-                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH()+ page.Margins.Right );
-                    sw = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
-                    sh = (int)page.Margins.Right;
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Top);
+                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH()+ page.Bleeds.Right );
+                    sw = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
+                    sh = (int)page.Bleeds.Right;
                     break;
                 case 180:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Right);
-                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Margins.Top);
-                    sw = (int)page.Margins.Right;
-                    sh = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Right);
+                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Bleeds.Top);
+                    sw = (int)page.Bleeds.Right;
+                    sh = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
                     break;
                 case 270:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Bottom);
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Bottom);
                     sy = sH - (int)(page.GetPageDrawY());
-                    sw = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
-                    sh = (int)page.Margins.Right;
+                    sw = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
+                    sh = (int)page.Bleeds.Right;
                     break;
                 default:
                     throw new NotImplementedException();
@@ -325,7 +290,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawBleedTop(Graphics g, TemplatePage page, int sH, SolidBrush brush)
         {
-            if (page.Margins.Top == 0) return;
+            if (page.Bleeds.Top == 0) return;
 
             int sx = 0;
             int sy = 0;
@@ -335,28 +300,28 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             switch (page.Angle)
             {
                 case 0:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Left);
-                    sy = sH - (int)( page.H + page.GetPageDrawY() + page.Margins.Top);
-                    sw = (int)(page.Margins.Left + page.W + page.Margins.Right);
-                    sh = (int)(page.Margins.Top);
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Left);
+                    sy = sH - (int)( page.H + page.GetPageDrawY() + page.Bleeds.Top);
+                    sw = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
+                    sh = (int)(page.Bleeds.Top);
                     break;
                 case 90:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Top);
-                    sy = sH - (int)(page.GetPageDrawH() + page.GetPageDrawY() + page.Margins.Top);
-                    sw = (int)(page.Margins.Top);
-                    sh = (int)(page.GetPageDrawH() + page.Margins.Left + page.Margins.Right);
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Top);
+                    sy = sH - (int)(page.GetPageDrawH() + page.GetPageDrawY() + page.Bleeds.Top);
+                    sw = (int)(page.Bleeds.Top);
+                    sh = (int)(page.GetPageDrawH() + page.Bleeds.Left + page.Bleeds.Right);
                     break;
                 case 180:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Right);
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Right);
                     sy = sH - (int)(page.GetPageDrawY());
-                    sw = (int)(page.Margins.Left + page.W + page.Margins.Right);
-                    sh = (int)(page.Margins.Top);
+                    sw = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
+                    sh = (int)(page.Bleeds.Top);
                     break;
                 case 270:
                     sx = (int)(page.GetPageDrawX() +page.GetPageDrawW());
-                    sy = sH - (int)(page.GetPageDrawH() + page.GetPageDrawY() + page.Margins.Top);
-                    sw = (int)(page.Margins.Top);
-                    sh = (int)(page.GetPageDrawH() + page.Margins.Left + page.Margins.Right);
+                    sy = sH - (int)(page.GetPageDrawH() + page.GetPageDrawY() + page.Bleeds.Top);
+                    sw = (int)(page.Bleeds.Top);
+                    sh = (int)(page.GetPageDrawH() + page.Bleeds.Left + page.Bleeds.Right);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -367,7 +332,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawBleedLeft(Graphics g, TemplatePage page, int sH, SolidBrush brush)
         {
-            if (page.Margins.Left == 0) return;
+
+            if (page.Bleeds.Left == 0) return;
 
             int sx = 0;
             int sy = 0;
@@ -377,28 +343,28 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             switch (page.Angle)
             {
                 case 0:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Left);
-                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Margins.Top);
-                    sw = (int)page.Margins.Left;
-                    sh = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Left);
+                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Bleeds.Top);
+                    sw = (int)page.Bleeds.Left;
+                    sh = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
                     break;
                 case 90:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Top);
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Top);
                     sy = sH - (int)page.GetPageDrawY();
-                    sw = (int)(page.Margins.Top + page.GetPageDrawW() + page.Margins.Bottom);
-                    sh = (int)(page.Margins.Left);
+                    sw = (int)(page.Bleeds.Top + page.GetPageDrawW() + page.Bleeds.Bottom);
+                    sh = (int)(page.Bleeds.Left);
                     break;
                 case 180:
                     sx = (int)(page.GetPageDrawX() + page.W);
-                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Margins.Top);
-                    sw = (int)page.Margins.Left;
-                    sh = (int)(page.H + page.Margins.Top + page.Margins.Bottom);
+                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Bleeds.Top);
+                    sw = (int)page.Bleeds.Left;
+                    sh = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
                     break;
                 case 270:
-                    sx = (int)(page.GetPageDrawX() - page.Margins.Bottom);
-                    sy = sH - (int)(page.GetPageDrawY() + page.Margins.Left+ page.GetPageDrawH());
-                    sw = (int)(page.Margins.Top + page.GetPageDrawW() + page.Margins.Bottom);
-                    sh = (int)(page.Margins.Left);
+                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Bottom);
+                    sy = sH - (int)(page.GetPageDrawY() + page.Bleeds.Left+ page.GetPageDrawH());
+                    sw = (int)(page.Bleeds.Top + page.GetPageDrawW() + page.Bleeds.Bottom);
+                    sh = (int)(page.Bleeds.Left);
                     break;
                 default:
                     throw new NotImplementedException();

@@ -40,6 +40,7 @@
             this.printSheetsControl1 = new JobSpace.UserForms.PDF.ImposItems.PrintSheetsControl();
             this.runListControl1 = new JobSpace.UserForms.PDF.ImposItems.RunListControl();
             this.btn_SaveToPdf = new System.Windows.Forms.Button();
+            this.cb_UseProofColor = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPageSimple.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -114,6 +115,7 @@
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel2.Controls.Add(this.cb_UseProofColor);
             this.panel2.Controls.Add(this.splitContainer2);
             this.panel2.Controls.Add(this.runListControl1);
             this.panel2.Controls.Add(this.btn_SaveToPdf);
@@ -137,8 +139,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.printSheetsControl1);
-            this.splitContainer2.Size = new System.Drawing.Size(340, 506);
-            this.splitContainer2.SplitterDistance = 211;
+            this.splitContainer2.Size = new System.Drawing.Size(340, 482);
+            this.splitContainer2.SplitterDistance = 200;
             this.splitContainer2.TabIndex = 8;
             // 
             // addTemplateSheetControl1
@@ -147,7 +149,7 @@
             this.addTemplateSheetControl1.Location = new System.Drawing.Point(0, 0);
             this.addTemplateSheetControl1.MinimumSize = new System.Drawing.Size(335, 158);
             this.addTemplateSheetControl1.Name = "addTemplateSheetControl1";
-            this.addTemplateSheetControl1.Size = new System.Drawing.Size(340, 211);
+            this.addTemplateSheetControl1.Size = new System.Drawing.Size(340, 200);
             this.addTemplateSheetControl1.TabIndex = 6;
             // 
             // printSheetsControl1
@@ -155,8 +157,9 @@
             this.printSheetsControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.printSheetsControl1.Location = new System.Drawing.Point(0, 0);
             this.printSheetsControl1.Name = "printSheetsControl1";
-            this.printSheetsControl1.OnPrintSheetsChanged = ((System.EventHandler<JobSpace.Static.Pdf.Imposition.Models.PrintSheet>)(resources.GetObject("printSheetsControl1.OnPrintSheetsChanged")));
-            this.printSheetsControl1.Size = new System.Drawing.Size(340, 291);
+            this.printSheetsControl1.OnPrintSheetDeleted = ((System.EventHandler<JobSpace.Static.Pdf.Imposition.Models.PrintSheet>)(resources.GetObject("printSheetsControl1.OnPrintSheetDeleted")));
+            this.printSheetsControl1.OnPrintSheetsChanged = null;
+            this.printSheetsControl1.Size = new System.Drawing.Size(340, 278);
             this.printSheetsControl1.TabIndex = 7;
             // 
             // runListControl1
@@ -182,6 +185,17 @@
             this.btn_SaveToPdf.UseVisualStyleBackColor = false;
             this.btn_SaveToPdf.Click += new System.EventHandler(this.btn_SaveToPdf_Click);
             // 
+            // cb_UseProofColor
+            // 
+            this.cb_UseProofColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cb_UseProofColor.AutoSize = true;
+            this.cb_UseProofColor.Location = new System.Drawing.Point(228, 500);
+            this.cb_UseProofColor.Name = "cb_UseProofColor";
+            this.cb_UseProofColor.Size = new System.Drawing.Size(129, 17);
+            this.cb_UseProofColor.TabIndex = 9;
+            this.cb_UseProofColor.Text = "малювати ProofColor";
+            this.cb_UseProofColor.UseVisualStyleBackColor = true;
+            // 
             // FormPdfImposition
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -199,6 +213,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -220,5 +235,6 @@
         private ImposItems.PrintSheetsControl printSheetsControl1;
         private ImposItems.AddTemplateSheetControl addTemplateSheetControl1;
         private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.CheckBox cb_UseProofColor;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobSpace.Static.Pdf.Imposition.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Models
     {
         public PlaceVariantNonRotated(LooseBindingParameters bindingParameters) : base(bindingParameters)
         {
-            var page = bindingParameters.Sheet.MasterPage;
+            TemplatePage page = bindingParameters.Sheet.MasterPage;
             Calc(page.W + page.Margins.Left + page.Margins.Right,
                  page.H + page.Margins.Bottom + page.Margins.Top);
         }

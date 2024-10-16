@@ -16,7 +16,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public string FileName { get; set; }
 
         public string ShortName { get; set; }
-        public bool IsMediaboxCentered { get; set; } = true;
+        public bool IsMediaboxCentered { get; set; } = false;
 
         public PdfFilePage[] Pages { get; private set; }
         public PdfFile(string fileName)

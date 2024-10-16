@@ -44,10 +44,10 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.textBoxBigovky = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.cb_b = new System.Windows.Forms.CheckBox();
+            this.cb_y = new System.Windows.Forms.CheckBox();
+            this.cb_m = new System.Windows.Forms.CheckBox();
+            this.cb_c = new System.Windows.Forms.CheckBox();
             this.numK = new System.Windows.Forms.NumericUpDown();
             this.numY = new System.Windows.Forms.NumericUpDown();
             this.numM = new System.Windows.Forms.NumericUpDown();
@@ -243,10 +243,10 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.label7);
-            this.groupBox6.Controls.Add(this.label6);
-            this.groupBox6.Controls.Add(this.label5);
-            this.groupBox6.Controls.Add(this.label4);
+            this.groupBox6.Controls.Add(this.cb_b);
+            this.groupBox6.Controls.Add(this.cb_y);
+            this.groupBox6.Controls.Add(this.cb_m);
+            this.groupBox6.Controls.Add(this.cb_c);
             this.groupBox6.Controls.Add(this.numK);
             this.groupBox6.Controls.Add(this.numY);
             this.groupBox6.Controls.Add(this.numM);
@@ -258,41 +258,53 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Колір";
             // 
-            // label7
+            // cb_b
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(172, 27);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(14, 13);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "K";
+            this.cb_b.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_b.AutoSize = true;
+            this.cb_b.Location = new System.Drawing.Point(169, 19);
+            this.cb_b.Name = "cb_b";
+            this.cb_b.Size = new System.Drawing.Size(24, 23);
+            this.cb_b.TabIndex = 10;
+            this.cb_b.Text = "K";
+            this.cb_b.UseVisualStyleBackColor = true;
+            this.cb_b.CheckedChanged += new System.EventHandler(this.cb_b_CheckedChanged);
             // 
-            // label6
+            // cb_y
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(121, 27);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(14, 13);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "Y";
+            this.cb_y.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_y.AutoSize = true;
+            this.cb_y.Location = new System.Drawing.Point(120, 19);
+            this.cb_y.Name = "cb_y";
+            this.cb_y.Size = new System.Drawing.Size(24, 23);
+            this.cb_y.TabIndex = 9;
+            this.cb_y.Text = "Y";
+            this.cb_y.UseVisualStyleBackColor = true;
+            this.cb_y.CheckedChanged += new System.EventHandler(this.cb_y_CheckedChanged);
             // 
-            // label5
+            // cb_m
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(75, 27);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(16, 13);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "M";
+            this.cb_m.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_m.AutoSize = true;
+            this.cb_m.Location = new System.Drawing.Point(71, 19);
+            this.cb_m.Name = "cb_m";
+            this.cb_m.Size = new System.Drawing.Size(26, 23);
+            this.cb_m.TabIndex = 8;
+            this.cb_m.Text = "M";
+            this.cb_m.UseVisualStyleBackColor = true;
+            this.cb_m.CheckedChanged += new System.EventHandler(this.cb_m_CheckedChanged);
             // 
-            // label4
+            // cb_c
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(22, 27);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(14, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "C";
+            this.cb_c.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_c.AutoSize = true;
+            this.cb_c.Location = new System.Drawing.Point(22, 19);
+            this.cb_c.Name = "cb_c";
+            this.cb_c.Size = new System.Drawing.Size(24, 23);
+            this.cb_c.TabIndex = 7;
+            this.cb_c.Text = "C";
+            this.cb_c.UseVisualStyleBackColor = true;
+            this.cb_c.CheckedChanged += new System.EventHandler(this.cb_c_CheckedChanged);
             // 
             // numK
             // 
@@ -391,13 +403,13 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TextBox textBoxBigovky;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown numK;
         private System.Windows.Forms.NumericUpDown numY;
         private System.Windows.Forms.NumericUpDown numM;
         private System.Windows.Forms.NumericUpDown numC;
+        private System.Windows.Forms.CheckBox cb_b;
+        private System.Windows.Forms.CheckBox cb_y;
+        private System.Windows.Forms.CheckBox cb_m;
+        private System.Windows.Forms.CheckBox cb_c;
     }
 }
