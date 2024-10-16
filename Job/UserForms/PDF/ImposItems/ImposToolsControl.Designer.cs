@@ -51,7 +51,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel1.Controls.Add(this.cb_select, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.cb_rotate_180, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.cb_rotate_180, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tb_front, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.tb_back, 3, 6);
             this.tableLayoutPanel1.Controls.Add(this.btn_switch_front_back, 1, 6);
@@ -79,25 +79,26 @@
             // 
             this.cb_select.Appearance = System.Windows.Forms.Appearance.Button;
             this.cb_select.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.cb_select, 2);
+            this.cb_select.Checked = true;
+            this.cb_select.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_select.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cb_select.Image = ((System.Drawing.Image)(resources.GetObject("cb_select.Image")));
             this.cb_select.Location = new System.Drawing.Point(3, 3);
             this.cb_select.Name = "cb_select";
-            this.cb_select.Size = new System.Drawing.Size(61, 33);
+            this.cb_select.Size = new System.Drawing.Size(41, 33);
             this.cb_select.TabIndex = 0;
             this.cb_select.UseVisualStyleBackColor = true;
+            this.cb_select.CheckedChanged += new System.EventHandler(this.cb_select_CheckedChanged_1);
             // 
             // cb_rotate_180
             // 
             this.cb_rotate_180.Appearance = System.Windows.Forms.Appearance.Button;
             this.cb_rotate_180.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.cb_rotate_180, 2);
             this.cb_rotate_180.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cb_rotate_180.Image = ((System.Drawing.Image)(resources.GetObject("cb_rotate_180.Image")));
-            this.cb_rotate_180.Location = new System.Drawing.Point(70, 3);
+            this.cb_rotate_180.Location = new System.Drawing.Point(3, 42);
             this.cb_rotate_180.Name = "cb_rotate_180";
-            this.cb_rotate_180.Size = new System.Drawing.Size(63, 33);
+            this.cb_rotate_180.Size = new System.Drawing.Size(41, 34);
             this.cb_rotate_180.TabIndex = 1;
             this.cb_rotate_180.UseVisualStyleBackColor = true;
             // 

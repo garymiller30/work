@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -30,6 +32,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
             tb_front.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
             tb_back.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
             btn_switch_front_back.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
+            btn_sameNumber.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
+            btn_listNumber.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
+
         }
 
         public void InitParameters(ImposToolsParameters param)
@@ -59,12 +64,26 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void cb_rotate_180_CheckedChanged(object sender, EventArgs e)
         {
-            parameters.IsFlipAngle = cb_rotate_180.Checked;
+            bool check = cb_rotate_180.Checked;
+            if (check)
+            {
+                parameters.IsFlipAngle = check;
+                parameters.IsNumering = !check;
+                cb_EnableNumering.Checked = !check;
+                cb_select.Checked = !check;
+            }
         }
 
         private void cb_EnableNumering_CheckedChanged(object sender, EventArgs e)
         {
-            parameters.IsNumering = cb_EnableNumering.Checked;
+            bool check = cb_EnableNumering.Checked;
+            if (check)
+            {
+                parameters.IsNumering = check;
+                parameters.IsFlipAngle = !check;
+                cb_rotate_180.Checked = !check;
+                cb_select.Checked = !check;
+            }
         }
 
         private void tb_front_TextChanged(object sender, EventArgs e)
@@ -98,6 +117,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void btn_listNumber_Click(object sender, EventArgs e)
         {
             parameters.OnListNumberClick(sender, e);
+        }
+
+        private void cb_select_CheckedChanged_1(object sender, EventArgs e)
+        {
+            bool check = cb_select.Checked;
+            if (check)
+            {
+                parameters.IsFlipAngle = false;
+                parameters.IsNumering = false;
+                cb_rotate_180.Checked = !check;
+                cb_EnableNumering.Checked = !check;
+
+            }
         }
     }
 }
