@@ -1,5 +1,6 @@
 ﻿using ExtensionMethods;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
@@ -52,6 +53,39 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 sheets.Add(sheet);
             }
             return sheets;
+        }
+
+        public static bool DeleteSheet(TemplateSheet sheet)
+        {
+            string fileName = sheet.Description.Transliteration();
+            string filePath = Path.Combine(SheetPath, fileName + ".json");
+            try
+            {
+                File.Delete(filePath);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+            
+        }
+
+        public static void SaveResourceMarks(List<MarksContainer> marks)
+        {
+            string filePath = Path.Combine(MarksPath, "resource_marks.json");
+            string marksStr = JsonSerializer.Serialize(marks);
+            File.WriteAllText(filePath, marksStr);
+        }
+
+        public static List<MarksContainer> LoadResourceMarks()
+        {
+            string filePath = Path.Combine(MarksPath, "resource_marks.json");
+            if (!File.Exists(filePath)) return new List<MarksContainer>();
+
+            string marksStr = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<List<MarksContainer>>(marksStr);
         }
     }
 }

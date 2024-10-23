@@ -10,6 +10,7 @@ namespace JobSpace.UserForms
     public sealed partial class FormEditFolder : Form
     {
         private IUserProfile _profile;
+        public string NewName { get => textBox_Name.Text;}
 
         public FormEditFolder()
         {
@@ -45,6 +46,11 @@ namespace JobSpace.UserForms
             textBox_Name.Text = name;
 
             if (name != null) textBox_Name.Select(0, Path.GetFileNameWithoutExtension(name).Length);
+        }
+
+        public FormEditFolder(string name,string title):this(name)
+        {
+            this.Text = title;
         }
 
         private void buttonQuickMenu_Click(object sender, EventArgs e)

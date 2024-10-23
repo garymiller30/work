@@ -12,7 +12,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         public double Yofs { get; set; } = 0;
 
         public AnchorPoint MarkAnchorPoint { get; set; } = AnchorPoint.Center;
-        public AnchorPoint ParentAnchorPoint { get; set; } = AnchorPoint.BottomLeft;
+        public AnchorPoint ParentAnchorPoint { get; set; } = AnchorPoint.Center;
 
         public bool IsFront { get; set; } = true;
         public bool IsBack { get; set; } = true;

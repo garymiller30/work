@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using JobSpace.Ext;
 
 namespace JobSpace.UserForms.PDF.ImposItems
 {
@@ -106,7 +107,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void InitSheets()
         {
-            comboBoxSheetPlaceType.DataSource = Enum.GetNames(typeof(TemplateSheetPlaceType));
+            comboBoxSheetPlaceType.DataSource = Extensions.GetDescriptions(typeof(TemplateSheetPlaceType));
 
             var sheets = SaveLoadService.LoadSheets();
             if (sheets.Any())
@@ -216,6 +217,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void nud_info_w_MouseClick(object sender, MouseEventArgs e)
         {
             ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
+
+        private void btn_delSheet_Click(object sender, EventArgs e)
+        {
+            if (comboBoxSheets.SelectedItem is TemplateSheet sheet)
+            {
+                if (SaveLoadService.DeleteSheet(sheet)) comboBoxSheets.Items.Remove(sheet);
+            }
         }
     }
 }
