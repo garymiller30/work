@@ -44,7 +44,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             olvColumIdx.AspectGetter += delegate (object r)
             {
                 var page = (ImposRunPage)r;
-
                 var list = objectListViewRunList.Objects.Cast<ImposRunPage>().ToList();
 
                 int idx = list.IndexOf(page) + 1;

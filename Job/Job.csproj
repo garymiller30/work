@@ -106,6 +106,12 @@
       <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.8.0.1\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Web.WebView2.Core">
+      <HintPath>..\packages\Microsoft.Web.WebView2.1.0.2420.47\lib\net45\Microsoft.Web.WebView2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.WinForms">
+      <HintPath>..\packages\Microsoft.Web.WebView2.1.0.2420.47\lib\net45\Microsoft.Web.WebView2.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>
@@ -303,6 +309,7 @@
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantRotated.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantWorkAndTurnNonRotated.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantWorkAndTurnRotated.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\MarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PdfMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PositioningService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\SaveLoadService.cs" />
@@ -668,6 +675,18 @@
     <Compile Include="UserForms\PDF\ImposItems\AddTemplateSheetControl.Designer.cs">
       <DependentUpon>AddTemplateSheetControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\AnchorPointControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\AnchorPointControl.Designer.cs">
+      <DependentUpon>AnchorPointControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormAddPdfMark.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormAddPdfMark.Designer.cs">
+      <DependentUpon>FormAddPdfMark.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\ImposItems\FormAddSheet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -770,6 +789,10 @@
     <ProjectReference Include="..\MailNotifier\MailNotifier.csproj">
       <Project>{32ff055b-5267-4802-bdc7-94d965cd730c}</Project>
       <Name>MailNotifier</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginFileshareWeb\PluginFileshareWeb.csproj">
+      <Project>{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}</Project>
+      <Name>PluginFileshareWeb</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plugins\Plugins.csproj">
       <Project>{348b842c-d367-46bc-9c46-4e5114ee9b56}</Project>
@@ -906,6 +929,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\AddTemplateSheetControl.resx">
       <DependentUpon>AddTemplateSheetControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\AnchorPointControl.resx">
+      <DependentUpon>AnchorPointControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddPdfMark.resx">
+      <DependentUpon>FormAddPdfMark.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddSheet.resx">
       <DependentUpon>FormAddSheet.cs</DependentUpon>

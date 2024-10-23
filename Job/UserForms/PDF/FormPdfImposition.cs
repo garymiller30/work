@@ -92,7 +92,7 @@ namespace JobSpace.UserForms.PDF
             _controlBindParameters.PdfFiles = _pdfFiles;
             
             pdfFileListControl1.SetControlBindParameters(_controlBindParameters);
-
+            runListControl1.SetControlBindParameters(_controlBindParameters) ;
         }
 
         private void InitImposTools()

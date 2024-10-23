@@ -10,6 +10,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 {
     public class MarksContainer
     {
+        public string Id { get;set; } = Guid.NewGuid().ToString();
+        public string ParentId { get;set; }
         public string Name { get; set; } = "Marks";
         public List<MarksContainer> Containers { get; set; } = new List<MarksContainer>();
         public List<PdfMark> Pdf { get; set; } = new List<PdfMark>();
@@ -22,6 +24,11 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         public void Add(params TextMark[] marks)
         {
             Text.AddRange(marks);
+        }
+
+        public void Add(params MarksContainer[] marks)
+        {
+            Containers.AddRange(marks);
         }
 
         public static void Save(MarksContainer group, string fileName)

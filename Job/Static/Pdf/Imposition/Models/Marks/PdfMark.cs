@@ -8,6 +8,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 {
     public class PdfMark
     {
+        public string Id {get;set; } = Guid.NewGuid().ToString();
+        public string Name {get;set; }
         public PointD Front { get; set; }
         public PointD Back { get; set; }
 
@@ -32,12 +34,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
         public double GetW()
         {
-            return File.Pages[0].Media.W;
+            return File?.Pages[0].Media.W ?? 0;
         }
 
         public double GetH()
         {
-            return File.Pages[0].Media.H;
+            return File?.Pages[0].Media.H ?? 0;
         }
     }
 }

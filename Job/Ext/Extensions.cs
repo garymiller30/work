@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -162,6 +164,38 @@ namespace JobSpace.Ext
         {
             return str.Replace("$OrderNumber", job.Number)
                 .Replace("$OrderDescription", job.Description);
+        }
+
+        public static string GetDescription(this Enum enumValue)
+        {
+            var field = enumValue.GetType().GetField(enumValue.ToString());
+            if (field == null)
+                return enumValue.ToString();
+
+            var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            if (Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is DescriptionAttribute attribute)
+            {
+                return attribute.Description;
+            }
+
+            return enumValue.ToString();
+        }
+
+        public static IEnumerable<string> GetDescriptions(Type type)
+        {
+            var descs = new List<string>();
+            var names = Enum.GetNames(type);
+            foreach (var name in names)
+            {
+                var field = type.GetField(name);
+                var fds = field.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                foreach (DescriptionAttribute fd in fds)
+                {
+                    descs.Add(fd.Description);
+                }
+            }
+            return descs;
+
         }
     }
 }
