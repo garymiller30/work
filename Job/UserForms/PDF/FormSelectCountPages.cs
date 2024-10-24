@@ -19,6 +19,7 @@ namespace PDFManipulate.Forms
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
+            numericUpDown1.Select();
         }
 
         private void ButtonOk_Click(object sender, EventArgs e)
@@ -97,6 +98,20 @@ namespace PDFManipulate.Forms
             return false;
         }
 
+        private void numericUpDown1_MouseClick(object sender, MouseEventArgs e)
+        {
+            numericUpDown1.Select(0,numericUpDown1.Text.Length);
+        }
 
+        private void numericUpDown1_Enter(object sender, EventArgs e)
+        {
+            numericUpDown1.Select(0, numericUpDown1.Text.Length);
+            radioButtonFixed.Checked = true;
+        }
+
+        private void textBoxCustom_Enter(object sender, EventArgs e)
+        {
+            radioButtonCustom.Checked = true;
+        }
     }
 }

@@ -161,5 +161,10 @@ namespace JobSpace.UserForms.PDF
 
             return ((int)R, (int)G, (int)B);
         }
+
+        private void numericUpDown1_Click(object sender, EventArgs e)
+        {
+            ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
     }
 }

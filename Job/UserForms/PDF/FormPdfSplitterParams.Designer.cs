@@ -92,6 +92,8 @@
             this.numericUpDownTo.Size = new System.Drawing.Size(60, 20);
             this.numericUpDownTo.TabIndex = 3;
             this.numericUpDownTo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownTo.Click += new System.EventHandler(this.numericUpDownFrom_Click);
+            this.numericUpDownTo.Enter += new System.EventHandler(this.numericUpDownFrom_Click);
             // 
             // numericUpDownFrom
             // 
@@ -115,6 +117,8 @@
             0,
             0,
             0});
+            this.numericUpDownFrom.Click += new System.EventHandler(this.numericUpDownFrom_Click);
+            this.numericUpDownFrom.Enter += new System.EventHandler(this.numericUpDownFrom_Click);
             // 
             // label2
             // 
@@ -171,6 +175,8 @@
             0,
             0,
             0});
+            this.numericUpDownBleed.Click += new System.EventHandler(this.numericUpDownFrom_Click);
+            this.numericUpDownBleed.Enter += new System.EventHandler(this.numericUpDownFrom_Click);
             // 
             // label5
             // 

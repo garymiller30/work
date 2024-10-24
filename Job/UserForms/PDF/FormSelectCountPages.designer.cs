@@ -61,6 +61,8 @@
             0,
             0,
             0});
+            this.numericUpDown1.Enter += new System.EventHandler(this.numericUpDown1_Enter);
+            this.numericUpDown1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.numericUpDown1_MouseClick);
             // 
             // buttonOk
             // 
@@ -101,7 +103,8 @@
             this.textBoxCustom.Location = new System.Drawing.Point(166, 55);
             this.textBoxCustom.Name = "textBoxCustom";
             this.textBoxCustom.Size = new System.Drawing.Size(175, 20);
-            this.textBoxCustom.TabIndex = 3;
+            this.textBoxCustom.TabIndex = 1;
+            this.textBoxCustom.Enter += new System.EventHandler(this.textBoxCustom_Enter);
             // 
             // radioButtonCustom
             // 

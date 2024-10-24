@@ -42,7 +42,7 @@
             this.radioButtonTrimbox = new System.Windows.Forms.RadioButton();
             this.radioButtonMediabox = new System.Windows.Forms.RadioButton();
             this.buttonOk = new System.Windows.Forms.Button();
-            this.ucSelectStandartPageFormat1 = new UC.UcSelectStandartPageFormat();
+            this.ucSelectStandartPageFormat1 = new JobSpace.UC.UcSelectStandartPageFormat();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -88,6 +88,7 @@
             0,
             0,
             0});
+            this.numericUpDownWidth.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
             this.numericUpDownWidth.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // label1
@@ -126,6 +127,7 @@
             0,
             0,
             0});
+            this.numericUpDownHeight.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
             this.numericUpDownHeight.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // numericUpDownBleed
@@ -146,6 +148,7 @@
             0,
             0,
             0});
+            this.numericUpDownBleed.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
             this.numericUpDownBleed.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // label3
@@ -241,7 +244,7 @@
             this.ucSelectStandartPageFormat1.Name = "ucSelectStandartPageFormat1";
             this.ucSelectStandartPageFormat1.Size = new System.Drawing.Size(112, 48);
             this.ucSelectStandartPageFormat1.TabIndex = 9;
-            this.ucSelectStandartPageFormat1.PaperFormatChanged += new System.EventHandler<Static.Pdf.Common.PaperFormat>(this.ucSelectStandartPageFormat1_PaperFormatChanged);
+            this.ucSelectStandartPageFormat1.PaperFormatChanged += new System.EventHandler<JobSpace.Static.Pdf.Common.PaperFormat>(this.ucSelectStandartPageFormat1_PaperFormatChanged);
             // 
             // button1
             // 
@@ -346,6 +349,8 @@
             0,
             0});
             this.numericUpDownVal.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.numericUpDownVal.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
+            this.numericUpDownVal.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // label5
             // 

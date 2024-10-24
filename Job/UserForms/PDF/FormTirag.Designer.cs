@@ -48,6 +48,7 @@ namespace JobSpace.Dlg
             this.numericUpDown1.Size = new System.Drawing.Size(117, 26);
             this.numericUpDown1.TabIndex = 0;
             this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDown1.Click += new System.EventHandler(this.numericUpDown1_Enter);
             this.numericUpDown1.Enter += new System.EventHandler(this.numericUpDown1_Enter);
             // 
             // buttonOk
