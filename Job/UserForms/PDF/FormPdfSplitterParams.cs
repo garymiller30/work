@@ -30,5 +30,10 @@ namespace JobSpace.UserForms
 
             DialogResult = DialogResult.OK;
         }
+
+        private void numericUpDownFrom_Click(object sender, EventArgs e)
+        {
+            ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
     }
 }

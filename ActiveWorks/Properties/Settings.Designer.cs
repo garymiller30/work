@@ -12,7 +12,7 @@ namespace ActiveWorks.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -71,43 +71,6 @@ namespace ActiveWorks.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("8.6.1\r\n-----------------\r\n+ в утіліти для PDF -> змінення розміру сторінок\r\n+ в у" +
-            "тіліти для PDF -> розділення розворотів навпіл\r\n\r\n8.4.1\r\n-----------------\r\n+ до" +
-            "дав стандартні формати у діалог виставлення трім боксів\r\n\r\n8.3.1\r\n--------------" +
-            "---\r\n+ можливість зберігати файли Signa Station у папці з замовленням\r\n+ Скиданн" +
-            "я положень вікон без перезапуску програми\r\n+ Зміни в браузері без перезапуску пр" +
-            "ограми\r\n\r\n\r\n8.0.0\r\n-----------------\r\nПерехід на net 4.8 і mongodb 4.4. Несумісн" +
-            "о з попередньою версією\r\n+ створення jpg прев\'ю з pdf\r\n+ видалення категорій у н" +
-            "алаштуваннях\r\n\r\n7.8.10\r\n-----------------\r\n+ додав \"Утиліти для PDF\" -> \"Розверн" +
-            "ути сторінки на 90° дзеркально\". Непарні сторінки розветаються на 90° проти годи" +
-            "нникової стрілки. Парні - за годинниковою стрілкою.\r\n+ при відправлені листа пок" +
-            "азує сумартий об\'єм вкладень\r\n\r\n\r\n7.6.10\r\n-----------------\r\n+ додав генератор п" +
-            "устишок Pdf з тиражами для Signa. Викликається через контекстне меню у браузері:" +
-            " \"Утиліти для PDF\" -> \"Створити \"пустишки\" з тиражами\"\r\n\r\n7.5.10\r\n--------------" +
-            "----\r\n+ переробив фонові задачі.\r\n\r\n7.4.9\r\n------------------\r\n+ в PDF utils дод" +
-            "ав \"розділення файлу на обкладинку і блок\"\r\n\r\n7.4.8\r\n------------------\r\n* при п" +
-            "равому кліку у вікні з файлами, якщо нема активного замовлення, вискакувала поми" +
-            "лка\r\n\r\n7.4.7\r\n-------------------\r\n* зберігається історія пошуку при перезапуску" +
-            " програми\r\n\r\n7.4.6\r\n-------------------\r\n* при видаленні файла, показує хто блок" +
-            "ує файл.\r\n\r\n7.4.5\r\n--------------------\r\n+ перенесено у плагін RabbitMq\r\n* випра" +
-            "влено помилки з відправкою лишніх повідомлень через RabbitMq\r\n\r\n7.3.3\r\n---------" +
-            "-----------\r\n+ опція в налаштуваннях для конвертації в PDF. \r\n\r\n7.2.3\r\n---------" +
-            "------------\r\n+ при нажатому Shift примусово створюється новий шаблон для Signa\r" +
-            "\n\r\n7.1.3\r\n---------------------\r\n* не оновлювалось кількість файлів при видаленн" +
-            "і\r\n\r\n7.1.2\r\n---------------------\r\n* виправлено помилку з програванням звуків пр" +
-            "и нових файлах на ftp\r\n\r\n7.1.1\r\n---------------------\r\n* виправлено подвійний за" +
-            "пуск додатків\r\n\r\n7.0.0 beta 37\r\n---------------------\r\n+ додана подія \"Available" +
-            "Sound.Ftp_StopTimer\" для плагінів на FtpExplorer.TimerStop() \r\n\r\n7.0.0 beta 36\r\n" +
-            "---------------------\r\n+ додано можливість зупиняти таймер автоматичної перевірк" +
-            "и FTP із скрипта.\r\n  Викликається так: FtpExplorer.TimerStop()")]
-        public string WhatNew {
-            get {
-                return ((string)(this["WhatNew"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
@@ -153,6 +116,47 @@ namespace ActiveWorks.Properties {
             }
             set {
                 this["VirtualScreenH"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\r\n\t\t\t\t\t8.6.1\r\n\t\t\t\t\t-----------------\r\n\t\t\t\t\t+ в утіліти для PDF -> змінення розмір" +
+            "у сторінок\r\n\t\t\t\t\t+ в утіліти для PDF -> розділення розворотів навпіл\r\n\r\n\t\t\t\t\t8.4" +
+            ".1\r\n\t\t\t\t\t-----------------\r\n\t\t\t\t\t+ додав стандартні формати у діалог виставлення" +
+            " трім боксів\r\n\r\n\t\t\t\t\t8.3.1\r\n\t\t\t\t\t-----------------\r\n\t\t\t\t\t+ можливість зберігати " +
+            "файли Signa Station у папці з замовленням\r\n\t\t\t\t\t+ Скидання положень вікон без пе" +
+            "резапуску програми\r\n\t\t\t\t\t+ Зміни в браузері без перезапуску програми\r\n\r\n\r\n\t\t\t\t\t8" +
+            ".0.0\r\n\t\t\t\t\t-----------------\r\n\t\t\t\t\tПерехід на net 4.8 і mongodb 4.4. Несумісно з" +
+            " попередньою версією\r\n\t\t\t\t\t+ створення jpg прев\'ю з pdf\r\n\t\t\t\t\t+ видалення катего" +
+            "рій у налаштуваннях\r\n\r\n\t\t\t\t\t7.8.10\r\n\t\t\t\t\t-----------------\r\n\t\t\t\t\t+ додав \"Утиліт" +
+            "и для PDF\" -> \"Розвернути сторінки на 90° дзеркально\". Непарні сторінки розветаю" +
+            "ться на 90° проти годинникової стрілки. Парні - за годинниковою стрілкою.\r\n\t\t\t\t\t" +
+            "+ при відправлені листа показує сумартий об\'єм вкладень\r\n\r\n\r\n\t\t\t\t\t7.6.10\r\n\t\t\t\t\t-" +
+            "----------------\r\n\t\t\t\t\t+ додав генератор пустишок Pdf з тиражами для Signa. Викл" +
+            "икається через контекстне меню у браузері: \"Утиліти для PDF\" -> \"Створити \"пусти" +
+            "шки\" з тиражами\"\r\n\r\n\t\t\t\t\t7.5.10\r\n\t\t\t\t\t------------------\r\n\t\t\t\t\t+ переробив фонов" +
+            "і задачі.\r\n\r\n\t\t\t\t\t7.4.9\r\n\t\t\t\t\t------------------\r\n\t\t\t\t\t+ в PDF utils додав \"розд" +
+            "ілення файлу на обкладинку і блок\"\r\n\r\n\t\t\t\t\t7.4.8\r\n\t\t\t\t\t------------------\r\n\t\t\t\t\t" +
+            "* при правому кліку у вікні з файлами, якщо нема активного замовлення, вискакува" +
+            "ла помилка\r\n\r\n\t\t\t\t\t7.4.7\r\n\t\t\t\t\t-------------------\r\n\t\t\t\t\t* зберігається історія " +
+            "пошуку при перезапуску програми\r\n\r\n\t\t\t\t\t7.4.6\r\n\t\t\t\t\t-------------------\r\n\t\t\t\t\t* " +
+            "при видаленні файла, показує хто блокує файл.\r\n\r\n\t\t\t\t\t7.4.5\r\n\t\t\t\t\t--------------" +
+            "------\r\n\t\t\t\t\t+ перенесено у плагін RabbitMq\r\n\t\t\t\t\t* виправлено помилки з відправ" +
+            "кою лишніх повідомлень через RabbitMq\r\n\r\n\t\t\t\t\t7.3.3\r\n\t\t\t\t\t--------------------\r\n" +
+            "\t\t\t\t\t+ опція в налаштуваннях для конвертації в PDF.\r\n\r\n\t\t\t\t\t7.2.3\r\n\t\t\t\t\t--------" +
+            "-------------\r\n\t\t\t\t\t+ при нажатому Shift примусово створюється новий шаблон для " +
+            "Signa\r\n\r\n\t\t\t\t\t7.1.3\r\n\t\t\t\t\t---------------------\r\n\t\t\t\t\t* не оновлювалось кількіст" +
+            "ь файлів при видаленні\r\n\r\n\t\t\t\t\t7.1.2\r\n\t\t\t\t\t---------------------\r\n\t\t\t\t\t* виправл" +
+            "ено помилку з програванням звуків при нових файлах на ftp\r\n\r\n\t\t\t\t\t7.1.1\r\n\t\t\t\t\t--" +
+            "-------------------\r\n\t\t\t\t\t* виправлено подвійний запуск додатків\r\n\r\n\t\t\t\t\t7.0.0 b" +
+            "eta 37\r\n\t\t\t\t\t---------------------\r\n\t\t\t\t\t+ додана подія \"AvailableSound.Ftp_Stop" +
+            "Timer\" для плагінів на FtpExplorer.TimerStop()\r\n\r\n\t\t\t\t\t7.0.0 beta 36\r\n\t\t\t\t\t-----" +
+            "----------------\r\n\t\t\t\t\t+ додано можливість зупиняти таймер автоматичної перевірк" +
+            "и FTP із скрипта.\r\n\t\t\t\t\tВикликається так: FtpExplorer.TimerStop()\r\n\t\t\t\t")]
+        public string WhatNew {
+            get {
+                return ((string)(this["WhatNew"]));
             }
         }
     }

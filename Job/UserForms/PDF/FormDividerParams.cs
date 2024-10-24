@@ -15,6 +15,7 @@ namespace PDFManipulate.Forms
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
+            numericUpDown1.Select();
         }
 
         private void ButtonOk_Click(object sender, EventArgs e)
@@ -81,6 +82,17 @@ namespace PDFManipulate.Forms
         private void FormSelectCountPages_Load(object sender, EventArgs e)
         {
             Activate();
+        }
+
+        private void numericUpDown1_Click(object sender, EventArgs e)
+        {
+            ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+            radioButtonFixed.Checked = true;
+        }
+
+        private void textBoxCustom_Click(object sender, EventArgs e)
+        {
+            radioButtonCustom.Checked = true;
         }
     }
 }

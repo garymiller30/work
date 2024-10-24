@@ -31,10 +31,10 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.buttonOk = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButtonFixed = new System.Windows.Forms.RadioButton();
-            this.radioButtonCustom = new System.Windows.Forms.RadioButton();
-            this.textBoxCustom = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.textBoxCustom = new System.Windows.Forms.TextBox();
+            this.radioButtonCustom = new System.Windows.Forms.RadioButton();
+            this.radioButtonFixed = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -61,6 +61,8 @@
             0,
             0,
             0});
+            this.numericUpDown1.Click += new System.EventHandler(this.numericUpDown1_Click);
+            this.numericUpDown1.Enter += new System.EventHandler(this.numericUpDown1_Click);
             // 
             // buttonOk
             // 
@@ -88,6 +90,33 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "параметри";
             // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(21, 90);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(320, 61);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "кількість вказується через пробіл.\r\nНаприклад: 2 12 4\r\nБуде створено 3 файли з кі" +
+    "лькістю сторінок: 2,12,4";
+            // 
+            // textBoxCustom
+            // 
+            this.textBoxCustom.Location = new System.Drawing.Point(166, 55);
+            this.textBoxCustom.Name = "textBoxCustom";
+            this.textBoxCustom.Size = new System.Drawing.Size(175, 20);
+            this.textBoxCustom.TabIndex = 3;
+            this.textBoxCustom.Click += new System.EventHandler(this.textBoxCustom_Click);
+            // 
+            // radioButtonCustom
+            // 
+            this.radioButtonCustom.AutoSize = true;
+            this.radioButtonCustom.Location = new System.Drawing.Point(21, 55);
+            this.radioButtonCustom.Name = "radioButtonCustom";
+            this.radioButtonCustom.Size = new System.Drawing.Size(131, 17);
+            this.radioButtonCustom.TabIndex = 2;
+            this.radioButtonCustom.Text = "на довільну кількість";
+            this.radioButtonCustom.UseVisualStyleBackColor = true;
+            // 
             // radioButtonFixed
             // 
             this.radioButtonFixed.AutoSize = true;
@@ -100,33 +129,7 @@
             this.radioButtonFixed.Text = "на фіксовану кількість";
             this.radioButtonFixed.UseVisualStyleBackColor = true;
             // 
-            // radioButtonCustom
-            // 
-            this.radioButtonCustom.AutoSize = true;
-            this.radioButtonCustom.Location = new System.Drawing.Point(21, 55);
-            this.radioButtonCustom.Name = "radioButtonCustom";
-            this.radioButtonCustom.Size = new System.Drawing.Size(131, 17);
-            this.radioButtonCustom.TabIndex = 2;
-            this.radioButtonCustom.Text = "на довільну кількість";
-            this.radioButtonCustom.UseVisualStyleBackColor = true;
-            // 
-            // textBoxCustom
-            // 
-            this.textBoxCustom.Location = new System.Drawing.Point(166, 55);
-            this.textBoxCustom.Name = "textBoxCustom";
-            this.textBoxCustom.Size = new System.Drawing.Size(175, 20);
-            this.textBoxCustom.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(21, 90);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(320, 61);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "кількість вказується через пробіл.\r\nНаприклад: 2 12 4\r\nБуде створено 3 файли з кі" +
-    "лькістю сторінок: 2,12,4";
-            // 
-            // FormSelectCountPages
+            // FormDividerParams
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -136,7 +139,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FormSelectCountPages";
+            this.Name = "FormDividerParams";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Кількість сторінок";

@@ -108,6 +108,7 @@
             this.nW.Size = new System.Drawing.Size(60, 20);
             this.nW.TabIndex = 1;
             this.nW.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nW.Click += new System.EventHandler(this.nW_Enter);
             this.nW.Enter += new System.EventHandler(this.nW_Enter);
             // 
             // label2
@@ -134,6 +135,7 @@
             this.nH.Size = new System.Drawing.Size(60, 20);
             this.nH.TabIndex = 3;
             this.nH.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nH.Click += new System.EventHandler(this.nW_Enter);
             this.nH.Enter += new System.EventHandler(this.nW_Enter);
             // 
             // label3
@@ -160,6 +162,7 @@
             this.nCount.Size = new System.Drawing.Size(60, 20);
             this.nCount.TabIndex = 5;
             this.nCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nCount.Click += new System.EventHandler(this.nW_Enter);
             this.nCount.Enter += new System.EventHandler(this.nW_Enter);
             // 
             // label4
@@ -196,6 +199,7 @@
             0,
             0,
             0});
+            this.nMul.Click += new System.EventHandler(this.nW_Enter);
             this.nMul.Enter += new System.EventHandler(this.nW_Enter);
             // 
             // buttonAdd

@@ -28,5 +28,10 @@ namespace JobSpace.Dlg
             Quality = (long) numericUpDown2.Value;
             Close();
         }
+
+        private void numericUpDown1_Click(object sender, EventArgs e)
+        {
+            ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
     }
 }

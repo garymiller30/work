@@ -33,6 +33,7 @@
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.buttonOk = new Krypton.Toolkit.KryptonButton();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.ucSelectStandartPageFormat1 = new JobSpace.UC.UcSelectStandartPageFormat();
             this.kryptonButtonExChange = new Krypton.Toolkit.KryptonButton();
             this.kryptonButtonBleed3 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButtonBleed5 = new Krypton.Toolkit.KryptonButton();
@@ -57,7 +58,6 @@
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
             this.formGetTrimBoxBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.ucSelectStandartPageFormat1 = new UC.UcSelectStandartPageFormat();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
@@ -87,7 +87,6 @@
             // 
             // buttonOk
             // 
-            this.buttonOk.CornerRoundingRadius = -1F;
             this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonOk.Location = new System.Drawing.Point(169, 274);
             this.buttonOk.Name = "buttonOk";
@@ -122,9 +121,18 @@
             this.kryptonGroupBox1.TabIndex = 0;
             this.kryptonGroupBox1.Values.Heading = "";
             // 
+            // ucSelectStandartPageFormat1
+            // 
+            this.ucSelectStandartPageFormat1.AutoSize = true;
+            this.ucSelectStandartPageFormat1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ucSelectStandartPageFormat1.Location = new System.Drawing.Point(282, 3);
+            this.ucSelectStandartPageFormat1.Name = "ucSelectStandartPageFormat1";
+            this.ucSelectStandartPageFormat1.Size = new System.Drawing.Size(112, 48);
+            this.ucSelectStandartPageFormat1.TabIndex = 28;
+            this.ucSelectStandartPageFormat1.PaperFormatChanged += new System.EventHandler<JobSpace.Static.Pdf.Common.PaperFormat>(this.ucSelectStandartPageFormat1_PaperFormatChanged);
+            // 
             // kryptonButtonExChange
             // 
-            this.kryptonButtonExChange.CornerRoundingRadius = -1F;
             this.kryptonButtonExChange.Location = new System.Drawing.Point(184, 24);
             this.kryptonButtonExChange.Name = "kryptonButtonExChange";
             this.kryptonButtonExChange.Size = new System.Drawing.Size(21, 25);
@@ -135,7 +143,6 @@
             // 
             // kryptonButtonBleed3
             // 
-            this.kryptonButtonBleed3.CornerRoundingRadius = -1F;
             this.kryptonButtonBleed3.Location = new System.Drawing.Point(258, 70);
             this.kryptonButtonBleed3.Name = "kryptonButtonBleed3";
             this.kryptonButtonBleed3.Size = new System.Drawing.Size(43, 20);
@@ -145,7 +152,6 @@
             // 
             // kryptonButtonBleed5
             // 
-            this.kryptonButtonBleed5.CornerRoundingRadius = -1F;
             this.kryptonButtonBleed5.Location = new System.Drawing.Point(305, 70);
             this.kryptonButtonBleed5.Name = "kryptonButtonBleed5";
             this.kryptonButtonBleed5.Size = new System.Drawing.Size(43, 20);
@@ -155,7 +161,6 @@
             // 
             // kryptonButtonBleed1
             // 
-            this.kryptonButtonBleed1.CornerRoundingRadius = -1F;
             this.kryptonButtonBleed1.Location = new System.Drawing.Point(164, 70);
             this.kryptonButtonBleed1.Name = "kryptonButtonBleed1";
             this.kryptonButtonBleed1.Size = new System.Drawing.Size(43, 20);
@@ -165,7 +170,6 @@
             // 
             // kryptonButtonBleed2
             // 
-            this.kryptonButtonBleed2.CornerRoundingRadius = -1F;
             this.kryptonButtonBleed2.Location = new System.Drawing.Point(211, 70);
             this.kryptonButtonBleed2.Name = "kryptonButtonBleed2";
             this.kryptonButtonBleed2.Size = new System.Drawing.Size(43, 20);
@@ -191,6 +195,7 @@
             0,
             0,
             0});
+            this.numericUpDownWidth.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
             this.numericUpDownWidth.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // numericUpDownByBleeds
@@ -211,6 +216,7 @@
             0,
             0,
             0});
+            this.numericUpDownByBleeds.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
             this.numericUpDownByBleeds.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // numericUpDownHeight
@@ -231,6 +237,7 @@
             0,
             0,
             0});
+            this.numericUpDownHeight.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
             this.numericUpDownHeight.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // radioButtonBySpread
@@ -274,6 +281,7 @@
             0,
             0,
             0});
+            this.numericUpDownBottom.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
             this.numericUpDownBottom.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // numericUpDownOutside
@@ -294,6 +302,7 @@
             0,
             0,
             0});
+            this.numericUpDownOutside.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
             this.numericUpDownOutside.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // kryptonLabel6
@@ -317,6 +326,7 @@
             this.numericUpDownInside.Size = new System.Drawing.Size(65, 20);
             this.numericUpDownInside.TabIndex = 3;
             this.numericUpDownInside.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDownInside.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
             this.numericUpDownInside.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // numericUpDownTop
@@ -337,6 +347,7 @@
             0,
             0,
             0});
+            this.numericUpDownTop.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
             this.numericUpDownTop.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
             // 
             // kryptonLabel5
@@ -402,16 +413,6 @@
             // 
             this.buttonSpecAny1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Close;
             this.buttonSpecAny1.UniqueName = "f423ee8272694c09961083c2f8053335";
-            // 
-            // ucSelectStandartPageFormat1
-            // 
-            this.ucSelectStandartPageFormat1.AutoSize = true;
-            this.ucSelectStandartPageFormat1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ucSelectStandartPageFormat1.Location = new System.Drawing.Point(282, 3);
-            this.ucSelectStandartPageFormat1.Name = "ucSelectStandartPageFormat1";
-            this.ucSelectStandartPageFormat1.Size = new System.Drawing.Size(112, 48);
-            this.ucSelectStandartPageFormat1.TabIndex = 28;
-            this.ucSelectStandartPageFormat1.PaperFormatChanged += new System.EventHandler<Static.Pdf.Common.PaperFormat>(this.ucSelectStandartPageFormat1_PaperFormatChanged);
             // 
             // FormGetTrimBox
             // 

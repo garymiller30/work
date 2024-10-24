@@ -80,5 +80,10 @@ namespace JobSpace.UserForms.PDF
         {
             numK.Value = cb_b.Checked ? 100 : 0;
         }
+
+        private void numDistanse_Enter(object sender, EventArgs e)
+        {
+            ((NumericUpDown) sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
     }
 }

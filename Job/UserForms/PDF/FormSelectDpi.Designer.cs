@@ -73,6 +73,8 @@
             0,
             0,
             0});
+            this.numericUpDown1.Click += new System.EventHandler(this.numericUpDown1_Click);
+            this.numericUpDown1.Enter += new System.EventHandler(this.numericUpDown1_Click);
             // 
             // label1
             // 
@@ -110,6 +112,8 @@
             0,
             0,
             0});
+            this.numericUpDown2.Click += new System.EventHandler(this.numericUpDown1_Click);
+            this.numericUpDown2.Enter += new System.EventHandler(this.numericUpDown1_Click);
             // 
             // label3
             // 

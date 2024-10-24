@@ -147,6 +147,8 @@
             0,
             0,
             0});
+            this.numLen.Click += new System.EventHandler(this.numDistanse_Enter);
+            this.numLen.Enter += new System.EventHandler(this.numDistanse_Enter);
             // 
             // groupBox3
             // 
@@ -185,6 +187,8 @@
             0,
             0,
             0});
+            this.numDistanse.Click += new System.EventHandler(this.numDistanse_Enter);
+            this.numDistanse.Enter += new System.EventHandler(this.numDistanse_Enter);
             // 
             // groupBox4
             // 
@@ -223,6 +227,8 @@
             0,
             0,
             0});
+            this.numBleed.Click += new System.EventHandler(this.numDistanse_Enter);
+            this.numBleed.Enter += new System.EventHandler(this.numDistanse_Enter);
             // 
             // groupBox5
             // 
@@ -313,11 +319,8 @@
             this.numK.Size = new System.Drawing.Size(43, 20);
             this.numK.TabIndex = 3;
             this.numK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numK.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
+            this.numK.Click += new System.EventHandler(this.numDistanse_Enter);
+            this.numK.Enter += new System.EventHandler(this.numDistanse_Enter);
             // 
             // numY
             // 
@@ -326,6 +329,8 @@
             this.numY.Size = new System.Drawing.Size(43, 20);
             this.numY.TabIndex = 2;
             this.numY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numY.Click += new System.EventHandler(this.numDistanse_Enter);
+            this.numY.Enter += new System.EventHandler(this.numDistanse_Enter);
             // 
             // numM
             // 
@@ -334,6 +339,8 @@
             this.numM.Size = new System.Drawing.Size(43, 20);
             this.numM.TabIndex = 1;
             this.numM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numM.Click += new System.EventHandler(this.numDistanse_Enter);
+            this.numM.Enter += new System.EventHandler(this.numDistanse_Enter);
             // 
             // numC
             // 
@@ -342,6 +349,8 @@
             this.numC.Size = new System.Drawing.Size(43, 20);
             this.numC.TabIndex = 0;
             this.numC.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numC.Click += new System.EventHandler(this.numDistanse_Enter);
+            this.numC.Enter += new System.EventHandler(this.numDistanse_Enter);
             // 
             // FormCreateBigovkaMarks
             // 
