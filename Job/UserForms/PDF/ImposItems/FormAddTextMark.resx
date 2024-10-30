@@ -118,9 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  
-  
-  <metadata name="vistaOpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="label10.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
+        dHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAI2SURBVDhPfVJdSJNhGD23EajQz4V1Uxd1l9ggCL0w
+        xf24dRFBXfSDkDAwSPuhILAgFTc3G0SgMtccIyeyLoKo6EKJyohlmTKbFoMVOuuuq7Kb03lXW/tK/ODw
+        fM/znue8533eF45Oz39wBdFt9+N7kw9s7ANNVE7Vxw8PYHM519JoIOLypbt7+Tx9lbn8sDBUiCY3dSPk
+        GUBHkW8VUHPocSMX832cXHAzmarmvdSOQjS5qZt18SgnDotASwDd58d28fVnLxNvK3hzEmwNgycGf8eQ
+        8vHZCs4se3khsZstQfy0CDh8+PEgc4RjmUqGpkF3ELS14uIeB44dbEePbPPWKzCZreST7FFqQ1oE7BrU
+        o5VaRpe0YxQ0TQCqhE3C1rpz8Ln61WSGqegJ4JtFQA44ka3iaAY8NQIeaEN9ac0QgW2CrQw1hXqJJOV4
+        Ghydk4OIrq0H7aU1QUdY1TUWbJej9OP0Y+32UwnonBMzdTw9uJOOfniL681ymF6Js0nvolgzKP00XEG4
+        TTvHNcDoM/DhrJu99w+ZabOhF+xKgndUn8v5LSJ/lYBqpw9fL4sYewNGUuBU1s35L9c5v3qN7/I3OPwS
+        DMvhdO4snWag5QJ/RPYZkTMxXZkEYh/kZlFiGuzIgpo1o8h7uct61hcoitR3IODyYc0uq8eHwJM6WteU
+        5vMJTHysZbPq4tnWFSgUge3CfkMqQs7oe7GF5rpNXuKWN24E83A8Gmh5s4GFtBH01fzb7Oj04BdLwY5D
+        AjLTywAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <metadata name="fontDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
 </root>

@@ -348,7 +348,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        MarksService.AddPdfMark(container, form.Mark);
+                        MarksService.AddMark(container, form.Mark);
                         RefreshResourceTree();
                     }
                 }
@@ -359,7 +359,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (tlv_MarksResources.SelectedObject is MarksContainer container)
             {
-
+                using (var form = new FormAddTextMark())
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        MarksService.AddMark(container, form.Mark);
+                        RefreshResourceTree();
+                    }
+                }
             }
         }
 
