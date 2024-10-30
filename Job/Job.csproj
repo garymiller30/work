@@ -693,6 +693,12 @@
     <Compile Include="UserForms\PDF\ImposItems\FormAddSheet.Designer.cs">
       <DependentUpon>FormAddSheet.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormAddTextMark.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormAddTextMark.Designer.cs">
+      <DependentUpon>FormAddTextMark.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -704,6 +710,12 @@
     </Compile>
     <Compile Include="UserForms\PDF\ImposItems\ImposToolsControl.Designer.cs">
       <DependentUpon>ImposToolsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MarkColorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MarkColorControl.Designer.cs">
+      <DependentUpon>MarkColorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\ImposItems\MarksControl.cs">
       <SubType>UserControl</SubType>
@@ -935,15 +947,23 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddPdfMark.resx">
       <DependentUpon>FormAddPdfMark.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddSheet.resx">
       <DependentUpon>FormAddSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddTextMark.resx">
+      <DependentUpon>FormAddTextMark.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.resx">
       <DependentUpon>Form_AddTemplateSheet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\ImposToolsControl.resx">
       <DependentUpon>ImposToolsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\MarkColorControl.resx">
+      <DependentUpon>MarkColorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\MarksControl.resx">
       <DependentUpon>MarksControl.cs</DependentUpon>

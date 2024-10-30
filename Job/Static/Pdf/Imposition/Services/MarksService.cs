@@ -79,9 +79,15 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return null;
         }
 
-        public static void AddPdfMark(MarksContainer container, PdfMark mark)
+        public static void AddMark(MarksContainer container, PdfMark mark)
         {
             container.Pdf.Add(mark);
+            SaveResourceMarks();
+        }
+
+        public static void AddMark(MarksContainer container, TextMark mark)
+        {
+            container.Text.Add(mark);
             SaveResourceMarks();
         }
 

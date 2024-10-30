@@ -1,0 +1,486 @@
+﻿namespace JobSpace.UserForms.PDF.ImposItems
+{
+    partial class FormAddTextMark
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddTextMark));
+            this.label8 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.nud_fontSize = new System.Windows.Forms.NumericUpDown();
+            this.label15 = new System.Windows.Forms.Label();
+            this.bnt_fontSelect = new System.Windows.Forms.Button();
+            this.tb_fontName = new System.Windows.Forms.TextBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.anchorPointControl1 = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.anchorPointControl2 = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.btn_ok = new System.Windows.Forms.Button();
+            this.fontDialog1 = new System.Windows.Forms.FontDialog();
+            this.markColorControl1 = new JobSpace.UserForms.PDF.ImposItems.MarkColorControl();
+            this.groupBox1.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_fontSize)).BeginInit();
+            this.groupBox10.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            this.groupBox9.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 9);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(39, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Назва";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(57, 6);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(104, 20);
+            this.textBox2.TabIndex = 1;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(169, 9);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(37, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "Текст";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(212, 6);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(456, 20);
+            this.textBox3.TabIndex = 3;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.groupBox12);
+            this.groupBox1.Controls.Add(this.groupBox11);
+            this.groupBox1.Controls.Add(this.groupBox10);
+            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.groupBox2);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Location = new System.Drawing.Point(12, 32);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(656, 304);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Параметри";
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.markColorControl1);
+            this.groupBox12.Location = new System.Drawing.Point(336, 19);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(311, 216);
+            this.groupBox12.TabIndex = 9;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Колір";
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.label16);
+            this.groupBox11.Controls.Add(this.nud_fontSize);
+            this.groupBox11.Controls.Add(this.label15);
+            this.groupBox11.Controls.Add(this.bnt_fontSelect);
+            this.groupBox11.Controls.Add(this.tb_fontName);
+            this.groupBox11.Location = new System.Drawing.Point(6, 157);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(324, 78);
+            this.groupBox11.TabIndex = 8;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Шрифт";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(117, 51);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(16, 13);
+            this.label16.TabIndex = 4;
+            this.label16.Text = "pt";
+            // 
+            // nud_fontSize
+            // 
+            this.nud_fontSize.Location = new System.Drawing.Point(55, 49);
+            this.nud_fontSize.Name = "nud_fontSize";
+            this.nud_fontSize.Size = new System.Drawing.Size(55, 20);
+            this.nud_fontSize.TabIndex = 3;
+            this.nud_fontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(7, 51);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(42, 13);
+            this.label15.TabIndex = 2;
+            this.label15.Text = "Розмір";
+            // 
+            // bnt_fontSelect
+            // 
+            this.bnt_fontSelect.Location = new System.Drawing.Point(263, 17);
+            this.bnt_fontSelect.Name = "bnt_fontSelect";
+            this.bnt_fontSelect.Size = new System.Drawing.Size(44, 23);
+            this.bnt_fontSelect.TabIndex = 1;
+            this.bnt_fontSelect.Text = "...";
+            this.bnt_fontSelect.UseVisualStyleBackColor = true;
+            this.bnt_fontSelect.Click += new System.EventHandler(this.bnt_fontSelect_Click);
+            // 
+            // tb_fontName
+            // 
+            this.tb_fontName.Location = new System.Drawing.Point(6, 19);
+            this.tb_fontName.Name = "tb_fontName";
+            this.tb_fontName.ReadOnly = true;
+            this.tb_fontName.Size = new System.Drawing.Size(249, 20);
+            this.tb_fontName.TabIndex = 0;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.groupBox8);
+            this.groupBox10.Controls.Add(this.groupBox9);
+            this.groupBox10.Location = new System.Drawing.Point(6, 19);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(324, 132);
+            this.groupBox10.TabIndex = 3;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Положення відносно";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.label11);
+            this.groupBox8.Controls.Add(this.label12);
+            this.groupBox8.Controls.Add(this.numericUpDown1);
+            this.groupBox8.Controls.Add(this.numericUpDown2);
+            this.groupBox8.Controls.Add(this.label13);
+            this.groupBox8.Controls.Add(this.label14);
+            this.groupBox8.Controls.Add(this.anchorPointControl1);
+            this.groupBox8.Location = new System.Drawing.Point(102, 20);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(216, 100);
+            this.groupBox8.TabIndex = 1;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "батьківського елемента";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(181, 64);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(23, 13);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "мм";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(182, 30);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(23, 13);
+            this.label12.TabIndex = 6;
+            this.label12.Text = "мм";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.DecimalPlaces = 1;
+            this.numericUpDown1.Location = new System.Drawing.Point(132, 62);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(43, 20);
+            this.numericUpDown1.TabIndex = 5;
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.DecimalPlaces = 1;
+            this.numericUpDown2.Location = new System.Drawing.Point(132, 28);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Minimum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(43, 20);
+            this.numericUpDown2.TabIndex = 4;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(92, 64);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(34, 13);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "Y ofs:";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(92, 30);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(34, 13);
+            this.label14.TabIndex = 2;
+            this.label14.Text = "X ofs:";
+            // 
+            // anchorPointControl1
+            // 
+            this.anchorPointControl1.AnchorPointChanged = null;
+            this.anchorPointControl1.Location = new System.Drawing.Point(6, 14);
+            this.anchorPointControl1.Name = "anchorPointControl1";
+            this.anchorPointControl1.Size = new System.Drawing.Size(80, 80);
+            this.anchorPointControl1.TabIndex = 1;
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.anchorPointControl2);
+            this.groupBox9.Location = new System.Drawing.Point(6, 20);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(90, 100);
+            this.groupBox9.TabIndex = 0;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "мітки";
+            // 
+            // anchorPointControl2
+            // 
+            this.anchorPointControl2.AnchorPointChanged = null;
+            this.anchorPointControl2.Location = new System.Drawing.Point(6, 14);
+            this.anchorPointControl2.Name = "anchorPointControl2";
+            this.anchorPointControl2.Size = new System.Drawing.Size(80, 80);
+            this.anchorPointControl2.TabIndex = 0;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(504, 258);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(62, 21);
+            this.comboBox1.TabIndex = 7;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.checkBox1);
+            this.groupBox2.Controls.Add(this.checkBox2);
+            this.groupBox2.Controls.Add(this.checkBox3);
+            this.groupBox2.Location = new System.Drawing.Point(6, 241);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(402, 55);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox1.Location = new System.Drawing.Point(175, 17);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(219, 31);
+            this.checkBox1.TabIndex = 2;
+            this.checkBox1.Text = "дзеркальне положення на звороті";
+            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox2.Location = new System.Drawing.Point(92, 15);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(77, 33);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "зворот";
+            this.checkBox2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox3.Location = new System.Drawing.Point(6, 15);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(80, 33);
+            this.checkBox3.TabIndex = 0;
+            this.checkBox3.Text = "лице";
+            this.checkBox3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.Image = ((System.Drawing.Image)(resources.GetObject("label10.Image")));
+            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label10.Location = new System.Drawing.Point(425, 256);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(73, 23);
+            this.label10.TabIndex = 6;
+            this.label10.Text = "Поворот";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btn_ok
+            // 
+            this.btn_ok.Location = new System.Drawing.Point(281, 342);
+            this.btn_ok.Name = "btn_ok";
+            this.btn_ok.Size = new System.Drawing.Size(110, 39);
+            this.btn_ok.TabIndex = 5;
+            this.btn_ok.Text = "OK";
+            this.btn_ok.UseVisualStyleBackColor = true;
+            // 
+            // markColorControl1
+            // 
+            this.markColorControl1.Location = new System.Drawing.Point(7, 34);
+            this.markColorControl1.Name = "markColorControl1";
+            this.markColorControl1.Size = new System.Drawing.Size(298, 146);
+            this.markColorControl1.TabIndex = 0;
+            // 
+            // FormAddTextMark
+            // 
+            this.ClientSize = new System.Drawing.Size(676, 390);
+            this.Controls.Add(this.btn_ok);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.label8);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "FormAddTextMark";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Текстова мітка";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_fontSize)).EndInit();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.TextBox tb_name;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox cb_Angle;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.CheckBox cb_backMirror;
+        private System.Windows.Forms.CheckBox cb_back;
+        private System.Windows.Forms.CheckBox cb_front;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown nud_yOfs;
+        private System.Windows.Forms.NumericUpDown nud_Xofs;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label7;
+        private AnchorPointControl apc_parent;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private AnchorPointControl apc_mark;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btn_ok;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private AnchorPointControl anchorPointControl1;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private AnchorPointControl anchorPointControl2;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown nud_fontSize;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button bnt_fontSelect;
+        private System.Windows.Forms.TextBox tb_fontName;
+        private System.Windows.Forms.FontDialog fontDialog1;
+        private MarkColorControl markColorControl1;
+    }
+}

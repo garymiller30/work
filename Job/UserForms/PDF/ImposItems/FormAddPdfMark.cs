@@ -104,5 +104,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 tb_markPath.Text = vistaOpenFileDialog1.FileName;
             }
         }
+
+        private void nud_Xofs_Click(object sender, EventArgs e)
+        {
+            ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
     }
 }
