@@ -100,6 +100,32 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             SaveResourceMarks();
         }
 
+        public static void DeleteMark(TextMark mark)
+        {
+            MarksContainer parent = FindTextMarkParent(Marks, mark.Id);
+            if (parent == null) return;
+
+            parent.Text.Remove(mark);
+            SaveResourceMarks();
+        }
+
+        private static MarksContainer FindTextMarkParent(List<MarksContainer> marks, string id)
+            {
+
+            foreach (MarksContainer mark in marks)
+            {
+                foreach (var txtMark in mark.Text)
+                {
+                    if (txtMark.Id == id) return mark;
+                }
+
+                var parent = FindTextMarkParent(mark.Containers, id);
+                if (parent != null) return parent;
+            }
+
+            return null;
+        }
+
         private static MarksContainer FindPdfMarkParent(List<MarksContainer> marks, string id)
         {
             foreach(MarksContainer mark in marks)

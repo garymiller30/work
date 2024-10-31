@@ -30,11 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddTextMark));
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tb_markName = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.tb_text = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.markColorControl1 = new JobSpace.UserForms.PDF.ImposItems.MarkColorControl();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.label16 = new System.Windows.Forms.Label();
             this.nud_fontSize = new System.Windows.Forms.NumericUpDown();
@@ -45,30 +46,29 @@
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.nud_yOfs = new System.Windows.Forms.NumericUpDown();
+            this.nud_xOfs = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.anchorPointControl1 = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
+            this.apc_parent = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.anchorPointControl2 = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.apc_mark = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
+            this.cb_Angle = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.cb_backMirror = new System.Windows.Forms.CheckBox();
+            this.cb_back = new System.Windows.Forms.CheckBox();
+            this.cb_front = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.btn_ok = new System.Windows.Forms.Button();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
-            this.markColorControl1 = new JobSpace.UserForms.PDF.ImposItems.MarkColorControl();
             this.groupBox1.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_fontSize)).BeginInit();
             this.groupBox10.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_yOfs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_xOfs)).BeginInit();
             this.groupBox9.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -82,12 +82,12 @@
             this.label8.TabIndex = 0;
             this.label8.Text = "Назва";
             // 
-            // textBox2
+            // tb_markName
             // 
-            this.textBox2.Location = new System.Drawing.Point(57, 6);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(104, 20);
-            this.textBox2.TabIndex = 1;
+            this.tb_markName.Location = new System.Drawing.Point(57, 6);
+            this.tb_markName.Name = "tb_markName";
+            this.tb_markName.Size = new System.Drawing.Size(104, 20);
+            this.tb_markName.TabIndex = 1;
             // 
             // label9
             // 
@@ -98,19 +98,19 @@
             this.label9.TabIndex = 2;
             this.label9.Text = "Текст";
             // 
-            // textBox3
+            // tb_text
             // 
-            this.textBox3.Location = new System.Drawing.Point(212, 6);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(456, 20);
-            this.textBox3.TabIndex = 3;
+            this.tb_text.Location = new System.Drawing.Point(212, 6);
+            this.tb_text.Name = "tb_text";
+            this.tb_text.Size = new System.Drawing.Size(456, 20);
+            this.tb_text.TabIndex = 3;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.groupBox12);
             this.groupBox1.Controls.Add(this.groupBox11);
             this.groupBox1.Controls.Add(this.groupBox10);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.cb_Angle);
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Location = new System.Drawing.Point(12, 32);
@@ -129,6 +129,13 @@
             this.groupBox12.TabIndex = 9;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Колір";
+            // 
+            // markColorControl1
+            // 
+            this.markColorControl1.Location = new System.Drawing.Point(7, 34);
+            this.markColorControl1.Name = "markColorControl1";
+            this.markColorControl1.Size = new System.Drawing.Size(298, 146);
+            this.markColorControl1.TabIndex = 0;
             // 
             // groupBox11
             // 
@@ -203,11 +210,11 @@
             // 
             this.groupBox8.Controls.Add(this.label11);
             this.groupBox8.Controls.Add(this.label12);
-            this.groupBox8.Controls.Add(this.numericUpDown1);
-            this.groupBox8.Controls.Add(this.numericUpDown2);
+            this.groupBox8.Controls.Add(this.nud_yOfs);
+            this.groupBox8.Controls.Add(this.nud_xOfs);
             this.groupBox8.Controls.Add(this.label13);
             this.groupBox8.Controls.Add(this.label14);
-            this.groupBox8.Controls.Add(this.anchorPointControl1);
+            this.groupBox8.Controls.Add(this.apc_parent);
             this.groupBox8.Location = new System.Drawing.Point(102, 20);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(216, 100);
@@ -233,41 +240,41 @@
             this.label12.TabIndex = 6;
             this.label12.Text = "мм";
             // 
-            // numericUpDown1
+            // nud_yOfs
             // 
-            this.numericUpDown1.DecimalPlaces = 1;
-            this.numericUpDown1.Location = new System.Drawing.Point(132, 62);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.nud_yOfs.DecimalPlaces = 1;
+            this.nud_yOfs.Location = new System.Drawing.Point(132, 62);
+            this.nud_yOfs.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.nud_yOfs.Minimum = new decimal(new int[] {
             1000000,
             0,
             0,
             -2147483648});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(43, 20);
-            this.numericUpDown1.TabIndex = 5;
+            this.nud_yOfs.Name = "nud_yOfs";
+            this.nud_yOfs.Size = new System.Drawing.Size(43, 20);
+            this.nud_yOfs.TabIndex = 5;
             // 
-            // numericUpDown2
+            // nud_xOfs
             // 
-            this.numericUpDown2.DecimalPlaces = 1;
-            this.numericUpDown2.Location = new System.Drawing.Point(132, 28);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
+            this.nud_xOfs.DecimalPlaces = 1;
+            this.nud_xOfs.Location = new System.Drawing.Point(132, 28);
+            this.nud_xOfs.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
-            this.numericUpDown2.Minimum = new decimal(new int[] {
+            this.nud_xOfs.Minimum = new decimal(new int[] {
             1000000,
             0,
             0,
             -2147483648});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(43, 20);
-            this.numericUpDown2.TabIndex = 4;
+            this.nud_xOfs.Name = "nud_xOfs";
+            this.nud_xOfs.Size = new System.Drawing.Size(43, 20);
+            this.nud_xOfs.TabIndex = 4;
             // 
             // label13
             // 
@@ -287,17 +294,17 @@
             this.label14.TabIndex = 2;
             this.label14.Text = "X ofs:";
             // 
-            // anchorPointControl1
+            // apc_parent
             // 
-            this.anchorPointControl1.AnchorPointChanged = null;
-            this.anchorPointControl1.Location = new System.Drawing.Point(6, 14);
-            this.anchorPointControl1.Name = "anchorPointControl1";
-            this.anchorPointControl1.Size = new System.Drawing.Size(80, 80);
-            this.anchorPointControl1.TabIndex = 1;
+            this.apc_parent.AnchorPointChanged = null;
+            this.apc_parent.Location = new System.Drawing.Point(6, 14);
+            this.apc_parent.Name = "apc_parent";
+            this.apc_parent.Size = new System.Drawing.Size(80, 80);
+            this.apc_parent.TabIndex = 1;
             // 
             // groupBox9
             // 
-            this.groupBox9.Controls.Add(this.anchorPointControl2);
+            this.groupBox9.Controls.Add(this.apc_mark);
             this.groupBox9.Location = new System.Drawing.Point(6, 20);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(90, 100);
@@ -305,66 +312,66 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "мітки";
             // 
-            // anchorPointControl2
+            // apc_mark
             // 
-            this.anchorPointControl2.AnchorPointChanged = null;
-            this.anchorPointControl2.Location = new System.Drawing.Point(6, 14);
-            this.anchorPointControl2.Name = "anchorPointControl2";
-            this.anchorPointControl2.Size = new System.Drawing.Size(80, 80);
-            this.anchorPointControl2.TabIndex = 0;
+            this.apc_mark.AnchorPointChanged = null;
+            this.apc_mark.Location = new System.Drawing.Point(6, 14);
+            this.apc_mark.Name = "apc_mark";
+            this.apc_mark.Size = new System.Drawing.Size(80, 80);
+            this.apc_mark.TabIndex = 0;
             // 
-            // comboBox1
+            // cb_Angle
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(504, 258);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(62, 21);
-            this.comboBox1.TabIndex = 7;
+            this.cb_Angle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_Angle.FormattingEnabled = true;
+            this.cb_Angle.Location = new System.Drawing.Point(504, 258);
+            this.cb_Angle.Name = "cb_Angle";
+            this.cb_Angle.Size = new System.Drawing.Size(62, 21);
+            this.cb_Angle.TabIndex = 7;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.checkBox1);
-            this.groupBox2.Controls.Add(this.checkBox2);
-            this.groupBox2.Controls.Add(this.checkBox3);
+            this.groupBox2.Controls.Add(this.cb_backMirror);
+            this.groupBox2.Controls.Add(this.cb_back);
+            this.groupBox2.Controls.Add(this.cb_front);
             this.groupBox2.Location = new System.Drawing.Point(6, 241);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(402, 55);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             // 
-            // checkBox1
+            // cb_backMirror
             // 
-            this.checkBox1.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox1.Location = new System.Drawing.Point(175, 17);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(219, 31);
-            this.checkBox1.TabIndex = 2;
-            this.checkBox1.Text = "дзеркальне положення на звороті";
-            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.cb_backMirror.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_backMirror.Location = new System.Drawing.Point(175, 17);
+            this.cb_backMirror.Name = "cb_backMirror";
+            this.cb_backMirror.Size = new System.Drawing.Size(219, 31);
+            this.cb_backMirror.TabIndex = 2;
+            this.cb_backMirror.Text = "дзеркальне положення на звороті";
+            this.cb_backMirror.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cb_backMirror.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // cb_back
             // 
-            this.checkBox2.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox2.Location = new System.Drawing.Point(92, 15);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(77, 33);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "зворот";
-            this.checkBox2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.cb_back.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_back.Location = new System.Drawing.Point(92, 15);
+            this.cb_back.Name = "cb_back";
+            this.cb_back.Size = new System.Drawing.Size(77, 33);
+            this.cb_back.TabIndex = 1;
+            this.cb_back.Text = "зворот";
+            this.cb_back.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cb_back.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // cb_front
             // 
-            this.checkBox3.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox3.Location = new System.Drawing.Point(6, 15);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(80, 33);
-            this.checkBox3.TabIndex = 0;
-            this.checkBox3.Text = "лице";
-            this.checkBox3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.cb_front.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_front.Location = new System.Drawing.Point(6, 15);
+            this.cb_front.Name = "cb_front";
+            this.cb_front.Size = new System.Drawing.Size(80, 33);
+            this.cb_front.TabIndex = 0;
+            this.cb_front.Text = "лице";
+            this.cb_front.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cb_front.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -385,22 +392,16 @@
             this.btn_ok.TabIndex = 5;
             this.btn_ok.Text = "OK";
             this.btn_ok.UseVisualStyleBackColor = true;
-            // 
-            // markColorControl1
-            // 
-            this.markColorControl1.Location = new System.Drawing.Point(7, 34);
-            this.markColorControl1.Name = "markColorControl1";
-            this.markColorControl1.Size = new System.Drawing.Size(298, 146);
-            this.markColorControl1.TabIndex = 0;
+            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
             // FormAddTextMark
             // 
             this.ClientSize = new System.Drawing.Size(676, 390);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.tb_text);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.tb_markName);
             this.Controls.Add(this.label8);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -417,8 +418,8 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_yOfs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_xOfs)).EndInit();
             this.groupBox9.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -428,51 +429,48 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox tb_name;
+        
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ComboBox cb_Angle;
+        
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.CheckBox cb_backMirror;
-        private System.Windows.Forms.CheckBox cb_back;
-        private System.Windows.Forms.CheckBox cb_front;
+        
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown nud_yOfs;
-        private System.Windows.Forms.NumericUpDown nud_Xofs;
+
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label7;
-        private AnchorPointControl apc_parent;
+       
         private System.Windows.Forms.GroupBox groupBox5;
-        private AnchorPointControl apc_mark;
+       
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tb_markName;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox tb_text;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btn_ok;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.CheckBox cb_backMirror;
+        private System.Windows.Forms.CheckBox cb_back;
+        private System.Windows.Forms.CheckBox cb_front;
+        private System.Windows.Forms.ComboBox cb_Angle;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown nud_yOfs;
+        private System.Windows.Forms.NumericUpDown nud_xOfs;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
-        private AnchorPointControl anchorPointControl1;
+        private AnchorPointControl apc_parent;
         private System.Windows.Forms.GroupBox groupBox9;
-        private AnchorPointControl anchorPointControl2;
+        private AnchorPointControl apc_mark;
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Label label16;

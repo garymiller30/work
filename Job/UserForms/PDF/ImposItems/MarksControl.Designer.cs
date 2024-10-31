@@ -46,6 +46,8 @@
             this.tlv_ProductMarks = new BrightIdeasSoftware.TreeListView();
             this.olv_ProductMarkName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.tsb_sheet_deleteMark = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.tlv_MarksResources)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -55,6 +57,7 @@
             this.toolStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tlv_ProductMarks)).BeginInit();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlv_MarksResources
@@ -162,7 +165,7 @@
             this.tsb_Delete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_Delete.Name = "tsb_Delete";
             this.tsb_Delete.Size = new System.Drawing.Size(23, 22);
-            this.tsb_Delete.Text = "Видалити групу/мітку";
+            this.tsb_Delete.Text = "Видалити групу або мітку";
             this.tsb_Delete.Click += new System.EventHandler(this.tsb_Delete_Click);
             // 
             // toolStripSeparator2
@@ -177,7 +180,7 @@
             this.tsb_addPdfMark.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_addPdfMark.Name = "tsb_addPdfMark";
             this.tsb_addPdfMark.Size = new System.Drawing.Size(23, 22);
-            this.tsb_addPdfMark.Text = "toolStripButton1";
+            this.tsb_addPdfMark.Text = "Додати PDF мітку";
             this.tsb_addPdfMark.Click += new System.EventHandler(this.tsb_addPdfMark_Click);
             // 
             // tsb_addTextMark
@@ -187,11 +190,12 @@
             this.tsb_addTextMark.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_addTextMark.Name = "tsb_addTextMark";
             this.tsb_addTextMark.Size = new System.Drawing.Size(23, 22);
-            this.tsb_addTextMark.Text = "toolStripButton2";
+            this.tsb_addTextMark.Text = "Додати текстову мітку";
             this.tsb_addTextMark.Click += new System.EventHandler(this.tsb_addTextMark_Click);
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.toolStrip2);
             this.groupBox2.Controls.Add(this.tlv_ProductMarks);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
@@ -205,18 +209,20 @@
             // 
             this.tlv_ProductMarks.AllColumns.Add(this.olv_ProductMarkName);
             this.tlv_ProductMarks.AllowDrop = true;
+            this.tlv_ProductMarks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tlv_ProductMarks.CellEditUseWholeCell = false;
             this.tlv_ProductMarks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olv_ProductMarkName});
             this.tlv_ProductMarks.Cursor = System.Windows.Forms.Cursors.Default;
-            this.tlv_ProductMarks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlv_ProductMarks.Enabled = false;
             this.tlv_ProductMarks.FullRowSelect = true;
             this.tlv_ProductMarks.HideSelection = false;
-            this.tlv_ProductMarks.Location = new System.Drawing.Point(3, 16);
+            this.tlv_ProductMarks.Location = new System.Drawing.Point(3, 44);
             this.tlv_ProductMarks.Name = "tlv_ProductMarks";
             this.tlv_ProductMarks.ShowGroups = false;
-            this.tlv_ProductMarks.Size = new System.Drawing.Size(219, 280);
+            this.tlv_ProductMarks.Size = new System.Drawing.Size(219, 252);
             this.tlv_ProductMarks.SmallImageList = this.imageList2;
             this.tlv_ProductMarks.TabIndex = 1;
             this.tlv_ProductMarks.UseCompatibleStateImageBehavior = false;
@@ -237,6 +243,26 @@
             this.imageList2.Images.SetKeyName(2, "Emoopo-Darktheme-Folder-Folder-Text-PDF.16.png");
             this.imageList2.Images.SetKeyName(3, "Emoopo-Darktheme-Folder-Folder-Text.16.png");
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsb_sheet_deleteMark});
+            this.toolStrip2.Location = new System.Drawing.Point(3, 16);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.Size = new System.Drawing.Size(219, 25);
+            this.toolStrip2.TabIndex = 2;
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // tsb_sheet_deleteMark
+            // 
+            this.tsb_sheet_deleteMark.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_sheet_deleteMark.Image = ((System.Drawing.Image)(resources.GetObject("tsb_sheet_deleteMark.Image")));
+            this.tsb_sheet_deleteMark.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_sheet_deleteMark.Name = "tsb_sheet_deleteMark";
+            this.tsb_sheet_deleteMark.Size = new System.Drawing.Size(23, 22);
+            this.tsb_sheet_deleteMark.Text = "Видалити групу або мітку";
+            this.tsb_sheet_deleteMark.Click += new System.EventHandler(this.tsb_sheet_deleteMark_Click);
+            // 
             // MarksControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -254,7 +280,10 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tlv_ProductMarks)).EndInit();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -277,5 +306,7 @@
         private System.Windows.Forms.ToolStripButton tsb_addPdfMark;
         private System.Windows.Forms.ToolStripButton tsb_addTextMark;
         private System.Windows.Forms.ImageList imageList2;
+        private System.Windows.Forms.ToolStrip toolStrip2;
+        private System.Windows.Forms.ToolStripButton tsb_sheet_deleteMark;
     }
 }

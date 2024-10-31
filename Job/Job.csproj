@@ -369,6 +369,12 @@
     <Compile Include="UserForms\PDF\FormSelectDpi.Designer.cs">
       <DependentUpon>FormSelectDpi.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\FormSelectSpotColor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectSpotColor.Designer.cs">
+      <DependentUpon>FormSelectSpotColor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\FormTirag.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -853,6 +859,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormSelectDpi.resx">
       <DependentUpon>FormSelectDpi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormSelectSpotColor.resx">
+      <DependentUpon>FormSelectSpotColor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormTirag.resx">
       <DependentUpon>FormTirag.cs</DependentUpon>
