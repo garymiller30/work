@@ -234,6 +234,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 return pdfMark.Name;
             }
+            else if (rowObject is TextMark textMark)
+            {
+                return textMark.Name;
+            }
 
             return null;
         }
@@ -338,6 +342,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 MarksService.DeleteMark(pdfMark);
                 RefreshResourceTree();
             }
+            else if (tlv_MarksResources.SelectedObject is TextMark textMark)
+            {
+                MarksService.DeleteMark(textMark);
+                RefreshResourceTree();
+            }
         }
 
         private void tsb_addPdfMark_Click(object sender, EventArgs e)
@@ -383,6 +392,17 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     }
                 }
             }
+            else if (tlv_MarksResources.SelectedObject is TextMark textMark)
+            {
+                using (var form = new FormAddTextMark(textMark))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        MarksService.SaveResourceMarks();
+                        RefreshResourceTree();
+                    }
+                }
+            }
         }
 
 
@@ -390,6 +410,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             public string Name { get; set; }
             public MarksContainer Marks { get; set; }
+        }
+
+        private void tsb_sheet_deleteMark_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
