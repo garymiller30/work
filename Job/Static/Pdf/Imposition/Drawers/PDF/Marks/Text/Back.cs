@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
 using PDFlib_dotnet;
@@ -14,7 +15,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
     {
         public static void Back(PDFlib p, MarksContainer marksContainer)
         {
-            foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack))
+            foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack && x.Enable))
             {
                 p.save();
 
@@ -38,6 +39,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                 p.fit_textline(txt, x * PdfHelper.mn, mark.Back.Y * PdfHelper.mn, $"fontname={mark.FontName} fontsize={mark.FontSize} {fillColor} orientate={Commons.Orientate[mark.Angle]}");
                 p.restore();
             }
+
+            marksContainer.Containers.ForEach(x => DrawTextMarks.Back(p, x));
         }
     }
 }

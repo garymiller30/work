@@ -101,5 +101,23 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
                 
         }
+
+        private void tsb_delete_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is TemplateSheet sheet)
+            {
+                objectListView1.RemoveObject(sheet);
+            }
+        }
+
+        private void tsb_saveTemplate_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsb_loadTemplate_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

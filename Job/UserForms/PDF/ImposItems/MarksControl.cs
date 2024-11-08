@@ -40,131 +40,23 @@ namespace JobSpace.UserForms.PDF.ImposItems
             tlv_MarksResources.AddObjects(marks);
         }
 
-        private object ProductImageGetterDelegate(object r)
+        public void SetSheet(TemplateSheet e)
         {
-            if (r is SheetRoot sheet) {
-                if (sheet.Name == "Лист") return 0; 
-                return 1;
-                }
-            if (r is PdfMark) return 2;
-            if (r is TextMark) return 3;
-            return null;
-        }
-
-        private bool ProductCanExpandGetterDelegate(object model)
-        {
-            if (model is SheetRoot sheet)
+            _sheet = e;
+            if (_sheet == null) tlv_ProductMarks.Enabled = false;
+            else
             {
-                if (sheet.Marks.Containers.Count > 0 || sheet.Marks.Pdf.Count >0 || sheet.Marks.Text.Count > 0)
+                tlv_ProductMarks.Enabled = true;
+                tlv_ProductMarks.Roots = new object[]
                 {
-                    return true;
-                }
-
-
-            }
-            else if (model is MarksContainer container)
-            {
-                if (container.Containers.Count > 0 || container.Pdf.Count > 0 || container.Text.Count > 0)
-                {
-                    return true;
-                }
-            }
-            else if (model is PdfMark)
-            {
-
-            }
-
-            return false;
-
-        }
-
-        private object ProductAspectNameGetterDelegate(object r)
-        {
-            if (r is SheetRoot sheet)
-            {
-                return sheet.Name;
-            }
-            else if (r is MarksContainer container)
-            {
-                return container.Name;
-            }
-            else if (r is PdfMark pdfMark)
-            {
-                return pdfMark.Name;
-            }
-            else if (r is TextMark textMark)
-            {
-                return textMark.Name;
-            }
-
-            return null;
-        }
-
-        private IEnumerable ProductChildrenGetterDelegate(object model)
-        {
-            if (model is SheetRoot sheet)
-            {
-                List<object> list = new List<object>();
-
-                if (sheet.Marks.Containers.Count > 0) list.AddRange(sheet.Marks.Containers);
-                if (sheet.Marks.Pdf.Count > 0) list.AddRange(sheet.Marks.Pdf);
-                if (sheet.Marks.Text.Count > 0) list.AddRange(sheet.Marks.Text);
-                return list;
-            }
-            else if (model is MarksContainer container)
-            {
-                List<object> list = new List<object>();
-                if (container.Containers.Count > 0) list.AddRange(container.Containers);
-                if (container.Pdf.Count > 0) list.AddRange(container.Pdf);
-                if (container.Text.Count > 0) list.AddRange(container.Text);
-                return list;
-            }
-            return null;
-        }
-
-        private void Tlv_ProductMarks_ModelDropped(object sender, ModelDropEventArgs e)
-        {
-            if (e.SourceListView != tlv_MarksResources) return;
-
-            foreach (var item in e.SourceModels)
-            {
-                if (e.TargetModel is SheetRoot sheet)
-                {
-                    if (item is MarksContainer container)
-                    {
-                        sheet.Marks.Add(container);
-                    }
-                    else if (item is PdfMark pdfMark)
-                    {
-                        sheet.Marks.Add(pdfMark);
-                    }
-                    else if (item is TextMark textMark)
-                    {
-                        sheet.Marks.Add(textMark);
-                    }
-                }
-            }
-            
-            e.Handled = true;
-            RefreshSheetTree();
-        }
-
-        private void Tlv_ProductMarks_ModelCanDrop(object sender, BrightIdeasSoftware.ModelDropEventArgs e)
-        {
-            e.Effect = DragDropEffects.None;
-            if (e.TargetModel == null) return;
-
-            if (e.TargetModel is PdfMark || e.TargetModel is MarksContainer)
-            {
-                e.Effect = e.StandardDropActionFromKeys;
-            }
-            else if (e.TargetModel is SheetRoot)
-            {
-                e.Effect= e.StandardDropActionFromKeys;
+                    new SheetRoot(){Marks = _sheet.Marks},
+                    new SubjetRoot(){Marks = _sheet.TemplatePageContainer.Marks}
+                    };
             }
         }
 
 
+        #region [RESOURCE MARKS]
 
         private object ImageGetterDelegate(object model)
         {
@@ -211,7 +103,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
             return null;
         }
-
         private object NameAspectGetterDelegate(object rowObject)
         {
             if (rowObject is MarksContainer container)
@@ -263,21 +154,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             return false;
         }
 
-        public void SetSheet(TemplateSheet e)
-        {
-            _sheet = e;
-            if (_sheet == null) tlv_ProductMarks.Enabled = false;
-            else
-            {
-                tlv_ProductMarks.Enabled = true;
-                tlv_ProductMarks.Roots = new[]
-                {
-                    new SheetRoot{Name = "Лист",Marks = _sheet.Marks},
-                    new SheetRoot{Name = "Сюжет", Marks = _sheet.TemplatePageContainer.Marks}
-                    };
-            }
-        }
-
         private void tsb_addGroup_Click(object sender, EventArgs e)
         {
             using (var form = new FormEditFolder("група", "назва групи"))
@@ -293,12 +169,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             tlv_MarksResources.RefreshObjects(tlv_MarksResources.Objects.Cast<MarksContainer>().ToList());
         }
-
-        private void RefreshSheetTree()
-        {
-            tlv_ProductMarks.RefreshObjects(tlv_ProductMarks.Objects.Cast<SheetRoot>().ToList());
-        }
-
         private void AddGroup(string name)
         {
             MarksContainer group;
@@ -323,7 +193,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 tlv_MarksResources.AddObject(group);
             }
         }
-
         private void tsb_Delete_Click(object sender, EventArgs e)
         {
             if (tlv_MarksResources.SelectedObject is MarksContainer group)
@@ -348,7 +217,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 RefreshResourceTree();
             }
         }
-
         private void tsb_addPdfMark_Click(object sender, EventArgs e)
         {
             if (tlv_MarksResources.SelectedObject is MarksContainer container)
@@ -404,17 +272,249 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 }
             }
         }
+        #endregion
 
+        #region [SHEET MARKS]
 
-        class SheetRoot
+        private void tsb_sheet_deleteMark_Click(object sender, EventArgs e)
         {
+            if (tlv_ProductMarks.SelectedObject is MarksContainer group)
+            {
+                // знайти групу
+
+                if (MarksService.DeleteGroup(_sheet.Marks.Containers, group))
+                {
+
+                }
+
+                if (group.ParentId == null)
+                {
+                    tlv_ProductMarks.RemoveObject(group);
+                }
+
+                RefreshResourceTree();
+            }
+            else if (tlv_ProductMarks.SelectedObject is PdfMark pdfMark)
+            {
+                //знайти мітку
+                //MarksService.DeleteMark(pdfMark);
+                RefreshResourceTree();
+            }
+            else if (tlv_ProductMarks.SelectedObject is TextMark textMark)
+            {
+                //знайти мітку
+                //MarksService.DeleteMark(textMark);
+                RefreshResourceTree();
+            }
+        }
+
+        class SheetRootAbstract
+        {
+            public string Id = Guid.NewGuid().ToString();
             public string Name { get; set; }
             public MarksContainer Marks { get; set; }
         }
 
-        private void tsb_sheet_deleteMark_Click(object sender, EventArgs e)
+
+        class SheetRoot : SheetRootAbstract
         {
+            public SheetRoot()
+            {
+                Name = "Лист";
+            }
+        }
+
+        class SubjetRoot : SheetRootAbstract
+        {
+            public SubjetRoot()
+            {
+                Name = "Сюжет";
+            }
 
         }
+        private void RefreshSheetTree()
+        {
+            tlv_ProductMarks.RefreshObjects(tlv_ProductMarks.Objects.Cast<SheetRootAbstract>().ToList());
+        }
+       
+
+        private object ProductImageGetterDelegate(object r)
+        {
+            if (r is SheetRootAbstract sheet)
+            {
+                if (sheet.Name == "Лист") return 0;
+                return 1;
+            }
+            if (r is PdfMark) return 2;
+            if (r is TextMark) return 3;
+            return null;
+        }
+        private bool ProductCanExpandGetterDelegate(object model)
+        {
+            if (model is SheetRootAbstract sheet)
+            {
+                if (sheet.Marks.Containers.Count > 0 || sheet.Marks.Pdf.Count > 0 || sheet.Marks.Text.Count > 0)
+                {
+                    return true;
+                }
+            }
+            else if (model is MarksContainer container)
+            {
+                if (container.Containers.Count > 0 || container.Pdf.Count > 0 || container.Text.Count > 0)
+                {
+                    return true;
+                }
+            }
+            else if (model is PdfMark)
+            {
+
+            }
+
+            return false;
+
+        }
+        private object ProductAspectNameGetterDelegate(object r)
+        {
+            if (r is SheetRootAbstract sheet)
+            {
+                return sheet.Name;
+            }
+            else if (r is MarksContainer container)
+            {
+                return container.Name;
+            }
+            else if (r is PdfMark pdfMark)
+            {
+                return pdfMark.Name;
+            }
+            else if (r is TextMark textMark)
+            {
+                return textMark.Name;
+            }
+
+            return null;
+        }
+
+        private IEnumerable ProductChildrenGetterDelegate(object model)
+        {
+            if (model is SheetRootAbstract sheet)
+            {
+                List<object> list = new List<object>();
+
+                if (sheet.Marks.Containers.Count > 0) list.AddRange(sheet.Marks.Containers);
+                if (sheet.Marks.Pdf.Count > 0) list.AddRange(sheet.Marks.Pdf);
+                if (sheet.Marks.Text.Count > 0) list.AddRange(sheet.Marks.Text);
+                return list;
+            }
+            else if (model is MarksContainer container)
+            {
+                List<object> list = new List<object>();
+                if (container.Containers.Count > 0) list.AddRange(container.Containers);
+                if (container.Pdf.Count > 0) list.AddRange(container.Pdf);
+                if (container.Text.Count > 0) list.AddRange(container.Text);
+                return list;
+            }
+            return null;
+        }
+
+        private void Tlv_ProductMarks_ModelDropped(object sender, ModelDropEventArgs e)
+        {
+            if (e.SourceListView != tlv_MarksResources) return;
+
+            foreach (var item in e.SourceModels)
+            {
+                if (e.TargetModel is SheetRootAbstract sheet)
+                {
+                    if (item is MarksContainer container)
+                    {
+                        var c = MarksService.Duplicate(container);
+                        c.ParentId = sheet.Id;
+                        sheet.Marks.Add(c);
+                    }
+                    else if (item is PdfMark pdfMark)
+                    {
+                        var p = MarksService.Duplicate(pdfMark);
+                        sheet.Marks.Add(p);
+                    }
+                    else if (item is TextMark textMark)
+                    {
+                        var t = MarksService.Duplicate(textMark);
+                        sheet.Marks.Add(t);
+                    }
+                }
+                else if (e.TargetModel is SubjetRoot subject)
+                {
+                    if (item is MarksContainer container)
+                    {
+                        var c = MarksService.Duplicate(container);
+                        c.ParentId = subject.Id;
+                        subject.Marks.Add(c);
+                    }
+                    else if (item is PdfMark pdfMark)
+                    {
+                        var p = MarksService.Duplicate(pdfMark);
+                        subject.Marks.Add(p);
+                    }
+                    else if (item is TextMark textMark)
+                    {
+                        var t = MarksService.Duplicate(textMark);
+                        subject.Marks.Add(t);
+                    }
+                }
+            }
+
+            e.Handled = true;
+            RefreshSheetTree();
+        }
+        private void Tlv_ProductMarks_ModelCanDrop(object sender, BrightIdeasSoftware.ModelDropEventArgs e)
+        {
+            e.Effect = DragDropEffects.None;
+            if (e.TargetModel == null) return;
+
+            if (e.TargetModel is PdfMark || e.TargetModel is MarksContainer)
+            {
+                e.Effect = e.StandardDropActionFromKeys;
+            }
+            else if (e.TargetModel is SheetRootAbstract)
+            {
+                e.Effect = e.StandardDropActionFromKeys;
+            }
+        }
+        private void tlv_ProductMarks_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (tlv_ProductMarks.SelectedObject is PdfMark pdfMark)
+            {
+                using (var form = new FormAddPdfMark(pdfMark))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        //TODO: update preview
+                    }
+                }
+            }
+            else if (tlv_ProductMarks.SelectedObject is TextMark textmark)
+            {
+                using ( var form = new FormAddTextMark(textmark))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        //TODO: update preview
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        private void tlv_ProductMarks_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            if (((OLVListItem)e.Item).RowObject is PdfMark pdfMark)
+            {
+                pdfMark.Enable = e.Item.Checked;
+            }
+             
+        }
+
+       
     }
 }

@@ -13,7 +13,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf
     {
         public static void Back(PDFlib p, MarksContainer marksContainer)
         {
-            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsBack))
+            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsBack && x.Enable))
             {
                 using (PDFLIBDocument doc = new PDFLIBDocument(p, mark.File.FileName))
                 {
@@ -34,6 +34,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf
                     doc.fit_pdi_page(1, mark.Back.X, mark.Back.Y, $"orientate={Commons.Orientate[mark.Angle]} scale={{{scaleX} {scaleY}}}");
                 }
             }
+
+            marksContainer.Containers.ForEach(x => DrawPdfMarks.Back(p, x));
+
         }
 
 

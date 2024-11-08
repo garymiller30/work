@@ -73,11 +73,11 @@
             this.objectListView1.FullRowSelect = true;
             this.objectListView1.GridLines = true;
             this.objectListView1.HideSelection = false;
-            this.objectListView1.Location = new System.Drawing.Point(6, 19);
+            this.objectListView1.Location = new System.Drawing.Point(6, 44);
             this.objectListView1.MultiSelect = false;
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(348, 146);
+            this.objectListView1.Size = new System.Drawing.Size(372, 121);
             this.objectListView1.TabIndex = 1;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
@@ -104,14 +104,13 @@
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Right;
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsb_delete});
-            this.toolStrip1.Location = new System.Drawing.Point(349, 16);
+            this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(32, 152);
+            this.toolStrip1.Size = new System.Drawing.Size(378, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -121,7 +120,7 @@
             this.tsb_delete.Image = ((System.Drawing.Image)(resources.GetObject("tsb_delete.Image")));
             this.tsb_delete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_delete.Name = "tsb_delete";
-            this.tsb_delete.Size = new System.Drawing.Size(29, 20);
+            this.tsb_delete.Size = new System.Drawing.Size(23, 22);
             this.tsb_delete.ToolTipText = "Видалити лист";
             this.tsb_delete.Click += new System.EventHandler(this.tsb_delete_Click);
             // 

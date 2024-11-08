@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         public string Name {get;set; }
         public PointD Front { get; set; }
         public PointD Back { get; set; }
+
+        public bool Enable { get;set; } = true;
 
         public PdfMarkParameters Parameters { get; set; } = new PdfMarkParameters();
         public PdfFile File { get; set; }
