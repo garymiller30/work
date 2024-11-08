@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
 using PDFlib_dotnet;
@@ -15,7 +16,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
     {
         public static void Front(PDFlib p, MarksContainer marksContainer)
         {
-            foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsFront))
+            foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsFront && x.Enable == true))
             {
 
                 p.save();
@@ -34,6 +35,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
 
                 p.restore();
             }
+
+            marksContainer.Containers.ForEach(x => DrawTextMarks.Front(p, x));
+
         }
     }
 }

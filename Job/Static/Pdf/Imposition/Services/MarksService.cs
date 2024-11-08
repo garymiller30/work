@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Imposition.Services
@@ -64,6 +65,27 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                     SaveResourceMarks();
                 }
             }
+        }
+
+        public static bool DeleteGroup(List<MarksContainer> group, MarksContainer container)
+        {
+            if (container.ParentId == null)
+            {
+                group.Remove(container);
+                return true;
+            }
+            else
+            {
+                var parent = FindParent(Marks, container.ParentId);
+
+                if (parent != null)
+                {
+                    parent.Containers.Remove(container);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static MarksContainer FindParent(List<MarksContainer> marks, string parentId)
@@ -140,6 +162,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             }
 
             return null;
+        }
+
+        public static T Duplicate<T>(T mark)
+        {
+            var str = JsonSerializer.Serialize(mark);
+            return JsonSerializer.Deserialize<T>(str);
         }
     }
 }

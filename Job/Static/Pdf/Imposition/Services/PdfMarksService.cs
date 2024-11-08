@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,40 +13,45 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         public static void RecalcMarkCoordFront(TemplatePageContainer templatePageContainer)
         {
             RectangleD subject = templatePageContainer.GetSubjectRectFront();
-            foreach (var mark in templatePageContainer.Marks.Pdf.Where(x => x.Parameters.IsFront))
-            {
-                PositioningService.AnchorToAbsoluteCoordFront(subject, mark);
-            }
+            PdfMarksService.RecalcMarkCoordFront(templatePageContainer.Marks, subject);
         }
 
         public static void RecalcMarkCoordFront(TemplateSheet sheet)
         {
             RectangleD subject = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
-            foreach (var mark in sheet.Marks.Pdf.Where(x => x.Parameters.IsFront))
+            PdfMarksService.RecalcMarkCoordFront(sheet.Marks,subject);
+        }
+
+        static void RecalcMarkCoordFront(MarksContainer marksContainer, RectangleD subjectRect)
+        {
+            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsFront))
             {
-                PositioningService.AnchorToAbsoluteCoordFront(subject, mark);
+                PositioningService.AnchorToAbsoluteCoordFront(subjectRect, mark);
             }
+            marksContainer.Containers.ForEach(y => PdfMarksService.RecalcMarkCoordFront(y,subjectRect));
         }
 
 
         public static void RecalcMarkCoordBack(TemplateSheet sheet)
         {
             RectangleD subject = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
-            foreach (var mark in sheet.Marks.Pdf.Where(x => x.Parameters.IsBack))
-            {
-                PositioningService.AnchorToAbsoluteCoordBack(subject, mark);
-            }
+            PdfMarksService.RecalcMarkCoordBack(sheet.Marks, subject);
         }
 
         public static void RecalcMarkCoordBack(TemplateSheet sheet, TemplatePageContainer templatePageContainer)
         {
             RectangleD subject = templatePageContainer.GetSubjectRectBack(sheet);
-            foreach (var mark in templatePageContainer.Marks.Pdf.Where(x => x.Parameters.IsBack))
-            {
-                PositioningService.AnchorToAbsoluteCoordBack(subject, mark);
-            }
+            PdfMarksService.RecalcMarkCoordBack(templatePageContainer.Marks,subject);
         }
 
+        static void RecalcMarkCoordBack(MarksContainer marksContainer, RectangleD subjectRect)
+        {
+            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsBack))
+            {
+                PositioningService.AnchorToAbsoluteCoordBack(subjectRect, mark);
+            }
 
+            marksContainer.Containers.ForEach(y => PdfMarksService.RecalcMarkCoordBack(y, subjectRect));
+        }
     }
 }

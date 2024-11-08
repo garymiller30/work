@@ -43,11 +43,11 @@
             this.tsb_addPdfMark = new System.Windows.Forms.ToolStripButton();
             this.tsb_addTextMark = new System.Windows.Forms.ToolStripButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.tsb_sheet_deleteMark = new System.Windows.Forms.ToolStripButton();
             this.tlv_ProductMarks = new BrightIdeasSoftware.TreeListView();
             this.olv_ProductMarkName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.tsb_sheet_deleteMark = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.tlv_MarksResources)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -56,8 +56,8 @@
             this.groupBox1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tlv_ProductMarks)).BeginInit();
             this.toolStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tlv_ProductMarks)).BeginInit();
             this.SuspendLayout();
             // 
             // tlv_MarksResources
@@ -205,46 +205,9 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Мітки шаблону";
             // 
-            // tlv_ProductMarks
-            // 
-            this.tlv_ProductMarks.AllColumns.Add(this.olv_ProductMarkName);
-            this.tlv_ProductMarks.AllowDrop = true;
-            this.tlv_ProductMarks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tlv_ProductMarks.CellEditUseWholeCell = false;
-            this.tlv_ProductMarks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olv_ProductMarkName});
-            this.tlv_ProductMarks.Cursor = System.Windows.Forms.Cursors.Default;
-            this.tlv_ProductMarks.Enabled = false;
-            this.tlv_ProductMarks.FullRowSelect = true;
-            this.tlv_ProductMarks.HideSelection = false;
-            this.tlv_ProductMarks.Location = new System.Drawing.Point(3, 44);
-            this.tlv_ProductMarks.Name = "tlv_ProductMarks";
-            this.tlv_ProductMarks.ShowGroups = false;
-            this.tlv_ProductMarks.Size = new System.Drawing.Size(219, 252);
-            this.tlv_ProductMarks.SmallImageList = this.imageList2;
-            this.tlv_ProductMarks.TabIndex = 1;
-            this.tlv_ProductMarks.UseCompatibleStateImageBehavior = false;
-            this.tlv_ProductMarks.View = System.Windows.Forms.View.Details;
-            this.tlv_ProductMarks.VirtualMode = true;
-            // 
-            // olv_ProductMarkName
-            // 
-            this.olv_ProductMarkName.Text = "мітки";
-            this.olv_ProductMarkName.Width = 164;
-            // 
-            // imageList2
-            // 
-            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
-            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList2.Images.SetKeyName(0, "1471082_base_data_document_office_page_icon.png");
-            this.imageList2.Images.SetKeyName(1, "4017615_book_education_lesson_study_competitive strategy_icon.png");
-            this.imageList2.Images.SetKeyName(2, "Emoopo-Darktheme-Folder-Folder-Text-PDF.16.png");
-            this.imageList2.Images.SetKeyName(3, "Emoopo-Darktheme-Folder-Folder-Text.16.png");
-            // 
             // toolStrip2
             // 
+            this.toolStrip2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsb_sheet_deleteMark});
             this.toolStrip2.Location = new System.Drawing.Point(3, 16);
@@ -262,6 +225,49 @@
             this.tsb_sheet_deleteMark.Size = new System.Drawing.Size(23, 22);
             this.tsb_sheet_deleteMark.Text = "Видалити групу або мітку";
             this.tsb_sheet_deleteMark.Click += new System.EventHandler(this.tsb_sheet_deleteMark_Click);
+            // 
+            // tlv_ProductMarks
+            // 
+            this.tlv_ProductMarks.AllColumns.Add(this.olv_ProductMarkName);
+            this.tlv_ProductMarks.AllowDrop = true;
+            this.tlv_ProductMarks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tlv_ProductMarks.CellEditUseWholeCell = false;
+            this.tlv_ProductMarks.CheckBoxes = true;
+            this.tlv_ProductMarks.CheckedAspectName = "Enable";
+            this.tlv_ProductMarks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olv_ProductMarkName});
+            this.tlv_ProductMarks.Cursor = System.Windows.Forms.Cursors.Default;
+            this.tlv_ProductMarks.Enabled = false;
+            this.tlv_ProductMarks.FullRowSelect = true;
+            this.tlv_ProductMarks.HideSelection = false;
+            this.tlv_ProductMarks.Location = new System.Drawing.Point(3, 44);
+            this.tlv_ProductMarks.Name = "tlv_ProductMarks";
+            this.tlv_ProductMarks.ShowGroups = false;
+            this.tlv_ProductMarks.ShowImagesOnSubItems = true;
+            this.tlv_ProductMarks.Size = new System.Drawing.Size(219, 252);
+            this.tlv_ProductMarks.SmallImageList = this.imageList2;
+            this.tlv_ProductMarks.TabIndex = 1;
+            this.tlv_ProductMarks.UseCompatibleStateImageBehavior = false;
+            this.tlv_ProductMarks.View = System.Windows.Forms.View.Details;
+            this.tlv_ProductMarks.VirtualMode = true;
+            this.tlv_ProductMarks.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.tlv_ProductMarks_ItemChecked);
+            this.tlv_ProductMarks.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tlv_ProductMarks_MouseDoubleClick);
+            // 
+            // olv_ProductMarkName
+            // 
+            this.olv_ProductMarkName.Text = "мітки";
+            this.olv_ProductMarkName.Width = 164;
+            // 
+            // imageList2
+            // 
+            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
+            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList2.Images.SetKeyName(0, "1471082_base_data_document_office_page_icon.png");
+            this.imageList2.Images.SetKeyName(1, "4017615_book_education_lesson_study_competitive strategy_icon.png");
+            this.imageList2.Images.SetKeyName(2, "Emoopo-Darktheme-Folder-Folder-Text-PDF.16.png");
+            this.imageList2.Images.SetKeyName(3, "Emoopo-Darktheme-Folder-Folder-Text.16.png");
             // 
             // MarksControl
             // 
@@ -281,9 +287,9 @@
             this.toolStrip1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tlv_ProductMarks)).EndInit();
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tlv_ProductMarks)).EndInit();
             this.ResumeLayout(false);
 
         }
