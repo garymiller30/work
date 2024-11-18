@@ -203,7 +203,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             bindingParameters.Sheet = Sheet;
 
             Sheet.TemplatePageContainer = BindingService.Impos(bindingParameters);
-            Sheet.Description = $"[{Sheet.W}x{Sheet.H}]";
+            Sheet.Description = $"[{Sheet.W}x{Sheet.H}]_{Sheet.MasterPage.W}x{Sheet.MasterPage.H}+{Sheet.MasterPage.Bleeds.Default}";
 
             previewControl1.SetSheet(Sheet);
         }

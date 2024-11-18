@@ -21,13 +21,28 @@ namespace PluginGMail
         public WindowOut()
         {
             InitializeComponent();
+            _ = InitializeAsync();
+            
             webView21.Source = new Uri("https://gmail.com");
             webView21.CoreWebView2InitializationCompleted += WebView21_CoreWebView2InitializationCompleted;
         }
 
+        private async Task InitializeAsync()
+        {
+
+            CoreWebView2EnvironmentOptions options = new CoreWebView2EnvironmentOptions("--disable-features=msSmartScreenProtection");
+            CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(
+               browserExecutableFolder: null, 
+                userDataFolder: Path.Combine(Path.GetTempPath(), $"{Environment.UserName}", "aw_gmail"), 
+                options);
+            await webView21.EnsureCoreWebView2Async(environment);
+        }
+
         private void WebView21_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
         {
+            if(!e.IsSuccess) { MessageBox.Show($"{e.InitializationException}"); }
             webView21.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
+            
         }
 
         private void CoreWebView2_DownloadStarting(object sender, CoreWebView2DownloadStartingEventArgs e)
@@ -114,6 +129,11 @@ namespace PluginGMail
         }
 
         private void tsb_ok_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void tsb_okZoom_Click(object sender, EventArgs e)
         {
             var res = double.TryParse(toolStripTextBox1.Text, out double factor);
 

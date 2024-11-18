@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,19 +25,36 @@ namespace PluginFileshareWeb
 
         public string PluginDescription => "Популярні файлообмінники";
 
-        public WindowOut()
+        public  WindowOut()
         {
             InitializeComponent();
+            _ = InitializeAsync();
             webView21.CoreWebView2InitializationCompleted += WebView21_CoreWebView2InitializationCompleted;
 
         }
 
+        private async Task InitializeAsync()
+        {
+            CoreWebView2EnvironmentOptions options = new CoreWebView2EnvironmentOptions("--disable-features=msSmartScreenProtection");
+            CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(
+               browserExecutableFolder: null,
+                userDataFolder: Path.Combine(Path.GetTempPath(), $"{Environment.UserName}", "aw_shares"),
+                options);
+            await webView21.EnsureCoreWebView2Async(environment);
+
+            //CoreWebView2EnvironmentOptions options = new CoreWebView2EnvironmentOptions("--disable-features=msSmartScreenProtection"); 
+            //CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(null, null, options);
+            //await webView21.EnsureCoreWebView2Async(environment);
+        }
+
         private void WebView21_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
         {
+            
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            webView21.Source = new Uri("about:blank");
             webView21.Source = new Uri(((ToolStripButton)sender).Tag.ToString());
         }
 

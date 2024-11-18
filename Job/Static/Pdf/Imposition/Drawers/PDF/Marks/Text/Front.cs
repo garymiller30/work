@@ -18,7 +18,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
         {
             foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsFront && x.Enable == true))
             {
-
                 p.save();
                 if (mark.Color.IsOverprint)
                 {
@@ -26,8 +25,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                     p.set_gstate(gstate);
                 }
 
-                string fillColor = mark.Color.IsSpot ? $"fillcolor={{spotname {{{mark.Color.Name}}} {mark.Color.Opasity / 100} {{cmyk {mark.Color.C / 100} {mark.Color.M} {mark.Color.Y} {mark.Color.K}}}}}" :
-                    $"fillcolor={{cmyk {mark.Color.C / 100} {mark.Color.M} {mark.Color.Y} {mark.Color.K}}}";
+                string fillColor = mark.Color.IsSpot ? $"fillcolor={{spotname {{{mark.Color.Name}}} {mark.Color.Opasity / 100} {{cmyk {mark.Color.C / 100} {mark.Color.M/100} {mark.Color.Y/100} {mark.Color.K / 100}}}}}" :
+                    $"fillcolor={{cmyk {mark.Color.C / 100} {mark.Color.M / 100} {mark.Color.Y / 100} {mark.Color.K / 100}}}";
 
                 string txt = TextVariablesService.ReplaceToRealValues(mark.Text);
 
@@ -37,7 +36,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
             }
 
             marksContainer.Containers.ForEach(x => DrawTextMarks.Front(p, x));
-
         }
     }
 }
