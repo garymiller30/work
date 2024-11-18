@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Imposition.Services
 {
@@ -18,16 +19,19 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         static string RootPath;
         static string SheetPath;
         static string MarksPath;
+        static string SheetTemplatesPath;
 
         static SaveLoadService()
         {
             RootPath = Path.Combine(Directory.GetCurrentDirectory(), "Impos");
             SheetPath = Path.Combine(RootPath, "Sheets");
             MarksPath = Path.Combine(RootPath, "Marks");
+            SheetTemplatesPath = Path.Combine(RootPath, "SheetTemplates");
 
             if (!Directory.Exists(RootPath)) Directory.CreateDirectory(RootPath);
             if (!Directory.Exists(SheetPath)) Directory.CreateDirectory(SheetPath);
             if (!Directory.Exists(MarksPath)) Directory.CreateDirectory(MarksPath);
+            if (!Directory.Exists(SheetTemplatesPath)) Directory.CreateDirectory(SheetTemplatesPath);
 
         }
         public static void SaveSheet(TemplateSheet sheet)
@@ -69,7 +73,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
                 return false;
             }
-            
+
         }
 
         public static void SaveResourceMarks(List<MarksContainer> marks)
@@ -86,6 +90,43 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             string marksStr = File.ReadAllText(filePath);
             return JsonSerializer.Deserialize<List<MarksContainer>>(marksStr);
+        }
+
+        public static void SaveSheetTemplates(TemplateSheet sheet)
+        {
+            using (var form = new SaveFileDialog())
+            {
+                string fileName = sheet.Description.Transliteration() + ".json";
+
+                form.InitialDirectory = SheetTemplatesPath;
+                form.FileName = fileName;
+                if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string str = JsonSerializer.Serialize(sheet);
+                    File.WriteAllText(form.FileName, str);
+                }
+            }
+        }
+
+        public static TemplateSheet LoadSheetTemplate()
+        {
+
+            using (var form = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            {
+                form.InitialDirectory = SheetTemplatesPath;
+                form.CheckFileExists = true;
+
+                if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string str = File.ReadAllText(form.FileName);
+
+                    TemplateSheet sheet = JsonSerializer.Deserialize<TemplateSheet>(str);
+                    
+                    return sheet;
+                }
+            }
+
+            return null;
         }
     }
 }

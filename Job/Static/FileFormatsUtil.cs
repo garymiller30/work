@@ -553,7 +553,7 @@ namespace JobSpace.Static
 
         public static void CreateBigovkaMarks(IEnumerable<string> files, CreateBigovkaMarksParams param)
         {
-            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("SplitTemporary", new Action(
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("CreateBigovkaMarks", new Action(
                () =>
                {
                    foreach (var file in files)
@@ -566,7 +566,7 @@ namespace JobSpace.Static
 
         internal static void CreateFillRectangle(PdfCreateFillRectangleParams param, string pathTo)
         {
-            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("SplitTemporary", new Action(
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("CreateFillRectangle", new Action(
                () =>
                {
 

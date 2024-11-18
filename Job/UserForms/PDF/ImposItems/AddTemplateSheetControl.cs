@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,16 +14,16 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class AddTemplateSheetControl : UserControl
     {
-        public EventHandler<TemplateSheet> OnSheetAdded = delegate{ }; 
+        public EventHandler<TemplateSheet> OnSheetAdded = delegate { };
         public EventHandler<TemplateSheet> OnSheetEdited = delegate { };
         public EventHandler<TemplateSheet> OnSheetSelected = delegate { };
         public EventHandler<TemplateSheet> OnSheetAddToPrint = delegate { };
         public EventHandler<TemplateSheet> OnSheetAddManyToPrint = delegate { };
-        
+
 
         ControlBindParameters _parameters;
 
-        int idx=1;
+        int idx = 1;
         public AddTemplateSheetControl()
         {
             InitializeComponent();
@@ -55,14 +56,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     sheet.Id = idx++;
                     objectListView1.AddObject(sheet);
                     objectListView1.SelectObject(sheet);
-                    OnSheetAdded(this,sheet);
+                    OnSheetAdded(this, sheet);
                 }
             }
         }
 
         private void tsb_edit_Click(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObject is TemplateSheet sheet) {
+            if (objectListView1.SelectedObject is TemplateSheet sheet)
+            {
                 using (var form = new Form_AddTemplateSheet(sheet))
                 {
                     if (form.ShowDialog() == DialogResult.OK)
@@ -78,7 +80,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void tsb_toPrint_Click(object sender, EventArgs e)
         {
             if (objectListView1.SelectedObject is TemplateSheet sheet)
-                OnSheetAddToPrint(this,sheet);
+                OnSheetAddToPrint(this, sheet);
         }
 
         public List<TemplateSheet> GetSheets()
@@ -89,7 +91,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void tsb_fillAll_Click(object sender, EventArgs e)
         {
             if (objectListView1.SelectedObject is TemplateSheet sheet)
-                OnSheetAddManyToPrint(this,sheet);
+                OnSheetAddManyToPrint(this, sheet);
         }
 
         private void tbs_dublicate_Click(object sender, EventArgs e)
@@ -99,7 +101,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 TemplateSheet s = TemplateSheet.Duplicate(sheet);
                 objectListView1.AddObject(s);
             }
-                
+
         }
 
         private void tsb_delete_Click(object sender, EventArgs e)
@@ -112,12 +114,21 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void tsb_saveTemplate_Click(object sender, EventArgs e)
         {
+            if (objectListView1.SelectedObject is TemplateSheet sheet)
+            {
+                SaveLoadService.SaveSheetTemplates(sheet);
+            }
 
         }
 
         private void tsb_loadTemplate_Click(object sender, EventArgs e)
         {
-
+            TemplateSheet sheet = SaveLoadService.LoadSheetTemplate();
+            if (sheet != null)
+            {
+                sheet.Id = idx++;
+                objectListView1.AddObject(sheet);
+            }
         }
     }
 }

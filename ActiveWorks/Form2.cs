@@ -20,7 +20,7 @@ namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 8.19.15";
+        private readonly string _version = $"{Localize.FormTitle} 8.19.18";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
@@ -31,9 +31,7 @@ namespace ActiveWorks
         {
             InitializeComponent();
             kryptonRibbon1.AllowFormIntegrate = false;
-
-            //ThemeController.ThemeChanged += ThemeController_ThemeChanged;
-
+            
             Text = _version;
 
             buttonSpecAnyWhatNew.Click += ButtonSpecAnyWhatNew_Click;

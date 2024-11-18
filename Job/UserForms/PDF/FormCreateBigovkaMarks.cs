@@ -13,7 +13,16 @@ namespace JobSpace.UserForms.PDF
         public FormCreateBigovkaMarks()
         {
             InitializeComponent();
+
+            cb_mirrorEven.DataBindings.Add("Enabled", radioButtonHor,"Checked");
+
+            InitUi();
             DialogResult = DialogResult.Cancel;
+        }
+
+        private void InitUi()
+        {
+            cb_mirrorEven.Checked = BigovkaMarksParams.MirrorEven;
         }
 
         private void buttonCreate_Click(object sender, EventArgs e)
@@ -32,12 +41,13 @@ namespace JobSpace.UserForms.PDF
         {
             BigovkaMarksParams.Direction = radioButtonHor.Checked ? Static.Pdf.Common.DirectionEnum.Horizontal : Static.Pdf.Common.DirectionEnum.Vertical;
             BigovkaMarksParams.Bleed = (double)numBleed.Value;
-            BigovkaMarksParams.Lenght = (double)numLen.Value;
+            BigovkaMarksParams.Length = (double)numLen.Value;
             BigovkaMarksParams.DistanceFromTrim = (double)numDistanse.Value;
             BigovkaMarksParams.Color.C = (double)numC.Value;
             BigovkaMarksParams.Color.M = (double)numM.Value;
             BigovkaMarksParams.Color.Y = (double)numY.Value;
             BigovkaMarksParams.Color.K = (double)numK.Value;
+            BigovkaMarksParams.MirrorEven = cb_mirrorEven.Checked;
 
             string[]bigovki = textBoxBigovky.Text.Trim(' ').Split(' ');
 
@@ -53,13 +63,9 @@ namespace JobSpace.UserForms.PDF
                 {
                     BigovkaMarksParams.Bigovki[i] = result;
                 }
-
             }
-
             return true;
         }
-
-       
 
         private void cb_c_CheckedChanged(object sender, EventArgs e)
         {

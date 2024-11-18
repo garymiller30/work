@@ -52,6 +52,7 @@
             this.numY = new System.Windows.Forms.NumericUpDown();
             this.numM = new System.Windows.Forms.NumericUpDown();
             this.numC = new System.Windows.Forms.NumericUpDown();
+            this.cb_mirrorEven = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLen)).BeginInit();
@@ -69,7 +70,7 @@
             // 
             // buttonCreate
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(179, 250);
+            this.buttonCreate.Location = new System.Drawing.Point(344, 291);
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.Size = new System.Drawing.Size(91, 35);
             this.buttonCreate.TabIndex = 0;
@@ -79,11 +80,12 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cb_mirrorEven);
             this.groupBox1.Controls.Add(this.radioButtonVer);
             this.groupBox1.Controls.Add(this.radioButtonHor);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 70);
+            this.groupBox1.Size = new System.Drawing.Size(417, 70);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Напрямок";
@@ -91,7 +93,7 @@
             // radioButtonVer
             // 
             this.radioButtonVer.AutoSize = true;
-            this.radioButtonVer.Location = new System.Drawing.Point(7, 43);
+            this.radioButtonVer.Location = new System.Drawing.Point(231, 19);
             this.radioButtonVer.Name = "radioButtonVer";
             this.radioButtonVer.Size = new System.Drawing.Size(160, 17);
             this.radioButtonVer.TabIndex = 1;
@@ -114,7 +116,7 @@
             // 
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.numLen);
-            this.groupBox2.Location = new System.Drawing.Point(298, 88);
+            this.groupBox2.Location = new System.Drawing.Point(298, 179);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(137, 69);
             this.groupBox2.TabIndex = 2;
@@ -154,7 +156,7 @@
             // 
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.numDistanse);
-            this.groupBox3.Location = new System.Drawing.Point(155, 88);
+            this.groupBox3.Location = new System.Drawing.Point(155, 179);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(137, 69);
             this.groupBox3.TabIndex = 3;
@@ -194,7 +196,7 @@
             // 
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.numBleed);
-            this.groupBox4.Location = new System.Drawing.Point(12, 88);
+            this.groupBox4.Location = new System.Drawing.Point(12, 179);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(137, 69);
             this.groupBox4.TabIndex = 4;
@@ -233,7 +235,7 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.textBoxBigovky);
-            this.groupBox5.Location = new System.Drawing.Point(218, 12);
+            this.groupBox5.Location = new System.Drawing.Point(12, 88);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(217, 70);
             this.groupBox5.TabIndex = 5;
@@ -257,7 +259,7 @@
             this.groupBox6.Controls.Add(this.numY);
             this.groupBox6.Controls.Add(this.numM);
             this.groupBox6.Controls.Add(this.numC);
-            this.groupBox6.Location = new System.Drawing.Point(123, 163);
+            this.groupBox6.Location = new System.Drawing.Point(12, 254);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(213, 72);
             this.groupBox6.TabIndex = 6;
@@ -352,11 +354,21 @@
             this.numC.Click += new System.EventHandler(this.numDistanse_Enter);
             this.numC.Enter += new System.EventHandler(this.numDistanse_Enter);
             // 
+            // cb_mirrorEven
+            // 
+            this.cb_mirrorEven.AutoSize = true;
+            this.cb_mirrorEven.Location = new System.Drawing.Point(32, 42);
+            this.cb_mirrorEven.Name = "cb_mirrorEven";
+            this.cb_mirrorEven.Size = new System.Drawing.Size(112, 17);
+            this.cb_mirrorEven.TabIndex = 11;
+            this.cb_mirrorEven.Text = "Дзеркальні поля";
+            this.cb_mirrorEven.UseVisualStyleBackColor = true;
+            // 
             // FormCreateBigovkaMarks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 297);
+            this.ClientSize = new System.Drawing.Size(444, 336);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -420,5 +432,6 @@
         private System.Windows.Forms.CheckBox cb_y;
         private System.Windows.Forms.CheckBox cb_m;
         private System.Windows.Forms.CheckBox cb_c;
+        private System.Windows.Forms.CheckBox cb_mirrorEven;
     }
 }

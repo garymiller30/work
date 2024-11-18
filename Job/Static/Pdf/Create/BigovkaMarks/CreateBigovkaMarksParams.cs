@@ -11,9 +11,11 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
     {
         public DirectionEnum Direction { get;set;} = DirectionEnum.Horizontal;
         public double DistanceFromTrim { get;set;} = 1;
-        public double Lenght { get;set;} = 1;
+        public double Length { get;set;} = 1;
         public double[] Bigovki { get;set;}
         public double Bleed { get;set;} = 2;
         public CMYKColor Color { get;set;} = new CMYKColor();
+
+        public bool MirrorEven { get;set;} = true;
     }
 }
