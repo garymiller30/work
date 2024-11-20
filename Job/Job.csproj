@@ -275,6 +275,7 @@
     <Compile Include="Static\Pdf\Imposition\Models\MarkColor.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\CropMark.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\CropMarksParam.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\DrawerTextMarkPart.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\MarksContainer.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\PdfMark.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\PdfMarkParameters.cs" />
@@ -315,6 +316,13 @@
     <Compile Include="Static\Pdf\Imposition\Services\SaveLoadService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextVariablesService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\StringToken.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextToken.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableAbstract.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableCMYK.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableDatetime.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableFromService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableSimpleText.cs" />
     <Compile Include="UC\UcSelectStandartPageFormat.cs">
       <SubType>UserControl</SubType>
     </Compile>

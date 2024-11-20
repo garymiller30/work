@@ -9,6 +9,8 @@ using JobSpace.Ext;
 using JobSpace.Menus;
 using JobSpace.Models;
 using JobSpace.Static;
+using JobSpace.Static.Pdf.Imposition.Services;
+using JobSpace.Static.Pdf.Imposition.Services.TextVariables;
 using JobSpace.Static.Pdf.MergeOddAndEven;
 using JobSpace.Static.Pdf.MergeTemporary;
 using JobSpace.UserForms;
@@ -2025,9 +2027,14 @@ namespace JobSpace.UC
         {
             
             if (objectListView1.SelectedObjects.Count == 0) return;
-
+            var curJob = UserProfile.Jobs?.CurrentJob;
+            if (curJob == null) return;
             using (var form = new FormPdfImposition(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), _fileManager.Settings.CurFolder))
             {
+                TextVariablesService.SetValue(ValueList.OrderNo,curJob.Number);
+                TextVariablesService.SetValue(ValueList.Customer, curJob.Customer);
+                TextVariablesService.SetValue(ValueList.OrderDesc, curJob.Description);
+
                 form.ShowDialog();
             }
         }

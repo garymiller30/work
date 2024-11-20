@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobSpace.Static.Pdf.Imposition.Services.TextVariables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,27 @@ namespace JobSpace.Static.Pdf.Imposition.Services
     {
         public static Dictionary<string, string> Values = new Dictionary<string, string>();
 
+        static TextVariableAbstract textVariables;
+
+        public static TextVariableAbstract TextVariableCommand
+        {
+            get
+            {
+                if (textVariables == null) InitTextCommand();
+                return textVariables;
+            }
+        }
+
+        private static void InitTextCommand()
+        {
+            var c_simple = new TextVariableSimpleText(null);
+            var c_fromService = new TextVariableFromService(c_simple);
+            var c_datetime = new TextVariableDatetime(c_fromService);
+            var c_cmyk = new TextVariableCMYK(c_datetime);
+
+            textVariables = c_cmyk;
+
+        }
 
         public static void SetValue(string key, object value)
         {
@@ -39,9 +61,13 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
     public static class ValueList
     {
-        public const string SheetIdx = "$[sheetIdx]";
-        public const string SheetSide = "$[sheetSide]";
-        public const string SheetFormat  = "$[sheetFormat]";
-        public const string CurDate = "$[datetime]";
+        public const string SheetIdx    = "$[sheetIdx]";
+        public const string SheetSide   = "$[sheetSide]";
+        public const string SheetFormat = "$[sheetFormat]";
+        public const string OrderNo     = "$[orderNo]";
+        public const string Customer    = "$[customer]";
+        public const string OrderDesc   = "$[orderDesc]";
+        public const string CurDate     = "$[dateTime]";
+        public const string Cmyk        = "$[cmyk]";
     }
 }
