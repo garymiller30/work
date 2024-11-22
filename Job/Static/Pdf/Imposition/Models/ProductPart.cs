@@ -12,14 +12,29 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public class ProductPart
     {
+        /// <summary>
+        /// шаблон форми
+        /// </summary>
         public TemplatePlate TemplatePlate { get; set; } = new TemplatePlate();
+        /// <summary>
+        /// список файлів, що приймають участь у спуску
+        /// </summary>
         public List<PdfFile> PdfFiles { get; set; } = new List<PdfFile>();
+        /// <summary>
+        /// порядок виводу сторінок для спуску
+        /// </summary>
         public ImposRunList RunList { get; set; } = new ImposRunList();
-
-        [Obsolete]
-        public TemplateSheet Sheet { get; set; } = new TemplateSheet();
-
+        /// <summary>
+        /// кольори, що використовуються в спуску. Для міток.
+        /// </summary>
+        public ImposColors UsedColors { get; set; } = new ImposColors();
+        /// <summary>
+        /// шаблони друкарських листів
+        /// </summary>
         public List<TemplateSheet> TemplateSheets { get; set; } = new List<TemplateSheet>();
+        /// <summary>
+        /// листи для друку. Саме з них робиться pdf
+        /// </summary>
         public List<PrintSheet> PrintSheets { get; set; } = new List<PrintSheet>();
 
         public ProofParameters Proof {  get; set; } = new ProofParameters();
@@ -30,19 +45,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             file.Id = PdfFiles.Count;
             PdfFiles.Add(file);
             return file;
-        }
-
-        public TemplateSheet CreateTemplateSheet()
-        {
-            Sheet = new TemplateSheet();
-
-            return Sheet;
-        }
-
-        public TemplateSheet CreateTemplateSheet(double w, double h)
-        {
-            Sheet = new TemplateSheet(w, h);
-            return Sheet;
         }
 
         public void Save(string filePath)

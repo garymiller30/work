@@ -31,7 +31,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageSimple = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.pdfFileListControl1 = new JobSpace.UserForms.PDF.ImposItems.PdfFileListControl();
+            this.imposColorsControl1 = new JobSpace.UserForms.PDF.ImposItems.ImposColorsControl();
+            this.marksControl1 = new JobSpace.UserForms.PDF.ImposItems.MarksControl();
             this.previewControl1 = new JobSpace.UserForms.PDF.ImposItems.PreviewControl();
             this.panel2 = new System.Windows.Forms.Panel();
             this.cb_UseProofColor = new System.Windows.Forms.CheckBox();
@@ -40,13 +43,16 @@
             this.printSheetsControl1 = new JobSpace.UserForms.PDF.ImposItems.PrintSheetsControl();
             this.runListControl1 = new JobSpace.UserForms.PDF.ImposItems.RunListControl();
             this.btn_SaveToPdf = new System.Windows.Forms.Button();
-            this.marksControl1 = new JobSpace.UserForms.PDF.ImposItems.MarksControl();
             this.tabControl1.SuspendLayout();
             this.tabPageSimple.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -83,7 +89,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.pdfFileListControl1);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer3);
             // 
             // splitContainer1.Panel2
             // 
@@ -94,13 +100,48 @@
             this.splitContainer1.SplitterDistance = 141;
             this.splitContainer1.TabIndex = 2;
             // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.pdfFileListControl1);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.imposColorsControl1);
+            this.splitContainer3.Size = new System.Drawing.Size(141, 601);
+            this.splitContainer3.SplitterDistance = 300;
+            this.splitContainer3.TabIndex = 1;
+            // 
             // pdfFileListControl1
             // 
             this.pdfFileListControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pdfFileListControl1.Location = new System.Drawing.Point(0, 0);
             this.pdfFileListControl1.Name = "pdfFileListControl1";
-            this.pdfFileListControl1.Size = new System.Drawing.Size(141, 601);
+            this.pdfFileListControl1.Size = new System.Drawing.Size(141, 300);
             this.pdfFileListControl1.TabIndex = 0;
+            // 
+            // imposColorsControl1
+            // 
+            this.imposColorsControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imposColorsControl1.Location = new System.Drawing.Point(0, 0);
+            this.imposColorsControl1.Name = "imposColorsControl1";
+            this.imposColorsControl1.Size = new System.Drawing.Size(141, 297);
+            this.imposColorsControl1.TabIndex = 0;
+            // 
+            // marksControl1
+            // 
+            this.marksControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.marksControl1.Location = new System.Drawing.Point(686, 6);
+            this.marksControl1.Name = "marksControl1";
+            this.marksControl1.Size = new System.Drawing.Size(225, 590);
+            this.marksControl1.TabIndex = 4;
             // 
             // previewControl1
             // 
@@ -122,7 +163,7 @@
             this.panel2.Controls.Add(this.btn_SaveToPdf);
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(468, 593);
+            this.panel2.Size = new System.Drawing.Size(474, 593);
             this.panel2.TabIndex = 2;
             // 
             // cb_UseProofColor
@@ -140,7 +181,7 @@
             // 
             this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.splitContainer2.Location = new System.Drawing.Point(120, 3);
+            this.splitContainer2.Location = new System.Drawing.Point(129, 3);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -180,7 +221,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.runListControl1.Location = new System.Drawing.Point(3, 3);
             this.runListControl1.Name = "runListControl1";
-            this.runListControl1.Size = new System.Drawing.Size(111, 587);
+            this.runListControl1.Size = new System.Drawing.Size(120, 587);
             this.runListControl1.TabIndex = 5;
             // 
             // btn_SaveToPdf
@@ -196,15 +237,6 @@
             this.btn_SaveToPdf.Text = "Зберегти в PDF";
             this.btn_SaveToPdf.UseVisualStyleBackColor = false;
             this.btn_SaveToPdf.Click += new System.EventHandler(this.btn_SaveToPdf_Click);
-            // 
-            // marksControl1
-            // 
-            this.marksControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.marksControl1.Location = new System.Drawing.Point(686, 6);
-            this.marksControl1.Name = "marksControl1";
-            this.marksControl1.Size = new System.Drawing.Size(225, 590);
-            this.marksControl1.TabIndex = 4;
             // 
             // FormPdfImposition
             // 
@@ -222,6 +254,10 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -247,5 +283,7 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.CheckBox cb_UseProofColor;
         private ImposItems.MarksControl marksControl1;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private ImposItems.ImposColorsControl imposColorsControl1;
     }
 }

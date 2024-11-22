@@ -184,10 +184,23 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 ((ImposRunPage)item).IsAssumed = false;
             }
 
-            foreach (PrintSheet printSheet in printSheets)
+            if (printSheets.Count > 0)
             {
-                AssignPrintSheet(printSheet);
+                foreach (PrintSheet printSheet in printSheets)
+                {
+                    AssignPrintSheet(printSheet);
+                }
             }
+            else
+            {
+                UpdateStatusString();
+            }
+
+            objectListViewRunList.RefreshObjects(objectListViewRunList.Objects.Cast<ImposRunPage>().ToList());
+
+
+
+
         }
     }
 }

@@ -108,7 +108,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (objectListView1.SelectedObject is TemplateSheet sheet)
             {
-                objectListView1.RemoveObject(sheet);
+                if (ModifierKeys == Keys.Shift)
+                {
+                    objectListView1.ClearObjects();
+                }
+                else
+                {
+                    objectListView1.RemoveObject(sheet);
+                }
+                
             }
         }
 

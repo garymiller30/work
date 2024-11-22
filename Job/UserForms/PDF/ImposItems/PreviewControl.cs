@@ -151,26 +151,36 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             if (e.Button == MouseButtons.Left)
             {
-                if (_parameters.IsFlipAngle)
+                if (_parameters.CurTool == ImposToolEnum.FlipAngle)
                 {
                     ToolFlipSinglePage();
                 }
-                else if (_parameters.IsNumering)
+                else if (_parameters.CurTool == ImposToolEnum.Numeration)
                 {
                     ToolNumeringSinglePage();
+                }
+                else if (_parameters.CurTool == ImposToolEnum.DeletePage)
+                {
+                    ToolDeletePage();
                 }
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (_parameters.IsFlipAngle)
+                if (_parameters.CurTool == ImposToolEnum.FlipAngle)
                 {
                     ToolFlipPageRow();
                 }
-                if (_parameters.IsNumering)
+                if (_parameters.CurTool == ImposToolEnum.Numeration)
                 {
                     ToolNumericWithContinue();
                 }
             }
+        }
+
+        private void ToolDeletePage()
+        {
+            _sheet.TemplatePageContainer.DeletePage(_hover);
+            RedrawSheet();
         }
 
         private void ToolNumericWithContinue()

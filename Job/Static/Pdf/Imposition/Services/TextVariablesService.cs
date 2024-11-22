@@ -28,8 +28,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             var c_fromService = new TextVariableFromService(c_simple);
             var c_datetime = new TextVariableDatetime(c_fromService);
             var c_cmyk = new TextVariableCMYK(c_datetime);
+            var c_usedColors = new TextVariableUsedColor(c_cmyk);
 
-            textVariables = c_cmyk;
+            textVariables = c_usedColors;
 
         }
 
@@ -69,5 +70,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         public const string OrderDesc   = "$[orderDesc]";
         public const string CurDate     = "$[dateTime]";
         public const string Cmyk        = "$[cmyk]";
+        public const string UsedColor   = "$[usedColor]";
     }
 }

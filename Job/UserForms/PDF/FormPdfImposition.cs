@@ -1,4 +1,5 @@
 ﻿using BrightIdeasSoftware;
+using JobSpace.Static.Pdf.Imposition.Drawers;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF;
 using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
@@ -44,14 +45,18 @@ namespace JobSpace.UserForms.PDF
             addTemplateSheetControl1.OnSheetSelected += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetsChanged += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetDeleted += OnPrintSheetDeleted;
+            
             addTemplateSheetControl1.OnSheetAddToPrint += OnAddSheetToPrintEvent;
             addTemplateSheetControl1.OnSheetAddManyToPrint += OnSheetAddManyToPrintEvent;
             PrintSheet.ResetId();
         }
 
-        private void OnPrintSheetDeleted(object sender, PrintSheet e)
+       
+
+        private void OnPrintSheetDeleted(object sender, EventArgs e)
         {
             runListControl1.ReassignPrintSheets(printSheetsControl1.GetSheets());
+
         }
 
         private void OnSheetAddManyToPrintEvent(object sender, TemplateSheet e)
@@ -139,7 +144,7 @@ namespace JobSpace.UserForms.PDF
                 {
                     var str = File.ReadAllText(filePath);
                     _productPart = JsonSerializer.Deserialize<ProductPart>(str);
-
+                    imposColorsControl1.SetUsedColors(_productPart.UsedColors);
                     RedrawProductPart();
 
                 }
@@ -174,8 +179,11 @@ namespace JobSpace.UserForms.PDF
 
             _productPart.RunList.RunPages = runListControl1.GetRunPages();
             _productPart.PdfFiles = _pdfFiles;
+            _productPart.UsedColors = imposColorsControl1.GetUsedColors();
 
             string imposFile = _files.ToList()[0] + ".impos.pdf";
+
+            DrawerStatic.CurProductPart = _productPart;
 
             var drawer = new PdfDrawer(imposFile);
             drawer.Draw(_productPart);

@@ -248,6 +248,8 @@
     <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarksParams.cs" />
     <Compile Include="Static\Pdf\Create\FillRectangle\PdfCreateFillRectangle.cs" />
     <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateFillRectangleParams.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\DrawerSideEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\DrawerStatic.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Commons.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Crop\Back.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Crop\Front.cs" />
@@ -269,8 +271,11 @@
     <Compile Include="Static\Pdf\Imposition\Models\ClipBox.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ControlBindParameters.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\CropDirection.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposColor.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposColors.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ImposRunList.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ImposRunPage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposToolEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ImposToolsParameters.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\MarkColor.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\CropMark.cs" />
@@ -323,6 +328,7 @@
     <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableDatetime.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableFromService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableSimpleText.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableUsedColor.cs" />
     <Compile Include="UC\UcSelectStandartPageFormat.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -719,6 +725,12 @@
     <Compile Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.Designer.cs">
       <DependentUpon>Form_AddTemplateSheet.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\ImposColorsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\ImposColorsControl.Designer.cs">
+      <DependentUpon>ImposColorsControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\ImposItems\ImposToolsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -975,6 +987,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.resx">
       <DependentUpon>Form_AddTemplateSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\ImposColorsControl.resx">
+      <DependentUpon>ImposColorsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\ImposToolsControl.resx">
       <DependentUpon>ImposToolsControl.cs</DependentUpon>
