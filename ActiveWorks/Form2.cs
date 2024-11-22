@@ -15,12 +15,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        private readonly string _version = $"{Localize.FormTitle} 8.19.18";
         readonly List<FormProfile> _profileTabs = new List<FormProfile>();
 
         FormBackgroundTasks _formBackgroundTask;
@@ -31,8 +31,10 @@ namespace ActiveWorks
         {
             InitializeComponent();
             kryptonRibbon1.AllowFormIntegrate = false;
-            
-            Text = _version;
+
+            string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            Text = $"{Localize.FormTitle} {assemblyVersion}";
 
             buttonSpecAnyWhatNew.Click += ButtonSpecAnyWhatNew_Click;
             buttonSpecAnyIssue.Click += ButtonSpecAnyIssue_Click;
@@ -45,7 +47,7 @@ namespace ActiveWorks
 
             SplashScreen.Splash.ShowSplashScreen();
             SplashScreen.Splash.SetImage(Resources.SplashScreen8);
-            SplashScreen.Splash.SetVersion(_version, Color.Yellow, 12, 12);
+            SplashScreen.Splash.SetVersion(assemblyVersion, Color.Yellow, 12, 12);
             SplashScreen.Splash.SetHeader(string.Empty);
             SplashScreen.Splash.SetStatus(string.Empty);
         }

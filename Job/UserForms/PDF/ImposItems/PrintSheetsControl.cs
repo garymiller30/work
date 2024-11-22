@@ -14,7 +14,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
     public partial class PrintSheetsControl : UserControl
     {
         public EventHandler<PrintSheet> OnPrintSheetsChanged { get; set; } = delegate { };
-        public EventHandler<PrintSheet> OnPrintSheetDeleted { get; set; } = delegate { };
+        public EventHandler OnPrintSheetDeleted { get; set; } = delegate { };
 
         int id = 1;
         ControlBindParameters _controlBindParameters;
@@ -52,11 +52,20 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void tsb_delete_Click(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObject is PrintSheet sheet)
+            if (ModifierKeys == Keys.Shift)
+            {
+                objectListView1.ClearObjects();
+            }
+            else if (objectListView1.SelectedObject is PrintSheet sheet)
             {
                 objectListView1.RemoveObject(sheet);
-                OnPrintSheetDeleted(this, sheet);
             }
+            else
+            {
+                return;
+            }
+
+            OnPrintSheetDeleted(this, null);
         }
     }
 }

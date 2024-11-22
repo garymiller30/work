@@ -17,7 +17,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
     {
         public static void Front(PDFlib p, ProductPart impos, PrintSheet sheet)
         {
-
+            DrawerStatic.CurSide = DrawerSideEnum.Front;
             p.begin_page_ext(sheet.W * PdfHelper.mn, sheet.H * PdfHelper.mn, "");
 
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
@@ -28,9 +28,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 ImposRunPage runPage = impos.RunList.RunPages[runListPageIdx];
 
                 //пуста сторінка
-                if (runPage.FileId == 0 && runPage.PageIdx == 0)
+                if ((runPage.FileId == 0 && runPage.PageIdx == 0) || templatePage.FrontIdx == 0)
                 {
-
+                    // пропускаємо
                 }
                 else
                 {

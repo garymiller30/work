@@ -127,17 +127,17 @@
   <data name="tsb_AddEmptyPage.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJHSURBVDhPhZJdSJNhGIafMKVmNrODEY3pNssp1YIFBQX9
-        oVg5cdRGmSwIFE+KiuggCevAoKAfKNiyX/FAs8RBZDqs/AkEGWKUHZTltAw2gk6MQT/cfffrt2SM8IYH
-        Ht77ut7v+8YkLW4pl3oJmo8bY7ZGyyyHO89U9994JUt8Eva3bUHPVCO+4SF+oVcNd56xI6PYlNRJptRK
-        vPXdMfzAM3xOdCAUPYGafpuaJ9On8SXxSHVkyCrnX6ol3D7RgO/oxtOZM2id9ODSeB2SOfSyEO3TPtWR
-        IUtnTvZLWX2oEnF0oSXqx/0pHwKfSlMuONxvx71olerIkKVDVxadymjunbmMULwWgckq3Jn04cqHnerV
-        k+F+Y2KP6siQpUNXHE3m2NDPBpwb24bzwye117VoT7TCHTboOuDpy1WXsCNDlg5dcV4zJiJ/mnB0sETH
-        Fw5ZOhs0V5wPihNDvy/A2iV6vXDIvtIc5/XihDgC5tjZry6s7xas7EydZLgXPRfYteFOlo4jqH2C6eqS
-        Zs9rE468LcDeSDZ2jyyGa0Bg65u/gPLWQcG+kVxURJYrlg5dybtoKNseNqH6vRWeiAX7xwqwazgHa17M
-        X8CdZ+zIkKVDV/0VVt9cGnaPWnDgjfbrR/JRGjGmfQLP2ClGY+komXHdkkxHS068cswC77gNXg1a15OB
-        vDZRw51n7MiQpaPrcynpkKy1d5eFdwysQsVoPg5OFKLmY5Ea7jxjR4asrqXHfttQvvGxMbgptCK2uTN7
-        lsOdZ+x0TI/IX5SPI42Dgw1OAAAAAElFTkSuQmCC
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJHSURBVDhPhZJdSFNxGMbfMKU0m9nFiGS6zXJKtWBBQUFf
+        KFZOHLVRJgsCxZuiIrpIwrowKCgvCjT7FC80SxxEpgcrPwJBhizKLmo1tQw2gm6MQR88nefvWTJG+MAL
+        L//n9/ufc8YkJW4pl3ppzTtpitoaLXMc7jxT3X/jlQzxiebv3Ib+6UZ8w0P8woAa7jxjR0axSamTdKmV
+        WMe7E/iBZ/gc70Zg6hRqhmxqnsycxZf4I9WRIaucf6kWrSvcgO/ow9PZc+iIeHBlsg6JHHlZiK4Zn+rI
+        kKUzL/ulrD5QiRh60T7lx/1pH1o+lSZdcHTIjntTVaojQ5YOXVlyJq1tYPYqArFatESqcCfiw7UPu9Wr
+        J8L9Rnif6siQpUNXHE150dGfDbgQ2oGLY6f117XoT7TCrWUaOuAZzFGXsCNDlg5dcTab4sE/TTg+UmLg
+        i4csnU26K84HxfHR35dg7RWjXjxkX+mOs7k4Lo6WvOj5ry5s7BOs7kmeRLgXPRfY9eFOlo6jVf8E8/Vl
+        bZ7XZhx7W4D9wSzsHV8K17DANrhwAeXtI4ID4zmoCK5ULB26kns5s2ynZkb1eys8QQsOhgqwZywb614s
+        XMCdZ+zIkKVDV/0V1t5crrknLDj0Rv/1g/koDZpSPoFn7BSjs3SUzLhuSbqjPTtWGbLAO2mDV4c29Kch
+        t1PUcOcZOzJk6Rj6fEq6JWP93RXaruE1qJjIx+FwIWo+FqnhzjN2ZMgaWmrstzPLNz82tW4JrIpu7cma
+        43DnGTsDMyLyF5LFI4zaPUIrAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="tsb_RemovePage.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

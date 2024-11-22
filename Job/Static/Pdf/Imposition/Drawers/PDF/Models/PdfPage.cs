@@ -14,18 +14,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Models
 
         public List<PdfPagePlacer> pagePlacers { get; set; } = new List<PdfPagePlacer>();
 
-        public PdfPage(ProductPart productPart)
-        {
-            if (productPart.TemplatePlate.IsLikePaperFormat)
-            {
-                W = productPart.Sheet.W + productPart.Sheet.ExtraSpace*2;
-                H = productPart.Sheet.H + productPart.Sheet.ExtraSpace*2;
-            }
-            else
-            {
-                W = productPart.TemplatePlate.W;
-                H = productPart.TemplatePlate.H;
-            }
-        }
+       
     }
 }

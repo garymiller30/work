@@ -29,6 +29,38 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             K = 21
         };
 
+        public static MarkColor Cyan = new MarkColor
+        {
+            C = 100,
+            M = 0,
+            Y = 0,
+            K = 0,
+        };
+
+        public static MarkColor Magenta  = new MarkColor
+        {
+            C = 0,
+            M = 100,
+            Y = 0,
+            K = 0,
+        };
+
+        public static MarkColor Yellow = new MarkColor
+        {
+            C = 0,
+            M = 0,
+            Y = 100,
+            K = 0,
+        };
+
+        public static MarkColor Black = new MarkColor
+        {
+            C = 0,
+            M = 0,
+            Y = 0,
+            K = 100
+        };
+
         public bool IsSpot { get; set; } = false;
         public string Name { get; set; } = "Spot";
         public double C { get; set; } = 0;

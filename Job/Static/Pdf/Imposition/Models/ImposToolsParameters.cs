@@ -11,8 +11,10 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         int _frontNum=1;
         int _backNum;
 
-        public bool IsFlipAngle { get; set; }
-        public bool IsNumering { get; set; }
+        public ImposToolEnum CurTool {  get; set; } = ImposToolEnum.Select;
+
+        //public bool IsFlipAngle { get; set; }
+        //public bool IsNumering { get; set; }
         public int FrontNum
         {
             get => _frontNum;

@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RunListControl));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tssl_status = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsb_AddEmptyPage = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -38,12 +40,10 @@
             this.olvColumIdx = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnRunListPages = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnAsign = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tssl_status = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox2.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewRunList)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -58,6 +58,22 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Сторінки спуску";
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tssl_status});
+            this.statusStrip1.Location = new System.Drawing.Point(3, 360);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(118, 22);
+            this.statusStrip1.TabIndex = 2;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tssl_status
+            // 
+            this.tssl_status.Name = "tssl_status";
+            this.tssl_status.Size = new System.Drawing.Size(66, 17);
+            this.tssl_status.Text = "◌ : 0 | ● : 0, ";
             // 
             // toolStrip1
             // 
@@ -129,28 +145,12 @@
             // olvColumnRunListPages
             // 
             this.olvColumnRunListPages.Text = "Сторінки";
-            this.olvColumnRunListPages.Width = 56;
+            this.olvColumnRunListPages.Width = 45;
             // 
             // olvColumnAsign
             // 
             this.olvColumnAsign.Text = "";
             this.olvColumnAsign.Width = 30;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tssl_status});
-            this.statusStrip1.Location = new System.Drawing.Point(3, 360);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(118, 22);
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // tssl_status
-            // 
-            this.tssl_status.Name = "tssl_status";
-            this.tssl_status.Size = new System.Drawing.Size(66, 17);
-            this.tssl_status.Text = "◌ : 0 | ● : 0, ";
             // 
             // RunListControl
             // 
@@ -161,11 +161,11 @@
             this.Size = new System.Drawing.Size(124, 385);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewRunList)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }

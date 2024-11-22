@@ -23,18 +23,28 @@ namespace JobSpace.UserForms.PDF.ImposItems
             InitializeComponent();
             tb_front.MouseClick += tb_front_MouseClick;
             tb_back.MouseClick += tb_back_MouseClick;
-            cb_rotate_180.CheckedChanged += cb_rotate_180_CheckedChanged;
-            cb_EnableNumering.CheckedChanged += cb_EnableNumering_CheckedChanged;
+            rb_rotate_180.CheckedChanged += cb_rotate_180_CheckedChanged;
+            rb_EnableNumering.CheckedChanged += cb_EnableNumering_CheckedChanged;
+            rb_deletePage.CheckedChanged += Rb_deletePage_CheckedChanged;
             tb_front.TextChanged += tb_front_TextChanged;
             tb_back.TextChanged += tb_back_TextChanged;
             btn_switch_front_back.Click += btn_switch_front_back_Click;
 
-            tb_front.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
-            tb_back.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
-            btn_switch_front_back.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
-            btn_sameNumber.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
-            btn_listNumber.DataBindings.Add("Enabled", cb_EnableNumering, "Checked");
+            tb_front.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
+            tb_back.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
+            btn_switch_front_back.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
+            btn_sameNumber.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
+            btn_listNumber.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
 
+        }
+
+        private void Rb_deletePage_CheckedChanged(object sender, EventArgs e)
+        {
+            bool check = rb_deletePage.Checked;
+            if (check)
+            {
+                parameters.CurTool = ImposToolEnum.DeletePage;
+            }
         }
 
         public void InitParameters(ImposToolsParameters param)
@@ -64,25 +74,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void cb_rotate_180_CheckedChanged(object sender, EventArgs e)
         {
-            bool check = cb_rotate_180.Checked;
+            bool check = rb_rotate_180.Checked;
             if (check)
             {
-                parameters.IsFlipAngle = check;
-                parameters.IsNumering = !check;
-                cb_EnableNumering.Checked = !check;
-                cb_select.Checked = !check;
+                parameters.CurTool = ImposToolEnum.FlipAngle;
             }
         }
 
         private void cb_EnableNumering_CheckedChanged(object sender, EventArgs e)
         {
-            bool check = cb_EnableNumering.Checked;
+            bool check = rb_EnableNumering.Checked;
             if (check)
             {
-                parameters.IsNumering = check;
-                parameters.IsFlipAngle = !check;
-                cb_rotate_180.Checked = !check;
-                cb_select.Checked = !check;
+                parameters.CurTool = ImposToolEnum.Numeration;
             }
         }
 
@@ -121,14 +125,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void cb_select_CheckedChanged_1(object sender, EventArgs e)
         {
-            bool check = cb_select.Checked;
+            bool check = rb_select.Checked;
             if (check)
             {
-                parameters.IsFlipAngle = false;
-                parameters.IsNumering = false;
-                cb_rotate_180.Checked = !check;
-                cb_EnableNumering.Checked = !check;
-
+                parameters.CurTool = ImposToolEnum.Select;
             }
         }
     }

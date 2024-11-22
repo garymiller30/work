@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -122,6 +123,13 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                     }
                 }
             }
+        }
+
+        public void DeletePage(TemplatePage page)
+        {
+            TemplatePages.Remove(page);
+            // перерахувати мітки різу
+            CropMarksService.FixCropMarksFront(this);
         }
     }
 }

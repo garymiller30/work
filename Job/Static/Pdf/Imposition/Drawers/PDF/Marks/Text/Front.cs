@@ -21,8 +21,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
         {
             foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsFront && x.Enable == true))
             {
-                
-
                 StringToken stringToken = new StringToken(mark);
 
                 int font = p.load_font(mark.FontName, "auto", "");
@@ -43,32 +41,28 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                     MarkColor color = token.Color;
                     string fillColor = color.IsSpot ? $"fillcolor={{spotname {{{color.Name}}} {color.Opasity / 100} {{cmyk {color.C / 100} {color.M / 100} {color.Y / 100} {color.K / 100}}}}}" :
                                                       $"fillcolor={{cmyk {color.C / 100} {color.M / 100} {color.Y / 100} {color.K / 100}}}";
-                    if (mark.Angle == 0)
+                    p.fit_textline(token.Text, x, y, $"{fillColor} orientate={Commons.Orientate[mark.Angle]}");
+
+                    double string_w = p.stringwidth(token.Text, font, mark.FontSize);
+
+                    switch (mark.Angle)
                     {
-                        p.fit_textline(token.Text,x,y, $"{fillColor} orientate={Commons.Orientate[mark.Angle]}");
-                        x += p.stringwidth(token.Text,font,mark.FontSize);
+                        case 0:
+                            x += string_w;
+                            break;
+                        case 90:
+                            y += string_w;
+                            break;
+                        case 180:
+                            x -= string_w;
+                            break;
+                        case 270:
+                            y -= string_w;
+                            break;
                     }
+                   
                     p.restore();
                 }
-                
-
-                //if (mark.Color.IsOverprint)
-                //{
-                //    int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
-                //    p.set_gstate(gstate);
-                //}
-
-                //int font = p.load_font(mark.FontName,"auto","");
-                //p.setfont(font,mark.FontSize);
-
-                //string fillColor = mark.Color.IsSpot ? $"fillcolor={{spotname {{{mark.Color.Name}}} {mark.Color.Opasity / 100} {{cmyk {mark.Color.C / 100} {mark.Color.M/100} {mark.Color.Y/100} {mark.Color.K / 100}}}}}" :
-                //    $"fillcolor={{cmyk {mark.Color.C / 100} {mark.Color.M / 100} {mark.Color.Y / 100} {mark.Color.K / 100}}}";
-
-                //string txt = TextVariablesService.ReplaceToRealValues(mark.Text);
-
-                //p.fit_textline(txt, mark.Front.X * PdfHelper.mn, mark.Front.Y * PdfHelper.mn, $"{fillColor} orientate={Commons.Orientate[mark.Angle]}");
-
-                //p.restore();
             }
 
             marksContainer.Containers.ForEach(x => DrawTextMarks.Front(p, x));

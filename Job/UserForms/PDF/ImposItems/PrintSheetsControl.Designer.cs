@@ -121,7 +121,7 @@
             this.tsb_delete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_delete.Name = "tsb_delete";
             this.tsb_delete.Size = new System.Drawing.Size(23, 22);
-            this.tsb_delete.ToolTipText = "Видалити лист";
+            this.tsb_delete.ToolTipText = "Видалити лист (+Shift - видалити всі)";
             this.tsb_delete.Click += new System.EventHandler(this.tsb_delete_Click);
             // 
             // PrintSheetsControl

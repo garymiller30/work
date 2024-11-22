@@ -204,6 +204,7 @@
             this.tsb_delete.Name = "tsb_delete";
             this.tsb_delete.Size = new System.Drawing.Size(23, 22);
             this.tsb_delete.Text = "видалити шаблон листа";
+            this.tsb_delete.ToolTipText = "видалити шаблон листа (+Shift - видалити все)";
             this.tsb_delete.Click += new System.EventHandler(this.tsb_delete_Click);
             // 
             // toolStripSeparator2
