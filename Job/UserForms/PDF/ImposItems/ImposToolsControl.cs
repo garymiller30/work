@@ -23,6 +23,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             InitializeComponent();
             tb_front.MouseClick += tb_front_MouseClick;
             tb_back.MouseClick += tb_back_MouseClick;
+            rb_select.CheckedChanged += Rb_select_CheckedChanged;
             rb_rotate_180.CheckedChanged += cb_rotate_180_CheckedChanged;
             rb_EnableNumering.CheckedChanged += cb_EnableNumering_CheckedChanged;
             rb_deletePage.CheckedChanged += Rb_deletePage_CheckedChanged;
@@ -36,6 +37,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
             btn_sameNumber.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
             btn_listNumber.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
 
+        }
+
+        private void Rb_select_CheckedChanged(object sender, EventArgs e)
+        {
+            bool check = rb_select.Checked;
+            if (check)
+            {
+                parameters.CurTool = ImposToolEnum.Select;
+            }
         }
 
         private void Rb_deletePage_CheckedChanged(object sender, EventArgs e)

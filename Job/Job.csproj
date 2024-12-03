@@ -300,10 +300,12 @@
     <Compile Include="Static\Pdf\Imposition\Models\TemplatePlate.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\TemplateSheet.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\TemplateSheetPlaceType.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\View\PageFormatView.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\CropMarkCreator.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\CropMarksController.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\CropMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\PdfLineDrawer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingPlaceEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingTypeEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingParameters.cs" />
@@ -701,6 +703,12 @@
     <Compile Include="UserForms\PDF\ImposItems\AnchorPointControl.Designer.cs">
       <DependentUpon>AnchorPointControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleControl.Designer.cs">
+      <DependentUpon>BindingSimpleControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\ImposItems\FormAddPdfMark.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -724,6 +732,13 @@
     </Compile>
     <Compile Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.Designer.cs">
       <DependentUpon>Form_AddTemplateSheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\IBindControl.cs" />
+    <Compile Include="UserForms\PDF\ImposItems\ImposBindingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\ImposBindingControl.Designer.cs">
+      <DependentUpon>ImposBindingControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\ImposItems\ImposColorsControl.cs">
       <SubType>UserControl</SubType>
@@ -749,11 +764,23 @@
     <Compile Include="UserForms\PDF\ImposItems\MarksControl.Designer.cs">
       <DependentUpon>MarksControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MasterPageSelectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MasterPageSelectControl.Designer.cs">
+      <DependentUpon>MasterPageSelectControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\ImposItems\PdfFileListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserForms\PDF\ImposItems\PdfFileListControl.Designer.cs">
       <DependentUpon>PdfFileListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PressSheetSelectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PressSheetSelectControl.Designer.cs">
+      <DependentUpon>PressSheetSelectControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\ImposItems\PreviewControl.cs">
       <SubType>UserControl</SubType>
@@ -974,6 +1001,9 @@
     <EmbeddedResource Include="UserForms\PDF\ImposItems\AnchorPointControl.resx">
       <DependentUpon>AnchorPointControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\BindingSimpleControl.resx">
+      <DependentUpon>BindingSimpleControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddPdfMark.resx">
       <DependentUpon>FormAddPdfMark.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -988,6 +1018,9 @@
     <EmbeddedResource Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.resx">
       <DependentUpon>Form_AddTemplateSheet.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\ImposBindingControl.resx">
+      <DependentUpon>ImposBindingControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\ImposColorsControl.resx">
       <DependentUpon>ImposColorsControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1000,8 +1033,14 @@
     <EmbeddedResource Include="UserForms\PDF\ImposItems\MarksControl.resx">
       <DependentUpon>MarksControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\MasterPageSelectControl.resx">
+      <DependentUpon>MasterPageSelectControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\PdfFileListControl.resx">
       <DependentUpon>PdfFileListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\PressSheetSelectControl.resx">
+      <DependentUpon>PressSheetSelectControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\PreviewControl.resx">
       <DependentUpon>PreviewControl.cs</DependentUpon>

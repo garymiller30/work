@@ -1,9 +1,14 @@
-﻿using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
+﻿using Ghostscript.NET.Rasterizer;
+using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
@@ -38,10 +43,89 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             {
                 DrawPage(g, sheet, page, (int)sheet.H);
             }
+            PdfMarksService.RecalcMarkCoordFront(sheet);
+            DrawSheetMarksFront(g,sheet, (int)sheet.H);
+
+            PdfMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
+            DrawContainerMarksFront(g, sheet.TemplatePageContainer.Marks, (int)sheet.H);
 
             g.Dispose();
 
             return bitmap;
+        }
+
+        private static void DrawContainerMarksFront(Graphics g, MarksContainer container, int h)
+        {
+            Brush brush = new SolidBrush(Color.Aqua);
+            foreach (var mark in container.Pdf.Where(x => x.Parameters.IsFront && x.Enable))
+            {
+
+                Image bitmap = MarksService.GetBitmap(mark);
+                var rect = new Rectangle
+                {
+                    X = (int)mark.Front.X,
+                    Y = h - (int)mark.Front.Y - (int)mark.GetH(),
+                    Width = (int)mark.GetW(),
+                    Height = (int)mark.GetH()
+                };
+
+                if (bitmap == null) 
+                    {
+                    g.FillRectangle(brush,rect );
+
+                }
+                else
+                {
+                    var i = RotateImage(bitmap,(float)mark.Angle);
+                    g.DrawImage(i,rect);
+                    bitmap.Dispose();
+                }
+            }
+            brush.Dispose();
+
+            container.Containers.ForEach(x=> DrawContainerMarksFront(g,x,h));
+
+        }
+
+
+        public static Bitmap RotateImage(Image b, float angle)
+        {
+            //create a new empty bitmap to hold rotated image
+            Bitmap returnBitmap = new Bitmap(b.Width, b.Height);
+            //make a graphics object from the empty bitmap
+            using (Graphics g = Graphics.FromImage(returnBitmap))
+            {
+                //move rotation point to center of image
+                g.TranslateTransform((float)b.Width / 2, (float)b.Height / 2);
+                //rotate
+                g.RotateTransform(angle);
+                //move image back
+                g.TranslateTransform(-(float)b.Width / 2, -(float)b.Height / 2);
+                //draw passed in image onto graphics object
+                g.DrawImage(b, new Point(0, 0));
+            }
+            return returnBitmap;
+        }
+
+
+        private static void DrawSheetMarksFront(Graphics g, TemplateSheet sheet, int h)
+        {
+            DrawSheetPdfMarksFront(g,sheet,h);
+        }
+
+        private static void DrawSheetPdfMarksFront(Graphics g, TemplateSheet sheet, int h)
+        {
+            Brush brush = new SolidBrush(Color.Aqua);
+            foreach (var mark in sheet.Marks.Pdf.Where(x=> x.Parameters.IsFront && x.Enable))
+            {
+                g.FillRectangle(brush, new Rectangle { 
+                    X=(int)mark.Front.X,
+                    Y=h-(int)mark.Front.Y,
+                    Width=(int)mark.GetW(),
+                    Height=(int)mark.GetH()
+                    });
+            }
+            brush.Dispose();
         }
 
         private static void DrawSheetSafeField(Graphics g, TemplateSheet sheet)
@@ -90,7 +174,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         static void DrawPage(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
-            
+
 
             int x = (int)page.GetPageDrawX();
             int y = sH - (int)page.GetPageDrawY() - (int)page.GetPageDrawH();
@@ -114,9 +198,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             pen.Dispose();
 
             DrawBleeds(g, page, sH);
-            DrawPageRotateMarker(g,page,rect,sH);
+            DrawPageRotateMarker(g, page, rect, sH);
             DrawText(g, sheet, page, sH);
-            DrawCropsMark(g,page,sH);
+            DrawCropsMark(g, page, sH);
         }
 
         private static void DrawCropsMark(Graphics g, TemplatePage page, int sH)
@@ -124,7 +208,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             var marks = page.CropMarksController.CropMarks;
             Pen pen = new Pen(Color.Black);
 
-            foreach (var mark in marks.Where(x=>x.IsFront))
+            foreach (var mark in marks.Where(x => x.IsFront))
             {
                 Point p1 = new Point
                 {
@@ -133,15 +217,15 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 };
                 Point p2 = new Point
                 {
-                    X = (int) mark.To.X,
+                    X = (int)mark.To.X,
                     Y = sH - (int)mark.To.Y
                 };
-                g.DrawLine(pen,p1,p2);
+                g.DrawLine(pen, p1, p2);
             }
             pen.Dispose();
         }
 
-        private static void DrawPageRotateMarker(Graphics g, TemplatePage page,Rectangle rect, int sH)
+        private static void DrawPageRotateMarker(Graphics g, TemplatePage page, Rectangle rect, int sH)
         {
             int dist = 5;
             int height = 7;
@@ -191,15 +275,15 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             brush.Dispose();
         }
 
-        private static void DrawBleeds(Graphics g, TemplatePage page,  int sH)
+        private static void DrawBleeds(Graphics g, TemplatePage page, int sH)
         {
             var brush = new SolidBrush(Color.LightGreen);
 
-            DrawBleedLeft(g,page,sH,brush);
+            DrawBleedLeft(g, page, sH, brush);
             DrawBleedTop(g, page, sH, brush);
-            DrawBleedRight(g, page, sH,brush);
-            DrawBleedBottom(g, page, sH,brush);
-            
+            DrawBleedRight(g, page, sH, brush);
+            DrawBleedBottom(g, page, sH, brush);
+
             brush.Dispose();
         }
 
@@ -212,12 +296,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             int sy = 0;
             int sw = 0;
             int sh = 0;
-            
+
             switch (page.Angle)
             {
                 case 0:
                     sx = (int)(page.GetPageDrawX() - page.Bleeds.Left);
-                    sy = sH - (int) page.GetPageDrawY();
+                    sy = sH - (int)page.GetPageDrawY();
                     sw = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
                     sh = (int)(page.Bleeds.Bottom);
                     break;
@@ -265,7 +349,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     break;
                 case 90:
                     sx = (int)(page.GetPageDrawX() - page.Bleeds.Top);
-                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH()+ page.Bleeds.Right );
+                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Bleeds.Right);
                     sw = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
                     sh = (int)page.Bleeds.Right;
                     break;
@@ -301,7 +385,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             {
                 case 0:
                     sx = (int)(page.GetPageDrawX() - page.Bleeds.Left);
-                    sy = sH - (int)( page.H + page.GetPageDrawY() + page.Bleeds.Top);
+                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Bleeds.Top);
                     sw = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
                     sh = (int)(page.Bleeds.Top);
                     break;
@@ -318,7 +402,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     sh = (int)(page.Bleeds.Top);
                     break;
                 case 270:
-                    sx = (int)(page.GetPageDrawX() +page.GetPageDrawW());
+                    sx = (int)(page.GetPageDrawX() + page.GetPageDrawW());
                     sy = sH - (int)(page.GetPageDrawH() + page.GetPageDrawY() + page.Bleeds.Top);
                     sw = (int)(page.Bleeds.Top);
                     sh = (int)(page.GetPageDrawH() + page.Bleeds.Left + page.Bleeds.Right);
@@ -362,7 +446,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     break;
                 case 270:
                     sx = (int)(page.GetPageDrawX() - page.Bleeds.Bottom);
-                    sy = sH - (int)(page.GetPageDrawY() + page.Bleeds.Left+ page.GetPageDrawH());
+                    sy = sH - (int)(page.GetPageDrawY() + page.Bleeds.Left + page.GetPageDrawH());
                     sw = (int)(page.Bleeds.Top + page.GetPageDrawW() + page.Bleeds.Bottom);
                     sh = (int)(page.Bleeds.Left);
                     break;
@@ -409,9 +493,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             string txt;
 
-            if (page.FrontIdx == 0 && back == 0)
+            if ((page.FrontIdx == 0 && page.BackIdx == 0))
             {
                 txt = "пуста";
+            }
+            else if (page.BackIdx == 0)
+            {
+                txt = $"{page.FrontIdx}";
             }
             else
             {
@@ -424,7 +512,21 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
                 if (page.FrontIdx != 0) front = page.FrontIdx + printSheet.RunPageIdx;
                 if (page.BackIdx != 0) back = page.BackIdx + printSheet.RunPageIdx;
-                txt = $"{front}•{back}";
+
+                if (page.FrontIdx == 0 && page.BackIdx == 0)
+                {
+                    txt = "пуста";
+                }
+
+                if (page.BackIdx == 0)
+                {
+                    txt = $"{front}";
+                }
+                else
+                {
+                    txt = $"{front}•{back}";
+                }
+                
             }
             path.AddString(txt, family, 0, 12, new PointF { X = 0, Y = 0 }, drawFormat);
             g.DrawPath(pen, path);

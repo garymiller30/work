@@ -55,6 +55,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public RectangleD GetSubjectRectFront()
         {
+            if (TemplatePages.Count == 0) return new RectangleD();
+
             double x1 = TemplatePages.Min(x => x.X);
             double y1 = TemplatePages.Min(x => x.Y);
 

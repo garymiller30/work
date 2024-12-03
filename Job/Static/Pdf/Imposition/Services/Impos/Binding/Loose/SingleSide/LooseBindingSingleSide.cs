@@ -24,22 +24,35 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 
             AbstractPlaceVariant selVariant;
 
-            if (nonRotated.Total > rotated.Total)
+            if (parameters.BindingPlace == Binding.BindingPlaceEnum.Normal)
             {
                 selVariant = nonRotated;
             }
-            else if (nonRotated.Total < rotated.Total)
+            else if (parameters.BindingPlace == Binding.BindingPlaceEnum.Rotated)
             {
                 selVariant = rotated;
-            }
-            else if (nonRotated.FreeSpace >= rotated.FreeSpace)
-            {
-                selVariant = nonRotated;
             }
             else
             {
-                selVariant = rotated;
+                if (nonRotated.Total > rotated.Total)
+                {
+                    selVariant = nonRotated;
+                }
+                else if (nonRotated.Total < rotated.Total)
+                {
+                    selVariant = rotated;
+                }
+                else if (nonRotated.FreeSpace >= rotated.FreeSpace)
+                {
+                    selVariant = nonRotated;
+                }
+                else
+                {
+                    selVariant = rotated;
+                }
             }
+
+
 
             double angle = selVariant.IsRotated ? 90 : 0;
 

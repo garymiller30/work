@@ -36,7 +36,6 @@
             this.olvColumnPrintType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsb_add = new System.Windows.Forms.ToolStripButton();
-            this.tsb_loadTemplate = new System.Windows.Forms.ToolStripButton();
             this.tsb_saveTemplate = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_edit = new System.Windows.Forms.ToolStripButton();
@@ -46,6 +45,7 @@
             this.tsb_delete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_fillAll = new System.Windows.Forms.ToolStripButton();
+            this.tsb_loadTemplate = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -59,7 +59,7 @@
             this.groupBox1.Controls.Add(this.objectListView1);
             this.groupBox1.Location = new System.Drawing.Point(3, 28);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(329, 141);
+            this.groupBox1.Size = new System.Drawing.Size(413, 95);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Шаблони листів для друку";
@@ -83,7 +83,7 @@
             this.objectListView1.MultiSelect = false;
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(323, 122);
+            this.objectListView1.Size = new System.Drawing.Size(407, 76);
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
@@ -121,7 +121,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(335, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(419, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -134,16 +134,6 @@
             this.tsb_add.Size = new System.Drawing.Size(23, 22);
             this.tsb_add.Text = "додати шаблон листа";
             this.tsb_add.Click += new System.EventHandler(this.tsb_add_Click);
-            // 
-            // tsb_loadTemplate
-            // 
-            this.tsb_loadTemplate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_loadTemplate.Image = ((System.Drawing.Image)(resources.GetObject("tsb_loadTemplate.Image")));
-            this.tsb_loadTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_loadTemplate.Name = "tsb_loadTemplate";
-            this.tsb_loadTemplate.Size = new System.Drawing.Size(23, 22);
-            this.tsb_loadTemplate.Text = "Завантажити шаблон";
-            this.tsb_loadTemplate.Click += new System.EventHandler(this.tsb_loadTemplate_Click);
             // 
             // tsb_saveTemplate
             // 
@@ -223,15 +213,25 @@
             this.tsb_fillAll.Text = "Заповнити все";
             this.tsb_fillAll.Click += new System.EventHandler(this.tsb_fillAll_Click);
             // 
+            // tsb_loadTemplate
+            // 
+            this.tsb_loadTemplate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_loadTemplate.Image = ((System.Drawing.Image)(resources.GetObject("tsb_loadTemplate.Image")));
+            this.tsb_loadTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_loadTemplate.Name = "tsb_loadTemplate";
+            this.tsb_loadTemplate.Size = new System.Drawing.Size(23, 22);
+            this.tsb_loadTemplate.Text = "Завантажити шаблон";
+            this.tsb_loadTemplate.Click += new System.EventHandler(this.tsb_loadTemplate_Click);
+            // 
             // AddTemplateSheetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox1);
-            this.MinimumSize = new System.Drawing.Size(335, 158);
+            this.MinimumSize = new System.Drawing.Size(335, 0);
             this.Name = "AddTemplateSheetControl";
-            this.Size = new System.Drawing.Size(335, 172);
+            this.Size = new System.Drawing.Size(419, 126);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
@@ -257,8 +257,8 @@
         private System.Windows.Forms.ToolStripButton tsb_delete;
         private System.Windows.Forms.ToolStripButton tsb_fillAll;
         private System.Windows.Forms.ToolStripButton tbs_dublicate;
-        private System.Windows.Forms.ToolStripButton tsb_loadTemplate;
         private System.Windows.Forms.ToolStripButton tsb_saveTemplate;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton tsb_loadTemplate;
     }
 }
