@@ -17,7 +17,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class MarksControl : UserControl
     {
-        TemplateSheet _sheet;
+        ControlBindParameters parameters;
+
+        //TemplateSheet _sheet;
         public MarksControl()
         {
             InitializeComponent();
@@ -40,20 +42,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             tlv_MarksResources.AddObjects(marks);
         }
 
-        public void SetSheet(TemplateSheet e)
-        {
-            _sheet = e;
-            if (_sheet == null) tlv_ProductMarks.Enabled = false;
-            else
-            {
-                tlv_ProductMarks.Enabled = true;
-                tlv_ProductMarks.Roots = new object[]
-                {
-                    new SheetRoot(){Marks = _sheet.Marks},
-                    new SubjetRoot(){Marks = _sheet.TemplatePageContainer.Marks}
-                    };
-            }
-        }
+      
 
 
         #region [RESOURCE MARKS]
@@ -282,7 +271,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 // знайти групу
 
-                if (MarksService.DeleteGroup(_sheet.Marks.Containers, group))
+                if (MarksService.DeleteGroup(parameters.Sheet.Marks.Containers, group))
                 {
 
                 }
@@ -335,6 +324,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void RefreshSheetTree()
         {
             tlv_ProductMarks.RefreshObjects(tlv_ProductMarks.Objects.Cast<SheetRootAbstract>().ToList());
+            parameters.Sheet = parameters.Sheet;
         }
        
 
@@ -489,6 +479,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         //TODO: update preview
+                        parameters.Sheet = parameters.Sheet;
                     }
                 }
             }
@@ -499,6 +490,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         //TODO: update preview
+                        parameters.Sheet = parameters.Sheet;
                     }
                 }
             }
@@ -515,6 +507,24 @@ namespace JobSpace.UserForms.PDF.ImposItems
              
         }
 
-       
+        public void SetControlBindParameters(ControlBindParameters controlBindParameters)
+        {
+            parameters = controlBindParameters;
+            parameters.PropertyChanged += Parameters_PropertyChanged;
+        }
+
+        private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (parameters.Sheet == null) tlv_ProductMarks.Enabled = false;
+            else
+            {
+                tlv_ProductMarks.Enabled = true;
+                tlv_ProductMarks.Roots = new object[]
+                {
+                    new SheetRoot(){Marks = parameters.Sheet.Marks},
+                    new SubjetRoot(){Marks = parameters.Sheet.TemplatePageContainer.Marks}
+                    };
+            }
+        }
     }
 }

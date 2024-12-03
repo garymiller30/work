@@ -3,6 +3,7 @@ using JobSpace.Static.Pdf.Imposition.Drawers;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF;
 using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models.View;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.Imposition.Services.Impos;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding;
@@ -88,16 +89,20 @@ namespace JobSpace.UserForms.PDF
 
         private void OnTemplateSheetSelected(object sender, TemplateSheet e)
         {
-            previewControl1.SetSheet(e);
-            marksControl1.SetSheet(e);
+            _controlBindParameters.Sheet = e;
+            //imposBindingControl1.SetSheet(e);
+            //previewControl1.SetSheet(e);
+            //marksControl1.SetSheet(e);
         }
 
         private void InitBindParameters()
         {
             _controlBindParameters.PdfFiles = _pdfFiles;
-            
+            imposBindingControl1.SetControlBindParameters(_controlBindParameters);
             pdfFileListControl1.SetControlBindParameters(_controlBindParameters);
-            runListControl1.SetControlBindParameters(_controlBindParameters) ;
+            runListControl1.SetControlBindParameters(_controlBindParameters);
+            marksControl1.SetControlBindParameters(_controlBindParameters);
+            previewControl1.SetControlBindParameters(_controlBindParameters);
         }
 
         private void InitImposTools()
@@ -121,16 +126,31 @@ namespace JobSpace.UserForms.PDF
 
             pdfFileListControl1.AddFiles(_pdfFiles);
 
-            _controlBindParameters.MasterPage.W = _pdfFiles[0].Pages[0].Trim.W;
-            _controlBindParameters.MasterPage.H = _pdfFiles[0].Pages[0].Trim.H;
-            _controlBindParameters.MasterPage.Bleeds.SetDefault((_pdfFiles[0].Pages[0].Media.W - _pdfFiles[0].Pages[0].Trim.W)/2);
-            _controlBindParameters.MasterPage.SetMarginsLikeBleed();
+            // слідкуємо за змінами майстер сторінки
+            masterPageSelectControl1.OnMasterPageChanged += OnMasterPageChanged;
+            masterPageSelectControl1.SetFormats(_pdfFiles);
+            
 
             addTemplateSheetControl1.SetControlBindParameters(_controlBindParameters);
             printSheetsControl1.SetControlBindParameters(_controlBindParameters);
 
             //LoadImposFromFile();
 
+        }
+
+        private void OnMasterPageChanged(object sender, PageFormatView e)
+        {
+
+            TemplatePage page = new TemplatePage
+            {
+                W = (double)e.Width,
+                H= (double)e.Height,
+            };
+
+            page.Bleeds.SetDefault((double)e.Bleed);
+            page.SetMarginsLikeBleed();
+
+            _controlBindParameters.MasterPage = page;
         }
 
         private void LoadImposFromFile()

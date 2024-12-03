@@ -1,8 +1,12 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+﻿using Ghostscript.NET.Rasterizer;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Statuses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -92,7 +96,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         {
             foreach (MarksContainer mark in marks)
             {
-                if (mark.Id  == parentId) return mark;
+                if (mark.Id == parentId) return mark;
 
                 var parent = FindParent(mark.Containers, parentId);
                 if (parent != null) return parent;
@@ -115,7 +119,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         public static void DeleteMark(PdfMark pdfMark)
         {
-            MarksContainer parent = FindPdfMarkParent(Marks,pdfMark.Id);
+            MarksContainer parent = FindPdfMarkParent(Marks, pdfMark.Id);
             if (parent == null) return;
 
             parent.Pdf.Remove(pdfMark);
@@ -132,7 +136,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         }
 
         private static MarksContainer FindTextMarkParent(List<MarksContainer> marks, string id)
-            {
+        {
 
             foreach (MarksContainer mark in marks)
             {
@@ -150,14 +154,14 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         private static MarksContainer FindPdfMarkParent(List<MarksContainer> marks, string id)
         {
-            foreach(MarksContainer mark in marks)
+            foreach (MarksContainer mark in marks)
             {
                 foreach (var pdfMark in mark.Pdf)
                 {
                     if (pdfMark.Id == id) return mark;
                 }
 
-                var parent = FindPdfMarkParent(mark.Containers,id);
+                var parent = FindPdfMarkParent(mark.Containers, id);
                 if (parent != null) return parent;
             }
 
@@ -168,6 +172,37 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         {
             var str = JsonSerializer.Serialize(mark);
             return JsonSerializer.Deserialize<T>(str);
+        }
+
+        public static Image GetBitmap(PdfMark mark)
+        {
+            var png_path = Path.Combine(Path.GetDirectoryName(mark.File.FileName), Path.GetFileNameWithoutExtension(mark.File.FileName)) + ".png";
+
+            if (!File.Exists(png_path))
+            {
+                Rasterize(mark.File.FileName);
+            }
+
+            if (File.Exists(png_path))
+            {
+                return Bitmap.FromFile(png_path);
+            }
+
+            return null;
+        }
+
+        public static void Rasterize(string pdfFile)
+        {
+            string outputPath = $"{Path.GetDirectoryName(pdfFile)}\\{Path.GetFileNameWithoutExtension(pdfFile)}.png";
+            using (GhostscriptRasterizer rasterizer = new GhostscriptRasterizer())
+            {
+                byte[] buffer = File.ReadAllBytes(pdfFile);
+                MemoryStream ms = new MemoryStream(buffer);
+                rasterizer.Open(ms);
+
+                var img = rasterizer.GetPage(96, 1);
+                img.Save(outputPath, ImageFormat.Png);
+            }
         }
     }
 }
