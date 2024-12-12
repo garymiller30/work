@@ -32,21 +32,24 @@
             this.tabPageSimple = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.cb_UseProofColor = new System.Windows.Forms.CheckBox();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btn_SaveToPdf = new System.Windows.Forms.Button();
             this.pdfFileListControl1 = new JobSpace.UserForms.PDF.ImposItems.PdfFileListControl();
             this.imposColorsControl1 = new JobSpace.UserForms.PDF.ImposItems.ImposColorsControl();
             this.marksControl1 = new JobSpace.UserForms.PDF.ImposItems.MarksControl();
             this.previewControl1 = new JobSpace.UserForms.PDF.ImposItems.PreviewControl();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.cb_UseProofColor = new System.Windows.Forms.CheckBox();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.masterPageSelectControl1 = new JobSpace.UserForms.PDF.ImposItems.MasterPageSelectControl();
             this.addTemplateSheetControl1 = new JobSpace.UserForms.PDF.ImposItems.AddTemplateSheetControl();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.imposBindingControl1 = new JobSpace.UserForms.PDF.ImposItems.ImposBindingControl();
             this.printSheetsControl1 = new JobSpace.UserForms.PDF.ImposItems.PrintSheetsControl();
             this.runListControl1 = new JobSpace.UserForms.PDF.ImposItems.RunListControl();
-            this.imposBindingControl1 = new JobSpace.UserForms.PDF.ImposItems.ImposBindingControl();
+            this.btn_SaveToPdf = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pg_Parameters = new System.Windows.Forms.PropertyGrid();
+            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.tabControl1.SuspendLayout();
             this.tabPageSimple.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -67,6 +70,11 @@
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
+            this.splitContainer5.Panel1.SuspendLayout();
+            this.splitContainer5.Panel2.SuspendLayout();
+            this.splitContainer5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -102,7 +110,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.marksControl1);
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer5);
             this.splitContainer1.Panel2.Controls.Add(this.previewControl1);
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
             this.splitContainer1.Size = new System.Drawing.Size(1061, 601);
@@ -127,11 +135,44 @@
             this.splitContainer3.SplitterDistance = 300;
             this.splitContainer3.TabIndex = 1;
             // 
+            // pdfFileListControl1
+            // 
+            this.pdfFileListControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pdfFileListControl1.Location = new System.Drawing.Point(0, 0);
+            this.pdfFileListControl1.Name = "pdfFileListControl1";
+            this.pdfFileListControl1.Size = new System.Drawing.Size(141, 300);
+            this.pdfFileListControl1.TabIndex = 0;
+            // 
+            // imposColorsControl1
+            // 
+            this.imposColorsControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imposColorsControl1.Location = new System.Drawing.Point(0, 0);
+            this.imposColorsControl1.Name = "imposColorsControl1";
+            this.imposColorsControl1.Size = new System.Drawing.Size(141, 297);
+            this.imposColorsControl1.TabIndex = 0;
+            // 
+            // marksControl1
+            // 
+            this.marksControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.marksControl1.Location = new System.Drawing.Point(0, 0);
+            this.marksControl1.Name = "marksControl1";
+            this.marksControl1.Size = new System.Drawing.Size(189, 435);
+            this.marksControl1.TabIndex = 4;
+            // 
+            // previewControl1
+            // 
+            this.previewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.previewControl1.Location = new System.Drawing.Point(477, 0);
+            this.previewControl1.Name = "previewControl1";
+            this.previewControl1.Size = new System.Drawing.Size(203, 596);
+            this.previewControl1.TabIndex = 3;
+            // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel2.Controls.Add(this.masterPageSelectControl1);
             this.panel2.Controls.Add(this.cb_UseProofColor);
             this.panel2.Controls.Add(this.splitContainer2);
             this.panel2.Controls.Add(this.runListControl1);
@@ -156,20 +197,42 @@
             // 
             this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.splitContainer2.Location = new System.Drawing.Point(129, 84);
+            this.splitContainer2.Location = new System.Drawing.Point(129, 3);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.masterPageSelectControl1);
             this.splitContainer2.Panel1.Controls.Add(this.addTemplateSheetControl1);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer2.Size = new System.Drawing.Size(340, 401);
-            this.splitContainer2.SplitterDistance = 106;
+            this.splitContainer2.Size = new System.Drawing.Size(340, 482);
+            this.splitContainer2.SplitterDistance = 187;
             this.splitContainer2.TabIndex = 8;
+            // 
+            // masterPageSelectControl1
+            // 
+            this.masterPageSelectControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.masterPageSelectControl1.Location = new System.Drawing.Point(1, 115);
+            this.masterPageSelectControl1.Name = "masterPageSelectControl1";
+            this.masterPageSelectControl1.OnMasterPageAdded = null;
+            this.masterPageSelectControl1.OnMasterPageChanged = null;
+            this.masterPageSelectControl1.Size = new System.Drawing.Size(339, 71);
+            this.masterPageSelectControl1.TabIndex = 1;
+            // 
+            // addTemplateSheetControl1
+            // 
+            this.addTemplateSheetControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.addTemplateSheetControl1.Location = new System.Drawing.Point(0, 3);
+            this.addTemplateSheetControl1.MinimumSize = new System.Drawing.Size(335, 0);
+            this.addTemplateSheetControl1.Name = "addTemplateSheetControl1";
+            this.addTemplateSheetControl1.Size = new System.Drawing.Size(340, 106);
+            this.addTemplateSheetControl1.TabIndex = 6;
             // 
             // splitContainer4
             // 
@@ -199,70 +262,13 @@
             this.panel1.Size = new System.Drawing.Size(340, 145);
             this.panel1.TabIndex = 1;
             // 
-            // btn_SaveToPdf
+            // imposBindingControl1
             // 
-            this.btn_SaveToPdf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_SaveToPdf.BackColor = System.Drawing.Color.SeaGreen;
-            this.btn_SaveToPdf.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btn_SaveToPdf.ForeColor = System.Drawing.SystemColors.Window;
-            this.btn_SaveToPdf.Location = new System.Drawing.Point(212, 528);
-            this.btn_SaveToPdf.Name = "btn_SaveToPdf";
-            this.btn_SaveToPdf.Size = new System.Drawing.Size(153, 47);
-            this.btn_SaveToPdf.TabIndex = 3;
-            this.btn_SaveToPdf.Text = "Зберегти в PDF";
-            this.btn_SaveToPdf.UseVisualStyleBackColor = false;
-            this.btn_SaveToPdf.Click += new System.EventHandler(this.btn_SaveToPdf_Click);
-            // 
-            // pdfFileListControl1
-            // 
-            this.pdfFileListControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pdfFileListControl1.Location = new System.Drawing.Point(0, 0);
-            this.pdfFileListControl1.Name = "pdfFileListControl1";
-            this.pdfFileListControl1.Size = new System.Drawing.Size(141, 300);
-            this.pdfFileListControl1.TabIndex = 0;
-            // 
-            // imposColorsControl1
-            // 
-            this.imposColorsControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imposColorsControl1.Location = new System.Drawing.Point(0, 0);
-            this.imposColorsControl1.Name = "imposColorsControl1";
-            this.imposColorsControl1.Size = new System.Drawing.Size(141, 297);
-            this.imposColorsControl1.TabIndex = 0;
-            // 
-            // marksControl1
-            // 
-            this.marksControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.marksControl1.Location = new System.Drawing.Point(686, 6);
-            this.marksControl1.Name = "marksControl1";
-            this.marksControl1.Size = new System.Drawing.Size(225, 590);
-            this.marksControl1.TabIndex = 4;
-            // 
-            // previewControl1
-            // 
-            this.previewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.previewControl1.Location = new System.Drawing.Point(477, 0);
-            this.previewControl1.Name = "previewControl1";
-            this.previewControl1.Size = new System.Drawing.Size(203, 596);
-            this.previewControl1.TabIndex = 3;
-            // 
-            // masterPageSelectControl1
-            // 
-            this.masterPageSelectControl1.Location = new System.Drawing.Point(129, 7);
-            this.masterPageSelectControl1.Name = "masterPageSelectControl1";
-            this.masterPageSelectControl1.Size = new System.Drawing.Size(289, 71);
-            this.masterPageSelectControl1.TabIndex = 1;
-            // 
-            // addTemplateSheetControl1
-            // 
-            this.addTemplateSheetControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.addTemplateSheetControl1.Location = new System.Drawing.Point(0, 0);
-            this.addTemplateSheetControl1.MinimumSize = new System.Drawing.Size(335, 0);
-            this.addTemplateSheetControl1.Name = "addTemplateSheetControl1";
-            this.addTemplateSheetControl1.Size = new System.Drawing.Size(340, 106);
-            this.addTemplateSheetControl1.TabIndex = 6;
+            this.imposBindingControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imposBindingControl1.Location = new System.Drawing.Point(0, 0);
+            this.imposBindingControl1.Name = "imposBindingControl1";
+            this.imposBindingControl1.Size = new System.Drawing.Size(340, 145);
+            this.imposBindingControl1.TabIndex = 1;
             // 
             // printSheetsControl1
             // 
@@ -283,13 +289,59 @@
             this.runListControl1.Size = new System.Drawing.Size(120, 587);
             this.runListControl1.TabIndex = 5;
             // 
-            // imposBindingControl1
+            // btn_SaveToPdf
             // 
-            this.imposBindingControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imposBindingControl1.Location = new System.Drawing.Point(0, 0);
-            this.imposBindingControl1.Name = "imposBindingControl1";
-            this.imposBindingControl1.Size = new System.Drawing.Size(340, 145);
-            this.imposBindingControl1.TabIndex = 1;
+            this.btn_SaveToPdf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_SaveToPdf.BackColor = System.Drawing.Color.SeaGreen;
+            this.btn_SaveToPdf.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_SaveToPdf.ForeColor = System.Drawing.SystemColors.Window;
+            this.btn_SaveToPdf.Location = new System.Drawing.Point(212, 528);
+            this.btn_SaveToPdf.Name = "btn_SaveToPdf";
+            this.btn_SaveToPdf.Size = new System.Drawing.Size(153, 47);
+            this.btn_SaveToPdf.TabIndex = 3;
+            this.btn_SaveToPdf.Text = "Зберегти в PDF";
+            this.btn_SaveToPdf.UseVisualStyleBackColor = false;
+            this.btn_SaveToPdf.Click += new System.EventHandler(this.btn_SaveToPdf_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.pg_Parameters);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(189, 154);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Параметри";
+            // 
+            // pg_Parameters
+            // 
+            this.pg_Parameters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pg_Parameters.Location = new System.Drawing.Point(3, 16);
+            this.pg_Parameters.Name = "pg_Parameters";
+            this.pg_Parameters.Size = new System.Drawing.Size(183, 135);
+            this.pg_Parameters.TabIndex = 0;
+            this.pg_Parameters.ToolbarVisible = false;
+            this.pg_Parameters.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pg_Parameters_PropertyValueChanged);
+            // 
+            // splitContainer5
+            // 
+            this.splitContainer5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer5.Location = new System.Drawing.Point(722, 3);
+            this.splitContainer5.Name = "splitContainer5";
+            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer5.Panel1
+            // 
+            this.splitContainer5.Panel1.Controls.Add(this.groupBox1);
+            // 
+            // splitContainer5.Panel2
+            // 
+            this.splitContainer5.Panel2.Controls.Add(this.marksControl1);
+            this.splitContainer5.Size = new System.Drawing.Size(189, 593);
+            this.splitContainer5.SplitterDistance = 154;
+            this.splitContainer5.TabIndex = 6;
             // 
             // FormPdfImposition
             // 
@@ -300,7 +352,9 @@
             this.Name = "FormPdfImposition";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Спуск полос";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPdfImposition_FormClosing);
+            this.Shown += new System.EventHandler(this.FormPdfImposition_Shown);
             this.tabControl1.ResumeLayout(false);
             this.tabPageSimple.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -322,6 +376,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.splitContainer5.Panel1.ResumeLayout(false);
+            this.splitContainer5.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
+            this.splitContainer5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -347,5 +406,8 @@
         private System.Windows.Forms.Panel panel1;
         private ImposItems.MasterPageSelectControl masterPageSelectControl1;
         private ImposItems.ImposBindingControl imposBindingControl1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PropertyGrid pg_Parameters;
+        private System.Windows.Forms.SplitContainer splitContainer5;
     }
 }

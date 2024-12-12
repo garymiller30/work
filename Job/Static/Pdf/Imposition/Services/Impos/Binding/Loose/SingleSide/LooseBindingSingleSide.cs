@@ -15,7 +15,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             TemplateSheet sheet = parameters.Sheet;
             TemplatePage page = sheet.MasterPage;
             
-            if (parameters.IsOneCut) page.Margins.Set(0);
+            if (parameters.IsOneCut) page.Margins.Set(0d);
 
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
 
@@ -50,9 +50,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                 {
                     selVariant = rotated;
                 }
-            }
-
-
+           }
 
             double angle = selVariant.IsRotated ? 90 : 0;
 

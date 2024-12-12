@@ -27,5 +27,17 @@ namespace JobSpace.Static.Pdf.Imposition.Models.View
         {
             return $"{FileId}";
         }
+
+        public TemplatePage ToTemplatePage()
+        {
+            var tp = new TemplatePage()
+            {
+                W = (double)Width,
+                H = (double)Height,
+            };
+            tp.Bleeds.Set(Bleed);
+            tp.SetMarginsLikeBleed();
+            return tp;
+        }
     }
 }

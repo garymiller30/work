@@ -41,7 +41,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             parameters.Sheet.TemplatePageContainer = BindingService.Impos(par);
 
             parameters.Sheet = parameters.Sheet;
-
         }
 
         private void b_90_Click(object sender, EventArgs e)

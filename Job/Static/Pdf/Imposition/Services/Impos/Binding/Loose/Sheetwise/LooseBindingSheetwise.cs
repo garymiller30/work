@@ -15,7 +15,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
             TemplateSheet sheet = parameters.Sheet;
             TemplatePage page = sheet.MasterPage;
             
-            if (parameters.IsOneCut) page.Margins.Set(0);
+            if (parameters.IsOneCut) page.Margins.Set(0d);
 
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
 

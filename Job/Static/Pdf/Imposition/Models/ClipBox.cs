@@ -44,6 +44,15 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             return box;
         }
 
+        public void Set(decimal all)
+        {
+            var b = (double)all;
+            Right = b;
+            Left = b;
+            Top = b;
+            Bottom = b;
+        }
+
         public ClipBox()
         {
 

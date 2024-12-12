@@ -22,13 +22,17 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public ImposBindingControl()
         {
             InitializeComponent();
-            cb_SelectBindType.Items.AddRange(items.ToArray());
+            
+            
         }
 
         public void SetControlBindParameters(ControlBindParameters controlBindParameters)
         {
             parameters = controlBindParameters;
             parameters.PropertyChanged += Parameters_PropertyChanged;
+            
+            cb_SelectBindType.Items.AddRange(items.ToArray());
+            cb_SelectBindType.SelectedIndex = 0;
         }
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -38,6 +42,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void cb_SelectBindType_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            if (parameters == null) return;
+
             if (cb_SelectBindType.SelectedIndex == 0)
             {
                 //LooseBinding

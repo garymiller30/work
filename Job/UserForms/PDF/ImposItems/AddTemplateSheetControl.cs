@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Ext;
+using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,21 @@ namespace JobSpace.UserForms.PDF.ImposItems
             olvColumnDesc.AspectGetter += (r) => ((TemplateSheet)r).Description;
             olvColumnPrintType.AspectGetter += (r) => ((TemplateSheet)r).SheetPlaceType;
             objectListView1.SelectionChanged += ObjectListView1_SelectionChanged;
+
+            InitSheets();
+        }
+
+        private void InitSheets()
+        {
+
+            tscb_sheetType.ComboBox.DataSource = Extensions.GetDescriptions(typeof(TemplateSheetPlaceType));
+
+            var sheets = SaveLoadService.LoadSheets();
+            if (sheets.Any())
+            {
+                tscb_sheetTemplates.ComboBox.DisplayMember = "Description";
+                tscb_sheetTemplates.ComboBox.Items.AddRange(sheets.ToArray());
+            }
         }
 
         private void ObjectListView1_SelectionChanged(object sender, EventArgs e)
@@ -48,32 +64,38 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void tsb_add_Click(object sender, EventArgs e)
         {
-            using (var form = new Form_AddTemplateSheet(_parameters))
+            using (var form = new FormAddSheet())
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    var sheet = form.Sheet;
-                    sheet.Id = idx++;
-                    objectListView1.AddObject(sheet);
-                    objectListView1.SelectObject(sheet);
-                    OnSheetAdded(this, sheet);
+                    SaveLoadService.SaveSheet(form.Sheet);
+                    tscb_sheetTemplates.Items.Add(form.Sheet);
                 }
             }
         }
 
         private void tsb_edit_Click(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObject is TemplateSheet sheet)
+
+            if (tscb_sheetTemplates.SelectedItem is TemplateSheet templateSheet)
             {
-                using (var form = new Form_AddTemplateSheet(sheet))
+                using (var form = new FormAddSheet(templateSheet))
                 {
+                    string old_desc = templateSheet.Description;
+
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        objectListView1.RefreshObject(sheet);
-                        OnSheetEdited(this, sheet);
+                        if (old_desc != templateSheet.Description)
+                        {
+                            SaveLoadService.SaveSheet(form.Sheet);
+                            tscb_sheetTemplates.Items.Add(form.Sheet);
+                        }
+                        else
+                        {
+                            SaveLoadService.SaveSheet(form.Sheet);
+                        }
                     }
                 }
-
             }
         }
 
@@ -116,7 +138,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     objectListView1.RemoveObject(sheet);
                 }
-                
+
             }
         }
 
@@ -136,6 +158,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 sheet.Id = idx++;
                 objectListView1.AddObject(sheet);
+            }
+        }
+
+        private void tsb_addToList_Click(object sender, EventArgs e)
+        {
+            if (tscb_sheetTemplates.SelectedItem is TemplateSheet t_sheet)
+            {
+                var sheet = t_sheet.Copy();
+                sheet.SheetPlaceType = (TemplateSheetPlaceType)tscb_sheetType.SelectedIndex;
+                sheet.Id = idx++;
+                objectListView1.AddObject(sheet);
+                objectListView1.SelectObject(sheet);
+                OnSheetAdded(this, sheet);
             }
         }
     }
