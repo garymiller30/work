@@ -324,7 +324,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void RefreshSheetTree()
         {
             tlv_ProductMarks.RefreshObjects(tlv_ProductMarks.Objects.Cast<SheetRootAbstract>().ToList());
-            parameters.Sheet = parameters.Sheet;
+            parameters.UpdateSheet();
         }
        
 
@@ -478,8 +478,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        //TODO: update preview
-                        parameters.Sheet = parameters.Sheet;
+                        // update preview
+                        parameters.UpdateSheet();
                     }
                 }
             }
@@ -489,8 +489,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        //TODO: update preview
-                        parameters.Sheet = parameters.Sheet;
+                        // update preview
+                        parameters.UpdateSheet();
                     }
                 }
             }

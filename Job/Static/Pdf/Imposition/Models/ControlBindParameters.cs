@@ -1,4 +1,5 @@
 ﻿using BrightIdeasSoftware;
+using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,21 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public List<PdfFile> PdfFiles { get; set; }
 
         TemplatePage masterPage = new TemplatePage();
+
+        TemplatePage selectedPreviewPage;
+
+        /// <summary>
+        /// стрінка, що вибрана у прев'ю
+        /// </summary>
+        public TemplatePage SelectedPreviewPage
+        {
+            get => selectedPreviewPage;
+            set
+            {
+                selectedPreviewPage = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public TemplatePage MasterPage
         {
@@ -43,6 +59,15 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void UpdateSheet()
+        {
+            if (sheet != null)
+            {
+                CropMarksService.FixCropMarksFront(sheet.TemplatePageContainer);
+            }
+            Sheet = Sheet;
         }
     }
 }

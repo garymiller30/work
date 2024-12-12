@@ -128,6 +128,7 @@ namespace JobSpace.UserForms.PDF
 
             // слідкуємо за змінами майстер сторінки
             masterPageSelectControl1.OnMasterPageChanged += OnMasterPageChanged;
+            masterPageSelectControl1.OnMasterPageAdded += OnMasterPageAdded;
             masterPageSelectControl1.SetFormats(_pdfFiles);
             
 
@@ -136,6 +137,16 @@ namespace JobSpace.UserForms.PDF
 
             //LoadImposFromFile();
 
+        }
+
+        private void OnMasterPageAdded(object sender, PageFormatView e)
+        {
+            // додаємо сторінку на поточний лист
+            //TODO: додати сторінку на лист
+            if (_controlBindParameters.Sheet == null) return;
+
+            _controlBindParameters.Sheet.TemplatePageContainer.AddPage(e.ToTemplatePage());
+            _controlBindParameters.UpdateSheet();
         }
 
         private void OnMasterPageChanged(object sender, PageFormatView e)
@@ -166,7 +177,6 @@ namespace JobSpace.UserForms.PDF
                     _productPart = JsonSerializer.Deserialize<ProductPart>(str);
                     imposColorsControl1.SetUsedColors(_productPart.UsedColors);
                     RedrawProductPart();
-
                 }
             }
         }
@@ -227,5 +237,23 @@ namespace JobSpace.UserForms.PDF
             //}
         }
 
+        private void FormPdfImposition_Shown(object sender, EventArgs e)
+        {
+            _controlBindParameters.PropertyChanged += _controlBindParameters_PropertyChanged;
+        }
+
+        private void _controlBindParameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SelectedPreviewPage")
+            {
+                pg_Parameters.SelectedObject = _controlBindParameters.SelectedPreviewPage;
+            }
+        }
+
+        private void pg_Parameters_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+
+            _controlBindParameters.UpdateSheet();
+        }
     }
 }

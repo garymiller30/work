@@ -16,6 +16,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
     {
         List<PdfFile> _files;
         public EventHandler<PageFormatView> OnMasterPageChanged { get; set; } = delegate { };
+        public EventHandler<PageFormatView> OnMasterPageAdded { get; set; } = delegate { };
         public MasterPageSelectControl()
         {
             InitializeComponent();
@@ -79,6 +80,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void nud_page_w_Click(object sender, EventArgs e)
         {
             ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
+
+        private void btn_add_page_Click(object sender, EventArgs e)
+        {
+
+            if (cb_FileFormats.SelectedItem is PageFormatView page)
+            {
+                OnMasterPageAdded(this, page);
+            }
         }
     }
 }

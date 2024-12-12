@@ -73,6 +73,7 @@
             this.Controls.Add(this.groupBox3);
             this.Name = "ImposBindingControl";
             this.Size = new System.Drawing.Size(305, 182);
+            
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
