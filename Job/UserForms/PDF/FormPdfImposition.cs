@@ -7,6 +7,7 @@ using JobSpace.Static.Pdf.Imposition.Models.View;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.Imposition.Services.Impos;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using JobSpace.UserForms.PDF.ImposItems;
 using Krypton.Toolkit;
 using System;
@@ -32,7 +33,7 @@ namespace JobSpace.UserForms.PDF
 
         List<PdfFile> _pdfFiles = new List<PdfFile>();
 
-        ImposToolsParameters _parameters = new ImposToolsParameters();
+        ImposToolsParameters _tool_param = new ImposToolsParameters();
         ControlBindParameters _controlBindParameters = new ControlBindParameters();
         int printId = 1;
         ProductPart _productPart;
@@ -56,8 +57,21 @@ namespace JobSpace.UserForms.PDF
 
         private void OnPrintSheetDeleted(object sender, EventArgs e)
         {
+            
             runListControl1.ReassignPrintSheets(printSheetsControl1.GetSheets());
 
+        }
+
+        private void OnClickCenterH(object sender, EventArgs e)
+        {
+            ProcessCenterH.Center(_controlBindParameters.Sheet);
+            _controlBindParameters.UpdateSheet();
+        }
+
+        private void OnClickCenterV(object sender, EventArgs e)
+        {
+            ProcessCenterV.Center(_controlBindParameters.Sheet);
+            _controlBindParameters.UpdateSheet();
         }
 
         private void OnSheetAddManyToPrintEvent(object sender, TemplateSheet e)
@@ -107,7 +121,9 @@ namespace JobSpace.UserForms.PDF
 
         private void InitImposTools()
         {
-            previewControl1.InitBindParameters(_parameters);
+            _tool_param.OnClickCenterV += OnClickCenterV;
+            _tool_param.OnClickCenterH += OnClickCenterH;
+            previewControl1.InitBindParameters(_tool_param);
         }
 
      

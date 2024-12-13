@@ -29,7 +29,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         PointF clickPoint;
         PointF lastLocation;
-        double snapDistance = 8;
+        double snapDistance = 16;
 
 
 
@@ -169,20 +169,29 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     {
 
                         x_snap = true;
-                        _hover.X = page.X + page.GetClippedW;
+                        _hover.X = page.X + page.GetClippedWByRotate();
 
                     }
                     // вибрана сторінка - ліва сторона сторона
-                    else if (Math.Abs(hover_x + x_ofs + _hover.GetClippedW - pageL.X1) < snapDistance)
+                    else if (Math.Abs(hover_x + x_ofs + _hover.GetClippedWByRotate() - pageL.X1) < snapDistance)
                     {
-
                         x_snap = true;
-                        _hover.X = pageL.X1 - _hover.GetClippedW;
-
+                        _hover.X = pageL.X1 - _hover.GetClippedWByRotate();
                     }
                 }
 
+                if (!y_snap)
+                {
+                    var pageT = page.GetDrawBleedTop();
+                    var pageB = page.GetDrawBleedBottom();
 
+                    // вибрана сторінка - верх
+                    if (Math.Abs(pageB.Y1 - hover_y - y_ofs - _hover.GetClippedHByRotate()) < snapDistance)
+                    {
+                        y_snap = true;
+                        _hover.Y = pageB.Y1 - _hover.GetClippedHByRotate();
+                    }
+                }
 
 
                 if (x_snap && y_snap) break;

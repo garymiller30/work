@@ -317,6 +317,8 @@
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantRotated.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantWorkAndTurnNonRotated.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantWorkAndTurnRotated.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessCenterH.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessCenterV.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\MarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PdfMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PositioningService.cs" />
