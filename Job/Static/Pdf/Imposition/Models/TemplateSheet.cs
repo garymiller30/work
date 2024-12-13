@@ -74,5 +74,16 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         {
             return new TemplateSheet { Id = SheetId++ };
         }
+
+        public RectangleD GetPrintRect()
+        {
+            return new RectangleD
+            {
+                X1 = SafeFields.Left,
+                Y1 = SafeFields.Bottom,
+                X2 = W - SafeFields.Right,
+                Y2 = H - SafeFields.Top,
+            };
+        }
     }
 }
