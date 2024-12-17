@@ -31,11 +31,13 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cb_SelectBindType = new System.Windows.Forms.ComboBox();
             this.panelBindingControl = new System.Windows.Forms.Panel();
+            this.b_calc = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.b_calc);
             this.groupBox3.Controls.Add(this.cb_SelectBindType);
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
@@ -65,6 +67,16 @@
             this.panelBindingControl.Size = new System.Drawing.Size(299, 123);
             this.panelBindingControl.TabIndex = 9;
             // 
+            // b_calc
+            // 
+            this.b_calc.Location = new System.Drawing.Point(198, 17);
+            this.b_calc.Name = "b_calc";
+            this.b_calc.Size = new System.Drawing.Size(75, 23);
+            this.b_calc.TabIndex = 1;
+            this.b_calc.Text = "рахувати";
+            this.b_calc.UseVisualStyleBackColor = true;
+            this.b_calc.Click += new System.EventHandler(this.b_calc_Click);
+            // 
             // ImposBindingControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -73,7 +85,6 @@
             this.Controls.Add(this.groupBox3);
             this.Name = "ImposBindingControl";
             this.Size = new System.Drawing.Size(305, 182);
-            
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -83,5 +94,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ComboBox cb_SelectBindType;
         private System.Windows.Forms.Panel panelBindingControl;
+        private System.Windows.Forms.Button b_calc;
     }
 }

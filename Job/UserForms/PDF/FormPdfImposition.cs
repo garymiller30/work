@@ -57,9 +57,7 @@ namespace JobSpace.UserForms.PDF
 
         private void OnPrintSheetDeleted(object sender, EventArgs e)
         {
-            
-            runListControl1.ReassignPrintSheets(printSheetsControl1.GetSheets());
-
+            _controlBindParameters_NeedRearangePages(this,null);
         }
 
         private void OnClickCenterH(object sender, EventArgs e)
@@ -76,29 +74,28 @@ namespace JobSpace.UserForms.PDF
 
         private void OnSheetAddManyToPrintEvent(object sender, TemplateSheet e)
         {
-            
             // Отримати сторінки, що не задіяні
             int cnt = runListControl1.GetUnassignedPagesCount();
             int maxId = e.TemplatePageContainer.GetMaxIdx();
             int sheetCnt = cnt / maxId;
 
-            for (int i = 0; i<sheetCnt; i++)
-            {
-                AddPrintSheet(e);
-            }
+            PrintSheet sheet = PrintSheet.ConvertTemplateSheetToPrintSheet(e);
+            printSheetsControl1.AddSheets(sheet,sheetCnt);
+            _controlBindParameters_NeedRearangePages(this, null);
         }
 
         void AddPrintSheet(TemplateSheet e)
         {
+
             PrintSheet sheet = PrintSheet.ConvertTemplateSheetToPrintSheet(e);
-            runListControl1.AssignPrintSheet(sheet);
+            //runListControl1.AssignPrintSheet(sheet);
             printSheetsControl1.AddSheet(sheet);
+            _controlBindParameters_NeedRearangePages(this,null);
         }
 
         private void OnAddSheetToPrintEvent(object sender, TemplateSheet e)
         {
             AddPrintSheet(e);
-
         }
 
         private void OnTemplateSheetSelected(object sender, TemplateSheet e)
@@ -112,11 +109,18 @@ namespace JobSpace.UserForms.PDF
         private void InitBindParameters()
         {
             _controlBindParameters.PdfFiles = _pdfFiles;
+            _controlBindParameters.NeedRearangePages += _controlBindParameters_NeedRearangePages    ;
             imposBindingControl1.SetControlBindParameters(_controlBindParameters);
             pdfFileListControl1.SetControlBindParameters(_controlBindParameters);
             runListControl1.SetControlBindParameters(_controlBindParameters);
             marksControl1.SetControlBindParameters(_controlBindParameters);
             previewControl1.SetControlBindParameters(_controlBindParameters);
+        }
+
+        private void _controlBindParameters_NeedRearangePages(object sender, EventArgs e)
+        {
+            imposBindingControl1.RearangePages(printSheetsControl1.GetSheets(), runListControl1.GetRunPages());
+            runListControl1.UpdateRunList();
         }
 
         private void InitImposTools()

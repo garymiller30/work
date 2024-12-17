@@ -36,20 +36,18 @@
             this.cb_centerHeight = new System.Windows.Forms.CheckBox();
             this.cb_centerWidth = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.b_max_0 = new System.Windows.Forms.Button();
             this.b_90 = new System.Windows.Forms.Button();
             this.b_0 = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nud_y = new System.Windows.Forms.NumericUpDown();
-            this.nud_x = new System.Windows.Forms.NumericUpDown();
-            this.b_max = new System.Windows.Forms.Button();
+            this.b_max_90 = new System.Windows.Forms.Button();
+            this.label_0 = new System.Windows.Forms.Label();
+            this.label_90 = new System.Windows.Forms.Label();
+            this.label_max_0 = new System.Windows.Forms.Label();
+            this.label_max_90 = new System.Windows.Forms.Label();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Yofs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Xofs)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_y)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_x)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox7
@@ -132,14 +130,14 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.b_max);
+            this.groupBox1.Controls.Add(this.label_max_90);
+            this.groupBox1.Controls.Add(this.label_max_0);
+            this.groupBox1.Controls.Add(this.label_90);
+            this.groupBox1.Controls.Add(this.label_0);
+            this.groupBox1.Controls.Add(this.b_max_90);
+            this.groupBox1.Controls.Add(this.b_max_0);
             this.groupBox1.Controls.Add(this.b_90);
             this.groupBox1.Controls.Add(this.b_0);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.nud_y);
-            this.groupBox1.Controls.Add(this.nud_x);
             this.groupBox1.Location = new System.Drawing.Point(3, 2);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.groupBox1.Name = "groupBox1";
@@ -148,11 +146,21 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "кількість на листі";
             // 
+            // b_max_0
+            // 
+            this.b_max_0.Location = new System.Drawing.Point(154, 18);
+            this.b_max_0.Name = "b_max_0";
+            this.b_max_0.Size = new System.Drawing.Size(60, 23);
+            this.b_max_0.TabIndex = 7;
+            this.b_max_0.Text = "MAX: 0°";
+            this.b_max_0.UseVisualStyleBackColor = true;
+            this.b_max_0.Click += new System.EventHandler(this.b_max_Click);
+            // 
             // b_90
             // 
-            this.b_90.Location = new System.Drawing.Point(200, 30);
+            this.b_90.Location = new System.Drawing.Point(88, 19);
             this.b_90.Name = "b_90";
-            this.b_90.Size = new System.Drawing.Size(31, 23);
+            this.b_90.Size = new System.Drawing.Size(60, 23);
             this.b_90.TabIndex = 6;
             this.b_90.Text = "90°";
             this.b_90.UseVisualStyleBackColor = true;
@@ -160,96 +168,59 @@
             // 
             // b_0
             // 
-            this.b_0.Location = new System.Drawing.Point(163, 30);
+            this.b_0.Location = new System.Drawing.Point(22, 19);
             this.b_0.Name = "b_0";
-            this.b_0.Size = new System.Drawing.Size(31, 23);
+            this.b_0.Size = new System.Drawing.Size(60, 23);
             this.b_0.TabIndex = 5;
             this.b_0.Text = "0°";
             this.b_0.UseVisualStyleBackColor = true;
             this.b_0.Click += new System.EventHandler(this.b_0_Click);
             // 
-            // label3
+            // b_max_90
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(80, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(12, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "x";
+            this.b_max_90.Location = new System.Drawing.Point(220, 18);
+            this.b_max_90.Name = "b_max_90";
+            this.b_max_90.Size = new System.Drawing.Size(60, 23);
+            this.b_max_90.TabIndex = 8;
+            this.b_max_90.Text = "MAX: 90°";
+            this.b_max_90.UseVisualStyleBackColor = true;
+            this.b_max_90.Click += new System.EventHandler(this.b_max_90_Click);
             // 
-            // label2
+            // label_0
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(95, 19);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "по Y";
+            this.label_0.Location = new System.Drawing.Point(22, 45);
+            this.label_0.Name = "label_0";
+            this.label_0.Size = new System.Drawing.Size(60, 18);
+            this.label_0.TabIndex = 9;
+            this.label_0.Text = "0";
+            this.label_0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label1
+            // label_90
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "по X";
+            this.label_90.Location = new System.Drawing.Point(88, 45);
+            this.label_90.Name = "label_90";
+            this.label_90.Size = new System.Drawing.Size(60, 18);
+            this.label_90.TabIndex = 10;
+            this.label_90.Text = "0";
+            this.label_90.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // nud_y
+            // label_max_0
             // 
-            this.nud_y.Location = new System.Drawing.Point(98, 35);
-            this.nud_y.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.nud_y.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_y.Name = "nud_y";
-            this.nud_y.Size = new System.Drawing.Size(49, 20);
-            this.nud_y.TabIndex = 1;
-            this.nud_y.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_y.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.label_max_0.Location = new System.Drawing.Point(154, 44);
+            this.label_max_0.Name = "label_max_0";
+            this.label_max_0.Size = new System.Drawing.Size(60, 18);
+            this.label_max_0.TabIndex = 11;
+            this.label_max_0.Text = "0";
+            this.label_max_0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // nud_x
+            // label_max_90
             // 
-            this.nud_x.Location = new System.Drawing.Point(25, 35);
-            this.nud_x.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.nud_x.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_x.Name = "nud_x";
-            this.nud_x.Size = new System.Drawing.Size(49, 20);
-            this.nud_x.TabIndex = 0;
-            this.nud_x.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_x.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // b_max
-            // 
-            this.b_max.Location = new System.Drawing.Point(237, 30);
-            this.b_max.Name = "b_max";
-            this.b_max.Size = new System.Drawing.Size(46, 23);
-            this.b_max.TabIndex = 7;
-            this.b_max.Text = "MAX";
-            this.b_max.UseVisualStyleBackColor = true;
-            this.b_max.Click += new System.EventHandler(this.b_max_Click);
+            this.label_max_90.Location = new System.Drawing.Point(220, 45);
+            this.label_max_90.Name = "label_max_90";
+            this.label_max_90.Size = new System.Drawing.Size(60, 18);
+            this.label_max_90.TabIndex = 12;
+            this.label_max_90.Text = "0";
+            this.label_max_90.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // BindingSimpleControl
             // 
@@ -264,9 +235,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_Yofs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Xofs)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_y)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_x)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -282,11 +250,11 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button b_90;
         private System.Windows.Forms.Button b_0;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown nud_y;
-        private System.Windows.Forms.NumericUpDown nud_x;
-        private System.Windows.Forms.Button b_max;
+        private System.Windows.Forms.Button b_max_0;
+        private System.Windows.Forms.Button b_max_90;
+        private System.Windows.Forms.Label label_max_90;
+        private System.Windows.Forms.Label label_max_0;
+        private System.Windows.Forms.Label label_90;
+        private System.Windows.Forms.Label label_0;
     }
 }

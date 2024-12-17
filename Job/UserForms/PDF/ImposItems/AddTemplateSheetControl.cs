@@ -142,14 +142,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
         }
 
-        private void tsb_saveTemplate_Click(object sender, EventArgs e)
-        {
-            if (objectListView1.SelectedObject is TemplateSheet sheet)
-            {
-                SaveLoadService.SaveSheetTemplates(sheet);
-            }
-
-        }
 
         private void tsb_loadTemplate_Click(object sender, EventArgs e)
         {
@@ -171,6 +163,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 objectListView1.AddObject(sheet);
                 objectListView1.SelectObject(sheet);
                 OnSheetAdded(this, sheet);
+            }
+        }
+
+        private void tsb_saveTemplate_Click_1(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is TemplateSheet sheet)
+            {
+                SaveLoadService.SaveSheetTemplates(sheet);
             }
         }
     }

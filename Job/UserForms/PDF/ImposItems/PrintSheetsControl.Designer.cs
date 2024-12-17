@@ -116,6 +116,7 @@
             // 
             // tsb_delete
             // 
+            this.tsb_delete.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.tsb_delete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tsb_delete.Image = ((System.Drawing.Image)(resources.GetObject("tsb_delete.Image")));
             this.tsb_delete.ImageTransparentColor = System.Drawing.Color.Magenta;

@@ -491,34 +491,21 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             int front = 0;
             int back = 0;
 
-            string txt;
+            string txt = string.Empty;
 
-            if ((page.FrontIdx == 0 && page.BackIdx == 0))
-            {
-                txt = "пуста";
-            }
-            else if (page.BackIdx == 0)
-            {
-                txt = $"{page.FrontIdx}";
-            }
-            else
-            {
-                txt = $"{page.FrontIdx}•{page.BackIdx}";
-            }
-
-
-            if (sheet is PrintSheet printSheet)
+            
+            if (sheet is PrintSheet)
             {
 
-                if (page.FrontIdx != 0) front = page.FrontIdx + printSheet.RunPageIdx;
-                if (page.BackIdx != 0) back = page.BackIdx + printSheet.RunPageIdx;
+                if (page.PrintFrontIdx != 0) front = page.PrintFrontIdx;
+                if (page.PrintBackIdx != 0) back = page.PrintBackIdx;
 
-                if (page.FrontIdx == 0 && page.BackIdx == 0)
+                if (page.PrintFrontIdx == 0 && page.PrintBackIdx == 0)
                 {
                     txt = "пуста";
                 }
 
-                if (page.BackIdx == 0)
+                if (page.PrintBackIdx == 0)
                 {
                     txt = $"{front}";
                 }
@@ -526,8 +513,23 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 {
                     txt = $"{front}•{back}";
                 }
-                
+            } else
+            if (sheet is TemplateSheet)
+            {
+                if ((page.MasterFrontIdx == 0 && page.MasterBackIdx == 0))
+                {
+                    txt = "пуста";
+                }
+                else if (page.MasterBackIdx == 0)
+                {
+                    txt = $"{page.MasterFrontIdx}";
+                }
+                else
+                {
+                    txt = $"{page.MasterFrontIdx}•{page.MasterBackIdx}";
+                }
             }
+
             path.AddString(txt, family, 0, 12, new PointF { X = 0, Y = 0 }, drawFormat);
             g.DrawPath(pen, path);
             family.Dispose();

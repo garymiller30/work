@@ -22,7 +22,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
                 // отримати сторінку з ран листа
-                int runListPageIdx = sheet.RunPageIdx + templatePage.FrontIdx - 1;
+                int runListPageIdx = templatePage.PrintFrontIdx - 1;
 
                 ImposRunPage runPage = impos.RunList.RunPages[runListPageIdx];
 

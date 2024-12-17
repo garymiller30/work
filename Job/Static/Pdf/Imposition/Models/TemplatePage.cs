@@ -13,8 +13,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models
     public sealed class TemplatePage
     {
         public CropMarksController CropMarksController { get; set; } = new CropMarksController();
-        public int FrontIdx { get; set; } = 1;
-        public int BackIdx { get; set; } = 0;
+
+        public int MasterFrontIdx { get; set; } = 1;
+        public int MasterBackIdx { get; set; } = 0;
+
+        public int PrintFrontIdx { get; set; } = 0;
+        public int PrintBackIdx { get; set; } = 0;
         public ClipBox Bleeds { get; set; } = new ClipBox();
         public double W { get; set; } = 210;
         public double H { get; set; } = 297;
@@ -131,7 +135,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             switch (page.Angle)
             {
                 case 0:
-                    if (left > page.Margins.Left)xOfs = -left;
+                    if (left > page.Margins.Left) xOfs = -left;
                     if (bottom > page.Margins.Bottom) yOfs = -bottom;
                     break;
 
@@ -164,7 +168,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             double correctedAngle = Angle;
 
             double llx = 0;// sheet.W - (X + xOfs);
-            double lly =  0;//Y + GetPageHeightWithBleeds + yOfs;
+            double lly = 0;//Y + GetPageHeightWithBleeds + yOfs;
 
             if (Angle == 0)
             {
@@ -181,7 +185,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             else if (Angle == 180)
             {
                 llx = sheet.W - (X + xOfs);
-                lly = Y +  yOfs;
+                lly = Y + yOfs;
             }
             else if (Angle == 270)
             {

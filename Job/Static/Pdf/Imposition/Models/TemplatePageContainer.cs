@@ -24,12 +24,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public MarksContainer Marks { get; set; } = new MarksContainer();
         public int GetMaxIdx()
         {
-            int frontIdx = TemplatePages.Max(x => x.FrontIdx);
+            int frontIdx = TemplatePages.Max(x => x.MasterFrontIdx);
 
             if (HasBack())
             {
 
-                int backIdx = TemplatePages.Max(y => y.BackIdx);
+                int backIdx = TemplatePages.Max(y => y.MasterBackIdx);
                 return frontIdx > backIdx ? frontIdx : backIdx;
             }
             else
@@ -45,7 +45,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public bool HasBack()
         {
-            return TemplatePages.Any(x => x.BackIdx > 0);
+            return TemplatePages.Any(x => x.MasterBackIdx > 0);
         }
 
         public void SetCropMarksLen(double len)
