@@ -17,7 +17,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
         //TemplateSheet sheet;
         IBindControl curBindControl;
 
-        List<string> items = new List<string>(){"розкидати на лист"};
+        List<string> items = new List<string>(){
+            "розкидати на лист",
+            "наскрізна нумерація"
+            };
 
         public ImposBindingControl()
         {
@@ -44,19 +47,39 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
 
             if (parameters == null) return;
+            panelBindingControl.Controls.Clear();
+            int idx = cb_SelectBindType.SelectedIndex;
 
-            if (cb_SelectBindType.SelectedIndex == 0)
+            if (idx == 0)
             {
                 //LooseBinding
-                panelBindingControl.Controls.Clear();
-                var control = new BindingSimpleControl();
+                curBindControl = new BindingSimpleControl();
                 
-                curBindControl = control;
-                curBindControl.SetControlBindParameters(parameters);
-
-                control.Dock = DockStyle.Fill;
-                panelBindingControl.Controls.Add(control);
             }
+            else if (idx == 1)
+            {
+                // наскрізна нумерація
+                curBindControl = new BindingSimpleCutAndStackControl();
+            }
+
+            curBindControl.SetControlBindParameters(parameters);
+
+            ((UserControl)curBindControl).Dock = DockStyle.Fill;
+            panelBindingControl.Controls.Add((UserControl)curBindControl);
+        }
+
+        public void RearangePages(List<PrintSheet> sheets, List<ImposRunPage> pages)
+        {
+            if (curBindControl == null) return;
+
+            curBindControl.RearangePages(sheets,pages);
+        }
+
+        private void b_calc_Click(object sender, EventArgs e)
+        {
+            if (curBindControl == null) return;
+
+            curBindControl.Calc();
         }
     }
 }

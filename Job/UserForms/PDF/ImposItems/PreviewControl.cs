@@ -29,7 +29,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         PointF clickPoint;
         PointF lastLocation;
-        double snapDistance = 16;
+        double snapDistance = 6;
 
 
 
@@ -55,16 +55,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (_hover == null) return;
             hover_x = _hover.X;
             hover_y = _hover.Y;
-            isDragMode = true;
-            clickPoint = e.Location;
-            lastLocation = e.Location;
-        }
 
-
-        public void SetSheet(TemplateSheet sheet)
-        {
-            //_sheet = sheet;
-            //RedrawSheet();
+            if (_parameters.CurTool == ImposToolEnum.Select)
+            {
+                isDragMode = true;
+                clickPoint = e.Location;
+                lastLocation = e.Location;
+            }
         }
 
         public void RedrawSheet()
@@ -94,10 +91,27 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (parameters.Sheet == null) return;
             foreach (var page in parameters.Sheet.TemplatePageContainer.TemplatePages)
             {
-                page.FrontIdx = _parameters.FrontNum;
+                if (parameters.Sheet is TemplateSheet)
+                {
+                    page.MasterFrontIdx = _parameters.FrontNum;
+                }
+                else
+                {
+                    page.PrintFrontIdx = _parameters.FrontNum;
+                }
+
                 if (parameters.Sheet.SheetPlaceType == TemplateSheetPlaceType.Sheetwise)
                 {
-                    page.BackIdx = _parameters.BackNum;
+                    if (parameters.Sheet is TemplateSheet)
+                    {
+                        page.MasterBackIdx = _parameters.BackNum;
+                    }
+                    else
+                    {
+                        page.PrintBackIdx = _parameters.BackNum;
+                    }
+
+
                 }
             }
             RedrawSheet();
@@ -115,15 +129,31 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (parameters.Sheet.SheetPlaceType == TemplateSheetPlaceType.Sheetwise)
                 {
-                    page.FrontIdx = front;
-                    page.BackIdx = back;
+                    if (parameters.Sheet is TemplateSheet tsheet)
+                    {
+                        page.MasterFrontIdx = front;
+                        page.MasterBackIdx = back;
+                    }
+                    else
+                    {
+                        page.PrintFrontIdx = front;
+                        page.PrintBackIdx = back;
+
+                    }
 
                     front += 2;
                     back += 2;
                 }
                 else
                 {
-                    page.FrontIdx = front++;
+                    if (parameters.Sheet is TemplateSheet tsheet)
+                    {
+                        page.MasterFrontIdx = front++;
+                    }
+                    else
+                    {
+                        page.PrintFrontIdx = front++;
+                    }
                 }
             }
             RedrawSheet();
@@ -164,19 +194,30 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     var pageR = page.GetDrawBleedRight();
                     var pageL = page.GetDrawBleedLeft();
-                    // вибрана сторінка - права сторона
+
+                    // вибрана сторінка - права сторона <--> ліва сторона
                     if (Math.Abs(pageR.X2 - hover_x - x_ofs) < snapDistance)
                     {
-
                         x_snap = true;
                         _hover.X = page.X + page.GetClippedWByRotate();
-
                     }
-                    // вибрана сторінка - ліва сторона сторона
+                    // вибрана сторінка - ліва сторона сторона <--> права сторона
                     else if (Math.Abs(hover_x + x_ofs + _hover.GetClippedWByRotate() - pageL.X1) < snapDistance)
                     {
                         x_snap = true;
-                        _hover.X = pageL.X1 - _hover.GetClippedWByRotate();
+                        _hover.X = page.X - _hover.GetClippedWByRotate();
+                    }
+                    // вибрана сторінка - права сторона <--> права сторона
+                    else if (Math.Abs(pageL.X1 - hover_x - x_ofs) < snapDistance)
+                    {
+                        x_snap = true;
+                        _hover.X = page.X;
+                    }
+                    // вибрана сторінка - ліва сторона сторона <--> ліва сторона
+                    else if (Math.Abs(hover_x + x_ofs + _hover.GetClippedWByRotate() - pageR.X2) < snapDistance)
+                    {
+                        x_snap = true;
+                        _hover.X = page.X;
                     }
                 }
 
@@ -185,12 +226,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     var pageT = page.GetDrawBleedTop();
                     var pageB = page.GetDrawBleedBottom();
 
-                    // вибрана сторінка - верх
+                    // вибрана сторінка - верх <--> низ
                     if (Math.Abs(pageB.Y1 - hover_y - y_ofs - _hover.GetClippedHByRotate()) < snapDistance)
                     {
                         y_snap = true;
-                        _hover.Y = pageB.Y1 - _hover.GetClippedHByRotate();
+                        _hover.Y = page.Y - _hover.GetClippedHByRotate();
                     }
+                    // вибрана сторінка - низ <--> верх
+                    else if (Math.Abs(hover_y - y_ofs - pageB.Y2) < snapDistance)
+                    {
+                        y_snap = true;
+                        _hover.Y = page.Y;
+                    }
+
                 }
 
 
@@ -223,7 +271,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void pb_preview_Paint(object sender, PaintEventArgs e)
         {
-            if (parameters.Sheet == null) return;
+            if (parameters == null || parameters.Sheet == null) return;
 
             if (parameters.SelectedPreviewPage != null)
             {
@@ -289,7 +337,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void ToolDeletePage()
         {
-            parameters.Sheet.TemplatePageContainer.DeletePage(parameters.SelectedPreviewPage);
+            parameters.Sheet.TemplatePageContainer.DeletePage(_hover);
             RedrawSheet();
         }
 
@@ -298,13 +346,29 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (parameters.Sheet.SheetPlaceType == TemplateSheetPlaceType.SingleSide ||
                        parameters.Sheet.SheetPlaceType == TemplateSheetPlaceType.WorkAndTurn)
             {
-                parameters.SelectedPreviewPage.FrontIdx = _parameters.FrontNum++;
+                if (parameters.Sheet is TemplateSheet)
+                {
+                    _hover.MasterFrontIdx = _parameters.FrontNum++;
+                }
+                else
+                {
+                    _hover.PrintFrontIdx = _parameters.FrontNum++;
+                }
+                    
             }
             else
             {
-                parameters.SelectedPreviewPage.FrontIdx = _parameters.FrontNum;
+                if (parameters.Sheet is TemplateSheet)
+                {
+                    _hover.MasterFrontIdx = _parameters.FrontNum;
+                    _hover.MasterBackIdx = _parameters.BackNum;
+                }
+                else
+                {
+                    _hover.PrintFrontIdx = _parameters.FrontNum;
+                    _hover.PrintBackIdx = _parameters.BackNum;
+                }
                 _parameters.FrontNum += 2;
-                parameters.SelectedPreviewPage.BackIdx = _parameters.BackNum;
                 _parameters.BackNum += 2;
             }
 
@@ -313,7 +377,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void ToolFlipPageRow()
         {
-            parameters.Sheet.TemplatePageContainer.FlipPagesAngle(parameters.SelectedPreviewPage);
+            parameters.Sheet.TemplatePageContainer.FlipPagesAngle(_hover);
             LooseBindingSingleSide.FixBleedsFront(parameters.Sheet.TemplatePageContainer);
             RedrawSheet();
 
@@ -324,7 +388,16 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             if (ModifierKeys.HasFlag(Keys.Control) && ModifierKeys.HasFlag(Keys.Shift))
             {
-                parameters.SelectedPreviewPage.FrontIdx = _parameters.FrontNum;
+                if (parameters.Sheet is TemplateSheet)
+                {
+                    _hover.MasterFrontIdx = _parameters.FrontNum;
+                }
+                else
+                {
+                    _hover.PrintFrontIdx = _parameters.FrontNum;
+                }
+
+                    
                 _parameters.FrontNum++;
 
             }
@@ -333,28 +406,53 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 if (parameters.Sheet.SheetPlaceType != TemplateSheetPlaceType.SingleSide ||
                     parameters.Sheet.SheetPlaceType != TemplateSheetPlaceType.WorkAndTurn)
                 {
-                    parameters.SelectedPreviewPage.BackIdx = _parameters.FrontNum;
+
+                    if (parameters.Sheet is TemplateSheet)
+                    {
+                        _hover.MasterBackIdx = _parameters.FrontNum;
+
+                    }
+                    else
+                    {
+                        _hover.PrintBackIdx = _parameters.FrontNum;
+                    }
+
+                       
                     _parameters.FrontNum++;
                 }
             }
             else
             {
-                parameters.SelectedPreviewPage.FrontIdx = _parameters.FrontNum;
+                if (parameters.Sheet is TemplateSheet)
+                {
+                    _hover.MasterFrontIdx = _parameters.FrontNum;
+                }
+                else
+                {
+                    _hover.PrintFrontIdx = _parameters.FrontNum;
+
+                }
 
                 if (parameters.Sheet.SheetPlaceType != TemplateSheetPlaceType.SingleSide ||
                     parameters.Sheet.SheetPlaceType != TemplateSheetPlaceType.WorkAndTurn)
                 {
-                    parameters.SelectedPreviewPage.BackIdx = _parameters.BackNum;
+                    if (parameters.Sheet is TemplateSheet)
+                    {
+                        _hover.MasterBackIdx = _parameters.BackNum;
+                    }
+                    else
+                    {
+                        _hover.PrintBackIdx = _parameters.BackNum;
+                    }
                 }
             }
-
             RedrawSheet();
 
         }
 
         private void ToolFlipSinglePage()
         {
-            parameters.SelectedPreviewPage.FlipAngle();
+            _hover.FlipAngle();
             LooseBindingSingleSide.FixBleedsFront(parameters.Sheet.TemplatePageContainer);
             RedrawSheet();
         }

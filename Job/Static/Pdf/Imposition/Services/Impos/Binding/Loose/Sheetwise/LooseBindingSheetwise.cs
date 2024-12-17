@@ -12,73 +12,39 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
     {
         public static TemplatePageContainer Impos(LooseBindingParameters parameters)
         {
-            TemplateSheet sheet = parameters.Sheet;
-            TemplatePage page = sheet.MasterPage;
+
+            if (parameters.IsOneCut) parameters.Sheet.MasterPage.Margins.Set(0d);
+
+            TemplatePageContainer tc;
+
+            switch (parameters.BindingPlace)
+            {
+                case Binding.BindingPlaceEnum.Normal:
+
+                    tc = LooseBindingSingleSide.LooseBindingNormal(parameters);
+                    break;
+
+                case Binding.BindingPlaceEnum.Rotated:
+                    tc = LooseBindingSingleSide.LooseBindingRotated(parameters);
+                    break;
+
+                case Binding.BindingPlaceEnum.MaxNormal:
+                    tc = LooseBindingSingleSide.LooseBindingMaxNormal(parameters);
+                    break;
+
+                case Binding.BindingPlaceEnum.MaxRotated:
+                    tc = LooseBindingSingleSide.LooseBindingMaxRotated(parameters);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            if (tc == null) throw new NotImplementedException();
+
+
+            tc.TemplatePages.ForEach(p => { p.MasterFrontIdx = 1; p.MasterBackIdx = 2; });
+            return tc;
             
-            if (parameters.IsOneCut) page.Margins.Set(0d);
-
-            TemplatePageContainer templatePageContainer = new TemplatePageContainer();
-
-            AbstractPlaceVariant nonRotated = new PlaceVariantNonRotated(parameters);
-            AbstractPlaceVariant rotated = new PlaceVariantRotated(parameters);
-
-            AbstractPlaceVariant selVariant;
-
-            if (nonRotated.Total > rotated.Total)
-            {
-                selVariant = nonRotated;
-            }
-            else if (nonRotated.Total < rotated.Total)
-            {
-                selVariant = rotated;
-            }
-            else if (nonRotated.FreeSpace >= rotated.FreeSpace)
-            {
-                selVariant = nonRotated;
-            }
-            else
-            {
-                selVariant = rotated;
-            }
-
-            double angle = selVariant.IsRotated ? 90 : 0;
-
-            double x = sheet.SafeFields.Left + parameters.Xofs;
-            double y = sheet.SafeFields.Bottom + parameters.Yofs;
-
-            if (parameters.IsCenterHorizontal)
-                x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - selVariant.BlockWidth) / 2 + sheet.SafeFields.Left;
-
-            if (parameters.IsCenterVertical)
-                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - selVariant.BlockHeight) / 2 + sheet.SafeFields.Bottom;
-
-            double xOfs = x;
-
-            for (int cy = 0; cy < selVariant.CntY; cy++)
-            {
-                TemplatePage templatePage = new TemplatePage();
-                for (int cx = 0; cx < selVariant.CntX; cx++)
-                {
-                    templatePage = new TemplatePage(xOfs, y, page.W, page.H, angle);
-                    templatePage.Bleeds.SetDefault(page.Bleeds.Default);
-                    templatePage.Margins.Set(page.Margins);
-                    templatePage.FrontIdx = 1;
-                    templatePage.BackIdx = 2;
-
-                    templatePageContainer.AddPage(templatePage);
-                    xOfs += templatePage.GetClippedWByRotate();
-                }
-                xOfs = x;
-                y += templatePage.GetClippedHByRotate();
-            }
-
-            if (parameters.IsOneCut)
-            {
-                FixBleedsBack(templatePageContainer);
-            }
-
-            CropMarksService.FixCropMarksFront(templatePageContainer);
-            return templatePageContainer;
         }
 
         public static void FixBleedsBack(TemplatePageContainer templatePageContainer)

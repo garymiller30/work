@@ -20,7 +20,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 
         public bool IsOneCut { get; set; }
 
-        public BindingPlaceEnum BindingPlace { get; set; } = BindingPlaceEnum.Max;
+        public BindingPlaceEnum BindingPlace { get; set; } = BindingPlaceEnum.Normal;
 
     }
 }

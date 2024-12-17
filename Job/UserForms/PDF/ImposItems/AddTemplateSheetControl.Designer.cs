@@ -39,9 +39,9 @@
             this.tscb_sheetType = new System.Windows.Forms.ToolStripComboBox();
             this.tsb_addToList = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_edit = new System.Windows.Forms.ToolStripButton();
             this.tsb_add = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_edit = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.tbs_dublicate = new System.Windows.Forms.ToolStripButton();
             this.tsb_toPrint = new System.Windows.Forms.ToolStripButton();
@@ -49,6 +49,8 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_delete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_saveTemplate = new System.Windows.Forms.ToolStripButton();
+            this.tsb_loadTemplate = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -152,6 +154,17 @@
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
+            // tsb_edit
+            // 
+            this.tsb_edit.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsb_edit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_edit.Image = ((System.Drawing.Image)(resources.GetObject("tsb_edit.Image")));
+            this.tsb_edit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_edit.Name = "tsb_edit";
+            this.tsb_edit.Size = new System.Drawing.Size(23, 22);
+            this.tsb_edit.Text = "редагувати шаблон листа";
+            this.tsb_edit.Click += new System.EventHandler(this.tsb_edit_Click);
+            // 
             // tsb_add
             // 
             this.tsb_add.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -169,27 +182,19 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // tsb_edit
-            // 
-            this.tsb_edit.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tsb_edit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_edit.Image = ((System.Drawing.Image)(resources.GetObject("tsb_edit.Image")));
-            this.tsb_edit.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_edit.Name = "tsb_edit";
-            this.tsb_edit.Size = new System.Drawing.Size(23, 22);
-            this.tsb_edit.Text = "редагувати шаблон листа";
-            this.tsb_edit.Click += new System.EventHandler(this.tsb_edit_Click);
-            // 
             // toolStrip2
             // 
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.toolStrip2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbs_dublicate,
             this.tsb_toPrint,
             this.tsb_fillAll,
             this.toolStripSeparator1,
             this.tsb_delete,
-            this.toolStripSeparator2});
+            this.toolStripSeparator2,
+            this.tsb_saveTemplate,
+            this.tsb_loadTemplate});
             this.toolStrip2.Location = new System.Drawing.Point(0, 137);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(335, 25);
@@ -241,12 +246,33 @@
             this.tsb_delete.Size = new System.Drawing.Size(23, 22);
             this.tsb_delete.Text = "видалити шаблон листа";
             this.tsb_delete.ToolTipText = "видалити шаблон листа (+Shift - видалити все)";
+            this.tsb_delete.Click += new System.EventHandler(this.tsb_delete_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsb_saveTemplate
+            // 
+            this.tsb_saveTemplate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_saveTemplate.Image = ((System.Drawing.Image)(resources.GetObject("tsb_saveTemplate.Image")));
+            this.tsb_saveTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_saveTemplate.Name = "tsb_saveTemplate";
+            this.tsb_saveTemplate.Size = new System.Drawing.Size(23, 22);
+            this.tsb_saveTemplate.Text = "зберегти шаблон";
+            this.tsb_saveTemplate.Click += new System.EventHandler(this.tsb_saveTemplate_Click_1);
+            // 
+            // tsb_loadTemplate
+            // 
+            this.tsb_loadTemplate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_loadTemplate.Image = ((System.Drawing.Image)(resources.GetObject("tsb_loadTemplate.Image")));
+            this.tsb_loadTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_loadTemplate.Name = "tsb_loadTemplate";
+            this.tsb_loadTemplate.Size = new System.Drawing.Size(23, 22);
+            this.tsb_loadTemplate.Text = "завантажити шаблон";
+            this.tsb_loadTemplate.Click += new System.EventHandler(this.tsb_loadTemplate_Click);
             // 
             // AddTemplateSheetControl
             // 
@@ -291,5 +317,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton tsb_delete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton tsb_saveTemplate;
+        private System.Windows.Forms.ToolStripButton tsb_loadTemplate;
     }
 }

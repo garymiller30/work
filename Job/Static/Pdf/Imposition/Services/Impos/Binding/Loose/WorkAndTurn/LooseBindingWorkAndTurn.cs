@@ -60,15 +60,15 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTur
                 {
                     templatePage = new TemplatePage(xOfs, y, page.W, page.H, angle_front);
                     templatePage.Margins.Set(page.Margins);
-                    templatePage.FrontIdx = 1;
-                    templatePage.BackIdx = 0;
+                    templatePage.MasterFrontIdx = 1;
+                    templatePage.MasterBackIdx = 0;
                     templatePageContainer.AddPage(templatePage);
 
                     double x_back = sheet.W - xOfs - templatePage.GetClippedWByRotate();
                     templatePage = new TemplatePage(x_back, y, page.W, page.H, angle_back);
                     templatePage.Margins.Set(page.Margins);
-                    templatePage.FrontIdx = 2;
-                    templatePage.BackIdx = 0;
+                    templatePage.MasterFrontIdx = 2;
+                    templatePage.MasterBackIdx = 0;
                     templatePageContainer.AddPage(templatePage);
 
                     xOfs += templatePage.GetClippedWByRotate();

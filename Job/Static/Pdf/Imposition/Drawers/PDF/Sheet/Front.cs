@@ -23,12 +23,22 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
                 // отримати сторінку з ран листа
-                int runListPageIdx = sheet.RunPageIdx + templatePage.FrontIdx -1;
+                int runListPageIdx = templatePage.PrintFrontIdx -1;
 
-                ImposRunPage runPage = impos.RunList.RunPages[runListPageIdx];
+                ImposRunPage runPage;
+
+                if (runListPageIdx < impos.RunList.RunPages.Count)
+                {
+                    runPage = impos.RunList.RunPages[runListPageIdx];
+                }
+                else
+                {
+                    runPage = new ImposRunPage() { FileId = 0, PageIdx = 0 };
+                }
+                    
 
                 //пуста сторінка
-                if ((runPage.FileId == 0 && runPage.PageIdx == 0) || templatePage.FrontIdx == 0)
+                if ((runPage.FileId == 0 && runPage.PageIdx == 0) || templatePage.PrintFrontIdx == 0)
                 {
                     // пропускаємо
                 }

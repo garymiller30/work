@@ -10,6 +10,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding
     {
         Normal,
         Rotated,
-        Max
+        MaxNormal,
+        MaxRotated
     }
 }

@@ -13,7 +13,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public static int printId = 1;
 
         public int TemplateId { get; set; } = 0;
-        public int RunPageIdx { get;set; } = 0;
 
         public PrintSheet()
         {
@@ -31,6 +30,15 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public static void ResetId()
         {
             printId = 1;
+        }
+
+        new public PrintSheet Copy()
+        {
+            var str = JsonSerializer.Serialize(this);
+            var sheet = JsonSerializer.Deserialize<PrintSheet>(str);
+            sheet.Id = SheetId++;
+            return sheet;
+
         }
     }
 }

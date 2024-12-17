@@ -55,6 +55,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler NeedRearangePages = delegate{ };
 
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {

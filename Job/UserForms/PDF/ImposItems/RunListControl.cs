@@ -15,7 +15,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
     public partial class RunListControl : UserControl
     {
         ControlBindParameters _bindParameters;
-        int UnassignedIdx = 0;
+
+        //int UnassignedIdx = 0;
 
         public RunListControl()
         {
@@ -61,10 +62,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
             objectListViewRunList.ModelDropped += ObjectListViewRunList_ModelDropped;
         }
 
-        private void ObjectListViewRunList_Dropped(object sender, OlvDropEventArgs e)
-        {
-            ReasignPages();
-        }
+        //private void ObjectListViewRunList_Dropped(object sender, OlvDropEventArgs e)
+        //{
+        //    ReasignPages();
+        //}
 
         private void ObjectListViewRunList_ModelDropped(object sender, BrightIdeasSoftware.ModelDropEventArgs e)
         {
@@ -87,7 +88,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 }
                 e.Handled = true;
             }
-            ReasignPages();
+            //ReasignPages();
         }
 
         public List<ImposRunPage> GetRunPages()
@@ -128,33 +129,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
             UpdateStatusString();
         }
 
-        public void AssignPrintSheet(PrintSheet sheet)
-        {
-            sheet.RunPageIdx = UnassignedIdx;
-            int idx = sheet.TemplatePageContainer.GetMaxIdx();
-            UnassignedIdx += idx;
-            ReasignPages();
-        }
-
-        private void ReasignPages()
-        {
-            int cnt = 0;
-            foreach (var item in objectListViewRunList.Objects)
-            {
-                if (item is ImposRunPage page)
-                {
-                    if (cnt < UnassignedIdx)
-                    { page.IsAssumed = true; }
-                    else
-                    {
-                        page.IsAssumed = false;
-                    }
-                    cnt++;
-                }
-            }
-            objectListViewRunList.UpdateObjects(objectListViewRunList.Objects.Cast<ImposRunPage>().ToList());
-            UpdateStatusString();
-        }
+        //public void AssignPrintSheet(PrintSheet sheet)
+        //{
+        //    //ReasignPages();
+        //}
 
         private void UpdateStatusString()
         {
@@ -167,40 +145,43 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void objectListViewRunList_Dropped_1(object sender, OlvDropEventArgs e)
         {
-            ReasignPages();
+            //ReasignPages();
         }
 
         public int GetUnassignedPagesCount()
         {
-            return objectListViewRunList.Objects.Cast<ImposRunPage>().ToList().Count - UnassignedIdx;
+            return objectListViewRunList.Objects.Cast<ImposRunPage>().Where(x=>x.IsAssumed == false).ToList().Count;
         }
 
-        public void ReassignPrintSheets(List<PrintSheet> printSheets)
+        //public void ReassignPrintSheets(List<PrintSheet> printSheets)
+        //{
+        //    UnassignedIdx = 0;
+
+        //    foreach (var item in objectListViewRunList.Objects)
+        //    {
+        //        ((ImposRunPage)item).IsAssumed = false;
+        //    }
+
+        //    if (printSheets.Count > 0)
+        //    {
+        //        foreach (PrintSheet printSheet in printSheets)
+        //        {
+        //            AssignPrintSheet(printSheet);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        UpdateStatusString();
+        //    }
+
+        //    objectListViewRunList.RefreshObjects(objectListViewRunList.Objects.Cast<ImposRunPage>().ToList());
+
+        //}
+
+        public void UpdateRunList()
         {
-            UnassignedIdx = 0;
-
-            foreach (var item in objectListViewRunList.Objects)
-            {
-                ((ImposRunPage)item).IsAssumed = false;
-            }
-
-            if (printSheets.Count > 0)
-            {
-                foreach (PrintSheet printSheet in printSheets)
-                {
-                    AssignPrintSheet(printSheet);
-                }
-            }
-            else
-            {
-                UpdateStatusString();
-            }
-
+            UpdateStatusString();
             objectListViewRunList.RefreshObjects(objectListViewRunList.Objects.Cast<ImposRunPage>().ToList());
-
-
-
-
         }
     }
 }

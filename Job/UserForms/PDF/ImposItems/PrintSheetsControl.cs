@@ -67,5 +67,16 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             OnPrintSheetDeleted(this, null);
         }
+
+        public void AddSheets(PrintSheet sheet, int sheetCnt)
+        {
+            List<PrintSheet> list = new List<PrintSheet>();
+            for (int i = 0; i < sheetCnt; i++)
+            {
+                var l = sheet.Copy();
+                list.Add(l);
+            }
+            objectListView1.AddObjects(list);
+        }
     }
 }
