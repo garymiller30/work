@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.b_calc = new System.Windows.Forms.Button();
             this.cb_SelectBindType = new System.Windows.Forms.ComboBox();
             this.panelBindingControl = new System.Windows.Forms.Panel();
-            this.b_calc = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,6 +45,20 @@
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "як розкладати?";
+            // 
+            // b_calc
+            // 
+            this.b_calc.BackColor = System.Drawing.Color.Moccasin;
+            this.b_calc.FlatAppearance.BorderSize = 0;
+            this.b_calc.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.b_calc.Location = new System.Drawing.Point(193, 9);
+            this.b_calc.Margin = new System.Windows.Forms.Padding(0);
+            this.b_calc.Name = "b_calc";
+            this.b_calc.Size = new System.Drawing.Size(103, 33);
+            this.b_calc.TabIndex = 1;
+            this.b_calc.Text = "рахувати";
+            this.b_calc.UseVisualStyleBackColor = false;
+            this.b_calc.Click += new System.EventHandler(this.b_calc_Click);
             // 
             // cb_SelectBindType
             // 
@@ -66,16 +80,6 @@
             this.panelBindingControl.Name = "panelBindingControl";
             this.panelBindingControl.Size = new System.Drawing.Size(299, 123);
             this.panelBindingControl.TabIndex = 9;
-            // 
-            // b_calc
-            // 
-            this.b_calc.Location = new System.Drawing.Point(198, 17);
-            this.b_calc.Name = "b_calc";
-            this.b_calc.Size = new System.Drawing.Size(75, 23);
-            this.b_calc.TabIndex = 1;
-            this.b_calc.Text = "рахувати";
-            this.b_calc.UseVisualStyleBackColor = true;
-            this.b_calc.Click += new System.EventHandler(this.b_calc_Click);
             // 
             // ImposBindingControl
             // 

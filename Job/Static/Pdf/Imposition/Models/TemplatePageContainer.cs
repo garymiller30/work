@@ -133,5 +133,10 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             // перерахувати мітки різу
             CropMarksService.FixCropMarksFront(this);
         }
+
+        public TemplatePageContainer Copy()
+        {
+            return JsonSerializer.Deserialize<TemplatePageContainer>(JsonSerializer.Serialize(this));
+        }
     }
 }
