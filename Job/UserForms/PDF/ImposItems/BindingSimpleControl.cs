@@ -41,29 +41,29 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void b_0_Click(object sender, EventArgs e)
         {
-            parameters.Sheet.TemplatePageContainer = variantNormal;
+            parameters.Sheet.TemplatePageContainer = variantNormal.Copy() ;
 
             parameters.UpdateSheet();
         }
 
         private void b_90_Click(object sender, EventArgs e)
         {
-           
-            parameters.Sheet.TemplatePageContainer = variantRotated;
+
+            parameters.Sheet.TemplatePageContainer = variantRotated.Copy();
 
             parameters.UpdateSheet();
         }
 
         private void b_max_Click(object sender, EventArgs e)
         {
-            parameters.Sheet.TemplatePageContainer = variantMaxNormal;
+            parameters.Sheet.TemplatePageContainer = variantMaxNormal.Copy();
 
             parameters.UpdateSheet();
         }
 
         private void b_max_90_Click(object sender, EventArgs e)
         {
-            parameters.Sheet.TemplatePageContainer = variantMaxRotated;
+            parameters.Sheet.TemplatePageContainer = variantMaxRotated.Copy();
             parameters.UpdateSheet();
 
         }
@@ -87,10 +87,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
             // скинути 
             pages.ForEach(p => p.IsAssumed = false);
 
+            int maxIdx = 0;
+
             for (int i = 0; i < sheets.Count; i++)
             {
-                int maxIdx = sheets[i].TemplatePageContainer.GetMaxIdx();
-
                 foreach (var t_page in sheets[i].TemplatePageContainer.TemplatePages)
                 {
                     if (t_page.MasterFrontIdx > 0)
@@ -98,25 +98,27 @@ namespace JobSpace.UserForms.PDF.ImposItems
                         var runListpageFrontIdx = maxIdx * i + t_page.MasterFrontIdx;
                         t_page.PrintFrontIdx = runListpageFrontIdx;
                         if (runListpageFrontIdx - 1 < pages.Count)
-                            pages[runListpageFrontIdx-1].IsAssumed = true;
+                            pages[runListpageFrontIdx - 1].IsAssumed = true;
                     }
                     else
                     {
                         t_page.PrintFrontIdx = 0;
                     }
-                    
+
                     if (t_page.MasterBackIdx > 0)
                     {
                         var runListpageBackIdx = maxIdx * i + t_page.MasterBackIdx;
                         t_page.PrintBackIdx = runListpageBackIdx;
                         if (runListpageBackIdx - 1 < pages.Count)
-                            pages[runListpageBackIdx-1].IsAssumed= true;
+                            pages[runListpageBackIdx - 1].IsAssumed = true;
                     }
                     else
                     {
                         t_page.PrintBackIdx = 0;
                     }
                 }
+
+                maxIdx += sheets[i].TemplatePageContainer.GetMaxIdx();
 
             }
         }
@@ -125,28 +127,44 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (parameters.Sheet == null || parameters.MasterPage == null) return;
 
+            TemplatePageContainer sel;
+
             // Normal
             var par = CreateParameters();
             par.BindingPlace = BindingPlaceEnum.Normal;
             variantNormal = BindingService.Impos(par);
             label_0.Text = variantNormal.TemplatePages.Count().ToString();
 
+            sel = variantNormal;
+
             //Rotated
             par.BindingPlace = BindingPlaceEnum.Rotated;
             variantRotated = BindingService.Impos(par);
             label_90.Text = variantRotated.TemplatePages.Count().ToString();
+
+            if (sel.TemplatePages.Count() < variantRotated.TemplatePages.Count())
+                sel = variantRotated;
+
 
             //Max Normal
             par.BindingPlace = BindingPlaceEnum.MaxNormal;
             variantMaxNormal = BindingService.Impos(par);
             label_max_0.Text = variantMaxNormal.TemplatePages.Count().ToString();
 
+            if (sel.TemplatePages.Count() < variantMaxNormal.TemplatePages.Count())
+                sel = variantMaxNormal;
+
             //Max Rotated
             par.BindingPlace = BindingPlaceEnum.MaxRotated;
             variantMaxRotated = BindingService.Impos(par);
             label_max_90.Text = variantMaxRotated.TemplatePages.Count().ToString();
 
+            if (sel.TemplatePages.Count() < variantMaxRotated.TemplatePages.Count())
+                sel = variantMaxRotated;
 
+            parameters.Sheet.TemplatePageContainer = sel.Copy();
+
+            parameters.UpdateSheet();
         }
     }
 }

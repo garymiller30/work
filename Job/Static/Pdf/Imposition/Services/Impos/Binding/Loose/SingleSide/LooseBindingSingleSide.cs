@@ -43,6 +43,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             int CntX = (int)(printFieldFormat.W / pageW);
             int CntY = (int)(printFieldFormat.H / pageH);
 
+            if (CntX == 0 || CntY == 0) return templatePageContainer;
+
             double blockWidth = CntX * pageW;
             double blockHeight = CntY * pageH;
 
@@ -130,6 +132,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             var CntX = (int)(printFieldFormat.W / pageH);
             var CntY = (int)(printFieldFormat.H / pageW);
 
+            if (CntX == 0 || CntY == 0) return templatePageContainer;
+
             var blockWidth = CntX * pageH;
             var blockHeight = CntY * pageW;
 
@@ -167,6 +171,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 
             var CntX = (int)(printFieldFormat.W / pageW);
             var CntY = (int)(printFieldFormat.H / pageH);
+
+            if (CntX == 0 || CntY == 0) return templatePageContainer;
 
             var blockWidth = CntX * pageW;
             var blockHeight = CntY * pageH;
@@ -253,6 +259,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 
             var CntX = (int)(printFieldFormat.W / pageW);
             var CntY = (int)(printFieldFormat.H / pageH);
+
+            if (CntX == 0 || CntY == 0) return templatePageContainer;
 
             var BlockWidth = CntX * pageW;
             var BlockHeight = CntY * pageH;
