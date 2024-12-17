@@ -95,7 +95,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     if (t_page.MasterFrontIdx > 0)
                     {
-                        var runListpageFrontIdx = maxIdx * i + t_page.MasterFrontIdx;
+                        var runListpageFrontIdx = maxIdx + t_page.MasterFrontIdx;
                         t_page.PrintFrontIdx = runListpageFrontIdx;
                         if (runListpageFrontIdx - 1 < pages.Count)
                             pages[runListpageFrontIdx - 1].IsAssumed = true;

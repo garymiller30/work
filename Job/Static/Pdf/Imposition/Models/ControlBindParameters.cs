@@ -68,6 +68,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             {
                 CropMarksService.FixCropMarksFront(sheet.TemplatePageContainer);
             }
+            selectedPreviewPage = null;
             Sheet = Sheet;
         }
     }

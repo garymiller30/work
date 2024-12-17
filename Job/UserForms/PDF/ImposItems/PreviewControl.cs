@@ -236,7 +236,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     else if (Math.Abs(hover_y - y_ofs - pageB.Y2) < snapDistance)
                     {
                         y_snap = true;
-                        _hover.Y = page.Y;
+                        _hover.Y = page.Y+page.GetClippedHByRotate();
                     }
 
                 }

@@ -96,7 +96,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         {
             using (var form = new SaveFileDialog())
             {
-                string fileName = sheet.Description.Transliteration() + ".json";
+                string fileName =$"{sheet.Description.Transliteration()}_{sheet.MasterPage.W.ToString("N1")}x{sheet.MasterPage.H.ToString("N1")}.json";
 
                 form.InitialDirectory = SheetTemplatesPath;
                 form.FileName = fileName;
