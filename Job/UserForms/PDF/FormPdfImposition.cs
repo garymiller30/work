@@ -63,13 +63,13 @@ namespace JobSpace.UserForms.PDF
         private void OnClickCenterH(object sender, EventArgs e)
         {
             ProcessCenterH.Center(_controlBindParameters.Sheet);
-            _controlBindParameters.UpdateSheet();
+            _controlBindParameters.UpdatePreview();
         }
 
         private void OnClickCenterV(object sender, EventArgs e)
         {
             ProcessCenterV.Center(_controlBindParameters.Sheet);
-            _controlBindParameters.UpdateSheet();
+            _controlBindParameters.UpdatePreview();
         }
 
         private void OnSheetAddManyToPrintEvent(object sender, TemplateSheet e)
@@ -101,15 +101,13 @@ namespace JobSpace.UserForms.PDF
         private void OnTemplateSheetSelected(object sender, TemplateSheet e)
         {
             _controlBindParameters.Sheet = e;
-            //imposBindingControl1.SetSheet(e);
-            //previewControl1.SetSheet(e);
-            //marksControl1.SetSheet(e);
+            
         }
 
         private void InitBindParameters()
         {
             _controlBindParameters.PdfFiles = _pdfFiles;
-            _controlBindParameters.NeedRearangePages += _controlBindParameters_NeedRearangePages    ;
+            _controlBindParameters.NeedRearangePages += _controlBindParameters_NeedRearangePages;
             imposBindingControl1.SetControlBindParameters(_controlBindParameters);
             pdfFileListControl1.SetControlBindParameters(_controlBindParameters);
             runListControl1.SetControlBindParameters(_controlBindParameters);
@@ -166,7 +164,7 @@ namespace JobSpace.UserForms.PDF
             if (_controlBindParameters.Sheet == null) return;
 
             _controlBindParameters.Sheet.TemplatePageContainer.AddPage(e.ToTemplatePage());
-            _controlBindParameters.UpdateSheet();
+            _controlBindParameters.UpdatePreview();
         }
 
         private void OnMasterPageChanged(object sender, PageFormatView e)
@@ -220,7 +218,7 @@ namespace JobSpace.UserForms.PDF
             
         }
 
-        private void SaveToPdf()
+        private async void SaveToPdf()
         {
             _productPart = new ProductPart();
             _productPart.Proof.Enable = cb_UseProofColor.Checked;
@@ -235,14 +233,36 @@ namespace JobSpace.UserForms.PDF
 
             DrawerStatic.CurProductPart = _productPart;
 
-            var drawer = new PdfDrawer(imposFile);
-            drawer.Draw(_productPart);
+            PdfDrawer drawer = new PdfDrawer(imposFile);
+
+            drawer.StartEvent+= startEvent;
+            drawer.ProcessingEvent+= processingEvent;
+            drawer.FinishEvent+= finishEvent;
+
+            await Task.Run(()=>  drawer.Draw(_productPart)).ConfigureAwait(true);
             if (MessageBox.Show("Відкрити?","Виконано!",MessageBoxButtons.OKCancel,MessageBoxIcon.Question)== DialogResult.OK)
             {
                 Process.Start(imposFile);
             }
 
         }
+
+        private void finishEvent(object sender, EventArgs e)
+        {
+            progressBar1.Invoke(new MethodInvoker(delegate { progressBar1.Value = 0; }));
+           
+        }
+
+        private void processingEvent(object sender, int e)
+        {
+            progressBar1.Invoke(new MethodInvoker(delegate { progressBar1.Value = e; }));
+        }
+
+        private void startEvent(object sender, int e)
+        {
+            progressBar1.Invoke(new MethodInvoker(delegate { progressBar1.Maximum = e; } ));
+        }
+
         private void FormPdfImposition_FormClosing(object sender, FormClosingEventArgs e)
         {
 
@@ -273,7 +293,7 @@ namespace JobSpace.UserForms.PDF
         private void pg_Parameters_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
 
-            _controlBindParameters.UpdateSheet();
+            _controlBindParameters.UpdatePreview();
         }
     }
 }

@@ -56,10 +56,16 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler NeedRearangePages = delegate{ };
+        public event EventHandler JustUpdatePreview = delegate { };
 
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void UpdatePreview()
+        {
+            JustUpdatePreview(this,null);
         }
 
         public void UpdateSheet()
@@ -69,7 +75,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                 CropMarksService.FixCropMarksFront(sheet.TemplatePageContainer);
             }
             selectedPreviewPage = null;
-            Sheet = Sheet;
+            UpdatePreview();
         }
     }
 }

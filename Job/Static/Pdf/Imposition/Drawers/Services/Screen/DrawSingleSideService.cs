@@ -14,6 +14,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
@@ -44,9 +45,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 DrawPage(g, sheet, page, (int)sheet.H);
             }
             PdfMarksService.RecalcMarkCoordFront(sheet);
-            DrawSheetMarksFront(g,sheet, (int)sheet.H);
+            DrawSheetMarksFront(g, sheet, (int)sheet.H);
 
             PdfMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
+            TextMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
             DrawContainerMarksFront(g, sheet.TemplatePageContainer.Marks, (int)sheet.H);
 
             g.Dispose();
@@ -56,11 +58,39 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawContainerMarksFront(Graphics g, MarksContainer container, int h)
         {
-            Brush brush = new SolidBrush(Color.Aqua);
+            DrawPdfMarksFront(g, container, h);
+            DrawTextMarksFront(g, container, h);
+
+        }
+
+        private static void DrawTextMarksFront(Graphics g, MarksContainer container, int h)
+        {
+            Brush brush = new SolidBrush(Color.MidnightBlue);
+            foreach (var mark in container.Text.Where(x => x.Parameters.IsFront && x.Enable))
+            {
+                var previewPoints = (mark.FontSize /72.0)*25.4;
+                Font font = new Font(mark.FontName,(float)previewPoints);
+                SizeF size = g.MeasureString(mark.Text, font);
+                g.TranslateTransform((float)mark.Front.X,(float)(h - mark.Front.Y));
+
+                float angle = mark.Angle == 90 || mark.Angle == 270 ? (float)(mark.Angle+ 180) : (float)mark.Angle;  
+
+                g.RotateTransform((angle));
+                g.DrawString(mark.Text, font, brush,0,0);
+                font.Dispose();
+            }
+
+            brush.Dispose();
+
+            container.Containers.ForEach(x => DrawTextMarksFront(g, x, h));
+        }
+
+        private static void DrawPdfMarksFront(Graphics g, MarksContainer container, int h)
+        {
             foreach (var mark in container.Pdf.Where(x => x.Parameters.IsFront && x.Enable))
             {
 
-                Image bitmap = MarksService.GetBitmap(mark);
+                System.Drawing.Image bitmap = MarksService.GetBitmap(mark);
                 var rect = new Rectangle
                 {
                     X = (int)mark.Front.X,
@@ -69,26 +99,24 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     Height = (int)mark.GetH()
                 };
 
-                if (bitmap == null) 
-                    {
-                    g.FillRectangle(brush,rect );
+                if (bitmap == null)
+                {
+                    Brush brush = new SolidBrush(Color.Aqua);
+                    g.FillRectangle(brush, rect);
+                    brush.Dispose();
 
                 }
                 else
                 {
-                    var i = RotateImage(bitmap,(float)mark.Angle);
-                    g.DrawImage(i,rect);
+                    var i = RotateImage(bitmap, (float)mark.Angle);
+                    g.DrawImage(i, rect);
                     bitmap.Dispose();
                 }
             }
-            brush.Dispose();
-
-            container.Containers.ForEach(x=> DrawContainerMarksFront(g,x,h));
-
+            container.Containers.ForEach(x => DrawPdfMarksFront(g, x, h));
         }
 
-
-        public static Bitmap RotateImage(Image b, float angle)
+        public static Bitmap RotateImage(System.Drawing.Image b, float angle)
         {
             //create a new empty bitmap to hold rotated image
             Bitmap returnBitmap = new Bitmap(b.Width, b.Height);
@@ -110,20 +138,21 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawSheetMarksFront(Graphics g, TemplateSheet sheet, int h)
         {
-            DrawSheetPdfMarksFront(g,sheet,h);
+            DrawSheetPdfMarksFront(g, sheet, h);
         }
 
         private static void DrawSheetPdfMarksFront(Graphics g, TemplateSheet sheet, int h)
         {
             Brush brush = new SolidBrush(Color.Aqua);
-            foreach (var mark in sheet.Marks.Pdf.Where(x=> x.Parameters.IsFront && x.Enable))
+            foreach (var mark in sheet.Marks.Pdf.Where(x => x.Parameters.IsFront && x.Enable))
             {
-                g.FillRectangle(brush, new Rectangle { 
-                    X=(int)mark.Front.X,
-                    Y=h-(int)mark.Front.Y,
-                    Width=(int)mark.GetW(),
-                    Height=(int)mark.GetH()
-                    });
+                g.FillRectangle(brush, new Rectangle
+                {
+                    X = (int)mark.Front.X,
+                    Y = h - (int)mark.Front.Y,
+                    Width = (int)mark.GetW(),
+                    Height = (int)mark.GetH()
+                });
             }
             brush.Dispose();
         }
@@ -493,7 +522,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             string txt = string.Empty;
 
-            
+
             if (sheet is PrintSheet)
             {
 
@@ -513,7 +542,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 {
                     txt = $"{front}•{back}";
                 }
-            } else
+            }
+            else
             if (sheet is TemplateSheet)
             {
                 if ((page.MasterFrontIdx == 0 && page.MasterBackIdx == 0))

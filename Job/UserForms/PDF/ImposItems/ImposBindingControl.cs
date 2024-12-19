@@ -40,7 +40,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName != "Sheet" || parameters.Sheet == null || parameters.Sheet.TemplatePageContainer.TemplatePages.Count > 0) return;
             
+            Calc();
         }
 
         private void cb_SelectBindType_SelectedIndexChanged(object sender, EventArgs e)
@@ -77,8 +79,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void b_calc_Click(object sender, EventArgs e)
         {
-            if (curBindControl == null) return;
+            Calc();
+        }
 
+        private void Calc()
+        {
+            if (curBindControl == null) return;
             curBindControl.Calc();
         }
     }

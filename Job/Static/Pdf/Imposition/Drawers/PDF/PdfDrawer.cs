@@ -11,6 +11,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 {
     public class PdfDrawer
     {
+
+        public EventHandler<int> StartEvent { get; set; } = delegate { };
+        public EventHandler<int> ProcessingEvent { get; set; } = delegate { };
+        public EventHandler FinishEvent { get; set; } = delegate { };
         public string TargetFile { get; set; }
 
         public PdfDrawer(string targetFile)
@@ -26,12 +30,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
             {
                 p.begin_document(TargetFile, "");
 
-                for (int i = 0; i< impos.PrintSheets.Count; i++) {
+                StartEvent(this, impos.PrintSheets.Count);
+
+                for (int i = 0; i < impos.PrintSheets.Count; i++)
+                {
+
+                    ProcessingEvent(this, i + 1);
 
                     var sheet = impos.PrintSheets[i];
 
                     TextVariablesService.SetValue(ValueList.SheetIdx, i + 1);
-                    
+
                     TextVariablesService.SetValue(ValueList.SheetFormat, $"{sheet.W}x{sheet.H}");
                     TextVariablesService.SetValue(ValueList.CurDate, DateTime.Now.ToString());
 
@@ -41,16 +50,16 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                             TextVariablesService.SetValue(ValueList.SheetSide, "Без звороту");
                             DrawSheet.Front(p, impos, sheet);
                             break;
-                        
-                            case TemplateSheetPlaceType.Sheetwise:
+
+                        case TemplateSheetPlaceType.Sheetwise:
 
                             TextVariablesService.SetValue(ValueList.SheetSide, "Лице");
                             DrawSheet.Front(p, impos, sheet);
                             TextVariablesService.SetValue(ValueList.SheetSide, "Зворот");
                             DrawSheet.Back(p, impos, sheet);
                             break;
-                        
-                            case TemplateSheetPlaceType.WorkAndTurn:
+
+                        case TemplateSheetPlaceType.WorkAndTurn:
                             TextVariablesService.SetValue(ValueList.SheetSide, "Свій зворот");
                             DrawSheet.WorkAndTurn(p, impos, sheet);
                             break;
@@ -62,7 +71,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                     }
 
                 }
-               
+
                 p.end_document("");
             }
             catch (PDFlibException e)
@@ -71,11 +80,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
             finally
             {
                 p?.Dispose();
+
+                FinishEvent(this, null);
             }
 
 
 
-            
+
 
         }
 

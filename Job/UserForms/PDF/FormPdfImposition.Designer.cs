@@ -34,6 +34,9 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.pdfFileListControl1 = new JobSpace.UserForms.PDF.ImposItems.PdfFileListControl();
             this.imposColorsControl1 = new JobSpace.UserForms.PDF.ImposItems.ImposColorsControl();
+            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pg_Parameters = new System.Windows.Forms.PropertyGrid();
             this.marksControl1 = new JobSpace.UserForms.PDF.ImposItems.MarksControl();
             this.previewControl1 = new JobSpace.UserForms.PDF.ImposItems.PreviewControl();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -47,9 +50,7 @@
             this.printSheetsControl1 = new JobSpace.UserForms.PDF.ImposItems.PrintSheetsControl();
             this.runListControl1 = new JobSpace.UserForms.PDF.ImposItems.RunListControl();
             this.btn_SaveToPdf = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pg_Parameters = new System.Windows.Forms.PropertyGrid();
-            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tabControl1.SuspendLayout();
             this.tabPageSimple.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -60,6 +61,11 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
+            this.splitContainer5.Panel1.SuspendLayout();
+            this.splitContainer5.Panel2.SuspendLayout();
+            this.splitContainer5.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -70,11 +76,6 @@
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
-            this.splitContainer5.Panel1.SuspendLayout();
-            this.splitContainer5.Panel2.SuspendLayout();
-            this.splitContainer5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -151,6 +152,46 @@
             this.imposColorsControl1.Size = new System.Drawing.Size(141, 297);
             this.imposColorsControl1.TabIndex = 0;
             // 
+            // splitContainer5
+            // 
+            this.splitContainer5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer5.Location = new System.Drawing.Point(722, 3);
+            this.splitContainer5.Name = "splitContainer5";
+            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer5.Panel1
+            // 
+            this.splitContainer5.Panel1.Controls.Add(this.groupBox1);
+            // 
+            // splitContainer5.Panel2
+            // 
+            this.splitContainer5.Panel2.Controls.Add(this.marksControl1);
+            this.splitContainer5.Size = new System.Drawing.Size(189, 593);
+            this.splitContainer5.SplitterDistance = 154;
+            this.splitContainer5.TabIndex = 6;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.pg_Parameters);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(189, 154);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Параметри";
+            // 
+            // pg_Parameters
+            // 
+            this.pg_Parameters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pg_Parameters.Location = new System.Drawing.Point(3, 16);
+            this.pg_Parameters.Name = "pg_Parameters";
+            this.pg_Parameters.Size = new System.Drawing.Size(183, 135);
+            this.pg_Parameters.TabIndex = 0;
+            this.pg_Parameters.ToolbarVisible = false;
+            this.pg_Parameters.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pg_Parameters_PropertyValueChanged);
+            // 
             // marksControl1
             // 
             this.marksControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -173,6 +214,7 @@
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel2.Controls.Add(this.progressBar1);
             this.panel2.Controls.Add(this.cb_UseProofColor);
             this.panel2.Controls.Add(this.splitContainer2);
             this.panel2.Controls.Add(this.runListControl1);
@@ -295,7 +337,7 @@
             this.btn_SaveToPdf.BackColor = System.Drawing.Color.SeaGreen;
             this.btn_SaveToPdf.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btn_SaveToPdf.ForeColor = System.Drawing.SystemColors.Window;
-            this.btn_SaveToPdf.Location = new System.Drawing.Point(212, 528);
+            this.btn_SaveToPdf.Location = new System.Drawing.Point(217, 523);
             this.btn_SaveToPdf.Name = "btn_SaveToPdf";
             this.btn_SaveToPdf.Size = new System.Drawing.Size(153, 47);
             this.btn_SaveToPdf.TabIndex = 3;
@@ -303,45 +345,14 @@
             this.btn_SaveToPdf.UseVisualStyleBackColor = false;
             this.btn_SaveToPdf.Click += new System.EventHandler(this.btn_SaveToPdf_Click);
             // 
-            // groupBox1
+            // progressBar1
             // 
-            this.groupBox1.Controls.Add(this.pg_Parameters);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(189, 154);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Параметри";
-            // 
-            // pg_Parameters
-            // 
-            this.pg_Parameters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pg_Parameters.Location = new System.Drawing.Point(3, 16);
-            this.pg_Parameters.Name = "pg_Parameters";
-            this.pg_Parameters.Size = new System.Drawing.Size(183, 135);
-            this.pg_Parameters.TabIndex = 0;
-            this.pg_Parameters.ToolbarVisible = false;
-            this.pg_Parameters.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pg_Parameters_PropertyValueChanged);
-            // 
-            // splitContainer5
-            // 
-            this.splitContainer5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer5.Location = new System.Drawing.Point(722, 3);
-            this.splitContainer5.Name = "splitContainer5";
-            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer5.Panel1
-            // 
-            this.splitContainer5.Panel1.Controls.Add(this.groupBox1);
-            // 
-            // splitContainer5.Panel2
-            // 
-            this.splitContainer5.Panel2.Controls.Add(this.marksControl1);
-            this.splitContainer5.Size = new System.Drawing.Size(189, 593);
-            this.splitContainer5.SplitterDistance = 154;
-            this.splitContainer5.TabIndex = 6;
+            this.progressBar1.Location = new System.Drawing.Point(130, 576);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(338, 13);
+            this.progressBar1.TabIndex = 10;
             // 
             // FormPdfImposition
             // 
@@ -365,6 +376,11 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.splitContainer5.Panel1.ResumeLayout(false);
+            this.splitContainer5.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
+            this.splitContainer5.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -376,11 +392,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.splitContainer5.Panel1.ResumeLayout(false);
-            this.splitContainer5.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
-            this.splitContainer5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -409,5 +420,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.PropertyGrid pg_Parameters;
         private System.Windows.Forms.SplitContainer splitContainer5;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

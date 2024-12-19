@@ -41,31 +41,37 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void b_0_Click(object sender, EventArgs e)
         {
-            parameters.Sheet.TemplatePageContainer = variantNormal.Copy() ;
-
-            parameters.UpdateSheet();
+            if (variantNormal != null) {
+                parameters.Sheet.TemplatePageContainer.SetTemplatePages(variantNormal.TemplatePages);
+                parameters.UpdatePreview();
+            }
         }
 
         private void b_90_Click(object sender, EventArgs e)
         {
-
-            parameters.Sheet.TemplatePageContainer = variantRotated.Copy();
-
-            parameters.UpdateSheet();
+            if (variantRotated != null)
+            {
+                parameters.Sheet.TemplatePageContainer.SetTemplatePages(variantRotated.TemplatePages);
+                parameters.UpdatePreview();
+            }
         }
 
         private void b_max_Click(object sender, EventArgs e)
         {
-            parameters.Sheet.TemplatePageContainer = variantMaxNormal.Copy();
-
-            parameters.UpdateSheet();
+            if (variantMaxNormal!=null)
+            {
+                parameters.Sheet.TemplatePageContainer.SetTemplatePages(variantMaxNormal.TemplatePages);
+                parameters.UpdatePreview();
+            }
         }
 
         private void b_max_90_Click(object sender, EventArgs e)
         {
-            parameters.Sheet.TemplatePageContainer = variantMaxRotated.Copy();
-            parameters.UpdateSheet();
-
+            if (variantMaxRotated != null)
+            {
+                parameters.Sheet.TemplatePageContainer.SetTemplatePages(variantMaxRotated.TemplatePages);
+                parameters.UpdatePreview();
+            }
         }
 
         LooseBindingParameters CreateParameters()
@@ -162,7 +168,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (sel.TemplatePages.Count() < variantMaxRotated.TemplatePages.Count())
                 sel = variantMaxRotated;
 
-            parameters.Sheet.TemplatePageContainer = sel.Copy();
+            parameters.Sheet.TemplatePageContainer.SetTemplatePages(sel.TemplatePages);
 
             parameters.UpdateSheet();
         }

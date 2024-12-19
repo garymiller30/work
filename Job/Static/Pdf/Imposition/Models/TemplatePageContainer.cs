@@ -28,7 +28,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
             if (HasBack())
             {
-
                 int backIdx = TemplatePages.Max(y => y.MasterBackIdx);
                 return frontIdx > backIdx ? frontIdx : backIdx;
             }
@@ -137,6 +136,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public TemplatePageContainer Copy()
         {
             return JsonSerializer.Deserialize<TemplatePageContainer>(JsonSerializer.Serialize(this));
+        }
+
+        public void SetTemplatePages(List<TemplatePage> templatePages)
+        {
+            TemplatePages.Clear();
+            TemplatePages.AddRange(JsonSerializer.Deserialize<List<TemplatePage>>(JsonSerializer.Serialize(templatePages)));
         }
     }
 }
