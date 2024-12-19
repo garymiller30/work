@@ -24,13 +24,13 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
 
             var sheetPrintRect = sheet.GetPrintRect();
 
-            var delta = (sheetPrintRect.W - rect.W) / 2 - sheet.SafeFields.Left;
+            var delta = (sheetPrintRect.W - rect.W) / 2;
 
             var x_ofs = rect.X1 - delta;
 
             foreach (var item in sheet.TemplatePageContainer.TemplatePages)
             {
-                item.X -= x_ofs;
+                item.X -= x_ofs - sheet.SafeFields.Left;
             }
         }
     }
