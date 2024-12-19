@@ -25,12 +25,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
         public double GetH()
         {
-            return 0;
+            return 3;
         }
 
         public double GetW()
         {
-            return 0;
+            return 6;
         }
     }
 }

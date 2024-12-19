@@ -12,6 +12,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
     {
         public static void FixCropMarksFront(TemplatePageContainer templateContainer)
         {
+            if (templateContainer == null) return;
+
             RecalcCropsFront(templateContainer);
             RemoveCropsFront(templateContainer);
 
@@ -19,6 +21,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         public static void FixCropMarksBack(TemplateSheet sheet)
         {
+            if (sheet == null) return;
             RecalcCropsBack(sheet);
             RemoveCropsBack(sheet);
         }

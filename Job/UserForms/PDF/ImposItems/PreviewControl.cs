@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -338,7 +339,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void ToolDeletePage()
         {
             parameters.Sheet.TemplatePageContainer.DeletePage(_hover);
-            RedrawSheet();
+            parameters.UpdateSheet();
         }
 
         private void ToolNumericWithContinue()
@@ -461,11 +462,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             parameters = controlBindParameters;
             parameters.PropertyChanged += Parameters_PropertyChanged;
+            parameters.JustUpdatePreview += Parameters_JustUpdatePreview;
+        }
+
+        private void Parameters_JustUpdatePreview(object sender, EventArgs e)
+        {
+            RedrawSheet();
         }
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            Debug.WriteLine("-->PreviewControl: Parameters_PropertyChanged");
             RedrawSheet();
+            Debug.WriteLine("<--PreviewControl: Parameters_PropertyChanged");
         }
     }
 }

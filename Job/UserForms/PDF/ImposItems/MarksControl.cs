@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             List<MarksContainer> marks = MarksService.GetResourceMarks();
             tlv_MarksResources.AddObjects(marks);
+            tlv_MarksResources.ExpandAll();
         }
 
       
@@ -324,7 +326,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void RefreshSheetTree()
         {
             tlv_ProductMarks.RefreshObjects(tlv_ProductMarks.Objects.Cast<SheetRootAbstract>().ToList());
-            parameters.UpdateSheet();
+            parameters.UpdatePreview();
         }
        
 
@@ -479,7 +481,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         // update preview
-                        parameters.UpdateSheet();
+                        parameters.UpdatePreview();
                     }
                 }
             }
@@ -490,7 +492,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         // update preview
-                        parameters.UpdateSheet();
+                        parameters.UpdatePreview();
                     }
                 }
             }
@@ -504,27 +506,44 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 pdfMark.Enable = e.Item.Checked;
             }
-             
+            else if (((OLVListItem)e.Item).RowObject is TextMark textMark)
+            {
+                textMark.Enable = e.Item.Checked;
+            }
+            parameters.UpdatePreview();
         }
 
         public void SetControlBindParameters(ControlBindParameters controlBindParameters)
         {
             parameters = controlBindParameters;
             parameters.PropertyChanged += Parameters_PropertyChanged;
+           
         }
+
+    
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+
+            if (e.PropertyName != "Sheet") return;
+
             if (parameters.Sheet == null) tlv_ProductMarks.Enabled = false;
             else
             {
+                Debug.WriteLine("-->MarksControl: Parameters_PropertyChanged");
                 tlv_ProductMarks.Enabled = true;
                 tlv_ProductMarks.Roots = new object[]
                 {
                     new SheetRoot(){Marks = parameters.Sheet.Marks},
                     new SubjetRoot(){Marks = parameters.Sheet.TemplatePageContainer.Marks}
                     };
+                Debug.WriteLine("<--MarksControl: Parameters_PropertyChanged");
             }
+        }
+
+        private void tlv_ProductMarks_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            //parameters.UpdateSheet();
         }
     }
 }

@@ -2034,7 +2034,10 @@ namespace JobSpace.UC
                 TextVariablesService.SetValue(ValueList.Customer, curJob.Customer);
                 TextVariablesService.SetValue(ValueList.OrderDesc, curJob.Description);
             }
-            using (var form = new FormPdfImposition(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), _fileManager.Settings.CurFolder))
+
+            var selectedFiles = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToList();
+
+            using (var form = new FormPdfImposition(selectedFiles, _fileManager.Settings.CurFolder))
             {
                form.ShowDialog();
             }

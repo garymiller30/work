@@ -162,6 +162,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 sheet.Id = idx++;
                 objectListView1.AddObject(sheet);
                 objectListView1.SelectObject(sheet);
+                
                 OnSheetAdded(this, sheet);
             }
         }
