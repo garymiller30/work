@@ -93,6 +93,7 @@
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
+            this.objectListView1.DoubleClick += new System.EventHandler(this.objectListView1_DoubleClick);
             // 
             // olvColumnId
             // 

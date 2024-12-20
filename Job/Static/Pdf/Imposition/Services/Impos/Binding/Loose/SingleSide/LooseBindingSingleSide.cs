@@ -213,7 +213,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 
             if (parameters.IsCenterVertical)
             {
-                double extraY = isExtraBottom ? extraCntBottomY * pageH : 0;
+                double extraY = isExtraBottom ? extraCntBottomY * pageW : 0;
                 y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - blockHeight - extraY) / 2 + sheet.SafeFields.Bottom;
             }
 

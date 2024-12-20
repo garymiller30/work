@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -76,6 +77,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 var l = sheet.Copy();
                 list.Add(l);
             }
+            objectListView1.AddObjects(list);
+        }
+
+        private void tsb_savePrintSheet_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.Objects == null) return;
+            SaveLoadService.SavePrintSheets(objectListView1.Objects.Cast<PrintSheet>().ToList());
+        }
+
+        private void tsb_loadPrintSheet_Click(object sender, EventArgs e)
+        {
+             List<PrintSheet> list = SaveLoadService.LoadPrintSheets();
+
             objectListView1.AddObjects(list);
         }
     }
