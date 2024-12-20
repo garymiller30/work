@@ -35,7 +35,6 @@
             this.tb_text = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.markColorControl1 = new JobSpace.UserForms.PDF.ImposItems.MarkColorControl();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.label16 = new System.Windows.Forms.Label();
             this.nud_fontSize = new System.Windows.Forms.NumericUpDown();
@@ -50,9 +49,7 @@
             this.nud_xOfs = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.apc_parent = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.apc_mark = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
             this.cb_Angle = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cb_backMirror = new System.Windows.Forms.CheckBox();
@@ -61,6 +58,31 @@
             this.label10 = new System.Windows.Forms.Label();
             this.btn_ok = new System.Windows.Forms.Button();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
+            this.kryptonContextMenu1 = new Krypton.Toolkit.KryptonContextMenu();
+            this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuHeading2 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.btn_ReplaceMenu = new Krypton.Toolkit.KryptonButton();
+            this.kryptonContextMenuHeading3 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuItems3 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem5 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuHeading4 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuItems4 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem6 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem7 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuHeading5 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuHeading6 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuItems5 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem8 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem9 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.markColorControl1 = new JobSpace.UserForms.PDF.ImposItems.MarkColorControl();
+            this.apc_parent = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
+            this.apc_mark = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
             this.groupBox1.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -86,13 +108,13 @@
             // 
             this.tb_markName.Location = new System.Drawing.Point(57, 6);
             this.tb_markName.Name = "tb_markName";
-            this.tb_markName.Size = new System.Drawing.Size(104, 20);
+            this.tb_markName.Size = new System.Drawing.Size(146, 20);
             this.tb_markName.TabIndex = 1;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(169, 9);
+            this.label9.Location = new System.Drawing.Point(209, 9);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(37, 13);
             this.label9.TabIndex = 2;
@@ -100,9 +122,9 @@
             // 
             // tb_text
             // 
-            this.tb_text.Location = new System.Drawing.Point(212, 6);
+            this.tb_text.Location = new System.Drawing.Point(252, 6);
             this.tb_text.Name = "tb_text";
-            this.tb_text.Size = new System.Drawing.Size(456, 20);
+            this.tb_text.Size = new System.Drawing.Size(388, 20);
             this.tb_text.TabIndex = 3;
             // 
             // groupBox1
@@ -129,13 +151,6 @@
             this.groupBox12.TabIndex = 9;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Колір";
-            // 
-            // markColorControl1
-            // 
-            this.markColorControl1.Location = new System.Drawing.Point(7, 34);
-            this.markColorControl1.Name = "markColorControl1";
-            this.markColorControl1.Size = new System.Drawing.Size(298, 146);
-            this.markColorControl1.TabIndex = 0;
             // 
             // groupBox11
             // 
@@ -294,14 +309,6 @@
             this.label14.TabIndex = 2;
             this.label14.Text = "X ofs:";
             // 
-            // apc_parent
-            // 
-            this.apc_parent.AnchorPointChanged = null;
-            this.apc_parent.Location = new System.Drawing.Point(6, 14);
-            this.apc_parent.Name = "apc_parent";
-            this.apc_parent.Size = new System.Drawing.Size(80, 80);
-            this.apc_parent.TabIndex = 1;
-            // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.apc_mark);
@@ -311,14 +318,6 @@
             this.groupBox9.TabIndex = 0;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "мітки";
-            // 
-            // apc_mark
-            // 
-            this.apc_mark.AnchorPointChanged = null;
-            this.apc_mark.Location = new System.Drawing.Point(6, 14);
-            this.apc_mark.Name = "apc_mark";
-            this.apc_mark.Size = new System.Drawing.Size(80, 80);
-            this.apc_mark.TabIndex = 0;
             // 
             // cb_Angle
             // 
@@ -394,9 +393,161 @@
             this.btn_ok.UseVisualStyleBackColor = true;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
+            // kryptonContextMenu1
+            // 
+            this.kryptonContextMenu1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuHeading1,
+            this.kryptonContextMenuItems2,
+            this.kryptonContextMenuHeading3,
+            this.kryptonContextMenuItems3,
+            this.kryptonContextMenuHeading4,
+            this.kryptonContextMenuItems4,
+            this.kryptonContextMenuHeading6,
+            this.kryptonContextMenuItems5});
+            // 
+            // kryptonContextMenuHeading1
+            // 
+            this.kryptonContextMenuHeading1.ExtraText = "";
+            this.kryptonContextMenuHeading1.Text = "Замовлення";
+            // 
+            // kryptonContextMenuHeading2
+            // 
+            this.kryptonContextMenuHeading2.ExtraText = "";
+            // 
+            // kryptonContextMenuItems2
+            // 
+            this.kryptonContextMenuItems2.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItem1,
+            this.kryptonContextMenuItem2,
+            this.kryptonContextMenuItem3});
+            // 
+            // kryptonContextMenuItem1
+            // 
+            this.kryptonContextMenuItem1.Tag = "$[orderNo]";
+            this.kryptonContextMenuItem1.Text = "Номер замовлення";
+            this.kryptonContextMenuItem1.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            // 
+            // kryptonContextMenuItem2
+            // 
+            this.kryptonContextMenuItem2.Tag = "$[customer]";
+            this.kryptonContextMenuItem2.Text = "Замовник";
+            this.kryptonContextMenuItem2.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            // 
+            // kryptonContextMenuItem3
+            // 
+            this.kryptonContextMenuItem3.Tag = "$[orderDesc]";
+            this.kryptonContextMenuItem3.Text = "Опис замовлення";
+            this.kryptonContextMenuItem3.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            // 
+            // btn_ReplaceMenu
+            // 
+            this.btn_ReplaceMenu.Location = new System.Drawing.Point(647, 6);
+            this.btn_ReplaceMenu.Name = "btn_ReplaceMenu";
+            this.btn_ReplaceMenu.Size = new System.Drawing.Size(21, 20);
+            this.btn_ReplaceMenu.TabIndex = 6;
+            this.btn_ReplaceMenu.Values.Text = "...";
+            this.btn_ReplaceMenu.Click += new System.EventHandler(this.btn_ReplaceMenu_Click);
+            // 
+            // kryptonContextMenuHeading3
+            // 
+            this.kryptonContextMenuHeading3.ExtraText = "";
+            this.kryptonContextMenuHeading3.Text = "Друкарський лист";
+            // 
+            // kryptonContextMenuItems3
+            // 
+            this.kryptonContextMenuItems3.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItem4,
+            this.kryptonContextMenuItem5,
+            this.kryptonContextMenuItem9});
+            // 
+            // kryptonContextMenuItem4
+            // 
+            this.kryptonContextMenuItem4.Tag = "$[sheetIdx]";
+            this.kryptonContextMenuItem4.Text = "Номер листа";
+            this.kryptonContextMenuItem4.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            // 
+            // kryptonContextMenuItem5
+            // 
+            this.kryptonContextMenuItem5.Tag = "$[sheetSide]";
+            this.kryptonContextMenuItem5.Text = "Сторона листа";
+            this.kryptonContextMenuItem5.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            // 
+            // kryptonContextMenuHeading4
+            // 
+            this.kryptonContextMenuHeading4.ExtraText = "";
+            this.kryptonContextMenuHeading4.Text = "Колір";
+            // 
+            // kryptonContextMenuItems4
+            // 
+            this.kryptonContextMenuItems4.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItem6,
+            this.kryptonContextMenuItem7});
+            // 
+            // kryptonContextMenuItem6
+            // 
+            this.kryptonContextMenuItem6.Tag = "$[cmyk]";
+            this.kryptonContextMenuItem6.Text = "CMYK";
+            this.kryptonContextMenuItem6.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            // 
+            // kryptonContextMenuItem7
+            // 
+            this.kryptonContextMenuItem7.Tag = "$[usedColor]";
+            this.kryptonContextMenuItem7.Text = "Кольори спуску";
+            this.kryptonContextMenuItem7.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            // 
+            // kryptonContextMenuHeading5
+            // 
+            this.kryptonContextMenuHeading5.ExtraText = "";
+            // 
+            // kryptonContextMenuHeading6
+            // 
+            this.kryptonContextMenuHeading6.ExtraText = "";
+            this.kryptonContextMenuHeading6.Text = "Різне";
+            // 
+            // kryptonContextMenuItems5
+            // 
+            this.kryptonContextMenuItems5.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItem8});
+            // 
+            // kryptonContextMenuItem8
+            // 
+            this.kryptonContextMenuItem8.Tag = "$[dateTime]";
+            this.kryptonContextMenuItem8.Text = "Дата і час";
+            this.kryptonContextMenuItem8.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            // 
+            // kryptonContextMenuItem9
+            // 
+            this.kryptonContextMenuItem9.Tag = "$[sheetFormat]";
+            this.kryptonContextMenuItem9.Text = "Формат листа";
+            this.kryptonContextMenuItem9.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            // 
+            // markColorControl1
+            // 
+            this.markColorControl1.Location = new System.Drawing.Point(7, 34);
+            this.markColorControl1.Name = "markColorControl1";
+            this.markColorControl1.Size = new System.Drawing.Size(298, 146);
+            this.markColorControl1.TabIndex = 0;
+            // 
+            // apc_parent
+            // 
+            this.apc_parent.AnchorPointChanged = null;
+            this.apc_parent.Location = new System.Drawing.Point(6, 14);
+            this.apc_parent.Name = "apc_parent";
+            this.apc_parent.Size = new System.Drawing.Size(80, 80);
+            this.apc_parent.TabIndex = 1;
+            // 
+            // apc_mark
+            // 
+            this.apc_mark.AnchorPointChanged = null;
+            this.apc_mark.Location = new System.Drawing.Point(6, 14);
+            this.apc_mark.Name = "apc_mark";
+            this.apc_mark.Size = new System.Drawing.Size(80, 80);
+            this.apc_mark.TabIndex = 0;
+            // 
             // FormAddTextMark
             // 
             this.ClientSize = new System.Drawing.Size(676, 390);
+            this.Controls.Add(this.btn_ReplaceMenu);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tb_text);
@@ -480,5 +631,27 @@
         private System.Windows.Forms.TextBox tb_fontName;
         private System.Windows.Forms.FontDialog fontDialog1;
         private MarkColorControl markColorControl1;
+        private Krypton.Toolkit.KryptonContextMenu kryptonContextMenu1;
+        private Krypton.Toolkit.KryptonContextMenuHeading kryptonContextMenuHeading1;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems2;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem1;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem2;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem3;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems1;
+        private Krypton.Toolkit.KryptonContextMenuHeading kryptonContextMenuHeading2;
+        private Krypton.Toolkit.KryptonButton btn_ReplaceMenu;
+        private Krypton.Toolkit.KryptonContextMenuHeading kryptonContextMenuHeading3;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems3;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem4;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem5;
+        private Krypton.Toolkit.KryptonContextMenuHeading kryptonContextMenuHeading4;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems4;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem6;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem7;
+        private Krypton.Toolkit.KryptonContextMenuHeading kryptonContextMenuHeading6;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems5;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem8;
+        private Krypton.Toolkit.KryptonContextMenuHeading kryptonContextMenuHeading5;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem9;
     }
 }

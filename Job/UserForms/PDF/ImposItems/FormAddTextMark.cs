@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using Krypton.Toolkit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -50,6 +51,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
             tb_fontName.Text = Mark.FontName;
             nud_fontSize.Value = (decimal)Mark.FontSize;
             markColorControl1.SetMark(Mark);
+
+            
 
         }
 
@@ -110,6 +113,16 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void btn_ReplaceMenu_Click(object sender, EventArgs e)
+        {
+            kryptonContextMenu1.Show(btn_ReplaceMenu);
+        }
+
+        private void kryptonContextMenuItem1_Click(object sender, EventArgs e)
+        {
+            tb_text.Text += ((KryptonContextMenuItem)sender).Tag.ToString();
         }
     }
 }
