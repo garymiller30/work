@@ -49,6 +49,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             treeListViewFiles.ModelCanDrop += TreeListViewFiles_ModelCanDrop;
         }
+
+      
+
         private void TreeListViewFiles_ModelCanDrop(object sender, BrightIdeasSoftware.ModelDropEventArgs e)
         {
             e.Effect = DragDropEffects.None;

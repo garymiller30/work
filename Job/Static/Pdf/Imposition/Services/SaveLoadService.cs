@@ -20,6 +20,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         static string SheetPath;
         static string MarksPath;
         static string SheetTemplatesPath;
+        static string PrintSheetsPath;
 
         static SaveLoadService()
         {
@@ -27,11 +28,13 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             SheetPath = Path.Combine(RootPath, "Sheets");
             MarksPath = Path.Combine(RootPath, "Marks");
             SheetTemplatesPath = Path.Combine(RootPath, "SheetTemplates");
+            PrintSheetsPath = Path.Combine(RootPath, "PrintSheets");
 
             if (!Directory.Exists(RootPath)) Directory.CreateDirectory(RootPath);
             if (!Directory.Exists(SheetPath)) Directory.CreateDirectory(SheetPath);
             if (!Directory.Exists(MarksPath)) Directory.CreateDirectory(MarksPath);
             if (!Directory.Exists(SheetTemplatesPath)) Directory.CreateDirectory(SheetTemplatesPath);
+            if (!Directory.Exists(PrintSheetsPath)) Directory.CreateDirectory(PrintSheetsPath);
 
         }
         public static void SaveSheet(TemplateSheet sheet)
@@ -96,7 +99,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         {
             using (var form = new SaveFileDialog())
             {
-                string fileName =$"{sheet.Description.Transliteration()}_{sheet.MasterPage.W.ToString("N1")}x{sheet.MasterPage.H.ToString("N1")}.json";
+                string fileName = $"{sheet.Description.Transliteration()}_{sheet.MasterPage.W.ToString("N1")}x{sheet.MasterPage.H.ToString("N1")}.json";
 
                 form.InitialDirectory = SheetTemplatesPath;
                 form.FileName = fileName;
@@ -121,12 +124,55 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                     string str = File.ReadAllText(form.FileName);
 
                     TemplateSheet sheet = JsonSerializer.Deserialize<TemplateSheet>(str);
-                    
+
                     return sheet;
                 }
             }
 
             return null;
+        }
+
+        public static void SavePrintSheets(List<PrintSheet> sheets)
+        {
+            using (var form = new SaveFileDialog())
+            {
+                form.InitialDirectory = PrintSheetsPath;
+                form.FileName = $"{sheets.Count}_{sheets[0].W}x{sheets[0].H}_{sheets[0].SheetPlaceType}.json";
+                if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string str = JsonSerializer.Serialize(sheets);
+                    File.WriteAllText(form.FileName, str);
+                }
+            }
+        }
+
+        public static List<PrintSheet> LoadPrintSheets()
+        {
+            using (var form = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            {
+                form.InitialDirectory = PrintSheetsPath;
+                form.CheckFileExists = true;
+                if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    return LoadPrintSheets(form.FileName,false);
+                }
+            }
+            return new List<PrintSheet>();
+        }
+
+        public static List<PrintSheet> LoadPrintSheets(string fileName, bool checkFileExists = true)
+        {
+
+            if (checkFileExists)
+            {
+                if (!File.Exists(fileName))
+                {
+                    return new List<PrintSheet> { };
+                }
+            }
+            string str = File.ReadAllText(fileName);
+            List<PrintSheet> sheets = JsonSerializer.Deserialize<List<PrintSheet>>(str);
+            return sheets;
         }
     }
 }

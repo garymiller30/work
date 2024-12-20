@@ -107,6 +107,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         public List<TemplateSheet> GetSheets()
         {
+            if (objectListView1.Objects == null) return new List<TemplateSheet>();
             return objectListView1.Objects.Cast<TemplateSheet>().ToList();
         }
 
@@ -172,6 +173,21 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (objectListView1.SelectedObject is TemplateSheet sheet)
             {
                 SaveLoadService.SaveSheetTemplates(sheet);
+            }
+        }
+
+        private void objectListView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is TemplateSheet sheet)
+            {
+                using (var form = new FormAddSheet(sheet))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        objectListView1.RefreshObject(sheet);
+                        _parameters.UpdatePreview();
+                    }
+                }
             }
         }
     }

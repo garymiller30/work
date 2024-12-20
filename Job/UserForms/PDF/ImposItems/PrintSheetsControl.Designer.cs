@@ -37,6 +37,8 @@
             this.olvColumnPlaceType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsb_delete = new System.Windows.Forms.ToolStripButton();
+            this.tsb_savePrintSheet = new System.Windows.Forms.ToolStripButton();
+            this.tsb_loadPrintSheet = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -106,7 +108,9 @@
             // 
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsb_delete});
+            this.tsb_delete,
+            this.tsb_savePrintSheet,
+            this.tsb_loadPrintSheet});
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -124,6 +128,26 @@
             this.tsb_delete.Size = new System.Drawing.Size(23, 22);
             this.tsb_delete.ToolTipText = "Видалити лист (+Shift - видалити всі)";
             this.tsb_delete.Click += new System.EventHandler(this.tsb_delete_Click);
+            // 
+            // tsb_savePrintSheet
+            // 
+            this.tsb_savePrintSheet.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_savePrintSheet.Image = ((System.Drawing.Image)(resources.GetObject("tsb_savePrintSheet.Image")));
+            this.tsb_savePrintSheet.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_savePrintSheet.Name = "tsb_savePrintSheet";
+            this.tsb_savePrintSheet.Size = new System.Drawing.Size(23, 22);
+            this.tsb_savePrintSheet.Text = "зберегти друкарські листи";
+            this.tsb_savePrintSheet.Click += new System.EventHandler(this.tsb_savePrintSheet_Click);
+            // 
+            // tsb_loadPrintSheet
+            // 
+            this.tsb_loadPrintSheet.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_loadPrintSheet.Image = ((System.Drawing.Image)(resources.GetObject("tsb_loadPrintSheet.Image")));
+            this.tsb_loadPrintSheet.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_loadPrintSheet.Name = "tsb_loadPrintSheet";
+            this.tsb_loadPrintSheet.Size = new System.Drawing.Size(23, 22);
+            this.tsb_loadPrintSheet.Text = "завантажити друкарські листи";
+            this.tsb_loadPrintSheet.Click += new System.EventHandler(this.tsb_loadPrintSheet_Click);
             // 
             // PrintSheetsControl
             // 
@@ -151,5 +175,7 @@
         private BrightIdeasSoftware.OLVColumn olvColumnTemplateId;
         private BrightIdeasSoftware.OLVColumn olvColumnDesc;
         private BrightIdeasSoftware.OLVColumn olvColumnPlaceType;
+        private System.Windows.Forms.ToolStripButton tsb_savePrintSheet;
+        private System.Windows.Forms.ToolStripButton tsb_loadPrintSheet;
     }
 }

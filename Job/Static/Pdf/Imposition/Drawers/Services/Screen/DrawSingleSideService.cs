@@ -138,23 +138,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawSheetMarksFront(Graphics g, TemplateSheet sheet, int h)
         {
-            DrawSheetPdfMarksFront(g, sheet, h);
-        }
-
-        private static void DrawSheetPdfMarksFront(Graphics g, TemplateSheet sheet, int h)
-        {
-            Brush brush = new SolidBrush(Color.Aqua);
-            foreach (var mark in sheet.Marks.Pdf.Where(x => x.Parameters.IsFront && x.Enable))
-            {
-                g.FillRectangle(brush, new Rectangle
-                {
-                    X = (int)mark.Front.X,
-                    Y = h - (int)mark.Front.Y,
-                    Width = (int)mark.GetW(),
-                    Height = (int)mark.GetH()
-                });
-            }
-            brush.Dispose();
+            DrawPdfMarksFront(g,sheet.Marks,h);
+            DrawTextMarksFront(g,sheet.Marks,h);
         }
 
         private static void DrawSheetSafeField(Graphics g, TemplateSheet sheet)

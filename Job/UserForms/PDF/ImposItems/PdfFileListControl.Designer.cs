@@ -33,6 +33,7 @@
             this.treeListViewFiles = new BrightIdeasSoftware.TreeListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnTrim = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnCenterMedia = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListViewFiles)).BeginInit();
             this.SuspendLayout();
@@ -51,10 +52,12 @@
             // treeListViewFiles
             // 
             this.treeListViewFiles.AllColumns.Add(this.olvColumnName);
+            this.treeListViewFiles.AllColumns.Add(this.olvColumnCenterMedia);
             this.treeListViewFiles.AllColumns.Add(this.olvColumnTrim);
             this.treeListViewFiles.CellEditUseWholeCell = false;
             this.treeListViewFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumnName,
+            this.olvColumnCenterMedia,
             this.olvColumnTrim});
             this.treeListViewFiles.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeListViewFiles.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -63,9 +66,11 @@
             this.treeListViewFiles.Location = new System.Drawing.Point(3, 16);
             this.treeListViewFiles.Name = "treeListViewFiles";
             this.treeListViewFiles.ShowGroups = false;
+            this.treeListViewFiles.ShowImagesOnSubItems = true;
             this.treeListViewFiles.Size = new System.Drawing.Size(228, 381);
             this.treeListViewFiles.TabIndex = 0;
             this.treeListViewFiles.UseCompatibleStateImageBehavior = false;
+            this.treeListViewFiles.UseSubItemCheckBoxes = true;
             this.treeListViewFiles.View = System.Windows.Forms.View.Details;
             this.treeListViewFiles.VirtualMode = true;
             // 
@@ -79,6 +84,13 @@
             // 
             this.olvColumnTrim.Text = "Trimbox";
             this.olvColumnTrim.Width = 79;
+            // 
+            // olvColumnCenterMedia
+            // 
+            this.olvColumnCenterMedia.AspectName = "IsMediaboxCentered";
+            this.olvColumnCenterMedia.CheckBoxes = true;
+            this.olvColumnCenterMedia.Text = "Центрувати";
+            this.olvColumnCenterMedia.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // PdfFileListControl
             // 
@@ -99,5 +111,6 @@
         private BrightIdeasSoftware.TreeListView treeListViewFiles;
         private BrightIdeasSoftware.OLVColumn olvColumnName;
         private BrightIdeasSoftware.OLVColumn olvColumnTrim;
+        private BrightIdeasSoftware.OLVColumn olvColumnCenterMedia;
     }
 }

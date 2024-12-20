@@ -148,7 +148,6 @@ namespace JobSpace.UserForms.PDF
             masterPageSelectControl1.OnMasterPageChanged += OnMasterPageChanged;
             masterPageSelectControl1.OnMasterPageAdded += OnMasterPageAdded;
             masterPageSelectControl1.SetFormats(_pdfFiles);
-            
 
             addTemplateSheetControl1.SetControlBindParameters(_controlBindParameters);
             printSheetsControl1.SetControlBindParameters(_controlBindParameters);
