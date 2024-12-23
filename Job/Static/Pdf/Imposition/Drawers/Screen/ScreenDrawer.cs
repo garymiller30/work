@@ -27,7 +27,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
                     return DrawSingleSideService.Draw(sheet);
 
                 case TemplateSheetPlaceType.Perfecting:
-                    throw new NotImplementedException();
+                    return DrawSingleSideService.Draw(sheet);
                 default:
                     throw new NotImplementedException();
             }

@@ -53,6 +53,16 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             Bottom = b;
         }
 
+        public double GetMaxFieldW()
+        {
+            return Right > Left ? Right : Left;
+        }
+
+        public double GetMaxFieldH()
+        {
+            return Bottom > Top ? Bottom : Top;
+        }
+
         public ClipBox()
         {
 
