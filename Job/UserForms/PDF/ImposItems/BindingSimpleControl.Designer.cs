@@ -36,14 +36,14 @@
             this.cb_centerHeight = new System.Windows.Forms.CheckBox();
             this.cb_centerWidth = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label_max_90 = new System.Windows.Forms.Label();
+            this.label_max_0 = new System.Windows.Forms.Label();
+            this.label_90 = new System.Windows.Forms.Label();
+            this.label_0 = new System.Windows.Forms.Label();
+            this.b_max_90 = new System.Windows.Forms.Button();
             this.b_max_0 = new System.Windows.Forms.Button();
             this.b_90 = new System.Windows.Forms.Button();
             this.b_0 = new System.Windows.Forms.Button();
-            this.b_max_90 = new System.Windows.Forms.Button();
-            this.label_0 = new System.Windows.Forms.Label();
-            this.label_90 = new System.Windows.Forms.Label();
-            this.label_max_0 = new System.Windows.Forms.Label();
-            this.label_max_90 = new System.Windows.Forms.Label();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Yofs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Xofs)).BeginInit();
@@ -67,7 +67,7 @@
             // cb_OneCut
             // 
             this.cb_OneCut.AutoSize = true;
-            this.cb_OneCut.Location = new System.Drawing.Point(173, 46);
+            this.cb_OneCut.Location = new System.Drawing.Point(187, 44);
             this.cb_OneCut.Name = "cb_OneCut";
             this.cb_OneCut.Size = new System.Drawing.Size(76, 17);
             this.cb_OneCut.TabIndex = 10;
@@ -83,9 +83,15 @@
             0,
             0,
             0});
+            this.nud_Yofs.Minimum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            -2147483648});
             this.nud_Yofs.Name = "nud_Yofs";
             this.nud_Yofs.Size = new System.Drawing.Size(52, 20);
             this.nud_Yofs.TabIndex = 8;
+            this.nud_Yofs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // nud_Xofs
             // 
@@ -96,9 +102,15 @@
             0,
             0,
             0});
+            this.nud_Xofs.Minimum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            -2147483648});
             this.nud_Xofs.Name = "nud_Xofs";
             this.nud_Xofs.Size = new System.Drawing.Size(52, 20);
             this.nud_Xofs.TabIndex = 7;
+            this.nud_Xofs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // cb_centerHeight
             // 
@@ -146,6 +158,52 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "кількість на листі";
             // 
+            // label_max_90
+            // 
+            this.label_max_90.Location = new System.Drawing.Point(220, 45);
+            this.label_max_90.Name = "label_max_90";
+            this.label_max_90.Size = new System.Drawing.Size(60, 18);
+            this.label_max_90.TabIndex = 12;
+            this.label_max_90.Text = "0";
+            this.label_max_90.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_max_0
+            // 
+            this.label_max_0.Location = new System.Drawing.Point(154, 44);
+            this.label_max_0.Name = "label_max_0";
+            this.label_max_0.Size = new System.Drawing.Size(60, 18);
+            this.label_max_0.TabIndex = 11;
+            this.label_max_0.Text = "0";
+            this.label_max_0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_90
+            // 
+            this.label_90.Location = new System.Drawing.Point(88, 45);
+            this.label_90.Name = "label_90";
+            this.label_90.Size = new System.Drawing.Size(60, 18);
+            this.label_90.TabIndex = 10;
+            this.label_90.Text = "0";
+            this.label_90.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label_0
+            // 
+            this.label_0.Location = new System.Drawing.Point(22, 45);
+            this.label_0.Name = "label_0";
+            this.label_0.Size = new System.Drawing.Size(60, 18);
+            this.label_0.TabIndex = 9;
+            this.label_0.Text = "0";
+            this.label_0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // b_max_90
+            // 
+            this.b_max_90.Location = new System.Drawing.Point(220, 18);
+            this.b_max_90.Name = "b_max_90";
+            this.b_max_90.Size = new System.Drawing.Size(60, 23);
+            this.b_max_90.TabIndex = 8;
+            this.b_max_90.Text = "MAX: 90°";
+            this.b_max_90.UseVisualStyleBackColor = true;
+            this.b_max_90.Click += new System.EventHandler(this.b_max_90_Click);
+            // 
             // b_max_0
             // 
             this.b_max_0.Location = new System.Drawing.Point(154, 18);
@@ -175,52 +233,6 @@
             this.b_0.Text = "0°";
             this.b_0.UseVisualStyleBackColor = true;
             this.b_0.Click += new System.EventHandler(this.b_0_Click);
-            // 
-            // b_max_90
-            // 
-            this.b_max_90.Location = new System.Drawing.Point(220, 18);
-            this.b_max_90.Name = "b_max_90";
-            this.b_max_90.Size = new System.Drawing.Size(60, 23);
-            this.b_max_90.TabIndex = 8;
-            this.b_max_90.Text = "MAX: 90°";
-            this.b_max_90.UseVisualStyleBackColor = true;
-            this.b_max_90.Click += new System.EventHandler(this.b_max_90_Click);
-            // 
-            // label_0
-            // 
-            this.label_0.Location = new System.Drawing.Point(22, 45);
-            this.label_0.Name = "label_0";
-            this.label_0.Size = new System.Drawing.Size(60, 18);
-            this.label_0.TabIndex = 9;
-            this.label_0.Text = "0";
-            this.label_0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_90
-            // 
-            this.label_90.Location = new System.Drawing.Point(88, 45);
-            this.label_90.Name = "label_90";
-            this.label_90.Size = new System.Drawing.Size(60, 18);
-            this.label_90.TabIndex = 10;
-            this.label_90.Text = "0";
-            this.label_90.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_max_0
-            // 
-            this.label_max_0.Location = new System.Drawing.Point(154, 44);
-            this.label_max_0.Name = "label_max_0";
-            this.label_max_0.Size = new System.Drawing.Size(60, 18);
-            this.label_max_0.TabIndex = 11;
-            this.label_max_0.Text = "0";
-            this.label_max_0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label_max_90
-            // 
-            this.label_max_90.Location = new System.Drawing.Point(220, 45);
-            this.label_max_90.Name = "label_max_90";
-            this.label_max_90.Size = new System.Drawing.Size(60, 18);
-            this.label_max_90.TabIndex = 12;
-            this.label_max_90.Text = "0";
-            this.label_max_90.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // BindingSimpleControl
             // 

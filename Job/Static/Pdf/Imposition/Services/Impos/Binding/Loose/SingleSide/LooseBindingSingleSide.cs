@@ -51,21 +51,28 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             double x, y;
 
             GetStartCoord(parameters, parameters.Sheet, blockWidth, blockHeight, out x, out y);
-            PlacePages(templatePageContainer, masterPage, CntX, CntY, x, y,0);
+            PlacePages(templatePageContainer, masterPage, CntX, CntY, x, y,0,1,0);
 
-            if (parameters.IsOneCut)
-            {
-                FixBleedsFront(templatePageContainer);
-            }
+            ApplyFixes(parameters, templatePageContainer);
 
-            CropMarksService.FixCropMarksFront(templatePageContainer);
+           
 
             return templatePageContainer;
 
 
         }
 
-        private static void PlacePages(TemplatePageContainer templatePageContainer, TemplatePage masterPage, int CntX, int CntY, double x, double y,double angle)
+        public static void ApplyFixes(LooseBindingParameters parameters, TemplatePageContainer templatePageContainer)
+        {
+            if (parameters.IsOneCut)
+            {
+                FixBleedsFront(templatePageContainer);
+            }
+
+            CropMarksService.FixCropMarksFront(templatePageContainer);
+        }
+
+        public static void PlacePages(TemplatePageContainer templatePageContainer, TemplatePage masterPage, int CntX, int CntY, double x, double y,double angle,int frontIdx,int backIdx)
         {
             double xOfs = x;
             double yOfs = y;
@@ -75,7 +82,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                 double tp_height = 0;
                 for (int cx = 0; cx < CntX; cx++)
                 {
-                    (double w, double h) tp = AddPage(templatePageContainer, xOfs, yOfs, masterPage, angle, 1, 0);
+                    (double w, double h) tp = AddPage(templatePageContainer, xOfs, yOfs, masterPage, angle, frontIdx, backIdx);
                     xOfs += tp.w;
                     tp_height = tp.h;
                 }
@@ -84,7 +91,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             }
         }
 
-        static (double w, double h) AddPage(TemplatePageContainer templatePageContainer, double xOfs, double yOfs, TemplatePage masterPage, double angle, int frontIdx,int backIdx)
+        public static (double w, double h) AddPage(TemplatePageContainer templatePageContainer, double xOfs, double yOfs, TemplatePage masterPage, double angle, int frontIdx,int backIdx)
         {
             TemplatePage templatePage = new TemplatePage(xOfs, yOfs, masterPage.W, masterPage.H, angle);
             templatePage.Bleeds.SetDefault(masterPage.Bleeds.Default);
@@ -108,7 +115,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                 y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - BlockHeight) / 2 + sheet.SafeFields.Bottom;
         }
 
-        private static (double W, double H) GetPrintFieldFormat(LooseBindingParameters parameters)
+        public static (double W, double H) GetPrintFieldFormat(LooseBindingParameters parameters)
         {
             var _sheet = parameters.Sheet;
             double sheetW = _sheet.W - _sheet.SafeFields.Left - _sheet.SafeFields.Right;
@@ -141,14 +148,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 
             GetStartCoord(parameters, parameters.Sheet, blockWidth, blockHeight, out x, out y);
 
-            PlacePages(templatePageContainer,masterPage,CntX,CntY,x,y,90);
+            PlacePages(templatePageContainer,masterPage,CntX,CntY,x,y,90,1,0);
 
-            if (parameters.IsOneCut)
-            {
-                FixBleedsFront(templatePageContainer);
-            }
-
-            CropMarksService.FixCropMarksFront(templatePageContainer);
+            ApplyFixes(parameters, templatePageContainer);
 
             return templatePageContainer;
         }
@@ -217,24 +219,19 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                 y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - blockHeight - extraY) / 2 + sheet.SafeFields.Bottom;
             }
 
-            PlacePages(templatePageContainer,masterPage,CntX,CntY,x,y,0);
+            PlacePages(templatePageContainer,masterPage,CntX,CntY,x,y,0,1,0);
 
             if (isExtraRight)
             {
-                PlacePages(templatePageContainer,masterPage, extraCntRightX, extraCntRightY, x + blockWidth,y,90);
+                PlacePages(templatePageContainer,masterPage, extraCntRightX, extraCntRightY, x + blockWidth,y,90,1,0);
             }
 
             if (isExtraBottom)
             {
-                PlacePages(templatePageContainer,masterPage, extraCntBottomX, extraCntBottomY,x, y + pageH,90);
+                PlacePages(templatePageContainer,masterPage, extraCntBottomX, extraCntBottomY,x, y + pageH,90,1,0);
             }
 
-            if (parameters.IsOneCut)
-            {
-                FixBleedsFront(templatePageContainer);
-            }
-
-            CropMarksService.FixCropMarksFront(templatePageContainer);
+            ApplyFixes(parameters, templatePageContainer);
 
             return templatePageContainer;
         }
@@ -309,24 +306,19 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                 y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - BlockHeight - extraY) / 2 + sheet.SafeFields.Bottom;
             }
 
-            PlacePages(templatePageContainer,masterPage,CntX,CntY,x,y,90);
+            PlacePages(templatePageContainer,masterPage,CntX,CntY,x,y,90,1,0);
 
             if (isExtraRight)
             {
-                PlacePages(templatePageContainer,masterPage,extraCntRightX,extraCntRightY, x + BlockWidth, y,0);
+                PlacePages(templatePageContainer,masterPage,extraCntRightX,extraCntRightY, x + BlockWidth, y,0,1,0);
             }
 
             if (isExtraBottom)
             {
-                PlacePages(templatePageContainer,masterPage, extraCntBottomX, extraCntBottomY,x, y + BlockHeight,0);
+                PlacePages(templatePageContainer,masterPage, extraCntBottomX, extraCntBottomY,x, y + BlockHeight,0,1,0);
             }
 
-            if (parameters.IsOneCut)
-            {
-                FixBleedsFront(templatePageContainer);
-            }
-
-            CropMarksService.FixCropMarksFront(templatePageContainer);
+            ApplyFixes(parameters, templatePageContainer);
 
             return templatePageContainer;
         }
