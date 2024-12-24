@@ -25,61 +25,72 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 // отримати сторінку з ран листа
                 int runListPageIdx = templatePage.PrintFrontIdx -1;
 
-                ImposRunPage runPage;
+                //ImposRunPage runPage;
+                var runPage = GetRunPage(impos, runListPageIdx);
 
-                if (runListPageIdx < impos.RunList.RunPages.Count)
+                if (IsEmptyPage(runPage, templatePage))
                 {
-                    runPage = impos.RunList.RunPages[runListPageIdx];
+                    continue;
                 }
-                else
+                
+                PdfFile pdfFile = impos.GetPdfFile(runPage);
+                PdfFilePage pdfPage = impos.GetPdfPage(runPage);
+
+                int pageNo = Array.IndexOf(pdfFile.Pages, pdfPage) + 1;
+
+                using (PDFLIBDocument document = new PDFLIBDocument(p, pdfFile.FileName, ""))
                 {
-                    runPage = new ImposRunPage() { FileId = 0, PageIdx = 0 };
+                    var (c_llx, c_lly) = GetClippingCoordinates(pdfFile, pdfPage, templatePage);
+
+                    double c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
+                    double c_ury = c_lly + templatePage.GetPageHeightWithBleeds;
+
+                    (double llx, double lly, double angle) = templatePage.GetPageStartCoordFront();
+                    string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} rotate={angle}";
+
+                    document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
                 }
-                    
-
-                //пуста сторінка
-                if ((runPage.FileId == 0 && runPage.PageIdx == 0) || templatePage.PrintFrontIdx == 0)
-                {
-                    // пропускаємо
-                }
-                else
-                {
-                    PdfFile pdfFile = impos.GetPdfFile(runPage);
-                    PdfFilePage pdfPage = impos.GetPdfPage(runPage);
-
-                    int pageNo = Array.IndexOf(pdfFile.Pages, pdfPage) + 1;
-
-                    using (PDFLIBDocument document = new PDFLIBDocument(p, pdfFile.FileName, ""))
-                    {
-                        double c_llx = 0;
-                        double c_lly = 0;
-
-                        if (pdfFile.IsMediaboxCentered)
-                        {
-                            c_llx = (pdfPage.Media.W - templatePage.W) / 2 - templatePage.Bleeds.Left;
-                            c_lly = (pdfPage.Media.H - templatePage.H) / 2 - templatePage.Bleeds.Bottom;
-                        }
-                        else
-                        {
-                            c_llx = pdfPage.Trim.X1 - templatePage.Bleeds.Left - pdfPage.Media.X1;
-                            c_lly = pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Media.Y1;
-                        }
-
-                        double c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
-                        double c_ury = c_lly + templatePage.GetPageHeightWithBleeds;
-
-                        (double llx, double lly, double angle) = templatePage.GetPageStartCoordFront();
-                        string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} rotate={angle}";
-
-                        document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
-                    }
-                }
+               
                 
                 DrawCropMarks.Front(p, templatePage);
 
                 Proof.DrawPageFront(p, templatePage, impos.Proof);
             }
 
+            RecalculateAndDrawMarks(p, sheet, impos);
+
+            p.end_page_ext($"mediabox={{{GetMediabox(impos,sheet)}}}");
+        }
+        private static (double c_llx, double c_lly) GetClippingCoordinates(PdfFile pdfFile, PdfFilePage pdfPage, TemplatePage templatePage)
+        {
+            if (pdfFile.IsMediaboxCentered)
+            {
+                return (
+                    (pdfPage.Media.W - templatePage.W) / 2 - templatePage.Bleeds.Left,
+                    (pdfPage.Media.H - templatePage.H) / 2 - templatePage.Bleeds.Bottom
+                );
+            }
+            else
+            {
+                return (
+                    pdfPage.Trim.X1 - templatePage.Bleeds.Left - pdfPage.Media.X1,
+                    pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Media.Y1
+                );
+            }
+        }
+        private static bool IsEmptyPage(ImposRunPage runPage, TemplatePage templatePage)
+        {
+            return (runPage.FileId == 0 && runPage.PageIdx == 0) || templatePage.PrintFrontIdx == 0;
+        }
+
+        private static ImposRunPage GetRunPage(ProductPart impos, int runListPageIdx)
+        {
+            return runListPageIdx < impos.RunList.RunPages.Count
+        ? impos.RunList.RunPages[runListPageIdx]
+        : new ImposRunPage { FileId = 0, PageIdx = 0 };
+        }
+        private static void RecalculateAndDrawMarks(PDFlib p, PrintSheet sheet, ProductPart impos)
+        {
             PdfMarksService.RecalcMarkCoordFront(sheet);
             DrawPdfMarks.Front(p, sheet.Marks);
 
@@ -93,10 +104,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             DrawTextMarks.Front(p, sheet.TemplatePageContainer.Marks);
 
             Proof.DrawSheet(p, sheet, impos.Proof);
-
-            p.end_page_ext($"mediabox={{{GetMediabox(impos,sheet)}}}");
         }
-
         static string GetMediabox(ProductPart impos,PrintSheet sheet)
         {
             string mediabox;

@@ -31,14 +31,32 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 
         public static TemplatePageContainer LooseBindingNormal(LooseBindingParameters parameters)
         {
+            return CreateTemplatePageContainer(parameters, 0);
+        }
+
+        public static TemplatePageContainer LooseBindingRotated(LooseBindingParameters parameters)
+        {
+            return CreateTemplatePageContainer(parameters, 90);
+        }
+
+        public static TemplatePageContainer LooseBindingMaxNormal(LooseBindingParameters parameters)
+        {
+            return CreateTemplatePageContainerWithExtraBlocks(parameters, 0);
+        }
+
+        public static TemplatePageContainer LooseBindingMaxRotated(LooseBindingParameters parameters)
+        {
+            return CreateTemplatePageContainerWithExtraBlocks(parameters, 90);
+        }
+
+        private static TemplatePageContainer CreateTemplatePageContainer(LooseBindingParameters parameters, double angle)
+        {
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
-
             (double W, double H) printFieldFormat = GetPrintFieldFormat(parameters);
-
             TemplatePage masterPage = parameters.Sheet.MasterPage;
 
-            double pageW = masterPage.W + masterPage.Margins.Left + masterPage.Margins.Right;
-            double pageH = masterPage.H + masterPage.Margins.Bottom + masterPage.Margins.Top;
+            double pageW = angle == 0 ? masterPage.W + masterPage.Margins.Left + masterPage.Margins.Right : masterPage.H + masterPage.Margins.Bottom + masterPage.Margins.Top;
+            double pageH = angle == 0 ? masterPage.H + masterPage.Margins.Bottom + masterPage.Margins.Top : masterPage.W + masterPage.Margins.Left + masterPage.Margins.Right;
 
             int CntX = (int)(printFieldFormat.W / pageW);
             int CntY = (int)(printFieldFormat.H / pageH);
@@ -48,18 +66,74 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             double blockWidth = CntX * pageW;
             double blockHeight = CntY * pageH;
 
-            double x, y;
+            GetStartCoord(parameters, parameters.Sheet, blockWidth, blockHeight, out double x, out double y);
+            PlacePages(templatePageContainer, masterPage, CntX, CntY, x, y, angle, 1, 0);
+            ApplyFixes(parameters, templatePageContainer);
 
-            GetStartCoord(parameters, parameters.Sheet, blockWidth, blockHeight, out x, out y);
-            PlacePages(templatePageContainer, masterPage, CntX, CntY, x, y,0,1,0);
+            return templatePageContainer;
+        }
+
+        private static TemplatePageContainer CreateTemplatePageContainerWithExtraBlocks(LooseBindingParameters parameters, double angle)
+        {
+            TemplatePageContainer templatePageContainer = new TemplatePageContainer();
+            (double W, double H) printFieldFormat = GetPrintFieldFormat(parameters);
+            TemplatePage masterPage = parameters.Sheet.MasterPage;
+
+            double pageW = angle == 0 ? masterPage.W + masterPage.Margins.Left + masterPage.Margins.Right : masterPage.H + masterPage.Margins.Bottom + masterPage.Margins.Top;
+            double pageH = angle == 0 ? masterPage.H + masterPage.Margins.Bottom + masterPage.Margins.Top : masterPage.W + masterPage.Margins.Left + masterPage.Margins.Right;
+
+            int CntX = (int)(printFieldFormat.W / pageW);
+            int CntY = (int)(printFieldFormat.H / pageH);
+
+            if (CntX == 0 || CntY == 0) return templatePageContainer;
+
+            double blockWidth = CntX * pageW;
+            double blockHeight = CntY * pageH;
+
+            bool isExtraRight = CalculateExtraBlocks(printFieldFormat.W - blockWidth, printFieldFormat.H, pageH, pageW, out int extraCntRightX, out int extraCntRightY);
+            bool isExtraBottom = CalculateExtraBlocks(printFieldFormat.W, printFieldFormat.H - blockHeight, pageH, pageW, out int extraCntBottomX, out int extraCntBottomY);
+
+            GetStartCoord(parameters, parameters.Sheet, blockWidth, blockHeight, out double x, out double y, isExtraRight, isExtraBottom, extraCntRightX, extraCntBottomY, pageH, pageW);
+            PlacePages(templatePageContainer, masterPage, CntX, CntY, x, y, angle, 1, 0);
+
+            if (isExtraRight)
+            {
+                PlacePages(templatePageContainer, masterPage, extraCntRightX, extraCntRightY, x + blockWidth, y, angle == 0 ? 90 : 0, 1, 0);
+            }
+
+            if (isExtraBottom)
+            {
+                PlacePages(templatePageContainer, masterPage, extraCntBottomX, extraCntBottomY, x, y + blockHeight, angle == 0 ? 90 : 0, 1, 0);
+            }
 
             ApplyFixes(parameters, templatePageContainer);
 
-           
-
             return templatePageContainer;
+        }
 
+        private static bool CalculateExtraBlocks(double extraWidth, double extraHeight, double pageH, double pageW, out int extraCntX, out int extraCntY)
+        {
+            extraCntX = (int)(extraWidth / pageH);
+            extraCntY = (int)(extraHeight / pageW);
+            return extraCntX > 0 && extraCntY > 0;
+        }
 
+        private static void GetStartCoord(LooseBindingParameters parameters, TemplateSheet sheet, double blockWidth, double blockHeight, out double x, out double y, bool isExtraRight = false, bool isExtraBottom = false, int extraCntRightX = 0, int extraCntBottomY = 0, double pageH = 0, double pageW = 0)
+        {
+            x = sheet.SafeFields.Left + parameters.Xofs;
+            y = sheet.SafeFields.Bottom + parameters.Yofs;
+
+            if (parameters.IsCenterHorizontal)
+            {
+                double extraX = isExtraRight ? extraCntRightX * pageH : 0;
+                x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - blockWidth - extraX) / 2 + sheet.SafeFields.Left;
+            }
+
+            if (parameters.IsCenterVertical)
+            {
+                double extraY = isExtraBottom ? extraCntBottomY * pageW : 0;
+                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - blockHeight - extraY) / 2 + sheet.SafeFields.Bottom;
+            }
         }
 
         public static void ApplyFixes(LooseBindingParameters parameters, TemplatePageContainer templatePageContainer)
@@ -72,7 +146,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             CropMarksService.FixCropMarksFront(templatePageContainer);
         }
 
-        public static void PlacePages(TemplatePageContainer templatePageContainer, TemplatePage masterPage, int CntX, int CntY, double x, double y,double angle,int frontIdx,int backIdx)
+        public static void PlacePages(TemplatePageContainer templatePageContainer, TemplatePage masterPage, int CntX, int CntY, double x, double y, double angle, int frontIdx, int backIdx)
         {
             double xOfs = x;
             double yOfs = y;
@@ -91,7 +165,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             }
         }
 
-        public static (double w, double h) AddPage(TemplatePageContainer templatePageContainer, double xOfs, double yOfs, TemplatePage masterPage, double angle, int frontIdx,int backIdx)
+        private static (double w, double h) AddPage(TemplatePageContainer templatePageContainer, double xOfs, double yOfs, TemplatePage masterPage, double angle, int frontIdx, int backIdx)
         {
             TemplatePage templatePage = new TemplatePage(xOfs, yOfs, masterPage.W, masterPage.H, angle);
             templatePage.Bleeds.SetDefault(masterPage.Bleeds.Default);
@@ -103,19 +177,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             return (templatePage.GetClippedWByRotate(), templatePage.GetClippedHByRotate());
         }
 
-
-        private static void GetStartCoord(LooseBindingParameters parameters, TemplateSheet sheet, double BlockWidth, double BlockHeight, out double x, out double y)
-        {
-            x = sheet.SafeFields.Left + parameters.Xofs;
-            y = sheet.SafeFields.Bottom + parameters.Yofs;
-            if (parameters.IsCenterHorizontal)
-                x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - BlockWidth) / 2 + sheet.SafeFields.Left;
-
-            if (parameters.IsCenterVertical)
-                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - BlockHeight) / 2 + sheet.SafeFields.Bottom;
-        }
-
-        public static (double W, double H) GetPrintFieldFormat(LooseBindingParameters parameters)
+        private static (double W, double H) GetPrintFieldFormat(LooseBindingParameters parameters)
         {
             var _sheet = parameters.Sheet;
             double sheetW = _sheet.W - _sheet.SafeFields.Left - _sheet.SafeFields.Right;
@@ -123,204 +185,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             if (!parameters.IsCenterHorizontal) sheetW -= parameters.Xofs;
             if (!parameters.IsCenterVertical) sheetH -= parameters.Yofs;
             return (sheetW, sheetH);
-        }
-
-        public static TemplatePageContainer LooseBindingRotated(LooseBindingParameters parameters)
-        {
-            TemplatePageContainer templatePageContainer = new TemplatePageContainer();
-
-            (double W, double H) printFieldFormat = GetPrintFieldFormat(parameters);
-
-            TemplatePage masterPage = parameters.Sheet.MasterPage;
-
-            double pageW = masterPage.W + masterPage.Margins.Left + masterPage.Margins.Right;
-            double pageH = masterPage.H + masterPage.Margins.Bottom + masterPage.Margins.Top;
-
-            var CntX = (int)(printFieldFormat.W / pageH);
-            var CntY = (int)(printFieldFormat.H / pageW);
-
-            if (CntX == 0 || CntY == 0) return templatePageContainer;
-
-            var blockWidth = CntX * pageH;
-            var blockHeight = CntY * pageW;
-
-            double x, y;
-
-            GetStartCoord(parameters, parameters.Sheet, blockWidth, blockHeight, out x, out y);
-
-            PlacePages(templatePageContainer,masterPage,CntX,CntY,x,y,90,1,0);
-
-            ApplyFixes(parameters, templatePageContainer);
-
-            return templatePageContainer;
-        }
-
-        public static TemplatePageContainer LooseBindingMaxNormal(LooseBindingParameters parameters)
-        {
-            TemplatePageContainer templatePageContainer = new TemplatePageContainer();
-
-            bool isExtraRight = false;
-            bool isExtraBottom = false;
-
-            var sheet = parameters.Sheet;
-
-            var printFieldFormat = GetPrintFieldFormat(parameters);
-
-            TemplatePage masterPage = parameters.Sheet.MasterPage;
-
-            var pageW = masterPage.W + masterPage.Margins.Left + masterPage.Margins.Right;
-            var pageH = masterPage.H + masterPage.Margins.Bottom + masterPage.Margins.Top;
-
-            var CntX = (int)(printFieldFormat.W / pageW);
-            var CntY = (int)(printFieldFormat.H / pageH);
-
-            if (CntX == 0 || CntY == 0) return templatePageContainer;
-
-            var blockWidth = CntX * pageW;
-            var blockHeight = CntY * pageH;
-
-            //calc extra blocks right
-            //1. отримати кількість вільного місця
-            var extraRightW = printFieldFormat.W - blockWidth;
-            var extraRightH = printFieldFormat.H;
-
-            int extraCntRightX = (int)(extraRightW / pageH);
-            int extraCntRightY = (int)(extraRightH / pageW);
-
-            if (extraCntRightX > 0 && extraCntRightY > 0)
-            {
-                isExtraRight = true;
-            }
-
-            //calc extra blocks bottom
-            var extraBottomW = printFieldFormat.W;
-            var extraBottomH = printFieldFormat.H - blockHeight;
-
-            var extraCntBottomX = (int)(extraBottomW / pageH);
-            var extraCntBottomY = (int)(extraBottomH / pageW);
-
-            if (extraCntBottomX > 0 && extraCntBottomY > 0)
-            {
-                isExtraBottom = true;
-            }
-
-            double x = sheet.SafeFields.Left + parameters.Xofs;
-            double y = sheet.SafeFields.Bottom + parameters.Yofs;
-
-            if (parameters.IsCenterHorizontal)
-            {
-                double extraX = isExtraRight ? extraCntRightX * pageH : 0;
-                x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - blockWidth - extraX) / 2 + sheet.SafeFields.Left;
-            }
-
-            if (parameters.IsCenterVertical)
-            {
-                double extraY = isExtraBottom ? extraCntBottomY * pageW : 0;
-                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - blockHeight - extraY) / 2 + sheet.SafeFields.Bottom;
-            }
-
-            PlacePages(templatePageContainer,masterPage,CntX,CntY,x,y,0,1,0);
-
-            if (isExtraRight)
-            {
-                PlacePages(templatePageContainer,masterPage, extraCntRightX, extraCntRightY, x + blockWidth,y,90,1,0);
-            }
-
-            if (isExtraBottom)
-            {
-                PlacePages(templatePageContainer,masterPage, extraCntBottomX, extraCntBottomY,x, y + pageH,90,1,0);
-            }
-
-            ApplyFixes(parameters, templatePageContainer);
-
-            return templatePageContainer;
-        }
-
-        public static TemplatePageContainer LooseBindingMaxRotated(LooseBindingParameters parameters)
-        {
-            TemplatePageContainer templatePageContainer = new TemplatePageContainer();
-
-
-            bool isExtraRight = false;
-            bool isExtraBottom = false;
-
-
-            var sheet = parameters.Sheet;
-
-            var printFieldFormat = GetPrintFieldFormat(parameters);
-
-            TemplatePage masterPage = parameters.Sheet.MasterPage;
-
-            var pageW = masterPage.H + masterPage.Margins.Bottom + masterPage.Margins.Top;
-            var pageH = masterPage.W + masterPage.Margins.Left + masterPage.Margins.Right;
-
-            var CntX = (int)(printFieldFormat.W / pageW);
-            var CntY = (int)(printFieldFormat.H / pageH);
-
-            if (CntX == 0 || CntY == 0) return templatePageContainer;
-
-            var BlockWidth = CntX * pageW;
-            var BlockHeight = CntY * pageH;
-
-            //calc extra blocks right
-            //1. отримати кількість вільного місця
-            var extraRightW = printFieldFormat.W - BlockWidth;
-            var extraRightH = printFieldFormat.H;
-
-            int extraCntRightX = (int)(extraRightW / pageH);
-            int extraCntRightY = (int)(extraRightH / pageW);
-
-            if (extraCntRightX > 0 && extraCntRightY > 0)
-            {
-                isExtraRight = true;
-            }
-
-            //calc extra blocks bottom
-            var extraBottomW = printFieldFormat.W;
-            var extraBottomH = printFieldFormat.H - BlockHeight;
-
-            var extraCntBottomX = (int)(extraBottomW / pageH);
-            var extraCntBottomY = (int)(extraBottomH / pageW);
-
-            if (extraCntBottomX > 0 && extraCntBottomY > 0)
-            {
-                isExtraBottom = true;
-            }
-
-
-            double x = sheet.SafeFields.Left + parameters.Xofs;
-            double y = sheet.SafeFields.Bottom + parameters.Yofs;
-
-
-            if (parameters.IsCenterHorizontal)
-            {
-                double extraX = isExtraRight ? extraCntRightX * pageH : 0;
-                x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - BlockWidth - extraX) / 2 + sheet.SafeFields.Left;
-
-            }
-
-
-            if (parameters.IsCenterVertical)
-            {
-                double extraY = isExtraBottom ? extraCntBottomY * pageW : 0;
-                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - BlockHeight - extraY) / 2 + sheet.SafeFields.Bottom;
-            }
-
-            PlacePages(templatePageContainer,masterPage,CntX,CntY,x,y,90,1,0);
-
-            if (isExtraRight)
-            {
-                PlacePages(templatePageContainer,masterPage,extraCntRightX,extraCntRightY, x + BlockWidth, y,0,1,0);
-            }
-
-            if (isExtraBottom)
-            {
-                PlacePages(templatePageContainer,masterPage, extraCntBottomX, extraCntBottomY,x, y + BlockHeight,0,1,0);
-            }
-
-            ApplyFixes(parameters, templatePageContainer);
-
-            return templatePageContainer;
         }
 
         public static void FixBleedsFront(TemplatePageContainer templatePageContainer)
@@ -346,7 +210,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                             Y2 = pageTarget.GetPageDrawY() + pageTarget.GetPageDrawH()
                         };
 
-                        List<RectangleD> rects = new List<RectangleD>(){
+                        List<RectangleD> rects = new List<RectangleD>() {
                             pageTarget.GetDrawBleedLeft(),
                             pageTarget.GetDrawBleedRight(),
                             pageTarget.GetDrawBleedTop(),
@@ -358,12 +222,10 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                             if (left.IntersectsWith(rect) || left.IntersectsWith(pageRect))
                             {
                                 page.Bleeds.Left = 0;
-
                             }
                             if (right.IntersectsWith(rect) || right.IntersectsWith(pageRect))
                             {
                                 page.Bleeds.Right = 0;
-
                             }
                             if (top.IntersectsWith(rect) || top.IntersectsWith(pageRect))
                             {
@@ -376,7 +238,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                         }
                     }
                 }
-
             }
         }
 

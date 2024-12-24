@@ -41,35 +41,29 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void b_0_Click(object sender, EventArgs e)
         {
-            if (variantNormal != null) {
-                parameters.Sheet.TemplatePageContainer.SetTemplatePages(variantNormal.TemplatePages);
-                parameters.UpdatePreview();
-            }
+            ApplyTemplatePages(variantNormal);
         }
 
         private void b_90_Click(object sender, EventArgs e)
         {
-            if (variantRotated != null)
-            {
-                parameters.Sheet.TemplatePageContainer.SetTemplatePages(variantRotated.TemplatePages);
-                parameters.UpdatePreview();
-            }
+            ApplyTemplatePages(variantRotated);
         }
 
         private void b_max_Click(object sender, EventArgs e)
         {
-            if (variantMaxNormal!=null)
-            {
-                parameters.Sheet.TemplatePageContainer.SetTemplatePages(variantMaxNormal.TemplatePages);
-                parameters.UpdatePreview();
-            }
+            ApplyTemplatePages(variantMaxNormal);
         }
 
         private void b_max_90_Click(object sender, EventArgs e)
         {
-            if (variantMaxRotated != null)
+            ApplyTemplatePages(variantMaxRotated);
+        }
+
+        private void ApplyTemplatePages(TemplatePageContainer variant)
+        {
+            if (variant != null && parameters != null)
             {
-                parameters.Sheet.TemplatePageContainer.SetTemplatePages(variantMaxRotated.TemplatePages);
+                parameters.Sheet.TemplatePageContainer.SetTemplatePages(variant.TemplatePages);
                 parameters.UpdatePreview();
             }
         }
@@ -113,7 +107,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                     if (t_page.MasterBackIdx > 0)
                     {
-                        var runListpageBackIdx = maxIdx * i + t_page.MasterBackIdx;
+                        var runListpageBackIdx = maxIdx + t_page.MasterBackIdx;
                         t_page.PrintBackIdx = runListpageBackIdx;
                         if (runListpageBackIdx - 1 < pages.Count)
                             pages[runListpageBackIdx - 1].IsAssumed = true;
@@ -172,5 +166,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             parameters.UpdateSheet();
         }
+       
     }
 }
