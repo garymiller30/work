@@ -292,7 +292,7 @@ namespace JobSpace.UserForms.PDF
         private void pg_Parameters_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
 
-            _controlBindParameters.UpdatePreview();
+            _controlBindParameters.UpdateSheet();
         }
     }
 }
