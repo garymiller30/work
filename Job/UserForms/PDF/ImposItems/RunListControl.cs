@@ -30,10 +30,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void InitRunList()
         {
-            objectListViewRunList.IsSimpleDragSource = true;
-            objectListViewRunList.DropSink = new RearrangingDropSink(true);
+            fastObjectListView1.IsSimpleDragSource = true;
+            fastObjectListView1.DropSink = new RearrangingDropSink(true);
 
-            olvColumnRunListPages.AspectGetter += delegate (object r)
+            olvColumnRunListPagesf.AspectGetter += delegate (object r)
             {
                 if (r is ImposRunPage page)
                 {
@@ -42,24 +42,24 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 return r.ToString();
             };
 
-            olvColumIdx.AspectGetter += delegate (object r)
+            olvColumIdxf.AspectGetter += delegate (object r)
             {
                 var page = (ImposRunPage)r;
-                var list = objectListViewRunList.Objects.Cast<ImposRunPage>().ToList();
+                var list = fastObjectListView1.Objects.Cast<ImposRunPage>().ToList();
 
                 int idx = list.IndexOf(page) + 1;
 
                 return idx;
             };
 
-            olvColumnAsign.AspectGetter += (r) => ((ImposRunPage)r).IsAssumed ? "●" : "◌";
+            olvColumnAsignf.AspectGetter += (r) => ((ImposRunPage)r).IsAssumed ? "●" : "◌";
         }
 
         public void SetControlBindParameters(ControlBindParameters bindParameters)
         {
             _bindParameters = bindParameters;
-            objectListViewRunList.ModelCanDrop += ObjectListViewRunList_ModelCanDrop;
-            objectListViewRunList.ModelDropped += ObjectListViewRunList_ModelDropped;
+            fastObjectListView1.ModelCanDrop += ObjectListViewRunList_ModelCanDrop;
+            fastObjectListView1.ModelDropped += ObjectListViewRunList_ModelDropped;
         }
 
         //private void ObjectListViewRunList_Dropped(object sender, OlvDropEventArgs e)
@@ -76,14 +76,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (item is PdfFile file)
                     {
                         List<ImposRunPage> pages = ImposRunList.CreatePagesFromFile(file);
-                        objectListViewRunList.AddObjects(pages);
+                        fastObjectListView1.AddObjects(pages);
                     }
                     else if (item is PdfFilePage page)
                     {
                         int fileId = PdfFile.GetParentId(_bindParameters.PdfFiles, page);
                         if (fileId == -1) throw new Exception("No file id");
                         ImposRunPage runPage = new ImposRunPage(fileId, page.Idx);
-                        objectListViewRunList.AddObject(runPage);
+                        fastObjectListView1.AddObject(runPage);
                     }
                 }
                 e.Handled = true;
@@ -93,7 +93,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         public List<ImposRunPage> GetRunPages()
         {
-            return objectListViewRunList.Objects.Cast<ImposRunPage>().ToList();
+            return fastObjectListView1.Objects.Cast<ImposRunPage>().ToList();
         }
 
         private void ObjectListViewRunList_ModelCanDrop(object sender, BrightIdeasSoftware.ModelDropEventArgs e)
@@ -110,22 +110,22 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         public void AddPages(List<ImposRunPage> pages)
         {
-            objectListViewRunList.AddObjects(pages);
+            fastObjectListView1.AddObjects(pages);
             UpdateStatusString();
         }
 
         private void tsb_RemovePage_Click(object sender, EventArgs e)
         {
-            if (objectListViewRunList.SelectedObjects.Count > 0)
+            if (fastObjectListView1.SelectedObjects.Count > 0)
             {
-                objectListViewRunList.RemoveObjects(objectListViewRunList.SelectedObjects);
+                fastObjectListView1.RemoveObjects(fastObjectListView1.SelectedObjects);
                 UpdateStatusString();
             }
         }
 
         private void tsb_AddEmptyPage_Click(object sender, EventArgs e)
         {
-            objectListViewRunList.AddObject(new ImposRunPage() { FileId = 0, PageIdx = 0 });
+            fastObjectListView1.AddObject(new ImposRunPage() { FileId = 0, PageIdx = 0 });
             UpdateStatusString();
         }
 
@@ -136,8 +136,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void UpdateStatusString()
         {
-            int assigned = objectListViewRunList.Objects.Cast<ImposRunPage>().Where(x => x.IsAssumed).Count();
-            int unassigned = objectListViewRunList.Objects.Cast<ImposRunPage>().Where(x => !x.IsAssumed).Count();
+            int assigned = fastObjectListView1.Objects.Cast<ImposRunPage>().Where(x => x.IsAssumed).Count();
+            int unassigned = fastObjectListView1.Objects.Cast<ImposRunPage>().Where(x => !x.IsAssumed).Count();
 
             tssl_status.Text = $"◌ : {unassigned} | ● : {assigned}";
 
@@ -150,7 +150,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         public int GetUnassignedPagesCount()
         {
-            return objectListViewRunList.Objects.Cast<ImposRunPage>().Where(x=>x.IsAssumed == false).ToList().Count;
+            return fastObjectListView1.Objects.Cast<ImposRunPage>().Where(x=>x.IsAssumed == false).ToList().Count;
         }
 
         //public void ReassignPrintSheets(List<PrintSheet> printSheets)
@@ -181,7 +181,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public void UpdateRunList()
         {
             UpdateStatusString();
-            objectListViewRunList.RefreshObjects(objectListViewRunList.Objects.Cast<ImposRunPage>().ToList());
+            fastObjectListView1.RefreshObjects(fastObjectListView1.Objects.Cast<ImposRunPage>().ToList());
         }
+
+     
     }
 }

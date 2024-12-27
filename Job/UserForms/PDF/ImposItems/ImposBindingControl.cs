@@ -87,5 +87,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (curBindControl == null) return;
             curBindControl.Calc();
         }
+
+        internal void CheckRunListPages(List<PrintSheet> printSheets, List<ImposRunPage> imposRunPages)
+        {
+            if (curBindControl == null) return;
+
+            curBindControl.CheckRunListPages(printSheets, imposRunPages);
+        }
     }
 }

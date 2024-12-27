@@ -6,6 +6,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
     public interface IBindControl
     {
         void Calc();
+        void CheckRunListPages(List<PrintSheet> printSheets, List<ImposRunPage> imposRunPages);
         void RearangePages(List<PrintSheet> sheets, List<ImposRunPage> pages);
         void SetControlBindParameters(ControlBindParameters parameters);
     }

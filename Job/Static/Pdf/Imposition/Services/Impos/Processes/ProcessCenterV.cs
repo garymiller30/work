@@ -14,22 +14,21 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
         /// </summary>
         public static void Center(TemplateSheet sheet)
         {
-            if (sheet == null) return;
-            if (!sheet.TemplatePageContainer.TemplatePages.Any()) return;
+            if(sheet?.TemplatePageContainer?.TemplatePages == null || !sheet.TemplatePageContainer.TemplatePages.Any())
+                return;
 
-            var rect = sheet.TemplatePageContainer.GetSubjectRectFront();
+            var subjectRect = sheet.TemplatePageContainer.GetSubjectRectFront();
+            var printRect = sheet.GetPrintRect();
 
-            var sheetPrintRect = sheet.GetPrintRect();
+            // Calculate the vertical offset needed to center the content
+            var verticalOffset = (printRect.H - subjectRect.H) / 2;
+            var adjustedY = subjectRect.Y1 - verticalOffset;
 
-            var delta = (sheetPrintRect.H - rect.H)/2;
-
-            var y_ofs = rect.Y1 - delta;
-
-            foreach (var item in sheet.TemplatePageContainer.TemplatePages)
+            // Adjust the Y position of each template page
+            foreach (var page in sheet.TemplatePageContainer.TemplatePages)
             {
-                item.Y -= (y_ofs - sheet.SafeFields.Bottom);
+                page.Y -= (adjustedY - sheet.SafeFields.Bottom);
             }
-
         }
     }
 }

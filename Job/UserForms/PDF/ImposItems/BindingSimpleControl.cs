@@ -166,6 +166,27 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             parameters.UpdateSheet();
         }
-       
+
+        public void CheckRunListPages(List<PrintSheet> printSheets, List<ImposRunPage> pages)
+        {
+            pages.ForEach(p => p.IsAssumed = false);
+
+            foreach (var sheet in printSheets)
+            {
+                foreach (var t_page in sheet.TemplatePageContainer.TemplatePages)
+                {
+                    if (t_page.PrintFrontIdx > 0)
+                    {
+                        if (t_page.PrintFrontIdx - 1 < pages.Count)
+                            pages[t_page.PrintFrontIdx - 1].IsAssumed = true;
+                    }
+                    if (t_page.PrintBackIdx > 0)
+                    {
+                        if (t_page.PrintBackIdx - 1 < pages.Count)
+                            pages[t_page.PrintBackIdx - 1].IsAssumed = true;
+                    }
+                }
+            }
+        }
     }
 }

@@ -56,6 +56,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler NeedRearangePages = delegate{ };
+        public event EventHandler NeedCheckRunListPages = delegate { };
         public event EventHandler JustUpdatePreview = delegate { };
 
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -76,6 +77,16 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             }
             selectedPreviewPage = null;
             UpdatePreview();
+        }
+
+        public void RearangePages()
+        {
+            NeedRearangePages(this, null);
+        }
+
+        public void CheckRunListPages()
+        {
+            NeedCheckRunListPages(this, null);
         }
     }
 }

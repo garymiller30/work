@@ -42,32 +42,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     {
                         t_page.PrintBackIdx = 0;
                     }
-                    //if (t_page.MasterFrontIdx > 0)
-                    //{
-                    //    var pageIdx = i + (t_page.MasterFrontIdx - 1) * sheets.Count;
-                    //    t_page.PrintFrontIdx = pageIdx+1;
-                    //    if (pageIdx < pages.Count)
-                    //        pages[pageIdx].IsAssumed = true;
-                    //}
-                    //else
-                    //{
-                    //    t_page.PrintFrontIdx = 0;
-                    //}
-
-                    //if (t_page.MasterBackIdx > 0)
-                    //{
-                    //    var pageIdx = i + (t_page.MasterBackIdx - 1) * sheets.Count;
-                    //    t_page.PrintBackIdx = pageIdx+1;
-                    //    if (pageIdx < pages.Count)
-                    //        pages[pageIdx].IsAssumed = true;
-                    //}
-                    //else
-                    //{
-                    //    t_page.PrintBackIdx = 0;
-                    //}
-
                 }
-
             }
         }
     }

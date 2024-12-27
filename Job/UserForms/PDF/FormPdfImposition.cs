@@ -63,13 +63,13 @@ namespace JobSpace.UserForms.PDF
         private void OnClickCenterH(object sender, EventArgs e)
         {
             ProcessCenterH.Center(_controlBindParameters.Sheet);
-            _controlBindParameters.UpdatePreview();
+            _controlBindParameters.UpdateSheet();
         }
 
         private void OnClickCenterV(object sender, EventArgs e)
         {
             ProcessCenterV.Center(_controlBindParameters.Sheet);
-            _controlBindParameters.UpdatePreview();
+            _controlBindParameters.UpdateSheet();
         }
 
         private void OnSheetAddManyToPrintEvent(object sender, TemplateSheet e)
@@ -108,11 +108,18 @@ namespace JobSpace.UserForms.PDF
         {
             _controlBindParameters.PdfFiles = _pdfFiles;
             _controlBindParameters.NeedRearangePages += _controlBindParameters_NeedRearangePages;
+            _controlBindParameters.NeedCheckRunListPages += NeedCheckRunListPages;
             imposBindingControl1.SetControlBindParameters(_controlBindParameters);
             pdfFileListControl1.SetControlBindParameters(_controlBindParameters);
             runListControl1.SetControlBindParameters(_controlBindParameters);
             marksControl1.SetControlBindParameters(_controlBindParameters);
             previewControl1.SetControlBindParameters(_controlBindParameters);
+        }
+
+        private void NeedCheckRunListPages(object sender, EventArgs e)
+        {
+            imposBindingControl1.CheckRunListPages(printSheetsControl1.GetSheets(), runListControl1.GetRunPages());
+            runListControl1.UpdateRunList();
         }
 
         private void _controlBindParameters_NeedRearangePages(object sender, EventArgs e)
