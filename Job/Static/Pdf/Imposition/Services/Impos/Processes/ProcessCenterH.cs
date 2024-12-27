@@ -15,22 +15,33 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
         /// <param name="sheet"></param>
         public static void Center(TemplateSheet sheet)
         {
-            if (sheet == null) return;
-            if (!sheet.TemplatePageContainer.TemplatePages.Any()) return;
+            if (sheet?.TemplatePageContainer?.TemplatePages == null || !sheet.TemplatePageContainer.TemplatePages.Any())
+                return;
 
-            // Вираховуємо розмір блоку сторінок
-            // для цього знаходимо мінімальну X координату і максимальну X координату
-            var rect = sheet.TemplatePageContainer.GetSubjectRectFront();
-
-            var sheetPrintRect = sheet.GetPrintRect();
-
-            var delta = (sheetPrintRect.W - rect.W) / 2;
-
-            var x_ofs = rect.X1 - delta;
-
-            foreach (var item in sheet.TemplatePageContainer.TemplatePages)
+            try
             {
-                item.X -= x_ofs - sheet.SafeFields.Left;
+                // Calculate the bounding rectangle of the pages
+                var subjectRect = sheet.TemplatePageContainer.GetSubjectRectFront();
+
+                // Get the printable area of the sheet
+                var printRect = sheet.GetPrintRect();
+
+                // Calculate the horizontal offset needed to center the content
+                var horizontalOffset = (printRect.W - subjectRect.W) / 2;
+
+                // Calculate the new X offset
+                var newXOffset = subjectRect.X1 - horizontalOffset;
+
+                // Adjust the X position of each page to center them
+                foreach (var page in sheet.TemplatePageContainer.TemplatePages)
+                {
+                    page.X -= newXOffset - sheet.SafeFields.Left;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception as needed
+                Console.WriteLine($"An error occurred while centering the sheet: {ex.Message}");
             }
         }
     }

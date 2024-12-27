@@ -92,24 +92,26 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (parameters.Sheet == null) return;
             foreach (var page in parameters.Sheet.TemplatePageContainer.TemplatePages)
             {
-                if (parameters.Sheet is TemplateSheet)
+                if (parameters.Sheet is PrintSheet)
                 {
-                    page.MasterFrontIdx = _parameters.FrontNum;
+                    page.PrintFrontIdx = _parameters.FrontNum;
                 }
                 else
                 {
-                    page.PrintFrontIdx = _parameters.FrontNum;
+                    page.MasterFrontIdx = _parameters.FrontNum;
+                    
                 }
 
                 if (parameters.Sheet.SheetPlaceType == TemplateSheetPlaceType.Sheetwise)
                 {
-                    if (parameters.Sheet is TemplateSheet)
+                    if (parameters.Sheet is PrintSheet)
                     {
-                        page.MasterBackIdx = _parameters.BackNum;
+                        page.PrintBackIdx = _parameters.BackNum;
                     }
                     else
                     {
-                        page.PrintBackIdx = _parameters.BackNum;
+                        page.MasterBackIdx = _parameters.BackNum;
+                        
                     }
 
 
@@ -130,15 +132,16 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (parameters.Sheet.SheetPlaceType == TemplateSheetPlaceType.Sheetwise)
                 {
-                    if (parameters.Sheet is TemplateSheet tsheet)
-                    {
-                        page.MasterFrontIdx = front;
-                        page.MasterBackIdx = back;
-                    }
-                    else
+                    if (parameters.Sheet is PrintSheet tsheet)
                     {
                         page.PrintFrontIdx = front;
                         page.PrintBackIdx = back;
+                    }
+                    else
+                    {
+                        page.MasterFrontIdx = front;
+                        page.MasterBackIdx = back;
+                    
 
                     }
 
@@ -147,13 +150,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 }
                 else
                 {
-                    if (parameters.Sheet is TemplateSheet tsheet)
+                    if (parameters.Sheet is PrintSheet tsheet)
                     {
-                        page.MasterFrontIdx = front++;
+                        page.PrintFrontIdx = front++;
                     }
                     else
                     {
-                        page.PrintFrontIdx = front++;
+                        page.MasterFrontIdx = front++;
+                        
                     }
                 }
             }
@@ -237,12 +241,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     else if (Math.Abs(hover_y - y_ofs - pageB.Y2) < snapDistance)
                     {
                         y_snap = true;
-                        _hover.Y = page.Y+page.GetClippedHByRotate();
+                        _hover.Y = page.Y + page.GetClippedHByRotate();
                     }
 
                 }
-
-
                 if (x_snap && y_snap) break;
             }
         }
@@ -347,27 +349,31 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (parameters.Sheet.SheetPlaceType == TemplateSheetPlaceType.SingleSide ||
                        parameters.Sheet.SheetPlaceType == TemplateSheetPlaceType.WorkAndTurn)
             {
-                if (parameters.Sheet is TemplateSheet)
+                if (parameters.Sheet is PrintSheet)
                 {
-                    _hover.MasterFrontIdx = _parameters.FrontNum++;
+                    _hover.PrintFrontIdx = _parameters.FrontNum++;
+                    parameters.CheckRunListPages();
                 }
                 else
                 {
-                    _hover.PrintFrontIdx = _parameters.FrontNum++;
+                    _hover.MasterFrontIdx = _parameters.FrontNum++;
+                    
                 }
                     
             }
             else
             {
-                if (parameters.Sheet is TemplateSheet)
-                {
-                    _hover.MasterFrontIdx = _parameters.FrontNum;
-                    _hover.MasterBackIdx = _parameters.BackNum;
-                }
-                else
+                if (parameters.Sheet is PrintSheet)
                 {
                     _hover.PrintFrontIdx = _parameters.FrontNum;
                     _hover.PrintBackIdx = _parameters.BackNum;
+                    parameters.CheckRunListPages();
+                }
+                else
+                {
+                    _hover.MasterFrontIdx = _parameters.FrontNum;
+                    _hover.MasterBackIdx = _parameters.BackNum;
+                   
                 }
                 _parameters.FrontNum += 2;
                 _parameters.BackNum += 2;
@@ -389,15 +395,18 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             if (ModifierKeys.HasFlag(Keys.Control) && ModifierKeys.HasFlag(Keys.Shift))
             {
-                if (parameters.Sheet is TemplateSheet)
+                if (parameters.Sheet is PrintSheet sheet)
                 {
-                    _hover.MasterFrontIdx = _parameters.FrontNum;
+                    _hover.PrintFrontIdx = _parameters.FrontNum;
+                    
+                    parameters.CheckRunListPages();
+                    
                 }
                 else
                 {
-                    _hover.PrintFrontIdx = _parameters.FrontNum;
-                }
+                    _hover.MasterFrontIdx = _parameters.FrontNum;
 
+                }
                     
                 _parameters.FrontNum++;
 
@@ -408,42 +417,47 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     parameters.Sheet.SheetPlaceType != TemplateSheetPlaceType.WorkAndTurn)
                 {
 
-                    if (parameters.Sheet is TemplateSheet)
+                    if (parameters.Sheet is PrintSheet sheet)
                     {
-                        _hover.MasterBackIdx = _parameters.FrontNum;
 
+                        _hover.PrintBackIdx = _parameters.FrontNum;
+                        parameters.CheckRunListPages();
                     }
                     else
                     {
-                        _hover.PrintBackIdx = _parameters.FrontNum;
+                        _hover.MasterBackIdx = _parameters.FrontNum;
+                        
                     }
-
-                       
                     _parameters.FrontNum++;
                 }
             }
             else
             {
-                if (parameters.Sheet is TemplateSheet)
+                if (parameters.Sheet is PrintSheet sheet)
                 {
-                    _hover.MasterFrontIdx = _parameters.FrontNum;
+                    _hover.PrintFrontIdx = _parameters.FrontNum;
+                    parameters.CheckRunListPages();
                 }
                 else
                 {
-                    _hover.PrintFrontIdx = _parameters.FrontNum;
+                    _hover.MasterFrontIdx = _parameters.FrontNum;
+                   
 
                 }
 
                 if (parameters.Sheet.SheetPlaceType != TemplateSheetPlaceType.SingleSide ||
                     parameters.Sheet.SheetPlaceType != TemplateSheetPlaceType.WorkAndTurn)
                 {
-                    if (parameters.Sheet is TemplateSheet)
+                    if (parameters.Sheet is PrintSheet psheet)
                     {
-                        _hover.MasterBackIdx = _parameters.BackNum;
+                        
+                        _hover.PrintBackIdx = _parameters.BackNum;
+                        parameters.CheckRunListPages();
                     }
                     else
                     {
-                        _hover.PrintBackIdx = _parameters.BackNum;
+                        _hover.MasterBackIdx = _parameters.BackNum;
+                        
                     }
                 }
             }
