@@ -431,6 +431,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     else if (item is TextMark textMark)
                     {
                         var t = MarksService.Duplicate(textMark);
+                        
                         sheet.Marks.Add(t);
                     }
                 }

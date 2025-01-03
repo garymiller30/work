@@ -45,6 +45,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 DrawPage(g, sheet, page, (int)sheet.H);
             }
             PdfMarksService.RecalcMarkCoordFront(sheet);
+            TextMarksService.RecalcMarkCoordFront(sheet);
             DrawSheetMarksFront(g, sheet, (int)sheet.H);
 
             PdfMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
@@ -71,12 +72,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 var previewPoints = (mark.FontSize /72.0)*25.4;
                 Font font = new Font(mark.FontName,(float)previewPoints);
                 SizeF size = g.MeasureString(mark.Text, font);
+                var state = g.Save();
                 g.TranslateTransform((float)mark.Front.X,(float)(h - mark.Front.Y));
 
                 float angle = mark.Angle == 90 || mark.Angle == 270 ? (float)(mark.Angle+ 180) : (float)mark.Angle;  
 
                 g.RotateTransform((angle));
                 g.DrawString(mark.Text, font, brush,0,0);
+                g.Restore(state);
                 font.Dispose();
             }
 

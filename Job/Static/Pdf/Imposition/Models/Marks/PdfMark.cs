@@ -7,18 +7,11 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 {
-    public class PdfMark
+    public class PdfMark : MarkAbstract
     {
-        public string Id {get;set; } = Guid.NewGuid().ToString();
-        public string Name {get;set; }
-        public PointD Front { get; set; }
-        public PointD Back { get; set; }
-
-        public bool Enable { get;set; } = true;
 
         public PdfMarkParameters Parameters { get; set; } = new PdfMarkParameters();
         public PdfFile File { get; set; }
-        public double Angle { get; set; } = 0;
 
         public PdfMark()
         {
@@ -35,12 +28,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
             File = new PdfFile(filePath);
         }
 
-        public double GetW()
+        public override double GetW()
         {
             return File?.Pages[0].Media.W ?? 0;
         }
 
-        public double GetH()
+        public override double GetH()
         {
             return File?.Pages[0].Media.H ?? 0;
         }
