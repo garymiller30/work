@@ -168,10 +168,34 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return null;
         }
 
-        public static T Duplicate<T>(T mark)
+        //public static T Duplicate<T>(T mark)
+        //{
+        //    var str = JsonSerializer.Serialize(mark);
+
+        //    return JsonSerializer.Deserialize<T>(str);
+        //}
+
+        public static TextMark Duplicate(TextMark mark)
         {
             var str = JsonSerializer.Serialize(mark);
-            return JsonSerializer.Deserialize<T>(str);
+            var m = JsonSerializer.Deserialize<TextMark>(str);
+            m.Id = Guid.NewGuid().ToString();
+            return  m;
+        }
+        public static PdfMark Duplicate(PdfMark mark)
+        {
+            var str = JsonSerializer.Serialize(mark);
+            var m = JsonSerializer.Deserialize<PdfMark>(str);
+            m.Id = Guid.NewGuid().ToString();
+            return m;
+        }
+
+        public static MarksContainer Duplicate(MarksContainer container)
+        {
+            var str = JsonSerializer.Serialize(container);
+            var m = JsonSerializer.Deserialize<MarksContainer>(str);
+            m.Id = Guid.NewGuid().ToString();
+            return m;
         }
 
         public static Image GetBitmap(PdfMark mark)

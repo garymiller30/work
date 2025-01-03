@@ -48,6 +48,7 @@
             this.tlv_ProductMarks = new BrightIdeasSoftware.TreeListView();
             this.olv_ProductMarkName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.tlv_MarksResources)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -133,10 +134,10 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsb_addGroup,
             this.toolStripSeparator1,
-            this.tsb_Delete,
-            this.toolStripSeparator2,
             this.tsb_addPdfMark,
-            this.tsb_addTextMark});
+            this.tsb_addTextMark,
+            this.tsb_Delete,
+            this.toolStripSeparator2});
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(219, 25);
@@ -160,6 +161,7 @@
             // 
             // tsb_Delete
             // 
+            this.tsb_Delete.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.tsb_Delete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tsb_Delete.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Delete.Image")));
             this.tsb_Delete.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -170,6 +172,7 @@
             // 
             // toolStripSeparator2
             // 
+            this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
@@ -209,7 +212,8 @@
             // 
             this.toolStrip2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsb_sheet_deleteMark});
+            this.tsb_sheet_deleteMark,
+            this.toolStripSeparator3});
             this.toolStrip2.Location = new System.Drawing.Point(3, 16);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(219, 25);
@@ -218,6 +222,7 @@
             // 
             // tsb_sheet_deleteMark
             // 
+            this.tsb_sheet_deleteMark.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.tsb_sheet_deleteMark.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tsb_sheet_deleteMark.Image = ((System.Drawing.Image)(resources.GetObject("tsb_sheet_deleteMark.Image")));
             this.tsb_sheet_deleteMark.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -269,6 +274,12 @@
             this.imageList2.Images.SetKeyName(2, "Emoopo-Darktheme-Folder-Folder-Text-PDF.16.png");
             this.imageList2.Images.SetKeyName(3, "Emoopo-Darktheme-Folder-Folder-Text.16.png");
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
             // MarksControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -314,5 +325,6 @@
         private System.Windows.Forms.ImageList imageList2;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton tsb_sheet_deleteMark;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
