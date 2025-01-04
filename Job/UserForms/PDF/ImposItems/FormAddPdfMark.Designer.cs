@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddPdfMark));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_SelectPdfFile = new System.Windows.Forms.Button();
             this.tb_markPath = new System.Windows.Forms.TextBox();
@@ -54,6 +53,10 @@
             this.apc_mark = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
             this.btn_ok = new System.Windows.Forms.Button();
             this.vistaOpenFileDialog1 = new Ookii.Dialogs.WinForms.VistaOpenFileDialog();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rb_parentSheet = new System.Windows.Forms.RadioButton();
+            this.rb_parentSubject = new System.Windows.Forms.RadioButton();
+            this.cb_foreground = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -62,6 +65,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_yOfs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Xofs)).BeginInit();
             this.groupBox5.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -110,13 +114,14 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.cb_foreground);
             this.groupBox3.Controls.Add(this.cb_Angle);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.groupBox7);
             this.groupBox3.Controls.Add(this.groupBox4);
             this.groupBox3.Location = new System.Drawing.Point(12, 58);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(539, 157);
+            this.groupBox3.Size = new System.Drawing.Size(539, 195);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Параметри";
@@ -132,7 +137,6 @@
             // 
             // label6
             // 
-            this.label6.Image = ((System.Drawing.Image)(resources.GetObject("label6.Image")));
             this.label6.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label6.Location = new System.Drawing.Point(339, 121);
             this.label6.Name = "label6";
@@ -187,11 +191,12 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.groupBox2);
             this.groupBox4.Controls.Add(this.groupBox6);
             this.groupBox4.Controls.Add(this.groupBox5);
             this.groupBox4.Location = new System.Drawing.Point(6, 19);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(324, 132);
+            this.groupBox4.Size = new System.Drawing.Size(324, 170);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Положення відносно";
@@ -290,7 +295,7 @@
             // 
             // apc_parent
             // 
-            this.apc_parent.AnchorPointChanged = ((System.EventHandler<JobSpace.Static.Pdf.Imposition.Models.AnchorPoint>)(resources.GetObject("apc_parent.AnchorPointChanged")));
+            this.apc_parent.AnchorPointChanged = null;
             this.apc_parent.Location = new System.Drawing.Point(6, 14);
             this.apc_parent.Name = "apc_parent";
             this.apc_parent.Size = new System.Drawing.Size(80, 80);
@@ -308,7 +313,7 @@
             // 
             // apc_mark
             // 
-            this.apc_mark.AnchorPointChanged = ((System.EventHandler<JobSpace.Static.Pdf.Imposition.Models.AnchorPoint>)(resources.GetObject("apc_mark.AnchorPointChanged")));
+            this.apc_mark.AnchorPointChanged = null;
             this.apc_mark.Location = new System.Drawing.Point(6, 14);
             this.apc_mark.Name = "apc_mark";
             this.apc_mark.Size = new System.Drawing.Size(80, 80);
@@ -316,7 +321,7 @@
             // 
             // btn_ok
             // 
-            this.btn_ok.Location = new System.Drawing.Point(220, 221);
+            this.btn_ok.Location = new System.Drawing.Point(220, 259);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(116, 38);
             this.btn_ok.TabIndex = 3;
@@ -331,11 +336,53 @@
             this.vistaOpenFileDialog1.SupportMultiDottedExtensions = true;
             this.vistaOpenFileDialog1.Title = "Вибрати PDF файл";
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.rb_parentSubject);
+            this.groupBox2.Controls.Add(this.rb_parentSheet);
+            this.groupBox2.Location = new System.Drawing.Point(6, 126);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(312, 38);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            // 
+            // rb_parentSheet
+            // 
+            this.rb_parentSheet.AutoSize = true;
+            this.rb_parentSheet.Location = new System.Drawing.Point(40, 15);
+            this.rb_parentSheet.Name = "rb_parentSheet";
+            this.rb_parentSheet.Size = new System.Drawing.Size(101, 17);
+            this.rb_parentSheet.TabIndex = 0;
+            this.rb_parentSheet.TabStop = true;
+            this.rb_parentSheet.Text = "відносно листа";
+            this.rb_parentSheet.UseVisualStyleBackColor = true;
+            // 
+            // rb_parentSubject
+            // 
+            this.rb_parentSubject.AutoSize = true;
+            this.rb_parentSubject.Location = new System.Drawing.Point(161, 15);
+            this.rb_parentSubject.Name = "rb_parentSubject";
+            this.rb_parentSubject.Size = new System.Drawing.Size(110, 17);
+            this.rb_parentSubject.TabIndex = 1;
+            this.rb_parentSubject.TabStop = true;
+            this.rb_parentSubject.Text = "відносно сюжету";
+            this.rb_parentSubject.UseVisualStyleBackColor = true;
+            // 
+            // cb_foreground
+            // 
+            this.cb_foreground.AutoSize = true;
+            this.cb_foreground.Location = new System.Drawing.Point(418, 160);
+            this.cb_foreground.Name = "cb_foreground";
+            this.cb_foreground.Size = new System.Drawing.Size(60, 17);
+            this.cb_foreground.TabIndex = 6;
+            this.cb_foreground.Text = "зверху";
+            this.cb_foreground.UseVisualStyleBackColor = true;
+            // 
             // FormAddPdfMark
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(559, 271);
+            this.ClientSize = new System.Drawing.Size(559, 309);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.tb_name);
@@ -351,6 +398,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
@@ -358,6 +406,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_yOfs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Xofs)).EndInit();
             this.groupBox5.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -390,5 +440,9 @@
         private Ookii.Dialogs.WinForms.VistaOpenFileDialog vistaOpenFileDialog1;
         private System.Windows.Forms.ComboBox cb_Angle;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton rb_parentSubject;
+        private System.Windows.Forms.RadioButton rb_parentSheet;
+        private System.Windows.Forms.CheckBox cb_foreground;
     }
 }

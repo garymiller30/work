@@ -19,6 +19,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
         {
             p.begin_page_ext(sheet.W * PdfHelper.mn, sheet.H * PdfHelper.mn, "");
 
+            RecalcFrontMarks(sheet);
+            // draw background marks
+            DrawFrontMarks(p, impos, sheet, foreground: false);
+
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
                 // отримати сторінку з ран листа
@@ -65,19 +69,22 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 Proof.DrawPageFront(p, templatePage, impos.Proof);
             }
 
-            PdfMarksService.RecalcMarkCoordFront(sheet);
-            DrawPdfMarks.Front(p, sheet.Marks);
+            // draw foreground marks
+            DrawFrontMarks(p, impos, sheet, foreground: true);
 
-            TextMarksService.RecalcMarkCoordFront(sheet);
-            DrawTextMarks.Front(p, sheet.Marks);
+            //PdfMarksService.RecalcMarkCoordFront(sheet);
+            //DrawPdfMarks.Front(p, sheet.Marks);
 
-            PdfMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
-            DrawPdfMarks.Front(p, sheet.TemplatePageContainer.Marks);
+            //TextMarksService.RecalcMarkCoordFront(sheet);
+            //DrawTextMarks.Front(p, sheet.Marks);
 
-            TextMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
-            DrawTextMarks.Front(p, sheet.TemplatePageContainer.Marks);
+            //PdfMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
+            //DrawPdfMarks.Front(p, sheet.TemplatePageContainer.Marks);
 
-            Proof.DrawSheet(p, sheet, impos.Proof);
+            //TextMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
+            //DrawTextMarks.Front(p, sheet.TemplatePageContainer.Marks);
+
+            //Proof.DrawSheet(p, sheet, impos.Proof);
 
             p.end_page_ext($"mediabox={{{GetMediabox(impos,sheet)}}}");
         }

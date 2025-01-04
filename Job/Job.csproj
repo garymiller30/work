@@ -282,6 +282,7 @@
     <Compile Include="Static\Pdf\Imposition\Models\Marks\CropMarksParam.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\DrawerTextMarkPart.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\MarkAbstract.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\MarkParentEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\MarksContainer.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\PdfMark.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\PdfMarkParameters.cs" />
