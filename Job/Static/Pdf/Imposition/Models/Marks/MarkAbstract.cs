@@ -14,6 +14,9 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         public PointD Front { get; set; }
         public PointD Back { get; set; }
         public double Angle { get; set; }
+        public MarkParentEnum Parent { get; set; } = MarkParentEnum.Sheet;
+        public bool IsForeground { get; set; }
+
         public MarkAbstract()
         {
         }

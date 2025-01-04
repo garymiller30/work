@@ -21,6 +21,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
             p.begin_page_ext(sheet.W * PdfHelper.mn, sheet.H * PdfHelper.mn, "");
 
+            RecalcBackMarks(sheet);
+            // draw background marks
+            DrawBackMarks(p, impos, sheet, foreground: false);
+
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
                 // отримати сторінку з ран листа
@@ -70,22 +74,38 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 Proof.DrawPageBack(p, sheet, templatePage, impos.Proof);
             }
 
-            PdfMarksService.RecalcMarkCoordBack(sheet);
-            DrawPdfMarks.Back(p, sheet.Marks);
+            //draw foreground marks
+            DrawBackMarks(p, impos, sheet, foreground: true);
 
-            TextMarksService.RecalcMarkCoordBack(sheet);
-            DrawTextMarks.Back(p, sheet.Marks);
+            //PdfMarksService.RecalcMarkCoordBack(sheet);
+            //DrawPdfMarks.Back(p, sheet.Marks);
+
+            //TextMarksService.RecalcMarkCoordBack(sheet);
+            //DrawTextMarks.Back(p, sheet.Marks);
 
 
-            PdfMarksService.RecalcMarkCoordBack(sheet, sheet.TemplatePageContainer);
-            DrawPdfMarks.Back(p, sheet.TemplatePageContainer.Marks);
+            //PdfMarksService.RecalcMarkCoordBack(sheet, sheet.TemplatePageContainer);
+            //DrawPdfMarks.Back(p, sheet.TemplatePageContainer.Marks);
 
-            TextMarksService.RecalcMarkCoordBack(sheet, sheet.TemplatePageContainer);
-            DrawTextMarks.Back(p, sheet.TemplatePageContainer.Marks);
+            //TextMarksService.RecalcMarkCoordBack(sheet, sheet.TemplatePageContainer);
+            //DrawTextMarks.Back(p, sheet.TemplatePageContainer.Marks);
 
-            Proof.DrawSheet(p, sheet, impos.Proof);
+            //Proof.DrawSheet(p, sheet, impos.Proof);
 
             p.end_page_ext($"mediabox={{{GetMediabox(impos,sheet)}}}");
+        }
+
+        private static void DrawBackMarks(PDFlib p, ProductPart impos, PrintSheet sheet, bool foreground)
+        {
+            DrawPdfMarks.Back(p, sheet.Marks, foreground);
+            DrawTextMarks.Back(p, sheet.Marks, foreground);
+            Proof.DrawSheet(p, sheet, impos.Proof);
+        }
+
+        private static void RecalcBackMarks(PrintSheet sheet)
+        {
+            PdfMarksService.RecalcMarkCoordBack(sheet);
+            TextMarksService.RecalcMarkCoordBack(sheet);
         }
     }
 }

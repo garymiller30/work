@@ -17,9 +17,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
 {
     public static partial class DrawTextMarks
     {
-        public static void Front(PDFlib p, MarksContainer marksContainer)
+        public static void Front(PDFlib p, MarksContainer marksContainer, bool foreground)
         {
-            foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsFront && x.Enable == true))
+            foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsFront && x.Enable == true && x.IsForeground == foreground))
             {
                 StringToken stringToken = new StringToken(mark);
 
@@ -65,7 +65,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                 }
             }
 
-            marksContainer.Containers.ForEach(x => DrawTextMarks.Front(p, x));
+            marksContainer.Containers.ForEach(x => DrawTextMarks.Front(p, x,foreground));
         }
     }
 }

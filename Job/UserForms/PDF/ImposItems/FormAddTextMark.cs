@@ -45,6 +45,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
             cb_front.Checked = Mark.Parameters.IsFront;
             cb_back.Checked = Mark.Parameters.IsBack;
             cb_backMirror.Checked = Mark.Parameters.IsBackMirrored;
+            cb_foreground.Checked = Mark.IsForeground;
+            rb_parentSheet.Checked = Mark.Parent == MarkParentEnum.Sheet;
+            rb_parentSubject.Checked = Mark.Parent == MarkParentEnum.Subject;
             nud_xOfs.Value = (decimal)Mark.Parameters.Xofs;
             nud_yOfs.Value = (decimal)Mark.Parameters.Yofs;
             cb_Angle.SelectedIndex = Array.IndexOf(angles, Mark.Angle.ToString());
@@ -90,6 +93,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             Mark.FontName = tb_fontName.Text;
             Mark.FontSize = (double)nud_fontSize.Value;
+
+            Mark.IsForeground = cb_foreground.Checked;
+            Mark.Parent = rb_parentSheet.Checked ? MarkParentEnum.Sheet : MarkParentEnum.Subject;
 
             Mark.Angle = double.Parse(angles[cb_Angle.SelectedIndex]);
             markColorControl1.UpdateMark();

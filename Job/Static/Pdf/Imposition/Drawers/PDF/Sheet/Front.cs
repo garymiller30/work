@@ -3,6 +3,7 @@ using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Crop;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
 using PDFlib_dotnet;
 using System;
@@ -19,6 +20,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
         {
             DrawerStatic.CurSide = DrawerSideEnum.Front;
             p.begin_page_ext(sheet.W * PdfHelper.mn, sheet.H * PdfHelper.mn, "");
+
+            RecalcFrontMarks(sheet);
+
+            // draw background marks
+            DrawFrontMarks(p, impos, sheet, foreground:false);
 
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
@@ -57,10 +63,26 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 Proof.DrawPageFront(p, templatePage, impos.Proof);
             }
 
-            RecalculateAndDrawMarks(p, sheet, impos);
+            // draw foreground marks
+            DrawFrontMarks(p, impos, sheet, foreground: true);
+            //RecalculateAndDrawMarks(p, sheet, impos);
 
             p.end_page_ext($"mediabox={{{GetMediabox(impos,sheet)}}}");
         }
+
+        private static void DrawFrontMarks(PDFlib p, ProductPart impos, TemplateSheet sheet, bool foreground)
+        {
+            DrawPdfMarks.Front(p, sheet.Marks, foreground);
+            DrawTextMarks.Front(p, sheet.Marks, foreground);
+            Proof.DrawSheet(p, sheet, impos.Proof);
+        }
+
+        private static void RecalcFrontMarks(PrintSheet sheet)
+        {
+            PdfMarksService.RecalcMarkCoordFront(sheet);
+            TextMarksService.RecalcMarkCoordFront(sheet);
+        }
+
         private static (double c_llx, double c_lly) GetClippingCoordinates(PdfFile pdfFile, PdfFilePage pdfPage, TemplatePage templatePage)
         {
             if (pdfFile.IsMediaboxCentered)
@@ -89,22 +111,22 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
         ? impos.RunList.RunPages[runListPageIdx]
         : new ImposRunPage { FileId = 0, PageIdx = 0 };
         }
-        private static void RecalculateAndDrawMarks(PDFlib p, PrintSheet sheet, ProductPart impos)
-        {
-            PdfMarksService.RecalcMarkCoordFront(sheet);
-            DrawPdfMarks.Front(p, sheet.Marks);
+        //private static void RecalculateAndDrawMarks(PDFlib p, PrintSheet sheet, ProductPart impos)
+        //{
+        //    PdfMarksService.RecalcMarkCoordFront(sheet);
+        //    DrawPdfMarks.Front(p, sheet.Marks);
 
-            TextMarksService.RecalcMarkCoordFront(sheet);
-            DrawTextMarks.Front(p, sheet.Marks);
+        //    TextMarksService.RecalcMarkCoordFront(sheet);
+        //    DrawTextMarks.Front(p, sheet.Marks);
 
-            PdfMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
-            DrawPdfMarks.Front(p, sheet.TemplatePageContainer.Marks);
+        //    PdfMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
+        //    DrawPdfMarks.Front(p, sheet.TemplatePageContainer.Marks);
 
-            TextMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
-            DrawTextMarks.Front(p, sheet.TemplatePageContainer.Marks);
+        //    TextMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
+        //    DrawTextMarks.Front(p, sheet.TemplatePageContainer.Marks);
 
-            Proof.DrawSheet(p, sheet, impos.Proof);
-        }
+        //    Proof.DrawSheet(p, sheet, impos.Proof);
+        //}
         static string GetMediabox(ProductPart impos,PrintSheet sheet)
         {
             string mediabox;

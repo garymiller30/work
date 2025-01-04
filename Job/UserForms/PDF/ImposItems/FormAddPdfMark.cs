@@ -48,6 +48,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
             nud_Xofs.Value = (decimal)Mark.Parameters.Xofs;
             nud_yOfs.Value = (decimal)Mark.Parameters.Yofs;
             cb_Angle.SelectedIndex = Array.IndexOf(angles, Mark.Angle.ToString());
+            cb_foreground.Checked = Mark.IsForeground;
+            rb_parentSheet.Checked = Mark.Parent == MarkParentEnum.Sheet;
+            rb_parentSubject.Checked = Mark.Parent == MarkParentEnum.Subject;
             SetAnchors();
 
         }
@@ -91,7 +94,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
             p.Xofs = (double)nud_Xofs.Value;
             p.Yofs = (double)nud_yOfs.Value;
             Mark.Angle = double.Parse( angles[cb_Angle.SelectedIndex]);
-             
+            Mark.IsForeground = cb_foreground.Checked;
+            Mark.Parent = rb_parentSheet.Checked ? MarkParentEnum.Sheet : MarkParentEnum.Subject;
 
             return true;
         }

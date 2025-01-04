@@ -35,6 +35,7 @@
             this.tb_text = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.markColorControl1 = new JobSpace.UserForms.PDF.ImposItems.MarkColorControl();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.label16 = new System.Windows.Forms.Label();
             this.nud_fontSize = new System.Windows.Forms.NumericUpDown();
@@ -49,7 +50,9 @@
             this.nud_xOfs = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.apc_parent = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.apc_mark = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
             this.cb_Angle = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cb_backMirror = new System.Windows.Forms.CheckBox();
@@ -60,29 +63,30 @@
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.kryptonContextMenu1 = new Krypton.Toolkit.KryptonContextMenu();
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
-            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuHeading2 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.btn_ReplaceMenu = new Krypton.Toolkit.KryptonButton();
             this.kryptonContextMenuHeading3 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems3 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItem5 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem9 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuHeading4 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems4 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItem6 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItem7 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuHeading5 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuHeading6 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems5 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItem8 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItem9 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.markColorControl1 = new JobSpace.UserForms.PDF.ImposItems.MarkColorControl();
-            this.apc_parent = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
-            this.apc_mark = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
+            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuHeading2 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.btn_ReplaceMenu = new Krypton.Toolkit.KryptonButton();
+            this.kryptonContextMenuHeading5 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.rb_parentSubject = new System.Windows.Forms.RadioButton();
+            this.rb_parentSheet = new System.Windows.Forms.RadioButton();
+            this.cb_foreground = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -93,6 +97,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_xOfs)).BeginInit();
             this.groupBox9.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox13.SuspendLayout();
             this.SuspendLayout();
             // 
             // label8
@@ -129,6 +134,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cb_foreground);
             this.groupBox1.Controls.Add(this.groupBox12);
             this.groupBox1.Controls.Add(this.groupBox11);
             this.groupBox1.Controls.Add(this.groupBox10);
@@ -137,7 +143,7 @@
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Location = new System.Drawing.Point(12, 32);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(656, 304);
+            this.groupBox1.Size = new System.Drawing.Size(656, 341);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Параметри";
@@ -147,10 +153,17 @@
             this.groupBox12.Controls.Add(this.markColorControl1);
             this.groupBox12.Location = new System.Drawing.Point(336, 19);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(311, 216);
+            this.groupBox12.Size = new System.Drawing.Size(311, 184);
             this.groupBox12.TabIndex = 9;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Колір";
+            // 
+            // markColorControl1
+            // 
+            this.markColorControl1.Location = new System.Drawing.Point(7, 34);
+            this.markColorControl1.Name = "markColorControl1";
+            this.markColorControl1.Size = new System.Drawing.Size(298, 146);
+            this.markColorControl1.TabIndex = 0;
             // 
             // groupBox11
             // 
@@ -159,7 +172,7 @@
             this.groupBox11.Controls.Add(this.label15);
             this.groupBox11.Controls.Add(this.bnt_fontSelect);
             this.groupBox11.Controls.Add(this.tb_fontName);
-            this.groupBox11.Location = new System.Drawing.Point(6, 157);
+            this.groupBox11.Location = new System.Drawing.Point(6, 196);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(324, 78);
             this.groupBox11.TabIndex = 8;
@@ -212,11 +225,12 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.groupBox13);
             this.groupBox10.Controls.Add(this.groupBox8);
             this.groupBox10.Controls.Add(this.groupBox9);
             this.groupBox10.Location = new System.Drawing.Point(6, 19);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(324, 132);
+            this.groupBox10.Size = new System.Drawing.Size(324, 171);
             this.groupBox10.TabIndex = 3;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Положення відносно";
@@ -309,6 +323,14 @@
             this.label14.TabIndex = 2;
             this.label14.Text = "X ofs:";
             // 
+            // apc_parent
+            // 
+            this.apc_parent.AnchorPointChanged = null;
+            this.apc_parent.Location = new System.Drawing.Point(6, 14);
+            this.apc_parent.Name = "apc_parent";
+            this.apc_parent.Size = new System.Drawing.Size(80, 80);
+            this.apc_parent.TabIndex = 1;
+            // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.apc_mark);
@@ -319,11 +341,19 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "мітки";
             // 
+            // apc_mark
+            // 
+            this.apc_mark.AnchorPointChanged = null;
+            this.apc_mark.Location = new System.Drawing.Point(6, 14);
+            this.apc_mark.Name = "apc_mark";
+            this.apc_mark.Size = new System.Drawing.Size(80, 80);
+            this.apc_mark.TabIndex = 0;
+            // 
             // cb_Angle
             // 
             this.cb_Angle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_Angle.FormattingEnabled = true;
-            this.cb_Angle.Location = new System.Drawing.Point(504, 258);
+            this.cb_Angle.Location = new System.Drawing.Point(502, 217);
             this.cb_Angle.Name = "cb_Angle";
             this.cb_Angle.Size = new System.Drawing.Size(62, 21);
             this.cb_Angle.TabIndex = 7;
@@ -333,7 +363,7 @@
             this.groupBox2.Controls.Add(this.cb_backMirror);
             this.groupBox2.Controls.Add(this.cb_back);
             this.groupBox2.Controls.Add(this.cb_front);
-            this.groupBox2.Location = new System.Drawing.Point(6, 241);
+            this.groupBox2.Location = new System.Drawing.Point(6, 280);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(402, 55);
             this.groupBox2.TabIndex = 4;
@@ -376,7 +406,7 @@
             // 
             this.label10.Image = ((System.Drawing.Image)(resources.GetObject("label10.Image")));
             this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label10.Location = new System.Drawing.Point(425, 256);
+            this.label10.Location = new System.Drawing.Point(423, 215);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(73, 23);
             this.label10.TabIndex = 6;
@@ -385,7 +415,7 @@
             // 
             // btn_ok
             // 
-            this.btn_ok.Location = new System.Drawing.Point(281, 342);
+            this.btn_ok.Location = new System.Drawing.Point(281, 405);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(110, 39);
             this.btn_ok.TabIndex = 5;
@@ -409,10 +439,6 @@
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
             this.kryptonContextMenuHeading1.Text = "Замовлення";
-            // 
-            // kryptonContextMenuHeading2
-            // 
-            this.kryptonContextMenuHeading2.ExtraText = "";
             // 
             // kryptonContextMenuItems2
             // 
@@ -439,15 +465,6 @@
             this.kryptonContextMenuItem3.Text = "Опис замовлення";
             this.kryptonContextMenuItem3.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
             // 
-            // btn_ReplaceMenu
-            // 
-            this.btn_ReplaceMenu.Location = new System.Drawing.Point(647, 6);
-            this.btn_ReplaceMenu.Name = "btn_ReplaceMenu";
-            this.btn_ReplaceMenu.Size = new System.Drawing.Size(21, 20);
-            this.btn_ReplaceMenu.TabIndex = 6;
-            this.btn_ReplaceMenu.Values.Text = "...";
-            this.btn_ReplaceMenu.Click += new System.EventHandler(this.btn_ReplaceMenu_Click);
-            // 
             // kryptonContextMenuHeading3
             // 
             this.kryptonContextMenuHeading3.ExtraText = "";
@@ -472,6 +489,12 @@
             this.kryptonContextMenuItem5.Text = "Сторона листа";
             this.kryptonContextMenuItem5.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
             // 
+            // kryptonContextMenuItem9
+            // 
+            this.kryptonContextMenuItem9.Tag = "$[sheetFormat]";
+            this.kryptonContextMenuItem9.Text = "Формат листа";
+            this.kryptonContextMenuItem9.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            // 
             // kryptonContextMenuHeading4
             // 
             this.kryptonContextMenuHeading4.ExtraText = "";
@@ -495,10 +518,6 @@
             this.kryptonContextMenuItem7.Text = "Кольори спуску";
             this.kryptonContextMenuItem7.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
             // 
-            // kryptonContextMenuHeading5
-            // 
-            this.kryptonContextMenuHeading5.ExtraText = "";
-            // 
             // kryptonContextMenuHeading6
             // 
             this.kryptonContextMenuHeading6.ExtraText = "";
@@ -515,38 +534,68 @@
             this.kryptonContextMenuItem8.Text = "Дата і час";
             this.kryptonContextMenuItem8.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
             // 
-            // kryptonContextMenuItem9
+            // kryptonContextMenuHeading2
             // 
-            this.kryptonContextMenuItem9.Tag = "$[sheetFormat]";
-            this.kryptonContextMenuItem9.Text = "Формат листа";
-            this.kryptonContextMenuItem9.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            this.kryptonContextMenuHeading2.ExtraText = "";
             // 
-            // markColorControl1
+            // btn_ReplaceMenu
             // 
-            this.markColorControl1.Location = new System.Drawing.Point(7, 34);
-            this.markColorControl1.Name = "markColorControl1";
-            this.markColorControl1.Size = new System.Drawing.Size(298, 146);
-            this.markColorControl1.TabIndex = 0;
+            this.btn_ReplaceMenu.Location = new System.Drawing.Point(647, 6);
+            this.btn_ReplaceMenu.Name = "btn_ReplaceMenu";
+            this.btn_ReplaceMenu.Size = new System.Drawing.Size(21, 20);
+            this.btn_ReplaceMenu.TabIndex = 6;
+            this.btn_ReplaceMenu.Values.Text = "...";
+            this.btn_ReplaceMenu.Click += new System.EventHandler(this.btn_ReplaceMenu_Click);
             // 
-            // apc_parent
+            // kryptonContextMenuHeading5
             // 
-            this.apc_parent.AnchorPointChanged = null;
-            this.apc_parent.Location = new System.Drawing.Point(6, 14);
-            this.apc_parent.Name = "apc_parent";
-            this.apc_parent.Size = new System.Drawing.Size(80, 80);
-            this.apc_parent.TabIndex = 1;
+            this.kryptonContextMenuHeading5.ExtraText = "";
             // 
-            // apc_mark
+            // groupBox13
             // 
-            this.apc_mark.AnchorPointChanged = null;
-            this.apc_mark.Location = new System.Drawing.Point(6, 14);
-            this.apc_mark.Name = "apc_mark";
-            this.apc_mark.Size = new System.Drawing.Size(80, 80);
-            this.apc_mark.TabIndex = 0;
+            this.groupBox13.Controls.Add(this.rb_parentSubject);
+            this.groupBox13.Controls.Add(this.rb_parentSheet);
+            this.groupBox13.Location = new System.Drawing.Point(6, 126);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(312, 38);
+            this.groupBox13.TabIndex = 3;
+            this.groupBox13.TabStop = false;
+            // 
+            // rb_parentSubject
+            // 
+            this.rb_parentSubject.AutoSize = true;
+            this.rb_parentSubject.Location = new System.Drawing.Point(161, 15);
+            this.rb_parentSubject.Name = "rb_parentSubject";
+            this.rb_parentSubject.Size = new System.Drawing.Size(110, 17);
+            this.rb_parentSubject.TabIndex = 1;
+            this.rb_parentSubject.TabStop = true;
+            this.rb_parentSubject.Text = "відносно сюжету";
+            this.rb_parentSubject.UseVisualStyleBackColor = true;
+            // 
+            // rb_parentSheet
+            // 
+            this.rb_parentSheet.AutoSize = true;
+            this.rb_parentSheet.Location = new System.Drawing.Point(40, 15);
+            this.rb_parentSheet.Name = "rb_parentSheet";
+            this.rb_parentSheet.Size = new System.Drawing.Size(101, 17);
+            this.rb_parentSheet.TabIndex = 0;
+            this.rb_parentSheet.TabStop = true;
+            this.rb_parentSheet.Text = "відносно листа";
+            this.rb_parentSheet.UseVisualStyleBackColor = true;
+            // 
+            // cb_foreground
+            // 
+            this.cb_foreground.AutoSize = true;
+            this.cb_foreground.Location = new System.Drawing.Point(502, 257);
+            this.cb_foreground.Name = "cb_foreground";
+            this.cb_foreground.Size = new System.Drawing.Size(60, 17);
+            this.cb_foreground.TabIndex = 10;
+            this.cb_foreground.Text = "зверху";
+            this.cb_foreground.UseVisualStyleBackColor = true;
             // 
             // FormAddTextMark
             // 
-            this.ClientSize = new System.Drawing.Size(676, 390);
+            this.ClientSize = new System.Drawing.Size(676, 456);
             this.Controls.Add(this.btn_ReplaceMenu);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox1);
@@ -562,6 +611,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Текстова мітка";
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox12.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
@@ -573,6 +623,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_xOfs)).EndInit();
             this.groupBox9.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -653,5 +705,9 @@
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem8;
         private Krypton.Toolkit.KryptonContextMenuHeading kryptonContextMenuHeading5;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem9;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.RadioButton rb_parentSubject;
+        private System.Windows.Forms.RadioButton rb_parentSheet;
+        private System.Windows.Forms.CheckBox cb_foreground;
     }
 }

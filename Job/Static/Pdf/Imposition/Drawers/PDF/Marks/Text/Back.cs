@@ -15,9 +15,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
 {
     public static partial class DrawTextMarks
     {
-        public static void Back(PDFlib p, MarksContainer marksContainer)
+        public static void Back(PDFlib p, MarksContainer marksContainer, bool foreground)
         {
-            foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack && x.Enable))
+            foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack && x.Enable && x.IsForeground == foreground))
             {
                 StringToken stringToken = new StringToken(mark);
                 int font = p.load_font(mark.FontName, "auto", "");
@@ -84,7 +84,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                 //p.restore();
             }
 
-            marksContainer.Containers.ForEach(x => DrawTextMarks.Back(p, x));
+            marksContainer.Containers.ForEach(x => DrawTextMarks.Back(p, x, foreground));
         }
     }
 }

@@ -44,7 +44,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             tlv_MarksResources.ExpandAll();
         }
 
-      
+
 
 
         #region [RESOURCE MARKS]
@@ -299,67 +299,52 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
         }
 
-        class SheetRootAbstract
-        {
-            public string Id = Guid.NewGuid().ToString();
-            public string Name { get; set; }
-            public MarksContainer Marks { get; set; }
-        }
+        //class SheetRootAbstract
+        //{
+        //    public string Id = Guid.NewGuid().ToString();
+        //    public string Name { get; set; }
+        //    public MarksContainer Marks { get; set; }
+        //}
 
 
-        class SheetRoot : SheetRootAbstract
-        {
-            public SheetRoot()
-            {
-                Name = "Лист";
-            }
-        }
+        //class SheetRoot : SheetRootAbstract
+        //{
+        //    public SheetRoot()
+        //    {
+        //        Name = "Мітки";
+        //    }
+        //}
 
-        class SubjetRoot : SheetRootAbstract
-        {
-            public SubjetRoot()
-            {
-                Name = "Сюжет";
-            }
+        //class SubjetRoot : SheetRootAbstract
+        //{
+        //    public SubjetRoot()
+        //    {
+        //        Name = "Сюжет";
+        //    }
 
-        }
+        //}
         private void RefreshSheetTree()
         {
-            tlv_ProductMarks.RefreshObjects(tlv_ProductMarks.Objects.Cast<SheetRootAbstract>().ToList());
+            tlv_ProductMarks.RefreshObjects(tlv_ProductMarks.Objects.Cast<MarksContainer>().ToList());
             parameters.UpdatePreview();
         }
-       
+
 
         private object ProductImageGetterDelegate(object r)
         {
-            if (r is SheetRootAbstract sheet)
-            {
-                if (sheet.Name == "Лист") return 0;
-                return 1;
-            }
+            if (r is MarksContainer container) return 1;
             if (r is PdfMark) return 2;
             if (r is TextMark) return 3;
             return null;
         }
         private bool ProductCanExpandGetterDelegate(object model)
         {
-            if (model is SheetRootAbstract sheet)
-            {
-                if (sheet.Marks.Containers.Count > 0 || sheet.Marks.Pdf.Count > 0 || sheet.Marks.Text.Count > 0)
-                {
-                    return true;
-                }
-            }
-            else if (model is MarksContainer container)
+            if (model is MarksContainer container)
             {
                 if (container.Containers.Count > 0 || container.Pdf.Count > 0 || container.Text.Count > 0)
                 {
                     return true;
                 }
-            }
-            else if (model is PdfMark)
-            {
-
             }
 
             return false;
@@ -367,11 +352,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         }
         private object ProductAspectNameGetterDelegate(object r)
         {
-            if (r is SheetRootAbstract sheet)
-            {
-                return sheet.Name;
-            }
-            else if (r is MarksContainer container)
+            if (r is MarksContainer container)
             {
                 return container.Name;
             }
@@ -389,16 +370,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private IEnumerable ProductChildrenGetterDelegate(object model)
         {
-            if (model is SheetRootAbstract sheet)
-            {
-                List<object> list = new List<object>();
-
-                if (sheet.Marks.Containers.Count > 0) list.AddRange(sheet.Marks.Containers);
-                if (sheet.Marks.Pdf.Count > 0) list.AddRange(sheet.Marks.Pdf);
-                if (sheet.Marks.Text.Count > 0) list.AddRange(sheet.Marks.Text);
-                return list;
-            }
-            else if (model is MarksContainer container)
+            if (model is MarksContainer container)
             {
                 List<object> list = new List<object>();
                 if (container.Containers.Count > 0) list.AddRange(container.Containers);
@@ -415,45 +387,66 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             foreach (var item in e.SourceModels)
             {
-                if (e.TargetModel is SheetRootAbstract sheet)
+                if (e.TargetModel is MarksContainer container)
                 {
-                    if (item is MarksContainer container)
+                    if (item is MarksContainer group)
                     {
-                        var c = MarksService.Duplicate(container);
-                        c.ParentId = sheet.Id;
-                        sheet.Marks.Add(c);
+                        var g = MarksService.Duplicate(group);
+                        g.ParentId = container.Id;
+                        container.Containers.Add(g);
                     }
                     else if (item is PdfMark pdfMark)
                     {
                         var p = MarksService.Duplicate(pdfMark);
-                        sheet.Marks.Add(p);
+                        container.Pdf.Add(p);
                     }
                     else if (item is TextMark textMark)
                     {
                         var t = MarksService.Duplicate(textMark);
-                        
-                        sheet.Marks.Add(t);
+                        container.Text.Add(t);
                     }
                 }
-                else if (e.TargetModel is SubjetRoot subject)
-                {
-                    if (item is MarksContainer container)
-                    {
-                        var c = MarksService.Duplicate(container);
-                        c.ParentId = subject.Id;
-                        subject.Marks.Add(c);
-                    }
-                    else if (item is PdfMark pdfMark)
-                    {
-                        var p = MarksService.Duplicate(pdfMark);
-                        subject.Marks.Add(p);
-                    }
-                    else if (item is TextMark textMark)
-                    {
-                        var t = MarksService.Duplicate(textMark);
-                        subject.Marks.Add(t);
-                    }
-                }
+
+
+                //if (e.TargetModel is SheetRootAbstract sheet)
+                //{
+                //    if (item is MarksContainer container)
+                //    {
+                //        var c = MarksService.Duplicate(container);
+                //        c.ParentId = sheet.Id;
+                //        sheet.Marks.Add(c);
+                //    }
+                //    else if (item is PdfMark pdfMark)
+                //    {
+                //        var p = MarksService.Duplicate(pdfMark);
+                //        sheet.Marks.Add(p);
+                //    }
+                //    else if (item is TextMark textMark)
+                //    {
+                //        var t = MarksService.Duplicate(textMark);
+
+                //        sheet.Marks.Add(t);
+                //    }
+                //}
+                //else if (e.TargetModel is SubjetRoot subject)
+                //{
+                //    if (item is MarksContainer container)
+                //    {
+                //        var c = MarksService.Duplicate(container);
+                //        c.ParentId = subject.Id;
+                //        subject.Marks.Add(c);
+                //    }
+                //    else if (item is PdfMark pdfMark)
+                //    {
+                //        var p = MarksService.Duplicate(pdfMark);
+                //        subject.Marks.Add(p);
+                //    }
+                //    else if (item is TextMark textMark)
+                //    {
+                //        var t = MarksService.Duplicate(textMark);
+                //        subject.Marks.Add(t);
+                //    }
+                //}
             }
 
             e.Handled = true;
@@ -468,10 +461,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 e.Effect = e.StandardDropActionFromKeys;
             }
-            else if (e.TargetModel is SheetRootAbstract)
-            {
-                e.Effect = e.StandardDropActionFromKeys;
-            }
+          
         }
         private void tlv_ProductMarks_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -488,7 +478,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
             else if (tlv_ProductMarks.SelectedObject is TextMark textmark)
             {
-                using ( var form = new FormAddTextMark(textmark))
+                using (var form = new FormAddTextMark(textmark))
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
@@ -518,10 +508,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             parameters = controlBindParameters;
             parameters.PropertyChanged += Parameters_PropertyChanged;
-           
+
         }
 
-    
+
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -533,10 +523,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 Debug.WriteLine("-->MarksControl: Parameters_PropertyChanged");
                 tlv_ProductMarks.Enabled = true;
-                tlv_ProductMarks.Roots = new object[]
+                tlv_ProductMarks.Roots =
+
+
+                    new object[]
                 {
-                    new SheetRoot(){Marks = parameters.Sheet.Marks},
-                    new SubjetRoot(){Marks = parameters.Sheet.TemplatePageContainer.Marks}
+                    parameters.Sheet.Marks,
+                    //new SheetRoot(){Marks = parameters.Sheet.Marks},
+                    //new SubjetRoot(){Marks = parameters.Sheet.TemplatePageContainer.Marks}
                     };
                 Debug.WriteLine("<--MarksControl: Parameters_PropertyChanged");
             }

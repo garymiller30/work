@@ -11,9 +11,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf
 {
     public static partial class DrawPdfMarks
     {
-        public static void Back(PDFlib p, MarksContainer marksContainer)
+        public static void Back(PDFlib p, MarksContainer marksContainer, bool foreground)
         {
-            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsBack && x.Enable))
+            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsBack && x.Enable && x.IsForeground == foreground))
             {
                 using (PDFLIBDocument doc = new PDFLIBDocument(p, mark.File.FileName))
                 {
@@ -35,7 +35,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf
                 }
             }
 
-            marksContainer.Containers.ForEach(x => DrawPdfMarks.Back(p, x));
+            marksContainer.Containers.ForEach(x => DrawPdfMarks.Back(p, x,foreground));
 
         }
 
