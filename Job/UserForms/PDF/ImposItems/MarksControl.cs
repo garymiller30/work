@@ -272,57 +272,38 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (tlv_ProductMarks.SelectedObject is MarksContainer group)
             {
                 // знайти групу
-
-                if (MarksService.DeleteGroup(parameters.Sheet.Marks.Containers, group))
-                {
-
-                }
-
-                if (group.ParentId == null)
-                {
-                    tlv_ProductMarks.RemoveObject(group);
-                }
-
-                RefreshResourceTree();
+                DeleteMark(group);
+                RefreshSheetTree();
             }
             else if (tlv_ProductMarks.SelectedObject is PdfMark pdfMark)
             {
                 //знайти мітку
-                //MarksService.DeleteMark(pdfMark);
-                RefreshResourceTree();
+                DeleteMark(pdfMark);
+                RefreshSheetTree();
             }
             else if (tlv_ProductMarks.SelectedObject is TextMark textMark)
             {
                 //знайти мітку
-                //MarksService.DeleteMark(textMark);
-                RefreshResourceTree();
+                DeleteMark(textMark);
+                RefreshSheetTree();
             }
         }
 
-        //class SheetRootAbstract
-        //{
-        //    public string Id = Guid.NewGuid().ToString();
-        //    public string Name { get; set; }
-        //    public MarksContainer Marks { get; set; }
-        //}
+        private void DeleteMark(TextMark textMark)
+        {
+            parameters.Sheet.Marks.Delete(textMark);
+        }
 
+        private void DeleteMark(PdfMark pdfMark)
+        {
+            parameters.Sheet.Marks.Delete(pdfMark);
+        }
 
-        //class SheetRoot : SheetRootAbstract
-        //{
-        //    public SheetRoot()
-        //    {
-        //        Name = "Мітки";
-        //    }
-        //}
+        private void DeleteMark(MarksContainer group)
+        {
+            parameters.Sheet.Marks.Delete(group);
+        }
 
-        //class SubjetRoot : SheetRootAbstract
-        //{
-        //    public SubjetRoot()
-        //    {
-        //        Name = "Сюжет";
-        //    }
-
-        //}
         private void RefreshSheetTree()
         {
             tlv_ProductMarks.RefreshObjects(tlv_ProductMarks.Objects.Cast<MarksContainer>().ToList());

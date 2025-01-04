@@ -49,6 +49,65 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
             return group;
         }
 
-      
+        public bool Delete(TextMark textMark)
+        {
+            if (Text.Contains(textMark))
+            {
+                Text.Remove(textMark);
+                return true;
+            }
+            else
+            {
+                foreach (MarksContainer container in Containers)
+                {
+                    if (container.Delete(textMark))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public bool Delete(PdfMark pdfMark)
+        {
+            if (Pdf.Contains(pdfMark))
+            {
+                Pdf.Remove(pdfMark);
+                return true;
+            }
+            else
+            {
+                foreach (MarksContainer container in Containers)
+                {
+                    if (container.Delete(pdfMark))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool Delete(MarksContainer container)
+        {
+            if (Containers.Contains(container))
+            {
+                Containers.Remove(container);
+                return true;
+            }
+            else
+            {
+                foreach (MarksContainer cont in Containers)
+                {
+                    if (cont.Delete(container))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
