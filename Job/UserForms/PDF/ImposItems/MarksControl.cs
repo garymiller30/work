@@ -38,11 +38,26 @@ namespace JobSpace.UserForms.PDF.ImposItems
             tlv_ProductMarks.CanExpandGetter += ProductCanExpandGetterDelegate;
             olv_ProductMarkName.AspectGetter += ProductAspectNameGetterDelegate;
             olv_ProductMarkName.ImageGetter += ProductImageGetterDelegate;
+            olv_ProductForeground.AspectGetter += ProductForegroundGetterDelegate;
+            olv_ProductParent.AspectGetter += ProductParentGetterDelegate;
 
             List<MarksContainer> marks = MarksService.GetResourceMarks();
             tlv_MarksResources.AddObjects(marks);
             tlv_MarksResources.ExpandAll();
         }
+
+        private object ProductParentGetterDelegate(object r)
+        {
+            if (r is MarkAbstract mark) return mark.Parent;
+            return null;
+        }
+
+        private object ProductForegroundGetterDelegate(object r)
+        {
+            if (r is MarkAbstract mark) return mark.IsForeground;
+            return null;
+        }
+
 
 
 

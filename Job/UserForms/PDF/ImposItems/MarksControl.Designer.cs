@@ -38,17 +38,19 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsb_addGroup = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_Delete = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_addPdfMark = new System.Windows.Forms.ToolStripButton();
             this.tsb_addTextMark = new System.Windows.Forms.ToolStripButton();
+            this.tsb_Delete = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.tsb_sheet_deleteMark = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tlv_ProductMarks = new BrightIdeasSoftware.TreeListView();
             this.olv_ProductMarkName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.olv_ProductParent = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olv_ProductForeground = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.tlv_MarksResources)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -159,23 +161,6 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // tsb_Delete
-            // 
-            this.tsb_Delete.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tsb_Delete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_Delete.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Delete.Image")));
-            this.tsb_Delete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_Delete.Name = "tsb_Delete";
-            this.tsb_Delete.Size = new System.Drawing.Size(23, 22);
-            this.tsb_Delete.Text = "Видалити групу або мітку";
-            this.tsb_Delete.Click += new System.EventHandler(this.tsb_Delete_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
             // tsb_addPdfMark
             // 
             this.tsb_addPdfMark.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -195,6 +180,23 @@
             this.tsb_addTextMark.Size = new System.Drawing.Size(23, 22);
             this.tsb_addTextMark.Text = "Додати текстову мітку";
             this.tsb_addTextMark.Click += new System.EventHandler(this.tsb_addTextMark_Click);
+            // 
+            // tsb_Delete
+            // 
+            this.tsb_Delete.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsb_Delete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_Delete.Image = ((System.Drawing.Image)(resources.GetObject("tsb_Delete.Image")));
+            this.tsb_Delete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_Delete.Name = "tsb_Delete";
+            this.tsb_Delete.Size = new System.Drawing.Size(23, 22);
+            this.tsb_Delete.Text = "Видалити групу або мітку";
+            this.tsb_Delete.Click += new System.EventHandler(this.tsb_Delete_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // groupBox2
             // 
@@ -231,9 +233,17 @@
             this.tsb_sheet_deleteMark.Text = "Видалити групу або мітку";
             this.tsb_sheet_deleteMark.Click += new System.EventHandler(this.tsb_sheet_deleteMark_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
             // tlv_ProductMarks
             // 
             this.tlv_ProductMarks.AllColumns.Add(this.olv_ProductMarkName);
+            this.tlv_ProductMarks.AllColumns.Add(this.olv_ProductParent);
+            this.tlv_ProductMarks.AllColumns.Add(this.olv_ProductForeground);
             this.tlv_ProductMarks.AllowDrop = true;
             this.tlv_ProductMarks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -242,7 +252,9 @@
             this.tlv_ProductMarks.CheckBoxes = true;
             this.tlv_ProductMarks.CheckedAspectName = "Enable";
             this.tlv_ProductMarks.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olv_ProductMarkName});
+            this.olv_ProductMarkName,
+            this.olv_ProductParent,
+            this.olv_ProductForeground});
             this.tlv_ProductMarks.Cursor = System.Windows.Forms.Cursors.Default;
             this.tlv_ProductMarks.Enabled = false;
             this.tlv_ProductMarks.FullRowSelect = true;
@@ -274,11 +286,14 @@
             this.imageList2.Images.SetKeyName(2, "Emoopo-Darktheme-Folder-Folder-Text-PDF.16.png");
             this.imageList2.Images.SetKeyName(3, "Emoopo-Darktheme-Folder-Folder-Text.16.png");
             // 
-            // toolStripSeparator3
+            // olv_ProductParent
             // 
-            this.toolStripSeparator3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.olv_ProductParent.Text = "Parent";
+            // 
+            // olv_ProductForeground
+            // 
+            this.olv_ProductForeground.CheckBoxes = true;
+            this.olv_ProductForeground.Text = "Foreground";
             // 
             // MarksControl
             // 
@@ -326,5 +341,7 @@
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton tsb_sheet_deleteMark;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private BrightIdeasSoftware.OLVColumn olv_ProductParent;
+        private BrightIdeasSoftware.OLVColumn olv_ProductForeground;
     }
 }

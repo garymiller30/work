@@ -22,7 +22,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public PrintSheetsControl()
         {
             InitializeComponent();
-            olvColumnId.AspectGetter += (r) => ((PrintSheet)r).Id;
+            olvColumnId.AspectGetter += (r) => objectListView1.Objects?.Cast<PrintSheet>().ToList().IndexOf( (PrintSheet)r)+1;
             olvColumnTemplateId.AspectGetter += (r) => ((PrintSheet)r).TemplateId;
             olvColumnDesc.AspectGetter += (r) => ((PrintSheet)r).Description;
             olvColumnPlaceType.AspectGetter += (r) => ((PrintSheet)r).SheetPlaceType;
