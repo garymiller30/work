@@ -12,7 +12,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
     {
         public string Id { get;set; } = Guid.NewGuid().ToString();
         public string ParentId { get;set; }
-        public string Name { get; set; } = "Marks";
+        public string Name { get; set; } = "Мітки";
         public List<MarksContainer> Containers { get; set; } = new List<MarksContainer>();
         public List<PdfMark> Pdf { get; set; } = new List<PdfMark>();
         public List<TextMark> Text { get; set; } = new List<TextMark>();

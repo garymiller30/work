@@ -387,47 +387,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
                         container.Text.Add(t);
                     }
                 }
-
-
-                //if (e.TargetModel is SheetRootAbstract sheet)
-                //{
-                //    if (item is MarksContainer container)
-                //    {
-                //        var c = MarksService.Duplicate(container);
-                //        c.ParentId = sheet.Id;
-                //        sheet.Marks.Add(c);
-                //    }
-                //    else if (item is PdfMark pdfMark)
-                //    {
-                //        var p = MarksService.Duplicate(pdfMark);
-                //        sheet.Marks.Add(p);
-                //    }
-                //    else if (item is TextMark textMark)
-                //    {
-                //        var t = MarksService.Duplicate(textMark);
-
-                //        sheet.Marks.Add(t);
-                //    }
-                //}
-                //else if (e.TargetModel is SubjetRoot subject)
-                //{
-                //    if (item is MarksContainer container)
-                //    {
-                //        var c = MarksService.Duplicate(container);
-                //        c.ParentId = subject.Id;
-                //        subject.Marks.Add(c);
-                //    }
-                //    else if (item is PdfMark pdfMark)
-                //    {
-                //        var p = MarksService.Duplicate(pdfMark);
-                //        subject.Marks.Add(p);
-                //    }
-                //    else if (item is TextMark textMark)
-                //    {
-                //        var t = MarksService.Duplicate(textMark);
-                //        subject.Marks.Add(t);
-                //    }
-                //}
             }
 
             e.Handled = true;
@@ -510,16 +469,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     new object[]
                 {
                     parameters.Sheet.Marks,
-                    //new SheetRoot(){Marks = parameters.Sheet.Marks},
-                    //new SubjetRoot(){Marks = parameters.Sheet.TemplatePageContainer.Marks}
                     };
                 Debug.WriteLine("<--MarksControl: Parameters_PropertyChanged");
             }
-        }
-
-        private void tlv_ProductMarks_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            //parameters.UpdateSheet();
         }
     }
 }
