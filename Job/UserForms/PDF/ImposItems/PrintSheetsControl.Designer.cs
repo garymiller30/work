@@ -86,7 +86,7 @@
             // 
             // olvColumnId
             // 
-            this.olvColumnId.Text = "Id";
+            this.olvColumnId.Text = "№";
             this.olvColumnId.Width = 30;
             // 
             // olvColumnTemplateId
