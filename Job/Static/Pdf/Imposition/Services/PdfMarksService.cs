@@ -27,7 +27,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         static void RecalcMarkCoordFront(MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect)
         {
-            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsFront))
+            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsFront && x.Enable))
             {
                 if (mark.Parent == MarkParentEnum.Sheet)
                 {
@@ -49,15 +49,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             PdfMarksService.RecalcMarkCoordBack(sheet.Marks, sheetRect, subjectRect);
         }
 
-        //public static void RecalcMarkCoordBack(TemplateSheet sheet, TemplatePageContainer templatePageContainer)
-        //{
-        //    RectangleD subject = templatePageContainer.GetSubjectRectBack(sheet);
-        //    PdfMarksService.RecalcMarkCoordBack(templatePageContainer.Marks, subject);
-        //}
-
         static void RecalcMarkCoordBack(MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect)
         {
-            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsBack))
+            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsBack && x.Enable))
             {
                 if (mark.Parent == MarkParentEnum.Sheet)
                 {
@@ -65,11 +59,11 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 }
                 else
                 {
-                    PositioningService.AnchorToAbsoluteCoordBack(sheetRect, mark);
+                    PositioningService.AnchorToAbsoluteCoordBack(subjectRect, mark);
                 }
             }
 
-            marksContainer.Containers.ForEach(y => PdfMarksService.RecalcMarkCoordBack(y, subjectRect, subjectRect));
+            marksContainer.Containers.ForEach(y => PdfMarksService.RecalcMarkCoordBack(y, sheetRect, subjectRect));
         }
     }
 }

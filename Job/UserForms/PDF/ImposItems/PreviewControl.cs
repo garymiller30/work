@@ -73,6 +73,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             if (pb_preview.Image != null) pb_preview.Image.Dispose();
 
+            //int dpi = 96;
+
+            //int widthPx = (int)(parameters.Sheet.W / 25.4 * dpi);
+            //int heightPx = (int)(parameters.Sheet.H / 25.4 * dpi);
+            //pb_preview.Width = widthPx;
+            //pb_preview.Height = heightPx;
             pb_preview.Width = (int)parameters.Sheet.W + 1;
             pb_preview.Height = (int)parameters.Sheet.H + 1;
 
@@ -276,6 +282,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (parameters == null || parameters.Sheet == null) return;
 
+            //e.Graphics.PageUnit = GraphicsUnit.Millimeter;
+            
             if (parameters.SelectedPreviewPage != null)
             {
                 Pen pen = new Pen(Color.IndianRed, 3);

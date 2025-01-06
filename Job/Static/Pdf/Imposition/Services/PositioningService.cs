@@ -239,8 +239,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         public static void AnchorToAbsoluteCoordBack(RectangleD subject, PdfMark mark)
         {
             AnchorToToAbsoluteCoordBackPdfMark(subject, mark);
-
-
         }
 
         public static void AnchorToAbsoluteCoordBack(RectangleD subject, TextMark mark)

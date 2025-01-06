@@ -57,5 +57,15 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
         {
             return TextVariablesService.TextVariableCommand.HandleKeyword(Mark, sb.ToString());
         }
+
+        public string GetRawString()
+        {
+            StringBuilder rawString = new StringBuilder();
+            foreach (var token in Tokens)
+            {
+                rawString.Append(token.Text);
+            }
+            return rawString.ToString();
+        }
     }
 }

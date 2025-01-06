@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_selectPantone = new System.Windows.Forms.Button();
             this.tb_name = new System.Windows.Forms.TextBox();
@@ -44,6 +45,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cb_isOverprint = new System.Windows.Forms.CheckBox();
+            this.btn_selectConst = new System.Windows.Forms.Button();
+            this.cms_selectConst = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.allToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.proofColorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_k)).BeginInit();
@@ -51,10 +56,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_m)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_c)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.cms_selectConst.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btn_selectConst);
             this.groupBox1.Controls.Add(this.btn_selectPantone);
             this.groupBox1.Controls.Add(this.tb_name);
             this.groupBox1.Controls.Add(this.label1);
@@ -68,7 +75,7 @@
             // 
             // btn_selectPantone
             // 
-            this.btn_selectPantone.Location = new System.Drawing.Point(249, 14);
+            this.btn_selectPantone.Location = new System.Drawing.Point(219, 13);
             this.btn_selectPantone.Name = "btn_selectPantone";
             this.btn_selectPantone.Size = new System.Drawing.Size(34, 23);
             this.btn_selectPantone.TabIndex = 3;
@@ -80,7 +87,7 @@
             // 
             this.tb_name.Location = new System.Drawing.Point(60, 14);
             this.tb_name.Name = "tb_name";
-            this.tb_name.Size = new System.Drawing.Size(183, 20);
+            this.tb_name.Size = new System.Drawing.Size(153, 20);
             this.tb_name.TabIndex = 2;
             // 
             // label1
@@ -213,6 +220,39 @@
             this.cb_isOverprint.Text = "overprint";
             this.cb_isOverprint.UseVisualStyleBackColor = true;
             // 
+            // btn_selectConst
+            // 
+            this.btn_selectConst.Location = new System.Drawing.Point(259, 13);
+            this.btn_selectConst.Name = "btn_selectConst";
+            this.btn_selectConst.Size = new System.Drawing.Size(23, 23);
+            this.btn_selectConst.TabIndex = 4;
+            this.btn_selectConst.Text = ">";
+            this.btn_selectConst.UseVisualStyleBackColor = true;
+            this.btn_selectConst.Click += new System.EventHandler(this.btn_selectConst_Click);
+            // 
+            // cms_selectConst
+            // 
+            this.cms_selectConst.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cms_selectConst.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.allToolStripMenuItem,
+            this.proofColorToolStripMenuItem});
+            this.cms_selectConst.Name = "cms_selectConst";
+            this.cms_selectConst.Size = new System.Drawing.Size(133, 48);
+            // 
+            // allToolStripMenuItem
+            // 
+            this.allToolStripMenuItem.Name = "allToolStripMenuItem";
+            this.allToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allToolStripMenuItem.Text = "All";
+            this.allToolStripMenuItem.Click += new System.EventHandler(this.allToolStripMenuItem_Click);
+            // 
+            // proofColorToolStripMenuItem
+            // 
+            this.proofColorToolStripMenuItem.Name = "proofColorToolStripMenuItem";
+            this.proofColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.proofColorToolStripMenuItem.Text = "ProofColor";
+            this.proofColorToolStripMenuItem.Click += new System.EventHandler(this.proofColorToolStripMenuItem_Click);
+            // 
             // MarkColorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -232,6 +272,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_c)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.cms_selectConst.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -254,5 +295,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox cb_isOverprint;
+        private System.Windows.Forms.Button btn_selectConst;
+        private System.Windows.Forms.ContextMenuStrip cms_selectConst;
+        private System.Windows.Forms.ToolStripMenuItem allToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem proofColorToolStripMenuItem;
     }
 }

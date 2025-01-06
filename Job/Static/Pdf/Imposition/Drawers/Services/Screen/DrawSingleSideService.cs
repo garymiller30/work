@@ -25,8 +25,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
         {
             var templateContainer = sheet.TemplatePageContainer;
             Bitmap bitmap = new Bitmap((int)sheet.W + 1, ((int)sheet.H + 1));
+            //Bitmap bitmap = CreateBitmapInMillimeters(sheet.W,sheet.H);
 
             Graphics g = Graphics.FromImage(bitmap);
+            //g.PageUnit = GraphicsUnit.Millimeter;
             g.SmoothingMode = SmoothingMode.HighQuality;
 
             // draw sheet
@@ -78,7 +80,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 Font font = new Font(mark.FontName, (float)previewPoints);
                 SizeF size = g.MeasureString(mark.Text, font);
                 var state = g.Save();
-                g.TranslateTransform((float)mark.Front.X, (float)(h - mark.Front.Y));
+                g.TranslateTransform((float)mark.Front.X, (float)(h - mark.Front.Y - mark.GetH()));
 
                 float angle = mark.Angle == 90 || mark.Angle == 270 ? (float)(mark.Angle + 180) : (float)mark.Angle;
 
@@ -559,6 +561,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             pen.Dispose();
             font.Dispose();
             g.Restore(state);
+        }
+        public static Bitmap CreateBitmapInMillimeters(double widthMm, double heightMm, float dpi = 96)
+        {
+            int widthPx = (int)(widthMm / 25.4 * dpi);
+            int heightPx = (int)(heightMm / 25.4 * dpi);
+            Bitmap bitmap = new Bitmap(widthPx, heightPx);
+            bitmap.SetResolution(dpi, dpi);
+            return bitmap;
         }
     }
 }
