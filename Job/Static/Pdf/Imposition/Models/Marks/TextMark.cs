@@ -1,5 +1,7 @@
-﻿using System;
+﻿using JobSpace.Static.Pdf.Imposition.Services.TextVariables;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +11,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
     public class TextMark : MarkAbstract
     {
         const double pointToMm = 0.352778;
-
         public string Text { get; set; }
         public double FontSize { get; set; } = 12;
         public string FontName { get; set; } = "Arial";
@@ -19,17 +20,23 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
         public override double GetH()
         {
-            // Assuming 1 point = 0.352778 mm
-            return FontSize * pointToMm;
+            return (double)GetSize().Height;
         }
 
         public override double GetW()
         {
+            return (double)GetSize().Width;
+        }
+
+        SizeF GetSize()
+        {
             using (var graphics = System.Drawing.Graphics.FromImage(new System.Drawing.Bitmap(1, 1)))
             {
+                graphics.PageUnit = System.Drawing.GraphicsUnit.Millimeter;
                 var font = new System.Drawing.Font(FontName, (float)FontSize);
-                var size = graphics.MeasureString(Text, font);
-                return size.Width * pointToMm; // Convert points to mm
+                var txt = new StringToken(this).GetRawString();
+                var size = graphics.MeasureString(txt, font);
+                return size; 
             }
         }
     }

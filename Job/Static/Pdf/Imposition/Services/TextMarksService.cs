@@ -10,13 +10,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 {
     public static class TextMarksService
     {
-        //public static void RecalcMarkCoordFront(TemplatePageContainer templateContainer)
-        //{
-
-        //    RectangleD subject = templateContainer.GetSubjectRectFront();
-        //    TextMarksService.RecalcMarkCoordFront(templateContainer.Marks,subject);
-        //}
-
         public static void RecalcMarkCoordFront(TemplateSheet sheet)
         {
             RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
@@ -55,7 +48,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         static void RecalcMarkCoordBack(MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect)
         {
-            foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack))
+            foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack && x.Enable))
             {
                 if (mark.Parent == MarkParentEnum.Sheet)
                 {

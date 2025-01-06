@@ -1,4 +1,6 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+﻿using JobSpace.Models;
+using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -61,21 +63,48 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    var spot = form.SelectedSpotColor;
-
-                    tb_name.Text = spot.Name;
-
-                    nud_c.Value = spot.C;
-                    nud_m.Value = spot.M;
-                    nud_y.Value = spot.Y;
-                    nud_k.Value = spot.K;
+                    SetSpotColor(form.SelectedSpotColor);
                 }
             }
+        }
+
+        private void SetSpotColor(PdfColorResult spot)
+        {
+            tb_name.Text = spot.Name;
+
+            nud_c.Value = spot.C;
+            nud_m.Value = spot.M;
+            nud_y.Value = spot.Y;
+            nud_k.Value = spot.K;
+        }
+
+        private void SetSpotColor(MarkColor spot)
+        {
+            tb_name.Text = spot.Name;
+            nud_c.Value = (decimal)spot.C;
+            nud_m.Value = (decimal)spot.M;
+            nud_y.Value = (decimal)spot.Y;
+            nud_k.Value = (decimal)spot.K;
         }
 
         private void nud_c_Click(object sender, EventArgs e)
         {
             ((NumericUpDown)sender).Select(0,( (NumericUpDown)sender).Text.Length);
+        }
+
+        private void btn_selectConst_Click(object sender, EventArgs e)
+        {
+            cms_selectConst.Show(btn_selectConst, new Point(0, btn_selectConst.Height));
+        }
+
+        private void allToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetSpotColor(MarkColor.Registration);
+        }
+
+        private void proofColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetSpotColor(MarkColor.ProofColor);
         }
     }
 

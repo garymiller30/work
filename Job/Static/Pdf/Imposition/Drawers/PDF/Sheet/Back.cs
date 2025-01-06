@@ -76,22 +76,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
             //draw foreground marks
             DrawBackMarks(p, impos, sheet, foreground: true);
-
-            //PdfMarksService.RecalcMarkCoordBack(sheet);
-            //DrawPdfMarks.Back(p, sheet.Marks);
-
-            //TextMarksService.RecalcMarkCoordBack(sheet);
-            //DrawTextMarks.Back(p, sheet.Marks);
-
-
-            //PdfMarksService.RecalcMarkCoordBack(sheet, sheet.TemplatePageContainer);
-            //DrawPdfMarks.Back(p, sheet.TemplatePageContainer.Marks);
-
-            //TextMarksService.RecalcMarkCoordBack(sheet, sheet.TemplatePageContainer);
-            //DrawTextMarks.Back(p, sheet.TemplatePageContainer.Marks);
-
-            //Proof.DrawSheet(p, sheet, impos.Proof);
-
             p.end_page_ext($"mediabox={{{GetMediabox(impos,sheet)}}}");
         }
 
