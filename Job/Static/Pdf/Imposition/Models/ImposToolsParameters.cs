@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public ImposToolEnum CurTool {  get; set; } = ImposToolEnum.Select;
 
-        //public bool IsFlipAngle { get; set; }
-        //public bool IsNumering { get; set; }
         public int FrontNum
         {
             get => _frontNum;
@@ -34,11 +33,14 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             }
         }
 
+        public CropMarksParam CropMarksParameters { get; set; } = new CropMarksParam();
+
         public EventHandler<int> FrontNumChanged = delegate { };
         public EventHandler<int> BackNumChanged = delegate { };
         public EventHandler OnTheSameNumberClick = delegate { };
         public EventHandler OnListNumberClick = delegate { };
         public EventHandler OnClickCenterH = delegate { };
         public EventHandler OnClickCenterV = delegate { };
+        public EventHandler OnCropMarksChanged = delegate { };
     }
 }

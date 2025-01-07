@@ -32,13 +32,13 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnTemplateId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnDesc = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPlaceType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsb_delete = new System.Windows.Forms.ToolStripButton();
             this.tsb_savePrintSheet = new System.Windows.Forms.ToolStripButton();
             this.tsb_loadPrintSheet = new System.Windows.Forms.ToolStripButton();
+            this.olvColumnFormat = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -59,8 +59,8 @@
             // objectListView1
             // 
             this.objectListView1.AllColumns.Add(this.olvColumnId);
-            this.objectListView1.AllColumns.Add(this.olvColumnTemplateId);
             this.objectListView1.AllColumns.Add(this.olvColumnDesc);
+            this.objectListView1.AllColumns.Add(this.olvColumnFormat);
             this.objectListView1.AllColumns.Add(this.olvColumnPlaceType);
             this.objectListView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -68,8 +68,8 @@
             this.objectListView1.CellEditUseWholeCell = false;
             this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumnId,
-            this.olvColumnTemplateId,
             this.olvColumnDesc,
+            this.olvColumnFormat,
             this.olvColumnPlaceType});
             this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.objectListView1.FullRowSelect = true;
@@ -88,11 +88,6 @@
             // 
             this.olvColumnId.Text = "№";
             this.olvColumnId.Width = 30;
-            // 
-            // olvColumnTemplateId
-            // 
-            this.olvColumnTemplateId.Text = "TId";
-            this.olvColumnTemplateId.Width = 35;
             // 
             // olvColumnDesc
             // 
@@ -149,6 +144,10 @@
             this.tsb_loadPrintSheet.Text = "завантажити друкарські листи";
             this.tsb_loadPrintSheet.Click += new System.EventHandler(this.tsb_loadPrintSheet_Click);
             // 
+            // olvColumnFormat
+            // 
+            this.olvColumnFormat.Text = "Формат";
+            // 
             // PrintSheetsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -172,10 +171,10 @@
         private System.Windows.Forms.ToolStripButton tsb_delete;
         private BrightIdeasSoftware.ObjectListView objectListView1;
         private BrightIdeasSoftware.OLVColumn olvColumnId;
-        private BrightIdeasSoftware.OLVColumn olvColumnTemplateId;
         private BrightIdeasSoftware.OLVColumn olvColumnDesc;
         private BrightIdeasSoftware.OLVColumn olvColumnPlaceType;
         private System.Windows.Forms.ToolStripButton tsb_savePrintSheet;
         private System.Windows.Forms.ToolStripButton tsb_loadPrintSheet;
+        private BrightIdeasSoftware.OLVColumn olvColumnFormat;
     }
 }

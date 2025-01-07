@@ -23,7 +23,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             InitializeComponent();
             olvColumnId.AspectGetter += (r) => objectListView1.Objects?.Cast<PrintSheet>().ToList().IndexOf( (PrintSheet)r)+1;
-            olvColumnTemplateId.AspectGetter += (r) => ((PrintSheet)r).TemplateId;
+            olvColumnFormat.AspectGetter += (r) => ((PrintSheet)r).GetFormatStr();
             olvColumnDesc.AspectGetter += (r) => ((PrintSheet)r).Description;
             olvColumnPlaceType.AspectGetter += (r) => ((PrintSheet)r).SheetPlaceType;
             objectListView1.SelectionChanged += (o, e) =>

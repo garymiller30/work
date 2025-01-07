@@ -32,11 +32,11 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.rb_select = new System.Windows.Forms.RadioButton();
             this.rb_rotate_180 = new System.Windows.Forms.RadioButton();
+            this.rb_EnableNumering = new System.Windows.Forms.RadioButton();
             this.rb_deletePage = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tb_front = new System.Windows.Forms.TextBox();
-            this.rb_EnableNumering = new System.Windows.Forms.RadioButton();
             this.btn_listNumber = new System.Windows.Forms.Button();
             this.btn_sameNumber = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -44,13 +44,26 @@
             this.tb_back = new System.Windows.Forms.TextBox();
             this.rb_centerH = new System.Windows.Forms.Button();
             this.rb_centerV = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.nud_cropLen = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.nud_cropDist = new System.Windows.Forms.NumericUpDown();
+            this.btn_ApplyCropMark = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_cropLen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_cropDist)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 13;
+            this.tableLayoutPanel1.ColumnCount = 17;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
@@ -66,18 +79,19 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.rb_select, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.rb_rotate_180, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.rb_EnableNumering, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.rb_deletePage, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.groupBox1, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.rb_centerH, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.rb_centerV, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.rb_centerH, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.rb_centerV, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.rb_deletePage, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.rb_EnableNumering, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 10, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(309, 56);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(519, 56);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // rb_select
@@ -105,12 +119,23 @@
             this.rb_rotate_180.TabIndex = 14;
             this.rb_rotate_180.UseVisualStyleBackColor = true;
             // 
+            // rb_EnableNumering
+            // 
+            this.rb_EnableNumering.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rb_EnableNumering.AutoSize = true;
+            this.rb_EnableNumering.Image = ((System.Drawing.Image)(resources.GetObject("rb_EnableNumering.Image")));
+            this.rb_EnableNumering.Location = new System.Drawing.Point(59, 31);
+            this.rb_EnableNumering.Name = "rb_EnableNumering";
+            this.rb_EnableNumering.Size = new System.Drawing.Size(22, 22);
+            this.rb_EnableNumering.TabIndex = 11;
+            this.rb_EnableNumering.UseVisualStyleBackColor = true;
+            // 
             // rb_deletePage
             // 
             this.rb_deletePage.Appearance = System.Windows.Forms.Appearance.Button;
             this.rb_deletePage.AutoSize = true;
             this.rb_deletePage.Image = ((System.Drawing.Image)(resources.GetObject("rb_deletePage.Image")));
-            this.rb_deletePage.Location = new System.Drawing.Point(31, 3);
+            this.rb_deletePage.Location = new System.Drawing.Point(31, 31);
             this.rb_deletePage.Name = "rb_deletePage";
             this.rb_deletePage.Size = new System.Drawing.Size(22, 22);
             this.rb_deletePage.TabIndex = 13;
@@ -118,7 +143,7 @@
             // 
             // groupBox1
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.groupBox1, 8);
+            this.tableLayoutPanel1.SetColumnSpan(this.groupBox1, 7);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.tb_front);
             this.groupBox1.Controls.Add(this.btn_listNumber);
@@ -132,7 +157,7 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.tableLayoutPanel1.SetRowSpan(this.groupBox1, 2);
-            this.groupBox1.Size = new System.Drawing.Size(224, 56);
+            this.groupBox1.Size = new System.Drawing.Size(196, 56);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Нумерація";
@@ -156,17 +181,6 @@
             this.tb_front.TabIndex = 2;
             this.tb_front.Text = "1";
             this.tb_front.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // rb_EnableNumering
-            // 
-            this.rb_EnableNumering.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rb_EnableNumering.AutoSize = true;
-            this.rb_EnableNumering.Image = ((System.Drawing.Image)(resources.GetObject("rb_EnableNumering.Image")));
-            this.rb_EnableNumering.Location = new System.Drawing.Point(31, 31);
-            this.rb_EnableNumering.Name = "rb_EnableNumering";
-            this.rb_EnableNumering.Size = new System.Drawing.Size(22, 22);
-            this.rb_EnableNumering.TabIndex = 11;
-            this.rb_EnableNumering.UseVisualStyleBackColor = true;
             // 
             // btn_listNumber
             // 
@@ -225,27 +239,86 @@
             // 
             // rb_centerH
             // 
-            
             this.rb_centerH.AutoSize = true;
             this.rb_centerH.Image = ((System.Drawing.Image)(resources.GetObject("rb_centerH.Image")));
-            this.rb_centerH.Location = new System.Drawing.Point(59, 3);
+            this.rb_centerH.Location = new System.Drawing.Point(31, 3);
             this.rb_centerH.Name = "rb_centerH";
             this.rb_centerH.Size = new System.Drawing.Size(22, 22);
             this.rb_centerH.TabIndex = 17;
-            this.rb_centerH.TabStop = true;
             this.rb_centerH.UseVisualStyleBackColor = true;
             // 
             // rb_centerV
             // 
-            
             this.rb_centerV.AutoSize = true;
             this.rb_centerV.Image = ((System.Drawing.Image)(resources.GetObject("rb_centerV.Image")));
-            this.rb_centerV.Location = new System.Drawing.Point(59, 31);
+            this.rb_centerV.Location = new System.Drawing.Point(59, 3);
             this.rb_centerV.Name = "rb_centerV";
             this.rb_centerV.Size = new System.Drawing.Size(22, 22);
             this.rb_centerV.TabIndex = 18;
-            this.rb_centerV.TabStop = true;
             this.rb_centerV.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.groupBox2, 6);
+            this.groupBox2.Controls.Add(this.btn_ApplyCropMark);
+            this.groupBox2.Controls.Add(this.nud_cropDist);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.nud_cropLen);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Location = new System.Drawing.Point(280, 0);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(0);
+            this.groupBox2.Name = "groupBox2";
+            this.tableLayoutPanel1.SetRowSpan(this.groupBox2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(168, 56);
+            this.groupBox2.TabIndex = 19;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Мітки різу, мм";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 15);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(51, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "довжина";
+            // 
+            // nud_cropLen
+            // 
+            this.nud_cropLen.DecimalPlaces = 1;
+            this.nud_cropLen.Location = new System.Drawing.Point(10, 30);
+            this.nud_cropLen.Name = "nud_cropLen";
+            this.nud_cropLen.Size = new System.Drawing.Size(48, 20);
+            this.nud_cropLen.TabIndex = 1;
+            this.nud_cropLen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(68, 14);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(50, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "відстань";
+            // 
+            // nud_cropDist
+            // 
+            this.nud_cropDist.DecimalPlaces = 1;
+            this.nud_cropDist.Location = new System.Drawing.Point(70, 29);
+            this.nud_cropDist.Name = "nud_cropDist";
+            this.nud_cropDist.Size = new System.Drawing.Size(48, 20);
+            this.nud_cropDist.TabIndex = 3;
+            this.nud_cropDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btn_ApplyCropMark
+            // 
+            this.btn_ApplyCropMark.Image = ((System.Drawing.Image)(resources.GetObject("btn_ApplyCropMark.Image")));
+            this.btn_ApplyCropMark.Location = new System.Drawing.Point(125, 26);
+            this.btn_ApplyCropMark.Name = "btn_ApplyCropMark";
+            this.btn_ApplyCropMark.Size = new System.Drawing.Size(37, 23);
+            this.btn_ApplyCropMark.TabIndex = 4;
+            this.btn_ApplyCropMark.UseVisualStyleBackColor = true;
+            this.btn_ApplyCropMark.Click += new System.EventHandler(this.btn_ApplyCropMark_Click);
             // 
             // ImposToolsControl
             // 
@@ -254,11 +327,15 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ImposToolsControl";
-            this.Size = new System.Drawing.Size(309, 56);
+            this.Size = new System.Drawing.Size(519, 56);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_cropLen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_cropDist)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -280,5 +357,11 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button rb_centerH;
         private System.Windows.Forms.Button rb_centerV;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown nud_cropLen;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown nud_cropDist;
+        private System.Windows.Forms.Button btn_ApplyCropMark;
     }
 }

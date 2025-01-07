@@ -82,6 +82,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 tb_front.Text = num.ToString();
             };
 
+            nud_cropLen.Value = (decimal)parameters.CropMarksParameters.Len;
+            nud_cropDist.Value = (decimal)parameters.CropMarksParameters.Distance;
         }
 
         private void tb_front_MouseClick(object sender, MouseEventArgs e)
@@ -143,6 +145,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void btn_listNumber_Click(object sender, EventArgs e)
         {
             parameters.OnListNumberClick(sender, e);
+        }
+
+        private void btn_ApplyCropMark_Click(object sender, EventArgs e)
+        {
+            parameters.CropMarksParameters.Distance = (double)nud_cropDist.Value;
+            parameters.CropMarksParameters.Len = (double)nud_cropLen.Value;
+
+            parameters.OnCropMarksChanged(this,null);
         }
     }
 }
