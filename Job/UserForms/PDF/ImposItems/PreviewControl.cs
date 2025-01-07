@@ -32,9 +32,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
         PointF lastLocation;
         double snapDistance = 6;
 
-
-
-
         public PreviewControl()
         {
             InitializeComponent();
@@ -90,7 +87,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
             _parameters = parameters;
             _parameters.OnListNumberClick += OnToolsListNumberClick;
             _parameters.OnTheSameNumberClick += OnTheSameNumberClick;
+            _parameters.OnCropMarksChanged += OnCropMarksChanged;
             imposToolsControl1.InitParameters(parameters);
+        }
+
+        private void OnCropMarksChanged(object sender, EventArgs e)
+        {
+            if (parameters.Sheet == null) return;
+
+            parameters.Sheet.TemplatePageContainer.SetCropMarksLen(_parameters.CropMarksParameters.Len);
+            parameters.Sheet.TemplatePageContainer.SetCropMarksDistance(_parameters.CropMarksParameters.Distance);
+
+            parameters.UpdateSheet();
+
         }
 
         private void OnTheSameNumberClick(object sender, EventArgs e)

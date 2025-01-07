@@ -52,6 +52,11 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             TemplatePages.ForEach(x => x.CropMarksController.Parameters.Len = len);
         }
 
+        public void SetCropMarksDistance(double distance)
+        {
+            TemplatePages.ForEach(x => x.CropMarksController.Parameters.Distance = distance);
+        }
+
         public RectangleD GetSubjectRectFront()
         {
             if (TemplatePages.Count == 0) return new RectangleD();

@@ -40,5 +40,10 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             return sheet;
 
         }
+
+        public string GetFormatStr()
+        {
+            return $"{W:N1} x {H:N1}";
+        }
     }
 }
