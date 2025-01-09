@@ -1,0 +1,124 @@
+﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace JobSpace.UserForms.PDF.ImposItems
+{
+    public partial class FormAddTemplatePlate : Form
+    {
+        public TemplatePlate SelectedTemplatePlate { get; private set; }
+
+        public FormAddTemplatePlate()
+        {
+            InitializeComponent();
+            DialogResult = DialogResult.Cancel;
+            objectListView1.AddObjects(LoadForms());
+        }
+
+        private ICollection LoadForms()
+        {
+            return SaveLoadService.LoadTemplatePates();
+        }
+
+        private void btn_saveToList_Click(object sender, EventArgs e)
+        {
+            UnbindParameters();
+        }
+
+        private void UnbindParameters()
+        {
+            if (string.IsNullOrEmpty(tb_name.Text))
+            {
+                MessageBox.Show("Name is empty");
+                return;
+            }
+
+            bool isNew = false;
+
+            if (SelectedTemplatePlate == null)
+            {
+                SelectedTemplatePlate = new TemplatePlate();
+                isNew = true;
+            }
+
+            if (tb_name.Text != SelectedTemplatePlate.Name)
+            {
+                isNew = true;             
+            }
+
+            SelectedTemplatePlate.Name = tb_name.Text;
+            SelectedTemplatePlate.W = (double)nud_w.Value;
+            SelectedTemplatePlate.H = (double)nud_h.Value;
+            SelectedTemplatePlate.Xofs = (double)nud_xOfs.Value;
+            SelectedTemplatePlate.Yofs = (double)nud_yOfs.Value;
+            SelectedTemplatePlate.IsCenterHorizontal = cb_centerX.Checked;
+            SelectedTemplatePlate.IsCenterVertical = cb_centerY.Checked;
+
+            if (isNew)
+            {
+                objectListView1.AddObject(SelectedTemplatePlate);
+            }
+            else
+            {
+                objectListView1.RefreshObject(SelectedTemplatePlate);
+            }
+
+            SaveLoadService.SaveTemplatePlates(objectListView1.Objects.Cast<TemplatePlate>().ToList());
+        }
+
+        private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is TemplatePlate templatePlate)
+            {
+                SelectedTemplatePlate = templatePlate;
+
+                BindParameters();
+            }
+        }
+
+        private void BindParameters()
+        {
+            cb_centerX.Checked = SelectedTemplatePlate.IsCenterHorizontal;
+            cb_centerY.Checked = SelectedTemplatePlate.IsCenterVertical;
+            nud_h.Value = (decimal)SelectedTemplatePlate.H;
+            nud_w.Value = (decimal)SelectedTemplatePlate.W;
+            nud_xOfs.Value = (decimal)SelectedTemplatePlate.Xofs;
+            nud_yOfs.Value = (decimal)SelectedTemplatePlate.Yofs;
+            tb_name.Text = SelectedTemplatePlate.Name;
+        }
+
+        private void bnt_ok_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is TemplatePlate templatePlate)
+            {
+                SelectedTemplatePlate = templatePlate;
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Select template plate");
+            }
+            return;
+        }
+
+        private void btn_delete_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is TemplatePlate templatePlate)
+            {
+                objectListView1.RemoveObject(templatePlate);
+                SelectedTemplatePlate = null;
+                SaveLoadService.SaveTemplatePlates(objectListView1.Objects.Cast<TemplatePlate>().ToList());
+            }
+        }
+    }
+}

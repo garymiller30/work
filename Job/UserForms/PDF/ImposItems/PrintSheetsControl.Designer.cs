@@ -33,12 +33,16 @@
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnDesc = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnFormat = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPlaceType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsb_delete = new System.Windows.Forms.ToolStripButton();
             this.tsb_savePrintSheet = new System.Windows.Forms.ToolStripButton();
             this.tsb_loadPrintSheet = new System.Windows.Forms.ToolStripButton();
-            this.olvColumnFormat = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_setPlate = new System.Windows.Forms.ToolStripButton();
+            this.tsb_removeTemplatePlate = new System.Windows.Forms.ToolStripButton();
+            this.olvColumnTemplatePlate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -62,6 +66,7 @@
             this.objectListView1.AllColumns.Add(this.olvColumnDesc);
             this.objectListView1.AllColumns.Add(this.olvColumnFormat);
             this.objectListView1.AllColumns.Add(this.olvColumnPlaceType);
+            this.objectListView1.AllColumns.Add(this.olvColumnTemplatePlate);
             this.objectListView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -70,7 +75,8 @@
             this.olvColumnId,
             this.olvColumnDesc,
             this.olvColumnFormat,
-            this.olvColumnPlaceType});
+            this.olvColumnPlaceType,
+            this.olvColumnTemplatePlate});
             this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.objectListView1.FullRowSelect = true;
             this.objectListView1.GridLines = true;
@@ -94,6 +100,10 @@
             this.olvColumnDesc.Text = "Опис";
             this.olvColumnDesc.Width = 124;
             // 
+            // olvColumnFormat
+            // 
+            this.olvColumnFormat.Text = "Формат";
+            // 
             // olvColumnPlaceType
             // 
             this.olvColumnPlaceType.Text = "Тип друку";
@@ -105,7 +115,10 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsb_delete,
             this.tsb_savePrintSheet,
-            this.tsb_loadPrintSheet});
+            this.tsb_loadPrintSheet,
+            this.toolStripSeparator1,
+            this.tsb_setPlate,
+            this.tsb_removeTemplatePlate});
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -144,9 +157,35 @@
             this.tsb_loadPrintSheet.Text = "завантажити друкарські листи";
             this.tsb_loadPrintSheet.Click += new System.EventHandler(this.tsb_loadPrintSheet_Click);
             // 
-            // olvColumnFormat
+            // toolStripSeparator1
             // 
-            this.olvColumnFormat.Text = "Формат";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsb_setPlate
+            // 
+            this.tsb_setPlate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_setPlate.Image = ((System.Drawing.Image)(resources.GetObject("tsb_setPlate.Image")));
+            this.tsb_setPlate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_setPlate.Name = "tsb_setPlate";
+            this.tsb_setPlate.Size = new System.Drawing.Size(23, 22);
+            this.tsb_setPlate.Text = "додати форму для вибраних листів";
+            this.tsb_setPlate.Click += new System.EventHandler(this.tsb_setPlate_Click);
+            // 
+            // tsb_removeTemplatePlate
+            // 
+            this.tsb_removeTemplatePlate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_removeTemplatePlate.Image = ((System.Drawing.Image)(resources.GetObject("tsb_removeTemplatePlate.Image")));
+            this.tsb_removeTemplatePlate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_removeTemplatePlate.Name = "tsb_removeTemplatePlate";
+            this.tsb_removeTemplatePlate.Size = new System.Drawing.Size(23, 22);
+            this.tsb_removeTemplatePlate.Text = "видалити форми з листів";
+            this.tsb_removeTemplatePlate.Click += new System.EventHandler(this.tsb_removeTemplatePlate_Click);
+            // 
+            // olvColumnTemplatePlate
+            // 
+            this.olvColumnTemplatePlate.AspectName = "";
+            this.olvColumnTemplatePlate.Text = "Форма";
             // 
             // PrintSheetsControl
             // 
@@ -176,5 +215,9 @@
         private System.Windows.Forms.ToolStripButton tsb_savePrintSheet;
         private System.Windows.Forms.ToolStripButton tsb_loadPrintSheet;
         private BrightIdeasSoftware.OLVColumn olvColumnFormat;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton tsb_setPlate;
+        private System.Windows.Forms.ToolStripButton tsb_removeTemplatePlate;
+        private BrightIdeasSoftware.OLVColumn olvColumnTemplatePlate;
     }
 }
