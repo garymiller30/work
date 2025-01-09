@@ -132,10 +132,36 @@ namespace JobSpace.UserForms.PDF
         {
             _tool_param.OnClickCenterV += OnClickCenterV;
             _tool_param.OnClickCenterH += OnClickCenterH;
+            _tool_param.OnMoveLeftClick += OnMoveLeftClick;
+            _tool_param.OnMoveRightClick += OnMoveRightClick;
+            _tool_param.OnMoveUpClick += OnMoveUpClick;
+            _tool_param.OnMoveDownClick += OnMoveDownClick;
             previewControl1.InitBindParameters(_tool_param);
         }
 
-     
+        private void OnMoveDownClick(object sender, double e)
+        {
+            ProcessMoveSubject.Down(_controlBindParameters.Sheet, e);
+            _controlBindParameters.UpdateSheet();
+        }
+
+        private void OnMoveUpClick(object sender, double e)
+        {
+            ProcessMoveSubject.Up(_controlBindParameters.Sheet, e);
+            _controlBindParameters.UpdateSheet();
+        }
+
+        private void OnMoveRightClick(object sender, double e)
+        {
+            ProcessMoveSubject.Right(_controlBindParameters.Sheet, e);
+            _controlBindParameters.UpdateSheet();
+        }
+
+        private void OnMoveLeftClick(object sender, double e)
+        {
+            ProcessMoveSubject.Left(_controlBindParameters.Sheet, e);
+            _controlBindParameters.UpdateSheet();
+        }
 
         public FormPdfImposition(IEnumerable<string> files, string curFolder) : this()
         {

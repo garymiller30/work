@@ -40,6 +40,7 @@
             this.marksControl1 = new JobSpace.UserForms.PDF.ImposItems.MarksControl();
             this.previewControl1 = new JobSpace.UserForms.PDF.ImposItems.PreviewControl();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.cb_UseProofColor = new System.Windows.Forms.CheckBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.masterPageSelectControl1 = new JobSpace.UserForms.PDF.ImposItems.MasterPageSelectControl();
@@ -50,7 +51,6 @@
             this.printSheetsControl1 = new JobSpace.UserForms.PDF.ImposItems.PrintSheetsControl();
             this.runListControl1 = new JobSpace.UserForms.PDF.ImposItems.RunListControl();
             this.btn_SaveToPdf = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tabControl1.SuspendLayout();
             this.tabPageSimple.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -224,6 +224,15 @@
             this.panel2.Size = new System.Drawing.Size(474, 593);
             this.panel2.TabIndex = 2;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Location = new System.Drawing.Point(130, 576);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(338, 13);
+            this.progressBar1.TabIndex = 10;
+            // 
             // cb_UseProofColor
             // 
             this.cb_UseProofColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -345,15 +354,6 @@
             this.btn_SaveToPdf.UseVisualStyleBackColor = false;
             this.btn_SaveToPdf.Click += new System.EventHandler(this.btn_SaveToPdf_Click);
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(130, 576);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(338, 13);
-            this.progressBar1.TabIndex = 10;
-            // 
             // FormPdfImposition
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -361,6 +361,7 @@
             this.ClientSize = new System.Drawing.Size(1075, 633);
             this.Controls.Add(this.tabControl1);
             this.Name = "FormPdfImposition";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Спуск полос";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

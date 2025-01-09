@@ -48,9 +48,15 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tlv_ProductMarks = new BrightIdeasSoftware.TreeListView();
             this.olv_ProductMarkName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.olv_ProductParent = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olv_ProductForeground = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.imageList2 = new System.Windows.Forms.ImageList(this.components);
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_copy = new System.Windows.Forms.ToolStripButton();
+            this.tsb_paste = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_SheetMarkCopy = new System.Windows.Forms.ToolStripButton();
+            this.tsb_SheetMarkPaste = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.tlv_MarksResources)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -139,7 +145,11 @@
             this.tsb_addPdfMark,
             this.tsb_addTextMark,
             this.tsb_Delete,
-            this.toolStripSeparator2});
+            this.toolStripSeparator2,
+            this.toolStripSeparator4,
+            this.tsb_copy,
+            this.tsb_paste,
+            this.toolStripSeparator5});
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(219, 25);
@@ -215,7 +225,9 @@
             this.toolStrip2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsb_sheet_deleteMark,
-            this.toolStripSeparator3});
+            this.toolStripSeparator3,
+            this.tsb_SheetMarkCopy,
+            this.tsb_SheetMarkPaste});
             this.toolStrip2.Location = new System.Drawing.Point(3, 16);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(219, 25);
@@ -277,6 +289,15 @@
             this.olv_ProductMarkName.Text = "мітки";
             this.olv_ProductMarkName.Width = 164;
             // 
+            // olv_ProductParent
+            // 
+            this.olv_ProductParent.Text = "Parent";
+            // 
+            // olv_ProductForeground
+            // 
+            this.olv_ProductForeground.CheckBoxes = true;
+            this.olv_ProductForeground.Text = "Foreground";
+            // 
             // imageList2
             // 
             this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
@@ -286,14 +307,55 @@
             this.imageList2.Images.SetKeyName(2, "Emoopo-Darktheme-Folder-Folder-Text-PDF.16.png");
             this.imageList2.Images.SetKeyName(3, "Emoopo-Darktheme-Folder-Folder-Text.16.png");
             // 
-            // olv_ProductParent
+            // toolStripSeparator4
             // 
-            this.olv_ProductParent.Text = "Parent";
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
-            // olv_ProductForeground
+            // tsb_copy
             // 
-            this.olv_ProductForeground.CheckBoxes = true;
-            this.olv_ProductForeground.Text = "Foreground";
+            this.tsb_copy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_copy.Image = ((System.Drawing.Image)(resources.GetObject("tsb_copy.Image")));
+            this.tsb_copy.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_copy.Name = "tsb_copy";
+            this.tsb_copy.Size = new System.Drawing.Size(23, 22);
+            this.tsb_copy.Text = "Копіювати";
+            this.tsb_copy.Click += new System.EventHandler(this.tsb_copy_Click);
+            // 
+            // tsb_paste
+            // 
+            this.tsb_paste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_paste.Image = ((System.Drawing.Image)(resources.GetObject("tsb_paste.Image")));
+            this.tsb_paste.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_paste.Name = "tsb_paste";
+            this.tsb_paste.Size = new System.Drawing.Size(23, 22);
+            this.tsb_paste.Text = "Вставити";
+            this.tsb_paste.Click += new System.EventHandler(this.tsb_paste_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsb_SheetMarkCopy
+            // 
+            this.tsb_SheetMarkCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_SheetMarkCopy.Image = ((System.Drawing.Image)(resources.GetObject("tsb_SheetMarkCopy.Image")));
+            this.tsb_SheetMarkCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_SheetMarkCopy.Name = "tsb_SheetMarkCopy";
+            this.tsb_SheetMarkCopy.Size = new System.Drawing.Size(23, 22);
+            this.tsb_SheetMarkCopy.Text = "Копіювати";
+            this.tsb_SheetMarkCopy.Click += new System.EventHandler(this.tsb_SheetMarkCopy_Click);
+            // 
+            // tsb_SheetMarkPaste
+            // 
+            this.tsb_SheetMarkPaste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_SheetMarkPaste.Image = ((System.Drawing.Image)(resources.GetObject("tsb_SheetMarkPaste.Image")));
+            this.tsb_SheetMarkPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_SheetMarkPaste.Name = "tsb_SheetMarkPaste";
+            this.tsb_SheetMarkPaste.Size = new System.Drawing.Size(23, 22);
+            this.tsb_SheetMarkPaste.Text = "Вставити";
+            this.tsb_SheetMarkPaste.Click += new System.EventHandler(this.tsb_SheetMarkPaste_Click);
             // 
             // MarksControl
             // 
@@ -343,5 +405,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private BrightIdeasSoftware.OLVColumn olv_ProductParent;
         private BrightIdeasSoftware.OLVColumn olv_ProductForeground;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton tsb_copy;
+        private System.Windows.Forms.ToolStripButton tsb_paste;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton tsb_SheetMarkCopy;
+        private System.Windows.Forms.ToolStripButton tsb_SheetMarkPaste;
     }
 }

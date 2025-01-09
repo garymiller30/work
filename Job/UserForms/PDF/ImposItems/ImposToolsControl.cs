@@ -154,5 +154,25 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             parameters.OnCropMarksChanged(this,null);
         }
+
+        private void btn_left_Click(object sender, EventArgs e)
+        {
+            parameters.OnMoveLeftClick(this, 1);
+        }
+
+        private void btn_right_Click(object sender, EventArgs e)
+        {
+            parameters.OnMoveRightClick(this, 1);
+        }
+
+        private void btn_up_Click(object sender, EventArgs e)
+        {
+            parameters.OnMoveUpClick(this, 1);
+        }
+
+        private void btn_down_Click(object sender, EventArgs e)
+        {
+            parameters.OnMoveDownClick(this, 1);
+        }
     }
 }

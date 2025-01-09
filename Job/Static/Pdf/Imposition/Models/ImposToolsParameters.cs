@@ -42,5 +42,9 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public EventHandler OnClickCenterH = delegate { };
         public EventHandler OnClickCenterV = delegate { };
         public EventHandler OnCropMarksChanged = delegate { };
+        public EventHandler<double> OnMoveLeftClick = delegate { };
+        public EventHandler<double> OnMoveRightClick = delegate { };
+        public EventHandler<double> OnMoveUpClick = delegate { };
+        public EventHandler<double> OnMoveDownClick = delegate { };
     }
 }

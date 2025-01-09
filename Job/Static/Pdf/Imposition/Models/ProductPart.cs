@@ -12,10 +12,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public class ProductPart
     {
-        ///// <summary>
-        ///// шаблон форми
-        ///// </summary>
-        //public TemplatePlate TemplatePlate { get; set; } = new TemplatePlate();
         /// <summary>
         /// список файлів, що приймають участь у спуску
         /// </summary>
