@@ -20,6 +20,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
     {
         ControlBindParameters parameters;
 
+        object _basket;
+
         //TemplateSheet _sheet;
         public MarksControl()
         {
@@ -486,6 +488,86 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     parameters.Sheet.Marks,
                     };
                 Debug.WriteLine("<--MarksControl: Parameters_PropertyChanged");
+            }
+        }
+
+        private void tsb_copy_Click(object sender, EventArgs e)
+        {
+            if (tlv_MarksResources.SelectedObject is MarksContainer group)
+            {
+                _basket = group;
+            }
+            else if (tlv_MarksResources.SelectedObject is PdfMark pdfMark)
+            {
+                _basket = pdfMark;
+            }
+            else if (tlv_MarksResources.SelectedObject is TextMark textMark)
+            {
+                _basket = textMark;
+            }
+        }
+
+        private void tsb_paste_Click(object sender, EventArgs e)
+        {
+            if (tlv_MarksResources.SelectedObject is MarksContainer container)
+            {
+                if (_basket is MarksContainer group)
+                {
+                    var g = MarksService.Duplicate(group);
+                    g.ParentId = container.Id;
+                    container.Containers.Add(g);
+                }
+                else if (_basket is PdfMark pdfMark)
+                {
+                    var p = MarksService.Duplicate(pdfMark);
+                    container.Pdf.Add(p);
+                }
+                else if (_basket is TextMark textMark)
+                {
+                    var t = MarksService.Duplicate(textMark);
+                    container.Text.Add(t);
+                }
+                RefreshResourceTree();
+            }
+        }
+
+        private void tsb_SheetMarkCopy_Click(object sender, EventArgs e)
+        {
+            if (tlv_ProductMarks.SelectedObject is MarksContainer group)
+            {
+                _basket = group;
+            }
+            else if (tlv_ProductMarks.SelectedObject is PdfMark pdfMark)
+            {
+                _basket = pdfMark;
+            }
+            else if (tlv_ProductMarks.SelectedObject is TextMark textMark)
+            {
+                _basket = textMark;
+            }
+        }
+
+        private void tsb_SheetMarkPaste_Click(object sender, EventArgs e)
+        {
+            if (tlv_ProductMarks.SelectedObject is MarksContainer container)
+            {
+                if (_basket is MarksContainer group)
+                {
+                    var g = MarksService.Duplicate(group);
+                    g.ParentId = container.Id;
+                    container.Containers.Add(g);
+                }
+                else if (_basket is PdfMark pdfMark)
+                {
+                    var p = MarksService.Duplicate(pdfMark);
+                    container.Pdf.Add(p);
+                }
+                else if (_basket is TextMark textMark)
+                {
+                    var t = MarksService.Duplicate(textMark);
+                    container.Text.Add(t);
+                }
+                RefreshSheetTree();
             }
         }
     }

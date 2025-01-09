@@ -120,5 +120,42 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 SaveLoadService.SaveTemplatePlates(objectListView1.Objects.Cast<TemplatePlate>().ToList());
             }
         }
+
+        private void nud_w_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateName();
+        }
+
+        private void UpdateName()
+        {
+            if (cb_autoName.Checked)
+            {
+
+                tb_name.Text = $"{nud_w.Value}x{nud_h.Value}";
+
+                if (cb_centerX.Checked)
+                {
+                    tb_name.Text += "_cx";
+                }
+                else
+                {
+                    tb_name.Text += $"_x{nud_xOfs.Value}";
+                }
+
+                if (cb_centerY.Checked)
+                {
+                    tb_name.Text += "_cy";
+                }
+                else
+                {
+                    tb_name.Text += $"_y{nud_yOfs.Value}";
+                }
+            }
+        }
+
+        private void cb_centerX_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateName();
+        }
     }
 }

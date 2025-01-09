@@ -47,6 +47,7 @@
             this.bnt_ok = new System.Windows.Forms.Button();
             this.btn_saveToList = new System.Windows.Forms.Button();
             this.btn_delete = new System.Windows.Forms.Button();
+            this.cb_autoName = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_yOfs)).BeginInit();
@@ -82,6 +83,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cb_autoName);
             this.groupBox1.Controls.Add(this.tb_name);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.nud_yOfs);
@@ -105,7 +107,7 @@
             // 
             this.tb_name.Location = new System.Drawing.Point(51, 26);
             this.tb_name.Name = "tb_name";
-            this.tb_name.Size = new System.Drawing.Size(200, 20);
+            this.tb_name.Size = new System.Drawing.Size(170, 20);
             this.tb_name.TabIndex = 11;
             // 
             // label5
@@ -130,6 +132,7 @@
             this.nud_yOfs.Size = new System.Drawing.Size(70, 20);
             this.nud_yOfs.TabIndex = 9;
             this.nud_yOfs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_yOfs.ValueChanged += new System.EventHandler(this.nud_w_ValueChanged);
             // 
             // nud_xOfs
             // 
@@ -144,6 +147,7 @@
             this.nud_xOfs.Size = new System.Drawing.Size(70, 20);
             this.nud_xOfs.TabIndex = 8;
             this.nud_xOfs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_xOfs.ValueChanged += new System.EventHandler(this.nud_w_ValueChanged);
             // 
             // nud_h
             // 
@@ -158,6 +162,7 @@
             this.nud_h.Size = new System.Drawing.Size(70, 20);
             this.nud_h.TabIndex = 7;
             this.nud_h.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_h.ValueChanged += new System.EventHandler(this.nud_w_ValueChanged);
             // 
             // nud_w
             // 
@@ -172,6 +177,7 @@
             this.nud_w.Size = new System.Drawing.Size(70, 20);
             this.nud_w.TabIndex = 6;
             this.nud_w.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_w.ValueChanged += new System.EventHandler(this.nud_w_ValueChanged);
             // 
             // cb_centerY
             // 
@@ -183,6 +189,7 @@
             this.cb_centerY.TabIndex = 5;
             this.cb_centerY.Text = "центрувати по Y";
             this.cb_centerY.UseVisualStyleBackColor = true;
+            this.cb_centerY.CheckedChanged += new System.EventHandler(this.cb_centerX_CheckedChanged);
             // 
             // cb_centerX
             // 
@@ -194,6 +201,7 @@
             this.cb_centerX.TabIndex = 4;
             this.cb_centerX.Text = "центрувати по X";
             this.cb_centerX.UseVisualStyleBackColor = true;
+            this.cb_centerX.CheckedChanged += new System.EventHandler(this.cb_centerX_CheckedChanged);
             // 
             // label4
             // 
@@ -261,6 +269,19 @@
             this.btn_delete.UseVisualStyleBackColor = true;
             this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
             // 
+            // cb_autoName
+            // 
+            this.cb_autoName.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_autoName.AutoSize = true;
+            this.cb_autoName.Checked = true;
+            this.cb_autoName.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_autoName.Location = new System.Drawing.Point(227, 24);
+            this.cb_autoName.Name = "cb_autoName";
+            this.cb_autoName.Size = new System.Drawing.Size(24, 23);
+            this.cb_autoName.TabIndex = 12;
+            this.cb_autoName.Text = "A";
+            this.cb_autoName.UseVisualStyleBackColor = true;
+            // 
             // FormAddTemplatePlate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -306,5 +327,6 @@
         private System.Windows.Forms.TextBox tb_name;
         private System.Windows.Forms.Button btn_saveToList;
         private System.Windows.Forms.Button btn_delete;
+        private System.Windows.Forms.CheckBox cb_autoName;
     }
 }
