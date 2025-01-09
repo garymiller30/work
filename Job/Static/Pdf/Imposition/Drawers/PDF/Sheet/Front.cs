@@ -111,54 +111,66 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
         ? impos.RunList.RunPages[runListPageIdx]
         : new ImposRunPage { FileId = 0, PageIdx = 0 };
         }
-        //private static void RecalculateAndDrawMarks(PDFlib p, PrintSheet sheet, ProductPart impos)
-        //{
-        //    PdfMarksService.RecalcMarkCoordFront(sheet);
-        //    DrawPdfMarks.Front(p, sheet.Marks);
-
-        //    TextMarksService.RecalcMarkCoordFront(sheet);
-        //    DrawTextMarks.Front(p, sheet.Marks);
-
-        //    PdfMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
-        //    DrawPdfMarks.Front(p, sheet.TemplatePageContainer.Marks);
-
-        //    TextMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
-        //    DrawTextMarks.Front(p, sheet.TemplatePageContainer.Marks);
-
-        //    Proof.DrawSheet(p, sheet, impos.Proof);
-        //}
+        
         static string GetMediabox(ProductPart impos,PrintSheet sheet)
         {
             string mediabox;
 
-            if (impos.TemplatePlate.IsLikePaperFormat)
+            if (sheet.TemplatePlate == null)
             {
                 mediabox = $"{-sheet.ExtraSpace * PdfHelper.mn} {-sheet.ExtraSpace * PdfHelper.mn} {(sheet.W + sheet.ExtraSpace) * PdfHelper.mn} {(sheet.H + sheet.ExtraSpace) * PdfHelper.mn}";
             }
             else
             {
-                double x;
-                if (impos.TemplatePlate.IsCenterHorizontal)
+                double x,y;
+                if (sheet.TemplatePlate.IsCenterHorizontal)
                 {
-                    x = (impos.TemplatePlate.W - sheet.W) / 2;
+                    x = (sheet.TemplatePlate.W - sheet.W) / 2;
                 }
                 else
                 {
-                    x = impos.TemplatePlate.Xofs;
+                    x = sheet.TemplatePlate.Xofs;
                 }
 
-                double y;
-                if (impos.TemplatePlate.IsCenterVertical)
+                if (sheet.TemplatePlate.IsCenterVertical)
                 {
-                    y = (impos.TemplatePlate.H - sheet.H) / 2;
+                    y = (sheet.TemplatePlate.H - sheet.H) / 2;
                 }
                 else
                 {
-                    y = impos.TemplatePlate.Yofs;
+                    y = sheet.TemplatePlate.Yofs;
                 }
-
-                mediabox = $"{-x * PdfHelper.mn} {-y * PdfHelper.mn} {(impos.TemplatePlate.W - x) * PdfHelper.mn} {(impos.TemplatePlate.H - y) * PdfHelper.mn}";
+                mediabox = $"{-x * PdfHelper.mn} {-y * PdfHelper.mn} {(sheet.TemplatePlate.W - x) * PdfHelper.mn} {(sheet.TemplatePlate.H - y) * PdfHelper.mn}";
             }
+
+            //if (impos.TemplatePlate.IsLikePaperFormat)
+            //{
+            //    mediabox = $"{-sheet.ExtraSpace * PdfHelper.mn} {-sheet.ExtraSpace * PdfHelper.mn} {(sheet.W + sheet.ExtraSpace) * PdfHelper.mn} {(sheet.H + sheet.ExtraSpace) * PdfHelper.mn}";
+            //}
+            //else
+            //{
+            //    double x;
+            //    if (impos.TemplatePlate.IsCenterHorizontal)
+            //    {
+            //        x = (impos.TemplatePlate.W - sheet.W) / 2;
+            //    }
+            //    else
+            //    {
+            //        x = impos.TemplatePlate.Xofs;
+            //    }
+
+            //    double y;
+            //    if (impos.TemplatePlate.IsCenterVertical)
+            //    {
+            //        y = (impos.TemplatePlate.H - sheet.H) / 2;
+            //    }
+            //    else
+            //    {
+            //        y = impos.TemplatePlate.Yofs;
+            //    }
+
+            //    mediabox = $"{-x * PdfHelper.mn} {-y * PdfHelper.mn} {(impos.TemplatePlate.W - x) * PdfHelper.mn} {(impos.TemplatePlate.H - y) * PdfHelper.mn}";
+            //}
 
             return mediabox;
         }

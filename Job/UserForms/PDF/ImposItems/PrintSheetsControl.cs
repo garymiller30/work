@@ -33,6 +33,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     OnPrintSheetsChanged(this, sheet);
                 }
             };
+
+            olvColumnTemplatePlate.AspectGetter += (r) => ((PrintSheet)r).TemplatePlate?.Name;
         }
 
         public void SetControlBindParameters(ControlBindParameters controlBindParameters)
@@ -91,6 +93,36 @@ namespace JobSpace.UserForms.PDF.ImposItems
              List<PrintSheet> list = SaveLoadService.LoadPrintSheets();
 
             objectListView1.AddObjects(list);
+        }
+
+        private void tsb_setPlate_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using (var form = new FormAddTemplatePlate())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    if (form.SelectedTemplatePlate == null) return;
+                    foreach (PrintSheet sheet in objectListView1.SelectedObjects)
+                    {
+                        sheet.TemplatePlate = form.SelectedTemplatePlate;
+                    }
+
+                    objectListView1.RefreshObjects(objectListView1.SelectedObjects.Cast<object>().ToList());
+                }
+                
+            }
+        }
+
+        private void tsb_removeTemplatePlate_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            foreach (PrintSheet sheet in objectListView1.SelectedObjects)
+            {
+                sheet.TemplatePlate = null;
+            }
+            objectListView1.RefreshObjects(objectListView1.SelectedObjects.Cast<object>().ToList());
         }
     }
 }

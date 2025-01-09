@@ -2,6 +2,7 @@
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using System.IO;
@@ -21,6 +22,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         static string MarksPath;
         static string SheetTemplatesPath;
         static string PrintSheetsPath;
+        static string TemplatePlatesPath;
 
         static SaveLoadService()
         {
@@ -29,12 +31,14 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             MarksPath = Path.Combine(RootPath, "Marks");
             SheetTemplatesPath = Path.Combine(RootPath, "SheetTemplates");
             PrintSheetsPath = Path.Combine(RootPath, "PrintSheets");
+            TemplatePlatesPath = Path.Combine(RootPath, "TemplatePlates");
 
             if (!Directory.Exists(RootPath)) Directory.CreateDirectory(RootPath);
             if (!Directory.Exists(SheetPath)) Directory.CreateDirectory(SheetPath);
             if (!Directory.Exists(MarksPath)) Directory.CreateDirectory(MarksPath);
             if (!Directory.Exists(SheetTemplatesPath)) Directory.CreateDirectory(SheetTemplatesPath);
             if (!Directory.Exists(PrintSheetsPath)) Directory.CreateDirectory(PrintSheetsPath);
+            if (!Directory.Exists(TemplatePlatesPath)) Directory.CreateDirectory(TemplatePlatesPath);
 
         }
         public static void SaveSheet(TemplateSheet sheet)
@@ -173,6 +177,22 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             string str = File.ReadAllText(fileName);
             List<PrintSheet> sheets = JsonSerializer.Deserialize<List<PrintSheet>>(str);
             return sheets;
+        }
+
+        public static List<TemplatePlate> LoadTemplatePates()
+        {
+            var fileName = Path.Combine(TemplatePlatesPath, "template_plates.json");
+            if (!File.Exists(fileName)) return new List<TemplatePlate>();
+
+            string str = File.ReadAllText(fileName);
+            return JsonSerializer.Deserialize<List<TemplatePlate>>(str);
+        }
+
+        public static void SaveTemplatePlates(List<TemplatePlate> plates)
+        {
+            var fileName = Path.Combine(TemplatePlatesPath, "template_plates.json");
+            string str = JsonSerializer.Serialize(plates);
+            File.WriteAllText(fileName, str);
         }
     }
 }
