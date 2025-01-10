@@ -40,9 +40,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                     var sheet = impos.PrintSheets[i];
 
                     TextVariablesService.SetValue(ValueList.SheetIdx, i + 1);
-
                     TextVariablesService.SetValue(ValueList.SheetFormat, $"{sheet.W}x{sheet.H}");
                     TextVariablesService.SetValue(ValueList.CurDate, DateTime.Now.ToString());
+                    TextVariablesService.SetValue(ValueList.SheetCount, sheet.Count);
 
                     switch (sheet.SheetPlaceType)
                     {

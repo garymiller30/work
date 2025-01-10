@@ -34,8 +34,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.tb_text = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cb_foreground = new System.Windows.Forms.CheckBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.markColorControl1 = new JobSpace.UserForms.PDF.ImposItems.MarkColorControl();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.label16 = new System.Windows.Forms.Label();
             this.nud_fontSize = new System.Windows.Forms.NumericUpDown();
@@ -43,6 +43,9 @@
             this.bnt_fontSelect = new System.Windows.Forms.Button();
             this.tb_fontName = new System.Windows.Forms.TextBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.rb_parentSubject = new System.Windows.Forms.RadioButton();
+            this.rb_parentSheet = new System.Windows.Forms.RadioButton();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -50,9 +53,7 @@
             this.nud_xOfs = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.apc_parent = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.apc_mark = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
             this.cb_Angle = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cb_backMirror = new System.Windows.Forms.CheckBox();
@@ -83,21 +84,21 @@
             this.kryptonContextMenuHeading2 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.btn_ReplaceMenu = new Krypton.Toolkit.KryptonButton();
             this.kryptonContextMenuHeading5 = new Krypton.Toolkit.KryptonContextMenuHeading();
-            this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.rb_parentSubject = new System.Windows.Forms.RadioButton();
-            this.rb_parentSheet = new System.Windows.Forms.RadioButton();
-            this.cb_foreground = new System.Windows.Forms.CheckBox();
+            this.kryptonContextMenuItem10 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.markColorControl1 = new JobSpace.UserForms.PDF.ImposItems.MarkColorControl();
+            this.apc_parent = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
+            this.apc_mark = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
             this.groupBox1.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_fontSize)).BeginInit();
             this.groupBox10.SuspendLayout();
+            this.groupBox13.SuspendLayout();
             this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_yOfs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_xOfs)).BeginInit();
             this.groupBox9.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox13.SuspendLayout();
             this.SuspendLayout();
             // 
             // label8
@@ -148,6 +149,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Параметри";
             // 
+            // cb_foreground
+            // 
+            this.cb_foreground.AutoSize = true;
+            this.cb_foreground.Location = new System.Drawing.Point(502, 257);
+            this.cb_foreground.Name = "cb_foreground";
+            this.cb_foreground.Size = new System.Drawing.Size(60, 17);
+            this.cb_foreground.TabIndex = 10;
+            this.cb_foreground.Text = "зверху";
+            this.cb_foreground.UseVisualStyleBackColor = true;
+            // 
             // groupBox12
             // 
             this.groupBox12.Controls.Add(this.markColorControl1);
@@ -157,13 +168,6 @@
             this.groupBox12.TabIndex = 9;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Колір";
-            // 
-            // markColorControl1
-            // 
-            this.markColorControl1.Location = new System.Drawing.Point(7, 34);
-            this.markColorControl1.Name = "markColorControl1";
-            this.markColorControl1.Size = new System.Drawing.Size(298, 146);
-            this.markColorControl1.TabIndex = 0;
             // 
             // groupBox11
             // 
@@ -234,6 +238,38 @@
             this.groupBox10.TabIndex = 3;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Положення відносно";
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.rb_parentSubject);
+            this.groupBox13.Controls.Add(this.rb_parentSheet);
+            this.groupBox13.Location = new System.Drawing.Point(6, 126);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(312, 38);
+            this.groupBox13.TabIndex = 3;
+            this.groupBox13.TabStop = false;
+            // 
+            // rb_parentSubject
+            // 
+            this.rb_parentSubject.AutoSize = true;
+            this.rb_parentSubject.Location = new System.Drawing.Point(161, 15);
+            this.rb_parentSubject.Name = "rb_parentSubject";
+            this.rb_parentSubject.Size = new System.Drawing.Size(110, 17);
+            this.rb_parentSubject.TabIndex = 1;
+            this.rb_parentSubject.TabStop = true;
+            this.rb_parentSubject.Text = "відносно сюжету";
+            this.rb_parentSubject.UseVisualStyleBackColor = true;
+            // 
+            // rb_parentSheet
+            // 
+            this.rb_parentSheet.AutoSize = true;
+            this.rb_parentSheet.Location = new System.Drawing.Point(40, 15);
+            this.rb_parentSheet.Name = "rb_parentSheet";
+            this.rb_parentSheet.Size = new System.Drawing.Size(101, 17);
+            this.rb_parentSheet.TabIndex = 0;
+            this.rb_parentSheet.TabStop = true;
+            this.rb_parentSheet.Text = "відносно листа";
+            this.rb_parentSheet.UseVisualStyleBackColor = true;
             // 
             // groupBox8
             // 
@@ -323,14 +359,6 @@
             this.label14.TabIndex = 2;
             this.label14.Text = "X ofs:";
             // 
-            // apc_parent
-            // 
-            this.apc_parent.AnchorPointChanged = null;
-            this.apc_parent.Location = new System.Drawing.Point(6, 14);
-            this.apc_parent.Name = "apc_parent";
-            this.apc_parent.Size = new System.Drawing.Size(80, 80);
-            this.apc_parent.TabIndex = 1;
-            // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.apc_mark);
@@ -340,14 +368,6 @@
             this.groupBox9.TabIndex = 0;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "мітки";
-            // 
-            // apc_mark
-            // 
-            this.apc_mark.AnchorPointChanged = null;
-            this.apc_mark.Location = new System.Drawing.Point(6, 14);
-            this.apc_mark.Name = "apc_mark";
-            this.apc_mark.Size = new System.Drawing.Size(80, 80);
-            this.apc_mark.TabIndex = 0;
             // 
             // cb_Angle
             // 
@@ -475,7 +495,8 @@
             this.kryptonContextMenuItems3.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuItem4,
             this.kryptonContextMenuItem5,
-            this.kryptonContextMenuItem9});
+            this.kryptonContextMenuItem9,
+            this.kryptonContextMenuItem10});
             // 
             // kryptonContextMenuItem4
             // 
@@ -551,47 +572,34 @@
             // 
             this.kryptonContextMenuHeading5.ExtraText = "";
             // 
-            // groupBox13
+            // kryptonContextMenuItem10
             // 
-            this.groupBox13.Controls.Add(this.rb_parentSubject);
-            this.groupBox13.Controls.Add(this.rb_parentSheet);
-            this.groupBox13.Location = new System.Drawing.Point(6, 126);
-            this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(312, 38);
-            this.groupBox13.TabIndex = 3;
-            this.groupBox13.TabStop = false;
+            this.kryptonContextMenuItem10.Tag = "$[sheetCount]";
+            this.kryptonContextMenuItem10.Text = "Тираж листа";
+            this.kryptonContextMenuItem10.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
             // 
-            // rb_parentSubject
+            // markColorControl1
             // 
-            this.rb_parentSubject.AutoSize = true;
-            this.rb_parentSubject.Location = new System.Drawing.Point(161, 15);
-            this.rb_parentSubject.Name = "rb_parentSubject";
-            this.rb_parentSubject.Size = new System.Drawing.Size(110, 17);
-            this.rb_parentSubject.TabIndex = 1;
-            this.rb_parentSubject.TabStop = true;
-            this.rb_parentSubject.Text = "відносно сюжету";
-            this.rb_parentSubject.UseVisualStyleBackColor = true;
+            this.markColorControl1.Location = new System.Drawing.Point(7, 34);
+            this.markColorControl1.Name = "markColorControl1";
+            this.markColorControl1.Size = new System.Drawing.Size(298, 146);
+            this.markColorControl1.TabIndex = 0;
             // 
-            // rb_parentSheet
+            // apc_parent
             // 
-            this.rb_parentSheet.AutoSize = true;
-            this.rb_parentSheet.Location = new System.Drawing.Point(40, 15);
-            this.rb_parentSheet.Name = "rb_parentSheet";
-            this.rb_parentSheet.Size = new System.Drawing.Size(101, 17);
-            this.rb_parentSheet.TabIndex = 0;
-            this.rb_parentSheet.TabStop = true;
-            this.rb_parentSheet.Text = "відносно листа";
-            this.rb_parentSheet.UseVisualStyleBackColor = true;
+            this.apc_parent.AnchorPointChanged = null;
+            this.apc_parent.Location = new System.Drawing.Point(6, 14);
+            this.apc_parent.Name = "apc_parent";
+            this.apc_parent.Size = new System.Drawing.Size(80, 80);
+            this.apc_parent.TabIndex = 1;
             // 
-            // cb_foreground
+            // apc_mark
             // 
-            this.cb_foreground.AutoSize = true;
-            this.cb_foreground.Location = new System.Drawing.Point(502, 257);
-            this.cb_foreground.Name = "cb_foreground";
-            this.cb_foreground.Size = new System.Drawing.Size(60, 17);
-            this.cb_foreground.TabIndex = 10;
-            this.cb_foreground.Text = "зверху";
-            this.cb_foreground.UseVisualStyleBackColor = true;
+            this.apc_mark.AnchorPointChanged = null;
+            this.apc_mark.Location = new System.Drawing.Point(6, 14);
+            this.apc_mark.Name = "apc_mark";
+            this.apc_mark.Size = new System.Drawing.Size(80, 80);
+            this.apc_mark.TabIndex = 0;
             // 
             // FormAddTextMark
             // 
@@ -617,14 +625,14 @@
             this.groupBox11.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_fontSize)).EndInit();
             this.groupBox10.ResumeLayout(false);
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_yOfs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_xOfs)).EndInit();
             this.groupBox9.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.groupBox13.ResumeLayout(false);
-            this.groupBox13.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -709,5 +717,6 @@
         private System.Windows.Forms.RadioButton rb_parentSubject;
         private System.Windows.Forms.RadioButton rb_parentSheet;
         private System.Windows.Forms.CheckBox cb_foreground;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem10;
     }
 }

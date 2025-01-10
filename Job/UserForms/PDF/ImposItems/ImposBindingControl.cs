@@ -42,7 +42,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (e.PropertyName != "Sheet" || parameters.Sheet == null || parameters.Sheet.TemplatePageContainer.TemplatePages.Count > 0) return;
             
-            Calc();
+            if (ModifierKeys != Keys.Alt)
+            {
+                Calc();
+            }
+
         }
 
         private void cb_SelectBindType_SelectedIndexChanged(object sender, EventArgs e)

@@ -16,6 +16,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public TemplatePlate TemplatePlate { get; set; }
 
+        public int Count { get; set; } = 1;
+
         public PrintSheet()
         {
             

@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Dlg;
+using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             };
 
             olvColumnTemplatePlate.AspectGetter += (r) => ((PrintSheet)r).TemplatePlate?.Name;
+            olvColumnCount.AspectGetter += (r) => ((PrintSheet)r).Count;
         }
 
         public void SetControlBindParameters(ControlBindParameters controlBindParameters)
@@ -123,6 +125,23 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 sheet.TemplatePlate = null;
             }
             objectListView1.RefreshObjects(objectListView1.SelectedObjects.Cast<object>().ToList());
+        }
+
+        private void tsb_count_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using (var form = new FormTirag())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (PrintSheet sheet in objectListView1.SelectedObjects)
+                    {
+                        sheet.Count = form.Tirag;
+                    }
+                    objectListView1.RefreshObjects(objectListView1.SelectedObjects.Cast<object>().ToList());
+                }
+            }
         }
     }
 }

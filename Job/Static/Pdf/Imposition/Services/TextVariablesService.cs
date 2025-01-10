@@ -65,6 +65,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         public const string SheetIdx    = "$[sheetIdx]";
         public const string SheetSide   = "$[sheetSide]";
         public const string SheetFormat = "$[sheetFormat]";
+        public const string SheetCount  = "$[sheetCount]";
         public const string OrderNo     = "$[orderNo]";
         public const string Customer    = "$[customer]";
         public const string OrderDesc   = "$[orderDesc]";
