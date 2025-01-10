@@ -35,6 +35,8 @@
             this.olvColumnDesc = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnFormat = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPlaceType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnCount = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnTemplatePlate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsb_delete = new System.Windows.Forms.ToolStripButton();
             this.tsb_savePrintSheet = new System.Windows.Forms.ToolStripButton();
@@ -42,7 +44,8 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_setPlate = new System.Windows.Forms.ToolStripButton();
             this.tsb_removeTemplatePlate = new System.Windows.Forms.ToolStripButton();
-            this.olvColumnTemplatePlate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_count = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -66,6 +69,7 @@
             this.objectListView1.AllColumns.Add(this.olvColumnDesc);
             this.objectListView1.AllColumns.Add(this.olvColumnFormat);
             this.objectListView1.AllColumns.Add(this.olvColumnPlaceType);
+            this.objectListView1.AllColumns.Add(this.olvColumnCount);
             this.objectListView1.AllColumns.Add(this.olvColumnTemplatePlate);
             this.objectListView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -76,13 +80,13 @@
             this.olvColumnDesc,
             this.olvColumnFormat,
             this.olvColumnPlaceType,
+            this.olvColumnCount,
             this.olvColumnTemplatePlate});
             this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.objectListView1.FullRowSelect = true;
             this.objectListView1.GridLines = true;
             this.objectListView1.HideSelection = false;
             this.objectListView1.Location = new System.Drawing.Point(6, 44);
-            this.objectListView1.MultiSelect = false;
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
             this.objectListView1.Size = new System.Drawing.Size(372, 121);
@@ -109,6 +113,15 @@
             this.olvColumnPlaceType.Text = "Тип друку";
             this.olvColumnPlaceType.Width = 116;
             // 
+            // olvColumnCount
+            // 
+            this.olvColumnCount.Text = "Тираж";
+            // 
+            // olvColumnTemplatePlate
+            // 
+            this.olvColumnTemplatePlate.AspectName = "";
+            this.olvColumnTemplatePlate.Text = "Форма";
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -118,7 +131,9 @@
             this.tsb_loadPrintSheet,
             this.toolStripSeparator1,
             this.tsb_setPlate,
-            this.tsb_removeTemplatePlate});
+            this.tsb_removeTemplatePlate,
+            this.toolStripSeparator2,
+            this.tsb_count});
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -182,10 +197,20 @@
             this.tsb_removeTemplatePlate.Text = "видалити форми з листів";
             this.tsb_removeTemplatePlate.Click += new System.EventHandler(this.tsb_removeTemplatePlate_Click);
             // 
-            // olvColumnTemplatePlate
+            // toolStripSeparator2
             // 
-            this.olvColumnTemplatePlate.AspectName = "";
-            this.olvColumnTemplatePlate.Text = "Форма";
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsb_count
+            // 
+            this.tsb_count.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_count.Image = ((System.Drawing.Image)(resources.GetObject("tsb_count.Image")));
+            this.tsb_count.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_count.Name = "tsb_count";
+            this.tsb_count.Size = new System.Drawing.Size(23, 22);
+            this.tsb_count.Text = "додати тираж";
+            this.tsb_count.Click += new System.EventHandler(this.tsb_count_Click);
             // 
             // PrintSheetsControl
             // 
@@ -219,5 +244,8 @@
         private System.Windows.Forms.ToolStripButton tsb_setPlate;
         private System.Windows.Forms.ToolStripButton tsb_removeTemplatePlate;
         private BrightIdeasSoftware.OLVColumn olvColumnTemplatePlate;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton tsb_count;
+        private BrightIdeasSoftware.OLVColumn olvColumnCount;
     }
 }

@@ -160,7 +160,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 var sheet = t_sheet.Copy();
                 sheet.SheetPlaceType = (TemplateSheetPlaceType)tscb_sheetType.SelectedIndex;
-                sheet.Id = idx++;
                 objectListView1.AddObject(sheet);
                 objectListView1.SelectObject(sheet);
                 

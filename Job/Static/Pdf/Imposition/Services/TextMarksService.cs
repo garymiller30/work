@@ -32,13 +32,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             }
             marksContainer.Containers.ForEach(y => TextMarksService.RecalcMarkCoordFront(y, sheetRect, subjectRect));
         }
-
-        //public static void RecalcMarkCoordBack(TemplateSheet sheet, TemplatePageContainer templateContainer)
-        //{
-        //    RectangleD subject = templateContainer.GetSubjectRectBack(sheet);
-        //    TextMarksService.RecalcMarkCoordBack(templateContainer.Marks, subject);
-        //}
-
         public static void RecalcMarkCoordBack(TemplateSheet sheet)
         {
             RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
@@ -59,7 +52,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                     PositioningService.AnchorToAbsoluteCoordBack(subjectRect, mark);
                 }
             }
-
             marksContainer.Containers.ForEach(y => TextMarksService.RecalcMarkCoordBack(y, sheetRect, subjectRect));
         }
 

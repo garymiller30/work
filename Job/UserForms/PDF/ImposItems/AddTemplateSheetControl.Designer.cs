@@ -148,6 +148,7 @@
             this.tsb_addToList.Name = "tsb_addToList";
             this.tsb_addToList.Size = new System.Drawing.Size(23, 22);
             this.tsb_addToList.Text = "додати до списку";
+            this.tsb_addToList.ToolTipText = "додати до списку (+ Alt - додати чистий лист)";
             this.tsb_addToList.Click += new System.EventHandler(this.tsb_addToList_Click);
             // 
             // toolStripSeparator4
