@@ -126,13 +126,42 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             if (parameters.IsCenterHorizontal)
             {
                 double extraX = isExtraRight ? extraCntRightX * pageH : 0;
-                x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - blockWidth - extraX) / 2 + sheet.SafeFields.Left;
+                double extraWidth = 0;
+                if (isExtraBottom)
+                {
+                    int cntX = (int)((sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right) / pageH);
+                    extraWidth = cntX * pageH;
+                }
+
+                if (extraWidth > blockWidth)
+                {
+                    x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - extraWidth) / 2 + sheet.SafeFields.Left;
+                }
+                else
+                {
+                    x = (sheet.W - sheet.SafeFields.Left - sheet.SafeFields.Right - blockWidth - extraX) / 2 + sheet.SafeFields.Left;
+                }
+
             }
 
             if (parameters.IsCenterVertical)
             {
                 double extraY = isExtraBottom ? extraCntBottomY * pageW : 0;
-                y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - blockHeight - extraY) / 2 + sheet.SafeFields.Bottom;
+                double extraHeight = 0;
+                if (isExtraRight)
+                {
+                    int cntY = (int)((sheet.H - sheet.SafeFields.Bottom - sheet.SafeFields.Top)/ pageW);
+                    extraHeight = cntY * pageW;
+                }
+                if (extraHeight > blockHeight)
+                {
+                    y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - extraHeight) / 2 + sheet.SafeFields.Bottom;
+                }
+                else
+                {
+                    y = (sheet.H - sheet.SafeFields.Top - sheet.SafeFields.Bottom - blockHeight - extraY) / 2 + sheet.SafeFields.Bottom;
+                }
+               
             }
         }
 
