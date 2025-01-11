@@ -32,8 +32,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.treeListViewFiles = new BrightIdeasSoftware.TreeListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnTrim = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnCenterMedia = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnTrim = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListViewFiles)).BeginInit();
             this.SuspendLayout();
@@ -80,17 +80,18 @@
             this.olvColumnName.Text = "Ім\'я";
             this.olvColumnName.Width = 142;
             // 
-            // olvColumnTrim
-            // 
-            this.olvColumnTrim.Text = "Trimbox";
-            this.olvColumnTrim.Width = 79;
-            // 
             // olvColumnCenterMedia
             // 
             this.olvColumnCenterMedia.AspectName = "IsMediaboxCentered";
             this.olvColumnCenterMedia.CheckBoxes = true;
+            this.olvColumnCenterMedia.HeaderCheckBox = true;
             this.olvColumnCenterMedia.Text = "Центрувати";
             this.olvColumnCenterMedia.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // olvColumnTrim
+            // 
+            this.olvColumnTrim.Text = "Trimbox";
+            this.olvColumnTrim.Width = 79;
             // 
             // PdfFileListControl
             // 

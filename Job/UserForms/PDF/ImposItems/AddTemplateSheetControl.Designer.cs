@@ -97,6 +97,7 @@
             // 
             // olvColumnId
             // 
+            this.olvColumnId.IsEditable = false;
             this.olvColumnId.Text = "Id";
             this.olvColumnId.Width = 29;
             // 
