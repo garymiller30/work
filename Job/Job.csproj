@@ -271,6 +271,7 @@
     <Compile Include="Static\Pdf\Imposition\Models\ClipBox.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ControlBindParameters.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\CropDirection.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ExportParameters.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ImposColor.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ImposColors.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ImposRunList.cs" />
@@ -323,6 +324,7 @@
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessCenterV.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessMoveSubject.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\MarksService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\PdfFileService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PdfMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PositioningService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\SaveLoadService.cs" />

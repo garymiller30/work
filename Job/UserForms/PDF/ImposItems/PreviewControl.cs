@@ -22,7 +22,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         //TemplateSheet _sheet;
         TemplatePage _hover;
-        ImposToolsParameters _parameters;
+        ImposToolsParameters _toolParams;
         bool isDragMode = false;
 
         double hover_x;
@@ -46,7 +46,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void Pb_preview_MouseUp(object sender, MouseEventArgs e)
         {
             isDragMode = false;
-            if (e.Button == MouseButtons.Right && _parameters.CurTool == ImposToolEnum.Select)
+            if (e.Button == MouseButtons.Right && _toolParams.CurTool == ImposToolEnum.Select)
             {
                 parameters.SelectedPreviewPage = null;
             }
@@ -58,7 +58,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             hover_x = _hover.X;
             hover_y = _hover.Y;
 
-            if (_parameters.CurTool == ImposToolEnum.Select)
+            if (_toolParams.CurTool == ImposToolEnum.Select)
             {
                 isDragMode = true;
                 clickPoint = e.Location;
@@ -75,30 +75,25 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         public void RedrawSheet()
         {
+            if (pb_preview.Image != null) pb_preview.Image.Dispose();
+            pb_preview.Image = null;
             if (parameters.Sheet == null) return;
-
             var screenDrawer = new ScreenDrawer();
 
-            if (pb_preview.Image != null) pb_preview.Image.Dispose();
-
-            //int dpi = 96;
-
-            //int widthPx = (int)(parameters.Sheet.W / 25.4 * dpi);
-            //int heightPx = (int)(parameters.Sheet.H / 25.4 * dpi);
-            //pb_preview.Width = widthPx;
-            //pb_preview.Height = heightPx;
             pb_preview.Width = (int)parameters.Sheet.W + 1;
             pb_preview.Height = (int)parameters.Sheet.H + 1;
 
             pb_preview.Image = screenDrawer.Draw(parameters.Sheet);
+
+
         }
 
         public void InitBindParameters(ImposToolsParameters parameters)
         {
-            _parameters = parameters;
-            _parameters.OnListNumberClick += OnToolsListNumberClick;
-            _parameters.OnTheSameNumberClick += OnTheSameNumberClick;
-            _parameters.OnCropMarksChanged += OnCropMarksChanged;
+            _toolParams = parameters;
+            _toolParams.OnListNumberClick += OnToolsListNumberClick;
+            _toolParams.OnTheSameNumberClick += OnTheSameNumberClick;
+            _toolParams.OnCropMarksChanged += OnCropMarksChanged;
             imposToolsControl1.InitParameters(parameters);
         }
 
@@ -106,8 +101,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (parameters.Sheet == null) return;
 
-            parameters.Sheet.TemplatePageContainer.SetCropMarksLen(_parameters.CropMarksParameters.Len);
-            parameters.Sheet.TemplatePageContainer.SetCropMarksDistance(_parameters.CropMarksParameters.Distance);
+            parameters.Sheet.TemplatePageContainer.SetCropMarksLen(_toolParams.CropMarksParameters.Len);
+            parameters.Sheet.TemplatePageContainer.SetCropMarksDistance(_toolParams.CropMarksParameters.Distance);
 
             parameters.UpdateSheet();
 
@@ -120,11 +115,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (parameters.Sheet is PrintSheet)
                 {
-                    page.PrintFrontIdx = _parameters.FrontNum;
+                    page.PrintFrontIdx = _toolParams.FrontNum;
                 }
                 else
                 {
-                    page.MasterFrontIdx = _parameters.FrontNum;
+                    page.MasterFrontIdx = _toolParams.FrontNum;
 
                 }
 
@@ -132,11 +127,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     if (parameters.Sheet is PrintSheet)
                     {
-                        page.PrintBackIdx = _parameters.BackNum;
+                        page.PrintBackIdx = _toolParams.BackNum;
                     }
                     else
                     {
-                        page.MasterBackIdx = _parameters.BackNum;
+                        page.MasterBackIdx = _toolParams.BackNum;
 
                     }
 
@@ -151,8 +146,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (parameters.Sheet == null) return;
 
-            int front = _parameters.FrontNum;
-            int back = _parameters.BackNum;
+            int front = _toolParams.FrontNum;
+            int back = _toolParams.BackNum;
 
             foreach (var page in parameters.Sheet.TemplatePageContainer.TemplatePages)
             {
@@ -350,30 +345,30 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             if (e.Button == MouseButtons.Left)
             {
-                if (_parameters.CurTool == ImposToolEnum.FlipAngle)
+                if (_toolParams.CurTool == ImposToolEnum.FlipAngle)
                 {
                     ToolFlipSinglePage();
                 }
-                else if (_parameters.CurTool == ImposToolEnum.Numeration)
+                else if (_toolParams.CurTool == ImposToolEnum.Numeration)
                 {
                     ToolNumeringSinglePage();
                 }
-                else if (_parameters.CurTool == ImposToolEnum.DeletePage)
+                else if (_toolParams.CurTool == ImposToolEnum.DeletePage)
                 {
                     ToolDeletePage();
                 }
-                else if (_parameters.CurTool == ImposToolEnum.Select)
+                else if (_toolParams.CurTool == ImposToolEnum.Select)
                 {
                     parameters.SelectedPreviewPage = _hover;
                 }
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (_parameters.CurTool == ImposToolEnum.FlipAngle)
+                if (_toolParams.CurTool == ImposToolEnum.FlipAngle)
                 {
                     ToolFlipPageRow();
                 }
-                if (_parameters.CurTool == ImposToolEnum.Numeration)
+                if (_toolParams.CurTool == ImposToolEnum.Numeration)
                 {
                     ToolNumericWithContinue();
                 }
@@ -393,12 +388,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (parameters.Sheet is PrintSheet)
                 {
-                    _hover.PrintFrontIdx = _parameters.FrontNum++;
+                    _hover.PrintFrontIdx = _toolParams.FrontNum++;
                     parameters.CheckRunListPages();
                 }
                 else
                 {
-                    _hover.MasterFrontIdx = _parameters.FrontNum++;
+                    _hover.MasterFrontIdx = _toolParams.FrontNum++;
 
                 }
 
@@ -407,18 +402,18 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (parameters.Sheet is PrintSheet)
                 {
-                    _hover.PrintFrontIdx = _parameters.FrontNum;
-                    _hover.PrintBackIdx = _parameters.BackNum;
+                    _hover.PrintFrontIdx = _toolParams.FrontNum;
+                    _hover.PrintBackIdx = _toolParams.BackNum;
                     parameters.CheckRunListPages();
                 }
                 else
                 {
-                    _hover.MasterFrontIdx = _parameters.FrontNum;
-                    _hover.MasterBackIdx = _parameters.BackNum;
+                    _hover.MasterFrontIdx = _toolParams.FrontNum;
+                    _hover.MasterBackIdx = _toolParams.BackNum;
 
                 }
-                _parameters.FrontNum += 2;
-                _parameters.BackNum += 2;
+                _toolParams.FrontNum += 2;
+                _toolParams.BackNum += 2;
             }
 
             RedrawSheet();
@@ -439,18 +434,18 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (parameters.Sheet is PrintSheet sheet)
                 {
-                    _hover.PrintFrontIdx = _parameters.FrontNum;
+                    _hover.PrintFrontIdx = _toolParams.FrontNum;
 
                     parameters.CheckRunListPages();
 
                 }
                 else
                 {
-                    _hover.MasterFrontIdx = _parameters.FrontNum;
+                    _hover.MasterFrontIdx = _toolParams.FrontNum;
 
                 }
 
-                _parameters.FrontNum++;
+                _toolParams.FrontNum++;
 
             }
             else if (ModifierKeys.HasFlag(Keys.Control))
@@ -462,27 +457,27 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (parameters.Sheet is PrintSheet sheet)
                     {
 
-                        _hover.PrintBackIdx = _parameters.FrontNum;
+                        _hover.PrintBackIdx = _toolParams.FrontNum;
                         parameters.CheckRunListPages();
                     }
                     else
                     {
-                        _hover.MasterBackIdx = _parameters.FrontNum;
+                        _hover.MasterBackIdx = _toolParams.FrontNum;
 
                     }
-                    _parameters.FrontNum++;
+                    _toolParams.FrontNum++;
                 }
             }
             else
             {
                 if (parameters.Sheet is PrintSheet sheet)
                 {
-                    _hover.PrintFrontIdx = _parameters.FrontNum;
+                    _hover.PrintFrontIdx = _toolParams.FrontNum;
                     parameters.CheckRunListPages();
                 }
                 else
                 {
-                    _hover.MasterFrontIdx = _parameters.FrontNum;
+                    _hover.MasterFrontIdx = _toolParams.FrontNum;
 
 
                 }
@@ -493,12 +488,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (parameters.Sheet is PrintSheet psheet)
                     {
 
-                        _hover.PrintBackIdx = _parameters.BackNum;
+                        _hover.PrintBackIdx = _toolParams.BackNum;
                         parameters.CheckRunListPages();
                     }
                     else
                     {
-                        _hover.MasterBackIdx = _parameters.BackNum;
+                        _hover.MasterBackIdx = _toolParams.BackNum;
 
                     }
                 }

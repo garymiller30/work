@@ -10,6 +10,7 @@ using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using JobSpace.UserForms.PDF.ImposItems;
 using Krypton.Toolkit;
+using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,7 +48,9 @@ namespace JobSpace.UserForms.PDF
             addTemplateSheetControl1.OnSheetSelected += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetsChanged += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetDeleted += OnPrintSheetDeleted;
-            
+            printSheetsControl1.JustReassignPages += _controlBindParameters_NeedRearangePages;
+
+
             addTemplateSheetControl1.OnSheetAddToPrint += OnAddSheetToPrintEvent;
             addTemplateSheetControl1.OnSheetAddManyToPrint += OnSheetAddManyToPrintEvent;
             PrintSheet.ResetId();
@@ -90,7 +93,12 @@ namespace JobSpace.UserForms.PDF
             PrintSheet sheet = PrintSheet.ConvertTemplateSheetToPrintSheet(e);
             //runListControl1.AssignPrintSheet(sheet);
             printSheetsControl1.AddSheet(sheet);
-            _controlBindParameters_NeedRearangePages(this,null);
+
+            if (ModifierKeys != Keys.Alt)
+            {
+                _controlBindParameters_NeedRearangePages(this, null);
+            }
+                
         }
 
         private void OnAddSheetToPrintEvent(object sender, TemplateSheet e)
@@ -136,7 +144,44 @@ namespace JobSpace.UserForms.PDF
             _tool_param.OnMoveRightClick += OnMoveRightClick;
             _tool_param.OnMoveUpClick += OnMoveUpClick;
             _tool_param.OnMoveDownClick += OnMoveDownClick;
+            _tool_param.OnRotateLeft += OnRotateLeft;
+            _tool_param.OnRotateRight += OnRotateRight;
+            _tool_param.OnSwitchWH += OnSwitchWH;
             previewControl1.InitBindParameters(_tool_param);
+        }
+
+        private void OnSwitchWH(object sender, EventArgs e)
+        {
+            if (_controlBindParameters.SelectedPreviewPage != null)
+            {
+                var sel_page = _controlBindParameters.SelectedPreviewPage;
+                _controlBindParameters.SelectedPreviewPage.SwitchWH();
+                _controlBindParameters.UpdateSheet();
+                _controlBindParameters.SelectedPreviewPage = sel_page;
+            }
+        }
+
+        private void OnRotateRight(object sender, EventArgs e)
+        {
+            if (_controlBindParameters.SelectedPreviewPage != null)
+            {
+                var sel_page = _controlBindParameters.SelectedPreviewPage;
+                _controlBindParameters.SelectedPreviewPage.RotateRight();
+                _controlBindParameters.UpdateSheet();
+                _controlBindParameters.SelectedPreviewPage = sel_page;
+            }
+        }
+
+        private void OnRotateLeft(object sender, EventArgs e)
+        {
+           if (_controlBindParameters.SelectedPreviewPage != null)
+            {
+                var sel_page = _controlBindParameters.SelectedPreviewPage;
+                _controlBindParameters.SelectedPreviewPage.RotateLeft();
+                _controlBindParameters.UpdateSheet();
+                _controlBindParameters.SelectedPreviewPage = sel_page;
+
+            }
         }
 
         private void OnMoveDownClick(object sender, double e)
@@ -260,12 +305,19 @@ namespace JobSpace.UserForms.PDF
             _productPart.RunList.RunPages = runListControl1.GetRunPages();
             _productPart.PdfFiles = _pdfFiles;
             _productPart.UsedColors = imposColorsControl1.GetUsedColors();
+            
+            _productPart.ExportParameters.SavePrintSheetToOrderFolder = cb_savePrintSheetInOrder.Checked;
+            _productPart.ExportParameters.OutputFolder = _curJobFolder;
+            _productPart.ExportParameters.UseTemplate = cb_useTemplate.Checked;
+            _productPart.ExportParameters.TemplateString = tb_useTemplate.Text;
+            _productPart.ExportParameters.UseCustomOutputFolder = cb_useCustomOutputFolder.Checked;
+            _productPart.ExportParameters.CustomOutputFolder = tb_customOutputFolder.Text;
 
-            string imposFile = _files.ToList()[0] + ".impos.pdf";
+            _productPart.ExportParameters.OutputFileName = _files.ToList()[0] + ".impos.pdf";
 
             DrawerStatic.CurProductPart = _productPart;
 
-            PdfDrawer drawer = new PdfDrawer(imposFile);
+            PdfDrawer drawer = new PdfDrawer();
 
             drawer.StartEvent+= startEvent;
             drawer.ProcessingEvent+= processingEvent;
@@ -274,7 +326,7 @@ namespace JobSpace.UserForms.PDF
             await Task.Run(()=>  drawer.Draw(_productPart)).ConfigureAwait(true);
             if (MessageBox.Show("Відкрити?","Виконано!",MessageBoxButtons.OKCancel,MessageBoxIcon.Question)== DialogResult.OK)
             {
-                Process.Start(imposFile);
+                Process.Start(_productPart.ExportParameters.GetOutputFilePath());
             }
 
         }
@@ -324,8 +376,18 @@ namespace JobSpace.UserForms.PDF
 
         private void pg_Parameters_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-
             _controlBindParameters.UpdateSheet();
+        }
+
+        private void btn_selectCustomFolder_Click(object sender, EventArgs e)
+        {
+            using (var form = new VistaFolderBrowserDialog())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    tb_customOutputFolder.Text = form.SelectedPath;
+                }
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public int FileId { get; set; }
         public int PageIdx { get; set; }
         public bool IsAssumed { get;set; }
-
+        public bool IsValidFormat { get; set; }
         public ImposRunPage()
         {
 

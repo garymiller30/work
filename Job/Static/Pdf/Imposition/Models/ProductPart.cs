@@ -35,6 +35,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public ProofParameters Proof {  get; set; } = new ProofParameters();
 
+        public ExportParameters ExportParameters { get; set; } = new ExportParameters();
+
         public PdfFile AddPdfFile(string filePath)
         {
             var file = new PdfFile(filePath);

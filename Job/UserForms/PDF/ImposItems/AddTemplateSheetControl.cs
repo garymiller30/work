@@ -18,7 +18,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public EventHandler<TemplateSheet> OnSheetAdded = delegate { };
         public EventHandler<TemplateSheet> OnSheetEdited = delegate { };
         public EventHandler<TemplateSheet> OnSheetSelected = delegate { };
-        public EventHandler<TemplateSheet> OnSheetAddToPrint = delegate { };
+        public EventHandler<TemplateSheet> OnSheetAddToPrint { get;set;} = delegate { };
         public EventHandler<TemplateSheet> OnSheetAddManyToPrint = delegate { };
 
 
@@ -140,17 +140,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     objectListView1.RemoveObject(sheet);
                 }
 
+                _parameters.Sheet = null;
+               
+
             }
         }
 
 
         private void tsb_loadTemplate_Click(object sender, EventArgs e)
         {
-            TemplateSheet sheet = SaveLoadService.LoadSheetTemplate();
-            if (sheet != null)
+            var sheets = SaveLoadService.LoadSheetTemplates();
+            if (sheets.Count >0)
             {
-                sheet.Id = idx++;
-                objectListView1.AddObject(sheet);
+                objectListView1.AddObjects(sheets);
             }
         }
 
@@ -169,10 +171,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void tsb_saveTemplate_Click_1(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObject is TemplateSheet sheet)
-            {
-                SaveLoadService.SaveSheetTemplates(sheet);
-            }
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            SaveLoadService.SaveSheetTemplates(objectListView1.SelectedObjects.Cast<TemplateSheet>().ToList());
+          
         }
 
         private void objectListView1_DoubleClick(object sender, EventArgs e)

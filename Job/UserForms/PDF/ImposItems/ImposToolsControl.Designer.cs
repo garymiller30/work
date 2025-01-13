@@ -41,19 +41,22 @@
             this.btn_switch_front_back = new System.Windows.Forms.Button();
             this.tb_back = new System.Windows.Forms.TextBox();
             this.rb_centerH = new System.Windows.Forms.Button();
-            this.rb_centerV = new System.Windows.Forms.Button();
             this.rb_deletePage = new System.Windows.Forms.RadioButton();
-            this.rb_EnableNumering = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn_ApplyCropMark = new System.Windows.Forms.Button();
             this.nud_cropDist = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.nud_cropLen = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
+            this.rb_centerV = new System.Windows.Forms.Button();
+            this.rb_EnableNumering = new System.Windows.Forms.RadioButton();
             this.btn_left = new System.Windows.Forms.Button();
             this.btn_right = new System.Windows.Forms.Button();
-            this.btn_down = new System.Windows.Forms.Button();
             this.btn_up = new System.Windows.Forms.Button();
+            this.btn_down = new System.Windows.Forms.Button();
+            this.btn_rotateLeft = new System.Windows.Forms.Button();
+            this.btn_rotateRight = new System.Windows.Forms.Button();
+            this.b_switchWH = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -63,7 +66,9 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 19;
+            this.tableLayoutPanel1.ColumnCount = 21;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
@@ -85,23 +90,26 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 71F));
             this.tableLayoutPanel1.Controls.Add(this.rb_select, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.rb_rotate_180, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 7, 0);
             this.tableLayoutPanel1.Controls.Add(this.rb_centerH, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.rb_deletePage, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 12, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 14, 0);
             this.tableLayoutPanel1.Controls.Add(this.rb_centerV, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.rb_EnableNumering, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.btn_left, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btn_right, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.btn_up, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.rb_EnableNumering, 6, 0);
+            this.tableLayoutPanel1.Controls.Add(this.rb_deletePage, 6, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btn_rotateLeft, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btn_rotateRight, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btn_right, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.btn_down, 4, 1);
+            this.tableLayoutPanel1.Controls.Add(this.b_switchWH, 5, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(519, 56);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(538, 56);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // rb_select
@@ -140,7 +148,7 @@
             this.groupBox1.Controls.Add(this.btn_switch_front_back);
             this.groupBox1.Controls.Add(this.tb_back);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(140, 0);
+            this.groupBox1.Location = new System.Drawing.Point(196, 0);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
@@ -235,37 +243,16 @@
             this.rb_centerH.TabIndex = 17;
             this.rb_centerH.UseVisualStyleBackColor = true;
             // 
-            // rb_centerV
-            // 
-            this.rb_centerV.AutoSize = true;
-            this.rb_centerV.Image = ((System.Drawing.Image)(resources.GetObject("rb_centerV.Image")));
-            this.rb_centerV.Location = new System.Drawing.Point(59, 3);
-            this.rb_centerV.Name = "rb_centerV";
-            this.rb_centerV.Size = new System.Drawing.Size(22, 22);
-            this.rb_centerV.TabIndex = 18;
-            this.rb_centerV.UseVisualStyleBackColor = true;
-            // 
             // rb_deletePage
             // 
             this.rb_deletePage.Appearance = System.Windows.Forms.Appearance.Button;
             this.rb_deletePage.AutoSize = true;
             this.rb_deletePage.Image = ((System.Drawing.Image)(resources.GetObject("rb_deletePage.Image")));
-            this.rb_deletePage.Location = new System.Drawing.Point(31, 31);
+            this.rb_deletePage.Location = new System.Drawing.Point(171, 31);
             this.rb_deletePage.Name = "rb_deletePage";
             this.rb_deletePage.Size = new System.Drawing.Size(22, 22);
             this.rb_deletePage.TabIndex = 13;
             this.rb_deletePage.UseVisualStyleBackColor = true;
-            // 
-            // rb_EnableNumering
-            // 
-            this.rb_EnableNumering.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rb_EnableNumering.AutoSize = true;
-            this.rb_EnableNumering.Image = ((System.Drawing.Image)(resources.GetObject("rb_EnableNumering.Image")));
-            this.rb_EnableNumering.Location = new System.Drawing.Point(59, 31);
-            this.rb_EnableNumering.Name = "rb_EnableNumering";
-            this.rb_EnableNumering.Size = new System.Drawing.Size(22, 22);
-            this.rb_EnableNumering.TabIndex = 11;
-            this.rb_EnableNumering.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -275,7 +262,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.nud_cropLen);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(336, 0);
+            this.groupBox2.Location = new System.Drawing.Point(392, 0);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox2.Name = "groupBox2";
             this.tableLayoutPanel1.SetRowSpan(this.groupBox2, 2);
@@ -330,6 +317,27 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "довжина";
             // 
+            // rb_centerV
+            // 
+            this.rb_centerV.AutoSize = true;
+            this.rb_centerV.Image = ((System.Drawing.Image)(resources.GetObject("rb_centerV.Image")));
+            this.rb_centerV.Location = new System.Drawing.Point(59, 3);
+            this.rb_centerV.Name = "rb_centerV";
+            this.rb_centerV.Size = new System.Drawing.Size(22, 22);
+            this.rb_centerV.TabIndex = 18;
+            this.rb_centerV.UseVisualStyleBackColor = true;
+            // 
+            // rb_EnableNumering
+            // 
+            this.rb_EnableNumering.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rb_EnableNumering.AutoSize = true;
+            this.rb_EnableNumering.Image = ((System.Drawing.Image)(resources.GetObject("rb_EnableNumering.Image")));
+            this.rb_EnableNumering.Location = new System.Drawing.Point(171, 3);
+            this.rb_EnableNumering.Name = "rb_EnableNumering";
+            this.rb_EnableNumering.Size = new System.Drawing.Size(22, 22);
+            this.rb_EnableNumering.TabIndex = 11;
+            this.rb_EnableNumering.UseVisualStyleBackColor = true;
+            // 
             // btn_left
             // 
             this.btn_left.Image = ((System.Drawing.Image)(resources.GetObject("btn_left.Image")));
@@ -350,16 +358,6 @@
             this.btn_right.UseVisualStyleBackColor = true;
             this.btn_right.Click += new System.EventHandler(this.btn_right_Click);
             // 
-            // btn_down
-            // 
-            this.btn_down.Image = ((System.Drawing.Image)(resources.GetObject("btn_down.Image")));
-            this.btn_down.Location = new System.Drawing.Point(115, 31);
-            this.btn_down.Name = "btn_down";
-            this.btn_down.Size = new System.Drawing.Size(22, 22);
-            this.btn_down.TabIndex = 22;
-            this.btn_down.UseVisualStyleBackColor = true;
-            this.btn_down.Click += new System.EventHandler(this.btn_down_Click);
-            // 
             // btn_up
             // 
             this.btn_up.Image = ((System.Drawing.Image)(resources.GetObject("btn_up.Image")));
@@ -370,6 +368,46 @@
             this.btn_up.UseVisualStyleBackColor = true;
             this.btn_up.Click += new System.EventHandler(this.btn_up_Click);
             // 
+            // btn_down
+            // 
+            this.btn_down.Image = ((System.Drawing.Image)(resources.GetObject("btn_down.Image")));
+            this.btn_down.Location = new System.Drawing.Point(115, 31);
+            this.btn_down.Name = "btn_down";
+            this.btn_down.Size = new System.Drawing.Size(22, 22);
+            this.btn_down.TabIndex = 22;
+            this.btn_down.UseVisualStyleBackColor = true;
+            this.btn_down.Click += new System.EventHandler(this.btn_down_Click);
+            // 
+            // btn_rotateLeft
+            // 
+            this.btn_rotateLeft.Image = ((System.Drawing.Image)(resources.GetObject("btn_rotateLeft.Image")));
+            this.btn_rotateLeft.Location = new System.Drawing.Point(31, 31);
+            this.btn_rotateLeft.Name = "btn_rotateLeft";
+            this.btn_rotateLeft.Size = new System.Drawing.Size(22, 22);
+            this.btn_rotateLeft.TabIndex = 24;
+            this.btn_rotateLeft.UseVisualStyleBackColor = true;
+            this.btn_rotateLeft.Click += new System.EventHandler(this.btn_rotateLeft_Click);
+            // 
+            // btn_rotateRight
+            // 
+            this.btn_rotateRight.Image = ((System.Drawing.Image)(resources.GetObject("btn_rotateRight.Image")));
+            this.btn_rotateRight.Location = new System.Drawing.Point(59, 31);
+            this.btn_rotateRight.Name = "btn_rotateRight";
+            this.btn_rotateRight.Size = new System.Drawing.Size(22, 22);
+            this.btn_rotateRight.TabIndex = 25;
+            this.btn_rotateRight.UseVisualStyleBackColor = true;
+            this.btn_rotateRight.Click += new System.EventHandler(this.btn_rotateRight_Click);
+            // 
+            // b_switchWH
+            // 
+            this.b_switchWH.Image = ((System.Drawing.Image)(resources.GetObject("b_switchWH.Image")));
+            this.b_switchWH.Location = new System.Drawing.Point(143, 3);
+            this.b_switchWH.Name = "b_switchWH";
+            this.b_switchWH.Size = new System.Drawing.Size(22, 22);
+            this.b_switchWH.TabIndex = 26;
+            this.b_switchWH.UseVisualStyleBackColor = true;
+            this.b_switchWH.Click += new System.EventHandler(this.b_switchWH_Click);
+            // 
             // ImposToolsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -377,7 +415,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ImposToolsControl";
-            this.Size = new System.Drawing.Size(519, 56);
+            this.Size = new System.Drawing.Size(538, 56);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -417,5 +455,8 @@
         private System.Windows.Forms.Button btn_right;
         private System.Windows.Forms.Button btn_down;
         private System.Windows.Forms.Button btn_up;
+        private System.Windows.Forms.Button btn_rotateLeft;
+        private System.Windows.Forms.Button btn_rotateRight;
+        private System.Windows.Forms.Button b_switchWH;
     }
 }

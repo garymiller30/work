@@ -174,5 +174,20 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             parameters.OnMoveDownClick(this, 1);
         }
+
+        private void btn_rotateLeft_Click(object sender, EventArgs e)
+        {
+            parameters.OnRotateLeft(this, null);
+        }
+
+        private void btn_rotateRight_Click(object sender, EventArgs e)
+        {
+            parameters.OnRotateRight(this, null);
+        }
+
+        private void b_switchWH_Click(object sender, EventArgs e)
+        {
+            parameters.OnSwitchWH(this,null);
+        }
     }
 }

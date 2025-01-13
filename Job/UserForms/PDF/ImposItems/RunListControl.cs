@@ -62,11 +62,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             fastObjectListView1.ModelDropped += ObjectListViewRunList_ModelDropped;
         }
 
-        //private void ObjectListViewRunList_Dropped(object sender, OlvDropEventArgs e)
-        //{
-        //    ReasignPages();
-        //}
-
         private void ObjectListViewRunList_ModelDropped(object sender, BrightIdeasSoftware.ModelDropEventArgs e)
         {
             if (e.SourceListView == _bindParameters.PdfFileList)
@@ -88,7 +83,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 }
                 e.Handled = true;
             }
-            //ReasignPages();
+           
         }
 
         public List<ImposRunPage> GetRunPages()
@@ -129,11 +124,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             UpdateStatusString();
         }
 
-        //public void AssignPrintSheet(PrintSheet sheet)
-        //{
-        //    //ReasignPages();
-        //}
-
         private void UpdateStatusString()
         {
             int assigned = fastObjectListView1.Objects.Cast<ImposRunPage>().Where(x => x.IsAssumed).Count();
@@ -143,40 +133,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         }
 
-        private void objectListViewRunList_Dropped_1(object sender, OlvDropEventArgs e)
-        {
-            //ReasignPages();
-        }
-
         public int GetUnassignedPagesCount()
         {
             return fastObjectListView1.Objects.Cast<ImposRunPage>().Where(x=>x.IsAssumed == false).ToList().Count;
         }
-
-        //public void ReassignPrintSheets(List<PrintSheet> printSheets)
-        //{
-        //    UnassignedIdx = 0;
-
-        //    foreach (var item in objectListViewRunList.Objects)
-        //    {
-        //        ((ImposRunPage)item).IsAssumed = false;
-        //    }
-
-        //    if (printSheets.Count > 0)
-        //    {
-        //        foreach (PrintSheet printSheet in printSheets)
-        //        {
-        //            AssignPrintSheet(printSheet);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        UpdateStatusString();
-        //    }
-
-        //    objectListViewRunList.RefreshObjects(objectListViewRunList.Objects.Cast<ImposRunPage>().ToList());
-
-        //}
 
         public void UpdateRunList()
         {
@@ -184,6 +144,18 @@ namespace JobSpace.UserForms.PDF.ImposItems
             fastObjectListView1.RefreshObjects(fastObjectListView1.Objects.Cast<ImposRunPage>().ToList());
         }
 
-     
+        private void fastObjectListView1_FormatRow(object sender, FormatRowEventArgs e)
+        {
+            ImposRunPage imposRunPage = (ImposRunPage)e.Model;
+
+            if (imposRunPage.IsAssumed)
+            {
+                e.Item.BackColor = imposRunPage.IsValidFormat ? default : Color.LightCoral;
+            }
+            else
+            {
+                e.Item.BackColor = Color.LightYellow;
+            }
+        }
     }
 }
