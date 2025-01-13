@@ -86,7 +86,6 @@
             this.objectListView1.GridLines = true;
             this.objectListView1.HideSelection = false;
             this.objectListView1.Location = new System.Drawing.Point(3, 16);
-            this.objectListView1.MultiSelect = false;
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
             this.objectListView1.Size = new System.Drawing.Size(323, 86);
@@ -222,6 +221,8 @@
             this.tsb_toPrint.Name = "tsb_toPrint";
             this.tsb_toPrint.Size = new System.Drawing.Size(23, 22);
             this.tsb_toPrint.Text = "копіювати до друкарських листів";
+            this.tsb_toPrint.ToolTipText = "копіювати до друкарських листів\r\n(+Alt - не переназначати автоматично нумерацію с" +
+    "торінок)";
             this.tsb_toPrint.Click += new System.EventHandler(this.tsb_toPrint_Click);
             // 
             // tsb_fillAll

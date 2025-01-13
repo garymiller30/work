@@ -431,5 +431,24 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                     throw new NotImplementedException();
             }
         }
+
+        public void RotateRight()
+        {
+            Angle = (Angle + 270) % 360;
+        }
+
+        public void RotateLeft()
+        {
+            Angle = (Angle + 90) % 360; 
+        }
+
+        public void SwitchWH()
+        {
+            // switch W and H
+            double temp = W;
+            W = H;
+            H = temp;
+            Angle = (Angle + 270) % 360;
+        }
     }
 }

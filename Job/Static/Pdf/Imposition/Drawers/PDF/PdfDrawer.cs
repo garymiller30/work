@@ -6,6 +6,7 @@ using JobSpace.Static.Pdf.Imposition.Services;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 {
@@ -15,11 +16,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
         public EventHandler<int> StartEvent { get; set; } = delegate { };
         public EventHandler<int> ProcessingEvent { get; set; } = delegate { };
         public EventHandler FinishEvent { get; set; } = delegate { };
-        public string TargetFile { get; set; }
 
-        public PdfDrawer(string targetFile)
+        public PdfDrawer()
         {
-            TargetFile = targetFile;
+            
         }
 
         public void Draw(ProductPart impos)
@@ -28,7 +28,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
             try
             {
-                p.begin_document(TargetFile, "");
+                var targetFile = impos.ExportParameters.GetOutputFilePath();
+                p.begin_document(targetFile, "");
 
                 StartEvent(this, impos.PrintSheets.Count);
 
@@ -69,12 +70,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                         default:
                             throw new NotImplementedException();
                     }
-
                 }
-
                 p.end_document("");
             }
-            catch (PDFlibException e)
+            catch (PDFlibException)
             {
             }
             finally
@@ -82,91 +81,16 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                 p?.Dispose();
 
                 FinishEvent(this, null);
-            }
 
-
-
-
-
-        }
-
-        void DrawPages(List<PdfPage> pages)
-        {
-            if (pages.Count == 0) throw new Exception("No Pages");
-
-            PDFlib p = new PDFlib();
-            try
-            {
-                p.begin_document(TargetFile, "");
-
-                foreach (PdfPage page in pages)
+                if (impos.ExportParameters.SavePrintSheetToOrderFolder)
                 {
-                    p.begin_page_ext(page.W * PdfHelper.mn, page.H * PdfHelper.mn, "");
-
-
-
-                    p.end_page_ext("");
+                    var orderFolder = impos.ExportParameters.OutputFolder;
+                    var orderFileName = Path.GetFileNameWithoutExtension(impos.ExportParameters.GetOutputFilePath());
+                    
+                    var orderFile = Path.Combine(orderFolder, Path.GetFileNameWithoutExtension(orderFileName) + ".json");
+                    SaveLoadService.SavePrintSheets(impos.PrintSheets, orderFile);
                 }
-
-                p.end_document("");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                p?.Dispose();
             }
         }
-        /*
-        public void Draw(ProductPart impos)
-        {
-
-            var sheet = impos.Sheet;
-            var templateContainer = sheet.TemplatePageContainer;
-            var runList = impos.RunList;
-
-            PDFlib p = new PDFlib();
-
-            try
-            {
-                p.begin_document(TargetFile, "");
-
-                // потрібно вичислити кількість листів
-                // для цього потрібно взяти кількість сторінок в ран листі і поділити на  максимальний індекс сторінки шаблону 
-
-                int maxIdx = templateContainer.GetMaxIdx();
-                int cSheets = runList.RunPages.Count / maxIdx;
-
-
-                for (int sheetIdx = 0; sheetIdx < cSheets; sheetIdx++)
-                {
-                    TextVariablesService.SetValue(ValueList.SheetIdx, sheetIdx + 1);
-                    TextVariablesService.SetValue(ValueList.SheetSide, "Лице");
-                    TextVariablesService.SetValue(ValueList.SheetFormat,$"{sheet.W}x{sheet.H}");
-                    TextVariablesService.SetValue(ValueList.CurDate,DateTime.Now.ToString());
-
-                    DrawSheet.Front(p, impos, sheetIdx);
-
-                    // малюємо зворот
-                    if (templateContainer.HasBack())
-                    {
-                        TextVariablesService.SetValue(ValueList.SheetSide, "Зворот");
-                        DrawSheet.Back(p, impos, sheetIdx);
-                    }
-                }
-                p.end_document("");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                p?.Dispose();
-            }
-        }
-        */
     }
 }

@@ -73,6 +73,7 @@
             this.olvColumnRunListPagesf,
             this.olvColumnAsignf});
             this.fastObjectListView1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.fastObjectListView1.FullRowSelect = true;
             this.fastObjectListView1.HideSelection = false;
             this.fastObjectListView1.Location = new System.Drawing.Point(3, 44);
             this.fastObjectListView1.Name = "fastObjectListView1";
@@ -82,6 +83,7 @@
             this.fastObjectListView1.UseCompatibleStateImageBehavior = false;
             this.fastObjectListView1.View = System.Windows.Forms.View.Details;
             this.fastObjectListView1.VirtualMode = true;
+            this.fastObjectListView1.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.fastObjectListView1_FormatRow);
             // 
             // olvColumIdxf
             // 

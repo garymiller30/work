@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using JobSpace.UserForms.PDF.ImposItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,16 +36,20 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public CropMarksParam CropMarksParameters { get; set; } = new CropMarksParam();
 
-        public EventHandler<int> FrontNumChanged = delegate { };
-        public EventHandler<int> BackNumChanged = delegate { };
-        public EventHandler OnTheSameNumberClick = delegate { };
-        public EventHandler OnListNumberClick = delegate { };
-        public EventHandler OnClickCenterH = delegate { };
-        public EventHandler OnClickCenterV = delegate { };
-        public EventHandler OnCropMarksChanged = delegate { };
-        public EventHandler<double> OnMoveLeftClick = delegate { };
-        public EventHandler<double> OnMoveRightClick = delegate { };
-        public EventHandler<double> OnMoveUpClick = delegate { };
-        public EventHandler<double> OnMoveDownClick = delegate { };
+        public EventHandler<int> FrontNumChanged { get;set;} = delegate { };
+        public EventHandler<int> BackNumChanged { get; set; } = delegate { };
+        public EventHandler OnTheSameNumberClick { get; set; } = delegate { };
+        public EventHandler OnListNumberClick { get; set; } = delegate { };
+        public EventHandler OnClickCenterH { get; set; } = delegate { };
+        public EventHandler OnClickCenterV { get; set; } = delegate { };
+        public EventHandler OnCropMarksChanged { get; set; } = delegate { };
+        public EventHandler<double> OnMoveLeftClick { get; set; } = delegate { };
+        public EventHandler<double> OnMoveRightClick { get; set; } = delegate { };
+        public EventHandler<double> OnMoveUpClick { get; set; } = delegate { };
+        public EventHandler<double> OnMoveDownClick { get; set; } = delegate { };
+        public EventHandler OnRotateLeft { get; set; } = delegate { };
+        public EventHandler OnRotateRight { get; set; } = delegate { };
+        public EventHandler OnSwitchWH { get; set; } = delegate { };
+
     }
 }

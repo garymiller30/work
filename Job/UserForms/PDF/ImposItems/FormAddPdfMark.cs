@@ -1,5 +1,6 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -102,6 +103,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void btn_SelectPdfFile_Click(object sender, EventArgs e)
         {
+            vistaOpenFileDialog1.Filter = "PDF files (*.pdf)|*.pdf";
+            vistaOpenFileDialog1.FileName = SaveLoadService.GetMarksPath() + "\\";
+
             if (vistaOpenFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 Mark.File = new PdfFile(vistaOpenFileDialog1.FileName);

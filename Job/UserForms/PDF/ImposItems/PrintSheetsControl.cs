@@ -1,4 +1,5 @@
-﻿using JobSpace.Dlg;
+﻿using BrightIdeasSoftware;
+using JobSpace.Dlg;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using System;
@@ -16,6 +17,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
     public partial class PrintSheetsControl : UserControl
     {
         public EventHandler<PrintSheet> OnPrintSheetsChanged { get; set; } = delegate { };
+        public EventHandler JustReassignPages { get; set; } = delegate { };
         public EventHandler OnPrintSheetDeleted { get; set; } = delegate { };
 
         int id = 1;
@@ -37,6 +39,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             olvColumnTemplatePlate.AspectGetter += (r) => ((PrintSheet)r).TemplatePlate?.Name;
             olvColumnCount.AspectGetter += (r) => ((PrintSheet)r).Count;
+
+            objectListView1.DragSource = new SimpleDragSource();
+            objectListView1.DropSink = new RearrangingDropSink(false);
         }
 
         public void SetControlBindParameters(ControlBindParameters controlBindParameters)
@@ -70,7 +75,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 return;
             }
 
-            OnPrintSheetDeleted(this, null);
+            // якщо натиснутий альт, то не посилаємо подію про нумерацію сторінок    
+            if (ModifierKeys != Keys.Alt)
+            {
+                OnPrintSheetDeleted(this, null);
+            }
+            
         }
 
         public void AddSheets(PrintSheet sheet, int sheetCnt)
@@ -95,6 +105,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
              List<PrintSheet> list = SaveLoadService.LoadPrintSheets();
 
             objectListView1.AddObjects(list);
+
+            JustReassignPages(this,null);
+
         }
 
         private void tsb_setPlate_Click(object sender, EventArgs e)

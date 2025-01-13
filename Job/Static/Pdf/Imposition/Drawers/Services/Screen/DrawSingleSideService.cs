@@ -101,6 +101,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             {
 
                 System.Drawing.Image bitmap = MarksService.GetBitmap(mark);
+                
                 var rect = new Rectangle
                 {
                     X = (int)mark.Front.X,
@@ -119,6 +120,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 else
                 {
                     var i = RotateImage(bitmap, (float)mark.Angle);
+                    i.MakeTransparent(Color.White);
                     g.DrawImage(i, rect);
                     bitmap.Dispose();
                 }
