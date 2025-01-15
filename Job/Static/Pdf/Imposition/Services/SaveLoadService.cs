@@ -247,5 +247,37 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             string str = JsonSerializer.Serialize(plates);
             File.WriteAllText(fileName, str);
         }
+
+        public static List<string> LoadCustomsPath()
+        {
+            var path = Path.Combine(RootPath, "customsOutputFolders.json");
+            if (!File.Exists(path)) return new List<string>();
+
+            string src = File.ReadAllText(path);
+            return JsonSerializer.Deserialize<List<string>>(src);
+        }
+
+        public static void SaveCustomsPath(List<string> paths)
+        {
+            var path = Path.Combine(RootPath, "customsOutputFolders.json");
+            string str = JsonSerializer.Serialize(paths);
+            File.WriteAllText(path, str);
+        }
+
+        public static List<TemplateSheet> LoadQuickAccessTemplateSheets()
+        {
+            var path = Path.Combine(RootPath,"quickAccessSheets.json");
+            if (!File.Exists(path)) return new List<TemplateSheet>();
+
+            string src = File.ReadAllText(path);
+            return JsonSerializer.Deserialize<List<TemplateSheet>>(src);
+        }
+
+        public static void SaveQuickAccessTemplateSheets(List<TemplateSheet> quickAccess)
+        {
+            var path = Path.Combine(RootPath, "quickAccessSheets.json");
+            string str = JsonSerializer.Serialize(quickAccess);
+            File.WriteAllText(path, str);
+        }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddTemplateSheetControl));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
@@ -51,6 +52,11 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_saveTemplate = new System.Windows.Forms.ToolStripButton();
             this.tsb_loadTemplate = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_deleteTemplateSheet = new System.Windows.Forms.ToolStripButton();
+            this.tsb_addToQuickAccess = new System.Windows.Forms.ToolStripButton();
+            this.tsb_QuickAccess = new System.Windows.Forms.ToolStripSplitButton();
+            this.cms_SheetSideType = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -80,6 +86,7 @@
             this.olvColumnId,
             this.olvColumnDesc,
             this.olvColumnPrintType});
+            this.objectListView1.ContextMenuStrip = this.cms_SheetSideType;
             this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListView1.FullRowSelect = true;
@@ -119,6 +126,7 @@
             this.tsb_addToList,
             this.toolStripSeparator4,
             this.tsb_edit,
+            this.tsb_deleteTemplateSheet,
             this.tsb_add,
             this.toolStripSeparator3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -196,7 +204,10 @@
             this.tsb_delete,
             this.toolStripSeparator2,
             this.tsb_saveTemplate,
-            this.tsb_loadTemplate});
+            this.tsb_loadTemplate,
+            this.toolStripSeparator5,
+            this.tsb_addToQuickAccess,
+            this.tsb_QuickAccess});
             this.toolStrip2.Location = new System.Drawing.Point(0, 137);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(335, 25);
@@ -278,6 +289,47 @@
             this.tsb_loadTemplate.Text = "завантажити шаблон";
             this.tsb_loadTemplate.Click += new System.EventHandler(this.tsb_loadTemplate_Click);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsb_deleteTemplateSheet
+            // 
+            this.tsb_deleteTemplateSheet.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsb_deleteTemplateSheet.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_deleteTemplateSheet.Image = ((System.Drawing.Image)(resources.GetObject("tsb_deleteTemplateSheet.Image")));
+            this.tsb_deleteTemplateSheet.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_deleteTemplateSheet.Name = "tsb_deleteTemplateSheet";
+            this.tsb_deleteTemplateSheet.Size = new System.Drawing.Size(23, 22);
+            this.tsb_deleteTemplateSheet.Text = "Видалили зі списку форматів";
+            this.tsb_deleteTemplateSheet.Click += new System.EventHandler(this.tsb_deleteTemplateSheet_Click);
+            // 
+            // tsb_addToQuickAccess
+            // 
+            this.tsb_addToQuickAccess.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_addToQuickAccess.Image = ((System.Drawing.Image)(resources.GetObject("tsb_addToQuickAccess.Image")));
+            this.tsb_addToQuickAccess.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_addToQuickAccess.Name = "tsb_addToQuickAccess";
+            this.tsb_addToQuickAccess.Size = new System.Drawing.Size(23, 22);
+            this.tsb_addToQuickAccess.Text = "Додати до швидкого доступу";
+            this.tsb_addToQuickAccess.Click += new System.EventHandler(this.tsb_addToQuickAccess_Click);
+            // 
+            // tsb_QuickAccess
+            // 
+            this.tsb_QuickAccess.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_QuickAccess.Image = ((System.Drawing.Image)(resources.GetObject("tsb_QuickAccess.Image")));
+            this.tsb_QuickAccess.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_QuickAccess.Name = "tsb_QuickAccess";
+            this.tsb_QuickAccess.Size = new System.Drawing.Size(32, 22);
+            this.tsb_QuickAccess.Text = "Меню швидкого доступу";
+            // 
+            // cms_SheetSideType
+            // 
+            this.cms_SheetSideType.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cms_SheetSideType.Name = "cms_SheetSideType";
+            this.cms_SheetSideType.Size = new System.Drawing.Size(61, 4);
+            // 
             // AddTemplateSheetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -323,5 +375,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton tsb_saveTemplate;
         private System.Windows.Forms.ToolStripButton tsb_loadTemplate;
+        private System.Windows.Forms.ToolStripButton tsb_deleteTemplateSheet;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton tsb_addToQuickAccess;
+        private System.Windows.Forms.ToolStripSplitButton tsb_QuickAccess;
+        private System.Windows.Forms.ContextMenuStrip cms_SheetSideType;
     }
 }

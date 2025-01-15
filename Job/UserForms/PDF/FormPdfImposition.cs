@@ -36,7 +36,6 @@ namespace JobSpace.UserForms.PDF
 
         ImposToolsParameters _tool_param = new ImposToolsParameters();
         ControlBindParameters _controlBindParameters = new ControlBindParameters();
-        int printId = 1;
         ProductPart _productPart;
 
         public FormPdfImposition()
@@ -54,6 +53,12 @@ namespace JobSpace.UserForms.PDF
             addTemplateSheetControl1.OnSheetAddToPrint += OnAddSheetToPrintEvent;
             addTemplateSheetControl1.OnSheetAddManyToPrint += OnSheetAddManyToPrintEvent;
             PrintSheet.ResetId();
+
+            cb_CustomOutputPath.DataBindings.Add("Enabled", cb_useCustomOutputFolder, "Checked");
+            btn_selectCustomFolder.DataBindings.Add("Enabled", cb_useCustomOutputFolder, "Checked");
+            tb_useTemplate.DataBindings.Add("Enabled", cb_useTemplate, "Checked");
+
+            cb_CustomOutputPath.Items.AddRange(SaveLoadService.LoadCustomsPath().ToArray());
         }
 
        
@@ -311,7 +316,7 @@ namespace JobSpace.UserForms.PDF
             _productPart.ExportParameters.UseTemplate = cb_useTemplate.Checked;
             _productPart.ExportParameters.TemplateString = tb_useTemplate.Text;
             _productPart.ExportParameters.UseCustomOutputFolder = cb_useCustomOutputFolder.Checked;
-            _productPart.ExportParameters.CustomOutputFolder = tb_customOutputFolder.Text;
+            _productPart.ExportParameters.CustomOutputFolder = cb_CustomOutputPath.Text;
 
             _productPart.ExportParameters.OutputFileName = _files.ToList()[0] + ".impos.pdf";
 
@@ -385,7 +390,20 @@ namespace JobSpace.UserForms.PDF
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    tb_customOutputFolder.Text = form.SelectedPath;
+                    HashSet<string> paths = new HashSet<string>();
+                    paths.Add(form.SelectedPath);
+                    foreach (var item in cb_CustomOutputPath.Items)
+                    {
+                        paths.Add(item.ToString());
+                    }
+                    cb_CustomOutputPath.Items.Clear();
+
+                    foreach (var item in paths)
+                    {
+                        cb_CustomOutputPath.Items.Add(item);
+                    }
+
+                    SaveLoadService.SaveCustomsPath(paths.ToList());
                 }
             }
         }

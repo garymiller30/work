@@ -21,6 +21,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public EventHandler<TemplateSheet> OnSheetAddToPrint { get;set;} = delegate { };
         public EventHandler<TemplateSheet> OnSheetAddManyToPrint = delegate { };
 
+        List<TemplateSheet> _quickAccess = new List<TemplateSheet> { };
 
         ControlBindParameters _parameters;
 
@@ -30,10 +31,80 @@ namespace JobSpace.UserForms.PDF.ImposItems
             InitializeComponent();
             olvColumnId.AspectGetter += (r) => ((TemplateSheet)r).Id;
             olvColumnDesc.AspectGetter += (r) => ((TemplateSheet)r).Description;
-            olvColumnPrintType.AspectGetter += (r) => ((TemplateSheet)r).SheetPlaceType;
+            olvColumnPrintType.AspectGetter += (r) => ((TemplateSheet)r).SheetPlaceType.GetDescription();
             objectListView1.SelectionChanged += ObjectListView1_SelectionChanged;
 
+            InitQuickAccessMenu();
+
+            InitContextMenu();
+
             InitSheets();
+        }
+
+        private void InitQuickAccessMenu()
+        {
+            _quickAccess = SaveLoadService.LoadQuickAccessTemplateSheets();
+            AssignQuickAccessMenuItems();
+        }
+
+        private void AssignQuickAccessMenuItems()
+        {
+            tsb_QuickAccess.DropDownItems.Clear();
+
+            foreach (TemplateSheet sheet in _quickAccess)
+            {
+                ToolStripItem item = tsb_QuickAccess.DropDownItems.Add(sheet.Description);
+                item.Click += (s, e) =>
+                {
+                    objectListView1.AddObject(sheet.Copy());
+                };
+                tsb_QuickAccess.DropDownItems.Add(item);
+            }
+        }
+
+        private void tsb_addToQuickAccess_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is TemplateSheet sheet)
+            {
+                HashSet<TemplateSheet> sheets = new HashSet<TemplateSheet>(_quickAccess, new TemplateSheetComparer());
+                sheets.Add(sheet);
+
+                _quickAccess.Clear();
+                _quickAccess.AddRange(sheets);
+                SaveLoadService.SaveQuickAccessTemplateSheets(_quickAccess);
+                AssignQuickAccessMenuItems();            }
+        }
+
+        class TemplateSheetComparer : IEqualityComparer<TemplateSheet>
+        {
+            public bool Equals(TemplateSheet x, TemplateSheet y)
+            {
+                return x.Description == y.Description;
+            }
+
+            public int GetHashCode(TemplateSheet obj)
+            {
+                return obj.Description.GetHashCode();
+            }
+        }
+
+        private void InitContextMenu()
+        {
+            List<string> desc = Extensions.GetDescriptions(typeof(TemplateSheetPlaceType)).ToList();
+
+            foreach (string desc2 in desc) {
+                ToolStripMenuItem item = new ToolStripMenuItem(desc2);
+                item.Tag = desc.IndexOf(desc2);
+                item.Click += (s, e) =>
+                {
+                    if (objectListView1.SelectedObject is TemplateSheet sheet)
+                    {
+                        sheet.SheetPlaceType = (TemplateSheetPlaceType)item.Tag;
+                        objectListView1.RefreshObject(sheet);
+                    }
+                };
+                cms_SheetSideType.Items.Add(item);
+            }
         }
 
         private void InitSheets()
@@ -189,6 +260,16 @@ namespace JobSpace.UserForms.PDF.ImposItems
                         _parameters.UpdatePreview();
                     }
                 }
+            }
+        }
+
+        private void tsb_deleteTemplateSheet_Click(object sender, EventArgs e)
+        {
+            if (tscb_sheetTemplates.SelectedItem is TemplateSheet sheet)
+            {
+                tscb_sheetTemplates.Items.Remove(sheet);
+                SaveLoadService.DeleteSheet(sheet);
+                
             }
         }
     }
