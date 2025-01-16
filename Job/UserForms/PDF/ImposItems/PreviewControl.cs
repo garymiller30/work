@@ -478,8 +478,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 else
                 {
                     _hover.MasterFrontIdx = _toolParams.FrontNum;
-
-
                 }
 
                 if (parameters.Sheet.SheetPlaceType != TemplateSheetPlaceType.SingleSide ||

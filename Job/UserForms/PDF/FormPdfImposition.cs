@@ -47,7 +47,7 @@ namespace JobSpace.UserForms.PDF
             addTemplateSheetControl1.OnSheetSelected += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetsChanged += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetDeleted += OnPrintSheetDeleted;
-            printSheetsControl1.JustReassignPages += _controlBindParameters_NeedRearangePages;
+            printSheetsControl1.JustReassignPages += NeedCheckRunListPages;
 
 
             addTemplateSheetControl1.OnSheetAddToPrint += OnAddSheetToPrintEvent;
@@ -113,7 +113,8 @@ namespace JobSpace.UserForms.PDF
 
         private void OnTemplateSheetSelected(object sender, TemplateSheet e)
         {
-            _controlBindParameters.Sheet = e;
+            _controlBindParameters.SetSheet(e);
+            
             
         }
 

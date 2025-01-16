@@ -17,7 +17,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
     {
         public EventHandler<TemplateSheet> OnSheetAdded = delegate { };
         public EventHandler<TemplateSheet> OnSheetEdited = delegate { };
-        public EventHandler<TemplateSheet> OnSheetSelected = delegate { };
+        public EventHandler<TemplateSheet> OnSheetSelected { get;set;} = delegate { };
         public EventHandler<TemplateSheet> OnSheetAddToPrint { get;set;} = delegate { };
         public EventHandler<TemplateSheet> OnSheetAddManyToPrint = delegate { };
 
@@ -271,6 +271,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 SaveLoadService.DeleteSheet(sheet);
                 
             }
+        }
+
+        private void tsb_QuickAccess_ButtonClick(object sender, EventArgs e)
+        {
+            tsb_QuickAccess.ShowDropDown();
         }
     }
 }

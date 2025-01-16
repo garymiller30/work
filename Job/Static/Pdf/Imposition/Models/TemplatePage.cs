@@ -16,9 +16,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public int MasterFrontIdx { get; set; } = 1;
         public int MasterBackIdx { get; set; } = 0;
-
         public int PrintFrontIdx { get; set; } = 0;
         public int PrintBackIdx { get; set; } = 0;
+        [JsonIgnore]
+        public ImposRunPage AssignedRunPageFront { get;set; }
+        [JsonIgnore]
+        public ImposRunPage AssignedRunPageBack { get; set; }
         public ClipBox Bleeds { get; set; } = new ClipBox();
         public double W { get; set; } = 210;
         public double H { get; set; } = 297;

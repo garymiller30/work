@@ -28,15 +28,24 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                 foreach (var t_page in sheets[i].TemplatePageContainer.TemplatePages)
                 {
-                    var pageIdx = i*sides  + (t_page.MasterFrontIdx - 1) * sheets.Count;
+                    var pageIdx = i * sides + (t_page.MasterFrontIdx - 1) * sheets.Count;
                     t_page.PrintFrontIdx = pageIdx + 1;
-                    if (pageIdx < pages.Count) pages[pageIdx].IsAssumed = true;
+                    if (pageIdx < pages.Count)
+                    {
+                        pages[pageIdx].IsAssumed = true;
+                        pages[pageIdx].IsValidFormat = ValidateFormat(pages[pageIdx], t_page);
+                    }
+
 
                     if (t_page.MasterBackIdx > 0)
                     {
                         pageIdx++;
                         t_page.PrintBackIdx = pageIdx + 1;
-                        if (pageIdx < pages.Count) pages[pageIdx].IsAssumed = true;
+                        if (pageIdx < pages.Count)
+                        {
+                            pages[pageIdx].IsAssumed = true;
+                            pages[pageIdx].IsValidFormat = ValidateFormat(pages[pageIdx], t_page);
+                        }
                     }
                     else
                     {

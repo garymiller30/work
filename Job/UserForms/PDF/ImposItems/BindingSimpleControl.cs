@@ -98,10 +98,16 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     {
                         var runListpageFrontIdx = maxIdx + t_page.MasterFrontIdx;
                         t_page.PrintFrontIdx = runListpageFrontIdx;
-                        if (runListpageFrontIdx - 1 < pages.Count)
+
+                        int runPageIdx = runListpageFrontIdx - 1;
+
+                        if (runPageIdx < pages.Count)
                         {
-                            pages[runListpageFrontIdx - 1].IsAssumed = true;
-                            pages[runListpageFrontIdx - 1].IsValidFormat = ValidateFormat(pages[runListpageFrontIdx - 1], t_page);
+                            ImposRunPage runPage = pages[runPageIdx];
+
+                            runPage.IsAssumed = true;
+                            runPage.IsValidFormat = ValidateFormat(runPage, t_page);
+                            t_page.AssignedRunPageFront = runPage;
                         }
                     }
                     else
@@ -113,10 +119,16 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     {
                         var runListpageBackIdx = maxIdx + t_page.MasterBackIdx;
                         t_page.PrintBackIdx = runListpageBackIdx;
-                        if (runListpageBackIdx - 1 < pages.Count)
+
+                        int runPageIdx = (runListpageBackIdx - 1);
+
+                        if (runPageIdx < pages.Count)
                         {
-                            pages[runListpageBackIdx - 1].IsAssumed = true;
-                            pages[runListpageBackIdx - 1].IsValidFormat = ValidateFormat(pages[runListpageBackIdx - 1], t_page);
+                            ImposRunPage runPage = pages[runPageIdx];
+
+                            runPage.IsAssumed = true;
+                            runPage.IsValidFormat = ValidateFormat(pages[runPageIdx], t_page);
+                            t_page.AssignedRunPageBack = runPage;
                         }
                     }
                     else
@@ -130,12 +142,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
         }
 
-        private bool ValidateFormat(ImposRunPage imposRunPage,TemplatePage page)
+        protected bool ValidateFormat(ImposRunPage imposRunPage,TemplatePage page)
         {
             var pdf_page = PdfFileService.GetPage(parameters.PdfFiles,imposRunPage);
             if (pdf_page == null) return false;
 
-            //check format with admission 0.3mm
+            //check format with admission 0.5mm
             if (Math.Abs(pdf_page.Trim.W - page.W) > 0.5 || Math.Abs(pdf_page.Trim.H - page.H) > 0.5)
             {
                 return false;
@@ -199,15 +211,24 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (t_page.PrintFrontIdx > 0)
                     {
                         if (t_page.PrintFrontIdx - 1 < pages.Count)
-                            pages[t_page.PrintFrontIdx - 1].IsAssumed = true;
-                            pages[t_page.PrintFrontIdx - 1].IsValidFormat = ValidateFormat(pages[t_page.PrintFrontIdx - 1], t_page);
+                        {
+                            ImposRunPage runPage = pages[t_page.PrintFrontIdx - 1];
 
+                            runPage.IsAssumed = true;
+                            runPage.IsValidFormat = ValidateFormat(runPage, t_page);
+                            t_page.AssignedRunPageFront = runPage;
+                        }
                     }
                     if (t_page.PrintBackIdx > 0)
                     {
                         if (t_page.PrintBackIdx - 1 < pages.Count)
-                            pages[t_page.PrintBackIdx - 1].IsAssumed = true;
-                        pages[t_page.PrintBackIdx - 1].IsValidFormat = ValidateFormat(pages[t_page.PrintBackIdx - 1], t_page);
+                        {
+                            ImposRunPage runPage = pages[t_page.PrintBackIdx - 1];
+
+                            runPage.IsAssumed = true;
+                            runPage.IsValidFormat = ValidateFormat(runPage, t_page);
+                            t_page.AssignedRunPageBack = runPage;
+                        }
                     }
                 }
             }

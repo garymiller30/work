@@ -46,6 +46,7 @@
             this.tsb_removeTemplatePlate = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_count = new System.Windows.Forms.ToolStripButton();
+            this.tsb_loadFromOrderFolder = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -129,6 +130,7 @@
             this.tsb_delete,
             this.tsb_savePrintSheet,
             this.tsb_loadPrintSheet,
+            this.tsb_loadFromOrderFolder,
             this.toolStripSeparator1,
             this.tsb_setPlate,
             this.tsb_removeTemplatePlate,
@@ -212,6 +214,16 @@
             this.tsb_count.Text = "додати тираж";
             this.tsb_count.Click += new System.EventHandler(this.tsb_count_Click);
             // 
+            // tsb_loadFromOrderFolder
+            // 
+            this.tsb_loadFromOrderFolder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_loadFromOrderFolder.Image = ((System.Drawing.Image)(resources.GetObject("tsb_loadFromOrderFolder.Image")));
+            this.tsb_loadFromOrderFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_loadFromOrderFolder.Name = "tsb_loadFromOrderFolder";
+            this.tsb_loadFromOrderFolder.Size = new System.Drawing.Size(23, 22);
+            this.tsb_loadFromOrderFolder.Text = "Відкрити з папки замовлення";
+            this.tsb_loadFromOrderFolder.Click += new System.EventHandler(this.tsb_loadFromOrderFolder_Click);
+            // 
             // PrintSheetsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -247,5 +259,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton tsb_count;
         private BrightIdeasSoftware.OLVColumn olvColumnCount;
+        private System.Windows.Forms.ToolStripButton tsb_loadFromOrderFolder;
     }
 }

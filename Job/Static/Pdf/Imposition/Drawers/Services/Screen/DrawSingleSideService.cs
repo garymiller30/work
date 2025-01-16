@@ -55,10 +55,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             //draw foreground marks
             DrawSheetMarksFront(g, sheet, foreground: true, (int)sheet.H);
 
-            //PdfMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
-            //TextMarksService.RecalcMarkCoordFront(sheet.TemplatePageContainer);
-            //DrawContainerMarksFront(g, sheet.TemplatePageContainer.Marks, (int)sheet.H);
-
             g.Dispose();
 
             return bitmap;
@@ -207,7 +203,18 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             int w = (int)page.GetPageDrawW();
             int h = (int)page.GetPageDrawH();
 
-            Brush brush = new SolidBrush(Color.AliceBlue);
+            Brush brush;
+
+            if (page.AssignedRunPageFront?.IsValidFormat == true)
+            {
+                brush = new SolidBrush(Color.AliceBlue);
+               
+            }
+            else
+            {
+                brush = new SolidBrush(Color.LightCoral);
+            }
+            
             Pen pen = new Pen(Color.Black);
 
             var rect = new Rectangle

@@ -2,11 +2,13 @@
 using JobSpace.Dlg;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
+using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -153,6 +155,23 @@ namespace JobSpace.UserForms.PDF.ImposItems
                         sheet.Count = form.Tirag;
                     }
                     objectListView1.RefreshObjects(objectListView1.SelectedObjects.Cast<object>().ToList());
+                }
+            }
+        }
+
+        private void tsb_loadFromOrderFolder_Click(object sender, EventArgs e)
+        {
+            using (var form = new VistaOpenFileDialog())
+            {
+                form.CheckFileExists = true;
+                form.Filter = "JSON files (*.json)|*.json";
+                form.FileName = Path.GetDirectoryName(_controlBindParameters.PdfFiles[0].FileName)+ "\\";
+
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    var list = SaveLoadService.LoadPrintSheets(form.FileName);
+                    objectListView1.AddObjects(list);
+                    JustReassignPages(this, null);
                 }
             }
         }
