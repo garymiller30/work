@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Services;
+﻿using ExtensionMethods;
+using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,7 +29,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
             if (UseTemplate)
             {
-                fileName = TextVariablesService.ReplaceToRealValues(TemplateString) + ".pdf";
+                fileName = TextVariablesService.ReplaceToRealValues(TemplateString).Transliteration() + ".pdf";
             }
 
             if (UseCustomOutputFolder)

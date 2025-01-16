@@ -88,5 +88,11 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         {
             NeedCheckRunListPages(this, null);
         }
+
+        public void SetSheet(TemplateSheet e)
+        {
+            selectedPreviewPage = null;
+            Sheet = e;
+        }
     }
 }

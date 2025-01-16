@@ -44,6 +44,8 @@
             this.b_max_0 = new System.Windows.Forms.Button();
             this.b_90 = new System.Windows.Forms.Button();
             this.b_0 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Yofs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Xofs)).BeginInit();
@@ -52,6 +54,8 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.label2);
+            this.groupBox7.Controls.Add(this.label1);
             this.groupBox7.Controls.Add(this.cb_OneCut);
             this.groupBox7.Controls.Add(this.nud_Yofs);
             this.groupBox7.Controls.Add(this.nud_Xofs);
@@ -59,25 +63,27 @@
             this.groupBox7.Controls.Add(this.cb_centerWidth);
             this.groupBox7.Location = new System.Drawing.Point(3, 71);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(299, 93);
+            this.groupBox7.Size = new System.Drawing.Size(299, 74);
             this.groupBox7.TabIndex = 9;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Додаткові параметри";
             // 
             // cb_OneCut
             // 
-            this.cb_OneCut.AutoSize = true;
-            this.cb_OneCut.Location = new System.Drawing.Point(187, 44);
+            this.cb_OneCut.Appearance = System.Windows.Forms.Appearance.Button;
+            this.cb_OneCut.Location = new System.Drawing.Point(141, 28);
             this.cb_OneCut.Name = "cb_OneCut";
-            this.cb_OneCut.Size = new System.Drawing.Size(76, 17);
+            this.cb_OneCut.Size = new System.Drawing.Size(76, 24);
             this.cb_OneCut.TabIndex = 10;
             this.cb_OneCut.Text = "в один різ";
+            this.cb_OneCut.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.cb_OneCut.UseVisualStyleBackColor = true;
             // 
             // nud_Yofs
             // 
             this.nud_Yofs.DecimalPlaces = 1;
-            this.nud_Yofs.Location = new System.Drawing.Point(95, 62);
+            this.nud_Yofs.Location = new System.Drawing.Point(67, 43);
+            this.nud_Yofs.Margin = new System.Windows.Forms.Padding(0);
             this.nud_Yofs.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -89,14 +95,15 @@
             0,
             -2147483648});
             this.nud_Yofs.Name = "nud_Yofs";
-            this.nud_Yofs.Size = new System.Drawing.Size(52, 20);
+            this.nud_Yofs.Size = new System.Drawing.Size(63, 20);
             this.nud_Yofs.TabIndex = 8;
             this.nud_Yofs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // nud_Xofs
             // 
             this.nud_Xofs.DecimalPlaces = 1;
-            this.nud_Xofs.Location = new System.Drawing.Point(95, 27);
+            this.nud_Xofs.Location = new System.Drawing.Point(67, 16);
+            this.nud_Xofs.Margin = new System.Windows.Forms.Padding(0);
             this.nud_Xofs.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -108,35 +115,35 @@
             0,
             -2147483648});
             this.nud_Xofs.Name = "nud_Xofs";
-            this.nud_Xofs.Size = new System.Drawing.Size(52, 20);
+            this.nud_Xofs.Size = new System.Drawing.Size(63, 20);
             this.nud_Xofs.TabIndex = 7;
             this.nud_Xofs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // cb_centerHeight
             // 
+            this.cb_centerHeight.Appearance = System.Windows.Forms.Appearance.Button;
             this.cb_centerHeight.AutoSize = true;
             this.cb_centerHeight.Checked = true;
             this.cb_centerHeight.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_centerHeight.Image = ((System.Drawing.Image)(resources.GetObject("cb_centerHeight.Image")));
-            this.cb_centerHeight.Location = new System.Drawing.Point(7, 55);
+            this.cb_centerHeight.Location = new System.Drawing.Point(8, 43);
             this.cb_centerHeight.Name = "cb_centerHeight";
-            this.cb_centerHeight.Size = new System.Drawing.Size(88, 32);
+            this.cb_centerHeight.Size = new System.Drawing.Size(22, 22);
             this.cb_centerHeight.TabIndex = 1;
-            this.cb_centerHeight.Text = "+ Yofs";
             this.cb_centerHeight.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.cb_centerHeight.UseVisualStyleBackColor = true;
             // 
             // cb_centerWidth
             // 
+            this.cb_centerWidth.Appearance = System.Windows.Forms.Appearance.Button;
             this.cb_centerWidth.AutoSize = true;
             this.cb_centerWidth.Checked = true;
             this.cb_centerWidth.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_centerWidth.Image = ((System.Drawing.Image)(resources.GetObject("cb_centerWidth.Image")));
-            this.cb_centerWidth.Location = new System.Drawing.Point(7, 20);
+            this.cb_centerWidth.Location = new System.Drawing.Point(8, 16);
             this.cb_centerWidth.Name = "cb_centerWidth";
-            this.cb_centerWidth.Size = new System.Drawing.Size(88, 32);
+            this.cb_centerWidth.Size = new System.Drawing.Size(22, 22);
             this.cb_centerWidth.TabIndex = 0;
-            this.cb_centerWidth.Text = "+ Xofs";
             this.cb_centerWidth.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.cb_centerWidth.UseVisualStyleBackColor = true;
             // 
@@ -234,6 +241,26 @@
             this.b_0.UseVisualStyleBackColor = true;
             this.b_0.Click += new System.EventHandler(this.b_0_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(32, 20);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "+Xofs";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(32, 47);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "+Yofs";
+            // 
             // BindingSimpleControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -241,7 +268,7 @@
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox1);
             this.Name = "BindingSimpleControl";
-            this.Size = new System.Drawing.Size(307, 167);
+            this.Size = new System.Drawing.Size(307, 148);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Yofs)).EndInit();
@@ -268,5 +295,7 @@
         private System.Windows.Forms.Label label_max_0;
         private System.Windows.Forms.Label label_90;
         private System.Windows.Forms.Label label_0;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }

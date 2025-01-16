@@ -35,12 +35,14 @@
             this.olvColumnId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnDesc = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPrintType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.cms_SheetSideType = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tscb_sheetTemplates = new System.Windows.Forms.ToolStripComboBox();
             this.tscb_sheetType = new System.Windows.Forms.ToolStripComboBox();
             this.tsb_addToList = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_edit = new System.Windows.Forms.ToolStripButton();
+            this.tsb_deleteTemplateSheet = new System.Windows.Forms.ToolStripButton();
             this.tsb_add = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -53,10 +55,8 @@
             this.tsb_saveTemplate = new System.Windows.Forms.ToolStripButton();
             this.tsb_loadTemplate = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_deleteTemplateSheet = new System.Windows.Forms.ToolStripButton();
             this.tsb_addToQuickAccess = new System.Windows.Forms.ToolStripButton();
             this.tsb_QuickAccess = new System.Windows.Forms.ToolStripSplitButton();
-            this.cms_SheetSideType = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -117,6 +117,12 @@
             this.olvColumnPrintType.Text = "тип друку";
             this.olvColumnPrintType.Width = 104;
             // 
+            // cms_SheetSideType
+            // 
+            this.cms_SheetSideType.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cms_SheetSideType.Name = "cms_SheetSideType";
+            this.cms_SheetSideType.Size = new System.Drawing.Size(61, 4);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -174,6 +180,17 @@
             this.tsb_edit.Size = new System.Drawing.Size(23, 22);
             this.tsb_edit.Text = "редагувати шаблон листа";
             this.tsb_edit.Click += new System.EventHandler(this.tsb_edit_Click);
+            // 
+            // tsb_deleteTemplateSheet
+            // 
+            this.tsb_deleteTemplateSheet.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tsb_deleteTemplateSheet.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_deleteTemplateSheet.Image = ((System.Drawing.Image)(resources.GetObject("tsb_deleteTemplateSheet.Image")));
+            this.tsb_deleteTemplateSheet.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_deleteTemplateSheet.Name = "tsb_deleteTemplateSheet";
+            this.tsb_deleteTemplateSheet.Size = new System.Drawing.Size(23, 22);
+            this.tsb_deleteTemplateSheet.Text = "Видалили зі списку форматів";
+            this.tsb_deleteTemplateSheet.Click += new System.EventHandler(this.tsb_deleteTemplateSheet_Click);
             // 
             // tsb_add
             // 
@@ -294,17 +311,6 @@
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
-            // tsb_deleteTemplateSheet
-            // 
-            this.tsb_deleteTemplateSheet.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tsb_deleteTemplateSheet.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_deleteTemplateSheet.Image = ((System.Drawing.Image)(resources.GetObject("tsb_deleteTemplateSheet.Image")));
-            this.tsb_deleteTemplateSheet.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_deleteTemplateSheet.Name = "tsb_deleteTemplateSheet";
-            this.tsb_deleteTemplateSheet.Size = new System.Drawing.Size(23, 22);
-            this.tsb_deleteTemplateSheet.Text = "Видалили зі списку форматів";
-            this.tsb_deleteTemplateSheet.Click += new System.EventHandler(this.tsb_deleteTemplateSheet_Click);
-            // 
             // tsb_addToQuickAccess
             // 
             this.tsb_addToQuickAccess.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -323,12 +329,7 @@
             this.tsb_QuickAccess.Name = "tsb_QuickAccess";
             this.tsb_QuickAccess.Size = new System.Drawing.Size(32, 22);
             this.tsb_QuickAccess.Text = "Меню швидкого доступу";
-            // 
-            // cms_SheetSideType
-            // 
-            this.cms_SheetSideType.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.cms_SheetSideType.Name = "cms_SheetSideType";
-            this.cms_SheetSideType.Size = new System.Drawing.Size(61, 4);
+            this.tsb_QuickAccess.ButtonClick += new System.EventHandler(this.tsb_QuickAccess_ButtonClick);
             // 
             // AddTemplateSheetControl
             // 
