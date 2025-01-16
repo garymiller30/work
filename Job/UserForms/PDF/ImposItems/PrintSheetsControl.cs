@@ -76,13 +76,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 return;
             }
-
-            // якщо натиснутий альт, то не посилаємо подію про нумерацію сторінок    
-            if (ModifierKeys != Keys.Alt)
-            {
-                OnPrintSheetDeleted(this, null);
-            }
-            
+            OnPrintSheetDeleted(this, null);
         }
 
         public void AddSheets(PrintSheet sheet, int sheetCnt)

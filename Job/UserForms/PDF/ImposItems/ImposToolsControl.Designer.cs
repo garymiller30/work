@@ -41,7 +41,6 @@
             this.btn_switch_front_back = new System.Windows.Forms.Button();
             this.tb_back = new System.Windows.Forms.TextBox();
             this.rb_centerH = new System.Windows.Forms.Button();
-            this.rb_deletePage = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn_ApplyCropMark = new System.Windows.Forms.Button();
             this.nud_cropDist = new System.Windows.Forms.NumericUpDown();
@@ -49,14 +48,15 @@
             this.nud_cropLen = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.rb_centerV = new System.Windows.Forms.Button();
-            this.rb_EnableNumering = new System.Windows.Forms.RadioButton();
             this.btn_left = new System.Windows.Forms.Button();
-            this.btn_right = new System.Windows.Forms.Button();
             this.btn_up = new System.Windows.Forms.Button();
-            this.btn_down = new System.Windows.Forms.Button();
+            this.rb_EnableNumering = new System.Windows.Forms.RadioButton();
+            this.rb_deletePage = new System.Windows.Forms.RadioButton();
             this.btn_rotateLeft = new System.Windows.Forms.Button();
             this.btn_rotateRight = new System.Windows.Forms.Button();
-            this.b_switchWH = new System.Windows.Forms.Button();
+            this.btn_right = new System.Windows.Forms.Button();
+            this.btn_down = new System.Windows.Forms.Button();
+            this.rb_switchHW = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -96,13 +96,13 @@
             this.tableLayoutPanel1.Controls.Add(this.rb_centerV, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.btn_left, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.btn_up, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.rb_EnableNumering, 6, 0);
-            this.tableLayoutPanel1.Controls.Add(this.rb_deletePage, 6, 1);
             this.tableLayoutPanel1.Controls.Add(this.btn_rotateLeft, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.btn_rotateRight, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.btn_right, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.btn_down, 4, 1);
-            this.tableLayoutPanel1.Controls.Add(this.b_switchWH, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this.rb_switchHW, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this.rb_deletePage, 5, 1);
+            this.tableLayoutPanel1.Controls.Add(this.rb_EnableNumering, 6, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -243,17 +243,6 @@
             this.rb_centerH.TabIndex = 17;
             this.rb_centerH.UseVisualStyleBackColor = true;
             // 
-            // rb_deletePage
-            // 
-            this.rb_deletePage.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rb_deletePage.AutoSize = true;
-            this.rb_deletePage.Image = ((System.Drawing.Image)(resources.GetObject("rb_deletePage.Image")));
-            this.rb_deletePage.Location = new System.Drawing.Point(171, 31);
-            this.rb_deletePage.Name = "rb_deletePage";
-            this.rb_deletePage.Size = new System.Drawing.Size(22, 22);
-            this.rb_deletePage.TabIndex = 13;
-            this.rb_deletePage.UseVisualStyleBackColor = true;
-            // 
             // groupBox2
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.groupBox2, 6);
@@ -327,17 +316,6 @@
             this.rb_centerV.TabIndex = 18;
             this.rb_centerV.UseVisualStyleBackColor = true;
             // 
-            // rb_EnableNumering
-            // 
-            this.rb_EnableNumering.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rb_EnableNumering.AutoSize = true;
-            this.rb_EnableNumering.Image = ((System.Drawing.Image)(resources.GetObject("rb_EnableNumering.Image")));
-            this.rb_EnableNumering.Location = new System.Drawing.Point(171, 3);
-            this.rb_EnableNumering.Name = "rb_EnableNumering";
-            this.rb_EnableNumering.Size = new System.Drawing.Size(22, 22);
-            this.rb_EnableNumering.TabIndex = 11;
-            this.rb_EnableNumering.UseVisualStyleBackColor = true;
-            // 
             // btn_left
             // 
             this.btn_left.Image = ((System.Drawing.Image)(resources.GetObject("btn_left.Image")));
@@ -347,16 +325,6 @@
             this.btn_left.TabIndex = 20;
             this.btn_left.UseVisualStyleBackColor = true;
             this.btn_left.Click += new System.EventHandler(this.btn_left_Click);
-            // 
-            // btn_right
-            // 
-            this.btn_right.Image = ((System.Drawing.Image)(resources.GetObject("btn_right.Image")));
-            this.btn_right.Location = new System.Drawing.Point(115, 3);
-            this.btn_right.Name = "btn_right";
-            this.btn_right.Size = new System.Drawing.Size(22, 22);
-            this.btn_right.TabIndex = 21;
-            this.btn_right.UseVisualStyleBackColor = true;
-            this.btn_right.Click += new System.EventHandler(this.btn_right_Click);
             // 
             // btn_up
             // 
@@ -368,15 +336,27 @@
             this.btn_up.UseVisualStyleBackColor = true;
             this.btn_up.Click += new System.EventHandler(this.btn_up_Click);
             // 
-            // btn_down
+            // rb_EnableNumering
             // 
-            this.btn_down.Image = ((System.Drawing.Image)(resources.GetObject("btn_down.Image")));
-            this.btn_down.Location = new System.Drawing.Point(115, 31);
-            this.btn_down.Name = "btn_down";
-            this.btn_down.Size = new System.Drawing.Size(22, 22);
-            this.btn_down.TabIndex = 22;
-            this.btn_down.UseVisualStyleBackColor = true;
-            this.btn_down.Click += new System.EventHandler(this.btn_down_Click);
+            this.rb_EnableNumering.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rb_EnableNumering.AutoSize = true;
+            this.rb_EnableNumering.Image = ((System.Drawing.Image)(resources.GetObject("rb_EnableNumering.Image")));
+            this.rb_EnableNumering.Location = new System.Drawing.Point(171, 31);
+            this.rb_EnableNumering.Name = "rb_EnableNumering";
+            this.rb_EnableNumering.Size = new System.Drawing.Size(22, 22);
+            this.rb_EnableNumering.TabIndex = 11;
+            this.rb_EnableNumering.UseVisualStyleBackColor = true;
+            // 
+            // rb_deletePage
+            // 
+            this.rb_deletePage.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rb_deletePage.AutoSize = true;
+            this.rb_deletePage.Image = ((System.Drawing.Image)(resources.GetObject("rb_deletePage.Image")));
+            this.rb_deletePage.Location = new System.Drawing.Point(143, 31);
+            this.rb_deletePage.Name = "rb_deletePage";
+            this.rb_deletePage.Size = new System.Drawing.Size(22, 22);
+            this.rb_deletePage.TabIndex = 13;
+            this.rb_deletePage.UseVisualStyleBackColor = true;
             // 
             // btn_rotateLeft
             // 
@@ -398,15 +378,37 @@
             this.btn_rotateRight.UseVisualStyleBackColor = true;
             this.btn_rotateRight.Click += new System.EventHandler(this.btn_rotateRight_Click);
             // 
-            // b_switchWH
+            // btn_right
             // 
-            this.b_switchWH.Image = ((System.Drawing.Image)(resources.GetObject("b_switchWH.Image")));
-            this.b_switchWH.Location = new System.Drawing.Point(143, 3);
-            this.b_switchWH.Name = "b_switchWH";
-            this.b_switchWH.Size = new System.Drawing.Size(22, 22);
-            this.b_switchWH.TabIndex = 26;
-            this.b_switchWH.UseVisualStyleBackColor = true;
-            this.b_switchWH.Click += new System.EventHandler(this.b_switchWH_Click);
+            this.btn_right.Image = ((System.Drawing.Image)(resources.GetObject("btn_right.Image")));
+            this.btn_right.Location = new System.Drawing.Point(115, 3);
+            this.btn_right.Name = "btn_right";
+            this.btn_right.Size = new System.Drawing.Size(22, 22);
+            this.btn_right.TabIndex = 21;
+            this.btn_right.UseVisualStyleBackColor = true;
+            this.btn_right.Click += new System.EventHandler(this.btn_right_Click);
+            // 
+            // btn_down
+            // 
+            this.btn_down.Image = ((System.Drawing.Image)(resources.GetObject("btn_down.Image")));
+            this.btn_down.Location = new System.Drawing.Point(115, 31);
+            this.btn_down.Name = "btn_down";
+            this.btn_down.Size = new System.Drawing.Size(22, 22);
+            this.btn_down.TabIndex = 22;
+            this.btn_down.UseVisualStyleBackColor = true;
+            this.btn_down.Click += new System.EventHandler(this.btn_down_Click);
+            // 
+            // rb_switchHW
+            // 
+            this.rb_switchHW.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rb_switchHW.AutoSize = true;
+            this.rb_switchHW.Image = ((System.Drawing.Image)(resources.GetObject("rb_switchHW.Image")));
+            this.rb_switchHW.Location = new System.Drawing.Point(143, 3);
+            this.rb_switchHW.Name = "rb_switchHW";
+            this.rb_switchHW.Size = new System.Drawing.Size(22, 22);
+            this.rb_switchHW.TabIndex = 27;
+            this.rb_switchHW.TabStop = true;
+            this.rb_switchHW.UseVisualStyleBackColor = true;
             // 
             // ImposToolsControl
             // 
@@ -457,6 +459,6 @@
         private System.Windows.Forms.Button btn_up;
         private System.Windows.Forms.Button btn_rotateLeft;
         private System.Windows.Forms.Button btn_rotateRight;
-        private System.Windows.Forms.Button b_switchWH;
+        private System.Windows.Forms.RadioButton rb_switchHW;
     }
 }

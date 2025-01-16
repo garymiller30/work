@@ -205,14 +205,24 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             Brush brush;
 
-            if (page.AssignedRunPageFront?.IsValidFormat == true)
+            if (sheet is PrintSheet printSheet)
             {
-                brush = new SolidBrush(Color.AliceBlue);
-               
+                if (page.AssignedRunPageFront == null)
+                {
+                    brush = new SolidBrush(Color.LightSlateGray);
+                }
+                else if (page.AssignedRunPageFront.IsValidFormat)
+                {
+                    brush = new SolidBrush(Color.AliceBlue);
+                }
+                else
+                {
+                    brush = new SolidBrush(Color.LightCoral);
+                }
             }
             else
             {
-                brush = new SolidBrush(Color.LightCoral);
+                brush = new SolidBrush(Color.AliceBlue);
             }
             
             Pen pen = new Pen(Color.Black);

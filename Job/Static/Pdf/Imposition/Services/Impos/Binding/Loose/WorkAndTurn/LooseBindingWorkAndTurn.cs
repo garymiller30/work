@@ -12,8 +12,15 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTur
     {
         public static TemplatePageContainer Impos(LooseBindingParameters parameters)
         {
-            if (parameters.IsOneCut) parameters.Sheet.MasterPage.Margins.Set(0d);
-
+            
+            if (parameters.IsOneCut)
+            {
+                parameters.Sheet.MasterPage.Margins.Set(0d);
+            }
+            else
+            {
+                parameters.Sheet.MasterPage.SetMarginsLikeBleed();
+            }
             switch (parameters.BindingPlace)
             {
                 case Binding.BindingPlaceEnum.Normal:

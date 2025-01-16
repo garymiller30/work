@@ -22,7 +22,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void InitTree()
         {
             treeListViewFiles.IsSimpleDragSource = true;
-            //treeListViewFiles.DragSource = new SimpleDragSource();
             treeListViewFiles.CanExpandGetter += (r) => r is PdfFile;
             treeListViewFiles.ChildrenGetter += (r) => ((PdfFile)r).Pages;
             olvColumnName.AspectGetter = delegate (object r)
@@ -43,6 +42,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 if (r is PdfFilePage p)
                 {
                     return $"{p.Trim.W.ToString("N1")} x {p.Trim.H.ToString("N1")}";
+                }
+                else if (r is PdfFile file && file.Pages.Count() == 1)
+                {
+                    var page = file.Pages.First();
+                    return $"{page.Trim.W.ToString("N1")} x {page.Trim.H.ToString("N1")}";
                 }
                 return null;
             };

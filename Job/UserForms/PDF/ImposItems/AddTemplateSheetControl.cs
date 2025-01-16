@@ -33,6 +33,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             olvColumnDesc.AspectGetter += (r) => ((TemplateSheet)r).Description;
             olvColumnPrintType.AspectGetter += (r) => ((TemplateSheet)r).SheetPlaceType.GetDescription();
             objectListView1.SelectionChanged += ObjectListView1_SelectionChanged;
+            olvColumnFormat.AspectGetter += (r) => $"{((TemplateSheet)r).W} x {((TemplateSheet)r).H}";
 
             InitQuickAccessMenu();
 
