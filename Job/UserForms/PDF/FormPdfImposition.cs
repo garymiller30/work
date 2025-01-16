@@ -65,7 +65,15 @@ namespace JobSpace.UserForms.PDF
 
         private void OnPrintSheetDeleted(object sender, EventArgs e)
         {
-            _controlBindParameters_NeedRearangePages(this,null);
+            if (ModifierKeys == Keys.Alt)
+            {
+                NeedCheckRunListPages(this,null);
+            }
+            else
+            {
+                _controlBindParameters_NeedRearangePages(this, null);
+            }
+            
         }
 
         private void OnClickCenterH(object sender, EventArgs e)

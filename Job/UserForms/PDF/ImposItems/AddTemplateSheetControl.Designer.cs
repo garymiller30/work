@@ -57,6 +57,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_addToQuickAccess = new System.Windows.Forms.ToolStripButton();
             this.tsb_QuickAccess = new System.Windows.Forms.ToolStripSplitButton();
+            this.olvColumnFormat = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -81,11 +82,13 @@
             this.objectListView1.AllColumns.Add(this.olvColumnId);
             this.objectListView1.AllColumns.Add(this.olvColumnDesc);
             this.objectListView1.AllColumns.Add(this.olvColumnPrintType);
+            this.objectListView1.AllColumns.Add(this.olvColumnFormat);
             this.objectListView1.CellEditUseWholeCell = false;
             this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumnId,
             this.olvColumnDesc,
-            this.olvColumnPrintType});
+            this.olvColumnPrintType,
+            this.olvColumnFormat});
             this.objectListView1.ContextMenuStrip = this.cms_SheetSideType;
             this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -331,6 +334,10 @@
             this.tsb_QuickAccess.Text = "Меню швидкого доступу";
             this.tsb_QuickAccess.ButtonClick += new System.EventHandler(this.tsb_QuickAccess_ButtonClick);
             // 
+            // olvColumnFormat
+            // 
+            this.olvColumnFormat.Text = "Формат";
+            // 
             // AddTemplateSheetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -381,5 +388,6 @@
         private System.Windows.Forms.ToolStripButton tsb_addToQuickAccess;
         private System.Windows.Forms.ToolStripSplitButton tsb_QuickAccess;
         private System.Windows.Forms.ContextMenuStrip cms_SheetSideType;
+        private BrightIdeasSoftware.OLVColumn olvColumnFormat;
     }
 }

@@ -361,6 +361,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     parameters.SelectedPreviewPage = _hover;
                 }
+                else if (_toolParams.CurTool == ImposToolEnum.SwitchHW)
+                {
+                    ToolSwitchWH();
+                }
             }
             else if (e.Button == MouseButtons.Right)
             {
@@ -373,6 +377,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     ToolNumericWithContinue();
                 }
             }
+        }
+
+        private void ToolSwitchWH()
+        {
+            if (_hover == null) return;
+            _hover.SwitchWH();
+            parameters.CheckRunListPages();
+            parameters.UpdateSheet();
         }
 
         private void ToolDeletePage()

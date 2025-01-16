@@ -13,7 +13,14 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
         public static TemplatePageContainer Impos(LooseBindingParameters parameters)
         {
 
-            if (parameters.IsOneCut) parameters.Sheet.MasterPage.Margins.Set(0d);
+            if (parameters.IsOneCut)
+            {
+                parameters.Sheet.MasterPage.Margins.Set(0d);
+            }
+            else
+            {
+                parameters.Sheet.MasterPage.SetMarginsLikeBleed();
+            }
 
             TemplatePageContainer tc;
 
@@ -44,7 +51,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
 
             tc.TemplatePages.ForEach(p => { p.MasterFrontIdx = 1; p.MasterBackIdx = 2; });
             return tc;
-            
+
         }
 
         public static void FixBleedsBack(TemplatePageContainer templatePageContainer)

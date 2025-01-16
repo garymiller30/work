@@ -33,30 +33,34 @@
             this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonTextBoxNumber = new System.Windows.Forms.TextBox();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
+            this.panelCategory = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonComboBoxCategory = new Krypton.Toolkit.KryptonComboBox();
+            this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonComboBox_Customers = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
-            this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
-            this.kryptonComboBoxCategory = new Krypton.Toolkit.KryptonComboBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.checkBoxCloseAfterPaste = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
             this.textBox_Description = new JobSpace.UC.UcTexBox(this.components);
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonPanel3 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonSplitContainer1 = new Krypton.Toolkit.KryptonSplitContainer();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
             this.ucNote1 = new JobSpace.UC.UcNote();
             this.kryptonGroupBox2 = new Krypton.Toolkit.KryptonGroupBox();
             this.ucAddWorkPluginsContainer1 = new JobSpace.UC.UcAddWorkPluginsContainer();
             this.kryptonButton_OK = new Krypton.Toolkit.KryptonButton();
-            this.kryptonPanel3 = new Krypton.Toolkit.KryptonPanel();
-            this.panelCategory = new Krypton.Toolkit.KryptonPanel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
             this.kryptonPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox_Customers)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelCategory)).BeginInit();
+            this.panelCategory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBoxCategory)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox_Customers)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel3)).BeginInit();
+            this.kryptonPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1.Panel1)).BeginInit();
             this.kryptonSplitContainer1.Panel1.SuspendLayout();
@@ -71,10 +75,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox2.Panel)).BeginInit();
             this.kryptonGroupBox2.Panel.SuspendLayout();
             this.kryptonGroupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel3)).BeginInit();
-            this.kryptonPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.panelCategory)).BeginInit();
-            this.panelCategory.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelRetryNumber
@@ -101,7 +101,7 @@
             this.kryptonTextBoxNumber.Location = new System.Drawing.Point(70, 10);
             this.kryptonTextBoxNumber.Name = "kryptonTextBoxNumber";
             this.kryptonTextBoxNumber.Size = new System.Drawing.Size(85, 20);
-            this.kryptonTextBoxNumber.TabIndex = 46;
+            this.kryptonTextBoxNumber.TabIndex = 0;
             this.kryptonTextBoxNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // kryptonPanel2
@@ -114,35 +114,14 @@
             this.kryptonPanel2.Size = new System.Drawing.Size(230, 69);
             this.kryptonPanel2.TabIndex = 1;
             // 
-            // kryptonComboBox_Customers
+            // panelCategory
             // 
-            this.kryptonComboBox_Customers.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.kryptonComboBox_Customers.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.kryptonComboBox_Customers.DropDownWidth = 147;
-            this.kryptonComboBox_Customers.FormattingEnabled = true;
-            this.kryptonComboBox_Customers.IntegralHeight = false;
-            this.kryptonComboBox_Customers.Location = new System.Drawing.Point(79, 9);
-            this.kryptonComboBox_Customers.Name = "kryptonComboBox_Customers";
-            this.kryptonComboBox_Customers.Size = new System.Drawing.Size(142, 21);
-            this.kryptonComboBox_Customers.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonComboBox_Customers.TabIndex = 51;
-            this.kryptonComboBox_Customers.SelectedIndexChanged += new System.EventHandler(this.kryptonComboBox_Customers_SelectedIndexChanged);
-            // 
-            // kryptonLabel1
-            // 
-            this.kryptonLabel1.Location = new System.Drawing.Point(2, 10);
-            this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(66, 20);
-            this.kryptonLabel1.TabIndex = 0;
-            this.kryptonLabel1.Values.Text = "Замовник";
-            // 
-            // kryptonLabel2
-            // 
-            this.kryptonLabel2.Location = new System.Drawing.Point(3, 6);
-            this.kryptonLabel2.Name = "kryptonLabel2";
-            this.kryptonLabel2.Size = new System.Drawing.Size(64, 20);
-            this.kryptonLabel2.TabIndex = 51;
-            this.kryptonLabel2.Values.Text = "Категорія";
+            this.panelCategory.Controls.Add(this.kryptonComboBoxCategory);
+            this.panelCategory.Controls.Add(this.kryptonLabel2);
+            this.panelCategory.Location = new System.Drawing.Point(3, 33);
+            this.panelCategory.Name = "panelCategory";
+            this.panelCategory.Size = new System.Drawing.Size(227, 35);
+            this.panelCategory.TabIndex = 52;
             // 
             // kryptonComboBoxCategory
             // 
@@ -155,7 +134,37 @@
             this.kryptonComboBoxCategory.Size = new System.Drawing.Size(146, 21);
             this.kryptonComboBoxCategory.Sorted = true;
             this.kryptonComboBoxCategory.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonComboBoxCategory.TabIndex = 51;
+            this.kryptonComboBoxCategory.TabIndex = 0;
+            // 
+            // kryptonLabel2
+            // 
+            this.kryptonLabel2.Location = new System.Drawing.Point(3, 6);
+            this.kryptonLabel2.Name = "kryptonLabel2";
+            this.kryptonLabel2.Size = new System.Drawing.Size(64, 20);
+            this.kryptonLabel2.TabIndex = 51;
+            this.kryptonLabel2.Values.Text = "Категорія";
+            // 
+            // kryptonComboBox_Customers
+            // 
+            this.kryptonComboBox_Customers.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.kryptonComboBox_Customers.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.kryptonComboBox_Customers.DropDownWidth = 147;
+            this.kryptonComboBox_Customers.FormattingEnabled = true;
+            this.kryptonComboBox_Customers.IntegralHeight = false;
+            this.kryptonComboBox_Customers.Location = new System.Drawing.Point(79, 9);
+            this.kryptonComboBox_Customers.Name = "kryptonComboBox_Customers";
+            this.kryptonComboBox_Customers.Size = new System.Drawing.Size(142, 21);
+            this.kryptonComboBox_Customers.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonComboBox_Customers.TabIndex = 0;
+            this.kryptonComboBox_Customers.SelectedIndexChanged += new System.EventHandler(this.kryptonComboBox_Customers_SelectedIndexChanged);
+            // 
+            // kryptonLabel1
+            // 
+            this.kryptonLabel1.Location = new System.Drawing.Point(2, 10);
+            this.kryptonLabel1.Name = "kryptonLabel1";
+            this.kryptonLabel1.Size = new System.Drawing.Size(66, 20);
+            this.kryptonLabel1.TabIndex = 0;
+            this.kryptonLabel1.Values.Text = "Замовник";
             // 
             // panel4
             // 
@@ -166,7 +175,7 @@
             this.panel4.Location = new System.Drawing.Point(12, 87);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(401, 47);
-            this.panel4.TabIndex = 1;
+            this.panel4.TabIndex = 2;
             // 
             // checkBoxCloseAfterPaste
             // 
@@ -208,6 +217,16 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(424, 511);
             this.kryptonPanel1.TabIndex = 49;
+            // 
+            // kryptonPanel3
+            // 
+            this.kryptonPanel3.Controls.Add(this.labelRetryNumber);
+            this.kryptonPanel3.Controls.Add(this.kryptonLabel3);
+            this.kryptonPanel3.Controls.Add(this.kryptonTextBoxNumber);
+            this.kryptonPanel3.Location = new System.Drawing.Point(12, 12);
+            this.kryptonPanel3.Name = "kryptonPanel3";
+            this.kryptonPanel3.Size = new System.Drawing.Size(165, 69);
+            this.kryptonPanel3.TabIndex = 0;
             // 
             // kryptonSplitContainer1
             // 
@@ -279,28 +298,9 @@
             this.kryptonButton_OK.Location = new System.Drawing.Point(144, 460);
             this.kryptonButton_OK.Name = "kryptonButton_OK";
             this.kryptonButton_OK.Size = new System.Drawing.Size(134, 39);
-            this.kryptonButton_OK.TabIndex = 0;
+            this.kryptonButton_OK.TabIndex = 3;
             this.kryptonButton_OK.Values.Text = "OK";
             this.kryptonButton_OK.Click += new System.EventHandler(this.Button_Ok_Click);
-            // 
-            // kryptonPanel3
-            // 
-            this.kryptonPanel3.Controls.Add(this.labelRetryNumber);
-            this.kryptonPanel3.Controls.Add(this.kryptonLabel3);
-            this.kryptonPanel3.Controls.Add(this.kryptonTextBoxNumber);
-            this.kryptonPanel3.Location = new System.Drawing.Point(12, 12);
-            this.kryptonPanel3.Name = "kryptonPanel3";
-            this.kryptonPanel3.Size = new System.Drawing.Size(165, 69);
-            this.kryptonPanel3.TabIndex = 51;
-            // 
-            // panelCategory
-            // 
-            this.panelCategory.Controls.Add(this.kryptonComboBoxCategory);
-            this.panelCategory.Controls.Add(this.kryptonLabel2);
-            this.panelCategory.Location = new System.Drawing.Point(3, 33);
-            this.panelCategory.Name = "panelCategory";
-            this.panelCategory.Size = new System.Drawing.Size(227, 35);
-            this.panelCategory.TabIndex = 52;
             // 
             // FormAddWork2
             // 
@@ -321,12 +321,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
             this.kryptonPanel2.ResumeLayout(false);
             this.kryptonPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox_Customers)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.panelCategory)).EndInit();
+            this.panelCategory.ResumeLayout(false);
+            this.panelCategory.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBoxCategory)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox_Customers)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel3)).EndInit();
+            this.kryptonPanel3.ResumeLayout(false);
+            this.kryptonPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1.Panel1)).EndInit();
             this.kryptonSplitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1.Panel2)).EndInit();
@@ -341,12 +347,6 @@
             this.kryptonGroupBox2.Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox2)).EndInit();
             this.kryptonGroupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel3)).EndInit();
-            this.kryptonPanel3.ResumeLayout(false);
-            this.kryptonPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.panelCategory)).EndInit();
-            this.panelCategory.ResumeLayout(false);
-            this.panelCategory.PerformLayout();
             this.ResumeLayout(false);
 
         }

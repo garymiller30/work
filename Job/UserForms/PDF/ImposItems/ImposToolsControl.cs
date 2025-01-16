@@ -32,6 +32,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             rb_centerH.Click += Rb_centerH_CheckedChanged;
             rb_centerV.Click += Rb_centerV_CheckedChanged;
             btn_switch_front_back.Click += btn_switch_front_back_Click;
+            rb_switchHW.CheckedChanged += Rb_switchHW_CheckedChanged;
 
             tb_front.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
             tb_back.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
@@ -39,6 +40,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
             btn_sameNumber.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
             btn_listNumber.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
 
+        }
+
+        private void Rb_switchHW_CheckedChanged(object sender, EventArgs e)
+        {
+            bool check = rb_switchHW.Checked;
+            if (check)
+            {
+                parameters.CurTool = ImposToolEnum.SwitchHW;
+            }
         }
 
         private void Rb_centerV_CheckedChanged(object sender, EventArgs e)
