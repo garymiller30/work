@@ -66,7 +66,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                             break;
 
                         case TemplateSheetPlaceType.Perfecting:
-                            throw new NotImplementedException();
+                            TextVariablesService.SetValue(ValueList.SheetSide, "Клапан-хвіст");
+                            DrawSheet.WorkAndTurn(p, impos, sheet);
+                            break;
                         default:
                             throw new NotImplementedException();
                     }

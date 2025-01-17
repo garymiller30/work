@@ -312,6 +312,7 @@
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingTypeEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\Perfecting\LooseBindingPerfecting.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\Sheetwise\LooseBindingSheetwise.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\SingleSide\LooseBindingSingleSide.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\WorkAndTurn\LooseBindingWorkAndTurn.cs" />
@@ -1209,7 +1210,6 @@
     <Folder Include="Core\Compression\Snappy\lib\" />
     <Folder Include="Core\Compression\Zstandard\lib\" />
     <Folder Include="Static\Pdf\Imposition\Drawers\Services\PDF\" />
-    <Folder Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\Perfecting\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\users-2-icon.png" />
