@@ -102,7 +102,6 @@ namespace JobSpace.UserForms.PDF
 
         void AddPrintSheet(TemplateSheet e)
         {
-
             PrintSheet sheet = PrintSheet.ConvertTemplateSheetToPrintSheet(e);
             //runListControl1.AssignPrintSheet(sheet);
             printSheetsControl1.AddSheet(sheet);
@@ -111,7 +110,6 @@ namespace JobSpace.UserForms.PDF
             {
                 _controlBindParameters_NeedRearangePages(this, null);
             }
-                
         }
 
         private void OnAddSheetToPrintEvent(object sender, TemplateSheet e)
@@ -122,8 +120,6 @@ namespace JobSpace.UserForms.PDF
         private void OnTemplateSheetSelected(object sender, TemplateSheet e)
         {
             _controlBindParameters.SetSheet(e);
-            
-            
         }
 
         private void InitBindParameters()

@@ -40,6 +40,7 @@
             this.tsb_AddEmptyPage = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_RemovePage = new System.Windows.Forms.ToolStripButton();
+            this.tsb_ShowOnlyUnassigned = new System.Windows.Forms.ToolStripButton();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -81,9 +82,11 @@
             this.fastObjectListView1.Size = new System.Drawing.Size(118, 313);
             this.fastObjectListView1.TabIndex = 3;
             this.fastObjectListView1.UseCompatibleStateImageBehavior = false;
+            this.fastObjectListView1.UseFiltering = true;
             this.fastObjectListView1.View = System.Windows.Forms.View.Details;
             this.fastObjectListView1.VirtualMode = true;
             this.fastObjectListView1.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.fastObjectListView1_FormatRow);
+            this.fastObjectListView1.Click += new System.EventHandler(this.fastObjectListView1_Click);
             // 
             // olvColumIdxf
             // 
@@ -118,11 +121,12 @@
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsb_AddEmptyPage,
             this.toolStripSeparator1,
-            this.tsb_RemovePage});
+            this.tsb_RemovePage,
+            this.tsb_ShowOnlyUnassigned});
             this.toolStrip1.Location = new System.Drawing.Point(3, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(118, 25);
@@ -151,6 +155,18 @@
             this.tsb_RemovePage.Name = "tsb_RemovePage";
             this.tsb_RemovePage.Size = new System.Drawing.Size(23, 22);
             this.tsb_RemovePage.Text = "Видалити сторінку";
+            // 
+            // tsb_ShowOnlyUnassigned
+            // 
+            this.tsb_ShowOnlyUnassigned.CheckOnClick = true;
+            this.tsb_ShowOnlyUnassigned.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsb_ShowOnlyUnassigned.Image = ((System.Drawing.Image)(resources.GetObject("tsb_ShowOnlyUnassigned.Image")));
+            this.tsb_ShowOnlyUnassigned.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_ShowOnlyUnassigned.Name = "tsb_ShowOnlyUnassigned";
+            this.tsb_ShowOnlyUnassigned.Size = new System.Drawing.Size(23, 22);
+            this.tsb_ShowOnlyUnassigned.Text = "◌";
+            this.tsb_ShowOnlyUnassigned.ToolTipText = "Показати тільки незадіяні сторінки";
+            this.tsb_ShowOnlyUnassigned.CheckedChanged += new System.EventHandler(this.tsb_ShowOnlyUnassigned_CheckedChanged);
             // 
             // RunListControl
             // 
@@ -183,5 +199,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumIdxf;
         private BrightIdeasSoftware.OLVColumn olvColumnRunListPagesf;
         private BrightIdeasSoftware.OLVColumn olvColumnAsignf;
+        private System.Windows.Forms.ToolStripButton tsb_ShowOnlyUnassigned;
     }
 }
