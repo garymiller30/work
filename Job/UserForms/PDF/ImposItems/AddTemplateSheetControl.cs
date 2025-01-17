@@ -270,7 +270,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 tscb_sheetTemplates.Items.Remove(sheet);
                 SaveLoadService.DeleteSheet(sheet);
-                
             }
         }
 

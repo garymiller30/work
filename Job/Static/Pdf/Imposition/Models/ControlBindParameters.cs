@@ -54,8 +54,20 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             }
         }
 
+        private int selectedImposRunPageIdx { get; set; }
+
+        public int SelectedImposRunPageIdx
+        {
+            get => selectedImposRunPageIdx;
+            set
+            {
+                selectedImposRunPageIdx = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler NeedRearangePages = delegate{ };
+        public event EventHandler NeedRearangePages = delegate { };
         public event EventHandler NeedCheckRunListPages = delegate { };
         public event EventHandler JustUpdatePreview = delegate { };
 
@@ -66,7 +78,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public void UpdatePreview()
         {
-            JustUpdatePreview(this,null);
+            JustUpdatePreview(this, null);
         }
 
         public void UpdateSheet()
@@ -94,5 +106,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             selectedPreviewPage = null;
             Sheet = e;
         }
+
+
     }
 }

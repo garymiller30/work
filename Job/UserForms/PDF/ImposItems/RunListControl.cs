@@ -142,6 +142,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             UpdateStatusString();
             fastObjectListView1.RefreshObjects(fastObjectListView1.Objects.Cast<ImposRunPage>().ToList());
+            ApplyFilter();
         }
 
         private void fastObjectListView1_FormatRow(object sender, FormatRowEventArgs e)
@@ -156,6 +157,42 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 e.Item.BackColor = Color.LightYellow;
             }
+        }
+
+        private void tsb_ShowOnlyUnassigned_CheckedChanged(object sender, EventArgs e)
+        {
+            ApplyFilter();
+        }
+
+        public void ApplyFilter()
+        {
+            if (tsb_ShowOnlyUnassigned.Checked)
+            {
+                
+                fastObjectListView1.ModelFilter = new ModelFilter(delegate (object x)
+                {
+                    return ((ImposRunPage)x).IsAssumed == false;
+                });
+            }
+            else
+            {
+                fastObjectListView1.ModelFilter = null;
+            }
+        }
+
+        private void fastObjectListView1_SelectionChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void fastObjectListView1_Click(object sender, EventArgs e)
+        {
+            if (fastObjectListView1.SelectedObject is ImposRunPage page)
+            {
+                int idx = fastObjectListView1.Objects.Cast<ImposRunPage>().ToList().IndexOf(page);
+                _bindParameters.SelectedImposRunPageIdx = idx + 1;
+            }
+
         }
     }
 }

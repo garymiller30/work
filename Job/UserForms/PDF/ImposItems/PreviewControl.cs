@@ -533,6 +533,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (_toolParams.CurTool == ImposToolEnum.Numeration && e.PropertyName == "SelectedImposRunPageIdx")
+            {
+                _toolParams.FrontNum = parameters.SelectedImposRunPageIdx;
+            }
+
+
             RedrawSheet();
         }
     }
