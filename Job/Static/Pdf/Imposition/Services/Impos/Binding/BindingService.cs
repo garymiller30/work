@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Perfecting;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTurn;
 using System;
@@ -22,7 +23,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding
                 case TemplateSheetPlaceType.WorkAndTurn:
                     return LooseBindingWorkAndTurn.Impos(parameters);
                 case TemplateSheetPlaceType.Perfecting:
-                    throw new NotImplementedException();
+                    return LooseBindingPerfecting.Impos(parameters);
                 default:
                     throw new NotImplementedException();
             }
