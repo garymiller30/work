@@ -57,7 +57,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             return CreateTemplatePageContainerWithExtraBlocks(parameters, 90);
         }
 
-        private static TemplatePageContainer CreateTemplatePageContainer(LooseBindingParameters parameters, double angle)
+        public static TemplatePageContainer CreateTemplatePageContainer(LooseBindingParameters parameters, double angle)
         {
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
             (double W, double H) printFieldFormat = GetPrintFieldFormat(parameters);
@@ -207,8 +207,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             TemplatePage templatePage = new TemplatePage(xOfs, yOfs, masterPage.W, masterPage.H, angle);
             templatePage.Bleeds.SetDefault(masterPage.Bleeds.Default);
             templatePage.Margins.Set(masterPage.Margins);
-            templatePage.MasterFrontIdx = frontIdx;
-            templatePage.MasterBackIdx = backIdx;
+            templatePage.Front.MasterIdx = frontIdx;
+            templatePage.Back.MasterIdx = backIdx;
             templatePageContainer.AddPage(templatePage);
 
             return (templatePage.GetClippedWByRotate(), templatePage.GetClippedHByRotate());
@@ -230,10 +230,10 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 
             foreach (var page in templatePageContainer.TemplatePages)
             {
-                RectangleD left = page.GetDrawBleedLeft();
-                RectangleD right = page.GetDrawBleedRight();
-                RectangleD top = page.GetDrawBleedTop();
-                RectangleD bottom = page.GetDrawBleedBottom();
+                RectangleD left = page.GetDrawBleedFrontLeft();
+                RectangleD right = page.GetDrawBleedFrontRight();
+                RectangleD top = page.GetDrawBleedFrontTop();
+                RectangleD bottom = page.GetDrawBleedFrontBottom();
 
                 foreach (var pageTarget in templatePageContainer.TemplatePages)
                 {
@@ -241,17 +241,17 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                     {
                         RectangleD pageRect = new RectangleD
                         {
-                            X1 = pageTarget.GetPageDrawX(),
-                            Y1 = pageTarget.GetPageDrawY(),
-                            X2 = pageTarget.GetPageDrawX() + pageTarget.GetPageDrawW(),
-                            Y2 = pageTarget.GetPageDrawY() + pageTarget.GetPageDrawH()
+                            X1 = pageTarget.GetPageDrawFrontX(),
+                            Y1 = pageTarget.GetPageDrawFrontY(),
+                            X2 = pageTarget.GetPageDrawFrontX() + pageTarget.GetPageDrawFrontW(),
+                            Y2 = pageTarget.GetPageDrawFrontY() + pageTarget.GetPageDrawFrontH()
                         };
 
                         List<RectangleD> rects = new List<RectangleD>() {
-                            pageTarget.GetDrawBleedLeft(),
-                            pageTarget.GetDrawBleedRight(),
-                            pageTarget.GetDrawBleedTop(),
-                            pageTarget.GetDrawBleedBottom()
+                            pageTarget.GetDrawBleedFrontLeft(),
+                            pageTarget.GetDrawBleedFrontRight(),
+                            pageTarget.GetDrawBleedFrontTop(),
+                            pageTarget.GetDrawBleedFrontBottom()
                         };
 
                         foreach (var rect in rects)

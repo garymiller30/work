@@ -49,7 +49,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             // draw pages
             foreach (var page in templateContainer.TemplatePages)
             {
-                DrawPage(g, sheet, page, (int)sheet.H);
+                DrawPageFront(g, sheet, page, (int)sheet.H);
             }
 
             //draw foreground marks
@@ -133,8 +133,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             {
                 //move rotation point to center of image
                 g.TranslateTransform((float)b.Width / 2, (float)b.Height / 2);
+
+                
+                // кут залежить від типу друку: чужий/свій зворот
                 //rotate
-                g.RotateTransform(angle);
+                g.RotateTransform((angle == 0 || angle == 180) ? angle : (angle + 180)%360);
                 //move image back
                 g.TranslateTransform(-(float)b.Width / 2, -(float)b.Height / 2);
                 //draw passed in image onto graphics object
@@ -144,7 +147,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
         }
 
 
-        private static void DrawSheetMarksFront(Graphics g, TemplateSheet sheet, bool foreground, int h)
+        public static void DrawSheetMarksFront(Graphics g, TemplateSheet sheet, bool foreground, int h)
         {
             DrawPdfMarksFront(g, sheet.Marks, foreground, h);
             DrawTextMarksFront(g, sheet.Marks, foreground, h);
@@ -194,24 +197,24 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 });
         }
 
-        static void DrawPage(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
+        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
 
 
-            int x = (int)page.GetPageDrawX();
-            int y = sH - (int)page.GetPageDrawY() - (int)page.GetPageDrawH();
-            int w = (int)page.GetPageDrawW();
-            int h = (int)page.GetPageDrawH();
+            int x = (int)page.GetPageDrawFrontX();
+            int y = sH - (int)page.GetPageDrawFrontY() - (int)page.GetPageDrawFrontH();
+            int w = (int)page.GetPageDrawFrontW();
+            int h = (int)page.GetPageDrawFrontH();
 
             Brush brush;
 
             if (sheet is PrintSheet printSheet)
             {
-                if (page.AssignedRunPageFront == null)
+                if (page.Front.AssignedRunPage == null)
                 {
                     brush = new SolidBrush(Color.LightSlateGray);
                 }
-                else if (page.AssignedRunPageFront.IsValidFormat)
+                else if (page.Front.AssignedRunPage.IsValidFormat)
                 {
                     brush = new SolidBrush(Color.AliceBlue);
                 }
@@ -241,8 +244,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             pen.Dispose();
 
             DrawBleeds(g, page, sH);
-            DrawPageRotateMarker(g, page, rect, sH);
-            DrawText(g, sheet, page, sH);
+            DrawPageRotateMarkerFront(g, page, rect, sH);
+            DrawTextFront(g, sheet, page, sH);
             DrawCropsMark(g, page, sH);
         }
 
@@ -268,7 +271,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             pen.Dispose();
         }
 
-        private static void DrawPageRotateMarker(Graphics g, TemplatePage page, Rectangle rect, int sH)
+        public static void DrawPageRotateMarkerFront(Graphics g, TemplatePage page, Rectangle rect, int sH)
         {
             int dist = 5;
             int height = 7;
@@ -283,32 +286,32 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             int sw = 0;
             int sh = 0;
 
-            switch (page.Angle)
+            switch (page.Front.Angle)
             {
                 case 0:
                     sx = x + dist;
                     sy = y + dist;
-                    sw = (int)page.GetPageDrawW() - dist * 2;
+                    sw = (int)page.GetPageDrawFrontW() - dist * 2;
                     sh = height;
                     break;
                 case 90:
                     sx = x + dist;
                     sy = y + dist;
                     sw = height;
-                    sh = (int)page.GetPageDrawH() - dist * 2;
+                    sh = (int)page.GetPageDrawFrontH() - dist * 2;
                     break;
                 case 180:
                     sx = x + dist;
-                    sy = y + (int)page.GetPageDrawH() - dist - height;
-                    sw = (int)page.GetPageDrawW() - dist * 2;
+                    sy = y + (int)page.GetPageDrawFrontH() - dist - height;
+                    sw = (int)page.GetPageDrawFrontW() - dist * 2;
                     sh = height;
                     break;
                 case 270:
 
-                    sx = x + (int)page.GetPageDrawW() - dist - height;
+                    sx = x + (int)page.GetPageDrawFrontW() - dist - height;
                     sy = y + dist;
                     sw = height;
-                    sh = (int)page.GetPageDrawH() - dist * 2;
+                    sh = (int)page.GetPageDrawFrontH() - dist * 2;
                     break;
 
                 default:
@@ -317,20 +320,68 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
             brush.Dispose();
         }
+        public static void DrawPageRotateMarker(Graphics g, TemplatePage page, Rectangle rect,double angle, int sH)
+        {
+            int dist = 5;
+            int height = 7;
 
+            var brush = new SolidBrush(Color.Gray);
+
+            int x = rect.X;
+            int y = rect.Y;
+
+            int sx = 0;
+            int sy = 0;
+            int sw = 0;
+            int sh = 0;
+
+            switch (angle)
+            {
+                case 0:
+                    sx = x + dist;
+                    sy = y + dist;
+                    sw = (int)page.GetPageDrawFrontW() - dist * 2;
+                    sh = height;
+                    break;
+                case 90:
+                    sx = x + dist;
+                    sy = y + dist;
+                    sw = height;
+                    sh = (int)page.GetPageDrawFrontH() - dist * 2;
+                    break;
+                case 180:
+                    sx = x + dist;
+                    sy = y + (int)page.GetPageDrawFrontH() - dist - height;
+                    sw = (int)page.GetPageDrawFrontW() - dist * 2;
+                    sh = height;
+                    break;
+                case 270:
+
+                    sx = x + (int)page.GetPageDrawFrontW() - dist - height;
+                    sy = y + dist;
+                    sw = height;
+                    sh = (int)page.GetPageDrawFrontH() - dist * 2;
+                    break;
+
+                default:
+                    break;
+            }
+            g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
+            brush.Dispose();
+        }
         private static void DrawBleeds(Graphics g, TemplatePage page, int sH)
         {
             var brush = new SolidBrush(Color.LightGreen);
 
-            DrawBleedLeft(g, page, sH, brush);
-            DrawBleedTop(g, page, sH, brush);
-            DrawBleedRight(g, page, sH, brush);
-            DrawBleedBottom(g, page, sH, brush);
+            DrawBleedFrontLeft(g, page, page.Front.Angle, sH, brush);
+            DrawBleedFrontTop(g, page, page.Front.Angle, sH, brush);
+            DrawBleedFrontRight(g, page, page.Front.Angle, sH, brush);
+            DrawBleedFrontBottom(g, page,page.Front.Angle, sH, brush);
 
             brush.Dispose();
         }
 
-        private static void DrawBleedBottom(Graphics g, TemplatePage page, int sH, SolidBrush brush)
+        public static void DrawBleedFrontBottom(Graphics g, TemplatePage page,double angle, int sH, SolidBrush brush)
         {
 
             if (page.Bleeds.Bottom == 0) return;
@@ -340,29 +391,29 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             int sw = 0;
             int sh = 0;
 
-            switch (page.Angle)
+            switch (angle)
             {
                 case 0:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Left);
-                    sy = sH - (int)page.GetPageDrawY();
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Left);
+                    sy = sH - (int)page.GetPageDrawFrontY();
                     sw = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
                     sh = (int)(page.Bleeds.Bottom);
                     break;
                 case 90:
-                    sx = (int)(page.GetPageDrawX() + page.GetPageDrawW());
-                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Bleeds.Right);
+                    sx = (int)(page.GetPageDrawFrontX() + page.GetPageDrawFrontW());
+                    sy = sH - (int)(page.GetPageDrawFrontY() + page.GetPageDrawFrontH() + page.Bleeds.Right);
                     sw = (int)(page.Bleeds.Bottom);
                     sh = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
                     break;
                 case 180:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Right);
-                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Bleeds.Bottom);
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Right);
+                    sy = sH - (int)(page.GetPageDrawFrontY() + page.GetPageDrawFrontH() + page.Bleeds.Bottom);
                     sw = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
                     sh = (int)(page.Bleeds.Bottom);
                     break;
                 case 270:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Bottom);
-                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Bleeds.Left);
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Bottom);
+                    sy = sH - (int)(page.GetPageDrawFrontY() + page.GetPageDrawFrontH() + page.Bleeds.Left);
                     sw = (int)(page.Bleeds.Bottom);
                     sh = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
                     break;
@@ -373,7 +424,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
         }
 
-        private static void DrawBleedRight(Graphics g, TemplatePage page, int sH, SolidBrush brush)
+        public static void DrawBleedFrontRight(Graphics g, TemplatePage page,double angle, int sH, SolidBrush brush)
         {
             if (page.Bleeds.Right == 0) return;
 
@@ -382,29 +433,29 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             int sw = 0;
             int sh = 0;
 
-            switch (page.Angle)
+            switch (angle)
             {
                 case 0:
-                    sx = (int)(page.GetPageDrawX() + page.W);
-                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Bleeds.Top);
+                    sx = (int)(page.GetPageDrawFrontX() + page.W);
+                    sy = sH - (int)(page.H + page.GetPageDrawFrontY() + page.Bleeds.Top);
                     sw = (int)page.Bleeds.Right;
                     sh = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
                     break;
                 case 90:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Top);
-                    sy = sH - (int)(page.GetPageDrawY() + page.GetPageDrawH() + page.Bleeds.Right);
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Top);
+                    sy = sH - (int)(page.GetPageDrawFrontY() + page.GetPageDrawFrontH() + page.Bleeds.Right);
                     sw = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
                     sh = (int)page.Bleeds.Right;
                     break;
                 case 180:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Right);
-                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Bleeds.Top);
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Right);
+                    sy = sH - (int)(page.H + page.GetPageDrawFrontY() + page.Bleeds.Top);
                     sw = (int)page.Bleeds.Right;
                     sh = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
                     break;
                 case 270:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Bottom);
-                    sy = sH - (int)(page.GetPageDrawY());
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Bottom);
+                    sy = sH - (int)(page.GetPageDrawFrontY());
                     sw = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
                     sh = (int)page.Bleeds.Right;
                     break;
@@ -415,7 +466,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
         }
 
-        private static void DrawBleedTop(Graphics g, TemplatePage page, int sH, SolidBrush brush)
+        public static void DrawBleedFrontTop(Graphics g, TemplatePage page,double angle, int sH, SolidBrush brush)
         {
             if (page.Bleeds.Top == 0) return;
 
@@ -424,31 +475,31 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             int sw = 0;
             int sh = 0;
 
-            switch (page.Angle)
+            switch (angle)
             {
                 case 0:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Left);
-                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Bleeds.Top);
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Left);
+                    sy = sH - (int)(page.H + page.GetPageDrawFrontY() + page.Bleeds.Top);
                     sw = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
                     sh = (int)(page.Bleeds.Top);
                     break;
                 case 90:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Top);
-                    sy = sH - (int)(page.GetPageDrawH() + page.GetPageDrawY() + page.Bleeds.Top);
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Top);
+                    sy = sH - (int)(page.GetPageDrawFrontH() + page.GetPageDrawFrontY() + page.Bleeds.Top);
                     sw = (int)(page.Bleeds.Top);
-                    sh = (int)(page.GetPageDrawH() + page.Bleeds.Left + page.Bleeds.Right);
+                    sh = (int)(page.GetPageDrawFrontH() + page.Bleeds.Left + page.Bleeds.Right);
                     break;
                 case 180:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Right);
-                    sy = sH - (int)(page.GetPageDrawY());
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Right);
+                    sy = sH - (int)(page.GetPageDrawFrontY());
                     sw = (int)(page.Bleeds.Left + page.W + page.Bleeds.Right);
                     sh = (int)(page.Bleeds.Top);
                     break;
                 case 270:
-                    sx = (int)(page.GetPageDrawX() + page.GetPageDrawW());
-                    sy = sH - (int)(page.GetPageDrawH() + page.GetPageDrawY() + page.Bleeds.Top);
+                    sx = (int)(page.GetPageDrawFrontX() + page.GetPageDrawFrontW());
+                    sy = sH - (int)(page.GetPageDrawFrontH() + page.GetPageDrawFrontY() + page.Bleeds.Top);
                     sw = (int)(page.Bleeds.Top);
-                    sh = (int)(page.GetPageDrawH() + page.Bleeds.Left + page.Bleeds.Right);
+                    sh = (int)(page.GetPageDrawFrontH() + page.Bleeds.Left + page.Bleeds.Right);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -457,7 +508,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
         }
 
-        private static void DrawBleedLeft(Graphics g, TemplatePage page, int sH, SolidBrush brush)
+        public static void DrawBleedFrontLeft(Graphics g, TemplatePage page,double angle, int sH, SolidBrush brush)
         {
 
             if (page.Bleeds.Left == 0) return;
@@ -467,30 +518,30 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             int sw = 0;
             int sh = 0;
 
-            switch (page.Angle)
+            switch (angle)
             {
                 case 0:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Left);
-                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Bleeds.Top);
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Left);
+                    sy = sH - (int)(page.H + page.GetPageDrawFrontY() + page.Bleeds.Top);
                     sw = (int)page.Bleeds.Left;
                     sh = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
                     break;
                 case 90:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Top);
-                    sy = sH - (int)page.GetPageDrawY();
-                    sw = (int)(page.Bleeds.Top + page.GetPageDrawW() + page.Bleeds.Bottom);
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Top);
+                    sy = sH - (int)page.GetPageDrawFrontY();
+                    sw = (int)(page.Bleeds.Top + page.GetPageDrawFrontW() + page.Bleeds.Bottom);
                     sh = (int)(page.Bleeds.Left);
                     break;
                 case 180:
-                    sx = (int)(page.GetPageDrawX() + page.W);
-                    sy = sH - (int)(page.H + page.GetPageDrawY() + page.Bleeds.Top);
+                    sx = (int)(page.GetPageDrawFrontX() + page.W);
+                    sy = sH - (int)(page.H + page.GetPageDrawFrontY() + page.Bleeds.Top);
                     sw = (int)page.Bleeds.Left;
                     sh = (int)(page.H + page.Bleeds.Top + page.Bleeds.Bottom);
                     break;
                 case 270:
-                    sx = (int)(page.GetPageDrawX() - page.Bleeds.Bottom);
-                    sy = sH - (int)(page.GetPageDrawY() + page.Bleeds.Left + page.GetPageDrawH());
-                    sw = (int)(page.Bleeds.Top + page.GetPageDrawW() + page.Bleeds.Bottom);
+                    sx = (int)(page.GetPageDrawFrontX() - page.Bleeds.Bottom);
+                    sy = sH - (int)(page.GetPageDrawFrontY() + page.Bleeds.Left + page.GetPageDrawFrontH());
+                    sw = (int)(page.Bleeds.Top + page.GetPageDrawFrontW() + page.Bleeds.Bottom);
                     sh = (int)(page.Bleeds.Left);
                     break;
                 default:
@@ -500,7 +551,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
         }
 
-        private static void DrawText(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
+        private static void DrawTextFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
             var drawFormat = new StringFormat
             {
@@ -508,20 +559,22 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 LineAlignment = StringAlignment.Center
             };
 
-            var x = (float)(page.GetPageDrawX() + page.GetPageDrawW() / 2);
-            var y = sH - page.GetPageDrawH() - page.GetPageDrawY() + page.GetPageDrawH() / 2;
+            var x = (float)(page.GetPageDrawFrontX() + page.GetPageDrawFrontW() / 2);
+            var y = sH - page.GetPageDrawFrontH() - page.GetPageDrawFrontY() + page.GetPageDrawFrontH() / 2;
             var state = g.Save();
             g.TranslateTransform(x, (float)y);
 
-            if (page.Angle == 90)
+            double angle = page.Front.Angle;
+
+            if (angle == 90)
             {
                 g.RotateTransform(270);
             }
-            else if (page.Angle == 270)
+            else if (angle == 270)
             {
                 g.RotateTransform(90);
             }
-            else if (page.Angle == 180)
+            else if (angle == 180)
             {
                 g.RotateTransform(180);
             }
@@ -540,15 +593,15 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             if (sheet is PrintSheet)
             {
 
-                if (page.PrintFrontIdx != 0) front = page.PrintFrontIdx;
-                if (page.PrintBackIdx != 0) back = page.PrintBackIdx;
+                if (page.Front.PrintIdx != 0) front = page.Front.PrintIdx;
+                if (page.Back.PrintIdx != 0) back = page.Back.PrintIdx;
 
-                if (page.PrintFrontIdx == 0 && page.PrintBackIdx == 0)
+                if (page.Front.PrintIdx == 0 && page.Back.PrintIdx == 0)
                 {
                     txt = "пуста";
                 }
 
-                if (page.PrintBackIdx == 0)
+                if (page.Back.PrintIdx == 0)
                 {
                     txt = $"{front}";
                 }
@@ -560,17 +613,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             else
             if (sheet is TemplateSheet)
             {
-                if ((page.MasterFrontIdx == 0 && page.MasterBackIdx == 0))
+                if ((page.Front.MasterIdx == 0 && page.Back.MasterIdx == 0))
                 {
                     txt = "пуста";
                 }
-                else if (page.MasterBackIdx == 0)
+                else if (page.Back.MasterIdx == 0)
                 {
-                    txt = $"{page.MasterFrontIdx}";
+                    txt = $"{page.Front.MasterIdx}";
                 }
                 else
                 {
-                    txt = $"{page.MasterFrontIdx}•{page.MasterBackIdx}";
+                    txt = $"{page.Front.MasterIdx}•{page.Back.MasterIdx}";
                 }
             }
 
@@ -589,6 +642,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             bitmap.SetResolution(dpi, dpi);
             return bitmap;
         }
+
+     
     }
 }
 

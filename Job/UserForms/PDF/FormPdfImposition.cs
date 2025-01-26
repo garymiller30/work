@@ -35,7 +35,7 @@ namespace JobSpace.UserForms.PDF
         List<PdfFile> _pdfFiles = new List<PdfFile>();
 
         ImposToolsParameters _tool_param = new ImposToolsParameters();
-        ControlBindParameters _controlBindParameters = new ControlBindParameters();
+        ControlBindParameters _parameters = new ControlBindParameters();
         ProductPart _productPart;
 
         public FormPdfImposition()
@@ -73,19 +73,20 @@ namespace JobSpace.UserForms.PDF
             {
                 _controlBindParameters_NeedRearangePages(this, null);
             }
-            
         }
 
         private void OnClickCenterH(object sender, EventArgs e)
         {
-            ProcessCenterH.Center(_controlBindParameters.Sheet);
-            _controlBindParameters.UpdateSheet();
+            ProcessCenterH.Center(_parameters.Sheet);
+            imposBindingControl1.FixBackPageSizePosition(_parameters.Sheet.TemplatePageContainer);
+            _parameters.UpdateSheet();
         }
 
         private void OnClickCenterV(object sender, EventArgs e)
         {
-            ProcessCenterV.Center(_controlBindParameters.Sheet);
-            _controlBindParameters.UpdateSheet();
+            ProcessCenterV.Center(_parameters.Sheet);
+            imposBindingControl1.FixBackPageSizePosition(_parameters.Sheet.TemplatePageContainer);
+            _parameters.UpdateSheet();
         }
 
         private void OnSheetAddManyToPrintEvent(object sender, TemplateSheet e)
@@ -119,19 +120,19 @@ namespace JobSpace.UserForms.PDF
 
         private void OnTemplateSheetSelected(object sender, TemplateSheet e)
         {
-            _controlBindParameters.SetSheet(e);
+            _parameters.SetSheet(e);
         }
 
         private void InitBindParameters()
         {
-            _controlBindParameters.PdfFiles = _pdfFiles;
-            _controlBindParameters.NeedRearangePages += _controlBindParameters_NeedRearangePages;
-            _controlBindParameters.NeedCheckRunListPages += NeedCheckRunListPages;
-            imposBindingControl1.SetControlBindParameters(_controlBindParameters);
-            pdfFileListControl1.SetControlBindParameters(_controlBindParameters);
-            runListControl1.SetControlBindParameters(_controlBindParameters);
-            marksControl1.SetControlBindParameters(_controlBindParameters);
-            previewControl1.SetControlBindParameters(_controlBindParameters);
+            _parameters.PdfFiles = _pdfFiles;
+            _parameters.NeedRearangePages += _controlBindParameters_NeedRearangePages;
+            _parameters.NeedCheckRunListPages += NeedCheckRunListPages;
+            imposBindingControl1.SetControlBindParameters(_parameters);
+            pdfFileListControl1.SetControlBindParameters(_parameters);
+            runListControl1.SetControlBindParameters(_parameters);
+            marksControl1.SetControlBindParameters(_parameters);
+            previewControl1.SetControlBindParameters(_parameters);
         }
 
         private void NeedCheckRunListPages(object sender, EventArgs e)
@@ -157,65 +158,79 @@ namespace JobSpace.UserForms.PDF
             _tool_param.OnRotateLeft += OnRotateLeft;
             _tool_param.OnRotateRight += OnRotateRight;
             _tool_param.OnSwitchWH += OnSwitchWH;
+            _tool_param.OnFlipAngle += OnFlipAngle;
+            _tool_param.OnFlipRowAngle += OnFlipRowAngle;
             previewControl1.InitBindParameters(_tool_param);
+        }
+
+        private void OnFlipRowAngle(object sender, TemplatePage e)
+        {
+            _parameters.Sheet.TemplatePageContainer.FlipPagesAngle(e,_parameters.Sheet.SheetPlaceType);
+            LooseBindingSingleSide.FixBleedsFront(_parameters.Sheet.TemplatePageContainer);
+        }
+
+        private void OnFlipAngle(object sender, TemplatePage e)
+        {
+             e.FlipAngle(_parameters.Sheet.SheetPlaceType);
+            LooseBindingSingleSide.FixBleedsFront(_parameters.Sheet.TemplatePageContainer);
+            _parameters.UpdatePreview();
         }
 
         private void OnSwitchWH(object sender, EventArgs e)
         {
-            if (_controlBindParameters.SelectedPreviewPage != null)
+            if (_parameters.SelectedPreviewPage != null)
             {
-                var sel_page = _controlBindParameters.SelectedPreviewPage;
-                _controlBindParameters.SelectedPreviewPage.SwitchWH();
-                _controlBindParameters.UpdateSheet();
-                _controlBindParameters.SelectedPreviewPage = sel_page;
+                var sel_page = _parameters.SelectedPreviewPage;
+                sel_page.SwitchWH();
+                _parameters.UpdateSheet();
+                _parameters.SelectedPreviewPage = sel_page;
             }
         }
 
         private void OnRotateRight(object sender, EventArgs e)
         {
-            if (_controlBindParameters.SelectedPreviewPage != null)
+            if (_parameters.SelectedPreviewPage != null)
             {
-                var sel_page = _controlBindParameters.SelectedPreviewPage;
-                _controlBindParameters.SelectedPreviewPage.RotateRight();
-                _controlBindParameters.UpdateSheet();
-                _controlBindParameters.SelectedPreviewPage = sel_page;
+                var sel_page = _parameters.SelectedPreviewPage;
+                ProcessRotatePage.Right(_parameters.Sheet, sel_page);
+                _parameters.UpdateSheet();
+                _parameters.SelectedPreviewPage = sel_page;
             }
         }
 
         private void OnRotateLeft(object sender, EventArgs e)
         {
-           if (_controlBindParameters.SelectedPreviewPage != null)
+           if (_parameters.SelectedPreviewPage != null)
             {
-                var sel_page = _controlBindParameters.SelectedPreviewPage;
-                _controlBindParameters.SelectedPreviewPage.RotateLeft();
-                _controlBindParameters.UpdateSheet();
-                _controlBindParameters.SelectedPreviewPage = sel_page;
-
+                var sel_page = _parameters.SelectedPreviewPage;
+                ProcessRotatePage.Left(_parameters.Sheet, sel_page);
+                _parameters.UpdateSheet();
+                _parameters.SelectedPreviewPage = sel_page;
             }
         }
 
         private void OnMoveDownClick(object sender, double e)
         {
-            ProcessMoveSubject.Down(_controlBindParameters.Sheet, e);
-            _controlBindParameters.UpdateSheet();
+            ProcessMoveSubject.Down(_parameters.Sheet, e);
+            _parameters.UpdateSheet();
         }
 
         private void OnMoveUpClick(object sender, double e)
         {
-            ProcessMoveSubject.Up(_controlBindParameters.Sheet, e);
-            _controlBindParameters.UpdateSheet();
+            ProcessMoveSubject.Up(_parameters.Sheet, e);
+            _parameters.UpdateSheet();
         }
 
         private void OnMoveRightClick(object sender, double e)
         {
-            ProcessMoveSubject.Right(_controlBindParameters.Sheet, e);
-            _controlBindParameters.UpdateSheet();
+            ProcessMoveSubject.Right(_parameters.Sheet, e);
+            _parameters.UpdateSheet();
         }
 
         private void OnMoveLeftClick(object sender, double e)
         {
-            ProcessMoveSubject.Left(_controlBindParameters.Sheet, e);
-            _controlBindParameters.UpdateSheet();
+            ProcessMoveSubject.Left(_parameters.Sheet, e);
+            _parameters.UpdateSheet();
         }
 
         public FormPdfImposition(IEnumerable<string> files, string curFolder) : this()
@@ -237,8 +252,8 @@ namespace JobSpace.UserForms.PDF
             masterPageSelectControl1.OnMasterPageAdded += OnMasterPageAdded;
             masterPageSelectControl1.SetFormats(_pdfFiles);
 
-            addTemplateSheetControl1.SetControlBindParameters(_controlBindParameters);
-            printSheetsControl1.SetControlBindParameters(_controlBindParameters);
+            addTemplateSheetControl1.SetControlBindParameters(_parameters);
+            printSheetsControl1.SetControlBindParameters(_parameters);
 
             //LoadImposFromFile();
 
@@ -248,10 +263,10 @@ namespace JobSpace.UserForms.PDF
         {
             // додаємо сторінку на поточний лист
             //TODO: додати сторінку на лист
-            if (_controlBindParameters.Sheet == null) return;
+            if (_parameters.Sheet == null) return;
 
-            _controlBindParameters.Sheet.TemplatePageContainer.AddPage(e.ToTemplatePage());
-            _controlBindParameters.UpdatePreview();
+            _parameters.Sheet.TemplatePageContainer.AddPage(e.ToTemplatePage());
+            _parameters.UpdatePreview();
         }
 
         private void OnMasterPageChanged(object sender, PageFormatView e)
@@ -266,7 +281,7 @@ namespace JobSpace.UserForms.PDF
             page.Bleeds.SetDefault((double)e.Bleed);
             page.SetMarginsLikeBleed();
 
-            _controlBindParameters.MasterPage = page;
+            _parameters.MasterPage = page;
         }
 
         private void LoadImposFromFile()
@@ -373,20 +388,21 @@ namespace JobSpace.UserForms.PDF
 
         private void FormPdfImposition_Shown(object sender, EventArgs e)
         {
-            _controlBindParameters.PropertyChanged += _controlBindParameters_PropertyChanged;
+            _parameters.PropertyChanged += _controlBindParameters_PropertyChanged;
         }
 
         private void _controlBindParameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedPreviewPage")
             {
-                pg_Parameters.SelectedObject = _controlBindParameters.SelectedPreviewPage;
+                pg_Parameters2.SelectedObject = _parameters.SelectedPreviewPage;
             }
         }
 
         private void pg_Parameters_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            _controlBindParameters.UpdateSheet();
+            imposBindingControl1.FixBackPageSizePosition(_parameters.SelectedPreviewPage);
+            _parameters.UpdateSheet();
         }
 
         private void btn_selectCustomFolder_Click(object sender, EventArgs e)

@@ -25,7 +25,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         ControlBindParameters _parameters;
 
-        int idx = 1;
+        //int idx = 1;
         public AddTemplateSheetControl()
         {
             InitializeComponent();

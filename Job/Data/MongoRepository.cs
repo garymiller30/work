@@ -39,6 +39,7 @@ namespace JobSpace.Data
             Debug.WriteLine($"Mongodb description:{e.NewClusterDescription.State}");
         }
 
+        
         public void CreateConnection(string connectingString,string databaseName,int timeout = 10)
         {
             var client = new MongoClient(connectingString);

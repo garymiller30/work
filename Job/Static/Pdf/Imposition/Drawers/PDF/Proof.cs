@@ -17,10 +17,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
             if (!proof.Enable) return;
 
-            double x = templatePage.GetPageDrawX();
-            double y = templatePage.GetPageDrawY();
-            double w = templatePage.GetPageDrawW();
-            double h = templatePage.GetPageDrawH();
+            double x = templatePage.GetPageDrawFrontX();
+            double y = templatePage.GetPageDrawFrontY();
+            double w = templatePage.GetPageDrawFrontW();
+            double h = templatePage.GetPageDrawFrontH();
 
             DrawStrokeRect(p, MarkColor.ProofColor,
                 new RectangleD
@@ -38,11 +38,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
         {
             if (!proof.Enable) return;
 
-            double w = templatePage.GetPageDrawW();
-            double h = templatePage.GetPageDrawH();
+            double w = templatePage.GetPageDrawFrontW();
+            double h = templatePage.GetPageDrawFrontH();
 
-            double x = sheet.W - templatePage.GetPageDrawX() - w;
-            double y = templatePage.GetPageDrawY();
+            double x = sheet.W - templatePage.GetPageDrawFrontX() - w;
+            double y = templatePage.GetPageDrawFrontY();
 
 
             DrawStrokeRect(p, MarkColor.ProofColor,

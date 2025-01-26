@@ -14,7 +14,10 @@ namespace JobSpace.Static.Pdf.Imposition.Models
     {
         public int Id { get; set; }
         public string FileName { get; set; }
-
+        /// <summary>
+        /// тираж
+        /// </summary>
+        public int Count { get;set; }
         public string ShortName { get; set; }
         public bool IsMediaboxCentered { get; set; } = false;
 

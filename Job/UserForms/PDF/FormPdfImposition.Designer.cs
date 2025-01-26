@@ -36,7 +36,7 @@
             this.imposColorsControl1 = new JobSpace.UserForms.PDF.ImposItems.ImposColorsControl();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pg_Parameters = new System.Windows.Forms.PropertyGrid();
+            this.pg_Parameters2 = new Krypton.Toolkit.KryptonPropertyGrid();
             this.marksControl1 = new JobSpace.UserForms.PDF.ImposItems.MarksControl();
             this.previewControl1 = new JobSpace.UserForms.PDF.ImposItems.PreviewControl();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -183,7 +183,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.pg_Parameters);
+            this.groupBox1.Controls.Add(this.pg_Parameters2);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
@@ -192,15 +192,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Параметри";
             // 
-            // pg_Parameters
+            // pg_Parameters2
             // 
-            this.pg_Parameters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pg_Parameters.Location = new System.Drawing.Point(3, 16);
-            this.pg_Parameters.Name = "pg_Parameters";
-            this.pg_Parameters.Size = new System.Drawing.Size(183, 154);
-            this.pg_Parameters.TabIndex = 0;
-            this.pg_Parameters.ToolbarVisible = false;
-            this.pg_Parameters.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pg_Parameters_PropertyValueChanged);
+            this.pg_Parameters2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.pg_Parameters2.CategoryForeColor = System.Drawing.Color.White;
+            this.pg_Parameters2.CommandsBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.pg_Parameters2.CommandsForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.pg_Parameters2.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.pg_Parameters2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pg_Parameters2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.pg_Parameters2.HelpBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.pg_Parameters2.HelpForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.pg_Parameters2.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(196)))), ((int)(((byte)(216)))));
+            this.pg_Parameters2.Location = new System.Drawing.Point(3, 16);
+            this.pg_Parameters2.Name = "pg_Parameters2";
+            this.pg_Parameters2.Size = new System.Drawing.Size(183, 154);
+            this.pg_Parameters2.TabIndex = 1;
+            this.pg_Parameters2.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.pg_Parameters2.ViewForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.pg_Parameters2.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pg_Parameters_PropertyValueChanged);
             // 
             // marksControl1
             // 
@@ -380,6 +390,7 @@
             this.addTemplateSheetControl1.MinimumSize = new System.Drawing.Size(335, 0);
             this.addTemplateSheetControl1.Name = "addTemplateSheetControl1";
             this.addTemplateSheetControl1.OnSheetAddToPrint = null;
+            this.addTemplateSheetControl1.OnSheetSelected = null;
             this.addTemplateSheetControl1.Size = new System.Drawing.Size(340, 110);
             this.addTemplateSheetControl1.TabIndex = 6;
             // 
@@ -522,7 +533,6 @@
         private ImposItems.MasterPageSelectControl masterPageSelectControl1;
         private ImposItems.ImposBindingControl imposBindingControl1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.PropertyGrid pg_Parameters;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.CheckBox cb_savePrintSheetInOrder;
@@ -533,5 +543,6 @@
         private System.Windows.Forms.ComboBox cb_CustomOutputPath;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
+        private Krypton.Toolkit.KryptonPropertyGrid pg_Parameters2;
     }
 }
