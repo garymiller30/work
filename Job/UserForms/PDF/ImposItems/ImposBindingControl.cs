@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -97,6 +98,22 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (curBindControl == null) return;
 
             curBindControl.CheckRunListPages(printSheets, imposRunPages);
+        }
+
+        public void FixBackPageSizePosition(TemplatePage selectedPreviewPage)
+        {
+            ProcessFixPageBackPosition.FixPosition(parameters.Sheet, selectedPreviewPage);
+        }
+
+        internal void FixBackPageSizePosition(TemplatePageContainer templatePageContainer)
+        {
+            ProcessFixPageBackPosition.FixPosition(parameters.Sheet, templatePageContainer);
+        }
+
+        public void RotateRight(TemplatePage sel_page)
+        {
+
+            throw new NotImplementedException();
         }
     }
 }

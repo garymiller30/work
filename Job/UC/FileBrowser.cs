@@ -2037,10 +2037,13 @@ namespace JobSpace.UC
 
             var selectedFiles = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToList();
 
-            using (var form = new FormPdfImposition(selectedFiles, _fileManager.Settings.CurFolder))
-            {
-               form.ShowDialog();
-            }
+            var form = new FormPdfImposition(selectedFiles, _fileManager.Settings.CurFolder);
+            form.Show();
+
+            //using (var form = new FormPdfImposition(selectedFiles, _fileManager.Settings.CurFolder))
+            //{
+            //   form.ShowDialog();
+            //}
         }
 
         private void toolStripButton5_Click(object sender, EventArgs e)

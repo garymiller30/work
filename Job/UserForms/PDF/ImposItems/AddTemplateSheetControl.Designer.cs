@@ -35,6 +35,7 @@
             this.olvColumnId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnDesc = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPrintType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnFormat = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.cms_SheetSideType = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tscb_sheetTemplates = new System.Windows.Forms.ToolStripComboBox();
@@ -57,7 +58,6 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_addToQuickAccess = new System.Windows.Forms.ToolStripButton();
             this.tsb_QuickAccess = new System.Windows.Forms.ToolStripSplitButton();
-            this.olvColumnFormat = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -120,6 +120,10 @@
             this.olvColumnPrintType.Text = "тип друку";
             this.olvColumnPrintType.Width = 104;
             // 
+            // olvColumnFormat
+            // 
+            this.olvColumnFormat.Text = "Формат";
+            // 
             // cms_SheetSideType
             // 
             this.cms_SheetSideType.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -147,7 +151,10 @@
             // 
             // tscb_sheetTemplates
             // 
+            this.tscb_sheetTemplates.DropDownHeight = 200;
             this.tscb_sheetTemplates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tscb_sheetTemplates.DropDownWidth = 150;
+            this.tscb_sheetTemplates.IntegralHeight = false;
             this.tscb_sheetTemplates.Name = "tscb_sheetTemplates";
             this.tscb_sheetTemplates.Size = new System.Drawing.Size(90, 25);
             // 
@@ -333,10 +340,6 @@
             this.tsb_QuickAccess.Size = new System.Drawing.Size(32, 22);
             this.tsb_QuickAccess.Text = "Меню швидкого доступу";
             this.tsb_QuickAccess.ButtonClick += new System.EventHandler(this.tsb_QuickAccess_ButtonClick);
-            // 
-            // olvColumnFormat
-            // 
-            this.olvColumnFormat.Text = "Формат";
             // 
             // AddTemplateSheetControl
             // 

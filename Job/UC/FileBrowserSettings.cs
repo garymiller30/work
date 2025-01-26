@@ -12,7 +12,7 @@ namespace JobSpace.UC
     public sealed class FileBrowserSettings : IFileBrowserControlSettings, INotifyPropertyChanged
     {
         private string _title;
-        private string[] _ignoreFolders;
+        //private string[] _ignoreFolders;
 
         public string Title
         {

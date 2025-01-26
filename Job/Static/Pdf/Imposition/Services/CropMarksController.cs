@@ -93,8 +93,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         public AnchorOfset[] GetAnchorOfsetsFront(TemplatePage templatePage, double angle)
         {
 
-            double llx = templatePage.X;
-            double lly = templatePage.Y;
+            double llx = templatePage.Front.X;
+            double lly = templatePage.Front.Y;
 
             CropMarksController crops = templatePage.CropMarksController;
             double len = crops.Parameters.Len;
@@ -139,8 +139,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         public AnchorOfset[] GetAnchorOfsetsBack(TemplatePage templatePage, TemplateSheet sheet, double angle)
         {
 
-            double llx = templatePage.X;
-            double lly = templatePage.Y;
+            double llx = templatePage.Front.X;
+            double lly = templatePage.Front.Y;
 
             CropMarksController crops = templatePage.CropMarksController;
             double len = crops.Parameters.Len;

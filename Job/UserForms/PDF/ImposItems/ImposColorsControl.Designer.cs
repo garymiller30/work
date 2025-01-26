@@ -104,6 +104,7 @@
             // olvColumn_Front
             // 
             this.olvColumn_Front.CheckBoxes = true;
+            this.olvColumn_Front.HeaderCheckBox = true;
             this.olvColumn_Front.Text = "Лице";
             this.olvColumn_Front.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.olvColumn_Front.Width = 44;
@@ -111,6 +112,7 @@
             // olvColumn_Back
             // 
             this.olvColumn_Back.CheckBoxes = true;
+            this.olvColumn_Back.HeaderCheckBox = true;
             this.olvColumn_Back.Text = "Зворот";
             this.olvColumn_Back.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 

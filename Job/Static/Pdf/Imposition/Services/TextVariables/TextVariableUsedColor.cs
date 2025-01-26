@@ -20,14 +20,16 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
             List<TextToken> list = new List<TextToken>();
 
             // якимось магічним способом отримати список кольорів
-
-            foreach (var item in DrawerStatic.CurProductPart.UsedColors.Colors.Where(x => DrawerStatic.CurSide == DrawerSideEnum.Front ? x.IsFront == true : x.IsBack == true))
+            if (DrawerStatic.CurProductPart != null)
             {
-                var token = new TextToken(item.Name)
+                foreach (var item in DrawerStatic.CurProductPart.UsedColors.Colors.Where(x => DrawerStatic.CurSide == DrawerSideEnum.Front ? x.IsFront == true : x.IsBack == true))
                 {
-                    Color = item.MarkColor
-                };
-                list.Add(token);
+                    var token = new TextToken(item.Name)
+                    {
+                        Color = item.MarkColor
+                    };
+                    list.Add(token);
+                }
             }
 
             return list;

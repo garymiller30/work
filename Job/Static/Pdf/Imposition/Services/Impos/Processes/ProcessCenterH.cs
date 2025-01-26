@@ -35,7 +35,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
                 // Adjust the X position of each page to center them
                 foreach (var page in sheet.TemplatePageContainer.TemplatePages)
                 {
-                    page.X -= newXOffset - sheet.SafeFields.Left;
+                    page.Front.X -= newXOffset - sheet.SafeFields.Left;
+                    ProcessFixPageBackPosition.FixPosition(sheet, page);
                 }
             }
             catch (Exception ex)

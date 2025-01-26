@@ -4,6 +4,7 @@ using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
+using MongoDB.Bson.Serialization.Conventions;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 {
     public static partial class DrawSheet
     {
+        
+
         public static void Back(PDFlib p, ProductPart impos, PrintSheet sheet)
         {
+
             DrawerStatic.CurSide = DrawerSideEnum.Back;
 
             p.begin_page_ext(sheet.W * PdfHelper.mn, sheet.H * PdfHelper.mn, "");
@@ -28,10 +32,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
                 // отримати сторінку з ран листа
-                int runListPageIdx = templatePage.PrintBackIdx - 1;
+                int runListPageIdx = templatePage.Back.PrintIdx - 1;
                 ImposRunPage runPage = impos.RunList.RunPages[runListPageIdx];
 
-                if ((runPage.FileId == 0 && runPage.PageIdx == 0) || templatePage.PrintBackIdx == 0)
+                if ((runPage.FileId == 0 && runPage.PageIdx == 0) || templatePage.Back.PrintIdx == 0)
                 {
                     // пропускаємо
                 }
@@ -62,8 +66,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                         double c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
                         double c_ury = c_lly + templatePage.GetPageHeightWithBleeds;
 
-                        (double llx, double lly, double angle) = templatePage.GetPageStartCoordBack(sheet);
-                        string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} rotate={angle}";
+                        double llx = templatePage.Back.X;
+                        double lly = templatePage.Back.Y;
+                        double angle = templatePage.Back.Angle;
+                        //(double llx, double lly, double angle) = templatePage.GetPageStartCoordBack(sheet);
+                        string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={orientate[angle]}";
+                        //string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} rotate={angle}";
 
                         document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
                     }

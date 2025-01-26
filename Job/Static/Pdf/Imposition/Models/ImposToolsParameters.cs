@@ -50,6 +50,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public EventHandler OnRotateLeft { get; set; } = delegate { };
         public EventHandler OnRotateRight { get; set; } = delegate { };
         public EventHandler OnSwitchWH { get; set; } = delegate { };
-
+        public EventHandler<TemplatePage> OnFlipAngle { get; set; } = delegate { };
+        public EventHandler<TemplatePage> OnFlipRowAngle { get; set; } = delegate { };
     }
 }

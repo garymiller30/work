@@ -16,6 +16,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 {
     public static partial class DrawSheet
     {
+        static Dictionary<double, string> orientate = new Dictionary<double, string>
+            {
+                {0, "north"},
+                {90, "west"},
+                {180, "south"},
+                {270, "east"}
+            };
+
         public static void Front(PDFlib p, ProductPart impos, PrintSheet sheet)
         {
             DrawerStatic.CurSide = DrawerSideEnum.Front;
@@ -29,7 +37,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
                 // отримати сторінку з ран листа
-                int runListPageIdx = templatePage.PrintFrontIdx -1;
+                int runListPageIdx = templatePage.Front.PrintIdx -1;
 
                 //ImposRunPage runPage;
                 var runPage = GetRunPage(impos, runListPageIdx);
@@ -51,21 +59,18 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                     double c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
                     double c_ury = c_lly + templatePage.GetPageHeightWithBleeds;
 
-                    (double llx, double lly, double angle) = templatePage.GetPageStartCoordFront();
-                    string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} rotate={angle}";
-
+                    double llx = templatePage.Front.X;
+                    double lly = templatePage.Front.Y;
+                    double angle = templatePage.Front.Angle;
+                    string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={orientate[angle]}";
                     document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
                 }
-               
-                
                 DrawCropMarks.Front(p, templatePage);
-
                 Proof.DrawPageFront(p, templatePage, impos.Proof);
             }
 
             // draw foreground marks
             DrawFrontMarks(p, impos, sheet, foreground: true);
-            //RecalculateAndDrawMarks(p, sheet, impos);
 
             p.end_page_ext($"mediabox={{{GetMediabox(impos,sheet)}}}");
         }
@@ -102,7 +107,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
         }
         private static bool IsEmptyPage(ImposRunPage runPage, TemplatePage templatePage)
         {
-            return (runPage.FileId == 0 && runPage.PageIdx == 0) || templatePage.PrintFrontIdx == 0;
+            return (runPage.FileId == 0 && runPage.PageIdx == 0) || templatePage.Front.PrintIdx == 0;
         }
 
         private static ImposRunPage GetRunPage(ProductPart impos, int runListPageIdx)
@@ -142,36 +147,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 }
                 mediabox = $"{-x * PdfHelper.mn} {-y * PdfHelper.mn} {(sheet.TemplatePlate.W - x) * PdfHelper.mn} {(sheet.TemplatePlate.H - y) * PdfHelper.mn}";
             }
-
-            //if (impos.TemplatePlate.IsLikePaperFormat)
-            //{
-            //    mediabox = $"{-sheet.ExtraSpace * PdfHelper.mn} {-sheet.ExtraSpace * PdfHelper.mn} {(sheet.W + sheet.ExtraSpace) * PdfHelper.mn} {(sheet.H + sheet.ExtraSpace) * PdfHelper.mn}";
-            //}
-            //else
-            //{
-            //    double x;
-            //    if (impos.TemplatePlate.IsCenterHorizontal)
-            //    {
-            //        x = (impos.TemplatePlate.W - sheet.W) / 2;
-            //    }
-            //    else
-            //    {
-            //        x = impos.TemplatePlate.Xofs;
-            //    }
-
-            //    double y;
-            //    if (impos.TemplatePlate.IsCenterVertical)
-            //    {
-            //        y = (impos.TemplatePlate.H - sheet.H) / 2;
-            //    }
-            //    else
-            //    {
-            //        y = impos.TemplatePlate.Yofs;
-            //    }
-
-            //    mediabox = $"{-x * PdfHelper.mn} {-y * PdfHelper.mn} {(impos.TemplatePlate.W - x) * PdfHelper.mn} {(impos.TemplatePlate.H - y) * PdfHelper.mn}";
-            //}
-
             return mediabox;
         }
     }

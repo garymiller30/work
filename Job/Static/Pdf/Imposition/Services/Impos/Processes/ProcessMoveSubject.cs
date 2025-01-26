@@ -13,14 +13,16 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
         {
             foreach (var item in sheet.TemplatePageContainer.TemplatePages)
             {
-                item.X -= ofs;
+                item.Front.X -= ofs;
+                ProcessFixPageBackPosition.FixPosition(sheet, item);
             }
         }
         public static void Right(TemplateSheet sheet, double ofs)
         {
             foreach (var item in sheet.TemplatePageContainer.TemplatePages)
             {
-                item.X += ofs;
+                item.Front.X += ofs;
+                ProcessFixPageBackPosition.FixPosition(sheet, item);
             }
         }
 
@@ -28,7 +30,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
         {
             foreach (var item in sheet.TemplatePageContainer.TemplatePages)
             {
-                item.Y += ofs;
+                item.Front.Y += ofs;
+                ProcessFixPageBackPosition.FixPosition(sheet, item);
             }
         }
 
@@ -36,7 +39,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
         {
             foreach (var item in sheet.TemplatePageContainer.TemplatePages)
             {
-                item.Y -= ofs;
+                item.Front.Y -= ofs;
+                ProcessFixPageBackPosition.FixPosition(sheet, item);
             }
         }
     }

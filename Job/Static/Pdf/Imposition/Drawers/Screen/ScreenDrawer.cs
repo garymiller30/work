@@ -24,7 +24,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
                     return DrawSingleSideService.Draw(sheet);
 
                 case TemplateSheetPlaceType.WorkAndTurn:
-                    return DrawSingleSideService.Draw(sheet);
+                    return DrawWorkAndTurnService.Draw(sheet);
 
                 case TemplateSheetPlaceType.Perfecting:
                     return DrawSingleSideService.Draw(sheet);

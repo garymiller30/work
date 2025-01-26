@@ -27,7 +27,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
             // Adjust the Y position of each template page
             foreach (var page in sheet.TemplatePageContainer.TemplatePages)
             {
-                page.Y -= (adjustedY - sheet.SafeFields.Bottom);
+                page.Front.Y -= (adjustedY - sheet.SafeFields.Bottom);
+                ProcessFixPageBackPosition.FixPosition(sheet, page);
             }
         }
     }
