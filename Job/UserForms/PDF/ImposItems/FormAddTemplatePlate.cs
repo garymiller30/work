@@ -136,6 +136,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 if (cb_centerX.Checked)
                 {
                     tb_name.Text += "_cx";
+                    if (nud_xOfs.Value > 0)
+                        tb_name.Text += $"{nud_xOfs.Value}";
+                    
                 }
                 else
                 {
@@ -145,6 +148,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 if (cb_centerY.Checked)
                 {
                     tb_name.Text += "_cy";
+                    if (nud_yOfs.Value > 0)
+                        tb_name.Text += $"{nud_yOfs.Value}";
                 }
                 else
                 {

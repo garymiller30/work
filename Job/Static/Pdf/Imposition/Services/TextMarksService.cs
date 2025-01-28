@@ -1,5 +1,6 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         public static void RecalcMarkCoordFront(TemplateSheet sheet)
         {
             RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
-            RectangleD subjectRect = sheet.TemplatePageContainer.GetSubjectRectFront();
+            RectangleD subjectRect = ProcessSubject.GetSubjectRect(sheet, sheet.TemplatePageContainer);
             TextMarksService.RecalcMarkCoordFront(sheet.Marks, sheetRect, subjectRect);
         }
 

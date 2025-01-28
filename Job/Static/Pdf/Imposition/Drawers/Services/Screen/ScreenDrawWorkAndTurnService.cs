@@ -12,32 +12,23 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
-    public static class DrawWorkAndTurnService
+    public static class ScreenDrawWorkAndTurnService
     {
         public static Bitmap Draw(TemplateSheet sheet)
         {
             var templateContainer = sheet.TemplatePageContainer;
             Bitmap bitmap = new Bitmap((int)sheet.W + 1, ((int)sheet.H + 1));
-            //Bitmap bitmap = CreateBitmapInMillimeters(sheet.W,sheet.H);
 
             Graphics g = Graphics.FromImage(bitmap);
-            //g.PageUnit = GraphicsUnit.Millimeter;
             g.SmoothingMode = SmoothingMode.HighQuality;
 
-            // draw sheet
-            Pen pen = new Pen(Color.Black);
-            Rectangle rect = new Rectangle(0, 0, (int)sheet.W, (int)sheet.H);
-
-            g.DrawRectangle(pen, rect);
-            pen.Dispose();
-
+            ScreenDrawCommons.DrawSheet(sheet, g);
             // draw safe field
             DrawSheetSafeField(g, sheet);
-
             //draw background marks
             PdfMarksService.RecalcMarkCoordFront(sheet);
             TextMarksService.RecalcMarkCoordFront(sheet);
-            DrawSingleSideService.DrawSheetMarksFront(g, sheet, foreground: false, (int)sheet.H);
+            ScreenDrawSingleSideService.DrawSheetMarksFront(g, sheet, foreground: false, (int)sheet.H);
             CropMarksService.FixCropMarksWorkAndTurn(sheet);
 
             // draw pages
@@ -46,13 +37,24 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 DrawPageFront(g, sheet, page, (int)sheet.H);
                 DrawPageBack(g, sheet, page, (int)sheet.H);
             }
-            DrawCropMarks(g,sheet);
+            DrawCropMarks(g, sheet);
             //draw foreground marks
-            DrawSingleSideService.DrawSheetMarksFront(g, sheet, foreground: true, (int)sheet.H);
+            ScreenDrawSingleSideService.DrawSheetMarksFront(g, sheet, foreground: true, (int)sheet.H);
 
             g.Dispose();
 
             return bitmap;
+        }
+
+        private static void DrawSheet(TemplateSheet sheet, Graphics g)
+        {
+            Pen pen = new Pen(Color.Black);
+            Rectangle rect = new Rectangle(0, 0, (int)sheet.W, (int)sheet.H);
+
+            g.DrawRectangle(pen, rect);
+            pen.Dispose();
+
+           
         }
 
         private static void DrawCropMarks(Graphics g, TemplateSheet sheet)
@@ -84,7 +86,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawPageBack(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
-            DrawBleedsBack(g, page, sH);
+            DrawBleeds(g, page,page.Back, sH);
 
             int x = (int)page.GetPageDrawBackX();
             int y = sH - (int)page.GetPageDrawBackY() - (int)page.GetPageDrawBackH();
@@ -129,20 +131,20 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             pen.Dispose();
 
             
-            DrawSingleSideService.DrawPageRotateMarker(g, page, rect, page.Back.Angle, sH);
+            ScreenDrawCommons.DrawPageRotateMarker(g, page,page.Back, rect, sH);
             DrawTextBack(g, sheet, page, sH);
             
         }
 
-        private static void DrawBleedsBack(Graphics g, TemplatePage page, int sH)
+        public static void DrawBleeds(Graphics g, TemplatePage page,PageSide side, int sH)
         {
             var brush = new SolidBrush(Color.LightGreen);
             //var pen = new Pen(brush,1);
 
             Rectangle rect = new Rectangle
             {
-                X = (int)page.Back.X,
-                Y = sH - (int)page.Back.Y - (int)page.GetClippedHByRotate(),
+                X = (int)side.X,
+                Y = sH - (int)side.Y - (int)page.GetClippedHByRotate(),
                 Width = (int)page.GetClippedWByRotate(),
                 Height = (int)page.GetClippedHByRotate()
             };
@@ -229,10 +231,16 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
-            int x = (int)page.GetPageDrawFrontX();
-            int y = sH - (int)page.GetPageDrawFrontY() - (int)page.GetPageDrawFrontH();
-            int w = (int)page.GetPageDrawFrontW();
-            int h = (int)page.GetPageDrawFrontH();
+            PageSide side = page.Front;
+
+            DrawBleeds(g, page,side, sH);
+
+            (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(page, side);
+
+            int x = (int)page_x;
+            int y = sH - (int)page_y - (int)page_h;
+            int w = (int)page_w;
+            int h = (int)page_h;
 
             Brush brush;
 
@@ -271,25 +279,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             brush.Dispose();
             pen.Dispose();
 
-            DrawBleedsFront(g, page, sH);
-            DrawSingleSideService.DrawPageRotateMarker(g, page, rect,page.Front.Angle, sH);
+          
+            ScreenDrawCommons.DrawPageRotateMarker(g, page,side, rect, sH);
             DrawTextFront(g, sheet, page, sH);
             
         }
-
-        private static void DrawBleedsFront(Graphics g, TemplatePage page, int sH)
-        {
-            var brush = new SolidBrush(Color.LightGreen);
-
-            DrawSingleSideService.DrawBleedFrontLeft(g, page, page.Front.Angle, sH, brush);
-            DrawSingleSideService.DrawBleedFrontTop(g, page, page.Front.Angle, sH, brush);
-            DrawSingleSideService.DrawBleedFrontRight(g, page, page.Front.Angle, sH, brush);
-            DrawSingleSideService.DrawBleedFrontBottom(g, page,page.Front.Angle, sH, brush);
-
-            brush.Dispose();
-        }
-
-
 
         private static void DrawTextFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
@@ -299,8 +293,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 LineAlignment = StringAlignment.Center
             };
 
-            var x = (float)(page.GetPageDrawFrontX() + page.GetPageDrawFrontW() / 2);
-            var y = sH - page.GetPageDrawFrontH() - page.GetPageDrawFrontY() + page.GetPageDrawFrontH() / 2;
+            PageSide side = page.Front;
+
+            (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(page, side);
+
+            var x = (float)(page_x + page_w / 2);
+            var y = sH - page_y - page_h/ 2;
             var state = g.Save();
             g.TranslateTransform(x, (float)y);
 

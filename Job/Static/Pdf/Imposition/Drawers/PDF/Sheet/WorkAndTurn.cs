@@ -117,8 +117,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 DrawCropMarks.Front(p, templatePage);
                 DrawCropMarks.Back(p,templatePage);
 
-                Proof.DrawPageFront(p, templatePage, impos.Proof);
-                Proof.DrawPageBack(p, sheet, templatePage, impos.Proof);
+                Proof.DrawPage(p, templatePage, templatePage.Front, impos.Proof);
+                Proof.DrawPage(p, templatePage, templatePage.Back, impos.Proof);
             }
 
             // draw foreground marks

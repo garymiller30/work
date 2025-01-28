@@ -18,16 +18,16 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
             switch (sheet.SheetPlaceType)
             {
                 case TemplateSheetPlaceType.SingleSide:
-                    return DrawSingleSideService.Draw(sheet);
+                    return ScreenDrawSingleSideService.Draw(sheet);
 
                 case TemplateSheetPlaceType.Sheetwise:
-                    return DrawSingleSideService.Draw(sheet);
+                    return ScreenDrawSingleSideService.Draw(sheet);
 
                 case TemplateSheetPlaceType.WorkAndTurn:
-                    return DrawWorkAndTurnService.Draw(sheet);
+                    return ScreenDrawWorkAndTurnService.Draw(sheet);
 
                 case TemplateSheetPlaceType.Perfecting:
-                    return DrawSingleSideService.Draw(sheet);
+                    return ScreenDrawSingleSideService.Draw(sheet);
                 default:
                     throw new NotImplementedException();
             }

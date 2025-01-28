@@ -79,7 +79,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 CropMarksService.FixCropMarksBack(sheet);
                 DrawCropMarks.Back(p, templatePage);
 
-                Proof.DrawPageBack(p, sheet, templatePage, impos.Proof);
+                Proof.DrawPage(p, templatePage, templatePage.Back, impos.Proof);
             }
 
             //draw foreground marks
