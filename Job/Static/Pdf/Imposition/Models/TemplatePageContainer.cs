@@ -1,5 +1,6 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -57,22 +58,11 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             TemplatePages.ForEach(x => x.CropMarksController.Parameters.Distance = distance);
         }
 
-        public RectangleD GetSubjectRectFront()
-        {
-            if (TemplatePages.Count == 0) return new RectangleD();
-
-            double x1 = TemplatePages.Min(x => x.Front.X);
-            double y1 = TemplatePages.Min(x => x.Front.Y);
-
-            double x2 = TemplatePages.Max(x => x.Front.X + x.GetClippedWByRotate());
-            double y2 = TemplatePages.Max(x => x.Front.Y + x.GetClippedHByRotate());
-
-            return new RectangleD { X1 = x1, Y1 = y1, X2 = x2, Y2 = y2 };
-        }
+     
 
         public RectangleD GetSubjectRectBack(TemplateSheet sheet)
         {
-            var rect = GetSubjectRectFront();
+            var rect = ProcessSubject.GetSubjectRect(sheet,this);//  GetSubjectRectFront();
 
             return new RectangleD
             {

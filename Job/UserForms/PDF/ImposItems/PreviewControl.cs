@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
+using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services.Impos;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
@@ -213,8 +214,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (page == _hover) continue;
 
-                var pageR = page.GetDrawBleedFrontRight();
-                var pageL = page.GetDrawBleedFrontLeft();
+                var pageR = ScreenDrawCommons.GetDrawBleedRightFront(page);
+                var pageL = ScreenDrawCommons.GetDrawBleedLeftFront(page);
 
                 //// вибрана сторінка - права сторона <--> ліва сторона
                 if (Math.Abs(pageR.X2 - hover_x - x_ofs) < snapDistance)
@@ -253,8 +254,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (page == _hover) continue;
 
-                var pageT = page.GetDrawBleedFrontTop();
-                var pageB = page.GetDrawBleedFrontBottom();
+                var pageT = ScreenDrawCommons.GetDrawBleedTopFront(page);
+                var pageB = ScreenDrawCommons.GetDrawBleedBottomFront(page);
 
                 // top -> bottom
                 if (Math.Abs(pageB.Y1 - hover_y + y_ofs - _hover.GetClippedHByRotate()) < snapDistance)
@@ -293,12 +294,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             foreach (var page in parameters.Sheet.TemplatePageContainer.TemplatePages.AsEnumerable().Reverse())
             {
+                PageSide side = page.Front;
+                (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(page, side);
+
                 RectangleF rect = new RectangleF
                 {
-                    X = (float)page.GetPageDrawFrontX(),
-                    Y = (float)(parameters.Sheet.H - page.GetPageDrawFrontY() - page.GetPageDrawFrontH()),
-                    Width = (float)page.GetPageDrawFrontW(),
-                    Height = (float)page.GetPageDrawFrontH()
+                    X = (float)page_x,
+                    Y = (float)(parameters.Sheet.H - page_y - page_h),
+                    Width = (float)page_w,
+                    Height = (float)page_h
                 };
 
                 if (rect.Contains(x, y))
@@ -320,23 +324,28 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 Pen pen = new Pen(Color.IndianRed, 3);
 
+                PageSide side = parameters.SelectedPreviewPage.Front;
+                (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(parameters.SelectedPreviewPage, side);
+
                 e.Graphics.DrawRectangle(pen, new Rectangle(
-                    (int)parameters.SelectedPreviewPage.GetPageDrawFrontX(),
-                    (int)parameters.Sheet.H - (int)parameters.SelectedPreviewPage.GetPageDrawFrontY() - (int)parameters.SelectedPreviewPage.GetPageDrawFrontH(),
-                    (int)parameters.SelectedPreviewPage.GetPageDrawFrontW(),
-                    (int)parameters.SelectedPreviewPage.GetPageDrawFrontH()));
+                    (int)page_x,
+                    (int)parameters.Sheet.H - (int)page_y - (int)page_h,
+                    (int)page_w,
+                    (int)page_h));
                 pen.Dispose();
             }
 
             if (_hover != null)
             {
+                (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(_hover, _hover.Front);
+
                 Pen pen = new Pen(Color.Black, 2);
 
                 e.Graphics.DrawRectangle(pen, new Rectangle(
-                    (int)_hover.GetPageDrawFrontX(),
-                    (int)parameters.Sheet.H - (int)_hover.GetPageDrawFrontY() - (int)_hover.GetPageDrawFrontH(),
-                    (int)_hover.GetPageDrawFrontW(),
-                    (int)_hover.GetPageDrawFrontH()));
+                    (int)page_x,
+                    (int)parameters.Sheet.H - (int)page_y - (int)page_h,
+                    (int)page_w,
+                    (int)page_h));
                 pen.Dispose();
             }
 
@@ -507,11 +516,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
             RedrawSheet();
 
-        }
-
-        private void ToolFlipSinglePage()
-        {
-           
         }
 
         public void SetControlBindParameters(ControlBindParameters controlBindParameters)

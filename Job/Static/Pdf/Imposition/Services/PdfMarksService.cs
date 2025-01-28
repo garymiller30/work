@@ -1,5 +1,6 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +11,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 {
     public static class PdfMarksService
     {
-        //public static void RecalcMarkCoordFront(TemplatePageContainer templatePageContainer)
-        //{
-        //    RectangleD subject = templatePageContainer.GetSubjectRectFront();
-        //    PdfMarksService.RecalcMarkCoordFront(templatePageContainer.Marks, subject);
-        //}
-
         public static void RecalcMarkCoordFront(TemplateSheet sheet)
         {
             //Потрібно перерахувати координати міток для листа і сюжету
 
             RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
-            RectangleD subjectRect = sheet.TemplatePageContainer.GetSubjectRectFront();
+            RectangleD subjectRect = ProcessSubject.GetSubjectRect(sheet, sheet.TemplatePageContainer);
             PdfMarksService.RecalcMarkCoordFront(sheet.Marks, sheetRect, subjectRect);
         }
 

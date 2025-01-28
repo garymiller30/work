@@ -282,8 +282,9 @@
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\Front.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\WorkAndTurn.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Screen\ScreenDrawer.cs" />
-    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\DrawSingleSideService.cs" />
-    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\DrawWorkAndTurnService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawCommons.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawSingleSideService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawWorkAndTurnService.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorOfset.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorPoint.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ClipBox.cs" />
@@ -340,11 +341,11 @@
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantRotated.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantWorkAndTurnNonRotated.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantWorkAndTurnRotated.cs" />
-    <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessCenterH.cs" />
-    <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessCenterV.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessFixBleeds.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessFixPageBackPosition.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessMoveSubject.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessRotatePage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessSubject.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\MarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PdfFileService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PdfMarksService.cs" />

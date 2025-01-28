@@ -77,14 +77,14 @@ namespace JobSpace.UserForms.PDF
 
         private void OnClickCenterH(object sender, EventArgs e)
         {
-            ProcessCenterH.Center(_parameters.Sheet);
+            ProcessMoveSubject.CenterHor(_parameters.Sheet);
             imposBindingControl1.FixBackPageSizePosition(_parameters.Sheet.TemplatePageContainer);
             _parameters.UpdateSheet();
         }
 
         private void OnClickCenterV(object sender, EventArgs e)
         {
-            ProcessCenterV.Center(_parameters.Sheet);
+            ProcessMoveSubject.CenterVer(_parameters.Sheet);
             imposBindingControl1.FixBackPageSizePosition(_parameters.Sheet.TemplatePageContainer);
             _parameters.UpdateSheet();
         }
@@ -166,14 +166,15 @@ namespace JobSpace.UserForms.PDF
         private void OnFlipRowAngle(object sender, TemplatePage e)
         {
             _parameters.Sheet.TemplatePageContainer.FlipPagesAngle(e,_parameters.Sheet.SheetPlaceType);
-            LooseBindingSingleSide.FixBleedsFront(_parameters.Sheet.TemplatePageContainer);
+            ProcessFixBleeds.Front(_parameters.Sheet.TemplatePageContainer);
+            _parameters.UpdateSheet();
         }
 
         private void OnFlipAngle(object sender, TemplatePage e)
         {
              e.FlipAngle(_parameters.Sheet.SheetPlaceType);
-            LooseBindingSingleSide.FixBleedsFront(_parameters.Sheet.TemplatePageContainer);
-            _parameters.UpdatePreview();
+            ProcessFixBleeds.Front(_parameters.Sheet.TemplatePageContainer);
+            _parameters.UpdateSheet();
         }
 
         private void OnSwitchWH(object sender, EventArgs e)

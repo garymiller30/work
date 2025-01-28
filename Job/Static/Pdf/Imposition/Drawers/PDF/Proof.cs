@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
 using PDFlib_dotnet;
 using System;
@@ -12,15 +13,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
     public static class Proof
     {
 
-        public static void DrawPageFront(PDFlib p, TemplatePage templatePage, ProofParameters proof)
+        public static void DrawPage(PDFlib p, TemplatePage templatePage,PageSide side, ProofParameters proof)
         {
 
             if (!proof.Enable) return;
-
-            double x = templatePage.GetPageDrawFrontX();
-            double y = templatePage.GetPageDrawFrontY();
-            double w = templatePage.GetPageDrawFrontW();
-            double h = templatePage.GetPageDrawFrontH();
+            (double x,double y, double w,double h) = ScreenDrawCommons.GetPageDraw(templatePage, side);
 
             DrawStrokeRect(p, MarkColor.ProofColor,
                 new RectangleD
@@ -34,26 +31,26 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
         }
 
-        public static void DrawPageBack(PDFlib p, TemplateSheet sheet, TemplatePage templatePage, ProofParameters proof)
-        {
-            if (!proof.Enable) return;
+        //public static void DrawPageBack(PDFlib p, TemplateSheet sheet, TemplatePage templatePage, ProofParameters proof)
+        //{
+        //    if (!proof.Enable) return;
 
-            double w = templatePage.GetPageDrawFrontW();
-            double h = templatePage.GetPageDrawFrontH();
+        //    double w = templatePage.GetPageDrawFrontW();
+        //    double h = templatePage.GetPageDrawFrontH();
 
-            double x = sheet.W - templatePage.GetPageDrawFrontX() - w;
-            double y = templatePage.GetPageDrawFrontY();
+        //    double x = sheet.W - templatePage.GetPageDrawFrontX() - w;
+        //    double y = templatePage.GetPageDrawFrontY();
 
 
-            DrawStrokeRect(p, MarkColor.ProofColor,
-                new RectangleD
-                {
-                    X1 = x,
-                    Y1 = y,
-                    X2 = x + w,
-                    Y2 = y + h
-                });
-        }
+        //    DrawStrokeRect(p, MarkColor.ProofColor,
+        //        new RectangleD
+        //        {
+        //            X1 = x,
+        //            Y1 = y,
+        //            X2 = x + w,
+        //            Y2 = y + h
+        //        });
+        //}
 
         static void DrawStrokeRect(PDFlib p, MarkColor color, RectangleD rect)
         {

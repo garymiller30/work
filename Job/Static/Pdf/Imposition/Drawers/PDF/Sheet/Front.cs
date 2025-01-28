@@ -32,12 +32,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             RecalcFrontMarks(sheet);
 
             // draw background marks
-            DrawFrontMarks(p, impos, sheet, foreground:false);
+            DrawFrontMarks(p, impos, sheet, foreground: false);
 
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
                 // отримати сторінку з ран листа
-                int runListPageIdx = templatePage.Front.PrintIdx -1;
+                int runListPageIdx = templatePage.Front.PrintIdx - 1;
 
                 //ImposRunPage runPage;
                 var runPage = GetRunPage(impos, runListPageIdx);
@@ -46,7 +46,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 {
                     continue;
                 }
-                
+
                 PdfFile pdfFile = impos.GetPdfFile(runPage);
                 PdfFilePage pdfPage = impos.GetPdfPage(runPage);
 
@@ -66,13 +66,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                     document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
                 }
                 DrawCropMarks.Front(p, templatePage);
-                Proof.DrawPageFront(p, templatePage, impos.Proof);
+                Proof.DrawPage(p, templatePage, templatePage.Front, impos.Proof);
             }
 
             // draw foreground marks
             DrawFrontMarks(p, impos, sheet, foreground: true);
 
-            p.end_page_ext($"mediabox={{{GetMediabox(impos,sheet)}}}");
+            p.end_page_ext($"mediabox={{{GetMediabox(impos, sheet)}}}");
         }
 
         private static void DrawFrontMarks(PDFlib p, ProductPart impos, TemplateSheet sheet, bool foreground)
@@ -116,8 +116,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
         ? impos.RunList.RunPages[runListPageIdx]
         : new ImposRunPage { FileId = 0, PageIdx = 0 };
         }
-        
-        static string GetMediabox(ProductPart impos,PrintSheet sheet)
+
+        static string GetMediabox(ProductPart impos, PrintSheet sheet)
         {
             string mediabox;
 
@@ -127,24 +127,23 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             }
             else
             {
-                double x,y;
+                double x = 0;
+                double y = 0;
+
                 if (sheet.TemplatePlate.IsCenterHorizontal)
                 {
                     x = (sheet.TemplatePlate.W - sheet.W) / 2;
                 }
-                else
-                {
-                    x = sheet.TemplatePlate.Xofs;
-                }
+
+                x += sheet.TemplatePlate.Xofs;
 
                 if (sheet.TemplatePlate.IsCenterVertical)
                 {
                     y = (sheet.TemplatePlate.H - sheet.H) / 2;
                 }
-                else
-                {
-                    y = sheet.TemplatePlate.Yofs;
-                }
+               
+                y += sheet.TemplatePlate.Yofs;
+               
                 mediabox = $"{-x * PdfHelper.mn} {-y * PdfHelper.mn} {(sheet.TemplatePlate.W - x) * PdfHelper.mn} {(sheet.TemplatePlate.H - y) * PdfHelper.mn}";
             }
             return mediabox;
