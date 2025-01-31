@@ -39,7 +39,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             //draw background marks
             PdfMarksService.RecalcMarkCoordFront(sheet);
             TextMarksService.RecalcMarkCoordFront(sheet);
-            
+
             DrawSheetMarksFront(g, sheet, foreground: false, (int)sheet.H);
 
             // draw pages
@@ -92,14 +92,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             foreach (var mark in container.Pdf.Where(x => x.Parameters.IsFront && x.Enable && x.IsForeground == foreground))
             {
 
-                System.Drawing.Image bitmap = MarksService.GetBitmap(mark);
-                
+                System.Drawing.Image bitmap = MarksService.GetBitmapFront(mark);
+
                 var rect = new Rectangle
                 {
                     X = (int)mark.Front.X,
-                    Y = h - (int)mark.Front.Y - (int)mark.GetH(),
-                    Width = (int)mark.GetW(),
-                    Height = (int)mark.GetH()
+                    Y = h - (int)mark.Front.Y - (int)mark.GetClippedH(),
+                    Width = (int)mark.GetClippedW(),
+                    Height = (int)mark.GetClippedH()
                 };
 
                 if (bitmap == null)
@@ -111,9 +111,27 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 }
                 else
                 {
+                    var mc = mark.ClipBoxFront;
+
+                    Rectangle clipRect = new Rectangle((int)mc.Left, (int)mc.Bottom, (int)(mc.Right - mc.Left), (int)(mc.Top - mc.Bottom));
+                    Bitmap croppedBitmap = new Bitmap(clipRect.Width, clipRect.Height);
+                    //var cropped = i.Clone(clipRect, i.PixelFormat);
+
+
+                    using (Graphics gc = Graphics.FromImage(croppedBitmap))
+                    {
+                        // Draw the cropped section of the original bitmap
+                        gc.DrawImage(bitmap, new Rectangle(0, 0, clipRect.Width, clipRect.Height), clipRect, GraphicsUnit.Pixel);
+
+                    }
+
                     var i = RotateImage(bitmap, (float)mark.Angle);
                     i.MakeTransparent(Color.White);
+
                     g.DrawImage(i, rect);
+                    croppedBitmap.Dispose();
+                    //cropped.Dispose();
+                    i.Dispose();
                     bitmap.Dispose();
                 }
             }
@@ -130,10 +148,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 //move rotation point to center of image
                 g.TranslateTransform((float)b.Width / 2, (float)b.Height / 2);
 
-                
+
                 // кут залежить від типу друку: чужий/свій зворот
                 //rotate
-                g.RotateTransform((angle == 0 || angle == 180) ? angle : (angle + 180)%360);
+                g.RotateTransform((angle == 0 || angle == 180) ? angle : (angle + 180) % 360);
                 //move image back
                 g.TranslateTransform(-(float)b.Width / 2, -(float)b.Height / 2);
                 //draw passed in image onto graphics object
@@ -195,7 +213,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
-            ScreenDrawWorkAndTurnService.DrawBleeds(g,page,page.Front,sH);
+            ScreenDrawWorkAndTurnService.DrawBleeds(g, page, page.Front, sH);
 
             (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(page, page.Front);
 
@@ -225,7 +243,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             {
                 brush = new SolidBrush(Color.AliceBlue);
             }
-            
+
             Pen pen = new Pen(Color.Black);
 
             var rect = new Rectangle
@@ -253,7 +271,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             //});
             //brush2.Dispose();
 
-            ScreenDrawCommons.DrawPageRotateMarker(g,page,page.Front,rect,sH);
+            ScreenDrawCommons.DrawPageRotateMarker(g, page, page.Front, rect, sH);
             DrawTextFront(g, sheet, page, sH);
             DrawCropsMark(g, page, sH);
         }
@@ -293,7 +311,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(page, side);
 
             var x = (float)(page_x + page_w / 2);
-            var y = sH - page_y - page_h  / 2;
+            var y = sH - page_y - page_h / 2;
             var state = g.Save();
             g.TranslateTransform(x, (float)y);
 
@@ -376,7 +394,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             return bitmap;
         }
 
-     
+
     }
 }
 

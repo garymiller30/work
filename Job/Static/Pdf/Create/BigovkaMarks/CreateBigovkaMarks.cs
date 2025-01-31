@@ -85,7 +85,7 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
                 if (_param.MirrorEven && curPage % 2 == 0)
                 {
                     x = boxes.Media.width - box.right;
-                    double xOfs = x + boxes.Media.left;
+                    double xOfs = x;// + boxes.Media.left;
 
                     for (int i = 0; i < _param.Bigovki.Length; i++)
                     {

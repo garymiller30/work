@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JobSpace.Static.Pdf.Common;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf
 {
@@ -31,7 +32,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf
                             scaleX = -1;
                         }
                     }
-                    doc.fit_pdi_page(1, mark.Back.X, mark.Back.Y, $"orientate={Commons.Orientate[mark.Angle]} scale={{{scaleX} {scaleY}}}");
+
+                    var clipBox = mark.ClipBoxBack;
+
+                    string clipping_optlist = $"matchbox={{clipping={{{clipBox.Left * PdfHelper.mn} {clipBox.Bottom * PdfHelper.mn} {clipBox.Right * PdfHelper.mn} {clipBox.Top * PdfHelper.mn}}}}} orientate={JobSpace.Static.Pdf.Imposition.Drawers.PDF.Commons.Orientate[mark.Angle]} scale={{{scaleX} {scaleY}}}";
+
+                    doc.fit_pdi_page(1, mark.Back.X, mark.Back.Y, clipping_optlist);// $"orientate={Commons.Orientate[mark.Angle]} scale={{{scaleX} {scaleY}}}");
                 }
             }
 

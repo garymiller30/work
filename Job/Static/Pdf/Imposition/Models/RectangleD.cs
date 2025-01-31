@@ -17,6 +17,11 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public double W => X2 - X1;
         public double H => Y2 - Y1;
 
+        public double Left => X1;
+        public double Bottom => Y1;
+        public double Right => X2;
+        public double Top => Y2;
+
         public bool IsInsideMe(CropMark mark)
         {
 

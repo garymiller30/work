@@ -17,23 +17,25 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
             RectangleD subjectRect = ProcessSubject.GetSubjectRect(sheet, sheet.TemplatePageContainer);
-            PdfMarksService.RecalcMarkCoordFront(sheet.Marks, sheetRect, subjectRect);
+            PdfMarksService.RecalcMarkCoordFront(sheet, sheet.Marks, sheetRect, subjectRect);
         }
 
-        static void RecalcMarkCoordFront(MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect)
+        static void RecalcMarkCoordFront(TemplateSheet sheet, MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect)
         {
             foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsFront && x.Enable))
             {
                 if (mark.Parent == MarkParentEnum.Sheet)
                 {
                     PositioningService.AnchorToAbsoluteCoordFront(sheetRect, mark);
+                    PositioningService.CalcClipMarkCoordFront(sheet,sheetRect, subjectRect, mark);
                 }
                 else
                 {
                     PositioningService.AnchorToAbsoluteCoordFront(subjectRect, mark);
+                    PositioningService.CalcClipMarkCoordFront(sheet,sheetRect, subjectRect, mark);
                 }
             }
-            marksContainer.Containers.ForEach(y => PdfMarksService.RecalcMarkCoordFront(y, sheetRect, subjectRect));
+            marksContainer.Containers.ForEach(y => PdfMarksService.RecalcMarkCoordFront(sheet,y, sheetRect, subjectRect));
         }
 
 
@@ -41,24 +43,26 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         {
             RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
             RectangleD subjectRect = sheet.TemplatePageContainer.GetSubjectRectBack(sheet);
-            PdfMarksService.RecalcMarkCoordBack(sheet.Marks, sheetRect, subjectRect);
+            PdfMarksService.RecalcMarkCoordBack(sheet, sheet.Marks, sheetRect, subjectRect);
         }
 
-        static void RecalcMarkCoordBack(MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect)
+        static void RecalcMarkCoordBack(TemplateSheet sheet, MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect)
         {
             foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsBack && x.Enable))
             {
                 if (mark.Parent == MarkParentEnum.Sheet)
                 {
                     PositioningService.AnchorToAbsoluteCoordBack(sheetRect, mark);
+                    PositioningService.CalcClipMarkCoordBack(sheet, sheetRect, subjectRect, mark);
                 }
                 else
                 {
                     PositioningService.AnchorToAbsoluteCoordBack(subjectRect, mark);
+                    PositioningService.CalcClipMarkCoordBack(sheet, sheetRect, subjectRect, mark);
                 }
             }
 
-            marksContainer.Containers.ForEach(y => PdfMarksService.RecalcMarkCoordBack(y, sheetRect, subjectRect));
+            marksContainer.Containers.ForEach(y => PdfMarksService.RecalcMarkCoordBack(sheet,y, sheetRect, subjectRect));
         }
     }
 }

@@ -137,6 +137,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     }
                 }
             }
+            parameters.CheckRunListPages();
             RedrawSheet();
         }
 
@@ -180,6 +181,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     }
                 }
             }
+            parameters.CheckRunListPages();
             RedrawSheet();
         }
 

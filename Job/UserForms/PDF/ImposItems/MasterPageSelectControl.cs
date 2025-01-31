@@ -90,5 +90,20 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 OnMasterPageAdded(this, page);
             }
         }
+
+        private void btn_change_margins_Click(object sender, EventArgs e)
+        {
+            if (cb_FileFormats.SelectedItem is PageFormatView page)
+            {
+                using (var form = new FormChangePageMargins(page.Margins))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        OnMasterPageChanged(this,page);
+                    }
+                }
+            }
+        
+        }
     }
 }
