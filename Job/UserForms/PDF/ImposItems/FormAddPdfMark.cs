@@ -52,6 +52,17 @@ namespace JobSpace.UserForms.PDF.ImposItems
             cb_foreground.Checked = Mark.IsForeground;
             rb_parentSheet.Checked = Mark.Parent == MarkParentEnum.Sheet;
             rb_parentSubject.Checked = Mark.Parent == MarkParentEnum.Subject;
+            nud_clip_bottom.Value = (decimal)Mark.Parameters.ClipBox.Bottom;
+            nud_clip_left.Value = (decimal)Mark.Parameters.ClipBox.Left;
+            nud_clip_right.Value = (decimal)Mark.Parameters.ClipBox.Right;
+            nud_clip_top.Value = (decimal)Mark.Parameters.ClipBox.Top;
+            cb_auto_clip_x.Checked = Mark.Parameters.IsAutoClipX;
+            cb_auto_clip_y.Checked = Mark.Parameters.IsAutoClipY;
+            rb_x_relative_sheet.Checked = Mark.Parameters.AutoClipRelativeX == AutoClipMarkEnum.Sheet;
+            rb_x_relative_subjet.Checked = Mark.Parameters.AutoClipRelativeX == AutoClipMarkEnum.Subject;
+            rb_y_relative_sheet.Checked = Mark.Parameters.AutoClipRelativeY == AutoClipMarkEnum.Sheet;
+            rb_y_relative_subject.Checked = Mark.Parameters.AutoClipRelativeY == AutoClipMarkEnum.Subject;
+
             SetAnchors();
 
         }
@@ -97,6 +108,18 @@ namespace JobSpace.UserForms.PDF.ImposItems
             Mark.Angle = double.Parse( angles[cb_Angle.SelectedIndex]);
             Mark.IsForeground = cb_foreground.Checked;
             Mark.Parent = rb_parentSheet.Checked ? MarkParentEnum.Sheet : MarkParentEnum.Subject;
+            p.ClipBox = new ClipBox
+            {
+                Bottom = (double)nud_clip_bottom.Value,
+                Left = (double)nud_clip_left.Value,
+                Right = (double)nud_clip_right.Value,
+                Top = (double)nud_clip_top.Value
+            };
+            p.IsAutoClipX = cb_auto_clip_x.Checked;
+            p.IsAutoClipY = cb_auto_clip_y.Checked;
+            p.AutoClipRelativeX = rb_x_relative_sheet.Checked ? AutoClipMarkEnum.Sheet : AutoClipMarkEnum.Subject;
+            p.AutoClipRelativeY = rb_y_relative_sheet.Checked ? AutoClipMarkEnum.Sheet : AutoClipMarkEnum.Subject;
+
 
             return true;
         }

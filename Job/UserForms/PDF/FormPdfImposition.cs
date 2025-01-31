@@ -272,17 +272,7 @@ namespace JobSpace.UserForms.PDF
 
         private void OnMasterPageChanged(object sender, PageFormatView e)
         {
-
-            TemplatePage page = new TemplatePage
-            {
-                W = (double)e.Width,
-                H= (double)e.Height,
-            };
-
-            page.Bleeds.SetDefault((double)e.Bleed);
-            page.SetMarginsLikeBleed();
-
-            _parameters.MasterPage = page;
+            _parameters.MasterPage = e.ToTemplatePage();
         }
 
         private void LoadImposFromFile()

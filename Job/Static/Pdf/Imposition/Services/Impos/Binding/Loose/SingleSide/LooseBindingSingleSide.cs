@@ -15,10 +15,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             {
                 parameters.Sheet.MasterPage.Margins.Set(0d);
             }
-            else
-            {
-                parameters.Sheet.MasterPage.SetMarginsLikeBleed();
-            }
+           
 
             switch (parameters.BindingPlace)
             {

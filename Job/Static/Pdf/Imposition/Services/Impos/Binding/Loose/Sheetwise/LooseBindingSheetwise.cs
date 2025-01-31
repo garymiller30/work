@@ -19,10 +19,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
             {
                 parameters.Sheet.MasterPage.Margins.Set(0d);
             }
-            else
-            {
-                parameters.Sheet.MasterPage.SetMarginsLikeBleed();
-            }
 
             TemplatePageContainer tc;
 

@@ -17,7 +17,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf
             {
                 using (PDFLIBDocument doc = new PDFLIBDocument(p, mark.File.FileName))
                 {
-                    doc.fit_pdi_page(1, mark.Front.X, mark.Front.Y, $"orientate={Commons.Orientate[mark.Angle]}");
+                    doc.fit_pdi_page(mark);
+                    //doc.fit_pdi_page(1, mark.Front.X, mark.Front.Y, $"orientate={Commons.Orientate[mark.Angle]}");
                 }
             }
 

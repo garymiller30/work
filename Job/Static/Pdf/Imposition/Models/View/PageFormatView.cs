@@ -9,6 +9,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.View
     public class PageFormatView
     {
         private PdfFile _file;
+        
 
         public PageFormatView(PdfFile pdfFile)
         {
@@ -16,13 +17,14 @@ namespace JobSpace.Static.Pdf.Imposition.Models.View
             Width = (decimal)_file.Pages[0].Trim.W;
             Height = (decimal)_file.Pages[0].Trim.H;
             Bleed = (decimal)_file.Pages[0].Bleed;
+            Margins.Set(Bleed);
         }
 
         public int FileId { get => _file.Id; }
         public decimal Width { get;set;}
         public decimal Height { get;set;}
         public decimal Bleed { get;set;}
-
+        public ClipBox Margins { get; set; } = new ClipBox();
         public override string ToString()
         {
             return $"{FileId}";
@@ -36,7 +38,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.View
                 H = (double)Height,
             };
             tp.Bleeds.Set(Bleed);
-            tp.SetMarginsLikeBleed();
+            tp.Margins.Set(Margins);
             return tp;
         }
     }

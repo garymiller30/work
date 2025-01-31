@@ -61,7 +61,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                         double lly = templatePage.Front.Y;
                         double angle = templatePage.Front.Angle;
 
-                        string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={orientate[angle]}";
+                        string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
 
                         document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
 
@@ -102,7 +102,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                                  lly = templatePage.Back.Y;
                                  angle = templatePage.Back.Angle;
                                 //(double llx, double lly, double angle) = templatePage.GetPageStartCoordBack(sheet);
-                                 clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={orientate[angle]}";
+                                 clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
                                 //string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} rotate={angle}";
 
                                 documentB.fit_pdi_page(pageNo, llx, lly, clipping_optlist);

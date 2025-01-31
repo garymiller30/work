@@ -16,14 +16,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 {
     public static partial class DrawSheet
     {
-        static Dictionary<double, string> orientate = new Dictionary<double, string>
-            {
-                {0, "north"},
-                {90, "west"},
-                {180, "south"},
-                {270, "east"}
-            };
-
         public static void Front(PDFlib p, ProductPart impos, PrintSheet sheet)
         {
             DrawerStatic.CurSide = DrawerSideEnum.Front;
@@ -62,7 +54,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                     double llx = templatePage.Front.X;
                     double lly = templatePage.Front.Y;
                     double angle = templatePage.Front.Angle;
-                    string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={orientate[angle]}";
+                    string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
                     document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
                 }
                 DrawCropMarks.Front(p, templatePage);

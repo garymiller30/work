@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MasterPageSelectControl));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.btn_add_page = new System.Windows.Forms.Button();
             this.cb_FileFormats = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.nud_page_bleed = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
             this.nud_page_h = new System.Windows.Forms.NumericUpDown();
             this.nud_page_w = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.btn_add_page = new System.Windows.Forms.Button();
+            this.btn_change_margins = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_bleed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_h)).BeginInit();
@@ -47,10 +47,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btn_change_margins);
             this.groupBox2.Controls.Add(this.btn_add_page);
-            this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.cb_FileFormats);
-            this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.nud_page_bleed);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.nud_page_h);
@@ -65,14 +64,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "формат сторінки, мм";
             // 
-            // label1
+            // btn_add_page
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(207, 37);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(13, 13);
-            this.label1.TabIndex = 21;
-            this.label1.Text = "+";
+            this.btn_add_page.FlatAppearance.BorderSize = 0;
+            this.btn_add_page.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_add_page.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_page.Image")));
+            this.btn_add_page.Location = new System.Drawing.Point(305, 29);
+            this.btn_add_page.Name = "btn_add_page";
+            this.btn_add_page.Size = new System.Drawing.Size(26, 26);
+            this.btn_add_page.TabIndex = 22;
+            this.btn_add_page.UseVisualStyleBackColor = true;
+            this.btn_add_page.Click += new System.EventHandler(this.btn_add_page_Click);
             // 
             // cb_FileFormats
             // 
@@ -84,19 +86,10 @@
             this.cb_FileFormats.TabIndex = 20;
             this.cb_FileFormats.SelectedIndexChanged += new System.EventHandler(this.cb_FileFormats_SelectedIndexChanged);
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(126, 37);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(12, 13);
-            this.label10.TabIndex = 19;
-            this.label10.Text = "x";
-            // 
             // nud_page_bleed
             // 
             this.nud_page_bleed.DecimalPlaces = 1;
-            this.nud_page_bleed.Location = new System.Drawing.Point(225, 35);
+            this.nud_page_bleed.Location = new System.Drawing.Point(191, 35);
             this.nud_page_bleed.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -113,7 +106,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(222, 19);
+            this.label9.Location = new System.Drawing.Point(188, 19);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(61, 13);
             this.label9.TabIndex = 17;
@@ -122,7 +115,7 @@
             // nud_page_h
             // 
             this.nud_page_h.DecimalPlaces = 1;
-            this.nud_page_h.Location = new System.Drawing.Point(143, 35);
+            this.nud_page_h.Location = new System.Drawing.Point(124, 35);
             this.nud_page_h.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -156,7 +149,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(150, 19);
+            this.label7.Location = new System.Drawing.Point(131, 19);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(42, 13);
             this.label7.TabIndex = 14;
@@ -171,15 +164,15 @@
             this.label8.TabIndex = 13;
             this.label8.Text = "ширина";
             // 
-            // btn_add_page
+            // btn_change_margins
             // 
-            this.btn_add_page.Location = new System.Drawing.Point(289, 32);
-            this.btn_add_page.Name = "btn_add_page";
-            this.btn_add_page.Size = new System.Drawing.Size(29, 23);
-            this.btn_add_page.TabIndex = 22;
-            this.btn_add_page.Text = "+";
-            this.btn_add_page.UseVisualStyleBackColor = true;
-            this.btn_add_page.Click += new System.EventHandler(this.btn_add_page_Click);
+            this.btn_change_margins.Image = ((System.Drawing.Image)(resources.GetObject("btn_change_margins.Image")));
+            this.btn_change_margins.Location = new System.Drawing.Point(255, 30);
+            this.btn_change_margins.Name = "btn_change_margins";
+            this.btn_change_margins.Size = new System.Drawing.Size(26, 26);
+            this.btn_change_margins.TabIndex = 23;
+            this.btn_change_margins.UseVisualStyleBackColor = true;
+            this.btn_change_margins.Click += new System.EventHandler(this.btn_change_margins_Click);
             // 
             // MasterPageSelectControl
             // 
@@ -201,14 +194,13 @@
 
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox cb_FileFormats;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown nud_page_bleed;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown nud_page_h;
         private System.Windows.Forms.NumericUpDown nud_page_w;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_add_page;
+        private System.Windows.Forms.Button btn_change_margins;
     }
 }
