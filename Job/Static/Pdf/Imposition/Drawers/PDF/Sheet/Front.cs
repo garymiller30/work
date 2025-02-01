@@ -91,10 +91,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             }
             else
             {
-                return (
-                    pdfPage.Trim.X1 - templatePage.Bleeds.Left - pdfPage.Media.X1,
-                    pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Media.Y1
-                );
+
+                double c_llx = pdfPage.Trim.X1 - templatePage.Bleeds.Left - pdfPage.Media.X1;
+                double c_lly = pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Media.Y1;
+
+                if (c_llx < 0 ) c_llx = 0;
+                if (c_lly < 0) c_lly = 0;
+
+                return (c_llx,  c_lly);
             }
         }
         private static bool IsEmptyPage(ImposRunPage runPage, TemplatePage templatePage)

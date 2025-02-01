@@ -174,11 +174,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 
         public static void ApplyFixes(LooseBindingParameters parameters, TemplatePageContainer templatePageContainer)
         {
-            if (parameters.IsOneCut)
-            {
-                ProcessFixBleeds.Front(templatePageContainer);
-            }
-
+            ProcessFixBleeds.Front(templatePageContainer);
             CropMarksService.FixCropMarksFront(templatePageContainer);
         }
 
@@ -222,64 +218,5 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             if (!parameters.IsCenterVertical) sheetH -= parameters.Yofs;
             return (sheetW, sheetH);
         }
-
-        //public static void FixBleedsFront(TemplatePageContainer templatePageContainer)
-        //{
-        //    templatePageContainer.TemplatePages.ForEach(x => x.Bleeds.Set(x.Bleeds.Default));
-
-        //    foreach (var page in templatePageContainer.TemplatePages)
-        //    {
-        //        PageSide side = page.Front;
-
-        //        RectangleD left = page.GetDrawBleedFrontLeft();
-        //        RectangleD right = page.GetDrawBleedFrontRight();
-        //        RectangleD top = page.GetDrawBleedFrontTop();
-        //        RectangleD bottom = page.GetDrawBleedFrontBottom();
-
-        //        foreach (var pageTarget in templatePageContainer.TemplatePages)
-        //        {
-        //            if (page != pageTarget)
-        //            {
-        //                RectangleD pageRect = new RectangleD
-        //                {
-        //                    X1 = ScreenDrawCommons.GetPageDrawX(page,side),
-        //                    Y1 = ScreenDrawCommons.GetPageDrawY(page, side),
-        //                    X2 = ScreenDrawCommons.GetPageDrawX(page,side) + ScreenDrawCommons.GetPageDrawW(page,side),
-        //                    Y2 = ScreenDrawCommons.GetPageDrawY(page,side) + ScreenDrawCommons.GetPageDrawH(page,side)
-        //                };
-
-        //                List<RectangleD> rects = new List<RectangleD>() {
-        //                    pageTarget.GetDrawBleedFrontLeft(),
-        //                    pageTarget.GetDrawBleedFrontRight(),
-        //                    pageTarget.GetDrawBleedFrontTop(),
-        //                    pageTarget.GetDrawBleedFrontBottom()
-        //                };
-
-        //                foreach (var rect in rects)
-        //                {
-        //                    if (left.IntersectsWith(rect) || left.IntersectsWith(pageRect))
-        //                    {
-        //                        page.Bleeds.Left = 0;
-        //                    }
-        //                    if (right.IntersectsWith(rect) || right.IntersectsWith(pageRect))
-        //                    {
-        //                        page.Bleeds.Right = 0;
-        //                    }
-        //                    if (top.IntersectsWith(rect) || top.IntersectsWith(pageRect))
-        //                    {
-        //                        page.Bleeds.Top = 0;
-        //                    }
-        //                    if (bottom.IntersectsWith(rect) || bottom.IntersectsWith(pageRect))
-        //                    {
-        //                        page.Bleeds.Bottom = 0;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-
-
     }
 }

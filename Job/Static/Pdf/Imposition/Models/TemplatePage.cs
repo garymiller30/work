@@ -55,11 +55,11 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             H = height;
         }
 
-        public TemplatePage(double width, double height, double bleeds) : this(width, height)
-        {
-            Bleeds.SetDefault(bleeds);
-            Margins.Set(bleeds);
-        }
+        //public TemplatePage(double width, double height, double bleeds) : this(width, height)
+        //{
+        //    Bleeds.SetDefault(bleeds);
+        //    Margins.Set(bleeds);
+        //}
 
         public TemplatePage(double x, double y, double width, double height, double angle)
         {
@@ -90,18 +90,14 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public void FlipAngle(TemplateSheetPlaceType sheetPlaceType)
         {
             Front.Angle = (Front.Angle + 180) % 360;
-
+            
             switch (sheetPlaceType)
             {
                 case TemplateSheetPlaceType.SingleSide:
-
                     break;
                 case TemplateSheetPlaceType.Sheetwise:
-
-                    Back.Angle = LooseBindingSheetwise.GetBackAngle(Front.Angle);
-                    break;
                 case TemplateSheetPlaceType.WorkAndTurn:
-                    //TODO: Add logic for WorkAndTurn if needed
+                    Back.Angle = LooseBindingSheetwise.GetBackAngle(Front.Angle);
                     break;
                 case TemplateSheetPlaceType.Perfecting:
                     //TODO: Add logic for Perfecting if needed
@@ -119,8 +115,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             return JsonSerializer.Deserialize<TemplatePage>(str);
         }
 
-        
-      
+
+
 
         public void SwitchWH()
         {

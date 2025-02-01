@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MasterPageSelectControl));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.b_bleed_to_margins = new System.Windows.Forms.Button();
+            this.btn_change_margins = new System.Windows.Forms.Button();
             this.btn_add_page = new System.Windows.Forms.Button();
             this.cb_FileFormats = new System.Windows.Forms.ComboBox();
             this.nud_page_bleed = new System.Windows.Forms.NumericUpDown();
@@ -38,7 +40,8 @@
             this.nud_page_w = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.btn_change_margins = new System.Windows.Forms.Button();
+            this.ll_calc_x = new System.Windows.Forms.LinkLabel();
+            this.ll_calc_h = new System.Windows.Forms.LinkLabel();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_bleed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_h)).BeginInit();
@@ -47,6 +50,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.ll_calc_h);
+            this.groupBox2.Controls.Add(this.ll_calc_x);
+            this.groupBox2.Controls.Add(this.b_bleed_to_margins);
             this.groupBox2.Controls.Add(this.btn_change_margins);
             this.groupBox2.Controls.Add(this.btn_add_page);
             this.groupBox2.Controls.Add(this.cb_FileFormats);
@@ -64,12 +70,33 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "формат сторінки, мм";
             // 
+            // b_bleed_to_margins
+            // 
+            this.b_bleed_to_margins.FlatAppearance.BorderSize = 0;
+            this.b_bleed_to_margins.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.b_bleed_to_margins.Location = new System.Drawing.Point(247, 29);
+            this.b_bleed_to_margins.Name = "b_bleed_to_margins";
+            this.b_bleed_to_margins.Size = new System.Drawing.Size(26, 21);
+            this.b_bleed_to_margins.TabIndex = 24;
+            this.b_bleed_to_margins.Text = ">";
+            this.b_bleed_to_margins.UseVisualStyleBackColor = true;
+            this.b_bleed_to_margins.Click += new System.EventHandler(this.b_bleed_to_margins_Click);
+            // 
+            // btn_change_margins
+            // 
+            this.btn_change_margins.Image = ((System.Drawing.Image)(resources.GetObject("btn_change_margins.Image")));
+            this.btn_change_margins.Location = new System.Drawing.Point(273, 26);
+            this.btn_change_margins.Name = "btn_change_margins";
+            this.btn_change_margins.Size = new System.Drawing.Size(26, 26);
+            this.btn_change_margins.TabIndex = 23;
+            this.btn_change_margins.UseVisualStyleBackColor = true;
+            this.btn_change_margins.Click += new System.EventHandler(this.btn_change_margins_Click);
+            // 
             // btn_add_page
             // 
             this.btn_add_page.FlatAppearance.BorderSize = 0;
-            this.btn_add_page.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_add_page.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_page.Image")));
-            this.btn_add_page.Location = new System.Drawing.Point(305, 29);
+            this.btn_add_page.Location = new System.Drawing.Point(305, 25);
             this.btn_add_page.Name = "btn_add_page";
             this.btn_add_page.Size = new System.Drawing.Size(26, 26);
             this.btn_add_page.TabIndex = 22;
@@ -80,7 +107,7 @@
             // 
             this.cb_FileFormats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_FileFormats.FormattingEnabled = true;
-            this.cb_FileFormats.Location = new System.Drawing.Point(7, 34);
+            this.cb_FileFormats.Location = new System.Drawing.Point(7, 29);
             this.cb_FileFormats.Name = "cb_FileFormats";
             this.cb_FileFormats.Size = new System.Drawing.Size(46, 21);
             this.cb_FileFormats.TabIndex = 20;
@@ -89,7 +116,7 @@
             // nud_page_bleed
             // 
             this.nud_page_bleed.DecimalPlaces = 1;
-            this.nud_page_bleed.Location = new System.Drawing.Point(191, 35);
+            this.nud_page_bleed.Location = new System.Drawing.Point(191, 30);
             this.nud_page_bleed.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -106,7 +133,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(188, 19);
+            this.label9.Location = new System.Drawing.Point(188, 14);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(61, 13);
             this.label9.TabIndex = 17;
@@ -115,7 +142,7 @@
             // nud_page_h
             // 
             this.nud_page_h.DecimalPlaces = 1;
-            this.nud_page_h.Location = new System.Drawing.Point(124, 35);
+            this.nud_page_h.Location = new System.Drawing.Point(124, 30);
             this.nud_page_h.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -132,7 +159,7 @@
             // nud_page_w
             // 
             this.nud_page_w.DecimalPlaces = 1;
-            this.nud_page_w.Location = new System.Drawing.Point(59, 35);
+            this.nud_page_w.Location = new System.Drawing.Point(59, 30);
             this.nud_page_w.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -149,7 +176,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(131, 19);
+            this.label7.Location = new System.Drawing.Point(131, 14);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(42, 13);
             this.label7.TabIndex = 14;
@@ -158,21 +185,37 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(67, 19);
+            this.label8.Location = new System.Drawing.Point(67, 14);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(45, 13);
             this.label8.TabIndex = 13;
             this.label8.Text = "ширина";
             // 
-            // btn_change_margins
+            // ll_calc_x
             // 
-            this.btn_change_margins.Image = ((System.Drawing.Image)(resources.GetObject("btn_change_margins.Image")));
-            this.btn_change_margins.Location = new System.Drawing.Point(255, 30);
-            this.btn_change_margins.Name = "btn_change_margins";
-            this.btn_change_margins.Size = new System.Drawing.Size(26, 26);
-            this.btn_change_margins.TabIndex = 23;
-            this.btn_change_margins.UseVisualStyleBackColor = true;
-            this.btn_change_margins.Click += new System.EventHandler(this.btn_change_margins_Click);
+            this.ll_calc_x.AutoSize = true;
+            this.ll_calc_x.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ll_calc_x.Location = new System.Drawing.Point(77, 53);
+            this.ll_calc_x.Margin = new System.Windows.Forms.Padding(0);
+            this.ll_calc_x.Name = "ll_calc_x";
+            this.ll_calc_x.Size = new System.Drawing.Size(25, 13);
+            this.ll_calc_x.TabIndex = 25;
+            this.ll_calc_x.TabStop = true;
+            this.ll_calc_x.Text = "calc";
+            this.ll_calc_x.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ll_calc_x_LinkClicked);
+            // 
+            // ll_calc_h
+            // 
+            this.ll_calc_h.AutoSize = true;
+            this.ll_calc_h.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ll_calc_h.Location = new System.Drawing.Point(142, 53);
+            this.ll_calc_h.Margin = new System.Windows.Forms.Padding(0);
+            this.ll_calc_h.Name = "ll_calc_h";
+            this.ll_calc_h.Size = new System.Drawing.Size(25, 13);
+            this.ll_calc_h.TabIndex = 26;
+            this.ll_calc_h.TabStop = true;
+            this.ll_calc_h.Text = "calc";
+            this.ll_calc_h.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ll_calc_h_LinkClicked);
             // 
             // MasterPageSelectControl
             // 
@@ -202,5 +245,8 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btn_add_page;
         private System.Windows.Forms.Button btn_change_margins;
+        private System.Windows.Forms.Button b_bleed_to_margins;
+        private System.Windows.Forms.LinkLabel ll_calc_h;
+        private System.Windows.Forms.LinkLabel ll_calc_x;
     }
 }

@@ -23,6 +23,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         public static double GetPageDrawX(TemplatePage page, PageSide side)
         {
+            // проти годинникової стрілки
             switch (side.Angle)
             {
                 case 0:
@@ -30,9 +31,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 case 90:
                     return side.X + page.Margins.Top;
                 case 180:
-                    return side.X + page.Margins.Bottom;
-                case 270:
                     return side.X + page.Margins.Right;
+                case 270:
+                    return side.X + page.Margins.Bottom;
                 default:
                     throw new NotImplementedException();
             }
@@ -40,16 +41,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         public static double GetPageDrawY(TemplatePage page, PageSide side)
         {
+            // проти годинникової стрілки
             switch (side.Angle)
             {
                 case 0:
                     return side.Y + page.Margins.Bottom;
                 case 90:
-                    return side.Y + page.Margins.Right;
+                    return side.Y + page.Margins.Left;
                 case 180:
                     return side.Y + page.Margins.Top;
                 case 270:
-                    return side.Y + page.Margins.Left;
+                    return side.Y + page.Margins.Right;
                 default:
                     throw new NotImplementedException();
             }
