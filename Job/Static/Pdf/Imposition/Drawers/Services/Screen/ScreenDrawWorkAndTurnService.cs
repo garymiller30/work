@@ -139,18 +139,57 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
         public static void DrawBleeds(Graphics g, TemplatePage page,PageSide side, int sH)
         {
             var brush = new SolidBrush(Color.LightGreen);
-            //var pen = new Pen(brush,1);
+            
+            (RectangleD left, RectangleD right, RectangleD top, RectangleD bottom) = ScreenDrawCommons.GetDrawBleedsFront(page);
 
-            Rectangle rect = new Rectangle
+            Rectangle rect_left = new Rectangle
             {
-                X = (int)side.X,
-                Y = sH - (int)side.Y - (int)page.GetClippedHByRotate(),
-                Width = (int)page.GetClippedWByRotate(),
-                Height = (int)page.GetClippedHByRotate()
+                X = (int)left.X1,
+                Y = sH - (int)left.Y1 - (int)left.H,
+                Width = (int)left.W,
+                Height = (int)left.H
             };
+            g.FillRectangle(brush, rect_left);
 
-            g.FillRectangle(brush, rect);
-            //g.DrawRectangle(pen,rect);
+            Rectangle rect_right = new Rectangle
+            {
+                X = (int)right.X1,
+                Y = sH - (int)right.Y1 - (int)right.H,
+                Width = (int)right.W,
+                Height = (int)right.H
+            };
+            g.FillRectangle(brush, rect_right);
+
+            Rectangle rect_top = new Rectangle
+            {
+                X = (int)top.X1,
+                Y = sH - (int)top.Y1 - (int)top.H,
+                Width = (int)top.W,
+                Height = (int)top.H
+            };
+            g.FillRectangle(brush, rect_top);
+
+            Rectangle rect_bottom = new Rectangle
+            {
+                X = (int)bottom.X1,
+                Y = sH - (int)bottom.Y1 - (int)bottom.H,
+                Width = (int)bottom.W,
+                Height = (int)bottom.H
+            };
+            g.FillRectangle(brush, rect_bottom);
+
+
+            //Rectangle rect = new Rectangle
+            //{
+            //    X = (int)side.X,
+            //    Y = sH - (int)side.Y - (int)page.GetClippedHByRotate(),
+            //    Width = (int)page.GetClippedWByRotate(),
+            //    Height = (int)page.GetClippedHByRotate()
+            //};
+
+            //g.FillRectangle(brush, rect);
+            
+            brush.Dispose();
         }
 
         private static void DrawTextBack(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)

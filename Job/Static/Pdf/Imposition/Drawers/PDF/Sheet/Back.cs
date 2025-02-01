@@ -64,6 +64,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                             {
                                 c_llx = pdfPage.Trim.X1 - templatePage.Bleeds.Right - pdfPage.Media.X1;
                                 c_lly = pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Media.Y1;
+
+                                if (c_llx < 0) c_llx = 0;
+                                if (c_lly <0) c_lly = 0;
                             }
 
                             double c_urx = c_llx + templatePage.GetPageWidthWithBleeds;

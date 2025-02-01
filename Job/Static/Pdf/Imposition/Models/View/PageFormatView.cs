@@ -37,7 +37,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.View
                 W = (double)Width,
                 H = (double)Height,
             };
-            tp.Bleeds.Set(Bleed);
+            tp.Bleeds.SetDefault((double)Bleed);
             tp.Margins.Set(Margins);
             return tp;
         }

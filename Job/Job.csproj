@@ -770,6 +770,12 @@
     <Compile Include="UserForms\PDF\ImposItems\FormAddTextMark.Designer.cs">
       <DependentUpon>FormAddTextMark.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormCalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormCalc.Designer.cs">
+      <DependentUpon>FormCalc.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1067,6 +1073,9 @@
     <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddTextMark.resx">
       <DependentUpon>FormAddTextMark.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormCalc.resx">
+      <DependentUpon>FormCalc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.resx">
       <DependentUpon>Form_AddTemplateSheet.cs</DependentUpon>

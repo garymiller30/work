@@ -24,7 +24,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
                 {
                     if (page != pageTarget)
                     {
-                        (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(page, side);
+                        (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(pageTarget, pageTarget.Front);
 
                         RectangleD pageRect = new RectangleD
                         {
