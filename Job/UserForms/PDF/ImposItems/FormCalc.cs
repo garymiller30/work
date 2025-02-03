@@ -21,14 +21,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         public FormCalc(decimal value):this()
         {
-            tb_input.Text = value.ToString("N01").Replace(",",".");
+            tb_input.Text = value.ToString("N01");
         }
 
         private void btn_calc_Click(object sender, EventArgs e)
         {
             try
             {
-                tb_result.Text = new DataTable().Compute(tb_input.Text, null).ToString();
+                tb_result.Text = new DataTable().Compute(tb_input.Text.Replace(",","."), null).ToString();
                 Result = double.Parse(tb_result.Text);
 
             }

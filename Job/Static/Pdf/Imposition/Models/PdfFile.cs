@@ -2,11 +2,14 @@
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Imposition.Models
 {
@@ -25,7 +28,26 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public PdfFile(string fileName)
         {
             FileName = fileName;
+            GetCount();
             GetPagesInfo();
+
+        }
+
+        private void GetCount()
+        {
+            var reg = new Regex(@"#(\d+)\.");
+            var match = reg.Match(FileName);
+            
+            if (match.Success)
+            {
+                try
+                {
+                    Count = int.Parse(match.Groups[1].Value);
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
 
         private void GetPagesInfo()
