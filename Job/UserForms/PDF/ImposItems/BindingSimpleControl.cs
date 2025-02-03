@@ -17,7 +17,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class BindingSimpleControl : UserControl, IBindControl
     {
-        ControlBindParameters parameters;
+        protected ControlBindParameters parameters;
 
         TemplatePageContainer variantNormal;
         TemplatePageContainer variantRotated;

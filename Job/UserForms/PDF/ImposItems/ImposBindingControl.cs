@@ -20,7 +20,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         List<string> items = new List<string>(){
             "розкидати на лист",
-            "наскрізна нумерація"
+            "наскрізна нумерація",
+            "один формат, різні тиражі"
             };
 
         public ImposBindingControl()
@@ -68,7 +69,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 // наскрізна нумерація
                 curBindControl = new BindingSimpleCutAndStackControl();
             }
-
+            else if (idx == 2)
+            {
+                curBindControl = new BindingSimpleOneFormatDifferentCount();
+            }
             curBindControl.SetControlBindParameters(parameters);
 
             ((UserControl)curBindControl).Dock = DockStyle.Fill;

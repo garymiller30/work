@@ -5,6 +5,7 @@ using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,36 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
                     double llx = templatePage.Front.X;
                     double lly = templatePage.Front.Y;
+
+
+                    var margins = templatePage.Margins;
+                    var bleeds = templatePage.Bleeds;
+
+                    switch (templatePage.Front.Angle)
+                    {
+                        case 0:
+                            if (margins.Left < bleeds.Left)     llx = llx - (bleeds.Left - margins.Left);
+                            if (margins.Bottom < bleeds.Bottom) lly = lly - (bleeds.Bottom - margins.Bottom);
+
+                            break;
+                        case 90:
+
+                            if (margins.Top <bleeds.Top) llx = llx - margins.Top - bleeds.Top;
+                            if (margins.Left < bleeds.Left) lly = lly - margins.Left - bleeds.Left;
+                            break;
+                        case 180:
+                             if (margins.Right < bleeds.Right) llx = llx - margins.Right - bleeds.Right;
+                             if (margins.Top < bleeds.Top) lly = lly - margins.Top - bleeds.Top;
+                            break;
+                        case 270:
+                            if (margins.Bottom < bleeds.Bottom) llx = llx - margins.Bottom - bleeds.Bottom;
+                            if (margins.Right < bleeds.Right) lly = lly - margins.Right - bleeds.Right;
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+
+
                     double angle = templatePage.Front.Angle;
                     string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
                     document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
@@ -91,14 +122,15 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             }
             else
             {
+                double c_llx = pdfPage.Trim.X1 - pdfPage.Media.X1 - templatePage.Bleeds.Left;
+                double c_lly = pdfPage.Trim.Y1 - pdfPage.Media.Y1 - templatePage.Bleeds.Bottom;
+                //c_llx -= templatePage.Bleeds.Left;
+                //c_lly -= templatePage.Bleeds.Bottom;
 
-                double c_llx = pdfPage.Trim.X1 - templatePage.Bleeds.Left - pdfPage.Media.X1;
-                double c_lly = pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Media.Y1;
-
-                if (c_llx < 0 ) c_llx = 0;
+                if (c_llx < 0) c_llx = 0;
                 if (c_lly < 0) c_lly = 0;
 
-                return (c_llx,  c_lly);
+                return (c_llx, c_lly);
             }
         }
         private static bool IsEmptyPage(ImposRunPage runPage, TemplatePage templatePage)
@@ -137,9 +169,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 {
                     y = (sheet.TemplatePlate.H - sheet.H) / 2;
                 }
-               
+
                 y += sheet.TemplatePlate.Yofs;
-               
+
                 mediabox = $"{-x * PdfHelper.mn} {-y * PdfHelper.mn} {(sheet.TemplatePlate.W - x) * PdfHelper.mn} {(sheet.TemplatePlate.H - y) * PdfHelper.mn}";
             }
             return mediabox;

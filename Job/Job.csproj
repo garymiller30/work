@@ -746,6 +746,12 @@
     <Compile Include="UserForms\PDF\ImposItems\BindingSimpleCutAndStackControl.Designer.cs">
       <DependentUpon>BindingSimpleCutAndStackControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleOneFormatDifferentCount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleOneFormatDifferentCount.Designer.cs">
+      <DependentUpon>BindingSimpleOneFormatDifferentCount.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\ImposItems\FormAddPdfMark.cs">
       <SubType>Form</SubType>
     </Compile>

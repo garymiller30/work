@@ -51,6 +51,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 return null;
             };
 
+            olvColumnCount.AspectGetter = delegate (object r)
+            {
+                if (r is PdfFile file)
+                {
+                    return file.Count;
+                }
+                return null;
+            };
+
             treeListViewFiles.ModelCanDrop += TreeListViewFiles_ModelCanDrop;
         }
 

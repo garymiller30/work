@@ -66,7 +66,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                                 c_lly = pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Media.Y1;
 
                                 if (c_llx < 0) c_llx = 0;
-                                if (c_lly <0) c_lly = 0;
+                                if (c_lly < 0) c_lly = 0;
                             }
 
                             double c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
@@ -74,6 +74,35 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
                             double llx = templatePage.Back.X;
                             double lly = templatePage.Back.Y;
+
+                            var margins = templatePage.Margins;
+                            var bleeds = templatePage.Bleeds;
+
+                            switch (templatePage.Back.Angle)
+                            {
+                                case 0:
+                                    if (margins.Right < bleeds.Right) llx = llx - margins.Right - bleeds.Right;
+                                    if (margins.Bottom < bleeds.Bottom) lly = lly - margins.Bottom - bleeds.Bottom;
+                                    break;
+
+                                case 90:
+                                    if (margins.Top < bleeds.Top) llx = llx - margins.Top - bleeds.Top;
+                                    if (margins.Right < bleeds.Right)lly = lly - margins.Right - bleeds.Right;
+
+                                    break;
+                                case 180:
+                                    if (margins.Left < bleeds.Left) llx = llx - margins.Left - bleeds.Left;
+                                    if (margins.Top < bleeds.Top) lly = lly - margins.Top - bleeds.Top;
+                                    break;
+                                case 270:
+                                    if (margins.Bottom < bleeds.Bottom) llx = llx - margins.Bottom - bleeds.Bottom;
+                                    if (margins.Left < bleeds.Left) lly = lly - margins.Left - bleeds.Left;
+                                    break;
+                                default:
+                                    throw new NotImplementedException();
+                            }
+
+
                             double angle = templatePage.Back.Angle;
                             //(double llx, double lly, double angle) = templatePage.GetPageStartCoordBack(sheet);
                             string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
