@@ -43,11 +43,25 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class BindingSimpleOneFormatDifferentCount : BindingSimpleControl, IBindControl
     {
-
+        CalcResult _result;
         public BindingSimpleOneFormatDifferentCount() : base()
         {
             InitializeComponent();
+            btn_custom.Visible = true;
+            btn_custom.Click += Btn_custom_Click;
+
         }
+
+        private void Btn_custom_Click(object sender, EventArgs e)
+        {
+            if (_result == null) return;
+            using (var form = new FormSameFormatResult())
+            {
+                form.SetResult(_result);
+                form.ShowDialog();
+            }
+        }
+
 
         new public void RearangePages(List<PrintSheet> sheets, List<ImposRunPage> pages)
         {
@@ -56,14 +70,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
             // скинути 
             pages.ForEach(p => p.IsAssumed = false);
 
-            var result = new CalcResult(parameters.PdfFileList.Objects.Cast<PdfFile>().ToList());
-            result.SetCountOnSheet(sheets[0].TemplatePageContainer.TemplatePages.Count);
-            result.Calc();
+            _result = new CalcResult(parameters.PdfFileList.Objects.Cast<PdfFile>().ToList());
+            _result.SetCountOnSheet(sheets[0].TemplatePageContainer.TemplatePages.Count);
+            _result.Calc();
 
-            int tp_idx = result.CountOnSheet - 1;
+            int tp_idx = _result.CountOnSheet - 1;
             var tp = sheets[0].TemplatePageContainer.TemplatePages;
             int pageIdx = 1;
-            foreach (FileResult file in result.Files)
+            foreach (FileResult file in _result.Files)
             {
                 for (int i = 0; i < file.PagesOnSheet; i++)
                 {
@@ -89,11 +103,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 }
                 pageIdx++;
             }
-            sheets[0].Count = result.SheetCount;
+            sheets[0].Count = _result.SheetCount;
            
         }
 
-        class CalcResult
+        public class CalcResult
         {
             public List<FileResult> Files { get; set; } = new List<FileResult>();
             public int CountOnSheet { get; set; }
@@ -102,7 +116,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             public CalcResult(List<PdfFile> files)
             {
                 Files.AddRange(files.Select(f => new FileResult(f)));
-
             }
 
             public void SetCountOnSheet(int count)
@@ -123,15 +136,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
                         file.PagesOnSheet = 1;
                     }
                     file.SheetCount = (int)Math.Ceiling((double)file.Count / file.PagesOnSheet);
-
-                    file.Wasted =file.PagesOnSheet * file.SheetCount- file.Count;
                 }
-
                 SheetCount = Files.Max(f => f.SheetCount);
+                Files.ForEach(f=>f.Wasted = f.PagesOnSheet*SheetCount - f.Count);
             }
         }
 
-        class FileResult
+        public class FileResult
         {
             public PdfFile File { get; set; }
             public int Count { get; set; }
@@ -139,8 +150,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             public int PagesOnSheet { get; set; }
             public int Wasted { get; set; }
             public int SheetCount { get; set; }
-
-
             public FileResult(PdfFile file)
             {
                 File = file;

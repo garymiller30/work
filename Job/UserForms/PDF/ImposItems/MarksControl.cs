@@ -568,6 +568,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     container.Text.Add(t);
                 }
                 RefreshSheetTree();
+                parameters.UpdateSheet();
             }
         }
     }
