@@ -782,6 +782,12 @@
     <Compile Include="UserForms\PDF\ImposItems\FormCalc.Designer.cs">
       <DependentUpon>FormCalc.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormSameFormatResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormSameFormatResult.Designer.cs">
+      <DependentUpon>FormSameFormatResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1082,6 +1088,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\FormCalc.resx">
       <DependentUpon>FormCalc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormSameFormatResult.resx">
+      <DependentUpon>FormSameFormatResult.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.resx">
       <DependentUpon>Form_AddTemplateSheet.cs</DependentUpon>

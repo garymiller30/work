@@ -54,7 +54,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             g.DrawRectangle(pen, rect);
             pen.Dispose();
 
-           
+
         }
 
         private static void DrawCropMarks(Graphics g, TemplateSheet sheet)
@@ -63,7 +63,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             foreach (var page in sheet.TemplatePageContainer.TemplatePages)
             {
                 var marks = page.CropMarksController.CropMarks;
-               
+
 
                 foreach (var mark in marks)
                 {
@@ -79,14 +79,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     };
                     g.DrawLine(pen, p1, p2);
                 }
-                
+
             }
             pen.Dispose();
         }
 
         private static void DrawPageBack(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
-            DrawBleeds(g, page,page.Back, sH);
+            DrawBleeds(g, page, page.Back, sH);
 
             int x = (int)page.GetPageDrawBackX();
             int y = sH - (int)page.GetPageDrawBackY() - (int)page.GetPageDrawBackH();
@@ -130,16 +130,16 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             brush.Dispose();
             pen.Dispose();
 
-            
-            ScreenDrawCommons.DrawPageRotateMarker(g, page,page.Back, rect, sH);
+
+            ScreenDrawCommons.DrawPageRotateMarker(g, page, page.Back, rect, sH);
             DrawTextBack(g, sheet, page, sH);
-            
+
         }
 
-        public static void DrawBleeds(Graphics g, TemplatePage page,PageSide side, int sH)
+        public static void DrawBleeds(Graphics g, TemplatePage page, PageSide side, int sH)
         {
             var brush = new SolidBrush(Color.LightGreen);
-            
+
             (RectangleD left, RectangleD right, RectangleD top, RectangleD bottom) = ScreenDrawCommons.GetDrawBleedsFront(page);
 
             Rectangle rect_left = new Rectangle
@@ -188,7 +188,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             //};
 
             //g.FillRectangle(brush, rect);
-            
+
             brush.Dispose();
         }
 
@@ -241,8 +241,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 {
                     txt = "пуста";
                 }
-
-                if (page.Back.PrintIdx != 0)
+                else
                 {
                     txt = $"{back}";
                 }
@@ -272,7 +271,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
         {
             PageSide side = page.Front;
 
-            DrawBleeds(g, page,side, sH);
+            DrawBleeds(g, page, side, sH);
 
             (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(page, side);
 
@@ -318,10 +317,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             brush.Dispose();
             pen.Dispose();
 
-          
-            ScreenDrawCommons.DrawPageRotateMarker(g, page,side, rect, sH);
+
+            ScreenDrawCommons.DrawPageRotateMarker(g, page, side, rect, sH);
             DrawTextFront(g, sheet, page, sH);
-            
+
         }
 
         private static void DrawTextFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
@@ -337,7 +336,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(page, side);
 
             var x = (float)(page_x + page_w / 2);
-            var y = sH - page_y - page_h/ 2;
+            var y = sH - page_y - page_h / 2;
             var state = g.Save();
             g.TranslateTransform(x, (float)y);
 
@@ -369,16 +368,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             if (sheet is PrintSheet)
             {
-
                 if (page.Front.PrintIdx != 0) front = page.Front.PrintIdx;
                 if (page.Back.PrintIdx != 0) back = page.Back.PrintIdx;
 
-                if (page.Front.PrintIdx == 0 && page.Back.PrintIdx == 0)
+                if (front == 0 && back == 0)
                 {
                     txt = "пуста";
                 }
-
-                if (page.Back.PrintIdx == 0)
+                else
                 {
                     txt = $"{front}";
                 }
@@ -390,7 +387,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 {
                     txt = "пуста";
                 }
-                else 
+                else
                 {
                     txt = $"{page.Front.MasterIdx}";
                 }

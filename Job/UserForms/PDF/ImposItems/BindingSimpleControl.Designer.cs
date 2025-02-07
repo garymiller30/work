@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BindingSimpleControl));
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.cb_OneCut = new System.Windows.Forms.CheckBox();
             this.nud_Yofs = new System.Windows.Forms.NumericUpDown();
             this.nud_Xofs = new System.Windows.Forms.NumericUpDown();
@@ -44,8 +46,7 @@
             this.b_max_0 = new System.Windows.Forms.Button();
             this.b_90 = new System.Windows.Forms.Button();
             this.b_0 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.btn_custom = new System.Windows.Forms.Button();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Yofs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Xofs)).BeginInit();
@@ -54,6 +55,7 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.btn_custom);
             this.groupBox7.Controls.Add(this.label2);
             this.groupBox7.Controls.Add(this.label1);
             this.groupBox7.Controls.Add(this.cb_OneCut);
@@ -67,6 +69,26 @@
             this.groupBox7.TabIndex = 9;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Додаткові параметри";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(32, 47);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "+Yofs";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(32, 20);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "+Xofs";
             // 
             // cb_OneCut
             // 
@@ -241,25 +263,15 @@
             this.b_0.UseVisualStyleBackColor = true;
             this.b_0.Click += new System.EventHandler(this.b_0_Click);
             // 
-            // label1
+            // btn_custom
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(32, 20);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 13);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "+Xofs";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(32, 47);
-            this.label2.Margin = new System.Windows.Forms.Padding(0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "+Yofs";
+            this.btn_custom.Location = new System.Drawing.Point(223, 29);
+            this.btn_custom.Name = "btn_custom";
+            this.btn_custom.Size = new System.Drawing.Size(57, 23);
+            this.btn_custom.TabIndex = 13;
+            this.btn_custom.Text = "Звіт";
+            this.btn_custom.UseVisualStyleBackColor = true;
+            this.btn_custom.Visible = false;
             // 
             // BindingSimpleControl
             // 
@@ -297,5 +309,6 @@
         private System.Windows.Forms.Label label_0;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        protected System.Windows.Forms.Button btn_custom;
     }
 }
