@@ -22,7 +22,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         static void RecalcMarkCoordFront(TemplateSheet sheet, MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect)
         {
-            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsFront && x.Enable))
+            foreach (var mark in marksContainer.Pdf.Where(x => x.GetMarkSideFront(sheet.SheetPlaceType) && x.Enable))
             {
                 if (mark.Parent == MarkParentEnum.Sheet)
                 {
@@ -48,7 +48,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         static void RecalcMarkCoordBack(TemplateSheet sheet, MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect)
         {
-            foreach (var mark in marksContainer.Pdf.Where(x => x.Parameters.IsBack && x.Enable))
+            foreach (var mark in marksContainer.Pdf.Where(x => x.GetMarkSideBack(sheet.SheetPlaceType) && x.Enable))
             {
                 if (mark.Parent == MarkParentEnum.Sheet)
                 {

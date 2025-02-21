@@ -146,6 +146,7 @@ namespace JobSpace.UC
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
+            this.коміюватиІмяФайлуБезРозширенняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -952,7 +953,8 @@ namespace JobSpace.UC
             // 
             this.toolStripButtonCopyToClipboard.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonCopyToClipboard.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.копіюватиІмяФайлуToolStripMenuItem});
+            this.копіюватиІмяФайлуToolStripMenuItem,
+            this.коміюватиІмяФайлуБезРозширенняToolStripMenuItem});
             this.toolStripButtonCopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonCopyToClipboard.Image")));
             this.toolStripButtonCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCopyToClipboard.Name = "toolStripButtonCopyToClipboard";
@@ -964,7 +966,7 @@ namespace JobSpace.UC
             // копіюватиІмяФайлуToolStripMenuItem
             // 
             this.копіюватиІмяФайлуToolStripMenuItem.Name = "копіюватиІмяФайлуToolStripMenuItem";
-            this.копіюватиІмяФайлуToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.копіюватиІмяФайлуToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.копіюватиІмяФайлуToolStripMenuItem.Text = "копіювати ім\'я файлу";
             this.копіюватиІмяФайлуToolStripMenuItem.Click += new System.EventHandler(this.копіюватиІмяФайлуToolStripMenuItem_Click);
             // 
@@ -1162,6 +1164,13 @@ namespace JobSpace.UC
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
             // 
+            // коміюватиІмяФайлуБезРозширенняToolStripMenuItem
+            // 
+            this.коміюватиІмяФайлуБезРозширенняToolStripMenuItem.Name = "коміюватиІмяФайлуБезРозширенняToolStripMenuItem";
+            this.коміюватиІмяФайлуБезРозширенняToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
+            this.коміюватиІмяФайлуБезРозширенняToolStripMenuItem.Text = "копіювати ім\'я файлу без розширення";
+            this.коміюватиІмяФайлуБезРозширенняToolStripMenuItem.Click += new System.EventHandler(this.коміюватиІмяФайлуБезРозширенняToolStripMenuItem_Click);
+            // 
             // FileBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1316,5 +1325,6 @@ namespace JobSpace.UC
         private System.Windows.Forms.ToolStripMenuItem спускПолосToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton tsb_NumericFiles;
         private System.Windows.Forms.ToolStripButton tsb_ExtractPages;
+        private System.Windows.Forms.ToolStripMenuItem коміюватиІмяФайлуБезРозширенняToolStripMenuItem;
     }
 }

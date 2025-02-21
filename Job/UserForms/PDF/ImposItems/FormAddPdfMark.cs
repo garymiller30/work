@@ -23,6 +23,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             InitializeComponent();
             cb_Angle.DataSource = angles;
+            
 
             Mark = new PdfMark();
             SetParams();
@@ -41,10 +42,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void SetParams()
         {
+            selectMarkSideControl1.SetParameters(Mark.Parameters);
+
             tb_markPath.Text = Mark.File?.FileName;
             tb_name.Text = Mark.Name;
-            cb_front.Checked = Mark.Parameters.IsFront;
-            cb_back.Checked = Mark.Parameters.IsBack;
+            //cb_front.Checked = Mark.Parameters.IsFront;
+            //cb_back.Checked = Mark.Parameters.IsBack;
             cb_backMirror.Checked = Mark.Parameters.IsBackMirrored;
             nud_Xofs.Value = (decimal)Mark.Parameters.Xofs;
             nud_yOfs.Value = (decimal)Mark.Parameters.Yofs;
@@ -100,8 +103,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             var p = Mark.Parameters;
             
-            p.IsBack = cb_back.Checked;
-            p.IsFront = cb_front.Checked;
+            //p.IsBack = cb_back.Checked;
+            //p.IsFront = cb_front.Checked;
             p.IsBackMirrored = cb_backMirror.Checked;
             p.Xofs = (double)nud_Xofs.Value;
             p.Yofs = (double)nud_yOfs.Value;
@@ -119,7 +122,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
             p.IsAutoClipY = cb_auto_clip_y.Checked;
             p.AutoClipRelativeX = rb_x_relative_sheet.Checked ? AutoClipMarkEnum.Sheet : AutoClipMarkEnum.Subject;
             p.AutoClipRelativeY = rb_y_relative_sheet.Checked ? AutoClipMarkEnum.Sheet : AutoClipMarkEnum.Subject;
-
+            
+            selectMarkSideControl1.GetParameters(p);
 
             return true;
         }

@@ -121,11 +121,11 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             }
         }
 
-        public void DeletePage(TemplatePage page)
+        public void DeletePage(TemplateSheet sheet, TemplatePage page)
         {
             TemplatePages.Remove(page);
             // перерахувати мітки різу
-            CropMarksService.FixCropMarksFront(this);
+            CropMarksService.FixCropMarks(sheet);
         }
 
         public TemplatePageContainer Copy()

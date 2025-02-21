@@ -280,10 +280,12 @@
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Proof.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\Back.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\Front.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\WorkAndTumble.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\WorkAndTurn.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Screen\ScreenDrawer.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawCommons.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawSingleSideService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawWorkAndTumbleService.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawWorkAndTurnService.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorOfset.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorPoint.cs" />
@@ -305,6 +307,7 @@
     <Compile Include="Static\Pdf\Imposition\Models\Marks\MarkAbstract.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\MarkParentEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\MarksContainer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\MarkSide.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\PdfMark.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\PdfMarkParameters.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\TextMark.cs" />
@@ -333,10 +336,10 @@
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingTypeEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingParameters.cs" />
-    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\Perfecting\LooseBindingPerfecting.cs" />
-    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\Sheetwise\LooseBindingSheetwise.cs" />
-    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\SingleSide\LooseBindingSingleSide.cs" />
-    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\WorkAndTurn\LooseBindingWorkAndTurn.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingWorkAndTumble.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingSheetwise.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingSingleSide.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingWorkAndTurn.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\AbstractPlaceVariant.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantNonRotated.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantRotated.cs" />
@@ -867,6 +870,12 @@
     <Compile Include="UserForms\PDF\ImposItems\RunListControl.Designer.cs">
       <DependentUpon>RunListControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\SelectMarkSideControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\SelectMarkSideControl.Designer.cs">
+      <DependentUpon>SelectMarkSideControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\SpreadBox.cs" />
     <Compile Include="UserForms\TrimBoxResult.cs" />
     <Compile Include="UserForms\TrimBoxResultEnum.cs" />
@@ -1130,6 +1139,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\RunListControl.resx">
       <DependentUpon>RunListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\SelectMarkSideControl.resx">
+      <DependentUpon>SelectMarkSideControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

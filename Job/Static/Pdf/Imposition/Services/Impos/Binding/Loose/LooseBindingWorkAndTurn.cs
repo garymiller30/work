@@ -68,9 +68,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTur
             LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, CntX / 2, CntY, x, y, 0, 1, 2);
             LooseBindingSheetwise.CalcBackCoord(parameters, templatePageContainer);
 
-            //x += blockWidth / 2;
-            //LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, CntX / 2, CntY, x, y, 0, 2, 0);
-
             LooseBindingSingleSide.ApplyFixes(parameters, templatePageContainer);
 
             return templatePageContainer;
@@ -127,9 +124,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTur
 
             LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, CntX / 2, CntY, x, y, 270, 1, 2);
             LooseBindingSheetwise.CalcBackCoord(parameters, templatePageContainer);
-            //x += blockWidth / 2;
-            //LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, CntX / 2, CntY, x, y, 90, 2, 0);
-
+           
             LooseBindingSingleSide.ApplyFixes(parameters, templatePageContainer);
 
             return templatePageContainer;

@@ -16,6 +16,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         [Description("свій зворот")]
         WorkAndTurn,
         [Description("клапан-хвіст")]
-        Perfecting
+        WorkAndTumble
     }
 }

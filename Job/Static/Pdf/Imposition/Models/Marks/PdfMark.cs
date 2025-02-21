@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson.IO;
+using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,10 +116,10 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
                             throw new NotImplementedException();
                     }
 
-                    
+
                 case TemplateSheetPlaceType.WorkAndTurn:
                     break;
-                case TemplateSheetPlaceType.Perfecting:
+                case TemplateSheetPlaceType.WorkAndTumble:
                     break;
                 default:
                     throw new NotImplementedException();
@@ -151,12 +152,69 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
                 case TemplateSheetPlaceType.WorkAndTurn:
                     break;
-                case TemplateSheetPlaceType.Perfecting:
+                case TemplateSheetPlaceType.WorkAndTumble:
                     break;
                 default:
                     throw new NotImplementedException();
             }
             return 0;
+        }
+
+        public bool GetMarkSideFront(TemplateSheetPlaceType placeType)
+        {
+            switch (placeType)
+            {
+                case TemplateSheetPlaceType.SingleSide:
+                    return Parameters.Front.SingleSide;
+                case TemplateSheetPlaceType.Sheetwise:
+                    return Parameters.Front.Sheetwise;
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    return Parameters.Front.WorkAndTurn;
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    return Parameters.Front.Perfecting;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public bool GetMarkSideBack(TemplateSheetPlaceType placeType)
+        {
+            switch (placeType)
+            {
+                case TemplateSheetPlaceType.SingleSide:
+                    return Parameters.Back.SingleSide;
+                case TemplateSheetPlaceType.Sheetwise:
+                    return Parameters.Back.Sheetwise;
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    return Parameters.Back.WorkAndTurn;
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    return Parameters.Back.Perfecting;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public double GetBackAngle(TemplateSheetPlaceType placeType)
+        {
+            switch (placeType)
+            {
+                case TemplateSheetPlaceType.SingleSide:
+                    return Angle;
+                case TemplateSheetPlaceType.Sheetwise:
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    if (Angle == 0 || Angle == 180) return Angle;
+                    else if (Angle == 90) return 270;
+                    else return 90;
+
+                case TemplateSheetPlaceType.WorkAndTumble:
+
+                    if (Angle == 0) return 180;
+                    else if (Angle == 90 || Angle == 270) return Angle;
+                    else return 0;
+
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 }

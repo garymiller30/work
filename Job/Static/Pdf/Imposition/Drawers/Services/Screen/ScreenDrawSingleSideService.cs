@@ -56,9 +56,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             return bitmap;
         }
 
-        private static void DrawContainerMarksFront(Graphics g, MarksContainer container, bool foreground, int h)
+        private static void DrawContainerMarksFront(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)
         {
-            DrawPdfMarksFront(g, container, foreground, h);
+            DrawPdfMarksFront(g,sheet, container, foreground, h);
             DrawTextMarksFront(g, container, foreground, h);
 
         }
@@ -87,9 +87,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             container.Containers.ForEach(x => DrawTextMarksFront(g, x, foreground, h));
         }
 
-        private static void DrawPdfMarksFront(Graphics g, MarksContainer container, bool foreground, int h)
+        private static void DrawPdfMarksFront(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)
         {
-            foreach (var mark in container.Pdf.Where(x => x.Parameters.IsFront && x.Enable && x.IsForeground == foreground))
+            foreach (var mark in container.Pdf.Where(x => x.GetMarkSideFront(sheet.SheetPlaceType) && x.Enable && x.IsForeground == foreground))
             {
 
                 System.Drawing.Image bitmap = MarksService.GetBitmapFront(mark);
@@ -135,7 +135,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     bitmap.Dispose();
                 }
             }
-            container.Containers.ForEach(x => DrawPdfMarksFront(g, x, foreground, h));
+            container.Containers.ForEach(x => DrawPdfMarksFront(g, sheet, x, foreground, h));
         }
 
         public static Bitmap RotateImage(System.Drawing.Image b, float angle)
@@ -163,7 +163,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         public static void DrawSheetMarksFront(Graphics g, TemplateSheet sheet, bool foreground, int h)
         {
-            DrawPdfMarksFront(g, sheet.Marks, foreground, h);
+            DrawPdfMarksFront(g, sheet, sheet.Marks, foreground, h);
             DrawTextMarksFront(g, sheet.Marks, foreground, h);
         }
 

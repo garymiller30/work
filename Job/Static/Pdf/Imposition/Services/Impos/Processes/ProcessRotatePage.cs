@@ -22,7 +22,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
                     page.Back.Angle = (page.Front.Angle + 180) % 360;
                     break;
                     
-                case TemplateSheetPlaceType.Perfecting:
+                case TemplateSheetPlaceType.WorkAndTumble:
                     break;
                 default:
                     throw new Exception("Unknown sheet place type");
@@ -41,7 +41,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
                     page.Front.Angle = (page.Front.Angle + 90) % 360;
                     page.Back.Angle = (page.Front.Angle + 180) % 360;
                     break;
-                case TemplateSheetPlaceType.Perfecting:
+                case TemplateSheetPlaceType.WorkAndTumble:
                     break;
                 default:
                     throw new Exception("Unknown sheet place type");

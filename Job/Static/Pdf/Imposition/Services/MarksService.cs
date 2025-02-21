@@ -227,6 +227,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return null;
         }
 
+        
+
+
         public static void Rasterize(string pdfFile)
         {
             string outputPath = $"{Path.GetDirectoryName(pdfFile)}\\{Path.GetFileNameWithoutExtension(pdfFile)}.png";

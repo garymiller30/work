@@ -3,6 +3,7 @@ using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 {
@@ -175,7 +176,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
         public static void ApplyFixes(LooseBindingParameters parameters, TemplatePageContainer templatePageContainer)
         {
             ProcessFixBleeds.Front(templatePageContainer);
-            CropMarksService.FixCropMarksFront(templatePageContainer);
         }
 
         public static void PlacePages(TemplatePageContainer templatePageContainer, TemplatePage masterPage, int CntX, int CntY, double x, double y, double angle, int frontIdx, int backIdx)
