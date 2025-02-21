@@ -2063,5 +2063,25 @@ namespace JobSpace.UC
             if (objectListView1.SelectedObjects.Count == 0) return;
             FileFormatsUtil.ExtractPages(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
         }
+
+        private void коміюватиІмяФайлуБезРозширенняToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyFileNamesWithoutExt();
+        }
+
+        private void CopyFileNamesWithoutExt()
+        {
+            var filePath = new StringBuilder();
+            foreach (IFileSystemInfoExt fsi in objectListView1.SelectedObjects)
+            {
+                filePath.AppendLine(Path.GetFileNameWithoutExtension(fsi.FileInfo.FullName));
+            }
+
+            try
+            {
+                Clipboard.SetText(filePath.ToString());
+            }
+            catch { }
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
@@ -39,6 +40,50 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             }
         }
 
+        public static double GetPageDrawXBack(TemplateSheet sheet, TemplatePage page, PageSide side)
+        {
+
+            switch (sheet.SheetPlaceType)
+            {
+                case TemplateSheetPlaceType.SingleSide:
+                case TemplateSheetPlaceType.Sheetwise:
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    switch (side.Angle)
+                    {
+                        case 0:
+                            return side.X + page.Margins.Right;
+                        case 90:
+                            return side.X + page.Margins.Top;
+                        case 180:
+                            return side.X + page.Margins.Left;
+                        case 270:
+                            return side.X + page.Margins.Bottom;
+                        default:
+                            throw new NotImplementedException();
+                    }
+
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    switch (side.Angle)
+                    {
+                        case 0:
+                            return side.X + page.Margins.Right;
+                        case 90:
+                            return side.X + page.Margins.Top;
+                        case 180:
+                            return side.X + page.Margins.Left;
+                        case 270:
+                            return side.X + page.Margins.Bottom;
+                        default:
+                            throw new NotImplementedException();
+                    }
+
+                default:
+                    throw new NotImplementedException();
+            }
+
+            // проти годинникової стрілки
+        }
+
         public static double GetPageDrawY(TemplatePage page, PageSide side)
         {
             // проти годинникової стрілки
@@ -55,6 +100,144 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        public static double GetPageDrawYBack(TemplateSheet sheet, TemplatePage page, PageSide side)
+        {
+            switch (sheet.SheetPlaceType)
+            {
+                case TemplateSheetPlaceType.SingleSide:
+                case TemplateSheetPlaceType.Sheetwise:
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    switch (side.Angle)
+                    {
+                        case 0:
+                            return side.Y + page.Margins.Bottom;
+                        case 90:
+                            return side.Y + page.Margins.Right;
+                        case 180:
+                            return side.Y + page.Margins.Top;
+                        case 270:
+                            return side.Y + page.Margins.Left;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    switch (side.Angle)
+                    {
+                        case 0:
+                            return side.Y + page.Margins.Bottom;
+                        case 90:
+                            return side.Y + page.Margins.Left;
+                        case 180:
+                            return side.Y + page.Margins.Top;
+                        case 270:
+                            return side.Y + page.Margins.Right;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public static double GetBottomBleedByAngleFront(TemplatePage page, PageSide side)
+        {
+            var b = page.Bleeds;
+
+            switch (side.Angle)
+            {
+                case 0: return b.Bottom;
+                case 90: return b.Left;
+                case 180: return b.Top;
+                case 270: return b.Right;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public static double GetLeftBleedByAngleFront(TemplatePage page, PageSide side)
+        {
+            var b = page.Bleeds;
+
+            switch (side.Angle)
+            {
+                case 0: return b.Left;
+                case 90: return b.Top;
+                case 180: return b.Right;
+                case 270: return b.Bottom;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public static double GetLeftBleedByAngleBack(TemplateSheet sheet, TemplatePage page, PageSide side)
+        {
+            var b = page.Bleeds;
+
+            switch (sheet.SheetPlaceType)
+            {
+                case TemplateSheetPlaceType.SingleSide:
+                case TemplateSheetPlaceType.Sheetwise:
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    switch (side.Angle)
+                    {
+                        case 0: return b.Right;
+                        case 90: return b.Top;
+                        case 180: return b.Left;
+                        case 270: return b.Bottom;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    switch (side.Angle)
+                    {
+                        case 0: return b.Right;
+                        case 90: return b.Top;
+                        case 180: return b.Left;
+                        case 270: return b.Bottom;
+                        default:
+                            throw new NotImplementedException();
+                    }
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        public static double GetBottomBleedByAngleBack(TemplateSheet sheet, TemplatePage page, PageSide side)
+        {
+            var b = page.Bleeds;
+
+            switch (sheet.SheetPlaceType)
+            {
+                case TemplateSheetPlaceType.SingleSide:
+                case TemplateSheetPlaceType.Sheetwise:
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    switch (side.Angle)
+                    {
+                        case 0: return b.Bottom;
+                        case 90: return b.Right;
+                        case 180: return b.Top;
+                        case 270: return b.Left;
+                        default:
+                            throw new NotImplementedException();
+                    }
+
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    switch (side.Angle)
+                    {
+                        case 0: return b.Bottom;
+                        case 90: return b.Left;
+                        case 180: return b.Top;
+                        case 270: return b.Right;
+                        default:
+                            throw new NotImplementedException();
+                    }
+
+
+                default: throw new NotImplementedException();
+            }
+
         }
 
         public static double GetPageDrawW(TemplatePage page, PageSide side)
@@ -122,7 +305,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             brush.Dispose();
         }
 
-
         public static (RectangleD left, RectangleD right, RectangleD top, RectangleD bottom) GetDrawBleedsFront(TemplatePage page)
         {
             RectangleD left = GetDrawBleedLeftFront(page);
@@ -147,12 +329,16 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             (double page_x, double page_y, double page_w, double page_h) = GetPageDraw(page, side);
 
+            var m = page.Margins;
+            var b = page.Bleeds;
+
             switch (side.Angle)
             {
                 case 0:
+
                     return new RectangleD()
                     {
-                        X1 = page_x - page.Bleeds.Left,
+                        X1 = page_x - getLeft(),
                         Y1 = page_y,
                         X2 = page_x,
                         Y2 = page_y + page_h,
@@ -162,7 +348,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     return new RectangleD()
                     {
                         X1 = page_x,
-                        Y1 = page_y - page.Bleeds.Left,
+                        Y1 = page_y - getLeft(),
                         X2 = page_x + page_w,
                         Y2 = page_y
                     };
@@ -171,7 +357,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     {
                         X1 = page_x + page_w,
                         Y1 = page_y,
-                        X2 = page_x + page_w + page.Bleeds.Left,
+                        X2 = page_x + page_w + getLeft(),
                         Y2 = page_y + page_h,
                     };
                 case 270:
@@ -180,18 +366,28 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                         X1 = page_x,
                         Y1 = page_y + page_h,
                         X2 = page_x + page_w,
-                        Y2 = page_y + page_h + page.Bleeds.Left,
+                        Y2 = page_y + page_h + getLeft(),
                     };
                 default:
                     throw new NotImplementedException();
             }
-        }
 
+            double getLeft()
+            {
+                //if (b.Left > m.Left) return m.Left;
+                return b.Left;
+
+            }
+            ;// => b.Left;// m.Left < b.Left ? m.Left : b.Left;
+        }
 
         public static RectangleD GetDrawBleedRightFront(TemplatePage page)
         {
             PageSide side = page.Front;
             (double page_x, double page_y, double page_w, double page_h) = GetPageDraw(page, side);
+
+            var m = page.Margins;
+            var b = page.Bleeds;
 
             switch (side.Angle)
             {
@@ -200,7 +396,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     {
                         X1 = page_x + page_w,
                         Y1 = page_y,
-                        X2 = page_x + page_w + page.Bleeds.Right,
+                        X2 = page_x + page_w + getRight(),
                         Y2 = page_y + page_h,
                     };
                 case 90:
@@ -209,12 +405,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                         X1 = page_x,
                         Y1 = page_y + page_h,
                         X2 = page_x + page_w,
-                        Y2 = page_y + page_h + page.Bleeds.Right
+                        Y2 = page_y + page_h + getRight()
                     };
                 case 180:
                     return new RectangleD()
                     {
-                        X1 = page_x - page.Bleeds.Right,
+                        X1 = page_x - getRight(),
                         Y1 = page_y,
                         X2 = page_x,
                         Y2 = page_y + page_h
@@ -223,13 +419,23 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     return new RectangleD()
                     {
                         X1 = page_x,
-                        Y1 = page_y - page.Bleeds.Right,
+                        Y1 = page_y - getRight(),
                         X2 = page_x + page_w,
                         Y2 = page_y
                     };
                 default:
                     throw new NotImplementedException();
             }
+
+            double getRight()
+            {
+                //if (b.Right > m.Right) return m.Right;
+
+                return b.Right;
+
+
+            } // m.Right < b.Right ? m.Right : b.Right;
+
         }
 
         public static RectangleD GetDrawBleedTopFront(TemplatePage page)
@@ -237,6 +443,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             PageSide side = page.Front;
             (double page_x, double page_y, double page_w, double page_h) = GetPageDraw(page, side);
 
+            var m = page.Margins;
+            var b = page.Bleeds;
+
             switch (side.Angle)
             {
                 case 0:
@@ -245,12 +454,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                         X1 = page_x,
                         Y1 = page_y + page_h,
                         X2 = page_x + page_w,
-                        Y2 = page_y + page_h + page.Bleeds.Top
+                        Y2 = page_y + page_h + getTop()
                     };
                 case 90:
                     return new RectangleD()
                     {
-                        X1 = page_x - page.Bleeds.Top,
+                        X1 = page_x - getTop(),
                         Y1 = page_y,
                         X2 = page_x,
                         Y2 = page_y + page_h
@@ -259,7 +468,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     return new RectangleD()
                     {
                         X1 = page_x,
-                        Y1 = page_y - page.Bleeds.Top,
+                        Y1 = page_y - getTop(),
                         X2 = page_x + page_w,
                         Y2 = page_y
                     };
@@ -268,12 +477,23 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     {
                         X1 = page_x + page_w,
                         Y1 = page_y,
-                        X2 = page_x + page_w + page.Bleeds.Top,
+                        X2 = page_x + page_w + getTop(),
                         Y2 = page_y + page_h
                     };
                 default:
                     throw new NotImplementedException();
             }
+
+            double getTop()
+            {
+
+                //if (b.Top > m.Top) return m.Top;
+
+                return b.Top;
+
+            }
+            //b.Top;// m.Top < b.Top ? m.Top : b.Top;
+
         }
 
         public static RectangleD GetDrawBleedBottomFront(TemplatePage page)
@@ -281,13 +501,16 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             PageSide side = page.Front;
             (double page_x, double page_y, double page_w, double page_h) = GetPageDraw(page, side);
 
+            var m = page.Margins;
+            var b = page.Bleeds;
+
             switch (side.Angle)
             {
                 case 0:
                     return new RectangleD()
                     {
                         X1 = page_x,
-                        Y1 = page_y - page.Bleeds.Bottom,
+                        Y1 = page_y - getBottom(),
                         X2 = page_x + page_w,
                         Y2 = page_y
                     };
@@ -296,7 +519,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     {
                         X1 = page_x + page_w,
                         Y1 = page_y,
-                        X2 = page_x + page_w + page.Bleeds.Bottom,
+                        X2 = page_x + page_w + getBottom(),
                         Y2 = page_y + page_h
                     };
                 case 180:
@@ -305,12 +528,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                         X1 = page_x,
                         Y1 = page_y + page_h,
                         X2 = page_x + page_w,
-                        Y2 = page_y + page_h + page.Bleeds.Bottom,
+                        Y2 = page_y + page_h + getBottom(),
                     };
                 case 270:
                     return new RectangleD()
                     {
-                        X1 = page_x - page.Bleeds.Bottom,
+                        X1 = page_x - getBottom(),
                         Y1 = page_y,
                         X2 = page_x,
                         Y2 = page_y + page_h
@@ -318,6 +541,22 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 default:
                     throw new NotImplementedException();
             }
+
+            double getBottom()
+            {
+
+                //if (b.Bottom > m.Bottom) return m.Bottom;
+                return b.Bottom;
+            }// => b.Bottom;// m.Bottom < b.Bottom ? m.Bottom : b.Bottom;
+        }
+
+        public static (double page_x, double page_y, double page_w, double page_h) GetPageDrawBack(TemplateSheet sheet, TemplatePage page, PageSide side)
+        {
+            double page_x = GetPageDrawXBack(sheet, page, side);
+            double page_y = GetPageDrawYBack(sheet, page, side);
+            double page_w = GetPageDrawW(page, side);
+            double page_h = GetPageDrawH(page, side);
+            return (page_x, page_y, page_w, page_h);
         }
     }
 }

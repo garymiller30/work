@@ -76,7 +76,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             int tp_idx = _result.CountOnSheet - 1;
             var tp = sheets[0].TemplatePageContainer.TemplatePages;
+
             int pageIdx = 1;
+
             foreach (FileResult file in _result.Files)
             {
                 for (int i = 0; i < file.PagesOnSheet; i++)
@@ -92,8 +94,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     {
                         tp[tp_idx].Back.PrintIdx = pageIdx + 1;
 
-                        pageIdx++;
-                        rp = pages[pageIdx - 1];
+                        
+                        rp = pages[pageIdx];
                         rp.IsAssumed = true;
                         rp.IsValidFormat = ValidateFormat(rp, tp[tp_idx]);
                         tp[tp_idx].Back.AssignedRunPage = rp;
@@ -101,7 +103,17 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     }
                     tp_idx--;
                 }
-                pageIdx++;
+
+                if (sheets[0].SheetPlaceType == TemplateSheetPlaceType.SingleSide || file.Pages == 1)
+                {
+                    pageIdx++;
+                }
+                else
+                {
+                    pageIdx += 2;
+                }
+                
+               
             }
             sheets[0].Count = _result.SheetCount;
            

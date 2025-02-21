@@ -22,10 +22,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
     {
         ControlBindParameters parameters;
 
-        //TemplateSheet _sheet;
-        TemplatePage _hover;
+        //TemplatePage _hover;
         ImposToolsParameters _toolParams;
-        bool isDragMode = false;
+        
+        bool isDragMode {get;set;}= false;
 
         double hover_x;
         double hover_y;
@@ -56,9 +56,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void Pb_preview_MouseDown(object sender, MouseEventArgs e)
         {
-            if (_hover == null) return;
-            hover_x = _hover.Front.X;
-            hover_y = _hover.Front.Y;
+            if (parameters.HoverPage == null) return;
+
+            hover_x = parameters.HoverPage.Front.X;
+            hover_y = parameters.HoverPage.Front.Y;
 
             if (_toolParams.CurTool == ImposToolEnum.Select)
             {
@@ -68,9 +69,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                 if (ModifierKeys.HasFlag(Keys.Alt))
                 {
-                    var clonePage = _hover.Copy();
+                    var clonePage = parameters.HoverPage.Copy();
                     parameters.Sheet.TemplatePageContainer.AddPage(clonePage);
-                    _hover = clonePage;
+                    parameters.HoverPage = clonePage;
                 }
             }
         }
@@ -161,8 +162,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     {
                         page.Front.MasterIdx = front;
                         page.Back.MasterIdx = back;
-
-
                     }
 
                     front += 2;
@@ -188,16 +187,16 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void pb_preview_MouseMove(object sender, MouseEventArgs e)
         {
             if (parameters.Sheet == null) return;
-            if (isDragMode && _hover != null)
+            if (isDragMode == true && parameters.HoverPage != null)
             {
-                _hover.Front.X += e.X - lastLocation.X;
-                _hover.Front.Y -= e.Y - lastLocation.Y;
-                ProcessFixPageBackPosition.FixPosition(parameters.Sheet, _hover);
+                parameters.HoverPage.Front.X += e.X - lastLocation.X;
+                parameters.HoverPage.Front.Y -= e.Y - lastLocation.Y;
+                ProcessFixPageBackPosition.FixPosition(parameters.Sheet, parameters.HoverPage);
 
                 lastLocation = e.Location;
                 SnapPages();
 
-                parameters.UpdateSheet();
+                parameters.UpdateSheet(false);
             }
             else
             {
@@ -214,7 +213,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             //for x_snap
             foreach (var page in parameters.Sheet.TemplatePageContainer.TemplatePages.AsEnumerable().Reverse())
             {
-                if (page == _hover) continue;
+                if (page == parameters.HoverPage) continue;
 
                 var pageR = ScreenDrawCommons.GetDrawBleedRightFront(page);
                 var pageL = ScreenDrawCommons.GetDrawBleedLeftFront(page);
@@ -222,30 +221,30 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 //// вибрана сторінка - права сторона <--> ліва сторона
                 if (Math.Abs(pageR.X2 - hover_x - x_ofs) < snapDistance)
                 {
-                    _hover.Front.X = page.Front.X + page.GetClippedWByRotate();
-                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, _hover);
+                    parameters.HoverPage.Front.X = page.Front.X + page.GetClippedWByRotate();
+                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, parameters.HoverPage);
                     break;
                 }
                 //// вибрана сторінка - ліва сторона сторона <--> права сторона
-                else if (Math.Abs(hover_x + x_ofs + _hover.GetClippedWByRotate() - pageL.X1) < snapDistance)
+                else if (Math.Abs(hover_x + x_ofs + parameters.HoverPage.GetClippedWByRotate() - pageL.X1) < snapDistance)
                 {
 
-                    _hover.Front.X = page.Front.X - _hover.GetClippedWByRotate();
-                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, _hover);
+                    parameters.HoverPage.Front.X = page.Front.X - parameters.HoverPage.GetClippedWByRotate();
+                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, parameters.HoverPage);
                     break;
                 }
                 // вибрана сторінка - ліва сторона <--> ліва сторона
                 else if (Math.Abs(pageL.X1 - hover_x - x_ofs) < snapDistance)
                 {
-                    _hover.Front.X = page.Front.X;
-                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, _hover);
+                    parameters.HoverPage.Front.X = page.Front.X;
+                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, parameters.HoverPage);
                     break;
                 }
                 // вибрана сторінка - ліва сторона сторона <--> ліва сторона
-                else if (Math.Abs(hover_x + x_ofs + _hover.GetClippedWByRotate() - pageR.X2) < snapDistance)
+                else if (Math.Abs(hover_x + x_ofs + parameters.HoverPage.GetClippedWByRotate() - pageR.X2) < snapDistance)
                 {
-                    _hover.Front.X = page.Front.X + page.GetClippedWByRotate() - _hover.GetClippedWByRotate();
-                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, _hover);
+                    parameters.HoverPage.Front.X = page.Front.X + page.GetClippedWByRotate() - parameters.HoverPage.GetClippedWByRotate();
+                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, parameters.HoverPage);
                     break;
                 }
             }
@@ -254,37 +253,37 @@ namespace JobSpace.UserForms.PDF.ImposItems
             //for y_snap
             foreach (var page in parameters.Sheet.TemplatePageContainer.TemplatePages.AsEnumerable().Reverse())
             {
-                if (page == _hover) continue;
+                if (page == parameters.HoverPage) continue;
 
                 var pageT = ScreenDrawCommons.GetDrawBleedTopFront(page);
                 var pageB = ScreenDrawCommons.GetDrawBleedBottomFront(page);
 
                 // top -> bottom
-                if (Math.Abs(pageB.Y1 - hover_y + y_ofs - _hover.GetClippedHByRotate()) < snapDistance)
+                if (Math.Abs(pageB.Y1 - hover_y + y_ofs - parameters.HoverPage.GetClippedHByRotate()) < snapDistance)
                 {
-                    _hover.Front.Y = page.Front.Y - _hover.GetClippedHByRotate();
-                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, _hover);
+                    parameters.HoverPage.Front.Y = page.Front.Y - parameters.HoverPage.GetClippedHByRotate();
+                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, parameters.HoverPage);
                     break;
                 }
                 // bottom ->top
                 else if (Math.Abs(pageT.Y2 - hover_y + y_ofs) < snapDistance)
                 {
-                    _hover.Front.Y = page.Front.Y + page.GetClippedHByRotate();
-                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, _hover);
+                    parameters.HoverPage.Front.Y = page.Front.Y + page.GetClippedHByRotate();
+                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, parameters.HoverPage);
                     break;
                 }
                 // top -> top
-                else if (Math.Abs(pageT.Y2 - hover_y + y_ofs - _hover.GetClippedHByRotate()) < snapDistance)
+                else if (Math.Abs(pageT.Y2 - hover_y + y_ofs - parameters.HoverPage.GetClippedHByRotate()) < snapDistance)
                 {
-                    _hover.Front.Y = (page.Front.Y + page.GetClippedHByRotate()) - _hover.GetClippedHByRotate();
-                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, _hover);
+                    parameters.HoverPage.Front.Y = (page.Front.Y + page.GetClippedHByRotate()) - parameters.HoverPage.GetClippedHByRotate();
+                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, parameters.HoverPage);
                     break;
                 }
                 //bottom -> bottom
                 else if (Math.Abs(pageB.Y1 - hover_y + y_ofs) < snapDistance)
                 {
-                    _hover.Front.Y = page.Front.Y;
-                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, _hover);
+                    parameters.HoverPage.Front.Y = page.Front.Y;
+                    ProcessFixPageBackPosition.FixPosition(parameters.Sheet, parameters.HoverPage);
                     break;
                 }
             }
@@ -292,7 +291,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void CheckHover(int x, int y)
         {
-            _hover = null;
+            parameters.HoverPage = null;
 
             foreach (var page in parameters.Sheet.TemplatePageContainer.TemplatePages.AsEnumerable().Reverse())
             {
@@ -309,7 +308,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                 if (rect.Contains(x, y))
                 {
-                    _hover = page;
+                    parameters.HoverPage = page;
                     break;
                 }
             }
@@ -337,9 +336,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 pen.Dispose();
             }
 
-            if (_hover != null)
+            if (parameters.HoverPage != null)
             {
-                (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(_hover, _hover.Front);
+                (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(parameters.HoverPage, parameters.HoverPage.Front);
 
                 Pen pen = new Pen(Color.Black, 2);
 
@@ -355,13 +354,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void pb_preview_MouseClick(object sender, MouseEventArgs e)
         {
-            if (_hover == null) return;
+            if (parameters.HoverPage == null) return;
 
             if (e.Button == MouseButtons.Left)
             {
                 if (_toolParams.CurTool == ImposToolEnum.FlipAngle)
                 {
-                    _toolParams.OnFlipAngle(this,_hover);
+                    _toolParams.OnFlipAngle(this,parameters.HoverPage);
                 }
                 else if (_toolParams.CurTool == ImposToolEnum.Numeration)
                 {
@@ -373,7 +372,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 }
                 else if (_toolParams.CurTool == ImposToolEnum.Select)
                 {
-                    parameters.SelectedPreviewPage = _hover;
+                    parameters.SelectedPreviewPage = parameters.HoverPage;
                 }
                 else if (_toolParams.CurTool == ImposToolEnum.SwitchHW)
                 {
@@ -384,7 +383,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (_toolParams.CurTool == ImposToolEnum.FlipAngle)
                 {
-                    _toolParams.OnFlipRowAngle(this, _hover);
+                    _toolParams.OnFlipRowAngle(this, parameters.HoverPage);
                     ToolFlipPageRow();
                 }
                 if (_toolParams.CurTool == ImposToolEnum.Numeration)
@@ -396,15 +395,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void ToolSwitchWH()
         {
-            if (_hover == null) return;
-            _hover.SwitchWH();
+            if (parameters.HoverPage == null) return;
+            parameters.HoverPage.SwitchWH();
             parameters.CheckRunListPages();
             parameters.UpdateSheet();
         }
 
         private void ToolDeletePage()
         {
-            parameters.Sheet.TemplatePageContainer.DeletePage(_hover);
+            parameters.Sheet.TemplatePageContainer.DeletePage(parameters.Sheet,parameters.HoverPage);
             parameters.UpdateSheet();
         }
 
@@ -415,26 +414,26 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (parameters.Sheet is PrintSheet)
                 {
-                    _hover.Front.PrintIdx = _toolParams.FrontNum++;
+                    parameters.HoverPage.Front.PrintIdx = _toolParams.FrontNum++;
                     parameters.CheckRunListPages();
                 }
                 else
                 {
-                    _hover.Front.MasterIdx = _toolParams.FrontNum++;
+                    parameters.HoverPage.Front.MasterIdx = _toolParams.FrontNum++;
                 }
             }
             else
             {
                 if (parameters.Sheet is PrintSheet)
                 {
-                    _hover.Front.PrintIdx = _toolParams.FrontNum;
-                    _hover.Back.PrintIdx = _toolParams.BackNum;
+                    parameters.HoverPage.Front.PrintIdx = _toolParams.FrontNum;
+                    parameters.HoverPage.Back.PrintIdx = _toolParams.BackNum;
                     parameters.CheckRunListPages();
                 }
                 else
                 {
-                    _hover.Front.MasterIdx = _toolParams.FrontNum;
-                    _hover.Back.MasterIdx = _toolParams.BackNum;
+                    parameters.HoverPage.Front.MasterIdx = _toolParams.FrontNum;
+                    parameters.HoverPage.Back.MasterIdx = _toolParams.BackNum;
 
                 }
                 _toolParams.FrontNum += 2;
@@ -458,13 +457,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (parameters.Sheet is PrintSheet sheet)
                 {
-                    _hover.Front.PrintIdx = _toolParams.FrontNum;
+                    parameters.HoverPage.Front.PrintIdx = _toolParams.FrontNum;
                     parameters.CheckRunListPages();
 
                 }
                 else
                 {
-                    _hover.Front.MasterIdx = _toolParams.FrontNum;
+                    parameters.HoverPage.Front.MasterIdx = _toolParams.FrontNum;
                 }
 
                 _toolParams.FrontNum++;
@@ -478,12 +477,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                     if (parameters.Sheet is PrintSheet sheet)
                     {
-                        _hover.Back.PrintIdx = _toolParams.FrontNum;
+                        parameters.HoverPage.Back.PrintIdx = _toolParams.FrontNum;
                         parameters.CheckRunListPages();
                     }
                     else
                     {
-                        _hover.Back.MasterIdx = _toolParams.FrontNum;
+                        parameters.HoverPage.Back.MasterIdx = _toolParams.FrontNum;
                     }
                     _toolParams.FrontNum++;
                 }
@@ -492,12 +491,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (parameters.Sheet is PrintSheet sheet)
                 {
-                    _hover.Front.PrintIdx = _toolParams.FrontNum;
+                    parameters.HoverPage.Front.PrintIdx = _toolParams.FrontNum;
                     parameters.CheckRunListPages();
                 }
                 else
                 {
-                    _hover.Front.MasterIdx = _toolParams.FrontNum;
+                    parameters.HoverPage.Front.MasterIdx = _toolParams.FrontNum;
                 }
 
                 if (parameters.Sheet.SheetPlaceType != TemplateSheetPlaceType.SingleSide ||
@@ -506,12 +505,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (parameters.Sheet is PrintSheet psheet)
                     {
 
-                        _hover.Back.PrintIdx = _toolParams.BackNum;
+                        parameters.HoverPage.Back.PrintIdx = _toolParams.BackNum;
                         parameters.CheckRunListPages();
                     }
                     else
                     {
-                        _hover.Back.MasterIdx = _toolParams.BackNum;
+                        parameters.HoverPage.Back.MasterIdx = _toolParams.BackNum;
 
                     }
                 }
@@ -538,8 +537,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 _toolParams.FrontNum = parameters.SelectedImposRunPageIdx;
             }
-
-
             RedrawSheet();
         }
     }

@@ -1,7 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Crop;
-using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf;
-using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using PDFlib_dotnet;
@@ -15,7 +13,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 {
     public static partial class DrawSheet
     {
-        public static void WorkAndTurn(PDFlib p, ProductPart impos, PrintSheet sheet)
+        public static void WorkAndTumble(PDFlib p, ProductPart impos, PrintSheet sheet)
         {
             p.begin_page_ext(sheet.W * PdfHelper.mn, sheet.H * PdfHelper.mn, "");
 
@@ -54,6 +52,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                         {
                             c_llx = pdfPage.Trim.X1 - pdfPage.Media.X1 - templatePage.Margins.Left;
                             c_lly = pdfPage.Trim.Y1 - pdfPage.Media.Y1 - templatePage.Margins.Bottom;
+                      
                         }
 
                         double c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
@@ -61,6 +60,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
                         double llx = templatePage.Front.X;
                         double lly = templatePage.Front.Y;
+
 
                         double angle = templatePage.Front.Angle;
 
@@ -96,10 +96,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                                 {
                                     c_llx = pdfPage.Trim.X1 - templatePage.Margins.Right - pdfPage.Media.X1;
                                     c_lly = pdfPage.Trim.Y1 - templatePage.Margins.Bottom - pdfPage.Media.Y1;
+
+                                 
                                 }
 
                                 c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
-                               c_ury = c_lly + templatePage.GetPageHeightWithBleeds;
+                                c_ury = c_lly + templatePage.GetPageHeightWithBleeds;
 
                                 llx = templatePage.Back.X;
                                 lly = templatePage.Back.Y;
@@ -116,7 +118,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                         }
                     }
                 }
-               
 
                 DrawCropMarks.Front(p, templatePage);
                 DrawCropMarks.Back(p, templatePage);

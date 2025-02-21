@@ -1,5 +1,6 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Crop;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
@@ -27,9 +28,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             DrawSheetSafeField(g, sheet);
             //draw background marks
             PdfMarksService.RecalcMarkCoordFront(sheet);
+            PdfMarksService.RecalcMarkCoordBack(sheet);
+
             TextMarksService.RecalcMarkCoordFront(sheet);
+            TextMarksService.RecalcMarkCoordBack(sheet);
+
             ScreenDrawSingleSideService.DrawSheetMarksFront(g, sheet, foreground: false, (int)sheet.H);
-            CropMarksService.FixCropMarksWorkAndTurn(sheet);
+            DrawSheetMarksBack(g,sheet,sheet.Marks, foreground: false, (int)sheet.H);
 
             // draw pages
             foreach (var page in templateContainer.TemplatePages)
@@ -40,10 +45,70 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             DrawCropMarks(g, sheet);
             //draw foreground marks
             ScreenDrawSingleSideService.DrawSheetMarksFront(g, sheet, foreground: true, (int)sheet.H);
-
+            DrawSheetMarksBack(g, sheet,sheet.Marks, foreground: true, (int)sheet.H);
             g.Dispose();
 
             return bitmap;
+        }
+
+        public static void DrawSheetMarksBack(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)
+        {
+            DrawPdfMarkBack(g, sheet, container, foreground, h);
+            DrawTextMarkBack(g, sheet, container, foreground, h);
+        }
+
+        private static void DrawTextMarkBack(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)
+        {
+            
+        }
+
+        private static void DrawPdfMarkBack(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)
+        {
+            foreach (var mark in container.Pdf.Where(x=> x.GetMarkSideBack(sheet.SheetPlaceType) && x.Enable && x.IsForeground == foreground))
+            {
+                System.Drawing.Image bitmap = MarksService.GetBitmapFront(mark);
+
+                var rect = new Rectangle
+                {
+                    X = (int)mark.Back.X,
+                    Y = h - (int)mark.Back.Y - (int)mark.GetClippedH(),
+                    Width = (int)mark.GetClippedW(),
+                    Height = (int)mark.GetClippedH()
+                };
+
+                if (bitmap == null)
+                {
+                    Brush brush = new SolidBrush(Color.Aqua);
+                    g.FillRectangle(brush, rect);
+                    brush.Dispose();
+
+                }
+                else
+                {
+                    var mc = mark.ClipBoxBack;
+
+                    Rectangle clipRect = new Rectangle((int)mc.Left, (int)mc.Bottom, (int)(mc.Right - mc.Left), (int)(mc.Top - mc.Bottom));
+                    Bitmap croppedBitmap = new Bitmap(clipRect.Width, clipRect.Height);
+
+                    using (Graphics gc = Graphics.FromImage(croppedBitmap))
+                    {
+                        // Draw the cropped section of the original bitmap
+                        gc.DrawImage(bitmap, new Rectangle(0, 0, clipRect.Width, clipRect.Height), clipRect, GraphicsUnit.Pixel);
+
+                    }
+
+                    var i = ScreenDrawSingleSideService.RotateImage(bitmap, (float)mark.GetBackAngle(sheet.SheetPlaceType));
+                    i.MakeTransparent(Color.White);
+
+                    g.DrawImage(i, rect);
+                    croppedBitmap.Dispose();
+                    //cropped.Dispose();
+                    i.Dispose();
+                    bitmap.Dispose();
+                }
+            }
+
+            container.Containers.ForEach(x => DrawPdfMarkBack(g, sheet, x, foreground, h));
         }
 
         private static void DrawSheet(TemplateSheet sheet, Graphics g)
@@ -57,7 +122,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         }
 
-        private static void DrawCropMarks(Graphics g, TemplateSheet sheet)
+        public static void DrawCropMarks(Graphics g, TemplateSheet sheet)
         {
             Pen pen = new Pen(Color.Black);
             foreach (var page in sheet.TemplatePageContainer.TemplatePages)
@@ -84,7 +149,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             pen.Dispose();
         }
 
-        private static void DrawPageBack(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
+        public static void DrawPageBack(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
             DrawBleeds(g, page, page.Back, sH);
 
@@ -267,7 +332,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             g.Restore(state);
         }
 
-        private static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
+        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
             PageSide side = page.Front;
 
@@ -412,16 +477,16 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 {
                     X = 0,
                     Y = 0,
-                    Width = (int)sheet.SafeFields.Left,
+                    Width = (int)max,
                     Height = (int)sheet.H,
                 });
 
                 //right
                 g.FillRectangle(Brushes.LightPink, new Rectangle
                 {
-                    X = (int)(sheet.W - sheet.SafeFields.Right),
+                    X = (int)(sheet.W - max),
                     Y = 0,
-                    Width = (int)sheet.SafeFields.Right,
+                    Width = (int)max,
                     Height = (int)sheet.H,
                 });
             }

@@ -1,5 +1,6 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
 using JobSpace.Static.Pdf.Imposition.Services;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Perfecting;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise;
 using System;
 using System.Collections.Generic;
@@ -99,8 +100,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                 case TemplateSheetPlaceType.WorkAndTurn:
                     Back.Angle = LooseBindingSheetwise.GetBackAngle(Front.Angle);
                     break;
-                case TemplateSheetPlaceType.Perfecting:
-                    //TODO: Add logic for Perfecting if needed
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    Back.Angle = LooseBindingWorkAndTumble.GetBackAngle(Front.Angle);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sheetPlaceType), sheetPlaceType, null);

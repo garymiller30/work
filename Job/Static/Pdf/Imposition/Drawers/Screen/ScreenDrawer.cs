@@ -1,6 +1,7 @@
 ﻿using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,6 +16,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
     {
         public Bitmap Draw(TemplateSheet sheet)
         {
+
+            CropMarksService.FixCropMarks(sheet);
+
             switch (sheet.SheetPlaceType)
             {
                 case TemplateSheetPlaceType.SingleSide:
@@ -26,8 +30,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
                 case TemplateSheetPlaceType.WorkAndTurn:
                     return ScreenDrawWorkAndTurnService.Draw(sheet);
 
-                case TemplateSheetPlaceType.Perfecting:
-                    return ScreenDrawSingleSideService.Draw(sheet);
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    return ScreenDrawWorkAndTumbleService.Draw(sheet);
                 default:
                     throw new NotImplementedException();
             }

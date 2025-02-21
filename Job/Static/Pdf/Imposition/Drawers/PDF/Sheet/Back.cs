@@ -2,6 +2,7 @@
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Crop;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
+using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using MongoDB.Bson.Serialization.Conventions;
@@ -31,14 +32,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
-                if (templatePage.Back.PrintIdx != 0)
+                PageSide side = templatePage.Back;
+
+
+                if (side.PrintIdx != 0)
                 {
 
                     // отримати сторінку з ран листа
-                    int runListPageIdx = templatePage.Back.PrintIdx - 1;
+                    int runListPageIdx = side.PrintIdx - 1;
                     ImposRunPage runPage = impos.RunList.RunPages[runListPageIdx];
 
-                    if ((runPage.FileId == 0 && runPage.PageIdx == 0) || templatePage.Back.PrintIdx == 0)
+                    if ((runPage.FileId == 0 && runPage.PageIdx == 0) || side.PrintIdx == 0)
                     {
                         // пропускаємо
                     }
@@ -51,71 +55,28 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
                         using (PDFLIBDocument document = new PDFLIBDocument(p, pdfFile.FileName, ""))
                         {
-                            double c_llx = 0;
-                            double c_lly = 0;
 
-                            if (pdfFile.IsMediaboxCentered)
-                            {
-                                c_llx = (pdfPage.Media.W - templatePage.W) / 2 - templatePage.Bleeds.Left;
-                                c_lly = (pdfPage.Media.H - templatePage.H) / 2 - templatePage.Bleeds.Bottom;
-
-                            }
-                            else
-                            {
-                                c_llx = pdfPage.Trim.X1 - templatePage.Bleeds.Right - pdfPage.Media.X1;
-                                c_lly = pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Media.Y1;
-
-                                if (c_llx < 0) c_llx = 0;
-                                if (c_lly < 0) c_lly = 0;
-                            }
+                            (double c_llx, double c_lly) = GetClippingCoordinatesBack(pdfFile, pdfPage, templatePage);
 
                             double c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
                             double c_ury = c_lly + templatePage.GetPageHeightWithBleeds;
 
-                            double llx = templatePage.Back.X;
-                            double lly = templatePage.Back.Y;
+                            var pd  = ScreenDrawCommons.GetPageDrawBack(sheet,templatePage, side);
 
-                            var margins = templatePage.Margins;
-                            var bleeds = templatePage.Bleeds;
-
-                            switch (templatePage.Back.Angle)
-                            {
-                                case 0:
-                                    if (margins.Right < bleeds.Right) llx = llx - margins.Right - bleeds.Right;
-                                    if (margins.Bottom < bleeds.Bottom) lly = lly - margins.Bottom - bleeds.Bottom;
-                                    break;
-
-                                case 90:
-                                    if (margins.Top < bleeds.Top) llx = llx - margins.Top - bleeds.Top;
-                                    if (margins.Right < bleeds.Right)lly = lly - margins.Right - bleeds.Right;
-
-                                    break;
-                                case 180:
-                                    if (margins.Left < bleeds.Left) llx = llx - margins.Left - bleeds.Left;
-                                    if (margins.Top < bleeds.Top) lly = lly - margins.Top - bleeds.Top;
-                                    break;
-                                case 270:
-                                    if (margins.Bottom < bleeds.Bottom) llx = llx - margins.Bottom - bleeds.Bottom;
-                                    if (margins.Left < bleeds.Left) lly = lly - margins.Left - bleeds.Left;
-                                    break;
-                                default:
-                                    throw new NotImplementedException();
-                            }
-
+                            double llx = pd.page_x - ScreenDrawCommons.GetLeftBleedByAngleBack(sheet,templatePage, side);
+                            double lly = pd.page_y - ScreenDrawCommons.GetBottomBleedByAngleBack(sheet,templatePage, side);
 
                             double angle = templatePage.Back.Angle;
-                            //(double llx, double lly, double angle) = templatePage.GetPageStartCoordBack(sheet);
+                            
                             string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
-                            //string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} rotate={angle}";
-
                             document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
                         }
                     }
                 }
-                CropMarksService.FixCropMarksBack(sheet);
+
                 DrawCropMarks.Back(p, templatePage);
 
-                Proof.DrawPage(p, templatePage, templatePage.Back, impos.Proof);
+                Proof.DrawPageBack(p,sheet, templatePage, templatePage.Back, impos.Proof);
             }
 
             //draw foreground marks
@@ -123,9 +84,25 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             p.end_page_ext($"mediabox={{{GetMediabox(impos, sheet)}}}");
         }
 
+        private static (double c_llx, double c_lly) GetClippingCoordinatesBack(PdfFile pdfFile, PdfFilePage pdfPage, TemplatePage templatePage)
+        {
+            if (pdfFile.IsMediaboxCentered)
+            {
+                return ((pdfPage.Media.W - templatePage.W) / 2 - templatePage.Bleeds.Right,
+                    (pdfPage.Media.H - templatePage.H) / 2 - templatePage.Bleeds.Bottom
+                    );
+            }
+            else
+            {
+                double c_llx = pdfPage.Trim.X1 - templatePage.Bleeds.Right - pdfPage.Media.X1;
+                double c_lly = pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Media.Y1;
+                return (c_llx, c_lly);
+            }
+        }
+
         private static void DrawBackMarks(PDFlib p, ProductPart impos, PrintSheet sheet, bool foreground)
         {
-            DrawPdfMarks.Back(p, sheet.Marks, foreground);
+            DrawPdfMarks.Back(p, sheet, sheet.Marks, foreground);
             DrawTextMarks.Back(p, sheet.Marks, foreground);
             Proof.DrawSheet(p, sheet, impos.Proof);
         }

@@ -104,15 +104,15 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                         }
                     }
 
-                    filePage.Media.X1 = Math.Round(media[0] / PdfHelper.mn, 2);
-                    filePage.Media.Y1 = Math.Round(media[1] / PdfHelper.mn, 2);
-                    filePage.Media.X2 = Math.Round(media[2] / PdfHelper.mn, 2);
-                    filePage.Media.Y2 = Math.Round(media[3] / PdfHelper.mn, 2);
+                    filePage.Media.X1 = Math.Round(media[0] / PdfHelper.mn, 1);
+                    filePage.Media.Y1 = Math.Round(media[1] / PdfHelper.mn, 1);
+                    filePage.Media.X2 = Math.Round(media[2] / PdfHelper.mn, 1);
+                    filePage.Media.Y2 = Math.Round(media[3] / PdfHelper.mn, 1);
 
-                    filePage.Trim.X1 = Math.Round(trims[0] / PdfHelper.mn, 2);
-                    filePage.Trim.Y1 = Math.Round(trims[1] / PdfHelper.mn, 2);
-                    filePage.Trim.X2 = Math.Round(trims[2] / PdfHelper.mn, 2);
-                    filePage.Trim.Y2 = Math.Round(trims[3] / PdfHelper.mn, 2);
+                    filePage.Trim.X1 = Math.Round(trims[0] / PdfHelper.mn, 1);
+                    filePage.Trim.Y1 = Math.Round(trims[1] / PdfHelper.mn, 1);
+                    filePage.Trim.X2 = Math.Round(trims[2] / PdfHelper.mn, 1);
+                    filePage.Trim.Y2 = Math.Round(trims[3] / PdfHelper.mn, 1);
                     //filePage.Angle = p.pcos_get_number(doc, $"length:pages[{i - 1}]/Rotate");
 
                     Pages[i - 1] = filePage;

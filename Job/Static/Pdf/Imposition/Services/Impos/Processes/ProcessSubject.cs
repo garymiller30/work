@@ -40,7 +40,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
                      y2 = tp.Max(x => x.Front.Y + x.GetClippedHByRotate());
                     break;
                 case TemplateSheetPlaceType.WorkAndTurn:
-                case TemplateSheetPlaceType.Perfecting:
+                case TemplateSheetPlaceType.WorkAndTumble:
                     x2 = tp.Max(x => x.Back.X + x.GetClippedWByRotate());
                     y2 = tp.Max(x => x.Back.Y + x.GetClippedHByRotate());
                     break;

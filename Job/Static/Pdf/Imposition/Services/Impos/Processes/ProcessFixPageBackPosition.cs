@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Perfecting;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,11 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
                 case TemplateSheetPlaceType.SingleSide:
                     break;
                 case TemplateSheetPlaceType.Sheetwise:
-                    LooseBindingSheetwise.FixBackPagePosition(sheet, page);
-                    break;
                 case TemplateSheetPlaceType.WorkAndTurn:
                     LooseBindingSheetwise.FixBackPagePosition(sheet, page);
                     break;
-                case TemplateSheetPlaceType.Perfecting:
+                case TemplateSheetPlaceType.WorkAndTumble:
+                   LooseBindingWorkAndTumble.FixBackPagePosition(sheet, page);
                     break;
                 default:
                     throw new NotImplementedException();

@@ -28,5 +28,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Crop
 
             p.restore();
         }
+
+        internal static void Draw(PDFlib p, TemplatePage templatePage)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

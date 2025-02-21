@@ -30,27 +30,19 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
 
         }
-
-        //public static void DrawPageBack(PDFlib p, TemplateSheet sheet, TemplatePage templatePage, ProofParameters proof)
-        //{
-        //    if (!proof.Enable) return;
-
-        //    double w = templatePage.GetPageDrawFrontW();
-        //    double h = templatePage.GetPageDrawFrontH();
-
-        //    double x = sheet.W - templatePage.GetPageDrawFrontX() - w;
-        //    double y = templatePage.GetPageDrawFrontY();
-
-
-        //    DrawStrokeRect(p, MarkColor.ProofColor,
-        //        new RectangleD
-        //        {
-        //            X1 = x,
-        //            Y1 = y,
-        //            X2 = x + w,
-        //            Y2 = y + h
-        //        });
-        //}
+        public static void DrawPageBack(PDFlib p, PrintSheet sheet, TemplatePage templatePage, PageSide side, ProofParameters proof)
+        {
+            if (!proof.Enable) return;
+            (double x, double y, double w, double h) = ScreenDrawCommons.GetPageDrawBack(sheet,templatePage, side);
+            DrawStrokeRect(p, MarkColor.ProofColor,
+               new RectangleD
+               {
+                   X1 = x,
+                   Y1 = y,
+                   X2 = x + w,
+                   Y2 = y + h
+               });
+        }
 
         static void DrawStrokeRect(PDFlib p, MarkColor color, RectangleD rect)
         {
@@ -81,5 +73,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                    Y2 = sheet.H
                });
         }
+
+       
     }
 }

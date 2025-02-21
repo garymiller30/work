@@ -17,13 +17,16 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
             foreach (var page in templatePageContainer.TemplatePages)
             {
                 PageSide side = page.Front;
+                var m = page.Margins;
 
                 (RectangleD left, RectangleD right, RectangleD top, RectangleD bottom) = ScreenDrawCommons.GetDrawBleedsFront(page);
 
                 foreach (var pageTarget in templatePageContainer.TemplatePages)
                 {
+
                     if (page != pageTarget)
                     {
+                        // координати сторінки в готовому вигляді
                         (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(pageTarget, pageTarget.Front);
 
                         RectangleD pageRect = new RectangleD
@@ -38,27 +41,26 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
                             ScreenDrawCommons.GetDrawBleedLeftFront(pageTarget),
                             ScreenDrawCommons.GetDrawBleedRightFront(pageTarget),
                             ScreenDrawCommons.GetDrawBleedTopFront(pageTarget),
-                           ScreenDrawCommons.GetDrawBleedBottomFront(pageTarget),
-
+                            ScreenDrawCommons.GetDrawBleedBottomFront(pageTarget),
                         };
 
                         foreach (var rect in rects)
                         {
-                            if (left.IntersectsWith(rect) || left.IntersectsWith(pageRect))
+                            if (left.IntersectsWith(rect) || left.IntersectsWith(pageRect))// 
                             {
-                                page.Bleeds.Left = 0;
+                                page.Bleeds.Left = m.Left;
                             }
-                            if (right.IntersectsWith(rect) || right.IntersectsWith(pageRect))
+                            if (right.IntersectsWith(rect) || right.IntersectsWith(pageRect))  //
                             {
-                                page.Bleeds.Right = 0;
+                                page.Bleeds.Right = m.Right;
                             }
-                            if (top.IntersectsWith(rect) || top.IntersectsWith(pageRect))
+                            if (top.IntersectsWith(rect) || top.IntersectsWith(pageRect))// 
                             {
-                                page.Bleeds.Top = 0;
+                                page.Bleeds.Top = m.Top;
                             }
-                            if (bottom.IntersectsWith(rect) || bottom.IntersectsWith(pageRect))
+                            if (bottom.IntersectsWith(rect) || bottom.IntersectsWith(pageRect))// 
                             {
-                                page.Bleeds.Bottom = 0;
+                                page.Bleeds.Bottom = m.Bottom;
                             }
                         }
                     }

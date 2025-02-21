@@ -21,13 +21,16 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         public AutoClipMarkEnum AutoClipRelativeX { get; set; } = AutoClipMarkEnum.Sheet;
         public AutoClipMarkEnum AutoClipRelativeY { get; set; } = AutoClipMarkEnum.Sheet;
 
-        public bool IsFront { get; set; } = true;
-        public bool IsBack { get; set; } = true;
+        public MarkSide Front { get; set; } = new MarkSide();
+        public MarkSide Back { get; set; } = new MarkSide();
+
         public bool IsBackMirrored { get; set; } = true;
 
         public PdfMarkParameters()
         {
             ClipBox = new ClipBox();
+            Front = new MarkSide();
+            Back = new MarkSide();
         }
     }
 }
