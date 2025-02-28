@@ -15,11 +15,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise
         public static TemplatePageContainer Impos(LooseBindingParameters parameters)
         {
 
-            if (parameters.IsOneCut)
-            {
-                parameters.Sheet.MasterPage.Margins.Set(0d);
-            }
-
             TemplatePageContainer tc;
 
             switch (parameters.BindingPlace)

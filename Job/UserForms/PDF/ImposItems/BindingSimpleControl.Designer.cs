@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BindingSimpleControl));
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.btn_custom = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.cb_OneCut = new System.Windows.Forms.CheckBox();
             this.nud_Yofs = new System.Windows.Forms.NumericUpDown();
             this.nud_Xofs = new System.Windows.Forms.NumericUpDown();
             this.cb_centerHeight = new System.Windows.Forms.CheckBox();
@@ -46,7 +46,6 @@
             this.b_max_0 = new System.Windows.Forms.Button();
             this.b_90 = new System.Windows.Forms.Button();
             this.b_0 = new System.Windows.Forms.Button();
-            this.btn_custom = new System.Windows.Forms.Button();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Yofs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Xofs)).BeginInit();
@@ -58,22 +57,31 @@
             this.groupBox7.Controls.Add(this.btn_custom);
             this.groupBox7.Controls.Add(this.label2);
             this.groupBox7.Controls.Add(this.label1);
-            this.groupBox7.Controls.Add(this.cb_OneCut);
             this.groupBox7.Controls.Add(this.nud_Yofs);
             this.groupBox7.Controls.Add(this.nud_Xofs);
             this.groupBox7.Controls.Add(this.cb_centerHeight);
             this.groupBox7.Controls.Add(this.cb_centerWidth);
             this.groupBox7.Location = new System.Drawing.Point(3, 71);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(299, 74);
+            this.groupBox7.Size = new System.Drawing.Size(299, 47);
             this.groupBox7.TabIndex = 9;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Додаткові параметри";
             // 
+            // btn_custom
+            // 
+            this.btn_custom.Location = new System.Drawing.Point(244, 15);
+            this.btn_custom.Name = "btn_custom";
+            this.btn_custom.Size = new System.Drawing.Size(49, 23);
+            this.btn_custom.TabIndex = 13;
+            this.btn_custom.Text = "Звіт";
+            this.btn_custom.UseVisualStyleBackColor = true;
+            this.btn_custom.Visible = false;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(32, 47);
+            this.label2.Location = new System.Drawing.Point(154, 20);
             this.label2.Margin = new System.Windows.Forms.Padding(0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 13);
@@ -90,21 +98,10 @@
             this.label1.TabIndex = 11;
             this.label1.Text = "+Xofs";
             // 
-            // cb_OneCut
-            // 
-            this.cb_OneCut.Appearance = System.Windows.Forms.Appearance.Button;
-            this.cb_OneCut.Location = new System.Drawing.Point(141, 28);
-            this.cb_OneCut.Name = "cb_OneCut";
-            this.cb_OneCut.Size = new System.Drawing.Size(76, 24);
-            this.cb_OneCut.TabIndex = 10;
-            this.cb_OneCut.Text = "в один різ";
-            this.cb_OneCut.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.cb_OneCut.UseVisualStyleBackColor = true;
-            // 
             // nud_Yofs
             // 
             this.nud_Yofs.DecimalPlaces = 1;
-            this.nud_Yofs.Location = new System.Drawing.Point(67, 43);
+            this.nud_Yofs.Location = new System.Drawing.Point(188, 16);
             this.nud_Yofs.Margin = new System.Windows.Forms.Padding(0);
             this.nud_Yofs.Maximum = new decimal(new int[] {
             10000,
@@ -117,7 +114,7 @@
             0,
             -2147483648});
             this.nud_Yofs.Name = "nud_Yofs";
-            this.nud_Yofs.Size = new System.Drawing.Size(63, 20);
+            this.nud_Yofs.Size = new System.Drawing.Size(50, 20);
             this.nud_Yofs.TabIndex = 8;
             this.nud_Yofs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -137,7 +134,7 @@
             0,
             -2147483648});
             this.nud_Xofs.Name = "nud_Xofs";
-            this.nud_Xofs.Size = new System.Drawing.Size(63, 20);
+            this.nud_Xofs.Size = new System.Drawing.Size(50, 20);
             this.nud_Xofs.TabIndex = 7;
             this.nud_Xofs.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -148,7 +145,7 @@
             this.cb_centerHeight.Checked = true;
             this.cb_centerHeight.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_centerHeight.Image = ((System.Drawing.Image)(resources.GetObject("cb_centerHeight.Image")));
-            this.cb_centerHeight.Location = new System.Drawing.Point(8, 43);
+            this.cb_centerHeight.Location = new System.Drawing.Point(126, 15);
             this.cb_centerHeight.Name = "cb_centerHeight";
             this.cb_centerHeight.Size = new System.Drawing.Size(22, 22);
             this.cb_centerHeight.TabIndex = 1;
@@ -263,16 +260,6 @@
             this.b_0.UseVisualStyleBackColor = true;
             this.b_0.Click += new System.EventHandler(this.b_0_Click);
             // 
-            // btn_custom
-            // 
-            this.btn_custom.Location = new System.Drawing.Point(223, 29);
-            this.btn_custom.Name = "btn_custom";
-            this.btn_custom.Size = new System.Drawing.Size(57, 23);
-            this.btn_custom.TabIndex = 13;
-            this.btn_custom.Text = "Звіт";
-            this.btn_custom.UseVisualStyleBackColor = true;
-            this.btn_custom.Visible = false;
-            // 
             // BindingSimpleControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -280,7 +267,7 @@
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox1);
             this.Name = "BindingSimpleControl";
-            this.Size = new System.Drawing.Size(307, 148);
+            this.Size = new System.Drawing.Size(307, 122);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Yofs)).EndInit();
@@ -293,7 +280,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.CheckBox cb_OneCut;
         private System.Windows.Forms.NumericUpDown nud_Yofs;
         private System.Windows.Forms.NumericUpDown nud_Xofs;
         private System.Windows.Forms.CheckBox cb_centerHeight;

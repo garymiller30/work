@@ -159,8 +159,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     {
                         if (old_desc != templateSheet.Description)
                         {
-                            SaveLoadService.SaveSheet(form.Sheet);
-                            tscb_sheetTemplates.Items.Add(form.Sheet);
+                            var copy = form.Sheet.Copy();
+
+                            SaveLoadService.SaveSheet(copy);
+                            tscb_sheetTemplates.Items.Add(copy);
                         }
                         else
                         {

@@ -58,6 +58,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_addToQuickAccess = new System.Windows.Forms.ToolStripButton();
             this.tsb_QuickAccess = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -224,9 +225,10 @@
             this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbs_dublicate,
             this.tsb_toPrint,
             this.tsb_fillAll,
+            this.toolStripSeparator6,
+            this.tbs_dublicate,
             this.toolStripSeparator1,
             this.tsb_delete,
             this.toolStripSeparator2,
@@ -341,6 +343,11 @@
             this.tsb_QuickAccess.Text = "Меню швидкого доступу";
             this.tsb_QuickAccess.ButtonClick += new System.EventHandler(this.tsb_QuickAccess_ButtonClick);
             // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            // 
             // AddTemplateSheetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -392,5 +399,6 @@
         private System.Windows.Forms.ToolStripSplitButton tsb_QuickAccess;
         private System.Windows.Forms.ContextMenuStrip cms_SheetSideType;
         private BrightIdeasSoftware.OLVColumn olvColumnFormat;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
     }
 }

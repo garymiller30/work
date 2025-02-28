@@ -75,7 +75,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             LooseBindingParameters bindParam = new LooseBindingParameters();
             bindParam.Sheet = parameters.Sheet;
             bindParam.Sheet.MasterPage = parameters.MasterPage;
-            bindParam.IsOneCut = cb_OneCut.Checked;
             bindParam.Xofs = (double)nud_Xofs.Value;
             bindParam.Yofs = (double)nud_Yofs.Value;
             bindParam.IsCenterHorizontal = cb_centerWidth.Checked;

@@ -30,9 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MasterPageSelectControl));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.b_bleed_to_margins = new System.Windows.Forms.Button();
-            this.btn_change_margins = new System.Windows.Forms.Button();
-            this.btn_add_page = new System.Windows.Forms.Button();
+            this.ll_calc_h = new System.Windows.Forms.LinkLabel();
+            this.ll_calc_x = new System.Windows.Forms.LinkLabel();
             this.cb_FileFormats = new System.Windows.Forms.ComboBox();
             this.nud_page_bleed = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
@@ -40,8 +39,9 @@
             this.nud_page_w = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.ll_calc_x = new System.Windows.Forms.LinkLabel();
-            this.ll_calc_h = new System.Windows.Forms.LinkLabel();
+            this.b_bleed_to_margins = new Krypton.Toolkit.KryptonButton();
+            this.btn_change_margins = new Krypton.Toolkit.KryptonButton();
+            this.btn_add_page = new Krypton.Toolkit.KryptonButton();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_bleed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_h)).BeginInit();
@@ -50,11 +50,11 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btn_add_page);
+            this.groupBox2.Controls.Add(this.btn_change_margins);
+            this.groupBox2.Controls.Add(this.b_bleed_to_margins);
             this.groupBox2.Controls.Add(this.ll_calc_h);
             this.groupBox2.Controls.Add(this.ll_calc_x);
-            this.groupBox2.Controls.Add(this.b_bleed_to_margins);
-            this.groupBox2.Controls.Add(this.btn_change_margins);
-            this.groupBox2.Controls.Add(this.btn_add_page);
             this.groupBox2.Controls.Add(this.cb_FileFormats);
             this.groupBox2.Controls.Add(this.nud_page_bleed);
             this.groupBox2.Controls.Add(this.label9);
@@ -70,38 +70,31 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "формат сторінки, мм";
             // 
-            // b_bleed_to_margins
+            // ll_calc_h
             // 
-            this.b_bleed_to_margins.FlatAppearance.BorderSize = 0;
-            this.b_bleed_to_margins.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.b_bleed_to_margins.Location = new System.Drawing.Point(247, 29);
-            this.b_bleed_to_margins.Name = "b_bleed_to_margins";
-            this.b_bleed_to_margins.Size = new System.Drawing.Size(26, 21);
-            this.b_bleed_to_margins.TabIndex = 24;
-            this.b_bleed_to_margins.Text = ">";
-            this.b_bleed_to_margins.UseVisualStyleBackColor = true;
-            this.b_bleed_to_margins.Click += new System.EventHandler(this.b_bleed_to_margins_Click);
+            this.ll_calc_h.AutoSize = true;
+            this.ll_calc_h.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ll_calc_h.Location = new System.Drawing.Point(142, 53);
+            this.ll_calc_h.Margin = new System.Windows.Forms.Padding(0);
+            this.ll_calc_h.Name = "ll_calc_h";
+            this.ll_calc_h.Size = new System.Drawing.Size(25, 13);
+            this.ll_calc_h.TabIndex = 26;
+            this.ll_calc_h.TabStop = true;
+            this.ll_calc_h.Text = "calc";
+            this.ll_calc_h.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ll_calc_h_LinkClicked);
             // 
-            // btn_change_margins
+            // ll_calc_x
             // 
-            this.btn_change_margins.Image = ((System.Drawing.Image)(resources.GetObject("btn_change_margins.Image")));
-            this.btn_change_margins.Location = new System.Drawing.Point(273, 26);
-            this.btn_change_margins.Name = "btn_change_margins";
-            this.btn_change_margins.Size = new System.Drawing.Size(26, 26);
-            this.btn_change_margins.TabIndex = 23;
-            this.btn_change_margins.UseVisualStyleBackColor = true;
-            this.btn_change_margins.Click += new System.EventHandler(this.btn_change_margins_Click);
-            // 
-            // btn_add_page
-            // 
-            this.btn_add_page.FlatAppearance.BorderSize = 0;
-            this.btn_add_page.Image = ((System.Drawing.Image)(resources.GetObject("btn_add_page.Image")));
-            this.btn_add_page.Location = new System.Drawing.Point(305, 25);
-            this.btn_add_page.Name = "btn_add_page";
-            this.btn_add_page.Size = new System.Drawing.Size(26, 26);
-            this.btn_add_page.TabIndex = 22;
-            this.btn_add_page.UseVisualStyleBackColor = true;
-            this.btn_add_page.Click += new System.EventHandler(this.btn_add_page_Click);
+            this.ll_calc_x.AutoSize = true;
+            this.ll_calc_x.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ll_calc_x.Location = new System.Drawing.Point(77, 53);
+            this.ll_calc_x.Margin = new System.Windows.Forms.Padding(0);
+            this.ll_calc_x.Name = "ll_calc_x";
+            this.ll_calc_x.Size = new System.Drawing.Size(25, 13);
+            this.ll_calc_x.TabIndex = 25;
+            this.ll_calc_x.TabStop = true;
+            this.ll_calc_x.Text = "calc";
+            this.ll_calc_x.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ll_calc_x_LinkClicked);
             // 
             // cb_FileFormats
             // 
@@ -191,31 +184,43 @@
             this.label8.TabIndex = 13;
             this.label8.Text = "ширина";
             // 
-            // ll_calc_x
+            // b_bleed_to_margins
             // 
-            this.ll_calc_x.AutoSize = true;
-            this.ll_calc_x.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ll_calc_x.Location = new System.Drawing.Point(77, 53);
-            this.ll_calc_x.Margin = new System.Windows.Forms.Padding(0);
-            this.ll_calc_x.Name = "ll_calc_x";
-            this.ll_calc_x.Size = new System.Drawing.Size(25, 13);
-            this.ll_calc_x.TabIndex = 25;
-            this.ll_calc_x.TabStop = true;
-            this.ll_calc_x.Text = "calc";
-            this.ll_calc_x.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ll_calc_x_LinkClicked);
+            this.b_bleed_to_margins.Location = new System.Drawing.Point(245, 27);
+            this.b_bleed_to_margins.Name = "b_bleed_to_margins";
+            this.b_bleed_to_margins.Size = new System.Drawing.Size(26, 26);
+            this.b_bleed_to_margins.TabIndex = 27;
+            this.b_bleed_to_margins.ToolTipValues.Description = "зовнішні поля = полю на підрізку";
+            this.b_bleed_to_margins.ToolTipValues.EnableToolTips = true;
+            this.b_bleed_to_margins.ToolTipValues.Heading = "";
+            this.b_bleed_to_margins.Values.Text = ">";
+            this.b_bleed_to_margins.Click += new System.EventHandler(this.b_bleed_to_margins_Click);
             // 
-            // ll_calc_h
+            // btn_change_margins
             // 
-            this.ll_calc_h.AutoSize = true;
-            this.ll_calc_h.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ll_calc_h.Location = new System.Drawing.Point(142, 53);
-            this.ll_calc_h.Margin = new System.Windows.Forms.Padding(0);
-            this.ll_calc_h.Name = "ll_calc_h";
-            this.ll_calc_h.Size = new System.Drawing.Size(25, 13);
-            this.ll_calc_h.TabIndex = 26;
-            this.ll_calc_h.TabStop = true;
-            this.ll_calc_h.Text = "calc";
-            this.ll_calc_h.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ll_calc_h_LinkClicked);
+            this.btn_change_margins.Location = new System.Drawing.Point(276, 27);
+            this.btn_change_margins.Name = "btn_change_margins";
+            this.btn_change_margins.Size = new System.Drawing.Size(26, 26);
+            this.btn_change_margins.TabIndex = 28;
+            this.btn_change_margins.ToolTipValues.Description = "Змінити зовнішні поля";
+            this.btn_change_margins.ToolTipValues.EnableToolTips = true;
+            this.btn_change_margins.ToolTipValues.Heading = "";
+            this.btn_change_margins.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButton1.Values.Image1")));
+            this.btn_change_margins.Values.Text = "";
+            this.btn_change_margins.Click += new System.EventHandler(this.btn_change_margins_Click);
+            // 
+            // btn_add_page
+            // 
+            this.btn_add_page.Location = new System.Drawing.Point(307, 27);
+            this.btn_add_page.Name = "btn_add_page";
+            this.btn_add_page.Size = new System.Drawing.Size(26, 26);
+            this.btn_add_page.TabIndex = 29;
+            this.btn_add_page.ToolTipValues.Description = "Додати на друкарський лист";
+            this.btn_add_page.ToolTipValues.EnableToolTips = true;
+            this.btn_add_page.ToolTipValues.Heading = "";
+            this.btn_add_page.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButton1.Values.Image")));
+            this.btn_add_page.Values.Text = "";
+            this.btn_add_page.Click += new System.EventHandler(this.btn_add_page_Click);
             // 
             // MasterPageSelectControl
             // 
@@ -243,10 +248,10 @@
         private System.Windows.Forms.NumericUpDown nud_page_w;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button btn_add_page;
-        private System.Windows.Forms.Button btn_change_margins;
-        private System.Windows.Forms.Button b_bleed_to_margins;
         private System.Windows.Forms.LinkLabel ll_calc_h;
         private System.Windows.Forms.LinkLabel ll_calc_x;
+        private Krypton.Toolkit.KryptonButton b_bleed_to_margins;
+        private Krypton.Toolkit.KryptonButton btn_change_margins;
+        private Krypton.Toolkit.KryptonButton btn_add_page;
     }
 }

@@ -11,12 +11,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Perfecting
     {
         public static TemplatePageContainer Impos(LooseBindingParameters parameters)
         {
-            if (parameters.IsOneCut)
-            {
-                parameters.Sheet.MasterPage.Margins.Set(0d);
-            }
-
-            switch (parameters.BindingPlace)
+              switch (parameters.BindingPlace)
             {
                 case Binding.BindingPlaceEnum.Normal:
                     return LooseBindingNormal(parameters);

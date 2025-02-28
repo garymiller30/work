@@ -2083,5 +2083,11 @@ namespace JobSpace.UC
             }
             catch { }
         }
+
+        private void додатиФорматСторінкиДоІменіФайлуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            FileFormatsUtil.AddFormatToFileName(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
     }
 }

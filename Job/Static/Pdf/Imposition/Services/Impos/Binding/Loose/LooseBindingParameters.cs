@@ -18,8 +18,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
         public bool IsCenterHorizontal { get; set; } = true;
         public bool IsCenterVertical { get; set; } = true;
 
-        public bool IsOneCut { get; set; }
-
         public BindingPlaceEnum BindingPlace { get; set; } = BindingPlaceEnum.Normal;
 
     }
