@@ -82,18 +82,20 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                     var trims = new double[] { 0, 0, 0, 0 };
                     var media = new double[] { 0, 0, 0, 0 };
 
+                    int pageIdx = i -1;
+
                     // get media box
                     for (int j = 0; j < 4; j++)
                     {
-                        media[j] = p.pcos_get_number(doc, $"pages[{page}]/MediaBox[{j}]");
+                        media[j] = p.pcos_get_number(doc, $"pages[{pageIdx}]/MediaBox[{j}]");
                     }
-                    string trimtype = p.pcos_get_string(doc, $"type:pages[{page}]/TrimBox");
+                    string trimtype = p.pcos_get_string(doc, $"type:pages[{pageIdx}]/TrimBox");
 
                     if (trimtype == "array")
                     {
                         for (int j = 0; j < 4; j++)
                         {
-                            trims[j] = p.pcos_get_number(doc, $"pages[{page}]/TrimBox[{j}]");
+                            trims[j] = p.pcos_get_number(doc, $"pages[{pageIdx}]/TrimBox[{j}]");
                         }
                     }
                     else

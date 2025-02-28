@@ -31,9 +31,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
-                // отримати сторінку з ран листа
-                int runListPageIdx = templatePage.Front.PrintIdx - 1;
                 PageSide side = templatePage.Front;
+                // отримати сторінку з ран листа
+                int runListPageIdx = side.PrintIdx - 1;
+                
 
                 //ImposRunPage runPage;
                 var runPage = GetRunPage(impos, runListPageIdx);
@@ -57,7 +58,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                         double llx = pd.page_x - ScreenDrawCommons.GetLeftBleedByAngleFront(templatePage,side);
                         double lly = pd.page_y - ScreenDrawCommons.GetBottomBleedByAngleFront(templatePage,side);
 
-                        double angle = templatePage.Front.Angle;
+                        double angle = side.Angle;
+                        
                         string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
                         document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
                     }

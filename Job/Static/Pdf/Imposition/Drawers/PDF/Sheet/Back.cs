@@ -66,7 +66,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                             double llx = pd.page_x - ScreenDrawCommons.GetLeftBleedByAngleBack(sheet,templatePage, side);
                             double lly = pd.page_y - ScreenDrawCommons.GetBottomBleedByAngleBack(sheet,templatePage, side);
 
-                            double angle = templatePage.Back.Angle;
+                            double angle = side.Angle;
                             
                             string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
                             document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);

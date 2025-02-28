@@ -585,20 +585,33 @@ namespace JobSpace.Static
                 int count = files.Count();
                 int numCnt = $"{count}".Length;
 
-                for (int i = 1; i <= count; i++) {
+                for (int i = 1; i <= count; i++)
+                {
 
                     File.Move(arr[i - 1],
                         Path.Combine(
                             Path.GetDirectoryName(arr[i - 1]), $"{i.ToString($"D0{numCnt}", CultureInfo.InvariantCulture)}.{Path.GetFileName(arr[i - 1])}"
                             )
                         );
-                   
-
-                    }
-
-
+                }
             }
                )));
+        }
+
+        public static void AddFormatToFileName(List<IFileSystemInfoExt> fileSystemInfoExts)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати формат документа до імені файлу", new Action(
+            () =>
+            {
+                foreach (var file in fileSystemInfoExts)
+                {
+                    var info = PdfHelper.GetPageInfo(file.FileInfo.FullName);
+
+                    string newFileName = $"{Path.GetFileNameWithoutExtension(file.FileInfo.FullName)}_{info.Trimbox.wMM():N0}x{info.Trimbox.hMM():N0}{Path.GetExtension(file.FileInfo.FullName)}";
+                    File.Move(file.FileInfo.FullName, Path.Combine(Path.GetDirectoryName(file.FileInfo.FullName), newFileName));
+
+                }
+            })));
         }
     }
 }

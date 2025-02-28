@@ -11,14 +11,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
     {
         public static TemplatePageContainer Impos(LooseBindingParameters parameters)
         {
-            
-            if (parameters.IsOneCut)
-            {
-                parameters.Sheet.MasterPage.Margins.Set(0d);
-            }
-           
-
-            switch (parameters.BindingPlace)
+             switch (parameters.BindingPlace)
             {
                 case Binding.BindingPlaceEnum.Normal:
                     return LooseBindingNormal(parameters);
@@ -171,6 +164,10 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                 }
                
             }
+
+            x = Math.Round(x,1);
+            y = Math.Round(y,1);
+
         }
 
         public static void ApplyFixes(LooseBindingParameters parameters, TemplatePageContainer templatePageContainer)

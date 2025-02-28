@@ -1,4 +1,6 @@
-﻿using PDFlib_dotnet;
+﻿using iTextSharp.text;
+using PDFlib_dotnet;
+using SharpCompress.Common;
 using System.Collections.Generic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -96,17 +98,17 @@ namespace JobSpace.Static.Pdf.Common
         public static List<PdfPageInfo> GetPagesInfo(string filePath)
         {
             List<PdfPageInfo> list = new List<PdfPageInfo>();
-            
+
             PDFlib p = null;
 
             try
             {
                 p = new PDFlib();
-                p.begin_document("","");
+                p.begin_document("", "");
                 int indoc = p.open_pdi_document(filePath, "");
                 int pageCnt = (int)p.pcos_get_number(indoc, "length:pages");
 
-                for (int i = 0;i < pageCnt;i++)
+                for (int i = 0; i < pageCnt; i++)
                 {
                     var info = new PdfPageInfo();
 
@@ -119,7 +121,7 @@ namespace JobSpace.Static.Pdf.Common
                         info.Rotate = p.pcos_get_number(indoc, $"pages[{i}]/Rotate");
                     }
 
-                    Boxes boxes = GetBoxes(p,indoc,page);
+                    Boxes boxes = GetBoxes(p, indoc, page);
                     info.Mediabox = boxes.Media;
                     info.Trimbox = boxes.Trim;
 
@@ -144,6 +146,55 @@ namespace JobSpace.Static.Pdf.Common
 
             return list;
         }
+
+        public static PdfPageInfo GetPageInfo(string path)
+        {
+            PdfPageInfo pdfPageInfo = new PdfPageInfo();
+            PDFlib p = null;
+
+            try
+            {
+                p = new PDFlib();
+                p.begin_document("", "");
+                int indoc = p.open_pdi_document(path, "");
+                int pageCnt = (int)p.pcos_get_number(indoc, "length:pages");
+
+                int i = 0;
+                var info = new PdfPageInfo();
+
+                int page = p.open_pdi_page(indoc, i + 1, "");
+
+                string rotated = p.pcos_get_string(indoc, $"type:pages[{i}]/Rotate");
+
+                if (string.Equals(rotated, "number", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    info.Rotate = p.pcos_get_number(indoc, $"pages[{i}]/Rotate");
+                }
+
+                Boxes boxes = GetBoxes(p, indoc, page);
+                info.Mediabox = boxes.Media;
+                info.Trimbox = boxes.Trim;
+
+                pdfPageInfo = info;
+
+                p.close_pdi_page(page);
+
+                p.close_pdi_document(indoc);
+
+            }
+            catch (PDFlibException e)
+            {
+
+                LogException(e, "GetPagesInfo");
+            }
+            finally
+            {
+                p?.Dispose();
+
+            }
+            return pdfPageInfo;
+        }
+
 
         public static void LogException(PDFlibException e, string title)
         {

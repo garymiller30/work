@@ -84,8 +84,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                             Y2 = rect.page_y + rect.page_h
                         };
 
-
-
                         List<CropMark> forDeleteCrops = new List<CropMark>();
 
                         foreach (var cropMark in page.CropMarksController.CropMarks.Where(x => x.IsBack))
@@ -112,9 +110,11 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                     {
                         var rect = ScreenDrawCommons.GetPageDraw(pageToCompare, pageToCompare.Front);
 
+                        var d = pageToCompare.CropMarksController.Parameters.Distance;
+
                         RectangleD pageRect = new RectangleD
                         {
-                            X1 = rect.page_x,
+                            X1 = rect.page_x ,
                             Y1 = rect.page_y,
                             X2 = rect.page_x + rect.page_w,
                             Y2 = rect.page_y + rect.page_h
@@ -271,22 +271,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                         X2 = r_back.page_x + r_back.page_w,
                         Y2 = r_back.page_y + r_back.page_h
                     };
-
-                    //RectangleD pageRectFront = new RectangleD
-                    //{
-                    //    X1 = pageToCompare.Front.X,
-                    //    Y1 = pageToCompare.Front.Y,
-                    //    X2 = pageToCompare.Front.X + pageToCompare.GetClippedWByRotate(),
-                    //    Y2 = pageToCompare.Front.Y + pageToCompare.GetClippedHByRotate()
-                    //};
-
-                    //RectangleD pageRectBack = new RectangleD
-                    //{
-                    //    X1 = pageToCompare.Back.X,
-                    //    Y1 = pageToCompare.Back.Y,
-                    //    X2 = pageToCompare.Back.X + pageToCompare.GetClippedWByRotate(),
-                    //    Y2 = pageToCompare.Back.Y + pageToCompare.GetClippedHByRotate()
-                    //};
 
                     HashSet<CropMark> forDeleteCrops = new HashSet<CropMark>();
 
