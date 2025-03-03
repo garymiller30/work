@@ -37,11 +37,27 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public PreviewControl()
         {
             InitializeComponent();
+            pb_preview.MouseWheel += Pb_preview_MouseWheel;
             pb_preview.MouseMove += pb_preview_MouseMove;
             pb_preview.Paint += pb_preview_Paint;
             pb_preview.MouseClick += pb_preview_MouseClick;
             pb_preview.MouseDown += Pb_preview_MouseDown;
             pb_preview.MouseUp += Pb_preview_MouseUp;
+
+        }
+
+        private void Pb_preview_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                ScreenDrawer.ZoomFactor += 0.1;
+            }
+            else
+            {
+                if (ScreenDrawer.ZoomFactor > 1)
+                    ScreenDrawer.ZoomFactor -= 0.1f;
+            }
+            RedrawSheet();
 
         }
 
@@ -81,12 +97,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (pb_preview.Image != null) pb_preview.Image.Dispose();
             pb_preview.Image = null;
             if (parameters.Sheet == null) return;
-            var screenDrawer = new ScreenDrawer();
 
-            pb_preview.Width = (int)parameters.Sheet.W + 1;
-            pb_preview.Height = (int)parameters.Sheet.H + 1;
+            pb_preview.Width = (int)((parameters.Sheet.W + 1)*ScreenDrawer.ZoomFactor);
+            pb_preview.Height = (int)((parameters.Sheet.H + 1)*ScreenDrawer.ZoomFactor);
 
-            pb_preview.Image = screenDrawer.Draw(parameters.Sheet);
+            pb_preview.Image = ScreenDrawer.Draw(parameters.Sheet);
 
 
         }
@@ -200,8 +215,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
             else
             {
+
+
                 //tsl_coord.Text = $"x: {e.Location.X}, y: {_productPart.Sheet.H - e.Location.Y}";
-                CheckHover(e.X, e.Y);
+                CheckHover((int)(e.X / ScreenDrawer.ZoomFactor), (int)(e.Y / ScreenDrawer.ZoomFactor));
             }
         }
 
@@ -328,11 +345,20 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 PageSide side = parameters.SelectedPreviewPage.Front;
                 (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(parameters.SelectedPreviewPage, side);
 
-                e.Graphics.DrawRectangle(pen, new Rectangle(
-                    (int)page_x,
-                    (int)parameters.Sheet.H - (int)page_y - (int)page_h,
-                    (int)page_w,
-                    (int)page_h));
+
+                var rect = new RectangleF(
+                    (float)page_x,
+                    (float)(parameters.Sheet.H - page_y - page_h),
+                    (float)page_w,
+                    (float)page_h);
+
+                ScreenDrawer.DrawRectangle(e.Graphics, rect,pen);
+
+                //e.Graphics.DrawRectangle(pen, new Rectangle(
+                //    (int)page_x,
+                //    (int)parameters.Sheet.H - (int)page_y - (int)page_h,
+                //    (int)page_w,
+                //    (int)page_h));
                 pen.Dispose();
             }
 
@@ -342,11 +368,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                 Pen pen = new Pen(Color.Black, 2);
 
-                e.Graphics.DrawRectangle(pen, new Rectangle(
-                    (int)page_x,
-                    (int)parameters.Sheet.H - (int)page_y - (int)page_h,
-                    (int)page_w,
-                    (int)page_h));
+                var rect = new RectangleF(
+                    (float)page_x,
+                    (float)(parameters.Sheet.H - page_y - page_h),
+                    (float)page_w,
+                    (float)page_h);
+
+                ScreenDrawer.DrawRectangle(e.Graphics, rect, pen);
+
+                //e.Graphics.DrawRectangle(pen, new Rectangle(
+                //    (int)page_x,
+                //    (int)parameters.Sheet.H - (int)page_y - (int)page_h,
+                //    (int)page_w,
+                //    (int)page_h));
                 pen.Dispose();
             }
 

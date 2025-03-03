@@ -1,4 +1,5 @@
 ﻿using Ghostscript.NET.Rasterizer;
+using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Statuses;
 using System;
@@ -210,7 +211,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             if (File.Exists(png_path))
             {
                 Bitmap img = new Bitmap(png_path);
-                Bitmap scaledBitmap = new Bitmap((int)mark.GetW(),(int) mark.GetH());
+                Bitmap scaledBitmap = new Bitmap(
+                    (int)(mark.GetW()*ScreenDrawer.ZoomFactor),
+                    (int)(mark.GetH()*ScreenDrawer.ZoomFactor));
               
                 using (Graphics g = Graphics.FromImage(scaledBitmap))
                 {
@@ -218,7 +221,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                     g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
 
                     // Draw the scaled image
-                    g.DrawImage(img, 0, 0, (int)mark.GetW(), (int)mark.GetH());
+                    g.DrawImage(img, 0, 0, 
+                        (int)(mark.GetW()*ScreenDrawer.ZoomFactor), 
+                        (int)(mark.GetH()*ScreenDrawer.ZoomFactor));
                 }
                 img.Dispose();
                 return scaledBitmap;
