@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
@@ -15,7 +16,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
         public static Bitmap Draw(TemplateSheet sheet)
         {
             var templateContainer = sheet.TemplatePageContainer;
-            Bitmap bitmap = new Bitmap((int)sheet.W + 1, ((int)sheet.H + 1));
+            Bitmap bitmap = new Bitmap(
+                (int)((sheet.W + 1)*ScreenDrawer.ZoomFactor), 
+                (int)((sheet.H + 1) * ScreenDrawer.ZoomFactor));
 
             Graphics g = Graphics.FromImage(bitmap);
             g.SmoothingMode = SmoothingMode.HighQuality;
@@ -53,48 +56,54 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             var max = sheet.SafeFields.GetMaxFieldH();
             if (max > 0)
             {
+
+
                 // bottom
-                g.FillRectangle(Brushes.LightPink, new Rectangle
+                ScreenDrawer.DrawFillRectangle(g, new RectangleF
                 {
                     X = 0,
-                    Y = (int)(sheet.H - max),
-                    Width = (int)sheet.W,
-                    Height = (int)max,
-                });
+                    Y = (float)(sheet.H - max),
+                    Width = (float)sheet.W,
+                    Height = (float)max,
+                }, Brushes.LightPink);
+
 
                 // top
-                g.FillRectangle(Brushes.LightPink, new Rectangle
+                ScreenDrawer.DrawFillRectangle(g, new RectangleF
                 {
                     X = 0,
                     Y = 0,
-                    Width = (int)sheet.W,
-                    Height = (int)max,
-                });
+                    Width = (float)sheet.W,
+                    Height = (float)max,
+                }, Brushes.LightPink);
+             
             }
 
             if (sheet.SafeFields.Left > 0)
             {
 
                 // left
-                g.FillRectangle(Brushes.LightPink, new Rectangle
+                ScreenDrawer.DrawFillRectangle(g, new RectangleF
                 {
                     X = 0,
                     Y = 0,
-                    Width = (int)sheet.SafeFields.Left,
-                    Height = (int)sheet.H,
-                });
+                    Width = (float)sheet.SafeFields.Left,
+                    Height = (float)sheet.H,
+                }, Brushes.LightPink);
+               
             }
 
             if (sheet.SafeFields.Right > 0)
             {
                 //right
-                g.FillRectangle(Brushes.LightPink, new Rectangle
+                ScreenDrawer.DrawFillRectangle(g, new RectangleF
                 {
-                    X = (int)(sheet.W - sheet.SafeFields.Right),
+                    X = (float)(sheet.W - sheet.SafeFields.Right),
                     Y = 0,
-                    Width = (int)sheet.SafeFields.Right,
-                    Height = (int)sheet.H,
-                });
+                    Width = (float)sheet.SafeFields.Right,
+                    Height = (float)sheet.H,
+                }, Brushes.LightPink);
+             
             }
 
 

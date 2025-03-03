@@ -12,9 +12,11 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
 {
-    public class ScreenDrawer
+    public static class ScreenDrawer
     {
-        public Bitmap Draw(TemplateSheet sheet)
+        public static double ZoomFactor = 1.0;
+
+        public static Bitmap Draw(TemplateSheet sheet)
         {
 
             CropMarksService.FixCropMarks(sheet);
@@ -22,8 +24,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
             switch (sheet.SheetPlaceType)
             {
                 case TemplateSheetPlaceType.SingleSide:
-                    return ScreenDrawSingleSideService.Draw(sheet);
-
                 case TemplateSheetPlaceType.Sheetwise:
                     return ScreenDrawSingleSideService.Draw(sheet);
 
@@ -36,5 +36,43 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
                     throw new NotImplementedException();
             }
         }
+
+
+        public static void DrawFillRectangle(Graphics g, RectangleF rect, Brush brush)
+        {
+            g.FillRectangle(brush, 
+                (float)(rect.X*ZoomFactor), 
+                (float)(rect.Y*ZoomFactor), 
+                (float)(rect.Width*ZoomFactor), 
+                (float)(rect.Height*ZoomFactor));
+        }
+
+        public static void DrawRectangle(Graphics g, RectangleF rect, Pen pen)
+        {
+            g.DrawRectangle(pen,
+                (float)(rect.X * ZoomFactor),
+                (float)(rect.Y * ZoomFactor),
+                (float)(rect.Width * ZoomFactor),
+                (float)(rect.Height * ZoomFactor));
+        }
+
+        public static void DrawLine(Graphics g, PointF p1, PointF p2, Pen pen)
+        {
+            g.DrawLine(pen,
+                new PointF((float)(p1.X * ZoomFactor), (float)(p1.Y * ZoomFactor)),
+                new PointF((float)(p2.X * ZoomFactor), (float)(p2.Y * ZoomFactor)));
+        }
+
+       public static void DrawImage(Graphics g,Bitmap bitmap,RectangleF rect)
+        {
+            g.DrawImage(bitmap, new RectangleF
+            {
+                X = (float)(rect.X * ZoomFactor),
+                Y = (float)(rect.Y * ZoomFactor),
+                Width = (float)(rect.Width * ZoomFactor),
+                Height = (float)(rect.Height * ZoomFactor)
+            });
+        }
+
     }
 }

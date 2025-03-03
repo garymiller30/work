@@ -1,5 +1,6 @@
 ﻿using Ghostscript.NET.Rasterizer;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
+using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
@@ -23,12 +24,15 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
     {
         public static Bitmap Draw(TemplateSheet sheet)
         {
+            var zoom = ScreenDrawer.ZoomFactor;
+
             var templateContainer = sheet.TemplatePageContainer;
-            Bitmap bitmap = new Bitmap((int)sheet.W + 1, ((int)sheet.H + 1));
-            //Bitmap bitmap = CreateBitmapInMillimeters(sheet.W,sheet.H);
+
+            Bitmap bitmap = new Bitmap(
+                (int)((sheet.W + 1)*zoom), 
+                (int)((sheet.H + 1)*zoom));
 
             Graphics g = Graphics.FromImage(bitmap);
-            //g.PageUnit = GraphicsUnit.Millimeter;
             g.SmoothingMode = SmoothingMode.HighQuality;
 
             ScreenDrawCommons.DrawSheet(sheet, g);
@@ -69,10 +73,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             foreach (var mark in container.Text.Where(x => x.Parameters.IsFront && x.Enable && x.IsForeground == foreground))
             {
                 var previewPoints = (mark.FontSize / 72.0) * 25.4;
-                Font font = new Font(mark.FontName, (float)previewPoints);
+                Font font = new Font(mark.FontName, (float)(previewPoints* ScreenDrawer.ZoomFactor));
                 SizeF size = g.MeasureString(mark.Text, font);
                 var state = g.Save();
-                g.TranslateTransform((float)mark.Front.X, (float)(h - mark.Front.Y - mark.GetH()));
+                g.TranslateTransform(
+                    (float)(mark.Front.X*ScreenDrawer.ZoomFactor), 
+                    (float)((h - mark.Front.Y - mark.GetH())* ScreenDrawer.ZoomFactor));
 
                 float angle = mark.Angle == 90 || mark.Angle == 270 ? (float)(mark.Angle + 180) : (float)mark.Angle;
 
@@ -93,19 +99,21 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             {
 
                 System.Drawing.Image bitmap = MarksService.GetBitmapFront(mark);
-
-                var rect = new Rectangle
+                
+                var rect = new RectangleF
                 {
-                    X = (int)mark.Front.X,
-                    Y = h - (int)mark.Front.Y - (int)mark.GetClippedH(),
-                    Width = (int)mark.GetClippedW(),
-                    Height = (int)mark.GetClippedH()
+                    X = (float)mark.Front.X,
+                    Y = (float)(h - mark.Front.Y - mark.GetClippedH()),
+                    Width = (float)mark.GetClippedW(),
+                    Height = (float)mark.GetClippedH()
                 };
+
 
                 if (bitmap == null)
                 {
                     Brush brush = new SolidBrush(Color.Aqua);
-                    g.FillRectangle(brush, rect);
+                    ScreenDrawer.DrawFillRectangle(g,rect,brush);
+                    //g.FillRectangle(brush, rect);
                     brush.Dispose();
 
                 }
@@ -113,22 +121,31 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 {
                     var mc = mark.ClipBoxFront;
 
-                    Rectangle clipRect = new Rectangle((int)mc.Left, (int)mc.Bottom, (int)(mc.Right - mc.Left), (int)(mc.Top - mc.Bottom));
-                    Bitmap croppedBitmap = new Bitmap(clipRect.Width, clipRect.Height);
-                    //var cropped = i.Clone(clipRect, i.PixelFormat);
-
+                    Rectangle clipRect = new Rectangle(
+                        (int)(mc.Left * ScreenDrawer.ZoomFactor), 
+                        (int)(mc.Bottom * ScreenDrawer.ZoomFactor), 
+                        (int)((mc.Right - mc.Left) * ScreenDrawer.ZoomFactor), 
+                        (int)((mc.Top - mc.Bottom) * ScreenDrawer.ZoomFactor));
+                    Bitmap croppedBitmap = new Bitmap(
+                       (clipRect.Width), 
+                       (clipRect.Height)); 
 
                     using (Graphics gc = Graphics.FromImage(croppedBitmap))
                     {
                         // Draw the cropped section of the original bitmap
-                        gc.DrawImage(bitmap, new Rectangle(0, 0, clipRect.Width, clipRect.Height), clipRect, GraphicsUnit.Pixel);
+                        gc.DrawImage(bitmap, new Rectangle(0, 0,
+                            (int)(clipRect.Width),
+                            (int)(clipRect.Height)), clipRect, GraphicsUnit.Pixel);
 
                     }
 
                     var i = RotateImage(bitmap, (float)mark.Angle);
                     i.MakeTransparent(Color.White);
 
-                    g.DrawImage(i, rect);
+                    ScreenDrawer.DrawImage(g,i,rect);
+
+                    //g.DrawImage(i, rect);
+                    
                     croppedBitmap.Dispose();
                     //cropped.Dispose();
                     i.Dispose();
@@ -169,46 +186,49 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawSheetSafeField(Graphics g, TemplateSheet sheet)
         {
+            
+
             if (sheet.SafeFields.Left != 0)
                 // left
-                g.FillRectangle(Brushes.LightPink, new Rectangle
+                ScreenDrawer.DrawFillRectangle(g, new RectangleF
                 {
                     X = 0,
                     Y = 0,
-                    Width = (int)sheet.SafeFields.Left,
-                    Height = (int)sheet.H,
-                });
+                    Width = (int)(sheet.SafeFields.Left),
+                    Height = (int)(sheet.H),
+                }, Brushes.LightPink);
 
             if (sheet.SafeFields.Bottom != 0)
                 // bottom
-                g.FillRectangle(Brushes.LightPink, new Rectangle
+
+                ScreenDrawer.DrawFillRectangle(g, new Rectangle
                 {
                     X = 0,
-                    Y = (int)(sheet.H - sheet.SafeFields.Bottom),
-                    Width = (int)sheet.W,
-                    Height = (int)sheet.SafeFields.Bottom,
-                });
+                    Y = (int)((sheet.H - sheet.SafeFields.Bottom)),
+                    Width = (int)(sheet.W),
+                    Height = (int)(sheet.SafeFields.Bottom),
+                }, Brushes.LightPink);
 
             if (sheet.SafeFields.Top != 0)
 
                 // top
-                g.FillRectangle(Brushes.LightPink, new Rectangle
+                ScreenDrawer.DrawFillRectangle(g, new Rectangle
                 {
                     X = 0,
                     Y = 0,
-                    Width = (int)sheet.W,
-                    Height = (int)sheet.SafeFields.Top,
-                });
+                    Width = (int)(sheet.W),
+                    Height = (int)(sheet.SafeFields.Top),
+                }, Brushes.LightPink);
 
             if (sheet.SafeFields.Right != 0)
                 //right
-                g.FillRectangle(Brushes.LightPink, new Rectangle
+                ScreenDrawer.DrawFillRectangle(g, new Rectangle
                 {
-                    X = (int)(sheet.W - sheet.SafeFields.Right),
+                    X = (int)((sheet.W - sheet.SafeFields.Right)),
                     Y = 0,
-                    Width = (int)sheet.SafeFields.Right,
-                    Height = (int)sheet.H,
-                });
+                    Width = (int)(sheet.SafeFields.Right),
+                    Height = (int)(sheet.H),
+                }, Brushes.LightPink);
         }
 
         public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
@@ -217,10 +237,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(page, page.Front);
 
-            int x = (int)page_x;
-            int y = sH - (int)page_y - (int)page_h;
-            int w = (int)page_w;
-            int h = (int)page_h;
+            double x = page_x;
+            double y = sH - page_y - page_h;
+            double w = page_w;
+            double h = page_h;
 
             Brush brush;
 
@@ -246,16 +266,16 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             Pen pen = new Pen(Color.Black);
 
-            var rect = new Rectangle
+            var rect = new RectangleF
             {
-                X = x,
-                Y = y,
-                Width = w,
-                Height = h
+                X = (float)(x),
+                Y = (float)(y),
+                Width = (float)(w),
+                Height = (float)(h)
             };
 
-            g.FillRectangle(brush, rect);
-            g.DrawRectangle(pen, rect);
+            ScreenDrawer.DrawFillRectangle(g, rect, brush);
+            ScreenDrawer.DrawRectangle(g, rect, pen);
             brush.Dispose();
             pen.Dispose();
 
@@ -283,23 +303,27 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             foreach (var mark in marks.Where(x => x.IsFront))
             {
-                Point p1 = new Point
+                var p1 = new PointF
                 {
-                    X = (int)mark.From.X,
-                    Y = sH - (int)(mark.From.Y)
+                    X = (float)mark.From.X,
+                    Y = sH - (float)(mark.From.Y)
                 };
-                Point p2 = new Point
+                var p2 = new PointF
                 {
-                    X = (int)mark.To.X,
-                    Y = sH - (int)mark.To.Y
+                    X = (float)mark.To.X,
+                    Y = sH - (float)mark.To.Y
                 };
-                g.DrawLine(pen, p1, p2);
+
+                ScreenDrawer.DrawLine(g, p1, p2, pen);
+                //g.DrawLine(pen, p1, p2);
             }
             pen.Dispose();
         }
 
         private static void DrawTextFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
+           var zoom = ScreenDrawer.ZoomFactor;
+
             var drawFormat = new StringFormat
             {
                 Alignment = StringAlignment.Center,
@@ -313,7 +337,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             var x = (float)(page_x + page_w / 2);
             var y = sH - page_y - page_h / 2;
             var state = g.Save();
-            g.TranslateTransform(x, (float)y);
+            g.TranslateTransform((float)(x*zoom), (float)(y*zoom));
 
             double angle = page.Front.Angle;
 
@@ -331,7 +355,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             }
 
             var path = new GraphicsPath();
-            Font font = new Font("Arial", 12);
+            Font font = new Font("Arial",(float)(12*zoom));
             FontFamily family = font.FontFamily;
             Pen pen = new Pen(Color.Black);
 
@@ -378,7 +402,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 }
             }
 
-            path.AddString(txt, family, 0, 12, new PointF { X = 0, Y = 0 }, drawFormat);
+            path.AddString(txt, family, 0, (float)(12*zoom), new PointF { X = 0, Y = 0 }, drawFormat);
             g.DrawPath(pen, path);
             family.Dispose();
             pen.Dispose();

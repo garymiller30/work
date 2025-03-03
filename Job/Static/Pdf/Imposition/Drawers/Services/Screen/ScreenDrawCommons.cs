@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
+using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,10 +16,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
     {
         public static void DrawSheet(TemplateSheet sheet, Graphics g)
         {
-            Pen pen = new Pen(Color.Black);
-            Rectangle rect = new Rectangle(0, 0, (int)sheet.W, (int)sheet.H);
+            
 
-            g.DrawRectangle(pen, rect);
+            Pen pen = new Pen(Color.Black);
+            var rect = new RectangleF(0, 0, (float)sheet.W, (float)sheet.H);
+
+            ScreenDrawer.DrawRectangle(g, rect, pen);
+            //g.DrawRectangle(pen, rect);
             pen.Dispose();
         }
 
@@ -252,23 +256,25 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             return page.W;
         }
 
-        public static void DrawPageRotateMarker(Graphics g, TemplatePage page, PageSide side, Rectangle rect, int sH)
+        public static void DrawPageRotateMarker(Graphics g, TemplatePage page, PageSide side, RectangleF rect, int sH)
         {
-            int dist = 5;
-            int height = 7;
+           
+
+            var dist = 5;
+            var height = 7;
 
             var brush = new SolidBrush(Color.Gray);
 
-            int x = rect.X;
-            int y = rect.Y;
+            var x = rect.X;
+            var y = rect.Y;
 
-            int sx = 0;
-            int sy = 0;
-            int sw = 0;
-            int sh = 0;
+            float sx = 0;
+            float sy = 0;
+            float sw = 0;
+            float sh = 0;
 
-            int page_w = (int)GetPageDrawW(page, side);
-            int page_h = (int)GetPageDrawH(page, side);
+            var page_w = (float)GetPageDrawW(page, side);
+            var page_h = (float)GetPageDrawH(page, side);
 
             switch (side.Angle)
             {
@@ -301,7 +307,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 default:
                     break;
             }
-            g.FillRectangle(brush, new System.Drawing.Rectangle(sx, sy, sw, sh));
+            ScreenDrawer.DrawFillRectangle(g, new RectangleF(sx, sy, sw, sh), brush);
+
+            //g.FillRectangle(brush, new System.Drawing.Rectangle((int)(sx),(int) (sy),(int)( sw),(int) (sh)));
             brush.Dispose();
         }
 
