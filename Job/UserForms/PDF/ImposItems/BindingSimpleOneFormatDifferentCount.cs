@@ -139,16 +139,30 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 TotalCount = Files.Sum(f => f.Count);
 
+                var freePlace = CountOnSheet;
+
                 foreach (var file in Files)
                 {
-                    var count = (CountOnSheet * (double)file.Count / TotalCount);
-                    file.PagesOnSheet = (int)count;
+                    var count = (int)(CountOnSheet * (double)file.Count / TotalCount);
+                    file.PagesOnSheet = count;
+                    
+                    freePlace -= count;
+
                     if (file.PagesOnSheet == 0)
                     {
                         file.PagesOnSheet = 1;
                     }
                     file.SheetCount = (int)Math.Ceiling((double)file.Count / file.PagesOnSheet);
                 }
+
+                if (freePlace > 0) // є вільні місця, візьмемо з найбільшим тиражем і розподілимо
+                {
+                    var maxFile = Files.OrderByDescending(f => f.Count).First();
+                    maxFile.PagesOnSheet += freePlace;
+                    maxFile.SheetCount = (int)Math.Ceiling((double)maxFile.Count / maxFile.PagesOnSheet);
+                }
+
+
                 SheetCount = Files.Max(f => f.SheetCount);
                 Files.ForEach(f=>f.Wasted = f.PagesOnSheet*SheetCount - f.Count);
             }
