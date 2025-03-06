@@ -44,6 +44,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
     public partial class BindingSimpleOneFormatDifferentCount : BindingSimpleControl, IBindControl
     {
         CalcResult _result;
+        List<PrintSheet> _sheets;
+        List<ImposRunPage> _pages;
+
         public BindingSimpleOneFormatDifferentCount() : base()
         {
             InitializeComponent();
@@ -58,7 +61,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
             using (var form = new FormSameFormatResult())
             {
                 form.SetResult(_result);
-                form.ShowDialog();
+                if (form.ShowDialog() == DialogResult.Yes)
+                {
+                    ApplyChanges();
+                    parameters.UpdatePreview();
+                }
             }
         }
 
@@ -66,24 +73,32 @@ namespace JobSpace.UserForms.PDF.ImposItems
         new public void RearangePages(List<PrintSheet> sheets, List<ImposRunPage> pages)
         {
             if (sheets.Count ==0) return;
+            _sheets = sheets;
+            _pages = pages;
 
             // скинути 
-            pages.ForEach(p => p.IsAssumed = false);
+            
 
             _result = new CalcResult(parameters.PdfFileList.Objects.Cast<PdfFile>().ToList());
             _result.SetCountOnSheet(sheets[0].TemplatePageContainer.TemplatePages.Count);
             _result.Calc();
 
+            ApplyChanges();
+           
+        }
+
+        void ApplyChanges()
+        {
+            // скинути 
+            _pages.ForEach(p => p.IsAssumed = false);
+            var tp = _sheets[0].TemplatePageContainer.TemplatePages;
             int tp_idx = _result.CountOnSheet - 1;
-            var tp = sheets[0].TemplatePageContainer.TemplatePages;
-
             int pageIdx = 1;
-
             foreach (FileResult file in _result.Files)
             {
                 for (int i = 0; i < file.PagesOnSheet; i++)
                 {
-                    var rp = pages[pageIdx - 1];
+                    var rp = _pages[pageIdx - 1];
 
                     tp[tp_idx].Front.PrintIdx = pageIdx;
                     rp.IsAssumed = true;
@@ -94,8 +109,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     {
                         tp[tp_idx].Back.PrintIdx = pageIdx + 1;
 
-                        
-                        rp = pages[pageIdx];
+
+                        rp = _pages[pageIdx];
                         rp.IsAssumed = true;
                         rp.IsValidFormat = ValidateFormat(rp, tp[tp_idx]);
                         tp[tp_idx].Back.AssignedRunPage = rp;
@@ -104,7 +119,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     tp_idx--;
                 }
 
-                if (sheets[0].SheetPlaceType == TemplateSheetPlaceType.SingleSide || file.Pages == 1)
+                if (_sheets[0].SheetPlaceType == TemplateSheetPlaceType.SingleSide || file.Pages == 1)
                 {
                     pageIdx++;
                 }
@@ -112,19 +127,23 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     pageIdx += 2;
                 }
-                
-               
+
+
             }
-            sheets[0].Count = _result.SheetCount;
-           
+            _sheets[0].Count = _result.SheetCount;
         }
+
 
         public class CalcResult
         {
             public List<FileResult> Files { get; set; } = new List<FileResult>();
             public int CountOnSheet { get; set; }
+            //вільних місць
+            public int FreeCount { get; set; }
+
             public int TotalCount { get; set; }
             public int SheetCount { get; set; }
+
             public CalcResult(List<PdfFile> files)
             {
                 Files.AddRange(files.Select(f => new FileResult(f)));
@@ -139,14 +158,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 TotalCount = Files.Sum(f => f.Count);
 
-                var freePlace = CountOnSheet;
+                FreeCount = CountOnSheet;
 
                 foreach (var file in Files)
                 {
                     var count = (int)(CountOnSheet * (double)file.Count / TotalCount);
                     file.PagesOnSheet = count;
-                    
-                    freePlace -= count;
+
+                    FreeCount -= count;
 
                     if (file.PagesOnSheet == 0)
                     {
@@ -155,16 +174,28 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     file.SheetCount = (int)Math.Ceiling((double)file.Count / file.PagesOnSheet);
                 }
 
-                if (freePlace > 0) // є вільні місця, візьмемо з найбільшим тиражем і розподілимо
+                if (FreeCount > 0) // є вільні місця, візьмемо з найбільшим тиражем і розподілимо
                 {
                     var maxFile = Files.OrderByDescending(f => f.Count).First();
-                    maxFile.PagesOnSheet += freePlace;
+                    maxFile.PagesOnSheet += FreeCount;
                     maxFile.SheetCount = (int)Math.Ceiling((double)maxFile.Count / maxFile.PagesOnSheet);
+                    FreeCount = 0;
                 }
 
 
                 SheetCount = Files.Max(f => f.SheetCount);
                 Files.ForEach(f=>f.Wasted = f.PagesOnSheet*SheetCount - f.Count);
+            }
+
+            public void Recalc()
+            {
+                foreach (var file in Files)
+                {
+                    file.SheetCount = (int)Math.Ceiling((double)file.Count / file.PagesOnSheet);
+                }
+
+                SheetCount = Files.Max(f => f.SheetCount);
+                Files.ForEach(f => f.Wasted = f.PagesOnSheet * SheetCount - f.Count);
             }
         }
 
