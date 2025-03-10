@@ -50,13 +50,13 @@
             this.rb_centerV = new System.Windows.Forms.Button();
             this.btn_left = new System.Windows.Forms.Button();
             this.btn_up = new System.Windows.Forms.Button();
-            this.rb_EnableNumering = new System.Windows.Forms.RadioButton();
-            this.rb_deletePage = new System.Windows.Forms.RadioButton();
             this.btn_rotateLeft = new System.Windows.Forms.Button();
             this.btn_rotateRight = new System.Windows.Forms.Button();
             this.btn_right = new System.Windows.Forms.Button();
             this.btn_down = new System.Windows.Forms.Button();
             this.rb_switchHW = new System.Windows.Forms.RadioButton();
+            this.rb_deletePage = new System.Windows.Forms.RadioButton();
+            this.rb_EnableNumering = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -109,7 +109,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(538, 56);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(563, 56);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // rb_select
@@ -336,28 +336,6 @@
             this.btn_up.UseVisualStyleBackColor = true;
             this.btn_up.Click += new System.EventHandler(this.btn_up_Click);
             // 
-            // rb_EnableNumering
-            // 
-            this.rb_EnableNumering.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rb_EnableNumering.AutoSize = true;
-            this.rb_EnableNumering.Image = ((System.Drawing.Image)(resources.GetObject("rb_EnableNumering.Image")));
-            this.rb_EnableNumering.Location = new System.Drawing.Point(171, 31);
-            this.rb_EnableNumering.Name = "rb_EnableNumering";
-            this.rb_EnableNumering.Size = new System.Drawing.Size(22, 22);
-            this.rb_EnableNumering.TabIndex = 11;
-            this.rb_EnableNumering.UseVisualStyleBackColor = true;
-            // 
-            // rb_deletePage
-            // 
-            this.rb_deletePage.Appearance = System.Windows.Forms.Appearance.Button;
-            this.rb_deletePage.AutoSize = true;
-            this.rb_deletePage.Image = ((System.Drawing.Image)(resources.GetObject("rb_deletePage.Image")));
-            this.rb_deletePage.Location = new System.Drawing.Point(143, 31);
-            this.rb_deletePage.Name = "rb_deletePage";
-            this.rb_deletePage.Size = new System.Drawing.Size(22, 22);
-            this.rb_deletePage.TabIndex = 13;
-            this.rb_deletePage.UseVisualStyleBackColor = true;
-            // 
             // btn_rotateLeft
             // 
             this.btn_rotateLeft.Image = ((System.Drawing.Image)(resources.GetObject("btn_rotateLeft.Image")));
@@ -410,6 +388,28 @@
             this.rb_switchHW.TabStop = true;
             this.rb_switchHW.UseVisualStyleBackColor = true;
             // 
+            // rb_deletePage
+            // 
+            this.rb_deletePage.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rb_deletePage.AutoSize = true;
+            this.rb_deletePage.Image = ((System.Drawing.Image)(resources.GetObject("rb_deletePage.Image")));
+            this.rb_deletePage.Location = new System.Drawing.Point(143, 31);
+            this.rb_deletePage.Name = "rb_deletePage";
+            this.rb_deletePage.Size = new System.Drawing.Size(22, 22);
+            this.rb_deletePage.TabIndex = 13;
+            this.rb_deletePage.UseVisualStyleBackColor = true;
+            // 
+            // rb_EnableNumering
+            // 
+            this.rb_EnableNumering.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rb_EnableNumering.AutoSize = true;
+            this.rb_EnableNumering.Image = ((System.Drawing.Image)(resources.GetObject("rb_EnableNumering.Image")));
+            this.rb_EnableNumering.Location = new System.Drawing.Point(171, 31);
+            this.rb_EnableNumering.Name = "rb_EnableNumering";
+            this.rb_EnableNumering.Size = new System.Drawing.Size(22, 22);
+            this.rb_EnableNumering.TabIndex = 11;
+            this.rb_EnableNumering.UseVisualStyleBackColor = true;
+            // 
             // ImposToolsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -417,7 +417,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ImposToolsControl";
-            this.Size = new System.Drawing.Size(538, 56);
+            this.Size = new System.Drawing.Size(563, 56);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);

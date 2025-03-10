@@ -2037,10 +2037,13 @@ namespace JobSpace.UC
 
             var selectedFiles = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToList();
 
-            using (var form = new FormPdfImposition(selectedFiles, _fileManager.Settings.CurFolder))
-            {
-               form.ShowDialog();
-            }
+            var form = new FormPdfImposition(selectedFiles, _fileManager.Settings.CurFolder);
+            form.Show();
+
+            //using (var form = new FormPdfImposition(selectedFiles, _fileManager.Settings.CurFolder))
+            //{
+            //   form.ShowDialog();
+            //}
         }
 
         private void toolStripButton5_Click(object sender, EventArgs e)
@@ -2059,6 +2062,38 @@ namespace JobSpace.UC
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
             FileFormatsUtil.ExtractPages(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
+
+        private void коміюватиІмяФайлуБезРозширенняToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyFileNamesWithoutExt();
+        }
+
+        private void CopyFileNamesWithoutExt()
+        {
+            var filePath = new StringBuilder();
+            foreach (IFileSystemInfoExt fsi in objectListView1.SelectedObjects)
+            {
+                filePath.AppendLine(Path.GetFileNameWithoutExtension(fsi.FileInfo.FullName));
+            }
+
+            try
+            {
+                Clipboard.SetText(filePath.ToString());
+            }
+            catch { }
+        }
+
+        private void додатиФорматСторінкиДоІменіФайлуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            FileFormatsUtil.AddFormatToFileName(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
+
+        private void додатиКонтурВисічкиКолоToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            FileFormatsUtil.AddCutCircle(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
         }
     }
 }

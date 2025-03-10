@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class MasterPageSelectControl : UserControl
     {
-        List<PdfFile> _files;
+        //List<PdfFile> _files;
         public EventHandler<PageFormatView> OnMasterPageChanged { get; set; } = delegate { };
         public EventHandler<PageFormatView> OnMasterPageAdded { get; set; } = delegate { };
         public MasterPageSelectControl()
@@ -51,7 +52,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (cb_FileFormats.SelectedItem is PageFormatView page)
             {
                 page.Width = ((NumericUpDown)sender).Value;
-
                 OnMasterPageChanged(this, page);
             }
         }
@@ -61,7 +61,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (cb_FileFormats.SelectedItem is PageFormatView page)
             {
                 page.Height = ((NumericUpDown)sender).Value;
-
                 OnMasterPageChanged(this, page);
             }
 
@@ -72,7 +71,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (cb_FileFormats.SelectedItem is PageFormatView page)
             {
                 page.Bleed = ((NumericUpDown)sender).Value;
-
                 OnMasterPageChanged(this, page);
             }
         }
@@ -88,6 +86,50 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (cb_FileFormats.SelectedItem is PageFormatView page)
             {
                 OnMasterPageAdded(this, page);
+            }
+        }
+
+        private void btn_change_margins_Click(object sender, EventArgs e)
+        {
+            if (cb_FileFormats.SelectedItem is PageFormatView page)
+            {
+                using (var form = new FormChangePageMargins(page.Margins))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        OnMasterPageChanged(this, page);
+                    }
+                }
+            }
+
+        }
+
+        private void b_bleed_to_margins_Click(object sender, EventArgs e)
+        {
+            if (cb_FileFormats.SelectedItem is PageFormatView page)
+            {
+                page.Margins.Set(page.Bleed);
+                OnMasterPageChanged(this, page);
+            }
+        }
+
+        private void ll_calc_h_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            using (var form = new FormCalc(nud_page_h.Value))
+            {
+                form.ShowDialog();
+                nud_page_h.Value = (decimal)form.Result;
+
+            }
+        }
+
+        private void ll_calc_x_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            using (var form = new FormCalc(nud_page_w.Value))
+            {
+                form.ShowDialog();
+                nud_page_w.Value = (decimal)form.Result;
+
             }
         }
     }

@@ -45,6 +45,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                     TextVariablesService.SetValue(ValueList.CurDate, DateTime.Now.ToString());
                     TextVariablesService.SetValue(ValueList.SheetCount, sheet.Count);
 
+                    CropMarksService.FixCropMarks(sheet);
+
                     switch (sheet.SheetPlaceType)
                     {
                         case TemplateSheetPlaceType.SingleSide:
@@ -65,7 +67,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                             DrawSheet.WorkAndTurn(p, impos, sheet);
                             break;
 
-                        case TemplateSheetPlaceType.Perfecting:
+                        case TemplateSheetPlaceType.WorkAndTumble:
                             TextVariablesService.SetValue(ValueList.SheetSide, "Клапан-хвіст");
                             DrawSheet.WorkAndTurn(p, impos, sheet);
                             break;

@@ -54,7 +54,7 @@
             this.panel2.Controls.Add(this.pb_preview);
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(449, 276);
+            this.panel2.Size = new System.Drawing.Size(566, 276);
             this.panel2.TabIndex = 4;
             // 
             // imposToolsControl1
@@ -64,7 +64,7 @@
             this.imposToolsControl1.Location = new System.Drawing.Point(6, 288);
             this.imposToolsControl1.Margin = new System.Windows.Forms.Padding(0);
             this.imposToolsControl1.Name = "imposToolsControl1";
-            this.imposToolsControl1.Size = new System.Drawing.Size(446, 63);
+            this.imposToolsControl1.Size = new System.Drawing.Size(563, 63);
             this.imposToolsControl1.TabIndex = 0;
             // 
             // PreviewControl
@@ -74,7 +74,7 @@
             this.Controls.Add(this.imposToolsControl1);
             this.Controls.Add(this.panel2);
             this.Name = "PreviewControl";
-            this.Size = new System.Drawing.Size(455, 351);
+            this.Size = new System.Drawing.Size(572, 351);
             ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).EndInit();
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);

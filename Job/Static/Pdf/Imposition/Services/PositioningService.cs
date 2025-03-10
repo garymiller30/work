@@ -468,5 +468,132 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 Y = y + yMark + mark.Parameters.Yofs
             };
         }
+
+        public static void CalcClipMarkCoordFront(TemplateSheet sheet, RectangleD sheetRect, RectangleD subjectRect, PdfMark mark)
+        {
+            var param = mark.Parameters;
+
+            double x1 = param.ClipBox.Left;
+            double y1 = param.ClipBox.Bottom;
+            double x2 = param.ClipBox.Left + mark.GetClippedW();
+            double y2 = param.ClipBox.Bottom + mark.GetClippedH();
+
+
+
+
+            if (param.IsAutoClipX)
+            {
+                if (param.AutoClipRelativeX == AutoClipMarkEnum.Sheet)
+                {
+
+                }
+                else if (param.AutoClipRelativeX == AutoClipMarkEnum.Subject)
+                {
+                    double mark_w = mark.GetW();
+
+                    if (mark_w > subjectRect.W)
+                    {
+                        double left = subjectRect.X1 - mark.Front.X ;
+                        double right = mark_w + mark.Front.X - subjectRect.X2;
+
+                        x1 = left;
+                        x2 = left + subjectRect.W;
+
+                        mark.Parameters.ClipBox.Left = left;
+                        mark.Parameters.ClipBox.Right = right;
+                    }
+                }
+            }
+
+
+            if (param.IsAutoClipY)
+            {
+                if (param.AutoClipRelativeY == AutoClipMarkEnum.Sheet)
+                {
+
+                }
+                else if (param.AutoClipRelativeY == AutoClipMarkEnum.Subject)
+                {
+                }
+            }
+
+            mark.ClipBoxFront = new RectangleD()
+            {
+                X1 = x1,
+                Y1 = y1,
+                X2 = x2,
+                Y2 = y2
+            };
+
+
+
+            double mark_x = mark.Front.X + mark.GetClippedLeftByAngleFront();
+            double mark_y = mark.Front.Y + mark.GetClippedBottomByAngleFront();
+
+            mark.Front.X = mark_x;
+            mark.Front.Y = mark_y;
+
+        }
+
+        public static void CalcClipMarkCoordBack(TemplateSheet sheet, RectangleD sheetRect, RectangleD subjectRect, PdfMark mark)
+        {
+            var param = mark.Parameters;
+
+            double x1 = param.ClipBox.Left;
+            double y1 = param.ClipBox.Bottom;
+            double x2 = param.ClipBox.Left + mark.GetClippedW();
+            double y2 = param.ClipBox.Bottom + mark.GetClippedH();
+
+
+            if (param.IsAutoClipX)
+            {
+                if (param.AutoClipRelativeX == AutoClipMarkEnum.Sheet)
+                {
+
+                }
+                else if (param.AutoClipRelativeX == AutoClipMarkEnum.Subject)
+                {
+                    double mark_w = mark.GetW();
+
+                    if (mark_w > subjectRect.W)
+                    {
+                        double left = subjectRect.X1 - mark.Back.X;
+                        double right = mark_w + mark.Back.X - subjectRect.X2;
+
+                        x1 = left;
+                        x2 = left + subjectRect.W;
+
+                        mark.Parameters.ClipBox.Left = left;
+                        mark.Parameters.ClipBox.Right = right;
+                    }
+                }
+            }
+
+
+            if (param.IsAutoClipY)
+            {
+                if (param.AutoClipRelativeY == AutoClipMarkEnum.Sheet)
+                {
+
+                }
+                else if (param.AutoClipRelativeY == AutoClipMarkEnum.Subject)
+                {
+                }
+            }
+
+            mark.ClipBoxBack = new RectangleD()
+            {
+                X1 = x1,
+                Y1 = y1,
+                X2 = x2,
+                Y2 = y2
+            };
+
+            double mark_x = mark.Back.X + mark.GetClippedLeftByAngleBack(sheet.SheetPlaceType);
+            double mark_y = mark.Back.Y + mark.GetClippedBottomByAngleBack(sheet.SheetPlaceType);
+
+            mark.Back.X = mark_x;
+            mark.Back.Y = mark_y;
+        }
     }
 }

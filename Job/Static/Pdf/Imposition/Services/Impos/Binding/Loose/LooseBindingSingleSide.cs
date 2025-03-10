@@ -1,6 +1,9 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
+using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 {
@@ -8,17 +11,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
     {
         public static TemplatePageContainer Impos(LooseBindingParameters parameters)
         {
-            
-            if (parameters.IsOneCut)
-            {
-                parameters.Sheet.MasterPage.Margins.Set(0d);
-            }
-            else
-            {
-                parameters.Sheet.MasterPage.SetMarginsLikeBleed();
-            }
-
-            switch (parameters.BindingPlace)
+             switch (parameters.BindingPlace)
             {
                 case Binding.BindingPlaceEnum.Normal:
                     return LooseBindingNormal(parameters);
@@ -57,7 +50,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             return CreateTemplatePageContainerWithExtraBlocks(parameters, 90);
         }
 
-        private static TemplatePageContainer CreateTemplatePageContainer(LooseBindingParameters parameters, double angle)
+        public static TemplatePageContainer CreateTemplatePageContainer(LooseBindingParameters parameters, double angle)
         {
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
             (double W, double H) printFieldFormat = GetPrintFieldFormat(parameters);
@@ -171,16 +164,15 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
                 }
                
             }
+
+            x = Math.Round(x,1);
+            y = Math.Round(y,1);
+
         }
 
         public static void ApplyFixes(LooseBindingParameters parameters, TemplatePageContainer templatePageContainer)
         {
-            if (parameters.IsOneCut)
-            {
-                FixBleedsFront(templatePageContainer);
-            }
-
-            CropMarksService.FixCropMarksFront(templatePageContainer);
+            ProcessFixBleeds.Front(templatePageContainer);
         }
 
         public static void PlacePages(TemplatePageContainer templatePageContainer, TemplatePage masterPage, int CntX, int CntY, double x, double y, double angle, int frontIdx, int backIdx)
@@ -207,8 +199,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             TemplatePage templatePage = new TemplatePage(xOfs, yOfs, masterPage.W, masterPage.H, angle);
             templatePage.Bleeds.SetDefault(masterPage.Bleeds.Default);
             templatePage.Margins.Set(masterPage.Margins);
-            templatePage.MasterFrontIdx = frontIdx;
-            templatePage.MasterBackIdx = backIdx;
+            templatePage.Front.MasterIdx = frontIdx;
+            templatePage.Back.MasterIdx = backIdx;
             templatePageContainer.AddPage(templatePage);
 
             return (templatePage.GetClippedWByRotate(), templatePage.GetClippedHByRotate());
@@ -223,62 +215,5 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             if (!parameters.IsCenterVertical) sheetH -= parameters.Yofs;
             return (sheetW, sheetH);
         }
-
-        public static void FixBleedsFront(TemplatePageContainer templatePageContainer)
-        {
-            templatePageContainer.TemplatePages.ForEach(x => x.Bleeds.Set(x.Bleeds.Default));
-
-            foreach (var page in templatePageContainer.TemplatePages)
-            {
-                RectangleD left = page.GetDrawBleedLeft();
-                RectangleD right = page.GetDrawBleedRight();
-                RectangleD top = page.GetDrawBleedTop();
-                RectangleD bottom = page.GetDrawBleedBottom();
-
-                foreach (var pageTarget in templatePageContainer.TemplatePages)
-                {
-                    if (page != pageTarget)
-                    {
-                        RectangleD pageRect = new RectangleD
-                        {
-                            X1 = pageTarget.GetPageDrawX(),
-                            Y1 = pageTarget.GetPageDrawY(),
-                            X2 = pageTarget.GetPageDrawX() + pageTarget.GetPageDrawW(),
-                            Y2 = pageTarget.GetPageDrawY() + pageTarget.GetPageDrawH()
-                        };
-
-                        List<RectangleD> rects = new List<RectangleD>() {
-                            pageTarget.GetDrawBleedLeft(),
-                            pageTarget.GetDrawBleedRight(),
-                            pageTarget.GetDrawBleedTop(),
-                            pageTarget.GetDrawBleedBottom()
-                        };
-
-                        foreach (var rect in rects)
-                        {
-                            if (left.IntersectsWith(rect) || left.IntersectsWith(pageRect))
-                            {
-                                page.Bleeds.Left = 0;
-                            }
-                            if (right.IntersectsWith(rect) || right.IntersectsWith(pageRect))
-                            {
-                                page.Bleeds.Right = 0;
-                            }
-                            if (top.IntersectsWith(rect) || top.IntersectsWith(pageRect))
-                            {
-                                page.Bleeds.Top = 0;
-                            }
-                            if (bottom.IntersectsWith(rect) || bottom.IntersectsWith(pageRect))
-                            {
-                                page.Bleeds.Bottom = 0;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
-
     }
 }

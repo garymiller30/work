@@ -18,6 +18,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         TemplatePage masterPage = new TemplatePage();
 
+        public TemplatePage HoverPage { get;set;}
+
         TemplatePage selectedPreviewPage;
 
         /// <summary>
@@ -81,13 +83,14 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             JustUpdatePreview(this, null);
         }
 
-        public void UpdateSheet()
+        public void UpdateSheet(bool resetHover = true)
         {
             if (sheet != null)
             {
-                CropMarksService.FixCropMarksFront(sheet.TemplatePageContainer);
+                CropMarksService.FixCropMarks(sheet);
             }
             selectedPreviewPage = null;
+            if(resetHover) HoverPage = null;
             UpdatePreview();
         }
 
@@ -106,7 +109,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             selectedPreviewPage = null;
             Sheet = e;
         }
-
+        
 
     }
 }

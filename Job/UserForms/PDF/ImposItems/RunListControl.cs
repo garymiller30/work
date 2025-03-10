@@ -14,7 +14,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class RunListControl : UserControl
     {
-        ControlBindParameters _bindParameters;
+        ControlBindParameters _parameters;
 
         //int UnassignedIdx = 0;
 
@@ -57,14 +57,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         public void SetControlBindParameters(ControlBindParameters bindParameters)
         {
-            _bindParameters = bindParameters;
+            _parameters = bindParameters;
             fastObjectListView1.ModelCanDrop += ObjectListViewRunList_ModelCanDrop;
             fastObjectListView1.ModelDropped += ObjectListViewRunList_ModelDropped;
         }
 
         private void ObjectListViewRunList_ModelDropped(object sender, BrightIdeasSoftware.ModelDropEventArgs e)
         {
-            if (e.SourceListView == _bindParameters.PdfFileList)
+            if (e.SourceListView == _parameters.PdfFileList)
             {
                 foreach (var item in e.SourceModels)
                 {
@@ -75,7 +75,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     }
                     else if (item is PdfFilePage page)
                     {
-                        int fileId = PdfFile.GetParentId(_bindParameters.PdfFiles, page);
+                        int fileId = PdfFile.GetParentId(_parameters.PdfFiles, page);
                         if (fileId == -1) throw new Exception("No file id");
                         ImposRunPage runPage = new ImposRunPage(fileId, page.Idx);
                         fastObjectListView1.AddObject(runPage);
@@ -114,6 +114,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (fastObjectListView1.SelectedObjects.Count > 0)
             {
                 fastObjectListView1.RemoveObjects(fastObjectListView1.SelectedObjects);
+                _parameters.CheckRunListPages();
                 UpdateStatusString();
             }
         }
@@ -121,6 +122,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void tsb_AddEmptyPage_Click(object sender, EventArgs e)
         {
             fastObjectListView1.AddObject(new ImposRunPage() { FileId = 0, PageIdx = 0 });
+            _parameters.CheckRunListPages();
             UpdateStatusString();
         }
 
@@ -190,7 +192,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (fastObjectListView1.SelectedObject is ImposRunPage page)
             {
                 int idx = fastObjectListView1.Objects.Cast<ImposRunPage>().ToList().IndexOf(page);
-                _bindParameters.SelectedImposRunPageIdx = idx + 1;
+                _parameters.SelectedImposRunPageIdx = idx + 1;
             }
 
         }

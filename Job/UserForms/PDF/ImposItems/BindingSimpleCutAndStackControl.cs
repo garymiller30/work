@@ -28,28 +28,30 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                 foreach (var t_page in sheets[i].TemplatePageContainer.TemplatePages)
                 {
-                    var pageIdx = i * sides + (t_page.MasterFrontIdx - 1) * sheets.Count;
-                    t_page.PrintFrontIdx = pageIdx + 1;
+                    var pageIdx = i * sides + (t_page.Front.MasterIdx - 1) * sheets.Count;
+                    t_page.Front.PrintIdx = pageIdx + 1;
                     if (pageIdx < pages.Count)
                     {
                         pages[pageIdx].IsAssumed = true;
                         pages[pageIdx].IsValidFormat = ValidateFormat(pages[pageIdx], t_page);
+                        t_page.Front.AssignedRunPage = pages[pageIdx];
                     }
 
 
-                    if (t_page.MasterBackIdx > 0)
+                    if (t_page.Back.MasterIdx > 0)
                     {
                         pageIdx++;
-                        t_page.PrintBackIdx = pageIdx + 1;
+                        t_page.Back.PrintIdx = pageIdx + 1;
                         if (pageIdx < pages.Count)
                         {
                             pages[pageIdx].IsAssumed = true;
                             pages[pageIdx].IsValidFormat = ValidateFormat(pages[pageIdx], t_page);
+                            t_page.Back.AssignedRunPage = pages[pageIdx];
                         }
                     }
                     else
                     {
-                        t_page.PrintBackIdx = 0;
+                        t_page.Back.PrintIdx = 0;
                     }
                 }
             }

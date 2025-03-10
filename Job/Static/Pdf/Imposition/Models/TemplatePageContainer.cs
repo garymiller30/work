@@ -1,5 +1,6 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,11 +25,11 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         //public MarksContainer Marks { get; set; } = new MarksContainer();
         public int GetMaxIdx()
         {
-            int frontIdx = TemplatePages.Max(x => x.MasterFrontIdx);
+            int frontIdx = TemplatePages.Max(x => x.Front.MasterIdx);
 
             if (HasBack())
             {
-                int backIdx = TemplatePages.Max(y => y.MasterBackIdx);
+                int backIdx = TemplatePages.Max(y => y.Back.MasterIdx);
                 return frontIdx > backIdx ? frontIdx : backIdx;
             }
             else
@@ -44,7 +45,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public bool HasBack()
         {
-            return TemplatePages.Any(x => x.MasterBackIdx > 0);
+            return TemplatePages.Any(x => x.Back.MasterIdx > 0);
         }
 
         public void SetCropMarksLen(double len)
@@ -57,22 +58,11 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             TemplatePages.ForEach(x => x.CropMarksController.Parameters.Distance = distance);
         }
 
-        public RectangleD GetSubjectRectFront()
-        {
-            if (TemplatePages.Count == 0) return new RectangleD();
-
-            double x1 = TemplatePages.Min(x => x.X);
-            double y1 = TemplatePages.Min(x => x.Y);
-
-            double x2 = TemplatePages.Max(x => x.X + x.GetClippedWByRotate());
-            double y2 = TemplatePages.Max(x => x.Y + x.GetClippedHByRotate());
-
-            return new RectangleD { X1 = x1, Y1 = y1, X2 = x2, Y2 = y2 };
-        }
+     
 
         public RectangleD GetSubjectRectBack(TemplateSheet sheet)
         {
-            var rect = GetSubjectRectFront();
+            var rect = ProcessSubject.GetSubjectRect(sheet,this);//  GetSubjectRectFront();
 
             return new RectangleD
             {
@@ -105,16 +95,16 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         }
 
 
-        public void FlipPagesAngle(TemplatePage page)
+        public void FlipPagesAngle(TemplatePage page, TemplateSheetPlaceType placeType)
         {
-            if (page.Angle == 0 || page.Angle == 180)
+            if (page.Front.Angle == 0 || page.Front.Angle == 180)
             {
                 // міняємо кут у всіх з однаковим Y
                 foreach (var item in TemplatePages)
                 {
-                    if (item.Y == page.Y)
+                    if (item.Front.Y == page.Front.Y)
                     {
-                        item.FlipAngle();
+                        item.FlipAngle(placeType);
                     }
                 }
             }
@@ -123,19 +113,19 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                 // міняємо кут у всіх з однаковим X
                 foreach (var item in TemplatePages)
                 {
-                    if (item.X == page.X)
+                    if (item.Front.X == page.Front.X)
                     {
-                        item.FlipAngle();
+                        item.FlipAngle(placeType);
                     }
                 }
             }
         }
 
-        public void DeletePage(TemplatePage page)
+        public void DeletePage(TemplateSheet sheet, TemplatePage page)
         {
             TemplatePages.Remove(page);
             // перерахувати мітки різу
-            CropMarksService.FixCropMarksFront(this);
+            CropMarksService.FixCropMarks(sheet);
         }
 
         public TemplatePageContainer Copy()

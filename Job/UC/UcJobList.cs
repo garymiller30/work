@@ -411,15 +411,6 @@ namespace JobSpace.UC
 
         #endregion
 
-
-        //bool CheckFilter(object job)
-        //{
-        //    var statusCode = ((IJob)job).StatusCode;
-        //    return _profile.StatusManager.IsViewStatusChecked(statusCode);
-        //}
-
-
-
         public string GetSelectedJobPath()
         {
             if (objectListView_NewWorks.SelectedObject is IJob j)
@@ -428,11 +419,6 @@ namespace JobSpace.UC
             }
             return null;
         }
-
-        //public IJob GetSelectedJob()
-        //{
-        //    return objectListView_NewWorks.SelectedObject as IJob;
-        //}
 
         public void ChangeSelectedJobsStatus(IJobStatus status)
         {
@@ -463,7 +449,6 @@ namespace JobSpace.UC
             {
                 if (_profile.Jobs.ChangeJobDescription(job, description))
                 {
-                    //objectListView_NewWorks.RefreshObject(job);
                     return job;
                 }
             }

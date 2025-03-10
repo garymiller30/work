@@ -11,6 +11,7 @@ namespace Interfaces
         IFileSystemInfo FileInfo { get; set; }
         ColorSpaces UsedColorSpace { get; set; }
 
+       
         void RefreshParam(string filePath);
     }
 }

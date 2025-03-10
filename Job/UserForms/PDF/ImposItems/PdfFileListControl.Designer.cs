@@ -34,6 +34,7 @@
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnCenterMedia = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnTrim = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnCount = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListViewFiles)).BeginInit();
             this.SuspendLayout();
@@ -54,11 +55,13 @@
             this.treeListViewFiles.AllColumns.Add(this.olvColumnName);
             this.treeListViewFiles.AllColumns.Add(this.olvColumnCenterMedia);
             this.treeListViewFiles.AllColumns.Add(this.olvColumnTrim);
+            this.treeListViewFiles.AllColumns.Add(this.olvColumnCount);
             this.treeListViewFiles.CellEditUseWholeCell = false;
             this.treeListViewFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumnName,
             this.olvColumnCenterMedia,
-            this.olvColumnTrim});
+            this.olvColumnTrim,
+            this.olvColumnCount});
             this.treeListViewFiles.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeListViewFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeListViewFiles.FullRowSelect = true;
@@ -93,6 +96,11 @@
             this.olvColumnTrim.Text = "Trimbox";
             this.olvColumnTrim.Width = 79;
             // 
+            // olvColumnCount
+            // 
+            this.olvColumnCount.Text = "Тираж";
+            this.olvColumnCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // PdfFileListControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -113,5 +121,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumnName;
         private BrightIdeasSoftware.OLVColumn olvColumnTrim;
         private BrightIdeasSoftware.OLVColumn olvColumnCenterMedia;
+        private BrightIdeasSoftware.OLVColumn olvColumnCount;
     }
 }

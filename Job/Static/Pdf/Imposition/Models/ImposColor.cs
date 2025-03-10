@@ -10,7 +10,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
     {
         public string Name { get; set; }
         public MarkColor MarkColor { get; set; }
-        public bool IsFront { get; set; } = true;
-        public bool IsBack { get; set; } = true;
+        public bool IsFront { get; set; } = false;
+        public bool IsBack { get; set; } = false;
     }
 }
