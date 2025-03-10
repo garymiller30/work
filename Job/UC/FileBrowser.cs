@@ -2089,5 +2089,11 @@ namespace JobSpace.UC
             if (objectListView1.SelectedObjects.Count == 0) return;
             FileFormatsUtil.AddFormatToFileName(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
         }
+
+        private void додатиКонтурВисічкиКолоToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            FileFormatsUtil.AddCutCircle(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
     }
 }
