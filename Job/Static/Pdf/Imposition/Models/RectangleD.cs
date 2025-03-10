@@ -17,18 +17,18 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public double W => X2 - X1;
         public double H => Y2 - Y1;
 
+        public double Left => X1;
+        public double Bottom => Y1;
+        public double Right => X2;
+        public double Top => Y2;
+
         public bool IsInsideMe(CropMark mark)
         {
 
-            if (mark.From.X >= X1 && mark.From.X <= X2 && mark.From.Y >= Y1 && mark.From.Y <= Y2)
+            if ((mark.From.X >= X1 && mark.From.X <= X2 && mark.From.Y >= Y1 && mark.From.Y <= Y2) || (mark.To.X >= X1 && mark.To.X <= X2 && mark.To.Y >= Y1 && mark.To.Y <= Y2))
             {
                 return true;
             }
-            if (mark.To.X >= X1 && mark.To.X <= X2 && mark.To.Y >= Y1 && mark.To.Y <= Y2)
-            {
-                return true;
-            }
-
 
             return false;
         }

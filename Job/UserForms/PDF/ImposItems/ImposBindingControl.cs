@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +20,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         List<string> items = new List<string>(){
             "розкидати на лист",
-            "наскрізна нумерація"
+            "наскрізна нумерація",
+            "один формат, різні тиражі"
             };
 
         public ImposBindingControl()
@@ -67,7 +69,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 // наскрізна нумерація
                 curBindControl = new BindingSimpleCutAndStackControl();
             }
-
+            else if (idx == 2)
+            {
+                curBindControl = new BindingSimpleOneFormatDifferentCount();
+            }
             curBindControl.SetControlBindParameters(parameters);
 
             ((UserControl)curBindControl).Dock = DockStyle.Fill;
@@ -97,6 +102,22 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (curBindControl == null) return;
 
             curBindControl.CheckRunListPages(printSheets, imposRunPages);
+        }
+
+        public void FixBackPageSizePosition(TemplatePage selectedPreviewPage)
+        {
+            ProcessFixPageBackPosition.FixPosition(parameters.Sheet, selectedPreviewPage);
+        }
+
+        internal void FixBackPageSizePosition(TemplatePageContainer templatePageContainer)
+        {
+            ProcessFixPageBackPosition.FixPosition(parameters.Sheet, templatePageContainer);
+        }
+
+        public void RotateRight(TemplatePage sel_page)
+        {
+
+            throw new NotImplementedException();
         }
     }
 }

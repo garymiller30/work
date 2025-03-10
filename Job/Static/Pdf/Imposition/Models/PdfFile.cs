@@ -2,11 +2,14 @@
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Imposition.Models
 {
@@ -14,7 +17,10 @@ namespace JobSpace.Static.Pdf.Imposition.Models
     {
         public int Id { get; set; }
         public string FileName { get; set; }
-
+        /// <summary>
+        /// тираж
+        /// </summary>
+        public int Count { get;set; }
         public string ShortName { get; set; }
         public bool IsMediaboxCentered { get; set; } = false;
 
@@ -22,7 +28,26 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public PdfFile(string fileName)
         {
             FileName = fileName;
+            GetCount();
             GetPagesInfo();
+
+        }
+
+        private void GetCount()
+        {
+            var reg = new Regex(@"#(\d+)\.");
+            var match = reg.Match(FileName);
+            
+            if (match.Success)
+            {
+                try
+                {
+                    Count = int.Parse(match.Groups[1].Value);
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
 
         private void GetPagesInfo()
@@ -57,18 +82,20 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                     var trims = new double[] { 0, 0, 0, 0 };
                     var media = new double[] { 0, 0, 0, 0 };
 
+                    int pageIdx = i -1;
+
                     // get media box
                     for (int j = 0; j < 4; j++)
                     {
-                        media[j] = p.pcos_get_number(doc, $"pages[{page}]/MediaBox[{j}]");
+                        media[j] = p.pcos_get_number(doc, $"pages[{pageIdx}]/MediaBox[{j}]");
                     }
-                    string trimtype = p.pcos_get_string(doc, $"type:pages[{page}]/TrimBox");
+                    string trimtype = p.pcos_get_string(doc, $"type:pages[{pageIdx}]/TrimBox");
 
                     if (trimtype == "array")
                     {
                         for (int j = 0; j < 4; j++)
                         {
-                            trims[j] = p.pcos_get_number(doc, $"pages[{page}]/TrimBox[{j}]");
+                            trims[j] = p.pcos_get_number(doc, $"pages[{pageIdx}]/TrimBox[{j}]");
                         }
                     }
                     else
@@ -79,15 +106,15 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                         }
                     }
 
-                    filePage.Media.X1 = Math.Round(media[0] / PdfHelper.mn, 2);
-                    filePage.Media.Y1 = Math.Round(media[1] / PdfHelper.mn, 2);
-                    filePage.Media.X2 = Math.Round(media[2] / PdfHelper.mn, 2);
-                    filePage.Media.Y2 = Math.Round(media[3] / PdfHelper.mn, 2);
+                    filePage.Media.X1 = Math.Round(media[0] / PdfHelper.mn, 1);
+                    filePage.Media.Y1 = Math.Round(media[1] / PdfHelper.mn, 1);
+                    filePage.Media.X2 = Math.Round(media[2] / PdfHelper.mn, 1);
+                    filePage.Media.Y2 = Math.Round(media[3] / PdfHelper.mn, 1);
 
-                    filePage.Trim.X1 = Math.Round(trims[0] / PdfHelper.mn, 2);
-                    filePage.Trim.Y1 = Math.Round(trims[1] / PdfHelper.mn, 2);
-                    filePage.Trim.X2 = Math.Round(trims[2] / PdfHelper.mn, 2);
-                    filePage.Trim.Y2 = Math.Round(trims[3] / PdfHelper.mn, 2);
+                    filePage.Trim.X1 = Math.Round(trims[0] / PdfHelper.mn, 1);
+                    filePage.Trim.Y1 = Math.Round(trims[1] / PdfHelper.mn, 1);
+                    filePage.Trim.X2 = Math.Round(trims[2] / PdfHelper.mn, 1);
+                    filePage.Trim.Y2 = Math.Round(trims[3] / PdfHelper.mn, 1);
                     //filePage.Angle = p.pcos_get_number(doc, $"length:pages[{i - 1}]/Rotate");
 
                     Pages[i - 1] = filePage;

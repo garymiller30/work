@@ -22,8 +22,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding
                     return LooseBindingSheetwise.Impos(parameters);
                 case TemplateSheetPlaceType.WorkAndTurn:
                     return LooseBindingWorkAndTurn.Impos(parameters);
-                case TemplateSheetPlaceType.Perfecting:
-                    return LooseBindingPerfecting.Impos(parameters);
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    return LooseBindingWorkAndTumble.Impos(parameters);
                 default:
                     throw new NotImplementedException();
             }

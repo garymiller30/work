@@ -1,4 +1,5 @@
 ﻿using Ghostscript.NET.Rasterizer;
+using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Statuses;
 using System;
@@ -198,7 +199,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return m;
         }
 
-        public static Image GetBitmap(PdfMark mark)
+        public static Image GetBitmapFront(PdfMark mark)
         {
             var png_path = Path.Combine(Path.GetDirectoryName(mark.File.FileName), Path.GetFileNameWithoutExtension(mark.File.FileName)) + ".png";
 
@@ -209,11 +210,30 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             if (File.Exists(png_path))
             {
-                return Bitmap.FromFile(png_path);
+                Bitmap img = new Bitmap(png_path);
+                Bitmap scaledBitmap = new Bitmap(
+                    (int)(mark.GetW()*ScreenDrawer.ZoomFactor),
+                    (int)(mark.GetH()*ScreenDrawer.ZoomFactor));
+              
+                using (Graphics g = Graphics.FromImage(scaledBitmap))
+                {
+                    // Set the interpolation mode for high-quality scaling
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+
+                    // Draw the scaled image
+                    g.DrawImage(img, 0, 0, 
+                        (int)(mark.GetW()*ScreenDrawer.ZoomFactor), 
+                        (int)(mark.GetH()*ScreenDrawer.ZoomFactor));
+                }
+                img.Dispose();
+                return scaledBitmap;
             }
 
             return null;
         }
+
+        
+
 
         public static void Rasterize(string pdfFile)
         {
@@ -224,7 +244,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 MemoryStream ms = new MemoryStream(buffer);
                 rasterizer.Open(ms);
 
-                var img = rasterizer.GetPage(96, 1);
+                var img = rasterizer.GetPage(72, 1);
                 img.Save(outputPath, ImageFormat.Png);
             }
         }

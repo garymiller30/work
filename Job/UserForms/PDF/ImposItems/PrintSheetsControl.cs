@@ -22,7 +22,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public EventHandler JustReassignPages { get; set; } = delegate { };
         public EventHandler OnPrintSheetDeleted { get; set; } = delegate { };
 
-        int id = 1;
+        //int id = 1;
         ControlBindParameters _controlBindParameters;
         public PrintSheetsControl()
         {

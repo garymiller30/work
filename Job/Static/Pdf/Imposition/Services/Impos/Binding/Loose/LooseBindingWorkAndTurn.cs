@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Models;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTur
     {
         public static TemplatePageContainer Impos(LooseBindingParameters parameters)
         {
-            
-            if (parameters.IsOneCut)
-            {
-                parameters.Sheet.MasterPage.Margins.Set(0d);
-            }
-            else
-            {
-                parameters.Sheet.MasterPage.SetMarginsLikeBleed();
-            }
-            switch (parameters.BindingPlace)
+             switch (parameters.BindingPlace)
             {
                 case Binding.BindingPlaceEnum.Normal:
                     return LooseBindingNormal(parameters);
@@ -67,10 +59,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTur
 
             GetStartCoord(parameters, parameters.Sheet, blockWidth, blockHeight, out x, out y);
 
-            LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, CntX / 2, CntY, x, y, 0, 1, 0);
-
-            x += blockWidth / 2;
-            LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, CntX / 2, CntY, x, y, 0, 2, 0);
+            LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, CntX / 2, CntY, x, y, 0, 1, 2);
+            LooseBindingSheetwise.CalcBackCoord(parameters, templatePageContainer);
 
             LooseBindingSingleSide.ApplyFixes(parameters, templatePageContainer);
 
@@ -126,11 +116,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTur
 
             GetStartCoord(parameters, parameters.Sheet, blockWidth, blockHeight, out x, out y);
 
-            LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, CntX / 2, CntY, x, y, 270, 1, 0);
-
-            x += blockWidth / 2;
-            LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, CntX / 2, CntY, x, y, 90, 2, 0);
-
+            LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, CntX / 2, CntY, x, y, 270, 1, 2);
+            LooseBindingSheetwise.CalcBackCoord(parameters, templatePageContainer);
+           
             LooseBindingSingleSide.ApplyFixes(parameters, templatePageContainer);
 
             return templatePageContainer;

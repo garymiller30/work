@@ -37,6 +37,14 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             Bottom = box.Bottom;
         }
 
+        public void Set(double left,double right,double top, double bottom)
+        {
+            Left = left;
+            Right = right;
+            Top = top;
+            Bottom = bottom;
+        }
+
         public ClipBox Copy()
         {
             ClipBox box = new ClipBox();
