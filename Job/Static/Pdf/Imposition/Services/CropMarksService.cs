@@ -11,6 +11,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 {
     public static class CropMarksService
     {
+        public static double delta = 0.3;
+
         public static void FixCropMarks(TemplateSheet sheet)
         {
             if (sheet == null) return;
@@ -78,10 +80,10 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
                         RectangleD pageRect = new RectangleD
                         {
-                            X1 = rect.page_x,
-                            Y1 = rect.page_y,
-                            X2 = rect.page_x + rect.page_w,
-                            Y2 = rect.page_y + rect.page_h
+                            X1 = rect.page_x - delta,
+                            Y1 = rect.page_y - delta,
+                            X2 = rect.page_x + rect.page_w + delta,
+                            Y2 = rect.page_y + rect.page_h + delta
                         };
 
                         List<CropMark> forDeleteCrops = new List<CropMark>();
@@ -114,10 +116,10 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
                         RectangleD pageRect = new RectangleD
                         {
-                            X1 = rect.page_x ,
-                            Y1 = rect.page_y,
-                            X2 = rect.page_x + rect.page_w,
-                            Y2 = rect.page_y + rect.page_h
+                            X1 = rect.page_x - delta,
+                            Y1 = rect.page_y - delta,
+                            X2 = rect.page_x + rect.page_w + delta,
+                            Y2 = rect.page_y + rect.page_h + delta
                         };
 
                         List<CropMark> forDeleteCrops = new List<CropMark>();

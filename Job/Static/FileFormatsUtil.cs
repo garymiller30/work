@@ -16,6 +16,7 @@ using JobSpace.Models;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Convert;
 using JobSpace.Static.Pdf.Create.BigovkaMarks;
+using JobSpace.Static.Pdf.Create.CutEllipse;
 using JobSpace.Static.Pdf.Create.Ellipse;
 using JobSpace.Static.Pdf.Create.EmptyPdfTemplateWithCount;
 using JobSpace.Static.Pdf.Create.FillRectangle;
@@ -609,6 +610,19 @@ namespace JobSpace.Static
 
                     string newFileName = $"{Path.GetFileNameWithoutExtension(file.FileInfo.FullName)}_{info.Trimbox.wMM():N0}x{info.Trimbox.hMM():N0}{Path.GetExtension(file.FileInfo.FullName)}";
                     File.Move(file.FileInfo.FullName, Path.Combine(Path.GetDirectoryName(file.FileInfo.FullName), newFileName));
+
+                }
+            })));
+        }
+
+        public static void AddCutCircle(List<IFileSystemInfoExt> fileSystemInfoExts)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати формат документа до імені файлу", new Action(
+            () =>
+            {
+                foreach (var file in fileSystemInfoExts)
+                {
+                    new PdfCreateCutEllipse().Run(file.FileInfo.FullName);
 
                 }
             })));

@@ -263,6 +263,7 @@
     <Compile Include="Static\Pdf\Common\PaperFormat.cs" />
     <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarks.cs" />
     <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarksParams.cs" />
+    <Compile Include="Static\Pdf\Create\CutEllipse\PdfCreateCutEllipse.cs" />
     <Compile Include="Static\Pdf\Create\FillRectangle\PdfCreateFillRectangle.cs" />
     <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateFillRectangleParams.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\DrawerSideEnum.cs" />
@@ -301,6 +302,11 @@
     <Compile Include="Static\Pdf\Imposition\Models\ImposToolEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\ImposToolsParameters.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\MarkColor.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControlBar.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControlItemAbstract.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControlItem_Color.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControlItem_Pdf.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControlPalette.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\CropMark.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\CropMarksParam.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\DrawerTextMarkPart.cs" />
