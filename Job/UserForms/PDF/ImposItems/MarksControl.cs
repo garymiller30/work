@@ -279,6 +279,18 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     }
                 }
             }
+            else if (tlv_MarksResources.SelectedObject is MarksContainer group)
+            {
+                using (var form = new FormEditFolder(group.Name,"назва групи"))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        group.Name = form.NewName;
+                        MarksService.SaveResourceMarks();
+                        RefreshResourceTree();
+                    }
+                }
+            }
         }
         #endregion
 
@@ -527,6 +539,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     var t = MarksService.Duplicate(textMark);
                     container.Text.Add(t);
                 }
+                MarksService.SaveResourceMarks();
                 RefreshResourceTree();
             }
         }

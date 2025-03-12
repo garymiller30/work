@@ -28,7 +28,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
             try
             {
-                var targetFile = impos.ExportParameters.GetOutputFilePath();
+                impos.ExportParameters.CreateOutputFileName();
+                var targetFile = impos.ExportParameters.OutputFilePath;
+
                 p.begin_document(targetFile, "");
 
                 StartEvent(this, impos.PrintSheets.Count);
@@ -89,7 +91,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                 if (impos.ExportParameters.SavePrintSheetToOrderFolder)
                 {
                     var orderFolder = impos.ExportParameters.OutputFolder;
-                    var orderFileName = Path.GetFileNameWithoutExtension(impos.ExportParameters.GetOutputFilePath());
+                    var orderFileName = Path.GetFileNameWithoutExtension(impos.ExportParameters.OutputFileName);
                     
                     var orderFile = Path.Combine(orderFolder, Path.GetFileNameWithoutExtension(orderFileName) + ".json");
                     SaveLoadService.SavePrintSheets(impos.PrintSheets, orderFile);

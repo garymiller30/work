@@ -346,6 +346,8 @@
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingSheetwise.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingSingleSide.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingWorkAndTurn.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Spread\SpreadBindingParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Spread\SpreadTypeEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\AbstractPlaceVariant.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantNonRotated.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantRotated.cs" />
@@ -761,6 +763,12 @@
     <Compile Include="UserForms\PDF\ImposItems\BindingSimpleOneFormatDifferentCount.Designer.cs">
       <DependentUpon>BindingSimpleOneFormatDifferentCount.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleSpreadControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleSpreadControl.Designer.cs">
+      <DependentUpon>BindingSimpleSpreadControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\ImposItems\FormAddPdfMark.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1086,6 +1094,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\BindingSimpleControl.resx">
       <DependentUpon>BindingSimpleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\BindingSimpleSpreadControl.resx">
+      <DependentUpon>BindingSimpleSpreadControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddPdfMark.resx">
       <DependentUpon>FormAddPdfMark.cs</DependentUpon>
