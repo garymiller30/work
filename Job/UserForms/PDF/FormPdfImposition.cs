@@ -342,7 +342,7 @@ namespace JobSpace.UserForms.PDF
             await Task.Run(()=>  drawer.Draw(_productPart)).ConfigureAwait(true);
             if (MessageBox.Show("Відкрити?","Виконано!",MessageBoxButtons.OKCancel,MessageBoxIcon.Question)== DialogResult.OK)
             {
-                Process.Start(_productPart.ExportParameters.GetOutputFilePath());
+                Process.Start(_productPart.ExportParameters.OutputFilePath);
             }
 
         }

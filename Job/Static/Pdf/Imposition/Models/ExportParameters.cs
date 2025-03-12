@@ -21,15 +21,20 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public bool     SavePrintSheetToOrderFolder { get; set; } = true;
         public bool     UseCustomOutputFolder { get; set; } = false;
         public string   CustomOutputFolder { get; set; } = "";
+        public string   OutputFilePath { get; private set; } = "";
 
-        public string GetOutputFilePath()
+        public void CreateOutputFileName()
         {
             string fileName = OutputFileName;
             string folder = OutputFolder;
+            int extra = 0;
+            string ext = ".pdf";
+
+            string filePath;
 
             if (UseTemplate)
             {
-                fileName = TextVariablesService.ReplaceToRealValues(TemplateString).Transliteration() + ".pdf";
+                fileName = TextVariablesService.ReplaceToRealValues(TemplateString).Transliteration();
             }
 
             if (UseCustomOutputFolder)
@@ -37,9 +42,18 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                 folder = CustomOutputFolder;
             }
 
-            string filePath = Path.Combine(folder, fileName);
 
-            return filePath;
+            do
+            {
+                filePath = Path.Combine(folder, $"{fileName}{(extra == 0 ? "" : $".{extra}")}{ext}");
+                extra++;
+            } while (File.Exists(filePath));
+
+            
+
+            OutputFilePath = filePath;
         }
+
+      
     }
 }
