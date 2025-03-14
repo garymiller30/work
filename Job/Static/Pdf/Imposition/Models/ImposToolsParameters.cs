@@ -34,6 +34,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             }
         }
 
+        public int CurGroup { get; set; } = 0;
+
         public CropMarksParam CropMarksParameters { get; set; } = new CropMarksParam();
 
         public EventHandler<int> FrontNumChanged { get;set;} = delegate { };
@@ -50,7 +52,9 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public EventHandler OnRotateLeft { get; set; } = delegate { };
         public EventHandler OnRotateRight { get; set; } = delegate { };
         public EventHandler OnSwitchWH { get; set; } = delegate { };
+        public EventHandler<TemplatePage> OnAddPageToGroup { get; set; } = delegate { };
         public EventHandler<TemplatePage> OnFlipAngle { get; set; } = delegate { };
         public EventHandler<TemplatePage> OnFlipRowAngle { get; set; } = delegate { };
+        public EventHandler<List<PageGroup>> OnPageGroupDistributeHor { get;set; } = delegate { };
     }
 }

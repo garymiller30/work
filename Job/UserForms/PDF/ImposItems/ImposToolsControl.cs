@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,6 +22,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public ImposToolsControl()
         {
             InitializeComponent();
+
             tb_front.MouseClick += tb_front_MouseClick;
             tb_back.MouseClick += tb_back_MouseClick;
             rb_select.CheckedChanged += Rb_select_CheckedChanged;
@@ -33,6 +35,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             rb_centerV.Click += Rb_centerV_CheckedChanged;
             btn_switch_front_back.Click += btn_switch_front_back_Click;
             rb_switchHW.CheckedChanged += Rb_switchHW_CheckedChanged;
+            rb_add_page_to_group.CheckedChanged += Rb_add_page_to_group_CheckedChanged;
 
             tb_front.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
             tb_back.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
@@ -40,6 +43,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
             btn_sameNumber.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
             btn_listNumber.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
 
+        }
+
+        private void Rb_add_page_to_group_CheckedChanged(object sender, EventArgs e)
+        {
+            bool check = rb_add_page_to_group.Checked;
+            if (check)
+            {
+                parameters.CurTool = ImposToolEnum.AddPageToGroup;
+            }
         }
 
         private void Rb_switchHW_CheckedChanged(object sender, EventArgs e)
@@ -53,12 +65,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void Rb_centerV_CheckedChanged(object sender, EventArgs e)
         {
-            parameters.OnClickCenterV(this,null);
+            parameters.OnClickCenterV(this, null);
         }
 
         private void Rb_centerH_CheckedChanged(object sender, EventArgs e)
         {
-            parameters.OnClickCenterH(this,null);
+            parameters.OnClickCenterH(this, null);
         }
 
         private void Rb_select_CheckedChanged(object sender, EventArgs e)
@@ -162,7 +174,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             parameters.CropMarksParameters.Distance = (double)nud_cropDist.Value;
             parameters.CropMarksParameters.Len = (double)nud_cropLen.Value;
 
-            parameters.OnCropMarksChanged(this,null);
+            parameters.OnCropMarksChanged(this, null);
         }
 
         private void btn_left_Click(object sender, EventArgs e)
@@ -197,7 +209,39 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void b_switchWH_Click(object sender, EventArgs e)
         {
-            parameters.OnSwitchWH(this,null);
+            parameters.OnSwitchWH(this, null);
+        }
+
+        private void btn_add_group_Click(object sender, EventArgs e)
+        {
+            if (olv_groups.GetItemCount() == 0)
+            {
+                olv_groups.AddObject(PageGroupsService.CreateGroup( 1));
+            }
+            else
+            {
+                olv_groups.AddObject(PageGroupsService.CreateGroup(olv_groups.Objects.Cast<PageGroup>().Max(x => x.Id) + 1));
+            }
+            
+        }
+
+        private void olv_groups_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (olv_groups.SelectedObject != null)
+            {
+                parameters.CurGroup = (olv_groups.SelectedObject as PageGroup).Id;
+            }
+            else
+            {
+                parameters.CurGroup = 0;
+            }
+        }
+
+        private void btn_distribute_hor_Click(object sender, EventArgs e)
+        {
+            if (olv_groups.SelectedObjects.Count < 2) return;
+
+            parameters.OnPageGroupDistributeHor(this,olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
         }
     }
 }

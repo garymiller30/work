@@ -95,7 +95,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1075, 708);
+            this.tabControl1.Size = new System.Drawing.Size(1500, 708);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPageSimple
@@ -104,7 +104,7 @@
             this.tabPageSimple.Location = new System.Drawing.Point(4, 22);
             this.tabPageSimple.Name = "tabPageSimple";
             this.tabPageSimple.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSimple.Size = new System.Drawing.Size(1067, 682);
+            this.tabPageSimple.Size = new System.Drawing.Size(1492, 682);
             this.tabPageSimple.TabIndex = 0;
             this.tabPageSimple.Text = "простий";
             this.tabPageSimple.UseVisualStyleBackColor = true;
@@ -124,8 +124,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer5);
             this.splitContainer1.Panel2.Controls.Add(this.previewControl1);
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
-            this.splitContainer1.Size = new System.Drawing.Size(1061, 676);
-            this.splitContainer1.SplitterDistance = 141;
+            this.splitContainer1.Size = new System.Drawing.Size(1486, 676);
+            this.splitContainer1.SplitterDistance = 197;
             this.splitContainer1.TabIndex = 2;
             // 
             // splitContainer3
@@ -142,7 +142,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.imposColorsControl1);
-            this.splitContainer3.Size = new System.Drawing.Size(141, 676);
+            this.splitContainer3.Size = new System.Drawing.Size(197, 676);
             this.splitContainer3.SplitterDistance = 336;
             this.splitContainer3.TabIndex = 1;
             // 
@@ -151,7 +151,7 @@
             this.pdfFileListControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pdfFileListControl1.Location = new System.Drawing.Point(0, 0);
             this.pdfFileListControl1.Name = "pdfFileListControl1";
-            this.pdfFileListControl1.Size = new System.Drawing.Size(141, 336);
+            this.pdfFileListControl1.Size = new System.Drawing.Size(197, 336);
             this.pdfFileListControl1.TabIndex = 0;
             // 
             // imposColorsControl1
@@ -159,14 +159,14 @@
             this.imposColorsControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imposColorsControl1.Location = new System.Drawing.Point(0, 0);
             this.imposColorsControl1.Name = "imposColorsControl1";
-            this.imposColorsControl1.Size = new System.Drawing.Size(141, 336);
+            this.imposColorsControl1.Size = new System.Drawing.Size(197, 336);
             this.imposColorsControl1.TabIndex = 0;
             // 
             // splitContainer5
             // 
             this.splitContainer5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer5.Location = new System.Drawing.Point(722, 3);
+            this.splitContainer5.Location = new System.Drawing.Point(1078, 3);
             this.splitContainer5.Name = "splitContainer5";
             this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -177,7 +177,7 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.marksControl1);
-            this.splitContainer5.Size = new System.Drawing.Size(189, 668);
+            this.splitContainer5.Size = new System.Drawing.Size(202, 668);
             this.splitContainer5.SplitterDistance = 173;
             this.splitContainer5.TabIndex = 6;
             // 
@@ -187,7 +187,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(189, 173);
+            this.groupBox1.Size = new System.Drawing.Size(202, 173);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Параметри";
@@ -206,7 +206,7 @@
             this.pg_Parameters2.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(196)))), ((int)(((byte)(216)))));
             this.pg_Parameters2.Location = new System.Drawing.Point(3, 16);
             this.pg_Parameters2.Name = "pg_Parameters2";
-            this.pg_Parameters2.Size = new System.Drawing.Size(183, 154);
+            this.pg_Parameters2.Size = new System.Drawing.Size(196, 154);
             this.pg_Parameters2.TabIndex = 1;
             this.pg_Parameters2.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.pg_Parameters2.ViewForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
@@ -217,7 +217,7 @@
             this.marksControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.marksControl1.Location = new System.Drawing.Point(0, 0);
             this.marksControl1.Name = "marksControl1";
-            this.marksControl1.Size = new System.Drawing.Size(189, 491);
+            this.marksControl1.Size = new System.Drawing.Size(202, 491);
             this.marksControl1.TabIndex = 4;
             // 
             // previewControl1
@@ -227,7 +227,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.previewControl1.Location = new System.Drawing.Point(477, 0);
             this.previewControl1.Name = "previewControl1";
-            this.previewControl1.Size = new System.Drawing.Size(203, 671);
+            this.previewControl1.Size = new System.Drawing.Size(572, 671);
             this.previewControl1.TabIndex = 3;
             // 
             // panel2
@@ -469,7 +469,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1075, 708);
+            this.ClientSize = new System.Drawing.Size(1500, 708);
             this.Controls.Add(this.tabControl1);
             this.Name = "FormPdfImposition";
             this.ShowIcon = false;

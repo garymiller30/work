@@ -12,6 +12,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         FlipAngle,
         Numeration,
         DeletePage,
-        SwitchHW
+        SwitchHW,
+        AddPageToGroup
     }
 }

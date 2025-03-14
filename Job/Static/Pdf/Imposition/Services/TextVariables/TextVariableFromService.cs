@@ -15,6 +15,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
         {
             Keywords.AddRange(new[]{
                 ValueList.SheetSide,
+                ValueList.SheetDesc,
                 ValueList.SheetIdx,
                 ValueList.SheetFormat,
                 ValueList.OrderNo,

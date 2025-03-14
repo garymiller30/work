@@ -71,7 +71,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler NeedRearangePages = delegate { };
         public event EventHandler NeedCheckRunListPages = delegate { };
-        public event EventHandler JustUpdatePreview = delegate { };
+        public EventHandler JustUpdatePreview {get;set; } = delegate { };
 
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {

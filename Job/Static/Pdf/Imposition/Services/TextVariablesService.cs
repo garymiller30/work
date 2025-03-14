@@ -9,7 +9,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 {
     public class TextVariablesService
     {
-        public static Dictionary<string, string> Values = new Dictionary<string, string>();
+        public static Dictionary<string, string> Values { get;set;} = new Dictionary<string, string>();
 
         static TextVariableAbstract textVariables;
 
@@ -64,6 +64,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
     {
         public const string SheetIdx    = "$[sheetIdx]";
         public const string SheetSide   = "$[sheetSide]";
+        public const string SheetDesc =   "$[sheetDesc]";
         public const string SheetFormat = "$[sheetFormat]";
         public const string SheetCount  = "$[sheetCount]";
         public const string OrderNo     = "$[orderNo]";
