@@ -24,8 +24,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         //TemplatePage _hover;
         ImposToolsParameters _toolParams;
-        
-        bool isDragMode {get;set;}= false;
+
+        bool isDragMode { get; set; } = false;
 
         double hover_x;
         double hover_y;
@@ -98,8 +98,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
             pb_preview.Image = null;
             if (parameters.Sheet == null) return;
 
-            pb_preview.Width = (int)((parameters.Sheet.W + 1)*ScreenDrawer.ZoomFactor);
-            pb_preview.Height = (int)((parameters.Sheet.H + 1)*ScreenDrawer.ZoomFactor);
+            pb_preview.Width = (int)((parameters.Sheet.W + 1) * ScreenDrawer.ZoomFactor);
+            pb_preview.Height = (int)((parameters.Sheet.H + 1) * ScreenDrawer.ZoomFactor);
 
             pb_preview.Image = ScreenDrawer.Draw(parameters.Sheet);
 
@@ -352,13 +352,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     (float)page_w,
                     (float)page_h);
 
-                ScreenDrawer.DrawRectangle(e.Graphics, rect,pen);
-
-                //e.Graphics.DrawRectangle(pen, new Rectangle(
-                //    (int)page_x,
-                //    (int)parameters.Sheet.H - (int)page_y - (int)page_h,
-                //    (int)page_w,
-                //    (int)page_h));
+                ScreenDrawer.DrawRectangle(e.Graphics, rect, pen);
                 pen.Dispose();
             }
 
@@ -376,11 +370,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                 ScreenDrawer.DrawRectangle(e.Graphics, rect, pen);
 
-                //e.Graphics.DrawRectangle(pen, new Rectangle(
-                //    (int)page_x,
-                //    (int)parameters.Sheet.H - (int)page_y - (int)page_h,
-                //    (int)page_w,
-                //    (int)page_h));
                 pen.Dispose();
             }
 
@@ -394,7 +383,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (_toolParams.CurTool == ImposToolEnum.FlipAngle)
                 {
-                    _toolParams.OnFlipAngle(this,parameters.HoverPage);
+                    _toolParams.OnFlipAngle(this, parameters.HoverPage);
                 }
                 else if (_toolParams.CurTool == ImposToolEnum.Numeration)
                 {
@@ -411,6 +400,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 else if (_toolParams.CurTool == ImposToolEnum.SwitchHW)
                 {
                     ToolSwitchWH();
+                }
+                else if (_toolParams.CurTool == ImposToolEnum.AddPageToGroup)
+                {
+                    _toolParams.OnAddPageToGroup(this, parameters.HoverPage);
                 }
             }
             else if (e.Button == MouseButtons.Right)
@@ -437,7 +430,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void ToolDeletePage()
         {
-            parameters.Sheet.TemplatePageContainer.DeletePage(parameters.Sheet,parameters.HoverPage);
+            parameters.Sheet.TemplatePageContainer.DeletePage(parameters.Sheet, parameters.HoverPage);
             parameters.UpdateSheet();
         }
 
@@ -479,7 +472,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void ToolFlipPageRow()
         {
-            
+
             RedrawSheet();
 
         }

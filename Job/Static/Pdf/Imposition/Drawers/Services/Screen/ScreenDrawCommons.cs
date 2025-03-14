@@ -309,7 +309,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             }
             ScreenDrawer.DrawFillRectangle(g, new RectangleF(sx, sy, sw, sh), brush);
 
-            //g.FillRectangle(brush, new System.Drawing.Rectangle((int)(sx),(int) (sy),(int)( sw),(int) (sh)));
+            if (page.Group >0)
+                ScreenDrawer.DrawText(g,$"група {page.Group}",new PointF(sx,sy),"Arial",5);
+
             brush.Dispose();
         }
 

@@ -54,17 +54,17 @@
             this.panel2.Controls.Add(this.pb_preview);
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(566, 276);
+            this.panel2.Size = new System.Drawing.Size(566, 228);
             this.panel2.TabIndex = 4;
             // 
             // imposToolsControl1
             // 
             this.imposToolsControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.imposToolsControl1.Location = new System.Drawing.Point(6, 288);
+            this.imposToolsControl1.Location = new System.Drawing.Point(6, 234);
             this.imposToolsControl1.Margin = new System.Windows.Forms.Padding(0);
             this.imposToolsControl1.Name = "imposToolsControl1";
-            this.imposToolsControl1.Size = new System.Drawing.Size(563, 63);
+            this.imposToolsControl1.Size = new System.Drawing.Size(563, 117);
             this.imposToolsControl1.TabIndex = 0;
             // 
             // PreviewControl

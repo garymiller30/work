@@ -318,6 +318,7 @@
     <Compile Include="Static\Pdf\Imposition\Models\Marks\PdfMarkParameters.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\TextMark.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\Marks\TextMarkParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PageGroup.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\PageSide.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\PdfBox.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\PdfFile.cs" />
@@ -359,6 +360,7 @@
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessRotatePage.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessSubject.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\MarksService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\PageGroupsService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PdfFileService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PdfMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PositioningService.cs" />

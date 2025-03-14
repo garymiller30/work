@@ -160,7 +160,21 @@ namespace JobSpace.UserForms.PDF
             _tool_param.OnSwitchWH += OnSwitchWH;
             _tool_param.OnFlipAngle += OnFlipAngle;
             _tool_param.OnFlipRowAngle += OnFlipRowAngle;
+            _tool_param.OnAddPageToGroup += OnAddPageToGroup;
+            _tool_param.OnPageGroupDistributeHor += OnPageGroupDistributeHor;
             previewControl1.InitBindParameters(_tool_param);
+        }
+
+        private void OnPageGroupDistributeHor(object sender, List<PageGroup> e)
+        {
+            PageGroupsService.DistributeHor(_parameters.Sheet,e);
+            _parameters.UpdateSheet();
+        }
+
+        private void OnAddPageToGroup(object sender, TemplatePage e)
+        {
+            e.Group = _tool_param.CurGroup;
+            _parameters.UpdateSheet();
         }
 
         private void OnFlipRowAngle(object sender, TemplatePage e)

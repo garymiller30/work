@@ -19,7 +19,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
         public PdfDrawer()
         {
-            
+
         }
 
         public void Draw(ProductPart impos)
@@ -44,6 +44,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
                     TextVariablesService.SetValue(ValueList.SheetIdx, i + 1);
                     TextVariablesService.SetValue(ValueList.SheetFormat, $"{sheet.W}x{sheet.H}");
+                    TextVariablesService.SetValue(ValueList.SheetDesc, sheet.Description);
                     TextVariablesService.SetValue(ValueList.CurDate, DateTime.Now.ToString());
                     TextVariablesService.SetValue(ValueList.SheetCount, sheet.Count);
 
@@ -91,8 +92,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                 if (impos.ExportParameters.SavePrintSheetToOrderFolder)
                 {
                     var orderFolder = impos.ExportParameters.OutputFolder;
-                    var orderFileName = Path.GetFileNameWithoutExtension(impos.ExportParameters.OutputFileName);
-                    
+                    var orderFileName = Path.GetFileNameWithoutExtension(impos.ExportParameters.OutputFilePath);
+
                     var orderFile = Path.Combine(orderFolder, Path.GetFileNameWithoutExtension(orderFileName) + ".json");
                     SaveLoadService.SavePrintSheets(impos.PrintSheets, orderFile);
                 }

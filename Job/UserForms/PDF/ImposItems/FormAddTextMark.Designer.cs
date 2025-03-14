@@ -73,6 +73,7 @@
             this.kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItem5 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItem9 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem10 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuHeading4 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems4 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItem6 = new Krypton.Toolkit.KryptonContextMenuItem();
@@ -84,7 +85,7 @@
             this.kryptonContextMenuHeading2 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.btn_ReplaceMenu = new Krypton.Toolkit.KryptonButton();
             this.kryptonContextMenuHeading5 = new Krypton.Toolkit.KryptonContextMenuHeading();
-            this.kryptonContextMenuItem10 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem11 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.markColorControl1 = new JobSpace.UserForms.PDF.ImposItems.MarkColorControl();
             this.apc_parent = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
             this.apc_mark = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
@@ -495,8 +496,9 @@
             this.kryptonContextMenuItems3.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuItem4,
             this.kryptonContextMenuItem5,
-            this.kryptonContextMenuItem9,
-            this.kryptonContextMenuItem10});
+            this.kryptonContextMenuItem11,
+            this.kryptonContextMenuItem10,
+            this.kryptonContextMenuItem9});
             // 
             // kryptonContextMenuItem4
             // 
@@ -515,6 +517,12 @@
             this.kryptonContextMenuItem9.Tag = "$[sheetFormat]";
             this.kryptonContextMenuItem9.Text = "Формат листа";
             this.kryptonContextMenuItem9.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            // 
+            // kryptonContextMenuItem10
+            // 
+            this.kryptonContextMenuItem10.Tag = "$[sheetCount]";
+            this.kryptonContextMenuItem10.Text = "Тираж листа";
+            this.kryptonContextMenuItem10.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
             // 
             // kryptonContextMenuHeading4
             // 
@@ -572,11 +580,11 @@
             // 
             this.kryptonContextMenuHeading5.ExtraText = "";
             // 
-            // kryptonContextMenuItem10
+            // kryptonContextMenuItem11
             // 
-            this.kryptonContextMenuItem10.Tag = "$[sheetCount]";
-            this.kryptonContextMenuItem10.Text = "Тираж листа";
-            this.kryptonContextMenuItem10.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            this.kryptonContextMenuItem11.Tag = "$[sheetDesc]";
+            this.kryptonContextMenuItem11.Text = "Опис листа";
+            this.kryptonContextMenuItem11.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
             // 
             // markColorControl1
             // 
@@ -699,5 +707,6 @@
         private System.Windows.Forms.RadioButton rb_parentSheet;
         private System.Windows.Forms.CheckBox cb_foreground;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem10;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem11;
     }
 }

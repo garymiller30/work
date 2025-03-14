@@ -37,6 +37,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
             }
         }
 
+        public static void DrawText(Graphics g, string text, PointF point, Font font, Brush brush)
+        {
+            g.DrawString(text, font, brush, new PointF((float)(point.X * ZoomFactor), (float)(point.Y * ZoomFactor)));
+        }
 
         public static void DrawFillRectangle(Graphics g, RectangleF rect, Brush brush)
         {
@@ -74,5 +78,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
             });
         }
 
+        public static void DrawText(Graphics g, string str, PointF pointF, string font, int fontH)
+        {
+            g.DrawString(str, new Font(font, (float)(fontH * ZoomFactor)),  Brushes.Yellow, new PointF((float)(pointF.X * ZoomFactor), (float)(pointF.Y * ZoomFactor)));
+        }
     }
 }

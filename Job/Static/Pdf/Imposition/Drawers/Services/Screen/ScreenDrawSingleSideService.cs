@@ -279,18 +279,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             brush.Dispose();
             pen.Dispose();
 
-            //var brush2 = new SolidBrush(Color.Red);
-            //RectangleD left = page.GetDrawBleedFrontBottom();
-
-            //g.FillRectangle(brush2, new Rectangle
-            //{
-            //    X = (int)left.X1,
-            //    Y = sH - (int)left.Y1 - (int)left.H,
-            //    Width = (int)left.W,
-            //    Height = (int)left.H
-            //});
-            //brush2.Dispose();
-
             ScreenDrawCommons.DrawPageRotateMarker(g, page, page.Front, rect, sH);
             DrawTextFront(g, sheet, page, sH);
             DrawCropsMark(g, page, sH);

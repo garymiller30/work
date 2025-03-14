@@ -44,6 +44,10 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public double GetPageWidthWithBleeds => W + Bleeds.Left + Bleeds.Right;
         [Browsable(false)]
         public double GetPageHeightWithBleeds => H + Bleeds.Top + Bleeds.Bottom;
+        /// <summary>
+        /// індекс групи
+        /// </summary>
+        public int Group { get; set; } = 0;
 
         public TemplatePage()
         {
