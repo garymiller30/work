@@ -81,7 +81,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             _result = new CalcResult(parameters.PdfFileList.Objects.Cast<PdfFile>().ToList());
             _result.SetCountOnSheet(sheets[0].TemplatePageContainer.TemplatePages.Count);
-            _result.Calc();
+            _result.Calc(_sheets[0].SheetPlaceType);
 
             ApplyChanges();
            
@@ -154,7 +154,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 CountOnSheet = count;
             }
 
-            public void Calc()
+            public void Calc(TemplateSheetPlaceType sheetPlaceType)
             {
                 TotalCount = Files.Sum(f => f.Count);
 
@@ -182,8 +182,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     FreeCount = 0;
                 }
 
+                if (sheetPlaceType == TemplateSheetPlaceType.SingleSide || sheetPlaceType == TemplateSheetPlaceType.Sheetwise)
+                {
+                    SheetCount = Files.Max(f => f.SheetCount);
+                }
+                else
+                {
+                    SheetCount = Files.Max(f => f.SheetCount) / 2;
+                }
 
-                SheetCount = Files.Max(f => f.SheetCount);
                 Files.ForEach(f=>f.Wasted = f.PagesOnSheet*SheetCount - f.Count);
             }
 
