@@ -17,23 +17,32 @@ namespace PluginGMail
     {
 
         IJob _job;
+        IUserProfile _profile;
 
         public WindowOut()
         {
             InitializeComponent();
-            _ = InitializeAsync();
             
+        }
+
+        private void Init()
+        {
+            _ = InitializeAsync();
+
             webView21.Source = new Uri("https://gmail.com");
             webView21.CoreWebView2InitializationCompleted += WebView21_CoreWebView2InitializationCompleted;
+
         }
 
         private async Task InitializeAsync()
         {
+            string userDataFolder = Path.Combine(Path.GetTempPath(), $"{Environment.UserName}\\aw_gmail\\{UserProfile.Settings.ProfileName}"); 
+            if (!Directory.Exists(userDataFolder)) { Directory.CreateDirectory(userDataFolder); }
 
             CoreWebView2EnvironmentOptions options = new CoreWebView2EnvironmentOptions("--disable-features=msSmartScreenProtection");
             CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(
                browserExecutableFolder: null, 
-                userDataFolder: Path.Combine(Path.GetTempPath(), $"{Environment.UserName}", "aw_gmail"), 
+                userDataFolder: Path.Combine(userDataFolder), 
                 options);
             await webView21.EnsureCoreWebView2Async(environment);
         }
@@ -73,7 +82,12 @@ namespace PluginGMail
             };
         }
 
-        public IUserProfile UserProfile { get; set; }
+        public IUserProfile UserProfile { 
+            get =>_profile; 
+            set{
+                _profile = value;
+                Init();
+            } }
 
         public string PluginName => "GMail";
 

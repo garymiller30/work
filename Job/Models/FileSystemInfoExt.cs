@@ -44,7 +44,6 @@ namespace JobSpace.Models
         public FileSystemInfoExt(string fullPath)
         {
             CopyParams(new FileInfo(fullPath));
-            //_fileInfo = new FileInfo(fullPath);
            
         }
 

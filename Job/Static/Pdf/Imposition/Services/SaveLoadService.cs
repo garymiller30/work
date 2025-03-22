@@ -279,5 +279,20 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             string str = JsonSerializer.Serialize(quickAccess);
             File.WriteAllText(path, str);
         }
+
+        public static void SaveExportParameters(ExportParameters exportParameters)
+        {
+            var path = Path.Combine(RootPath, "exportParameters.json");
+            string str = JsonSerializer.Serialize(exportParameters);
+            File.WriteAllText(path, str);
+        }
+
+        public static ExportParameters LoadExportParameters()
+        {
+            var path = Path.Combine(RootPath, "exportParameters.json");
+            if (!File.Exists(path)) return new ExportParameters();
+            string src = File.ReadAllText(path);
+            return JsonSerializer.Deserialize<ExportParameters>(src);
+        }
     }
 }

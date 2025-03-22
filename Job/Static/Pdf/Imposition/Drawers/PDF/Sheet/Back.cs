@@ -88,14 +88,15 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
         {
             if (pdfFile.IsMediaboxCentered)
             {
-                return ((pdfPage.Media.W - templatePage.W) / 2 - templatePage.Bleeds.Right,
-                    (pdfPage.Media.H - templatePage.H) / 2 - templatePage.Bleeds.Bottom
+                return (
+                    (pdfPage.Crop.W - templatePage.W) / 2 - templatePage.Bleeds.Right,
+                    (pdfPage.Crop.H - templatePage.H) / 2 - templatePage.Bleeds.Bottom
                     );
             }
             else
             {
-                double c_llx = pdfPage.Trim.X1 - templatePage.Bleeds.Right - pdfPage.Media.X1;
-                double c_lly = pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Media.Y1;
+                double c_llx = pdfPage.Trim.X1 - templatePage.Bleeds.Right - pdfPage.Crop.X1;
+                double c_lly = pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Crop.Y1;
                 return (c_llx, c_lly);
             }
         }

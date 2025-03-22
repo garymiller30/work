@@ -44,6 +44,8 @@ namespace JobSpace.UserForms.PDF
             InitBindParameters();
             InitImposTools();
 
+            LoadExportParameters();
+
             addTemplateSheetControl1.OnSheetSelected += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetsChanged += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetDeleted += OnPrintSheetDeleted;
@@ -61,7 +63,16 @@ namespace JobSpace.UserForms.PDF
             cb_CustomOutputPath.Items.AddRange(SaveLoadService.LoadCustomsPath().ToArray());
         }
 
-       
+        private void LoadExportParameters()
+        {
+            ExportParameters exportParameters = SaveLoadService.LoadExportParameters();
+
+            cb_savePrintSheetInOrder.Checked = exportParameters.SavePrintSheetToOrderFolder;
+            cb_useTemplate.Checked = exportParameters.UseTemplate;
+            tb_useTemplate.Text = exportParameters.TemplateString;
+            cb_useCustomOutputFolder.Checked = exportParameters.UseCustomOutputFolder;
+            cb_CustomOutputPath.Text = exportParameters.CustomOutputFolder;
+        }
 
         private void OnPrintSheetDeleted(object sender, EventArgs e)
         {
@@ -162,12 +173,26 @@ namespace JobSpace.UserForms.PDF
             _tool_param.OnFlipRowAngle += OnFlipRowAngle;
             _tool_param.OnAddPageToGroup += OnAddPageToGroup;
             _tool_param.OnPageGroupDistributeHor += OnPageGroupDistributeHor;
+            _tool_param.OnPageGroupDistributeVer += OnPageGroupDistributeVer;
+            _tool_param.OnPageGroupDelete += OnPageGroupDelete;
             previewControl1.InitBindParameters(_tool_param);
+        }
+
+        private void OnPageGroupDistributeVer(object sender, List<PageGroup> e)
+        {
+            PageGroupsService.DistributeVer(_parameters.Sheet, _tool_param.IgnoreSheetFields, e);
+            _parameters.UpdateSheet();
+        }
+
+        private void OnPageGroupDelete(object sender, List<PageGroup> e)
+        {
+            PageGroupsService.DeleteGroups(_parameters.Sheet, e);
+            _parameters.UpdateSheet();
         }
 
         private void OnPageGroupDistributeHor(object sender, List<PageGroup> e)
         {
-            PageGroupsService.DistributeHor(_parameters.Sheet,e);
+            PageGroupsService.DistributeHor(_parameters.Sheet,_tool_param.IgnoreSheetFields,e);
             _parameters.UpdateSheet();
         }
 
@@ -196,7 +221,7 @@ namespace JobSpace.UserForms.PDF
             if (_parameters.SelectedPreviewPage != null)
             {
                 var sel_page = _parameters.SelectedPreviewPage;
-                sel_page.SwitchWH();
+                sel_page.SwitchWH(_parameters.Sheet.SheetPlaceType);
                 _parameters.UpdateSheet();
                 _parameters.SelectedPreviewPage = sel_page;
             }
@@ -379,6 +404,10 @@ namespace JobSpace.UserForms.PDF
 
         private void FormPdfImposition_FormClosing(object sender, FormClosingEventArgs e)
         {
+
+            //зберегти параметри експорту
+            if (_productPart != null)
+                SaveLoadService.SaveExportParameters(_productPart.ExportParameters);
 
             //if (_productPart != null)
             //{

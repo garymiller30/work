@@ -123,13 +123,31 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
 
 
-        public void SwitchWH()
+        public void SwitchWH(TemplateSheetPlaceType sheetPlaceType)
         {
             // switch W and H
             double temp = W;
             W = H;
             H = temp;
             Front.Angle = (Front.Angle + 270) % 360;
+            
+            switch (sheetPlaceType) {
+                case TemplateSheetPlaceType.SingleSide:
+                    break;
+                case TemplateSheetPlaceType.Sheetwise:
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    Back.Angle = LooseBindingSheetwise.GetBackAngle(Front.Angle);
+                    break;
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    Back.Angle = LooseBindingWorkAndTumble.GetBackAngle(Front.Angle);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(sheetPlaceType), sheetPlaceType, null);
+
+
+            }
+
+
         }
 
         public double GetPageDrawBackX()
