@@ -20,6 +20,24 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
             };
         }
 
+        public static RectangleD GetSubjectRect(TemplateSheet sheet, bool ignoreSheetFields)
+        {
+            if (ignoreSheetFields)
+            {
+                return new RectangleD
+                {
+                    X1 = 0,
+                    Y1 = 0,
+                    X2 = sheet.W,
+                    Y2 = sheet.H,
+                };
+            }
+            else
+            {
+                return GetSubjectRect(sheet);
+            }
+        }
+
         public static RectangleD GetSubjectRect(TemplateSheet sheet, TemplatePageContainer pageContainer)
         {
             var tp = pageContainer.TemplatePages;

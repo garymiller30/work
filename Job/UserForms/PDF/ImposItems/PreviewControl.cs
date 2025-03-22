@@ -63,15 +63,57 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void Pb_preview_MouseUp(object sender, MouseEventArgs e)
         {
-            isDragMode = false;
+
             if (e.Button == MouseButtons.Right && _toolParams.CurTool == ImposToolEnum.Select)
             {
                 parameters.SelectedPreviewPage = null;
             }
+            else if (_toolParams.CurTool == ImposToolEnum.AddPageToGroup)
+            {
+                // вибрати всі сторінки, що входять в виділену область і задати їм групу
+                if (e.Button == MouseButtons.Right)
+                {
+                    if (parameters.HoverPage != null)
+                    {
+                        parameters.HoverPage.Group = 0;
+                    }
+                }
+                else
+                {
+                    float x = clickPoint.X < e.X ? clickPoint.X : e.X;
+                    float y = clickPoint.Y < e.Y ? clickPoint.Y : e.Y;
+                    float w = Math.Abs(e.X - clickPoint.X); ;
+                    float h = Math.Abs(e.Y - clickPoint.Y); ;
+
+                    var selectedRect = new RectangleF(
+                        (float)(x / ScreenDrawer.ZoomFactor),
+                        (float)(y / ScreenDrawer.ZoomFactor),
+                        (float)(w / ScreenDrawer.ZoomFactor),
+                        (float)(h / ScreenDrawer.ZoomFactor)
+                        );
+                    var selectedPages = parameters.Sheet.TemplatePageContainer.TemplatePages.Where(p =>
+                    {
+                        var (page_x, page_y, page_w, page_h) = ScreenDrawCommons.GetPageDraw(p, p.Front);
+                        var pageRect = new RectangleF((float)page_x, (float)(parameters.Sheet.H - page_y - page_h), (float)page_w, (float)page_h);
+                        return selectedRect.Contains(pageRect);
+                    });
+                    selectedPages.ToList().ForEach(p => p.Group = _toolParams.CurGroup);
+                }
+
+                parameters.UpdateSheet();
+            }
+            isDragMode = false;
         }
 
         private void Pb_preview_MouseDown(object sender, MouseEventArgs e)
         {
+            if (_toolParams.CurTool == ImposToolEnum.AddPageToGroup)
+            {
+                isDragMode = true;
+                clickPoint = e.Location;
+                return;
+            }
+
             if (parameters.HoverPage == null) return;
 
             hover_x = parameters.HoverPage.Front.X;
@@ -202,7 +244,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void pb_preview_MouseMove(object sender, MouseEventArgs e)
         {
             if (parameters.Sheet == null) return;
-            if (isDragMode == true && parameters.HoverPage != null)
+            if (isDragMode == true && parameters.HoverPage != null && _toolParams.CurTool == ImposToolEnum.Select)
             {
                 parameters.HoverPage.Front.X += e.X - lastLocation.X;
                 parameters.HoverPage.Front.Y -= e.Y - lastLocation.Y;
@@ -213,11 +255,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                 parameters.UpdateSheet(false);
             }
+            else if (_toolParams.CurTool == ImposToolEnum.AddPageToGroup && isDragMode)
+            {
+                lastLocation = e.Location;
+                pb_preview.Invalidate();
+            }
             else
             {
-
-
-                //tsl_coord.Text = $"x: {e.Location.X}, y: {_productPart.Sheet.H - e.Location.Y}";
                 CheckHover((int)(e.X / ScreenDrawer.ZoomFactor), (int)(e.Y / ScreenDrawer.ZoomFactor));
             }
         }
@@ -336,8 +380,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (parameters == null || parameters.Sheet == null) return;
 
-            //e.Graphics.PageUnit = GraphicsUnit.Millimeter;
-
             if (parameters.SelectedPreviewPage != null)
             {
                 Pen pen = new Pen(Color.IndianRed, 3);
@@ -371,6 +413,21 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 ScreenDrawer.DrawRectangle(e.Graphics, rect, pen);
 
                 pen.Dispose();
+            }
+
+            if (_toolParams.CurTool == ImposToolEnum.AddPageToGroup && isDragMode)
+            {
+
+                float x = clickPoint.X < lastLocation.X ? clickPoint.X : lastLocation.X;
+                float y = clickPoint.Y < lastLocation.Y ? clickPoint.Y : lastLocation.Y;
+                float w = Math.Abs(lastLocation.X - clickPoint.X);
+                float h = Math.Abs(lastLocation.Y - clickPoint.Y);
+
+                using (Brush brush = new SolidBrush(Color.FromArgb(64, Color.Orange)))
+                {
+                    e.Graphics.FillRectangle(brush, x, y, w, h);
+                }
+
             }
 
         }
@@ -423,7 +480,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void ToolSwitchWH()
         {
             if (parameters.HoverPage == null) return;
-            parameters.HoverPage.SwitchWH();
+            parameters.HoverPage.SwitchWH(parameters.Sheet.SheetPlaceType);
             parameters.CheckRunListPages();
             parameters.UpdateSheet();
         }

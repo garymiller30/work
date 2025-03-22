@@ -381,6 +381,12 @@
     <Compile Include="UC\UcSelectStandartPageFormat.Designer.cs">
       <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\FormEnterTirag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormEnterTirag.Designer.cs">
+      <DependentUpon>FormEnterTirag.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\FormCreateBigovkaMarks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -973,6 +979,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UC\UcSelectStandartPageFormat.resx">
       <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormEnterTirag.resx">
+      <DependentUpon>FormEnterTirag.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormCreateBigovkaMarks.resx">
       <DependentUpon>FormCreateBigovkaMarks.cs</DependentUpon>

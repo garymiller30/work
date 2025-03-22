@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using BrightIdeasSoftware;
+using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
             btn_switch_front_back.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
             btn_sameNumber.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
             btn_listNumber.DataBindings.Add("Enabled", rb_EnableNumering, "Checked");
+
+
+            // drag and drop for olv_groups
+            olv_groups.IsSimpleDragSource = true;
+            olv_groups.DropSink = new RearrangingDropSink(true);
 
         }
 
@@ -242,6 +248,30 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (olv_groups.SelectedObjects.Count < 2) return;
 
             parameters.OnPageGroupDistributeHor(this,olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
+        }
+
+        private void btn_delete_group_Click(object sender, EventArgs e)
+        {
+            if (olv_groups.SelectedObjects.Count > 0)
+            {
+
+                parameters.OnPageGroupDelete(this, olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
+
+                olv_groups.RemoveObjects(olv_groups.SelectedObjects);
+            }
+
+            
+        }
+
+        private void cb_ignore_sheet_fields_CheckedChanged(object sender, EventArgs e)
+        {
+            parameters.IgnoreSheetFields = cb_ignore_sheet_fields.Checked;
+        }
+
+        private void btn_distribute_ver_Click(object sender, EventArgs e)
+        {
+            if (olv_groups.SelectedObjects.Count < 2) return;
+            parameters.OnPageGroupDistributeVer(this, olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
         }
     }
 }

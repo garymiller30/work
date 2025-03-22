@@ -41,29 +41,31 @@
             this.btn_switch_front_back = new System.Windows.Forms.Button();
             this.tb_back = new System.Windows.Forms.TextBox();
             this.rb_centerH = new System.Windows.Forms.Button();
+            this.rb_centerV = new System.Windows.Forms.Button();
+            this.btn_rotateLeft = new System.Windows.Forms.Button();
+            this.btn_rotateRight = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn_ApplyCropMark = new System.Windows.Forms.Button();
             this.nud_cropDist = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.nud_cropLen = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.rb_centerV = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cb_ignore_sheet_fields = new System.Windows.Forms.CheckBox();
+            this.btn_distribute_hor = new System.Windows.Forms.Button();
+            this.btn_delete_group = new System.Windows.Forms.Button();
+            this.btn_add_group = new System.Windows.Forms.Button();
+            this.olv_groups = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn_name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btn_left = new System.Windows.Forms.Button();
             this.btn_up = new System.Windows.Forms.Button();
-            this.btn_rotateLeft = new System.Windows.Forms.Button();
-            this.btn_rotateRight = new System.Windows.Forms.Button();
             this.btn_right = new System.Windows.Forms.Button();
             this.btn_down = new System.Windows.Forms.Button();
             this.rb_switchHW = new System.Windows.Forms.RadioButton();
             this.rb_deletePage = new System.Windows.Forms.RadioButton();
             this.rb_EnableNumering = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.olv_groups = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumn_name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.btn_add_group = new System.Windows.Forms.Button();
-            this.btn_delete_group = new System.Windows.Forms.Button();
             this.rb_add_page_to_group = new System.Windows.Forms.RadioButton();
-            this.btn_distribute_hor = new System.Windows.Forms.Button();
+            this.btn_distribute_ver = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -257,6 +259,36 @@
             this.rb_centerH.TabIndex = 17;
             this.rb_centerH.UseVisualStyleBackColor = true;
             // 
+            // rb_centerV
+            // 
+            this.rb_centerV.AutoSize = true;
+            this.rb_centerV.Image = ((System.Drawing.Image)(resources.GetObject("rb_centerV.Image")));
+            this.rb_centerV.Location = new System.Drawing.Point(59, 3);
+            this.rb_centerV.Name = "rb_centerV";
+            this.rb_centerV.Size = new System.Drawing.Size(22, 22);
+            this.rb_centerV.TabIndex = 18;
+            this.rb_centerV.UseVisualStyleBackColor = true;
+            // 
+            // btn_rotateLeft
+            // 
+            this.btn_rotateLeft.Image = ((System.Drawing.Image)(resources.GetObject("btn_rotateLeft.Image")));
+            this.btn_rotateLeft.Location = new System.Drawing.Point(31, 31);
+            this.btn_rotateLeft.Name = "btn_rotateLeft";
+            this.btn_rotateLeft.Size = new System.Drawing.Size(22, 22);
+            this.btn_rotateLeft.TabIndex = 24;
+            this.btn_rotateLeft.UseVisualStyleBackColor = true;
+            this.btn_rotateLeft.Click += new System.EventHandler(this.btn_rotateLeft_Click);
+            // 
+            // btn_rotateRight
+            // 
+            this.btn_rotateRight.Image = ((System.Drawing.Image)(resources.GetObject("btn_rotateRight.Image")));
+            this.btn_rotateRight.Location = new System.Drawing.Point(59, 31);
+            this.btn_rotateRight.Name = "btn_rotateRight";
+            this.btn_rotateRight.Size = new System.Drawing.Size(22, 22);
+            this.btn_rotateRight.TabIndex = 25;
+            this.btn_rotateRight.UseVisualStyleBackColor = true;
+            this.btn_rotateRight.Click += new System.EventHandler(this.btn_rotateRight_Click);
+            // 
             // groupBox2
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.groupBox2, 7);
@@ -321,15 +353,91 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "довжина";
             // 
-            // rb_centerV
+            // groupBox3
             // 
-            this.rb_centerV.AutoSize = true;
-            this.rb_centerV.Image = ((System.Drawing.Image)(resources.GetObject("rb_centerV.Image")));
-            this.rb_centerV.Location = new System.Drawing.Point(59, 3);
-            this.rb_centerV.Name = "rb_centerV";
-            this.rb_centerV.Size = new System.Drawing.Size(22, 22);
-            this.rb_centerV.TabIndex = 18;
-            this.rb_centerV.UseVisualStyleBackColor = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.groupBox3, 7);
+            this.groupBox3.Controls.Add(this.btn_distribute_ver);
+            this.groupBox3.Controls.Add(this.cb_ignore_sheet_fields);
+            this.groupBox3.Controls.Add(this.btn_distribute_hor);
+            this.groupBox3.Controls.Add(this.btn_delete_group);
+            this.groupBox3.Controls.Add(this.btn_add_group);
+            this.groupBox3.Controls.Add(this.olv_groups);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Location = new System.Drawing.Point(308, 0);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(0);
+            this.groupBox3.Name = "groupBox3";
+            this.tableLayoutPanel1.SetRowSpan(this.groupBox3, 4);
+            this.groupBox3.Size = new System.Drawing.Size(196, 114);
+            this.groupBox3.TabIndex = 28;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "групи сторінок";
+            // 
+            // cb_ignore_sheet_fields
+            // 
+            this.cb_ignore_sheet_fields.AutoSize = true;
+            this.cb_ignore_sheet_fields.Location = new System.Drawing.Point(79, 91);
+            this.cb_ignore_sheet_fields.Name = "cb_ignore_sheet_fields";
+            this.cb_ignore_sheet_fields.Size = new System.Drawing.Size(113, 17);
+            this.cb_ignore_sheet_fields.TabIndex = 4;
+            this.cb_ignore_sheet_fields.Text = "ігнор. поля листа";
+            this.cb_ignore_sheet_fields.UseVisualStyleBackColor = true;
+            this.cb_ignore_sheet_fields.CheckedChanged += new System.EventHandler(this.cb_ignore_sheet_fields_CheckedChanged);
+            // 
+            // btn_distribute_hor
+            // 
+            this.btn_distribute_hor.Image = ((System.Drawing.Image)(resources.GetObject("btn_distribute_hor.Image")));
+            this.btn_distribute_hor.Location = new System.Drawing.Point(107, 20);
+            this.btn_distribute_hor.Name = "btn_distribute_hor";
+            this.btn_distribute_hor.Size = new System.Drawing.Size(22, 22);
+            this.btn_distribute_hor.TabIndex = 3;
+            this.btn_distribute_hor.UseVisualStyleBackColor = true;
+            this.btn_distribute_hor.Click += new System.EventHandler(this.btn_distribute_hor_Click);
+            // 
+            // btn_delete_group
+            // 
+            this.btn_delete_group.Location = new System.Drawing.Point(79, 48);
+            this.btn_delete_group.Name = "btn_delete_group";
+            this.btn_delete_group.Size = new System.Drawing.Size(22, 22);
+            this.btn_delete_group.TabIndex = 2;
+            this.btn_delete_group.Text = "-";
+            this.btn_delete_group.UseVisualStyleBackColor = true;
+            this.btn_delete_group.Click += new System.EventHandler(this.btn_delete_group_Click);
+            // 
+            // btn_add_group
+            // 
+            this.btn_add_group.Location = new System.Drawing.Point(79, 20);
+            this.btn_add_group.Name = "btn_add_group";
+            this.btn_add_group.Size = new System.Drawing.Size(22, 22);
+            this.btn_add_group.TabIndex = 1;
+            this.btn_add_group.Text = "+";
+            this.btn_add_group.UseVisualStyleBackColor = true;
+            this.btn_add_group.Click += new System.EventHandler(this.btn_add_group_Click);
+            // 
+            // olv_groups
+            // 
+            this.olv_groups.AllColumns.Add(this.olvColumn_name);
+            this.olv_groups.CellEditUseWholeCell = false;
+            this.olv_groups.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn_name});
+            this.olv_groups.Cursor = System.Windows.Forms.Cursors.Default;
+            this.olv_groups.FullRowSelect = true;
+            this.olv_groups.GridLines = true;
+            this.olv_groups.HideSelection = false;
+            this.olv_groups.Location = new System.Drawing.Point(6, 14);
+            this.olv_groups.Name = "olv_groups";
+            this.olv_groups.ShowGroups = false;
+            this.olv_groups.ShowHeaderInAllViews = false;
+            this.olv_groups.Size = new System.Drawing.Size(66, 97);
+            this.olv_groups.TabIndex = 0;
+            this.olv_groups.UseCompatibleStateImageBehavior = false;
+            this.olv_groups.View = System.Windows.Forms.View.Details;
+            this.olv_groups.SelectedIndexChanged += new System.EventHandler(this.olv_groups_SelectedIndexChanged);
+            // 
+            // olvColumn_name
+            // 
+            this.olvColumn_name.AspectName = "Id";
+            this.olvColumn_name.Text = "група";
+            this.olvColumn_name.Width = 43;
             // 
             // btn_left
             // 
@@ -350,26 +458,6 @@
             this.btn_up.TabIndex = 23;
             this.btn_up.UseVisualStyleBackColor = true;
             this.btn_up.Click += new System.EventHandler(this.btn_up_Click);
-            // 
-            // btn_rotateLeft
-            // 
-            this.btn_rotateLeft.Image = ((System.Drawing.Image)(resources.GetObject("btn_rotateLeft.Image")));
-            this.btn_rotateLeft.Location = new System.Drawing.Point(31, 31);
-            this.btn_rotateLeft.Name = "btn_rotateLeft";
-            this.btn_rotateLeft.Size = new System.Drawing.Size(22, 22);
-            this.btn_rotateLeft.TabIndex = 24;
-            this.btn_rotateLeft.UseVisualStyleBackColor = true;
-            this.btn_rotateLeft.Click += new System.EventHandler(this.btn_rotateLeft_Click);
-            // 
-            // btn_rotateRight
-            // 
-            this.btn_rotateRight.Image = ((System.Drawing.Image)(resources.GetObject("btn_rotateRight.Image")));
-            this.btn_rotateRight.Location = new System.Drawing.Point(59, 31);
-            this.btn_rotateRight.Name = "btn_rotateRight";
-            this.btn_rotateRight.Size = new System.Drawing.Size(22, 22);
-            this.btn_rotateRight.TabIndex = 25;
-            this.btn_rotateRight.UseVisualStyleBackColor = true;
-            this.btn_rotateRight.Click += new System.EventHandler(this.btn_rotateRight_Click);
             // 
             // btn_right
             // 
@@ -425,68 +513,6 @@
             this.rb_EnableNumering.TabIndex = 11;
             this.rb_EnableNumering.UseVisualStyleBackColor = true;
             // 
-            // groupBox3
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.groupBox3, 7);
-            this.groupBox3.Controls.Add(this.btn_distribute_hor);
-            this.groupBox3.Controls.Add(this.btn_delete_group);
-            this.groupBox3.Controls.Add(this.btn_add_group);
-            this.groupBox3.Controls.Add(this.olv_groups);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(308, 0);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(0);
-            this.groupBox3.Name = "groupBox3";
-            this.tableLayoutPanel1.SetRowSpan(this.groupBox3, 4);
-            this.groupBox3.Size = new System.Drawing.Size(196, 114);
-            this.groupBox3.TabIndex = 28;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "групи сторінок";
-            // 
-            // olv_groups
-            // 
-            this.olv_groups.AllColumns.Add(this.olvColumn_name);
-            this.olv_groups.CellEditUseWholeCell = false;
-            this.olv_groups.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn_name});
-            this.olv_groups.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olv_groups.FullRowSelect = true;
-            this.olv_groups.GridLines = true;
-            this.olv_groups.HideSelection = false;
-            this.olv_groups.Location = new System.Drawing.Point(6, 14);
-            this.olv_groups.Name = "olv_groups";
-            this.olv_groups.ShowGroups = false;
-            this.olv_groups.ShowHeaderInAllViews = false;
-            this.olv_groups.Size = new System.Drawing.Size(66, 97);
-            this.olv_groups.TabIndex = 0;
-            this.olv_groups.UseCompatibleStateImageBehavior = false;
-            this.olv_groups.View = System.Windows.Forms.View.Details;
-            this.olv_groups.SelectedIndexChanged += new System.EventHandler(this.olv_groups_SelectedIndexChanged);
-            // 
-            // olvColumn_name
-            // 
-            this.olvColumn_name.AspectName = "Id";
-            this.olvColumn_name.Text = "група";
-            this.olvColumn_name.Width = 43;
-            // 
-            // btn_add_group
-            // 
-            this.btn_add_group.Location = new System.Drawing.Point(79, 20);
-            this.btn_add_group.Name = "btn_add_group";
-            this.btn_add_group.Size = new System.Drawing.Size(22, 22);
-            this.btn_add_group.TabIndex = 1;
-            this.btn_add_group.Text = "+";
-            this.btn_add_group.UseVisualStyleBackColor = true;
-            this.btn_add_group.Click += new System.EventHandler(this.btn_add_group_Click);
-            // 
-            // btn_delete_group
-            // 
-            this.btn_delete_group.Location = new System.Drawing.Point(79, 48);
-            this.btn_delete_group.Name = "btn_delete_group";
-            this.btn_delete_group.Size = new System.Drawing.Size(22, 22);
-            this.btn_delete_group.TabIndex = 2;
-            this.btn_delete_group.Text = "-";
-            this.btn_delete_group.UseVisualStyleBackColor = true;
-            // 
             // rb_add_page_to_group
             // 
             this.rb_add_page_to_group.Appearance = System.Windows.Forms.Appearance.Button;
@@ -499,15 +525,15 @@
             this.rb_add_page_to_group.TabStop = true;
             this.rb_add_page_to_group.UseVisualStyleBackColor = true;
             // 
-            // btn_distribute_hor
+            // btn_distribute_ver
             // 
-            this.btn_distribute_hor.Image = ((System.Drawing.Image)(resources.GetObject("btn_distribute_hor.Image")));
-            this.btn_distribute_hor.Location = new System.Drawing.Point(130, 20);
-            this.btn_distribute_hor.Name = "btn_distribute_hor";
-            this.btn_distribute_hor.Size = new System.Drawing.Size(22, 22);
-            this.btn_distribute_hor.TabIndex = 3;
-            this.btn_distribute_hor.UseVisualStyleBackColor = true;
-            this.btn_distribute_hor.Click += new System.EventHandler(this.btn_distribute_hor_Click);
+            this.btn_distribute_ver.Image = ((System.Drawing.Image)(resources.GetObject("btn_distribute_ver.Image")));
+            this.btn_distribute_ver.Location = new System.Drawing.Point(135, 20);
+            this.btn_distribute_ver.Name = "btn_distribute_ver";
+            this.btn_distribute_ver.Size = new System.Drawing.Size(22, 22);
+            this.btn_distribute_ver.TabIndex = 5;
+            this.btn_distribute_ver.UseVisualStyleBackColor = true;
+            this.btn_distribute_ver.Click += new System.EventHandler(this.btn_distribute_ver_Click);
             // 
             // ImposToolsControl
             // 
@@ -526,6 +552,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_cropDist)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_cropLen)).EndInit();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.olv_groups)).EndInit();
             this.ResumeLayout(false);
 
@@ -568,5 +595,7 @@
         private System.Windows.Forms.Button btn_add_group;
         private System.Windows.Forms.RadioButton rb_add_page_to_group;
         private System.Windows.Forms.Button btn_distribute_hor;
+        private System.Windows.Forms.CheckBox cb_ignore_sheet_fields;
+        private System.Windows.Forms.Button btn_distribute_ver;
     }
 }

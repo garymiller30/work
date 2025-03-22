@@ -1781,28 +1781,33 @@ namespace JobSpace.UC
         {
             if (objectListView1.SelectedObjects.Count > 0)
             {
-                using (var form = new FormTirag())
+                using (var form = new FormEnterTirag(_fileManager,objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>()))
                 {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        foreach (IFileSystemInfoExt file in objectListView1.SelectedObjects)
-                        {
-                            var reg = new Regex(@"#(\d+)\.");
-                            var match = reg.Match(file.FileInfo.Name);
-                            string targetFile;
-                            if (match.Success)
-                            {
-                                targetFile =
-                                    $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name).Substring(0, match.Index)}#{form.Tirag}{file.FileInfo.Extension}";
-                            }
-                            else
-                            {
-                                targetFile = $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name)}#{form.Tirag}{file.FileInfo.Extension}";
-                            }
-                            _fileManager.MoveFileOrDirectoryToCurrentFolder(file, targetFile);
-                        }
-                    }
+                    form.ShowDialog();
                 }
+
+                //using (var form = new FormTirag())
+                //{
+                //    if (form.ShowDialog() == DialogResult.OK)
+                //    {
+                //        foreach (IFileSystemInfoExt file in objectListView1.SelectedObjects)
+                //        {
+                //            var reg = new Regex(@"#(\d+)\.");
+                //            var match = reg.Match(file.FileInfo.Name);
+                //            string targetFile;
+                //            if (match.Success)
+                //            {
+                //                targetFile =
+                //                    $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name).Substring(0, match.Index)}#{form.Tirag}{file.FileInfo.Extension}";
+                //            }
+                //            else
+                //            {
+                //                targetFile = $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name)}#{form.Tirag}{file.FileInfo.Extension}";
+                //            }
+                 //           _fileManager.MoveFileOrDirectoryToCurrentFolder(file, targetFile);
+                //        }
+                //    }
+                //}
             }
         }
 
@@ -2025,7 +2030,7 @@ namespace JobSpace.UC
 
         void ShowImposDialog()
         {
-            
+
             if (objectListView1.SelectedObjects.Count == 0) return;
             var curJob = UserProfile.Jobs?.CurrentJob;
             if (curJob != null)

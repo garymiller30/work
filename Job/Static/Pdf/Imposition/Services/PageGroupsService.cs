@@ -17,7 +17,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return group;
         }
 
-        public static void DistributeHor(TemplateSheet sheet, List<PageGroup> e)
+        public static void DistributeHor(TemplateSheet sheet, bool ignoreSheetFields, List<PageGroup> e)
         {
             var tc = sheet.TemplatePageContainer;
 
@@ -25,20 +25,21 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             foreach (var group in e)
             {
-                group.Pages = (tc.TemplatePages.Where(x=>x.Group == group.Id)).ToList();
+                group.Pages = (tc.TemplatePages.Where(x => x.Group == group.Id)).ToList();
                 group.Rectangle = ProcessSubject.GetSubjectRect(sheet, group.Pages);
             }
 
             double totalWidth = e.Sum(x => x.Rectangle.W);
-            RectangleD sheetRect = ProcessSubject.GetSubjectRect(sheet);
+            RectangleD sheetRect = ProcessSubject.GetSubjectRect(sheet, ignoreSheetFields);
 
             double delta = (sheetRect.W - totalWidth) / (e.Count * 2);
 
 
-            double ofs = delta + sheet.SafeFields.Left;
+            double ofs = delta + sheetRect.Left;
+
             foreach (var group in e)
             {
-                
+
                 double x_ofs = group.Rectangle.X1 - ofs;
 
                 foreach (var page in group.Pages)
@@ -48,6 +49,49 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 }
 
                 ofs += group.Rectangle.W + delta * 2;
+            }
+        }
+
+        public static void DistributeVer(TemplateSheet sheet, bool ignoreSheetFields, List<PageGroup> e)
+        {
+            var tc = sheet.TemplatePageContainer;
+
+            //отримати ширину всіх груп, додати, від ширини задрукованої області листа відняти, поділити на кількість груп
+
+            foreach (var group in e)
+            {
+                group.Pages = (tc.TemplatePages.Where(x => x.Group == group.Id)).ToList();
+                group.Rectangle = ProcessSubject.GetSubjectRect(sheet, group.Pages);
+            }
+
+            double totalHeight = e.Sum(x => x.Rectangle.H);
+            RectangleD sheetRect = ProcessSubject.GetSubjectRect(sheet, ignoreSheetFields);
+
+            double delta = (sheetRect.H - totalHeight) / (e.Count * 2);
+
+
+            double ofs = delta + sheetRect.Bottom;
+
+            foreach (var group in e)
+            {
+
+                double y_ofs = group.Rectangle.Y1 - ofs;
+
+                foreach (var page in group.Pages)
+                {
+                    page.Front.Y -= y_ofs;
+                    ProcessFixPageBackPosition.FixPosition(sheet, page);
+                }
+
+                ofs += group.Rectangle.H + delta * 2;
+            }
+        }
+
+        public static void DeleteGroups(TemplateSheet sheet, List<PageGroup> e)
+        {
+            foreach (var group in e)
+            {
+               sheet.TemplatePageContainer.TemplatePages.Where(x=>x.Group == group.Id).ToList().ForEach(x => x.Group = 0);
             }
         }
     }

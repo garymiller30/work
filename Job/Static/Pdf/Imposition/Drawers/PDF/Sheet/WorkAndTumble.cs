@@ -81,14 +81,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
                                 if (pdfFile.IsMediaboxCentered)
                                 {
-                                    c_llx = (pdfPage.Media.W - templatePage.W) / 2 - templatePage.Bleeds.Left;
-                                    c_lly = (pdfPage.Media.H - templatePage.H) / 2 - templatePage.Bleeds.Bottom;
+                                    c_llx = (pdfPage.Crop.W - templatePage.W) / 2 - templatePage.Bleeds.Left;
+                                    c_lly = (pdfPage.Crop.H - templatePage.H) / 2 - templatePage.Bleeds.Bottom;
 
                                 }
                                 else
                                 {
-                                    c_llx = pdfPage.Trim.X1 - templatePage.Bleeds.Right - pdfPage.Media.X1;
-                                    c_lly = pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Media.Y1;
+                                    c_llx = pdfPage.Trim.X1 - templatePage.Bleeds.Right - pdfPage.Crop.X1;
+                                    c_lly = pdfPage.Trim.Y1 - templatePage.Bleeds.Bottom - pdfPage.Crop.Y1;
 
                                  
                                 }
@@ -100,9 +100,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                                 lly = templatePage.Back.Y;
 
                                 angle = side.Angle;
-                                //(double llx, double lly, double angle) = templatePage.GetPageStartCoordBack(sheet);
                                 clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
-                                //string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} rotate={angle}";
 
                                 documentB.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
 

@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Common;
+using Microsoft.Web.WebView2.Core;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
@@ -81,6 +82,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
                     var trims = new double[] { 0, 0, 0, 0 };
                     var media = new double[] { 0, 0, 0, 0 };
+                    var crops = new double[] {0, 0, 0, 0 };
 
                     int pageIdx = i -1;
 
@@ -89,6 +91,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                     {
                         media[j] = p.pcos_get_number(doc, $"pages[{pageIdx}]/MediaBox[{j}]");
                     }
+
+                    // get trim box
                     string trimtype = p.pcos_get_string(doc, $"type:pages[{pageIdx}]/TrimBox");
 
                     if (trimtype == "array")
@@ -105,6 +109,22 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                             trims[j] = media[j];
                         }
                     }
+                    // get cropbox
+                    string croptype = p.pcos_get_string(doc, $"type:pages[{pageIdx}]/CropBox");
+                    if (croptype == "array")
+                    {
+                        for (int j = 0; j < 4; j++)
+                        {
+                            crops[j] = p.pcos_get_number(doc, $"pages[{pageIdx}]/CropBox[{j}]");
+                        }
+                    }
+                    else
+                    {
+                        for (int j = 0; j < 4; j++)
+                        {
+                            crops[j] = media[j];
+                        }
+                    }
 
                     filePage.Media.X1 = Math.Round(media[0] / PdfHelper.mn, 1);
                     filePage.Media.Y1 = Math.Round(media[1] / PdfHelper.mn, 1);
@@ -115,15 +135,13 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                     filePage.Trim.Y1 = Math.Round(trims[1] / PdfHelper.mn, 1);
                     filePage.Trim.X2 = Math.Round(trims[2] / PdfHelper.mn, 1);
                     filePage.Trim.Y2 = Math.Round(trims[3] / PdfHelper.mn, 1);
-                    //filePage.Angle = p.pcos_get_number(doc, $"length:pages[{i - 1}]/Rotate");
+
+                    filePage.Crop.X1 = Math.Round(crops[0] / PdfHelper.mn, 1);
+                    filePage.Crop.Y1 = Math.Round(crops[1] / PdfHelper.mn, 1);
+                    filePage.Crop.X2 = Math.Round(crops[2] / PdfHelper.mn, 1);
+                    filePage.Crop.Y2 = Math.Round(crops[3] / PdfHelper.mn, 1);
 
                     Pages[i - 1] = filePage;
-
-                    Console.WriteLine($"MediaBox: X1={filePage.Media.X1:N2}, Y1={filePage.Media.Y1:N2}, X2={filePage.Media.X2:N2}, Y2={filePage.Media.Y2:N2}, W={filePage.Media.W:N2}, H={filePage.Media.H:N2}");
-                    Console.WriteLine($"TrimBox : X1={filePage.Trim.X1:N2}, Y1={filePage.Trim.Y1:N2}, X2={filePage.Trim.X2:N2}, Y2={filePage.Trim.Y2:N2}, W={filePage.Trim.W:N2}, H={filePage.Trim.H:N2}");
-                    // Console.WriteLine($"Angle: {filePage.Angle}");
-                    Console.WriteLine();
-
 
                     p.close_pdi_page(page);
                 }
