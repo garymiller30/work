@@ -92,7 +92,7 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
                 var page = p.open_pdi_page(indoc, pageno, "");
 
                 Box media = new Box();
-                media.GetMediabox(p, indoc, page);
+                media.GetMediabox(p, indoc, pageno-1);
 
                 double bleed = _params.Bleed * PdfScaler.mn;
 
