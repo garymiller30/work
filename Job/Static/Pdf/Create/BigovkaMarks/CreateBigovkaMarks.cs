@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -26,12 +27,29 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
             {
                 p = new PDFlib();
 
-                string targetFile =
+                var filename = Path.GetFileName(filePath);
+
+                var reg = new Regex(@"#(\d+)\.");
+                var match = reg.Match(filename);
+                string targetFile;
+                if (match.Success)
+                {
+                    int len = match.Groups[1].Value.Length + 1;
+                    var filenameWithoutExt = Path.GetFileNameWithoutExtension(filename);
+                    filenameWithoutExt = filenameWithoutExt.Substring(0, filenameWithoutExt.Length - len);
+
+                    targetFile = Path.Combine(
+                        Path.GetDirectoryName(filePath), filenameWithoutExt + "_big_" + CreateBigovkaName() + "_#" + match.Groups[1].Value + Path.GetExtension(filePath));
+                }
+                else
+                {
+                    targetFile =
                     Path.Combine(
                         Path.GetDirectoryName(filePath),
                         Path.GetFileNameWithoutExtension(filePath) +
                         "_big_" + CreateBigovkaName() +
                         Path.GetExtension(filePath));
+                }
 
                 p.begin_document(targetFile, "");
 
