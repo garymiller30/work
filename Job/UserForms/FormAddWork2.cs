@@ -106,9 +106,6 @@ namespace JobSpace.UserForms
 
             if (!UserProfile.Settings.HideCategory)
             {
-                //var categories = CategoryToCustomerAsignManager.GetCustomerCategories(UserProfile,)
-                //var categories = UserProfile.Categories.GetAll().ToList();
-                //kryptonComboBoxCategory.DataSource = categories;
                 kryptonComboBoxCategory.DisplayMember = "Name";
             }
 
@@ -294,6 +291,11 @@ namespace JobSpace.UserForms
 
         private void kryptonComboBox_Customers_SelectedIndexChanged(object sender, EventArgs e)
         {
+            AssignCategories();
+        }
+
+        private void AssignCategories()
+        {
             var customer = kryptonComboBox_Customers.SelectedItem as Customer;
 
             if (customer == null) return;
@@ -302,10 +304,23 @@ namespace JobSpace.UserForms
 
 
             var categories = CategoryToCustomerAsignManager.GetCustomerCategories(UserProfile, customer.Id);
-            //var categories = UserProfile.Categories.GetAll().ToList();
+            
             kryptonComboBoxCategory.DataSource = categories;
             kryptonComboBoxCategory.DisplayMember = "Name";
             kryptonComboBoxCategory.SelectedItem = null;
+        }
+
+        private void kryptonComboBoxCategory_Enter(object sender, EventArgs e)
+        {
+            AssignCategories();
+            Application.DoEvents(); // Оновлюємо інтерфейс
+            kryptonComboBoxCategory.DroppedDown = true;
+        }
+
+        private void kryptonComboBox_Customers_Enter(object sender, EventArgs e)
+        {
+
+            kryptonComboBox_Customers.DroppedDown = true;
         }
     }
 }

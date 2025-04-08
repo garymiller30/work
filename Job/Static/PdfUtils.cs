@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -7,8 +8,11 @@ using Ghostscript.NET.Rasterizer;
 using ImageMagick;
 using Interfaces;
 using Interfaces.PdfUtils;
+using iText.Kernel.Pdf;
+using JobSpace.Static.Pdf.ColorSpaces;
 using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
+using SharpCompress.Common;
 
 namespace JobSpace.Static
 {
@@ -21,7 +25,7 @@ namespace JobSpace.Static
             switch (ext)
             {
                 case ".pdf":
-                    GetColorspacePdf(sfi);
+                    GetPdfColorspace(sfi);
                     break;
                 case ".psd":
                 case ".jpeg":
@@ -67,7 +71,7 @@ namespace JobSpace.Static
             }
             catch (Exception e)
             {
-              Logger.Log.Error(null, "GetColorspaceImage",e.Message);
+                Logger.Log.Error(null, "GetColorspaceImage", e.Message);
             }
         }
 
@@ -77,7 +81,7 @@ namespace JobSpace.Static
             if (File.Exists(sfi.FileInfo.FullName))
             {
                 var p = new PDFlib();
-                
+
                 try
                 {
                     p.begin_document("", "");
@@ -145,7 +149,7 @@ namespace JobSpace.Static
                         case "All":
                             sfi.UsedColorSpace |= ColorSpaces.All;
                             break;
-                            
+
                         case "ProofColor":
                             sfi.UsedColorSpace |= ColorSpaces.Spot;
                             break;
@@ -159,7 +163,7 @@ namespace JobSpace.Static
             }
         }
 
-        private static List<string> PrintColorspaces(PDFlib p,int doc, int page)
+        private static List<string> PrintColorspaces(PDFlib p, int doc, int page)
         {
             var colorList = new List<string>();
 
@@ -170,13 +174,13 @@ namespace JobSpace.Static
                 for (int i = 0; i < colorspacecount; i++)
                 {
                     var opt = $"pages[{page}]/colorspaces[{i}]";
-                    colorList.AddRange(PrintColorspace(p,doc,i, opt));
+                    colorList.AddRange(PrintColorspace(p, doc, i, opt));
                 }
             }
             return colorList;
         }
 
-        private static List<string> PrintColorspace(PDFlib p, int doc,int page, string colorSpacePath)
+        private static List<string> PrintColorspace(PDFlib p, int doc, int page, string colorSpacePath)
         {
             var colorlist = new List<string>();
             var colorspace = p.pcos_get_string(doc, $"{colorSpacePath}/name");
@@ -206,32 +210,63 @@ namespace JobSpace.Static
 
         }
 
-        public static void SetTrimBoxWidth(string fullName, object newValue)
+        private static void GetPdfColorspace(IFileSystemInfoExt sfi)
         {
-            if (float.TryParse(newValue.ToString(), out float res))
+            int numberOfPages = 0;
+            using (PdfReader reader = new PdfReader(sfi.FileInfo.FullName))
+            using (PdfDocument pdfDoc = new PdfDocument(reader))
             {
-                if (File.Exists(fullName) && Path.GetExtension(fullName).ToLower().Equals(".pdf"))
+                numberOfPages = pdfDoc.GetNumberOfPages();
+                Debug.WriteLine($"Кількість сторінок: {numberOfPages}");
+            }
+
+            for (int i = 1; i <= numberOfPages; i++)
+            {
+                List<string> pageColors = PdfColorExtractor.ExtractColorsFromPage(sfi.FileInfo.FullName, i);
+
+                Debug.WriteLine($"Знайдені унікальні кольори на сторінці {i}:");
+                sfi.UsedColorSpace = 0;
+                if (pageColors.Count > 0)
                 {
-                    _setTrimBox(fullName, res);
+                    
+                    foreach (string color in pageColors)
+                    {
+                        Debug.WriteLine(color);
+                        switch (color)
+                        {
+                            case "CMYK":
+                                sfi.UsedColorSpace |= ColorSpaces.Cmyk;
+                                break;
+                            case "Lab":
+                                sfi.UsedColorSpace |= ColorSpaces.Lab;
+                                break;
+                            case "Rgb":
+                                sfi.UsedColorSpace |= ColorSpaces.Rgb;
+                                break;
+                            case "Grayscale":
+                                sfi.UsedColorSpace |= ColorSpaces.Gray;
+                                break;
+                            case "Indexed":
+                                sfi.UsedColorSpace |= ColorSpaces.Pattern;
+                                break;
+                            case "ICCBased":
+                                sfi.UsedColorSpace |= ColorSpaces.ICCBased;
+                                break;
+                            case "Spot":
+                                sfi.UsedColorSpace |= ColorSpaces.Spot;
+                                break;
+                            default:
+                                sfi.UsedColorSpace |= ColorSpaces.Unknown;
+                                break;
+                        }
+                    }
                 }
+                else
+                {
+                    Debug.WriteLine("Кольорів не знайдено або сталася помилка.");
+                }
+
             }
-            else
-            {
-                throw new Exception("PdfUtils->SetTrimBoxWidth: width not decimal or file not exist");
-            }
         }
-
-        internal static void SetTrimBoxHeight(string fullName, object newValue)
-        {
-           
-        }
-
-
-        static  void _setTrimBox(string fileName, float width)
-        {
-
-        }
-
-        
     }
 }

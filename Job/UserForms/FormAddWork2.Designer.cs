@@ -41,15 +41,15 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.checkBoxCloseAfterPaste = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
-            this.textBox_Description = new JobSpace.UC.UcTexBox(this.components);
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonPanel3 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonSplitContainer1 = new Krypton.Toolkit.KryptonSplitContainer();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
-            this.ucNote1 = new JobSpace.UC.UcNote();
             this.kryptonGroupBox2 = new Krypton.Toolkit.KryptonGroupBox();
-            this.ucAddWorkPluginsContainer1 = new JobSpace.UC.UcAddWorkPluginsContainer();
             this.kryptonButton_OK = new Krypton.Toolkit.KryptonButton();
+            this.ucNote1 = new JobSpace.UC.UcNote();
+            this.ucAddWorkPluginsContainer1 = new JobSpace.UC.UcAddWorkPluginsContainer();
+            this.textBox_Description = new JobSpace.UC.UcTexBox(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
             this.kryptonPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelCategory)).BeginInit();
@@ -106,7 +106,6 @@
             // 
             // kryptonPanel2
             // 
-            this.kryptonPanel2.Controls.Add(this.panelCategory);
             this.kryptonPanel2.Controls.Add(this.kryptonComboBox_Customers);
             this.kryptonPanel2.Controls.Add(this.kryptonLabel1);
             this.kryptonPanel2.Location = new System.Drawing.Point(183, 12);
@@ -118,15 +117,16 @@
             // 
             this.panelCategory.Controls.Add(this.kryptonComboBoxCategory);
             this.panelCategory.Controls.Add(this.kryptonLabel2);
-            this.panelCategory.Location = new System.Drawing.Point(3, 33);
+            this.panelCategory.Location = new System.Drawing.Point(419, 12);
             this.panelCategory.Name = "panelCategory";
-            this.panelCategory.Size = new System.Drawing.Size(227, 35);
-            this.panelCategory.TabIndex = 52;
+            this.panelCategory.Size = new System.Drawing.Size(227, 487);
+            this.panelCategory.TabIndex = 2;
             // 
             // kryptonComboBoxCategory
             // 
             this.kryptonComboBoxCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.kryptonComboBoxCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.kryptonComboBoxCategory.DropDownHeight = 500;
             this.kryptonComboBoxCategory.DropDownWidth = 135;
             this.kryptonComboBoxCategory.IntegralHeight = false;
             this.kryptonComboBoxCategory.Location = new System.Drawing.Point(73, 6);
@@ -135,6 +135,7 @@
             this.kryptonComboBoxCategory.Sorted = true;
             this.kryptonComboBoxCategory.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonComboBoxCategory.TabIndex = 0;
+            this.kryptonComboBoxCategory.Enter += new System.EventHandler(this.kryptonComboBoxCategory_Enter);
             // 
             // kryptonLabel2
             // 
@@ -148,6 +149,7 @@
             // 
             this.kryptonComboBox_Customers.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.kryptonComboBox_Customers.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.kryptonComboBox_Customers.DropDownHeight = 500;
             this.kryptonComboBox_Customers.DropDownWidth = 147;
             this.kryptonComboBox_Customers.FormattingEnabled = true;
             this.kryptonComboBox_Customers.IntegralHeight = false;
@@ -157,6 +159,7 @@
             this.kryptonComboBox_Customers.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonComboBox_Customers.TabIndex = 0;
             this.kryptonComboBox_Customers.SelectedIndexChanged += new System.EventHandler(this.kryptonComboBox_Customers_SelectedIndexChanged);
+            this.kryptonComboBox_Customers.Enter += new System.EventHandler(this.kryptonComboBox_Customers_Enter);
             // 
             // kryptonLabel1
             // 
@@ -175,7 +178,7 @@
             this.panel4.Location = new System.Drawing.Point(12, 87);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(401, 47);
-            this.panel4.TabIndex = 2;
+            this.panel4.TabIndex = 3;
             // 
             // checkBoxCloseAfterPaste
             // 
@@ -196,17 +199,9 @@
             this.kryptonLabel4.TabIndex = 51;
             this.kryptonLabel4.Values.Text = "Опис";
             // 
-            // textBox_Description
-            // 
-            this.textBox_Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Description.Location = new System.Drawing.Point(49, 3);
-            this.textBox_Description.Name = "textBox_Description";
-            this.textBox_Description.Size = new System.Drawing.Size(349, 20);
-            this.textBox_Description.TabIndex = 0;
-            // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.panelCategory);
             this.kryptonPanel1.Controls.Add(this.kryptonPanel3);
             this.kryptonPanel1.Controls.Add(this.kryptonPanel2);
             this.kryptonPanel1.Controls.Add(this.kryptonSplitContainer1);
@@ -215,7 +210,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(424, 511);
+            this.kryptonPanel1.Size = new System.Drawing.Size(696, 511);
             this.kryptonPanel1.TabIndex = 49;
             // 
             // kryptonPanel3
@@ -245,7 +240,7 @@
             // kryptonSplitContainer1.Panel2
             // 
             this.kryptonSplitContainer1.Panel2.Controls.Add(this.kryptonGroupBox2);
-            this.kryptonSplitContainer1.Size = new System.Drawing.Size(400, 310);
+            this.kryptonSplitContainer1.Size = new System.Drawing.Size(402, 310);
             this.kryptonSplitContainer1.SplitterDistance = 181;
             this.kryptonSplitContainer1.TabIndex = 50;
             // 
@@ -258,17 +253,9 @@
             // kryptonGroupBox1.Panel
             // 
             this.kryptonGroupBox1.Panel.Controls.Add(this.ucNote1);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(400, 181);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(402, 181);
             this.kryptonGroupBox1.TabIndex = 0;
             this.kryptonGroupBox1.Values.Heading = "Примітка";
-            // 
-            // ucNote1
-            // 
-            this.ucNote1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucNote1.Location = new System.Drawing.Point(0, 0);
-            this.ucNote1.Name = "ucNote1";
-            this.ucNote1.Size = new System.Drawing.Size(396, 157);
-            this.ucNote1.TabIndex = 0;
             // 
             // kryptonGroupBox2
             // 
@@ -279,35 +266,52 @@
             // kryptonGroupBox2.Panel
             // 
             this.kryptonGroupBox2.Panel.Controls.Add(this.ucAddWorkPluginsContainer1);
-            this.kryptonGroupBox2.Size = new System.Drawing.Size(400, 124);
+            this.kryptonGroupBox2.Size = new System.Drawing.Size(402, 124);
             this.kryptonGroupBox2.TabIndex = 0;
             this.kryptonGroupBox2.Values.Heading = "Додатково";
+            // 
+            // kryptonButton_OK
+            // 
+            this.kryptonButton_OK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.kryptonButton_OK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.kryptonButton_OK.Location = new System.Drawing.Point(280, 460);
+            this.kryptonButton_OK.Name = "kryptonButton_OK";
+            this.kryptonButton_OK.Size = new System.Drawing.Size(134, 39);
+            this.kryptonButton_OK.TabIndex = 4;
+            this.kryptonButton_OK.Values.Text = "OK";
+            this.kryptonButton_OK.Click += new System.EventHandler(this.Button_Ok_Click);
+            // 
+            // ucNote1
+            // 
+            this.ucNote1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucNote1.Location = new System.Drawing.Point(0, 0);
+            this.ucNote1.Name = "ucNote1";
+            this.ucNote1.Size = new System.Drawing.Size(398, 157);
+            this.ucNote1.TabIndex = 0;
             // 
             // ucAddWorkPluginsContainer1
             // 
             this.ucAddWorkPluginsContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucAddWorkPluginsContainer1.Location = new System.Drawing.Point(0, 0);
             this.ucAddWorkPluginsContainer1.Name = "ucAddWorkPluginsContainer1";
-            this.ucAddWorkPluginsContainer1.Size = new System.Drawing.Size(396, 100);
+            this.ucAddWorkPluginsContainer1.Size = new System.Drawing.Size(398, 100);
             this.ucAddWorkPluginsContainer1.TabIndex = 0;
             // 
-            // kryptonButton_OK
+            // textBox_Description
             // 
-            this.kryptonButton_OK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.kryptonButton_OK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.kryptonButton_OK.Location = new System.Drawing.Point(144, 460);
-            this.kryptonButton_OK.Name = "kryptonButton_OK";
-            this.kryptonButton_OK.Size = new System.Drawing.Size(134, 39);
-            this.kryptonButton_OK.TabIndex = 3;
-            this.kryptonButton_OK.Values.Text = "OK";
-            this.kryptonButton_OK.Click += new System.EventHandler(this.Button_Ok_Click);
+            this.textBox_Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_Description.Location = new System.Drawing.Point(49, 3);
+            this.textBox_Description.Name = "textBox_Description";
+            this.textBox_Description.Size = new System.Drawing.Size(349, 20);
+            this.textBox_Description.TabIndex = 0;
             // 
             // FormAddWork2
             // 
             this.AcceptButton = this.kryptonButton_OK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 511);
+            this.ClientSize = new System.Drawing.Size(696, 511);
             this.Controls.Add(this.kryptonPanel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;

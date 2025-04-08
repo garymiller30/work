@@ -32,10 +32,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormFtpDirectoryList));
             this.objectListView_Ftp = new BrightIdeasSoftware.ObjectListView();
             this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
-            this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView_Ftp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
@@ -70,6 +70,12 @@
             this.olvColumn1.Text = "Ім\'я";
             this.olvColumn1.Width = 200;
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Folder-icon.png");
+            // 
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.kryptonButton2);
@@ -79,16 +85,6 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(344, 257);
             this.kryptonPanel1.TabIndex = 3;
-            // 
-            // kryptonButton1
-            // 
-            this.kryptonButton1.Location = new System.Drawing.Point(3, 3);
-            this.kryptonButton1.Name = "kryptonButton1";
-            this.kryptonButton1.Size = new System.Drawing.Size(80, 25);
-            this.kryptonButton1.TabIndex = 3;
-            this.kryptonButton1.Values.Image = global::JobSpace.Properties.Resources.arrow_turn_left;
-            this.kryptonButton1.Values.Text = "назад";
-            this.kryptonButton1.Click += new System.EventHandler(this.button_Up_Click);
             // 
             // kryptonButton2
             // 
@@ -101,11 +97,14 @@
             this.kryptonButton2.Values.Text = "Вибрати";
             this.kryptonButton2.Click += new System.EventHandler(this.button_Select_Click);
             // 
-            // imageList1
+            // kryptonButton1
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Folder-icon.png");
+            this.kryptonButton1.Location = new System.Drawing.Point(3, 3);
+            this.kryptonButton1.Name = "kryptonButton1";
+            this.kryptonButton1.Size = new System.Drawing.Size(80, 25);
+            this.kryptonButton1.TabIndex = 3;
+            this.kryptonButton1.Values.Text = "назад";
+            this.kryptonButton1.Click += new System.EventHandler(this.button_Up_Click);
             // 
             // FormFtpDirectoryList
             // 

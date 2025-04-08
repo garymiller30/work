@@ -1366,17 +1366,17 @@ namespace JobSpace.UC
             }
             else if (e.Column == olvColumnWidth)
             {
-                if (e.RowObject is IFileSystemInfoExt file)
-                {
-                    PdfUtils.SetTrimBoxWidth(file.FileInfo.FullName, e.NewValue);
-                }
+                //if (e.RowObject is IFileSystemInfoExt file)
+                //{
+                //    PdfUtils.SetTrimBoxWidth(file.FileInfo.FullName, e.NewValue);
+                //}
             }
             else if (e.Column == olvColumnHeight)
             {
-                if (e.RowObject is IFileSystemInfoExt file)
-                {
-                    PdfUtils.SetTrimBoxHeight(file.FileInfo.FullName, e.NewValue);
-                }
+                //if (e.RowObject is IFileSystemInfoExt file)
+                //{
+                //    PdfUtils.SetTrimBoxHeight(file.FileInfo.FullName, e.NewValue);
+                //}
             }
 
 
