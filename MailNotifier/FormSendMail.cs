@@ -272,6 +272,8 @@ namespace MailNotifier
 
         private void SetShablon(MailShablon shablon)
         {
+            
+
             if (!comboBoxTo.Items.Contains(shablon.SendTo))
             {
                 comboBoxTo.Items.Add(shablon.SendTo);

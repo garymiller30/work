@@ -106,6 +106,7 @@ namespace JobSpace.Profiles
         {
             if (IsInitialized)
             {
+                Jobs.JobListControl.Close();
                 //MailNotifier?.StopWatching();
                 Plugins?.MqController?.Disconnect();
                 FileBrowser?.SaveSettings();
@@ -117,11 +118,6 @@ namespace JobSpace.Profiles
         public void SaveSettings<T>(T settings) where T : class
         {
             var str = JsonSerializer.Serialize(settings); 
-            
-            //JsonConvert.SerializeObject(settings, new JsonSerializerSettings
-            //{
-             //   TypeNameHandling = TypeNameHandling.Auto
-            //});
 
             var pluginSettingsPath =
                 Path.Combine(ProfilePath, $"{typeof(T).Name}.json");

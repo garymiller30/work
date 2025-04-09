@@ -17,6 +17,7 @@ namespace Interfaces
         void ApplyJobListFilter(string filterText);
         void SelectJob(IJob job);
 
+
         EventHandler<int> OnChangeCountJobs { get; set; }
 
         /// <summary>

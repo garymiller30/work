@@ -265,6 +265,7 @@ namespace ActiveWorks
             };
             button.Click += (sender, args) =>
             {
+                
                 formProfile.SaveLayout();
             };
             groupTriple.Items.Add(button);

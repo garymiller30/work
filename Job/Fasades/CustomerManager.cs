@@ -224,7 +224,10 @@ namespace JobSpace.Fasades
 
             customer.Name = text;
 
+            text = text.Transliteration();
+
             string customerDir;
+
 
             if (string.IsNullOrEmpty(_profile.Jobs.Settings.WorkPath))
             {
@@ -244,7 +247,7 @@ namespace JobSpace.Fasades
                                 MessageBoxIcon.Error);
                             return false;
                         }
-                        //customer.CustomFolder = fd.SelectedPath;
+                        
                     }
                     else
                     {

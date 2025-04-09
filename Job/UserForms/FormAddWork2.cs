@@ -312,8 +312,6 @@ namespace JobSpace.UserForms
 
         private void kryptonComboBoxCategory_Enter(object sender, EventArgs e)
         {
-            AssignCategories();
-            Application.DoEvents(); // Оновлюємо інтерфейс
             kryptonComboBoxCategory.DroppedDown = true;
         }
 
