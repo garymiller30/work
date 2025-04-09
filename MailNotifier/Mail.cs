@@ -26,7 +26,7 @@ namespace MailNotifier
         public IMailSettings Settings { get; set; }
         private readonly IUserProfile _profile;
         private IJob _curJob;
-        private readonly List<string> _attachmentsList = new List<string>();
+        private  List<string> _attachmentsList { get; set;} = new List<string>();
         public bool ShowBaloon;
        
         //private AutoResetEvent _reconnectEvent;

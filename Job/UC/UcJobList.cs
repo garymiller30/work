@@ -459,10 +459,7 @@ namespace JobSpace.UC
         {
             objectListView_NewWorks.ClearObjects();
             _profile.Jobs.Search(text);
-
         }
-
-
 
         public void RepeatSelectedJob() => RepeatJob();
 
@@ -472,12 +469,10 @@ namespace JobSpace.UC
             objectListView_NewWorks.ClearObjects();
             _profile.Jobs?.ApplyStatusViewFilter();
             _onChangeCountJobs();
-            //objectListView_NewWorks.ModelFilter = new ModelFilter(CheckFilter);
         }
 
         public void ApplyViewFilter(DateTime date)
         {
-            //objectListView_NewWorks.ModelFilter = new ModelFilter(o => ((IJob)o).Date.Date.Equals(date.Date) );
             objectListView_NewWorks.ClearObjects();
             _profile.Jobs.ApplyDateFilter(date);
         }
