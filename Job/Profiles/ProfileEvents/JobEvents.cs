@@ -7,13 +7,13 @@ namespace JobSpace.Profiles.ProfileEvents
 {
     public sealed class JobEvents : AbstractEvents, IJobEvents
     {
-        public event EventHandler<IJob> OnSetCurrentJob = delegate { };
-        public event EventHandler<IJob> OnJobAdd = delegate { };
-        public event EventHandler<ICollection> OnJobsAdd = delegate { };
-        public event EventHandler<IJob> OnJobChange = delegate { };
-        public event EventHandler<IJob> OnJobBeginEdit = delegate { };
-        public event EventHandler<IJob> OnJobFinishEdit = delegate { };
-        public event EventHandler<IJob> OnJobDelete = delegate { };
+        public EventHandler<IJob> OnSetCurrentJob { get;set;}  = delegate { };
+        public EventHandler<IJob> OnJobAdd { get;set;} = delegate { };
+        public EventHandler<ICollection> OnJobsAdd { get;set;} = delegate { };
+        public EventHandler<IJob> OnJobChange { get; set; } = delegate { };
+        public EventHandler<IJob> OnJobBeginEdit { get; set; } = delegate { };
+        public EventHandler<IJob> OnJobFinishEdit { get; set; } = delegate { };
+        public EventHandler<IJob> OnJobDelete { get; set; } = delegate { };
 
         public override void Init(IUserProfile profile)
         {

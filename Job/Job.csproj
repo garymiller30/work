@@ -310,6 +310,7 @@
       <DependentUpon>FormEditStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\MongoRepository.cs" />
+    <Compile Include="Models\JobListFilter.cs" />
     <Compile Include="Models\PantoneTable.cs" />
     <Compile Include="Models\PdfColorResult.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\ColorExtractionListener.cs" />

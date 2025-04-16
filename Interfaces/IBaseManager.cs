@@ -16,8 +16,11 @@ namespace Interfaces
         new bool Add<T>(string collection, T obj) where T : class, new();
 
         IJob GetByOrderNumber(string orderNumber);
-        List<IJob> ApplyViewFilter(int[] statuses);
-        List<IJob> Search(string text);
-        List<IJob> SearchByDate(DateTime date);
+        List<IJob> ApplyViewFilterStatuses(int[] statuses);
+        List<IJob> ApplyViewFilterCustomer(string customer);
+        List<IJob> ApplyViewFilterDate(DateTime date);
+        List<IJob> ApplyViewFilterText(string text);
+        //List<IJob> Search(string text);
+        //List<IJob> SearchByDate(DateTime date);
     }
 }

@@ -26,6 +26,8 @@ namespace JobSpace.UC
 
         public void SetText(string text)
         {
+            if (string.IsNullOrEmpty(text)) return;
+
             if (text.TrimStart().StartsWith(@"{\rtf1", StringComparison.Ordinal))
             {
                 kryptonRichTextBox1.Rtf = text;

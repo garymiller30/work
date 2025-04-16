@@ -84,7 +84,7 @@ namespace ActiveWorks.UserControls
 
             //profile.Jobs.LoadJobs();
            
-            profile.Jobs?.ApplyStatusViewFilter();
+            profile.Jobs?.ApplyViewListFilterStatuses(_profile.StatusManager.GetEnabledViewStatuses());
         }
 
         private void CreateJobListTab()
@@ -181,9 +181,6 @@ namespace ActiveWorks.UserControls
 
             foreach (var pluginName in _profile.Plugins.GetPluginNames())
             {
-                //_profile.Plugins.InvokeMethod(pluginName, "SetCurJobPathCallBack", _profile.Jobs.JobListControl.GetSelectedJobPath());
-                //_profile.Plugins.InvokeMethod(pluginName, "SetCurJobCallBack", _profile.Jobs.JobListControl.GetSelectedJob());
-
                 var c = (Control)_profile.Plugins.InvokeMethod(pluginName, "GetUserControl");
 
 
@@ -196,7 +193,6 @@ namespace ActiveWorks.UserControls
                     _profile.Plugins.InvokeMethod(pluginName, "SetUserProfile", _profile);
                     _profile.Plugins.InvokeMethod(pluginName, "Start");
                 }
-
             }
 
             if (parent.Pages.Count > 0)

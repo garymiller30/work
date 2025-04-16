@@ -30,7 +30,7 @@ namespace Interfaces
 
         event EventHandler<IJob> OnSetCurrentJob;
         event EventHandler<IJob> OnJobAdd;
-        event EventHandler<ICollection> OnJobsAdd;
+        EventHandler<ICollection> OnJobsAdd { get;set;}
         event EventHandler<IJob> OnJobChange;
         event EventHandler<IJob> OnJobBeginEdit;
         event EventHandler<IJob> OnJobFinishEdit;
@@ -42,9 +42,13 @@ namespace Interfaces
         void CreateJob(IPluginNewOrder pluginNewOrder);
 
 
-        void ApplyStatusViewFilter();
-        void Search(string text);
-        void ApplyDateFilter(DateTime date);
+        //void ApplyStatusViewFilter();
+        //void Search(string text);
+        //void ApplyDateFilter(DateTime date);
         void DeleteJob(IJob job);
+        void ApplyViewListFilterCustomer(string text);
+        void ApplyViewListFilterStatuses(int[] statuses);
+        void ApplyViewListFilterDate(DateTime date);
+        void ApplyViewListFilterText(string text);
     }
 }
