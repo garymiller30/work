@@ -6,13 +6,13 @@ namespace Interfaces
 {
     public interface IJobEvents
     {
-        event EventHandler<IJob> OnSetCurrentJob;
-        event EventHandler<IJob> OnJobAdd;
-        event EventHandler<ICollection> OnJobsAdd;
-        event EventHandler<IJob> OnJobChange;
-        event EventHandler<IJob> OnJobBeginEdit;
-        event EventHandler<IJob> OnJobFinishEdit;
-        event EventHandler<IJob> OnJobDelete;
+        EventHandler<IJob> OnSetCurrentJob {get;set; }
+        EventHandler<IJob> OnJobAdd { get;set; }
+        EventHandler<ICollection> OnJobsAdd {get;set; }
+        EventHandler<IJob> OnJobChange { get;set; }
+        EventHandler<IJob> OnJobBeginEdit { get; set; }
+        EventHandler<IJob> OnJobFinishEdit { get; set; }
+        EventHandler<IJob> OnJobDelete { get; set; }
 
         void RiseOnJobChange(IJob job);
         void Init(IUserProfile profile);

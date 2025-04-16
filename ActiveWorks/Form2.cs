@@ -306,27 +306,75 @@ namespace ActiveWorks
                 TextLine1 = @"Пошук",
                 MinimumWidth = 100,
                 AllowCollapsed = false
-
-
             };
 
             tab.Groups.Add(group);
 
-            var triple = new KryptonRibbonGroupTriple { ItemSizeMaximum = GroupItemSize.Small };
+            var triple1 = new KryptonRibbonGroupTriple { ItemSizeMaximum = GroupItemSize.Small };
 
             group.Image = Resources.Binoculars_icon;
-            group.Items.Add(triple);
+            group.Items.Add(triple1);
+
+            //var triple2 = new KryptonRibbonGroupTriple { ItemSizeMaximum = GroupItemSize.Small };
+            //group.Items.Add(triple2);
+
+
+            // додати combobox для фільтру по замовникам
+            var cb_customers = new KryptonRibbonGroupComboBox();
+            cb_customers.ComboBox.ToolTipValues.Heading = @"Фільтр по замовнику";
+            cb_customers.ComboBox.ToolTipValues.Description = @"Виберіть замовника";
+            cb_customers.ComboBox.ToolTipValues.EnableToolTips = true;
+
+            AutoCompleteStringCollection customer_data = new AutoCompleteStringCollection();
+
+            var customers = profile.Customers.Where(x=> x.Show == true).Select(x => x.Name).ToArray();
+
+            if (profile.Customers != null) customer_data.AddRange(customers);
+            cb_customers.ComboBox.Items.AddRange(customers);
+            cb_customers.ComboBox.SelectedIndex = -1;
+            cb_customers.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cb_customers.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            cb_customers.AutoCompleteCustomSource = customer_data;
+
+            cb_customers.KeyDown += (sender, args) =>
+            {
+                if (args.KeyCode == Keys.Enter)
+                {
+                    profile.Jobs.JobListControl.ApplyViewListFilterCustomer(cb_customers.Text);
+                }
+            };
+            cb_customers.SelectedIndexChanged += (sender, args) =>
+            {
+                profile.Jobs.JobListControl.ApplyViewListFilterCustomer(cb_customers.Text);
+            };
+
+            var btn_clearCustomers = new ButtonSpecAny
+            {
+                Style = PaletteButtonStyle.Standalone,
+                Type = PaletteButtonSpecStyle.Close
+            };
+
+            btn_clearCustomers.Click += (sender, args) =>
+            {
+                cb_customers.Text = string.Empty;
+                profile.Jobs.JobListControl.ApplyViewListFilterCustomer(string.Empty);
+            };
+
+            cb_customers.ButtonSpecs.Add(btn_clearCustomers);
+
+
+            triple1.Items.Add(cb_customers);
 
             var combobox = new KryptonRibbonGroupComboBox();
             combobox.ComboBox.ToolTipValues.Description = @"Введіть слово і натисніть <Enter> для пошуку";
             combobox.ComboBox.ToolTipValues.Image = Resources.Sql_runner_icon;
             combobox.ComboBox.ToolTipValues.Heading = @"Пошук по базі";
             combobox.ComboBox.ToolTipValues.EnableToolTips = true;
-
+            
 
             AutoCompleteStringCollection data = new AutoCompleteStringCollection();
-            if (profile.Customers != null)
-                data.AddRange(profile.Customers.Select(x => x.Name).ToArray());
+            //if (profile.Customers != null)
+            //    data.AddRange(customers);
             if (profile.Categories != null)
             {
                 data.AddRange(profile.Categories.GetAll().Select(x => x.Name).ToArray());
@@ -344,17 +392,17 @@ namespace ActiveWorks
 
                 if (args.KeyCode == Keys.Enter)
                 {
-                    profile.Jobs.JobListControl.Search(combobox.Text);
+                    profile.Jobs.JobListControl.ApplyViewListFilterText(combobox.Text);
                 }
             };
             combobox.TextUpdate += (sender, args) =>
             {
                 if (string.IsNullOrEmpty(combobox.Text))
-                    profile.Jobs.JobListControl.ApplyViewFilter();
+                    profile.Jobs.JobListControl.ApplyViewListFilterText(string.Empty);
             };
             combobox.SelectedIndexChanged += (sender, args) =>
             {
-                profile.Jobs.JobListControl.Search(combobox.Text);
+                profile.Jobs.JobListControl.ApplyViewListFilterText(combobox.Text);
             };
 
             var clearButton = new ButtonSpecAny
@@ -368,11 +416,11 @@ namespace ActiveWorks
                 combobox.Text = string.Empty;
                 combobox.Items.Clear();
                 combobox.Items.AddRange(profile.SearchHistory.GetHistory());
-                profile.Jobs.JobListControl.ApplyViewFilter();
+                profile.Jobs.JobListControl.ApplyViewListFilterText(combobox.Text);
             };
 
             combobox.ButtonSpecs.Add(clearButton);
-            triple.Items.Add(combobox);
+            triple1.Items.Add(combobox);
 
             var textBox = new KryptonRibbonGroupTextBox();
             textBox.TextBox.ToolTipValues.EnableToolTips = true;
@@ -382,7 +430,7 @@ namespace ActiveWorks
 
             textBox.TextChanged += (sender, args) =>
             {
-                profile.Jobs.JobListControl.ApplyJobListFilter(textBox.Text);
+                profile.Jobs.JobListControl.ApplyViewListFilterText(textBox.Text);
             };
             var clearTextBoxBtn = new ButtonSpecAny
             {
@@ -392,20 +440,20 @@ namespace ActiveWorks
             clearTextBoxBtn.Click += (sender, args) =>
             {
                 textBox.Text = string.Empty;
-                profile.Jobs.JobListControl.ApplyJobListFilter(textBox.Text);
+                profile.Jobs.JobListControl.ApplyViewListFilterText(textBox.Text);
             };
             textBox.ButtonSpecs.Add(clearTextBoxBtn);
-            triple.Items.Add(textBox);
+            triple1.Items.Add(textBox);
 
-            var dateSelect = new KryptonRibbonGroupDateTimePicker
-            {
-                MinimumSize = new Size(120, 0),
-                MaximumSize = new Size(120, 0)
-            };
+            //var dateSelect = new KryptonRibbonGroupDateTimePicker
+            //{
+            //    MinimumSize = new Size(120, 0),
+            //    MaximumSize = new Size(120, 0)
+            //};
 
-            dateSelect.CloseUp += (sender, args) => profile.Jobs.JobListControl.ApplyViewFilter(dateSelect.DateTimePicker.Value);
+            //dateSelect.CloseUp += (sender, args) => profile.Jobs.JobListControl.ApplyViewListFilterDate(dateSelect.DateTimePicker.Value);
 
-            triple.Items.Add(dateSelect);
+            //triple1.Items.Add(dateSelect);
 
         }
 
@@ -425,36 +473,24 @@ namespace ActiveWorks
             var groupLines = new KryptonRibbonGroupLines { ItemSizeMaximum = GroupItemSize.Small };
             group.Items.Add(groupLines);
 
-            // завантажуємо фільтри статусів
-            //Dictionary<int, bool> dic = profile.StatusManager.GetViewStatuses();
-
-
             foreach (IJobStatus status in profile.StatusManager.GetJobStatuses())
             {
-
-
                 var button = new KryptonRibbonGroupButton()
                 {
-                    
-                    //ToolTipStyle = LabelStyle.ToolTip,
-                    //ToolTipBody = status.Name,
                     TextLine1 = status.Name,
                     ImageSmall = status.Img,
                     ButtonType = GroupButtonType.Check,
                     Tag = status
                 };
-
-
-
                 button.Click += (sender, args) =>
                 {
                     IJobStatus assignedStatus = (IJobStatus)((KryptonRibbonGroupButton)sender).Tag;
 
                     profile.StatusManager.ViewStatusChecked(assignedStatus, ((KryptonRibbonGroupButton)sender).Checked);
-                    profile.Jobs.JobListControl.ApplyViewFilter();
+
+                    profile.Jobs.JobListControl.ApplyViewListFilterStatuses(profile.StatusManager.GetEnabledViewStatuses());
                 };
                 button.Checked = profile.StatusManager.IsViewStatusChecked(status.Code);
-
                 groupLines.Items.Add(button);
             }
 

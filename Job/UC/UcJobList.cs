@@ -352,8 +352,7 @@ namespace JobSpace.UC
         {
             this.InvokeIfNeeded(() =>
             {
-                objectListView_NewWorks.ClearObjects();
-                objectListView_NewWorks.AddObjects(jobs);
+                objectListView_NewWorks.SetObjects(jobs);
                 _onChangeCountJobs();
             });
         }
@@ -458,23 +457,23 @@ namespace JobSpace.UC
         public void Search(string text)
         {
             objectListView_NewWorks.ClearObjects();
-            _profile.Jobs.Search(text);
+            _profile.Jobs.ApplyViewListFilterText(text);
         }
 
         public void RepeatSelectedJob() => RepeatJob();
 
-        #region ApplyViewFilter
-        public void ApplyViewFilter()
-        {
-            objectListView_NewWorks.ClearObjects();
-            _profile.Jobs?.ApplyStatusViewFilter();
-            _onChangeCountJobs();
-        }
+        #region [ApplyViewFilter]
+        //public void ApplyViewFilter()
+        //{
+        //    objectListView_NewWorks.ClearObjects();
+        //    _profile.Jobs?.ApplyStatusViewFilter();
+        //    _onChangeCountJobs();
+        //}
 
         public void ApplyViewFilter(DateTime date)
         {
-            objectListView_NewWorks.ClearObjects();
-            _profile.Jobs.ApplyDateFilter(date);
+            //objectListView_NewWorks.ClearObjects();
+            _profile.Jobs.ApplyViewListFilterDate(date);
         }
 
         public void ApplyViewFilter(IJob job)
@@ -617,13 +616,11 @@ namespace JobSpace.UC
                 catch (Exception ee)
                 {
                     Log.Error(_profile, "Clipboard", ee.Message);
-
                 }
-
             }
         }
 
-        private void КопироватьВБуферОписаниеЗаказаToolStripMenuItem_Click(object sender, EventArgs e)
+        private void КопіюватиВБуферОписЗамовленняToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (objectListView_NewWorks.SelectedObject is IJob o)
             {
@@ -649,9 +646,7 @@ namespace JobSpace.UC
 
         private void ObjectListView_NewWorks_Dropped(object sender, OlvDropEventArgs e)
         {
-
-            if (!(e.DropTargetItem.RowObject is IJob job))
-                return;
+            if (!(e.DropTargetItem.RowObject is IJob job)) return;
 
             if (e.DataObject is OLVDataObject olvobj)
             {
@@ -678,7 +673,6 @@ namespace JobSpace.UC
                         DownloadFromHttpLinkAsync(job, link.ToString());
                     }
                 }
-
             }
         }
 
@@ -695,9 +689,10 @@ namespace JobSpace.UC
             catch (Exception)
             {
             }
-
-            UnlockJob(job);
-
+            finally
+            {
+                UnlockJob(job);
+            }
         }
 
         private void ОбєднатиВОднеЗамовленняToolStripMenuItem_Click(object sender, EventArgs e) =>
@@ -727,13 +722,11 @@ namespace JobSpace.UC
                     {
                         Clipboard.SetText(o.Customer.Transliteration());
                     }
-
                 }
                 catch (Exception ee)
                 {
                     Log.Error(_profile, "Clipboard", ee.Message);
                 }
-
             }
         }
 
@@ -752,7 +745,6 @@ namespace JobSpace.UC
                     {
                         Clipboard.SetText(category.Transliteration());
                     }
-
                 }
                 catch (Exception ee)
                 {
@@ -771,6 +763,31 @@ namespace JobSpace.UC
             objectListView_NewWorks.DeselectAll();
             objectListView_NewWorks.SelectObject(job);
             _profile.Jobs.SetCurrentJob(job);
+        }
+
+        public void ApplyViewListFilterCustomer(string text)
+        {
+            _profile.Jobs.ApplyViewListFilterCustomer(text);
+        }
+
+        public void ApplyViewListFilterStatuses(int[] statuses)
+        {
+            _profile.Jobs.ApplyViewListFilterStatuses(statuses);
+        }
+
+        public void ApplyViewListFilterDate(DateTime date)
+        {
+            _profile.Jobs.ApplyViewListFilterDate(date);
+        }
+
+        public void ApplyViewListFilterText(string text)
+        {
+            _profile.Jobs.ApplyViewListFilterText(text);
+        }
+
+        public void ApplyViewFilter()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -39,7 +39,7 @@ namespace JobSpace.Fasades
 
         public event EventHandler<IJob> OnJobAdd = delegate { };
         public event EventHandler<IJob> OnSetCurrentJob = delegate { };
-        public event EventHandler<ICollection> OnJobsAdd = delegate { };
+        public EventHandler<ICollection> OnJobsAdd { get;set;} = delegate { };
 
         public event EventHandler<IJob> OnJobChange = delegate { };
         public event EventHandler<IJob> OnJobBeginEdit = delegate { };
@@ -84,23 +84,23 @@ namespace JobSpace.Fasades
             pluginNewOrder.ShowDialogNewOrder(_profile, null);
         }
 
-        public void ApplyStatusViewFilter()
-        {
-            _jobList = _profile.Base.ApplyViewFilter(_profile.StatusManager.GetEnabledViewStatuses());
-            OnJobsAdd(this, _jobList);
-        }
+        //public void ApplyStatusViewFilter()
+        //{
+        //    _jobList = _profile.Base.ApplyViewFilterStatuses(_profile.StatusManager.GetEnabledViewStatuses());
+        //    OnJobsAdd(this, _jobList);
+        //}
 
-        public void Search(string text)
-        {
-            _jobList = _profile.Base.Search(text);
-            OnJobsAdd(this, _jobList);
-        }
+        //public void Search(string text)
+        //{
+        //    _jobList = _profile.Base.ApplyViewFilterText(text);
+        //    OnJobsAdd(this, _jobList);
+        //}
 
-        public void ApplyDateFilter(DateTime date)
-        {
-            _jobList = _profile.Base.SearchByDate(date);
-            OnJobsAdd(this, _jobList);
-        }
+        //public void ApplyDateFilter(DateTime date)
+        //{
+        //    _jobList = _profile.Base.ApplyViewFilterDate(date);
+        //    OnJobsAdd(this, _jobList);
+        //}
 
         public void RepeatSelectedJob()
         {
@@ -718,5 +718,28 @@ namespace JobSpace.Fasades
             MongoDeleteJob(job);
         }
 
+        public void ApplyViewListFilterCustomer(string text)
+        {
+            var orders = _profile.Base.ApplyViewFilterCustomer(text);
+            OnJobsAdd(this, orders);
+        }
+
+        public void ApplyViewListFilterStatuses(int[] statuses)
+        {
+            var orders = _profile.Base.ApplyViewFilterStatuses(statuses);
+            OnJobsAdd(this, orders);
+        }
+
+        public void ApplyViewListFilterDate(DateTime date)
+        {
+            var orders = _profile.Base.ApplyViewFilterDate(date);
+            OnJobsAdd(this, orders);
+        }
+
+        public void ApplyViewListFilterText(string text)
+        {
+            var orders = _profile.Base.ApplyViewFilterText(text);
+            OnJobsAdd(this, orders);
+        }
     }
 }

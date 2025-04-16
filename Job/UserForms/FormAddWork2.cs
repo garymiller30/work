@@ -10,6 +10,7 @@ using Interfaces;
 using JobSpace.Profiles;
 using MongoDB.Bson;
 using JobSpace.Fasades;
+using BrightIdeasSoftware;
 
 namespace JobSpace.UserForms
 {
@@ -36,7 +37,7 @@ namespace JobSpace.UserForms
         private readonly IJob _job;
         private readonly INoteControl _noteControl;
 
-        public FormAddWork2(IUserProfile userProfile, IJob job,bool isNewJob)
+        public FormAddWork2(IUserProfile userProfile, IJob job, bool isNewJob)
         {
             UserProfile = userProfile;
             _job = job;
@@ -45,7 +46,7 @@ namespace JobSpace.UserForms
             InitializeComponent();
             _noteControl = ucNote1;
             InitializeUserInterface();
-            
+
             AddPlugins(isNewJob);
 
             Bind(isNewJob);
@@ -59,31 +60,19 @@ namespace JobSpace.UserForms
 
                 kryptonComboBox_Customers.SelectedItem = UserProfile.Customers.FindCustomer(_job.Customer);
 
-                if (!UserProfile.Settings.HideCategory)
+                tb_category.Text = string.Empty;
+
+                if (!UserProfile.Settings.HideCategory && !isNewJob)
                 {
-                    if (isNewJob)
+                    var category = UserProfile.Categories.GetCategoryById(_job.CategoryId);
+                    if (category != null)
                     {
-                        kryptonComboBoxCategory.SelectedIndex = -1;
-                    }
-                    else
-                    {
-                        kryptonComboBoxCategory.SelectedItem = kryptonComboBoxCategory.Items.Cast<Category>().FirstOrDefault(x => x.Id.Equals(_job.CategoryId));
-                    }
-                    
+                        tb_category.Text = category.Name;
+                   }
                 }
-
-                if (string.IsNullOrEmpty( _job.Note ))
-                {
-                    _noteControl.SetText(string.Empty);
-                }
-                else
-                {
-                    _noteControl.SetText(_job.Note);
-                }
-
-
+                _noteControl.SetText(_job.Note);
                 textBox_Description.Text = _job.Description;
-                
+
                 if (string.IsNullOrEmpty(_job.PreviousOrder))
                 {
                     labelRetryNumber.Visible = false;
@@ -103,13 +92,6 @@ namespace JobSpace.UserForms
             var customers = UserProfile.Customers.Where(x => x.Show).ToList();
             kryptonComboBox_Customers.DataSource = customers;
             kryptonComboBox_Customers.DisplayMember = "Name";
-
-            if (!UserProfile.Settings.HideCategory)
-            {
-                kryptonComboBoxCategory.DisplayMember = "Name";
-            }
-
-
         }
 
         private void AddPlugins(bool isNewJob)
@@ -119,10 +101,8 @@ namespace JobSpace.UserForms
 
         private void SubscribePlugins(bool isNewJob)
         {
-            
-
-            var plugins = isNewJob 
-                ? new List<IPluginFormAddWork>() 
+            var plugins = isNewJob
+                ? new List<IPluginFormAddWork>()
                 : UserProfile.Plugins.GetPluginFormAddWorks();
 
             if (plugins.Any())
@@ -134,13 +114,11 @@ namespace JobSpace.UserForms
                 // приховати пусте вікно та зменшити розмір вікна
                 kryptonSplitContainer1.Panel2Collapsed = true;
             }
-
         }
 
         private void FormAddWork2_FormClosing(object sender, FormClosingEventArgs e)
         {
             ucAddWorkPluginsContainer1.Unsubscribe(UserProfile);
-
         }
 
         private void Button_Ok_Click(object sender, EventArgs e)
@@ -154,7 +132,7 @@ namespace JobSpace.UserForms
             }
 
             DialogResult = DialogResult.None;
-            
+
         }
         private bool CheckCustomerPresent()
         {
@@ -164,17 +142,19 @@ namespace JobSpace.UserForms
                 return false;
             }
 
-            return UserProfile.Customers.CheckCustomerPresent(kryptonComboBox_Customers.Text,false);
+            return UserProfile.Customers.CheckCustomerPresent(kryptonComboBox_Customers.Text, false);
         }
         private void Unbind()
         {
             _job.Number = kryptonTextBoxNumber.Text;
             _job.Customer = kryptonComboBox_Customers.Text;
 
-            if (!string.IsNullOrEmpty(kryptonComboBoxCategory.Text))
+            var categoryName  = tb_category.Text;
+
+            if (!string.IsNullOrEmpty(categoryName))
             {
-                _job.CategoryId = UserProfile.Categories.Add(kryptonComboBoxCategory.Text);
-                CategoryToCustomerAsignManager.SetCategory(UserProfile, ((Customer)kryptonComboBox_Customers.SelectedItem).Id, _job.CategoryId,true);
+                _job.CategoryId = UserProfile.Categories.Add(categoryName);
+                CategoryToCustomerAsignManager.SetCategory(UserProfile, ((Customer)kryptonComboBox_Customers.SelectedItem).Id, _job.CategoryId, true);
             }
             else
             {
@@ -183,7 +163,6 @@ namespace JobSpace.UserForms
 
             _job.Description = textBox_Description.Text;
             _job.Note = _noteControl.GetRtf();
-
         }
 
 
@@ -236,7 +215,6 @@ namespace JobSpace.UserForms
                     base.WndProc(ref m);
                     break;
             }
-
         }
         void DisplayClipboardData()
         {
@@ -257,12 +235,7 @@ namespace JobSpace.UserForms
                             kryptonButton_OK.PerformClick();
                         }
                 }
-                //else if (string.IsNullOrEmpty(windowOutNote.Text))
-                //{
-                //    InsertTextToTextbox(windowOutNote,false);
-                //}
             }
-
         }
         private void InsertTextToTextbox(TextBox textBox, bool useTransliteration)
         {
@@ -282,7 +255,6 @@ namespace JobSpace.UserForms
                     {
                         str = string.Empty;
                     }
-
                 }
 
                 InsertTextToTextbox(textBox, str);
@@ -302,23 +274,36 @@ namespace JobSpace.UserForms
 
             if (UserProfile.Settings.HideCategory) return;
 
-
             var categories = CategoryToCustomerAsignManager.GetCustomerCategories(UserProfile, customer.Id);
-            
-            kryptonComboBoxCategory.DataSource = categories;
-            kryptonComboBoxCategory.DisplayMember = "Name";
-            kryptonComboBoxCategory.SelectedItem = null;
-        }
 
-        private void kryptonComboBoxCategory_Enter(object sender, EventArgs e)
-        {
-            kryptonComboBoxCategory.DroppedDown = true;
+            olv_categories.SetObjects(categories);
         }
 
         private void kryptonComboBox_Customers_Enter(object sender, EventArgs e)
         {
+           // kryptonComboBox_Customers.DroppedDown = true;
+        }
 
-            kryptonComboBox_Customers.DroppedDown = true;
+
+        private void olv_categories_SelectionChanged(object sender, EventArgs e)
+        {
+            if (olv_categories.SelectedObject is ICategory category)
+            {
+                tb_category.Text = category.Name;
+            }
+        }
+
+        private void tb_category_KeyUp(object sender, KeyEventArgs e)
+        {
+            var str = tb_category.Text;
+            if (string.IsNullOrEmpty(str))
+            {
+                olv_categories.ModelFilter = null;
+            }
+            else
+            {
+                olv_categories.ModelFilter = new TextMatchFilter(olv_categories, str);
+            }
         }
     }
 }

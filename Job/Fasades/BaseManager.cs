@@ -1,5 +1,6 @@
 ﻿using ImageMagick;
 using Interfaces;
+using JobSpace.Models;
 using Logger;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -9,11 +10,14 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.Fasades
 {
     public sealed class BaseManager : IBaseManager
     {
+
+        private JobListFilter jobListFilter = new JobListFilter();
 
         private readonly IRepository _repository;
 
@@ -372,6 +376,72 @@ namespace JobSpace.Fasades
             }
 
             return new List<IJob>();
+        }
+
+        public List<IJob> ApplyViewFilterStatuses(int[] statuses)
+        {
+            jobListFilter.Statuses = statuses ?? new int[0];
+            return filterJobs();
+        }
+
+        public List<IJob> ApplyViewFilterCustomer(string customer)
+        {
+            jobListFilter.Customer = customer.ToLower();
+            return filterJobs();
+        }
+
+        public List<IJob> ApplyViewFilterDate(DateTime date)
+        {
+            jobListFilter.Date = date;
+            return filterJobs();
+        }
+
+        public List<IJob> ApplyViewFilterText(string text)
+        {
+            jobListFilter.Text = text.ToLower();
+            return filterJobs();
+        }
+
+        private List<IJob> filterJobs()
+        {
+
+            BsonDocument f_statuses;
+
+           
+            f_statuses = new BsonDocument("StatusCode", new BsonDocument("$in", new BsonArray(jobListFilter.Statuses)));
+
+            FilterDefinition<Job> f_customer = Builders<Job>.Filter.Regex(j => j.Customer, new BsonRegularExpression($"/{jobListFilter.Customer}/i"));
+
+            var f_date = Builders<Job>.Filter.And(
+                Builders<Job>.Filter.Gte(j => j.Date, jobListFilter.Date.Date),
+                Builders<Job>.Filter.Lt(j => j.Date, jobListFilter.Date.AddDays(1).Date));
+
+
+            var categories = _repository.GetRawCollection<Category>("Categories");
+
+            var catFilter = from c in ((IMongoCollection<Category>)categories).AsQueryable()
+                            where c.Name.ToLower().Contains(jobListFilter.Text)
+                            select c.Id;
+
+            var catList = catFilter.ToList();
+
+
+            var f_text = Builders<Job>.Filter.Or(
+                Builders<Job>.Filter.Regex(j => j.Number, new BsonRegularExpression($"/{jobListFilter.Text}/i")),
+                Builders<Job>.Filter.Regex(j => j.Note, new BsonRegularExpression($"/{jobListFilter.Text}/i")),
+                Builders<Job>.Filter.Regex(j => j.Description, new BsonRegularExpression($"/{jobListFilter.Text}/i")),
+                Builders<Job>.Filter.In("CategoryId", catFilter)
+            );
+
+            var filter = Builders<Job>.Filter.And(
+                f_statuses,
+                f_customer,
+                //f_date,
+                f_text
+            );
+            var jobs = _repository.GetRawCollection<Job>("Jobs");
+            var filteredJobs = ((IMongoCollection<Job>)jobs).Find(filter).ToList(default);
+            return filteredJobs.ToList<IJob>();
         }
     }
 }

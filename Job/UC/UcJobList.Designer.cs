@@ -55,6 +55,15 @@
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копіюватиКатегоріюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripWorks = new System.Windows.Forms.ToolStrip();
+            this.kryptonContextMenu_new_job = new Krypton.Toolkit.KryptonContextMenu();
+            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItems3 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItems4 = new Krypton.Toolkit.KryptonContextMenuItems();
+            this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
+            this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -298,7 +307,7 @@
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Name = "копироватьВБуферОписаниеЗаказаToolStripMenuItem";
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Text = "копіювати опис замовлення";
-            this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Click += new System.EventHandler(this.КопироватьВБуферОписаниеЗаказаToolStripMenuItem_Click);
+            this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Click += new System.EventHandler(this.КопіюватиВБуферОписЗамовленняToolStripMenuItem_Click);
             // 
             // копіюватиКатегоріюToolStripMenuItem
             // 
@@ -316,6 +325,41 @@
             this.toolStripWorks.Name = "toolStripWorks";
             this.toolStripWorks.Size = new System.Drawing.Size(26, 111);
             this.toolStripWorks.TabIndex = 0;
+            // 
+            // kryptonContextMenu_new_job
+            // 
+            this.kryptonContextMenu_new_job.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItems2,
+            this.kryptonContextMenuHeading1,
+            this.kryptonContextMenuItems4});
+            // 
+            // kryptonContextMenuHeading1
+            // 
+            this.kryptonContextMenuHeading1.ExtraText = "";
+            this.kryptonContextMenuHeading1.Text = "Замовлення";
+            // 
+            // kryptonContextMenuItems2
+            // 
+            this.kryptonContextMenuItems2.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItem1});
+            // 
+            // kryptonContextMenuItem1
+            // 
+            this.kryptonContextMenuItem1.Text = "створити файл для Prinect Signa";
+            // 
+            // kryptonContextMenuItems4
+            // 
+            this.kryptonContextMenuItems4.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.kryptonContextMenuItem2,
+            this.kryptonContextMenuItem3});
+            // 
+            // kryptonContextMenuItem2
+            // 
+            this.kryptonContextMenuItem2.Text = "Повторити";
+            // 
+            // kryptonContextMenuItem3
+            // 
+            this.kryptonContextMenuItem3.Text = "Дублювати";
             // 
             // UcJobList
             // 
@@ -364,5 +408,14 @@
         private System.Windows.Forms.ToolStripMenuItem виглядToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem показатисховатиГрупиToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private Krypton.Toolkit.KryptonContextMenu kryptonContextMenu_new_job;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems2;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem1;
+        private Krypton.Toolkit.KryptonContextMenuHeading kryptonContextMenuHeading1;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems4;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem2;
+        private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem3;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems1;
+        private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems3;
     }
 }
