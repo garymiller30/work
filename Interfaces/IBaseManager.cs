@@ -20,7 +20,7 @@ namespace Interfaces
         List<IJob> ApplyViewFilterCustomer(string customer);
         List<IJob> ApplyViewFilterDate(DateTime date);
         List<IJob> ApplyViewFilterText(string text);
-        //List<IJob> Search(string text);
-        //List<IJob> SearchByDate(DateTime date);
+        string GetFilterViewCustomer();
+       
     }
 }
