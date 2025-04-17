@@ -28,13 +28,13 @@ namespace Interfaces
         void CombineOrdersInOne(IList selectedObjects);
         IEnumerable<IJob> GetJobs();
 
-        event EventHandler<IJob> OnSetCurrentJob;
-        event EventHandler<IJob> OnJobAdd;
+        EventHandler<IJob> OnSetCurrentJob { get; set; }
+        EventHandler<IJob> OnJobAdd { get; set; }
         EventHandler<ICollection> OnJobsAdd { get;set;}
-        event EventHandler<IJob> OnJobChange;
-        event EventHandler<IJob> OnJobBeginEdit;
-        event EventHandler<IJob> OnJobFinishEdit;
-        event EventHandler<IJob> OnDeleteJob;
+        EventHandler<IJob> OnJobChange { get; set; }
+        EventHandler<IJob> OnJobBeginEdit { get; set; }
+        EventHandler<IJob> OnJobFinishEdit { get; set; }
+        EventHandler<IJob> OnDeleteJob { get; set; }
 
         void SetCurrentJob(IJob job);
         void CreateJob();

@@ -443,5 +443,10 @@ namespace JobSpace.Fasades
             var filteredJobs = ((IMongoCollection<Job>)jobs).Find(filter).ToList(default);
             return filteredJobs.ToList<IJob>();
         }
+
+        public string GetFilterViewCustomer()
+        {
+            return jobListFilter.Customer;
+        }
     }
 }

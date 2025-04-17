@@ -37,14 +37,14 @@ namespace JobSpace.Fasades
 
         const string CollectionString = "Jobs";
 
-        public event EventHandler<IJob> OnJobAdd = delegate { };
-        public event EventHandler<IJob> OnSetCurrentJob = delegate { };
+        public EventHandler<IJob> OnJobAdd { get; set; } = delegate { };
+        public EventHandler<IJob> OnSetCurrentJob { get; set; } = delegate { };
         public EventHandler<ICollection> OnJobsAdd { get;set;} = delegate { };
 
-        public event EventHandler<IJob> OnJobChange = delegate { };
-        public event EventHandler<IJob> OnJobBeginEdit = delegate { };
-        public event EventHandler<IJob> OnJobFinishEdit = delegate { };
-        public event EventHandler<IJob> OnDeleteJob = delegate { };
+        public EventHandler<IJob> OnJobChange { get; set; } = delegate { };
+        public EventHandler<IJob> OnJobBeginEdit { get; set; } = delegate { };
+        public EventHandler<IJob> OnJobFinishEdit { get; set; } = delegate { };
+        public EventHandler<IJob> OnDeleteJob { get; set; } = delegate { };
 
         public void SetCurrentJob(IJob job)
         {
@@ -57,8 +57,10 @@ namespace JobSpace.Fasades
         public void CreateJob()
         {
             var job = Factory.CreateJob(_profile);
-
+            // виставимо замовником того, що у фільтрі
+            job.Customer = _profile.Base.GetFilterViewCustomer();
             var jobParameters = new JobParameters(job);
+
 
             using (var faw = new FormAddWork2(_profile, jobParameters, true))
             {
@@ -83,24 +85,6 @@ namespace JobSpace.Fasades
         {
             pluginNewOrder.ShowDialogNewOrder(_profile, null);
         }
-
-        //public void ApplyStatusViewFilter()
-        //{
-        //    _jobList = _profile.Base.ApplyViewFilterStatuses(_profile.StatusManager.GetEnabledViewStatuses());
-        //    OnJobsAdd(this, _jobList);
-        //}
-
-        //public void Search(string text)
-        //{
-        //    _jobList = _profile.Base.ApplyViewFilterText(text);
-        //    OnJobsAdd(this, _jobList);
-        //}
-
-        //public void ApplyDateFilter(DateTime date)
-        //{
-        //    _jobList = _profile.Base.ApplyViewFilterDate(date);
-        //    OnJobsAdd(this, _jobList);
-        //}
 
         public void RepeatSelectedJob()
         {

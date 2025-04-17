@@ -185,7 +185,7 @@ namespace JobSpace.Fasades
 
         public ICustomer FindCustomer(string p)
         {
-            var f = _customers.FirstOrDefault(x => x.Name.Equals(p));
+            var f = _customers.FirstOrDefault(x => x.Name.Equals(p,StringComparison.InvariantCultureIgnoreCase));
 
             return f ?? Factory.CreateCustomer();
 
