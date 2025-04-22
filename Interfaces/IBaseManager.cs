@@ -21,6 +21,6 @@ namespace Interfaces
         List<IJob> ApplyViewFilterDate(DateTime date);
         List<IJob> ApplyViewFilterText(string text);
         string GetFilterViewCustomer();
-       
+        void RemoveAll<T>(string collectionString) where T : class, IWithId, new();
     }
 }

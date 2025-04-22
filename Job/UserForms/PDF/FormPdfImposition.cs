@@ -1,4 +1,5 @@
 ﻿using BrightIdeasSoftware;
+using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Drawers;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF;
 using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
@@ -29,9 +30,7 @@ namespace JobSpace.UserForms.PDF
 {
     public partial class FormPdfImposition : KryptonForm
     {
-        string _curJobFolder;
-        private IEnumerable<string> _files;
-
+        ImposInputParam _imposInputParam;
         List<PdfFile> _pdfFiles = new List<PdfFile>();
 
         ImposToolsParameters _tool_param = new ImposToolsParameters();
@@ -273,12 +272,12 @@ namespace JobSpace.UserForms.PDF
             _parameters.UpdateSheet();
         }
 
-        public FormPdfImposition(IEnumerable<string> files, string curFolder) : this()
+        public FormPdfImposition(ImposInputParam param) : this()
         {
-            _files = files;
-            _curJobFolder = curFolder;
+            _imposInputParam = param;
+            
             int id = 1;
-            foreach (var file in _files)
+            foreach (var file in _imposInputParam.Files)
             {
                 var pdfFile = new PdfFile(file) { Id = id++ };
                 _pdfFiles.Add(pdfFile);
@@ -316,7 +315,7 @@ namespace JobSpace.UserForms.PDF
 
         private void LoadImposFromFile()
         {
-            string folderPath = Path.Combine(_curJobFolder, ".impos");
+            string folderPath = Path.Combine(_imposInputParam.JobFolder, ".impos");
             if (Directory.Exists(folderPath))
             {
                 string filePath = Path.Combine(folderPath, "imposition.json");
@@ -362,13 +361,13 @@ namespace JobSpace.UserForms.PDF
             _productPart.UsedColors = imposColorsControl1.GetUsedColors();
             
             _productPart.ExportParameters.SavePrintSheetToOrderFolder = cb_savePrintSheetInOrder.Checked;
-            _productPart.ExportParameters.OutputFolder = _curJobFolder;
+            _productPart.ExportParameters.OutputFolder = _imposInputParam.JobFolder;
             _productPart.ExportParameters.UseTemplate = cb_useTemplate.Checked;
             _productPart.ExportParameters.TemplateString = tb_useTemplate.Text;
             _productPart.ExportParameters.UseCustomOutputFolder = cb_useCustomOutputFolder.Checked;
             _productPart.ExportParameters.CustomOutputFolder = cb_CustomOutputPath.Text;
 
-            _productPart.ExportParameters.OutputFileName = _files.ToList()[0] + ".impos.pdf";
+            _productPart.ExportParameters.OutputFileName = _imposInputParam.Files[0] + ".impos.pdf";
 
             DrawerStatic.CurProductPart = _productPart;
 

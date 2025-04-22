@@ -448,5 +448,18 @@ namespace JobSpace.Fasades
         {
             return jobListFilter.Customer;
         }
+
+        public void RemoveAll<T>(string collectionString) where T : class, IWithId,new()
+        {
+            var col = All<T>(collectionString);
+
+            if (col.Count > 0)
+            {
+                foreach (var item in col)
+                {
+                    _repository.Delete(collectionString, item);
+                }
+            }
+        }
     }
 }

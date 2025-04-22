@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static iText.Kernel.Pdf.Colorspace.PdfSpecialCs;
 using Microsoft.Extensions.Primitives;
+using iText.Kernel.Pdf;
 
 namespace JobSpace.Static.Pdf.ColorSpaces
 {
@@ -28,7 +29,7 @@ namespace JobSpace.Static.Pdf.ColorSpaces
         {
             // Нас цікавлять події, де колір може бути використаний (малювання, текст)
             // Перевірка графічного стану в цих подіях дає актуальні кольори.
-            if (type == EventType.RENDER_PATH || type == EventType.RENDER_TEXT || type == EventType.RENDER_IMAGE)
+            if (type == EventType.RENDER_PATH || type == EventType.RENDER_TEXT)
             {
                 // Отримуємо поточний графічний стан
                 var gs = data.GetGraphicsState();
@@ -39,8 +40,45 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                 // Аналізуємо колір обведення (Stroke Color)
                 ProcessColor(gs.GetStrokeColor(), "Stroke");
             }
-            // Також можна було б слухати EventType.SET_FILL_COLOR, EventType.SET_STROKE_COLOR і т.д.,
-            // але перевірка стану під час рендерингу часто надійніша.
+            else if (type == EventType.RENDER_IMAGE)
+            {
+                var renderInfo = (ImageRenderInfo)data;
+                var imageObject = renderInfo.GetImage();
+
+                if (imageObject == null) return;
+
+
+                // With the following code:
+                var colorSpace = imageObject.GetPdfObject().GetAsName(PdfName.ColorSpace);
+                if (colorSpace != null)
+                {
+                    ProcessColorSpace(colorSpace, "Image");
+                }
+            }
+        }
+
+        private void ProcessColorSpace(PdfName colorSpace, string usageType)
+        {
+            if (colorSpace == null) return;
+
+            string colorSpaceRepresentation = colorSpace.ToString();
+            if (!string.IsNullOrEmpty(colorSpaceRepresentation))
+            {
+                switch (colorSpaceRepresentation)
+                {
+                    case "/DeviceRGB":
+                        _uniqueColors.Add("RGB");
+                        break;
+                    case "/DeviceCMYK":
+                        _uniqueColors.Add("CMYK");
+                        break;
+                    default:
+                        // Можна додати інші колірні простори, якщо потрібно
+                        _uniqueColors.Add(colorSpaceRepresentation);
+                        break;
+                }
+                
+            }
         }
 
         private void ProcessColor(iText.Kernel.Colors.Color color, string usageType) // usageType не використовується в прикладі, але може бути корисним

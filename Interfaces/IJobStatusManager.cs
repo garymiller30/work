@@ -29,5 +29,6 @@ namespace Interfaces
         int[] GetEnabledViewStatuses();
 
         bool IsVisible(int jobStatusCode);
+        void SetJobStatuses(IEnumerable<IJobStatus> enumerable);
     }
 }
