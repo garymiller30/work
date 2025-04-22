@@ -9,6 +9,7 @@ using JobSpace.Static;
 using JobSpace.Statuses;
 using Logger;
 
+
 namespace JobSpace.Fasades
 {
     public sealed class JobStatusManager : IJobStatusManager
@@ -18,7 +19,7 @@ namespace JobSpace.Fasades
         const string CollectionString = "JobStatuses";
 
         private ImageList _imageList = new ImageList();
-        private readonly List<JobStatus> _statuses = new List<JobStatus>();
+        private List<JobStatus> _statuses = new List<JobStatus>();
 
         public IStatusesParams OnChangeStatusesParams { get; set; } = new StatusesParams();
         private Dictionary<int, bool> _viewFilters;
@@ -213,6 +214,19 @@ namespace JobSpace.Fasades
 
         public IJobStatus[] GetJobStatuses() => _statuses.Cast<IJobStatus>().ToArray();
 
+        public void SetJobStatuses(IEnumerable<IJobStatus> statuses)
+        {
+            _statuses = statuses.Cast<JobStatus>().ToList();
+
+            _profile.Base.RemoveAll<JobStatus>(CollectionString);
+
+            foreach (var status in _statuses)
+            {
+                _profile.Base.Add(CollectionString, (JobStatus)status);
+            }
+
+        }
+
         public void SetDefaultStatus(IJobStatus status)
         {
             _statuses.ForEach(x => x.IsDefault = false);
@@ -290,5 +304,7 @@ namespace JobSpace.Fasades
             if (status == null) return 0;
             return status.Code;
         }
+
+ 
     }
 }

@@ -19,11 +19,8 @@ namespace JobSpace.Statuses
 
         private List<StatusChangeParam> _params;
 
-
-
         public void Load()
         {
-
             var path = Path.Combine(UserProfile.ProfilePath, FileName);
 
             _params = File.Exists(path)
@@ -41,23 +38,6 @@ namespace JobSpace.Statuses
             Commons.SerializeXML(_params, path);
         }
 
-        /// <summary>
-        /// повертає параметр за статусом
-        /// </summary>
-        /// <param name="status"></param>
-        /// <param name="job"></param>
-        /// <returns></returns>
-        //public StatusChangeParam GetParam(int statusCode)
-        //{
-        //    var param = _params.FirstOrDefault(x => x.StatusCode == statusCode);
-        //    if (param == null)
-        //    {
-        //        param = new StatusChangeParam(statusCode);
-        //        _params.Add(param);
-        //    }
-
-        //    return param;
-        //}
 
         public void Run(IJob job)
         {

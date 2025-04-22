@@ -23,6 +23,7 @@ using JobSpace.UserForms;
 using Krypton.Toolkit;
 using Logger;
 using Ookii.Dialogs.WinForms;
+using SharpCompress.Common;
 
 
 namespace JobSpace.Fasades
@@ -445,10 +446,22 @@ namespace JobSpace.Fasades
         public void OpenSignaJob(IUserProfile profile, IJob job)
         {
             var destFile = Extensions.GetSignaFilePath(job, profile);
-
             if (File.Exists(destFile))
             {
-                Process.Start(destFile);
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = destFile,
+                    UseShellExecute = true // Це важливо, якщо хочеш відкривати файл через асоційовану програму
+                };
+
+                try
+                {
+                    Process.Start(psi);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log.Error(profile, "JobManager", $"Помилка відкриття файлу: {ex.Message}\n{ex.StackTrace}");
+                }
             }
         }
 

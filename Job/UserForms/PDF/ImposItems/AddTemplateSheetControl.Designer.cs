@@ -47,9 +47,10 @@
             this.tsb_add = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.tbs_dublicate = new System.Windows.Forms.ToolStripButton();
             this.tsb_toPrint = new System.Windows.Forms.ToolStripButton();
             this.tsb_fillAll = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbs_dublicate = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_delete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -58,7 +59,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_addToQuickAccess = new System.Windows.Forms.ToolStripButton();
             this.tsb_QuickAccess = new System.Windows.Forms.ToolStripSplitButton();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_save_all = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -233,6 +234,7 @@
             this.tsb_delete,
             this.toolStripSeparator2,
             this.tsb_saveTemplate,
+            this.tsb_save_all,
             this.tsb_loadTemplate,
             this.toolStripSeparator5,
             this.tsb_addToQuickAccess,
@@ -242,16 +244,6 @@
             this.toolStrip2.Size = new System.Drawing.Size(335, 25);
             this.toolStrip2.TabIndex = 2;
             this.toolStrip2.Text = "toolStrip2";
-            // 
-            // tbs_dublicate
-            // 
-            this.tbs_dublicate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbs_dublicate.Image = ((System.Drawing.Image)(resources.GetObject("tbs_dublicate.Image")));
-            this.tbs_dublicate.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbs_dublicate.Name = "tbs_dublicate";
-            this.tbs_dublicate.Size = new System.Drawing.Size(23, 22);
-            this.tbs_dublicate.Text = "Дублювати лист";
-            this.tbs_dublicate.Click += new System.EventHandler(this.tbs_dublicate_Click);
             // 
             // tsb_toPrint
             // 
@@ -274,6 +266,21 @@
             this.tsb_fillAll.Size = new System.Drawing.Size(23, 22);
             this.tsb_fillAll.Text = "Заповнити все";
             this.tsb_fillAll.Click += new System.EventHandler(this.tsb_fillAll_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tbs_dublicate
+            // 
+            this.tbs_dublicate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbs_dublicate.Image = ((System.Drawing.Image)(resources.GetObject("tbs_dublicate.Image")));
+            this.tbs_dublicate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbs_dublicate.Name = "tbs_dublicate";
+            this.tbs_dublicate.Size = new System.Drawing.Size(23, 22);
+            this.tbs_dublicate.Text = "Дублювати лист";
+            this.tbs_dublicate.Click += new System.EventHandler(this.tbs_dublicate_Click);
             // 
             // toolStripSeparator1
             // 
@@ -343,10 +350,16 @@
             this.tsb_QuickAccess.Text = "Меню швидкого доступу";
             this.tsb_QuickAccess.ButtonClick += new System.EventHandler(this.tsb_QuickAccess_ButtonClick);
             // 
-            // toolStripSeparator6
+            // tsb_save_all
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            this.tsb_save_all.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_save_all.Image = ((System.Drawing.Image)(resources.GetObject("tsb_save_all.Image")));
+            this.tsb_save_all.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_save_all.Name = "tsb_save_all";
+            this.tsb_save_all.Size = new System.Drawing.Size(23, 22);
+            this.tsb_save_all.Text = "зберегти список";
+            this.tsb_save_all.ToolTipText = "зберегти увесь список";
+            this.tsb_save_all.Click += new System.EventHandler(this.tsb_save_all_Click);
             // 
             // AddTemplateSheetControl
             // 
@@ -400,5 +413,6 @@
         private System.Windows.Forms.ContextMenuStrip cms_SheetSideType;
         private BrightIdeasSoftware.OLVColumn olvColumnFormat;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripButton tsb_save_all;
     }
 }

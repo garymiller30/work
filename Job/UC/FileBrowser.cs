@@ -9,6 +9,7 @@ using JobSpace.Ext;
 using JobSpace.Menus;
 using JobSpace.Models;
 using JobSpace.Static;
+using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.Imposition.Services.TextVariables;
 using JobSpace.Static.Pdf.MergeOddAndEven;
@@ -2043,13 +2044,16 @@ namespace JobSpace.UC
 
             var selectedFiles = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToList();
 
-            var form = new FormPdfImposition(selectedFiles, _fileManager.Settings.CurFolder);
-            form.Show();
+            var param = new ImposInputParam
+            {
+                Files = selectedFiles,
+               JobFolder = _fileManager.Settings.CurFolder,
+               UserProfile = UserProfile,
+            };
 
-            //using (var form = new FormPdfImposition(selectedFiles, _fileManager.Settings.CurFolder))
-            //{
-            //   form.ShowDialog();
-            //}
+
+            var form = new FormPdfImposition(param);
+            form.Show();
         }
 
         private void toolStripButton5_Click(object sender, EventArgs e)

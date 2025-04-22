@@ -231,28 +231,29 @@ namespace JobSpace.Static
                     
                     foreach (string color in pageColors)
                     {
-                        Debug.WriteLine(color);
-                        switch (color)
+                        var c= color.ToLower();
+
+                        switch (c)
                         {
-                            case "CMYK":
+                            case "cmyk":
                                 sfi.UsedColorSpace |= ColorSpaces.Cmyk;
                                 break;
-                            case "Lab":
+                            case "lab":
                                 sfi.UsedColorSpace |= ColorSpaces.Lab;
                                 break;
-                            case "Rgb":
+                            case "rgb":
                                 sfi.UsedColorSpace |= ColorSpaces.Rgb;
                                 break;
-                            case "Grayscale":
+                            case "grayscale":
                                 sfi.UsedColorSpace |= ColorSpaces.Gray;
                                 break;
-                            case "Indexed":
+                            case "indexed":
                                 sfi.UsedColorSpace |= ColorSpaces.Pattern;
                                 break;
-                            case "ICCBased":
+                            case "iccbased":
                                 sfi.UsedColorSpace |= ColorSpaces.ICCBased;
                                 break;
-                            case "Spot":
+                            case "spot":
                                 sfi.UsedColorSpace |= ColorSpaces.Spot;
                                 break;
                             default:

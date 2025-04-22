@@ -42,6 +42,10 @@ namespace ActiveWorks
 
             olvColumnDeleteCategory.IsButton = true;
             olvColumnDeleteCategory.AspectGetter = s => "видалити";
+
+            objectListViewStatuses.IsSimpleDragSource = true;
+            objectListViewStatuses.DropSink = new RearrangingDropSink(true);
+            
         }
 
         private object GetChangeStatus(object r)
@@ -344,8 +348,12 @@ namespace ActiveWorks
             _currentProfile.MenuManagers.SendTo.Save();
             _currentProfile.MenuManagers.Utils.Save();
 
-
-            _currentProfile.StatusManager?.OnChangeStatusesParams.Save();
+            if (_currentProfile.StatusManager != null)
+            {
+                _currentProfile.StatusManager.SetJobStatuses(objectListViewStatuses.Objects?.Cast<JobStatus>() ?? new List<JobStatus>());
+                _currentProfile.StatusManager.OnChangeStatusesParams.Save();
+            }
+            
 
             _currentProfile.Ftp?.FtpScriptController.SetList(objectListViewFtpScripts.Objects?.Cast<IFtpScript>() ??
                                                             new List<IFtpScript>());

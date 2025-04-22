@@ -17,8 +17,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
     {
         public EventHandler<TemplateSheet> OnSheetAdded = delegate { };
         public EventHandler<TemplateSheet> OnSheetEdited = delegate { };
-        public EventHandler<TemplateSheet> OnSheetSelected { get;set;} = delegate { };
-        public EventHandler<TemplateSheet> OnSheetAddToPrint { get;set;} = delegate { };
+        public EventHandler<TemplateSheet> OnSheetSelected { get; set; } = delegate { };
+        public EventHandler<TemplateSheet> OnSheetAddToPrint { get; set; } = delegate { };
         public EventHandler<TemplateSheet> OnSheetAddManyToPrint = delegate { };
 
         List<TemplateSheet> _quickAccess = new List<TemplateSheet> { };
@@ -73,7 +73,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 _quickAccess.Clear();
                 _quickAccess.AddRange(sheets);
                 SaveLoadService.SaveQuickAccessTemplateSheets(_quickAccess);
-                AssignQuickAccessMenuItems();            }
+                AssignQuickAccessMenuItems();
+            }
         }
 
         class TemplateSheetComparer : IEqualityComparer<TemplateSheet>
@@ -93,7 +94,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             List<string> desc = Extensions.GetDescriptions(typeof(TemplateSheetPlaceType)).ToList();
 
-            foreach (string desc2 in desc) {
+            foreach (string desc2 in desc)
+            {
                 ToolStripMenuItem item = new ToolStripMenuItem(desc2);
                 item.Tag = desc.IndexOf(desc2);
                 item.Click += (s, e) =>
@@ -203,28 +205,26 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void tsb_delete_Click(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObject is TemplateSheet sheet)
+            if (ModifierKeys == Keys.Shift)
             {
-                if (ModifierKeys == Keys.Shift)
-                {
-                    objectListView1.ClearObjects();
-                }
-                else
-                {
-                    objectListView1.RemoveObject(sheet);
-                }
-
-                _parameters.Sheet = null;
-               
-
+                objectListView1.ClearObjects();
             }
+            else
+            {
+                if (objectListView1.SelectedObjects.Count == 0) return;
+                foreach (var item in objectListView1.SelectedObjects)
+                {
+                    objectListView1.RemoveObject(item);
+                }
+            }
+            _parameters.Sheet = null;
         }
 
 
         private void tsb_loadTemplate_Click(object sender, EventArgs e)
         {
             var sheets = SaveLoadService.LoadSheetTemplates();
-            if (sheets.Count >0)
+            if (sheets.Count > 0)
             {
                 objectListView1.AddObjects(sheets);
             }
@@ -238,7 +238,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 sheet.SheetPlaceType = (TemplateSheetPlaceType)tscb_sheetType.SelectedIndex;
                 objectListView1.AddObject(sheet);
                 objectListView1.SelectObject(sheet);
-                
+
                 OnSheetAdded(this, sheet);
             }
         }
@@ -248,7 +248,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (objectListView1.SelectedObjects.Count == 0) return;
 
             SaveLoadService.SaveSheetTemplates(objectListView1.SelectedObjects.Cast<TemplateSheet>().ToList());
-          
+
         }
 
         private void objectListView1_DoubleClick(object sender, EventArgs e)
@@ -278,6 +278,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void tsb_QuickAccess_ButtonClick(object sender, EventArgs e)
         {
             tsb_QuickAccess.ShowDropDown();
+        }
+
+        private void tsb_save_all_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.Objects == null) return;
+            var sheets = objectListView1.Objects.Cast<TemplateSheet>().ToList();
+            SaveLoadService.SaveSheetTemplates(sheets);
         }
     }
 }
