@@ -36,6 +36,8 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.tstb_zoom = new System.Windows.Forms.ToolStripTextBox();
             this.tsb_okZoom = new System.Windows.Forms.ToolStripButton();
+            this.tsb_start = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.webView21)).BeginInit();
             this.toolStrip2.SuspendLayout();
@@ -90,7 +92,9 @@
             this.toolStrip2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tstb_zoom,
-            this.tsb_okZoom});
+            this.tsb_okZoom,
+            this.toolStripSeparator1,
+            this.tsb_start});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(608, 25);
@@ -113,6 +117,20 @@
             this.tsb_okZoom.Size = new System.Drawing.Size(26, 22);
             this.tsb_okZoom.Text = "Ok";
             this.tsb_okZoom.Click += new System.EventHandler(this.tsb_okZoom_Click);
+            // 
+            // tsb_start
+            // 
+            this.tsb_start.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsb_start.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_start.Name = "tsb_start";
+            this.tsb_start.Size = new System.Drawing.Size(42, 22);
+            this.tsb_start.Text = "Старт";
+            this.tsb_start.Click += new System.EventHandler(this.tsb_start_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // WindowOut
             // 
@@ -141,5 +159,7 @@
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripTextBox tstb_zoom;
         private System.Windows.Forms.ToolStripButton tsb_okZoom;
+        private System.Windows.Forms.ToolStripButton tsb_start;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }

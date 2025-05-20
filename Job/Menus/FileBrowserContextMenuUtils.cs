@@ -5,8 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
 using Interfaces;
+using iTextSharp.text.pdf.codec;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.Menus
 {
@@ -14,6 +18,12 @@ namespace JobSpace.Menus
     {
         public FileBrowserContextMenuUtils(IUserProfile profile, string fileName) : base(profile, fileName)
         {
+        }
+
+        public override void Load()
+        {
+            _menus = Commons.DeserializeXML<List<MenuSendTo>>(_fn) ?? new List<MenuSendTo>();
+            _menus.AsParallel().ForAll(GetImage);
 
         }
 

@@ -12,8 +12,8 @@ namespace JobSpace.Menus
 	public class FileBrowserContextMenuSendTo : IFileBrowserContextMenu
 	{
         private IUserProfile _userProfile { get; set; }
-		private  List<MenuSendTo> _menus;
-		private readonly string _fn;
+		protected  List<MenuSendTo> _menus;
+		protected readonly string _fn;
 		public FileBrowserContextMenuSendTo(IUserProfile profile, string fileName)
         {
             _userProfile = profile;
@@ -21,16 +21,12 @@ namespace JobSpace.Menus
 			Load();
 		}
 
-		private void Load()
+        public virtual void Load()
 		{
-			
 			_menus = Commons.DeserializeXML<List<MenuSendTo>>(_fn) ?? new List<MenuSendTo>();
-
-			_menus.ForEach(GetImage);
-
 		}
 
-		private void GetImage(MenuSendTo menuSendTo)
+		protected void GetImage(MenuSendTo menuSendTo)
 		{
 			if (File.Exists(menuSendTo.Path))
 			{

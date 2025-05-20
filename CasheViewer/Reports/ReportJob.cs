@@ -16,135 +16,93 @@ namespace CasheViewer.Reports
         {
             Total = 0;
 
-            var oldVariant = GetJobsByCustomers(false);
+            //var oldVariant = GetJobsByCustomers(false);
+            var newVariant = GetJobsByCustomerRootByPlugin(false);
 
-            var newVariant = GetJobsByCustomersByPlugins(false);
+            //var comparer = new CustomerComparer();
 
-            var comparer = new CustomerComparer();
-
-            foreach (JobNodeRoot customer in oldVariant)
-            {
-                if (newVariant.Contains(customer, comparer))
-                {
-                    var c = newVariant.First(x => x.Name.Equals(customer.Name));
-                    c.Children.AddRange(customer.Children);
-                }
-                else
-                {
-                    newVariant.Add(customer);
-                }
-            }
+            //foreach (JobNodeRoot customer in newVariant)
+            //{
+            //    if (newVariant.Contains(customer, comparer))
+            //    {
+            //        var c = newVariant.First(x => x.Name.Equals(customer.Name));
+            //        c.Children.AddRange(customer.Children);
+            //    }
+            //    else
+            //    {
+            //        newVariant.Add(customer);
+            //    }
+            //}
             return newVariant.Cast<INode>().ToList();
         }
 
-        public List<JobNodeRoot> GetJobsByCustomers(bool isPayed)
+        
+        public List<JobNodeRoot> GetJobsByCustomerRootByPlugin(bool isPayed)
         {
-#pragma warning disable CS0612 // 'IJob.IsCashe' is obsolete
-#pragma warning disable CS0612 // 'IJob.IsCashePayed' is obsolete
-            var jobs = UserProfile.Jobs.GetJobs().Where(x => x.IsCashe && x.IsCashePayed == isPayed);
-#pragma warning restore CS0612 // 'IJob.IsCashePayed' is obsolete
-#pragma warning restore CS0612 // 'IJob.IsCashe' is obsolete
-            var list = new List<JobNodeRoot>();
-            var customers = jobs.GroupBy(x => x.Customer);
+            var reportDate = new List<JobNodeRoot>();
 
-            //Total = 0;
+            Dictionary<object, decimal> jobDictionary = new Dictionary<object, decimal>();
 
-            foreach (var customer in customers)
+            // отримати плагіни
+            var plugins = UserProfile.Plugins.GetPluginFormAddWorks();
+
+            foreach (IPluginFormAddWork plugin in plugins)
             {
-                var c = new JobNodeRoot
-                {
-                    Name = customer.Key,
-                    Children =
-                        customer.Select(
-                            x =>
-
-                                new JobNode
-                                {
-                                    Date = x.Date,
-                                    Number = x.Number,
-                                    Description = x.Description,
-#pragma warning disable CS0612 // 'IJob.CachePayedSum' is obsolete
-                                    Sum = x.CachePayedSum,
-#pragma warning restore CS0612 // 'IJob.CachePayedSum' is obsolete
-                                    Job = x,
-                                    Category = UserProfile.Categories.GetCategoryNameById(x.CategoryId),
-                                    ForegroundColor = Color.Black,
-                                    ReportVersion = ReportVersionEnum.Version1
-                                })
-
-                .Cast<INode>().ToList()
-
-                };
-
-
-
-                list.Add(c);
-            }
-
-#pragma warning disable CS0612 // 'IJob.CachePayedSum' is obsolete
-            Total += jobs.Sum(x => x.CachePayedSum);
-#pragma warning restore CS0612 // 'IJob.CachePayedSum' is obsolete
-
-            return list;
-        }
-        public List<JobNodeRoot> GetJobsByCustomersByPlugins(bool isPayed)
-        {
-            Dictionary<object, decimal> jobsDictionary = new Dictionary<object, decimal>();
-            // отримаємо всі плагіни
-            foreach (var pluginFormAddWork in UserProfile.Plugins.GetPluginFormAddWorks())
-            {
-                // отримаємо всі колекції з неоплаченими рахунками
-                var collection = pluginFormAddWork.GetCollection(UserProfile)
-                    .Where(y => y.Price - y.Pay > 0)
-                    .GroupBy(x => x.ParentId);
+                var collection = plugin.GetCollection(UserProfile)
+                    .Where(x => isPayed ? x.Price - x.Pay == 0 : x.Price - x.Pay > 0)
+                    .GroupBy(i => i.ParentId);
 
                 foreach (IGrouping<object, IProcess> processes in collection)
                 {
-                    if (!jobsDictionary.ContainsKey(processes.Key))
+                    if (!jobDictionary.ContainsKey(processes.Key))
                     {
-                        jobsDictionary.Add(processes.Key, 0);
+                        jobDictionary.Add(processes.Key, 0);
                     }
-                    jobsDictionary[processes.Key] += processes.Sum(x => x.Price - x.Pay);
+                    jobDictionary[processes.Key] += processes.Sum(x => isPayed ? x.Pay : x.Price - x.Pay);
                 }
             }
-            var list = new List<JobNodeRoot>();
-            var listJob = jobsDictionary
-                .Select(pair => UserProfile.Jobs.GetJobs().FirstOrDefault(x => x.Id == pair.Key))
-                .Where(job => job != null)
-                .GroupBy(c => c.Customer);
 
-            foreach (IGrouping<string, IJob> grouping in listJob)
+            List<JobSpace.Job> rawJobs = new List<JobSpace.Job>();
+
+            foreach (var pair in jobDictionary)
             {
-                var c = new JobNodeRoot
+                var j = UserProfile.Base.GetById<JobSpace.Job>("Jobs", pair.Key);
+                if (j != null)
                 {
-                    Name = grouping.Key,
-                    Children =
-                        grouping.Select(
-                                x =>
-                                    new JobNode
-                                    {
-                                        Date = x.Date,
-                                        Number = x.Number,
-                                        Description = x.Description,
-                                        Sum = jobsDictionary[x.Id],
-                                        Job = x,
-                                        Category = UserProfile.Categories.GetCategoryNameById(x.CategoryId),
-                                        ForegroundColor = Color.MediumBlue,
-                                        ReportVersion = ReportVersionEnum.Version2
-                                    })
-                            .Cast<INode>().ToList()
-                };
-
-
-
-                list.Add(c);
+                    rawJobs.Add(j);
+                }
+                else
+                {
+                    Logger.Log.Error(null, $"Job not found", $"{pair.Key}");
+                }
             }
 
-            Total += list.Sum(x => x.Sum);
+            var jobs = rawJobs.GroupBy(x => x.Date.ToString("yy.MM"));
+            
 
-            return list;
+            foreach (var job in jobs)
+            {
+                var rd = new JobNodeRoot { Name = job.Key };
 
+                rd.Children.AddRange(
+                    job.Select(u => (INode)new JobNode()
+                    {
+                        Name = u.Customer,
+                        Date = u.Date,
+                        Number = u.Number,
+                        Description = u.Description,
+                        Sum = jobDictionary[u.Id],
+                        Job = u,
+                        Category = UserProfile.Categories.GetCategoryNameById(u.CategoryId),
+                        ForegroundColor = Color.MediumBlue,
+                        ReportVersion = ReportVersionEnum.Version2
+                    }).ToList());
 
+                rd.Children.Sort((x, y) => x.Date.CompareTo(y.Date));
+
+                reportDate.Add(rd);
+            }
+            return reportDate;
         }
         class CustomerComparer : IEqualityComparer<JobNodeRoot>
         {

@@ -11,6 +11,8 @@ namespace PluginWorkPrepress
         public override string Name { get; set; }
         public override decimal Price { get; set; }
 
+        public decimal PrePrice { get; set; }
+
         protected override void CreateContextMenu(IPluginFormAddWork parent)
         {
             if (_contextMenu.Items.Count == 0)

@@ -16,6 +16,7 @@ namespace PluginWorkPrepress.Forms
 
             textBox1.Text = process.Name;
             numericUpDownPrice.Value = process.Price;
+            numericUpDownPreprice.Value = process.PrePrice;
 
         }
 
@@ -29,6 +30,7 @@ namespace PluginWorkPrepress.Forms
 
             _process.Price = numericUpDownPrice.Value;
             _process.Name = textBox1.Text;
+            _process.PrePrice = numericUpDownPreprice.Value;
 
             Close();
         }
