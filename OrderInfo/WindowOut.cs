@@ -4,6 +4,9 @@ using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
 using JobSpace.Profiles;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using OrderInfo.Models;
 
 namespace OrderInfo
 {
@@ -11,7 +14,8 @@ namespace OrderInfo
     {
         private IJob _curjob;
         private bool _isSubscribed;
-       // private Profile _profile;
+        JobInfo _jobInfo;
+        // private Profile _profile;
 
         public IUserProfile UserProfile { get; set; }
 
@@ -20,12 +24,12 @@ namespace OrderInfo
             InitializeComponent();
         }
 
-/*
-        public void SetUserProfile(object profile)
-        {
-            _profile = profile as Profile;
-        }
-*/
+        /*
+                public void SetUserProfile(object profile)
+                {
+                    _profile = profile as Profile;
+                }
+        */
 
         public UserControl GetUserControl()
         {
@@ -55,12 +59,29 @@ namespace OrderInfo
         public void SetCurJob(IJob curJob)
         {
             try
-            {    
+            {
                 if (curJob is IJob job)
                 {
                     _curjob = job;
 
+                    var col = UserProfile.Base.GetRawCollection<JobInfo>();
+                    _jobInfo = ((IMongoCollection<JobInfo>)col).AsQueryable().FirstOrDefault(x => x.JobId == (ObjectId)job.Id);
+
+                    if (_jobInfo != null)
+                    {
+                        cb_cut.Checked = _jobInfo.Cut;
+                        cb_uv_lak.Checked = _jobInfo.UVLak;
+                        cb_protected_lak.Checked = _jobInfo.ProtectedLak;
+                    }
+                    else
+                    {
+                        cb_cut.Checked = false;
+                        cb_uv_lak.Checked = false;
+                        cb_protected_lak.Checked = false;
+                    }
+
                     ucNote1.SetText(job.Note ?? string.Empty);
+
 
                     if (_isSubscribed) ucAddWorkPluginsContainer1.Unsubscribe(UserProfile);
 
@@ -76,6 +97,7 @@ namespace OrderInfo
                 else
                 {
                     _curjob = null;
+                    _jobInfo = null;
                 }
 
             }
@@ -84,8 +106,8 @@ namespace OrderInfo
                 MessageBox.Show(e.Message);
             }
 
-        
-            
+
+
         }
 
         public void BeforeJobChange(IJob job)
@@ -102,10 +124,9 @@ namespace OrderInfo
 
         private void RichTextBox1_Leave(object sender, EventArgs e)
         {
-                if (ucNote1.GetText().Length > 0)
-                {
-                    SaveChanges();
-                }
+
+            SaveChanges();
+
         }
 
         void SaveChanges()
@@ -114,6 +135,28 @@ namespace OrderInfo
             {
                 _curjob.Note = ucNote1.GetRtf();
                 UserProfile.Jobs.UpdateJob(_curjob);
+
+                if (_jobInfo == null)
+                {
+                    _jobInfo = new JobInfo
+                    {
+                        JobId = (ObjectId)_curjob.Id,
+                        Cut = cb_cut.Checked,
+                        UVLak = cb_uv_lak.Checked,
+                        ProtectedLak = cb_protected_lak.Checked
+                    };
+                    var col = UserProfile.Base.GetRawCollection<JobInfo>();
+                    ((IMongoCollection<JobInfo>)col).InsertOne(_jobInfo);
+                }
+                else
+                {
+                    _jobInfo.Cut = cb_cut.Checked;
+                    _jobInfo.UVLak = cb_uv_lak.Checked;
+                    _jobInfo.ProtectedLak = cb_protected_lak.Checked;
+                    var col = UserProfile.Base.GetRawCollection<JobInfo>();
+                    ((IMongoCollection<JobInfo>)col).ReplaceOne(x => x.JobId == _jobInfo.JobId, _jobInfo);
+                }
+
             }
         }
 

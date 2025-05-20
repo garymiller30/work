@@ -68,6 +68,7 @@ namespace ActiveWorks.UserControls
         private void Init(IUserProfile profile)
         {
             var saveStatus = SplashScreen.Splash.GetStatus();
+            SplashScreen.Splash.SetStatus($"{saveStatus} ініціалізація профілю...");
             profile.InitProfile();
             SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладку зі списком робіт");
             CreateJobListTab();

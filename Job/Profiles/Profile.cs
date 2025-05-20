@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com 
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -46,11 +47,33 @@ namespace JobSpace.Profiles
 
         public void InitProfile()
         {
+            Stopwatch _sw = new Stopwatch();
+
+            Logger.Log.Info(this, "завантажуємо плагіни: ", Settings.ProfileName);
+            _sw.Start();
             LoadPlugins();
+            _sw.Stop();
+            Logger.Log.Info(this, "завантаження плагінів: ", _sw.ElapsedMilliseconds);
+            _sw.Reset();
+            _sw.Start();
+            Logger.Log.Info(this, "ініціалізація Python: ", Settings.ProfileName);
             ScriptEngine = new PythonScriptEngine(this);
+            _sw.Stop();
+            Logger.Log.Info(this, "ініціалізація Python: ", _sw.ElapsedMilliseconds);
+            _sw.Reset();
+
+            Logger.Log.Info(this, "завантаження налаштувань з диску: ", Settings.ProfileName);
+            _sw.Start();
             LoadSettingsFromDisk();
+            _sw.Stop();
+            Logger.Log.Info(this, "завантаження налаштувань з диску: ", _sw.ElapsedMilliseconds);
+            _sw.Reset();
+            Logger.Log.Info(this, "завантаження налаштувань з бази даних: ", Settings.ProfileName);
+            _sw.Start();
             LoadSettingsFromBase();
-            
+            _sw.Stop();
+            Logger.Log.Info(this, "завантаження налаштувань з бази даних: ", _sw.ElapsedMilliseconds);
+
             IsInitialized = true;
         }
 
@@ -83,9 +106,25 @@ namespace JobSpace.Profiles
 
         private void LoadSettingsFromDisk()
         {
+            Stopwatch _sw = new Stopwatch();
+            _sw.Start();
+            Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", Settings.ProfileName);
             SearchHistory = new SearchHistory(this);
+            _sw.Stop();
+            Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", _sw.ElapsedMilliseconds);
+            _sw.Reset();
+            _sw.Start();
+            Logger.Log.Info(this, "завантаження налаштувань з диску: MenuManagers", Settings.ProfileName);
             MenuManagers = new MenuManager(this);
+            _sw.Stop();
+            Logger.Log.Info(this, "завантаження налаштувань з диску: MenuManagers", _sw.ElapsedMilliseconds);
+            _sw.Reset();
+            Logger.Log.Info(this, "завантаження налаштувань з диску: FileBrowser", Settings.ProfileName);
+            _sw.Start();
             FileBrowser = new FileBrowsers(this);
+            _sw.Stop();
+            Logger.Log.Info(this, "завантаження налаштувань з диску: FileBrowser", _sw.ElapsedMilliseconds);
+
         }
 
   

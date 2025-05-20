@@ -17,6 +17,7 @@ namespace ActiveWorks.UserControls
         public void InitProfile()
         {
             _profileTab = new UcTabProfile3(kryptonDockingManager) { Tag = Tag, Dock = DockStyle.Fill };
+            
             kryptonPanel.Controls.Add((Control)_profileTab);
 
             // Setup docking functionality

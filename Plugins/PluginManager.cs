@@ -63,9 +63,16 @@ namespace Plugins
         {
             if (Directory.Exists(path))
             {
+                Stopwatch _sw = new Stopwatch();
+
+
+
                 var files = new DirectoryInfo(path).GetFiles("*.dll");
+
                 foreach (var fi in files)
                 {
+                    _sw.Start();
+                    Log.Info(this, $"({_profile.Settings.ProfileName}) Plugin Manager : Loading: ", fi.Name);
                     try
                     {
                         var assembly = Assembly.LoadFile(fi.FullName);
@@ -151,6 +158,12 @@ namespace Plugins
                                 loaderExceptions.Select(x => $"{x.Message}, ").Aggregate((a, n) => $"{a}{n}"));
                             //MessageBox.Show(loaderExceptions.Select(x=>x.Message+ "\n").Aggregate((a,n)=>a+n));
                         }
+
+                    }
+                    finally { 
+                        _sw.Stop();
+                        Log.Info(this, $"({_profile.Settings.ProfileName}) Plugin Manager : Load : ",$"{fi.Name} - {_sw.ElapsedMilliseconds} ms");
+                        _sw.Reset();
 
                     }
 

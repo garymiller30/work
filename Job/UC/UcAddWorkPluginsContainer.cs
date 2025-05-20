@@ -21,16 +21,7 @@ namespace JobSpace.UC
             //ThemeController.ThemeChanged += ThemeController_ThemeChanged;
         }
 
-        //private void ThemeController_ThemeChanged(object sender, EventArgs e)
-        //{
-        //    treeListView1.ForeColor = ThemeController.Fore;
-        //    treeListView1.BackColor = ThemeController.Back;
-           
-        //    treeListView1.HeaderUsesThemes = true;
-        //    treeListView1.HeaderFormatStyle = new BrightIdeasSoftware.HeaderFormatStyle();
-        //    treeListView1.HeaderFormatStyle.SetForeColor(ThemeController.HeaderFore);
-        //    treeListView1.HeaderFormatStyle.SetBackColor(ThemeController.HeaderBack);
-        //}
+      
 
         private void InitTreeListView()
         {

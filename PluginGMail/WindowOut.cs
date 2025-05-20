@@ -86,7 +86,7 @@ namespace PluginGMail
             get =>_profile; 
             set{
                 _profile = value;
-                Init();
+                //Init();
             } }
 
         public string PluginName => "GMail";
@@ -155,6 +155,13 @@ namespace PluginGMail
             {
                 webView21.ZoomFactor = factor / 100;
             }
+        }
+
+        private void tsb_start_Click(object sender, EventArgs e)
+        {
+            if (_profile == null) { return; }
+
+            Init();
         }
     }
 }
