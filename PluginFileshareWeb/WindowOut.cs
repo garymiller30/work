@@ -1,5 +1,6 @@
 ﻿using Interfaces;
 using Microsoft.Web.WebView2.Core;
+using Microsoft.Web.WebView2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,45 +18,43 @@ namespace PluginFileshareWeb
     public partial class WindowOut : UserControl, IPluginInfo
     {
         IJob _curJob = null;
+        string _curJobDir = null;
         FileShareWebSettings _settings = null;
-
+        CoreWebView2Environment environment;
+        CoreWebView2EnvironmentOptions options;
+        WebView2 curwebView2 = null;
+        double zoomFactor = 80;
         public IUserProfile UserProfile { get; set; }
 
         public string PluginName => "Швидкі посилання";
 
-        public string PluginDescription => "Популярні файлообмінники";
+        public string PluginDescription => "Популярні файлообмінники v2.0";
 
-        public  WindowOut()
+        public WindowOut()
         {
             InitializeComponent();
             _ = InitializeAsync();
-            webView21.CoreWebView2InitializationCompleted += WebView21_CoreWebView2InitializationCompleted;
-
         }
 
         private async Task InitializeAsync()
         {
-            CoreWebView2EnvironmentOptions options = new CoreWebView2EnvironmentOptions("--disable-features=msSmartScreenProtection");
-            CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(
+            options = new CoreWebView2EnvironmentOptions("--disable-features=msSmartScreenProtection");
+            environment = await CoreWebView2Environment.CreateAsync(
                browserExecutableFolder: null,
                 userDataFolder: Path.Combine(Path.GetTempPath(), $"{Environment.UserName}", "aw_shares"),
                 options);
-            await webView21.EnsureCoreWebView2Async(environment);
-
-            //CoreWebView2EnvironmentOptions options = new CoreWebView2EnvironmentOptions("--disable-features=msSmartScreenProtection"); 
-            //CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(null, null, options);
-            //await webView21.EnsureCoreWebView2Async(environment);
-        }
-
-        private void WebView21_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
-        {
-            
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            webView21.Source = new Uri("about:blank");
-            webView21.Source = new Uri(((ToolStripButton)sender).Tag.ToString());
+
+            if (curwebView2 == null) { AddTab(); }
+
+            tabControl1.SelectedTab.Text = ((ToolStripButton)sender).Text;
+
+            curwebView2.Source = new Uri("about:blank");
+            curwebView2.Source = new Uri(((ToolStripButton)sender).Tag.ToString());
+            
         }
 
         public UserControl GetUserControl()
@@ -92,11 +91,11 @@ namespace PluginFileshareWeb
         {
             if (curJob == null) { return; }
 
-            if (webView21.CoreWebView2 == null) return;
-
             _curJob = curJob;
-            var folder = UserProfile.Jobs.GetFullPathToWorkFolder(curJob);
-            webView21.CoreWebView2.Profile.DefaultDownloadFolderPath = folder;
+            _curJobDir = UserProfile.Jobs.GetFullPathToWorkFolder(curJob);
+
+            if (curwebView2?.CoreWebView2 == null) return;
+            curwebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
         }
 
         public void BeforeJobChange(IJob job)
@@ -129,20 +128,21 @@ namespace PluginFileshareWeb
 
         private void toolStripButtonGo_Click(object sender, EventArgs e)
         {
+            
             if (!string.IsNullOrEmpty(toolStripTextBoxUrl.Text))
             {
                 try
                 {
-                    webView21.Source = new Uri(EnsureUrlHasProtocol(toolStripTextBoxUrl.Text));
+                    if (curwebView2 == null) { AddTab(); }
+
+                    curwebView2.Source = new Uri(EnsureUrlHasProtocol(toolStripTextBoxUrl.Text));
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                     
                 }
-                
             }
-                
         }
 
         string EnsureUrlHasProtocol(string urlWithoutProtocol)
@@ -161,12 +161,61 @@ namespace PluginFileshareWeb
 
         private void tsb_zoomOk_Click(object sender, EventArgs e)
         {
-            if (webView21.CoreWebView2 == null) return;
+            if (curwebView2.CoreWebView2 == null) return;
 
-            var res = double.TryParse(tstb_zoomFactor.Text, out var factor);
+            var res = double.TryParse(tstb_zoomFactor.Text, out zoomFactor);
 
             if (res)
-            webView21.ZoomFactor = factor/100;
+            curwebView2.ZoomFactor = zoomFactor/100;
+        }
+
+        private void tsb_add_tab_Click(object sender, EventArgs e)
+        {
+            AddTab();
+        }
+
+        private void AddTab(string title = "")
+        {
+            string userDataFolder = Path.Combine(Path.GetTempPath(), $"{Environment.UserName}\\aw_web\\{UserProfile.Settings.ProfileName}");
+            if (!Directory.Exists(userDataFolder)) { Directory.CreateDirectory(userDataFolder); }
+
+            CoreWebView2EnvironmentOptions options = new CoreWebView2EnvironmentOptions("--disable-features=msSmartScreenProtection");
+
+            var task = CoreWebView2Environment.CreateAsync(
+               browserExecutableFolder: null,
+                userDataFolder: Path.Combine(userDataFolder),
+                options);
+            task.Wait();
+
+            CoreWebView2Environment environment = task.Result;
+            curwebView2 = new WebView2();
+            curwebView2.ZoomFactor = zoomFactor / 100;
+            curwebView2.EnsureCoreWebView2Async(environment);
+            if (_curJob != null)
+            {
+                curwebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
+            }
+
+            TabPage tabPage = new TabPage(title);
+            tabPage.Tag = curwebView2;
+            curwebView2.Dock = DockStyle.Fill;
+            tabPage.Controls.Add(curwebView2);
+            tabControl1.TabPages.Add(tabPage);
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab == null) return;
+
+            if (tabControl1.SelectedTab.Tag is WebView2 webView2)
+            {
+                curwebView2 = webView2;
+                if (_curJob != null)
+                {
+                    curwebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
+                }
+                
+            }
         }
     }
 }

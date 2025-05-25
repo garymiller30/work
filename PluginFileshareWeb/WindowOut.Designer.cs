@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowOut));
-            this.webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton_Add = new System.Windows.Forms.ToolStripButton();
@@ -39,31 +38,22 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tstb_zoomFactor = new System.Windows.Forms.ToolStripTextBox();
             this.tsb_zoomOk = new System.Windows.Forms.ToolStripButton();
-            ((System.ComponentModel.ISupportInitialize)(this.webView21)).BeginInit();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_add_tab = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // webView21
-            // 
-            this.webView21.AllowExternalDrop = true;
-            this.webView21.CreationProperties = null;
-            this.webView21.DefaultBackgroundColor = System.Drawing.Color.White;
-            this.webView21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webView21.Location = new System.Drawing.Point(0, 0);
-            this.webView21.Name = "webView21";
-            this.webView21.Size = new System.Drawing.Size(809, 428);
-            this.webView21.TabIndex = 0;
-            this.webView21.ZoomFactor = 1D;
-            // 
             // toolStripContainer1
             // 
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.webView21);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.tabControl1);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(809, 428);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
@@ -81,16 +71,19 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_Add,
+            this.tsb_add_tab,
             this.toolStripSeparator2,
             this.toolStripTextBoxUrl,
             this.toolStripButtonGo,
             this.toolStripSeparator1,
             this.tstb_zoomFactor,
-            this.tsb_zoomOk});
+            this.toolStripLabel1,
+            this.tsb_zoomOk,
+            this.toolStripSeparator3,
+            this.toolStripButton_Add});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(474, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(539, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -149,6 +142,37 @@
             this.tsb_zoomOk.Text = "Ok";
             this.tsb_zoomOk.Click += new System.EventHandler(this.tsb_zoomOk_Click);
             // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(17, 22);
+            this.toolStripLabel1.Text = "%";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(809, 428);
+            this.tabControl1.TabIndex = 1;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsb_add_tab
+            // 
+            this.tsb_add_tab.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsb_add_tab.Image = ((System.Drawing.Image)(resources.GetObject("tsb_add_tab.Image")));
+            this.tsb_add_tab.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_add_tab.Name = "tsb_add_tab";
+            this.tsb_add_tab.Size = new System.Drawing.Size(73, 22);
+            this.tsb_add_tab.Text = "+ закладку ";
+            this.tsb_add_tab.Click += new System.EventHandler(this.tsb_add_tab_Click);
+            // 
             // WindowOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -156,7 +180,6 @@
             this.Controls.Add(this.toolStripContainer1);
             this.Name = "WindowOut";
             this.Size = new System.Drawing.Size(809, 453);
-            ((System.ComponentModel.ISupportInitialize)(this.webView21)).EndInit();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
@@ -169,8 +192,6 @@
         }
 
         #endregion
-
-        private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton_Add;
@@ -180,5 +201,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripTextBox tstb_zoomFactor;
         private System.Windows.Forms.ToolStripButton tsb_zoomOk;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.ToolStripButton tsb_add_tab;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
