@@ -421,4 +421,10 @@
   <data name="SplashScreen8" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\SplashScreen8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Fatcow_Farm_Fresh_Filter_clear_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Fatcow-Farm-Fresh-Filter-clear.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Omercetin_Pixelophilia_Search_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Omercetin-Pixelophilia-Search.32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

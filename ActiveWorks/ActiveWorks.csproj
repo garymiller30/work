@@ -633,7 +633,9 @@
     <None Include="move-icon.png" />
     <None Include="file-extension-log-icon.png" />
     <None Include="Calendar-icon.png" />
+    <None Include="Fatcow-Farm-Fresh-Filter-clear.32.png" />
     <Content Include="mongocrypt.dll" />
+    <None Include="Omercetin-Pixelophilia-Search.32.png" />
     <Content Include="Resources\icon_all.bmp" />
     <Content Include="Resources\icon_icc.bmp" />
     <Content Include="Resources\icon_lab.png" />
