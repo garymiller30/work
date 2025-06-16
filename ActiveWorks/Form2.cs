@@ -471,12 +471,13 @@ namespace ActiveWorks
             }
             group.Items.Add(groupLines);
 
-            var triple2 = new KryptonRibbonGroupTriple { ItemSizeMaximum = GroupItemSize.Medium };
+            var triple2 = new KryptonRibbonGroupTriple { ItemSizeMaximum = GroupItemSize.Large };
             // додати кнопку для пошуку по базі даних
             var btnSearch = new KryptonRibbonGroupButton
             {
                 TextLine1 = @"Пошук",
-                ImageSmall = Resources.Sql_runner_icon,
+                ImageSmall = Resources.Omercetin_Pixelophilia_Search_32,
+                ImageLarge = Resources.Omercetin_Pixelophilia_Search_32
             };
 
             btnSearch.Click += (sender, args) =>
@@ -490,8 +491,9 @@ namespace ActiveWorks
             // додати кнопку для скидання фільтрів
             var btnReset = new KryptonRibbonGroupButton
             {
-                TextLine1 = @"Скинути фільтри",
-                ImageSmall = Resources.filter_clear
+                TextLine1 = @"Скинути",
+                ImageSmall = Resources.Fatcow_Farm_Fresh_Filter_clear_32,
+                ImageLarge = Resources.Fatcow_Farm_Fresh_Filter_clear_32
             };
 
             btnReset.Click += (sender, args) =>

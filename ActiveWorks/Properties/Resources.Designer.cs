@@ -423,6 +423,16 @@ namespace ActiveWorks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Filter_clear_32 {
+            get {
+                object obj = ResourceManager.GetObject("Fatcow_Farm_Fresh_Filter_clear_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap file_extension_log_icon {
             get {
                 object obj = ResourceManager.GetObject("file_extension_log_icon", resourceCulture);
@@ -656,6 +666,16 @@ namespace ActiveWorks.Properties {
         internal static System.Drawing.Bitmap move_icon {
             get {
                 object obj = ResourceManager.GetObject("move_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Omercetin_Pixelophilia_Search_32 {
+            get {
+                object obj = ResourceManager.GetObject("Omercetin_Pixelophilia_Search_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
