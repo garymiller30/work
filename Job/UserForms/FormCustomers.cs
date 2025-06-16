@@ -33,7 +33,7 @@ namespace JobSpace.UserForms
 
         private void InitLVFtpServers()
         {
-            objectListView_FtpServers.Objects = UserProfile.Ftp.GetCollection();
+            objectListView_FtpServers.Objects = UserProfile.Ftp?.GetCollection();
             objectListView_FtpServers.CheckStateGetter += FtpCheckStateGetter;
         }
 

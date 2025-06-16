@@ -425,10 +425,16 @@ namespace JobSpace.UC
             {
                 foreach (IJob job in objectListView_NewWorks.SelectedObjects)
                 {
+                    _profile.Plugins.BeforeJobChange(job);
+
                     job.StatusCode = status.Code;
-                    _profile.CustomersNotifyManager.Notify(job);
                     _profile.Jobs.UpdateJob(job);
+
+                    _profile.Plugins.AfterJobChange(job);
+                    _profile.CustomersNotifyManager.Notify(job);
                     _profile.StatusManager.OnChangeStatusesParams.Run(job);
+
+                    _profile.Plugins.MqController.PublishChanges(Interfaces.MQ.MessageEnum.JobChanged, job.Id);
                 }
                 objectListView_NewWorks.RefreshObjects(objectListView_NewWorks.SelectedObjects);
             }

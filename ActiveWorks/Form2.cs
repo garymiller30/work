@@ -303,6 +303,9 @@ namespace ActiveWorks
 
         private void CreateSearchGroup(KryptonRibbonTab tab, Profile profile)
         {
+            if (profile.Customers is null) return;
+
+
             var group = new KryptonRibbonGroup
             {
                 TextLine1 = @"Пошук",
@@ -317,11 +320,8 @@ namespace ActiveWorks
             group.Image = Resources.Binoculars_icon;
             group.Items.Add(triple1);
 
-            //var triple2 = new KryptonRibbonGroupTriple { ItemSizeMaximum = GroupItemSize.Small };
-            //group.Items.Add(triple2);
 
-
-            // додати combobox для фільтру по замовникам
+            // додати cb_searchStr для фільтру по замовникам
             var cb_customers = new KryptonRibbonGroupComboBox();
             cb_customers.ComboBox.ToolTipValues.Heading = @"Фільтр по замовнику";
             cb_customers.ComboBox.ToolTipValues.Description = @"Виберіть замовника";
@@ -340,14 +340,14 @@ namespace ActiveWorks
 
             cb_customers.KeyDown += (sender, args) =>
             {
-                if (args.KeyCode == Keys.Enter)
-                {
-                    profile.Jobs.JobListControl.ApplyViewListFilterCustomer(cb_customers.Text);
-                }
+                //if (args.KeyCode == Keys.Enter)
+                //{
+                 //   profile.Jobs.JobListControl.ApplyViewListFilterCustomer(cb_customers.Text);
+                //}
             };
             cb_customers.SelectedIndexChanged += (sender, args) =>
             {
-                profile.Jobs.JobListControl.ApplyViewListFilterCustomer(cb_customers.Text);
+                //profile.Jobs.JobListControl.ApplyViewListFilterCustomer(cb_customers.Text);
             };
 
             var btn_clearCustomers = new ButtonSpecAny
@@ -359,7 +359,7 @@ namespace ActiveWorks
             btn_clearCustomers.Click += (sender, args) =>
             {
                 cb_customers.Text = string.Empty;
-                profile.Jobs.JobListControl.ApplyViewListFilterCustomer(string.Empty);
+                //profile.Jobs.JobListControl.ApplyViewListFilterCustomer(string.Empty);
             };
 
             cb_customers.ButtonSpecs.Add(btn_clearCustomers);
@@ -367,11 +367,11 @@ namespace ActiveWorks
 
             triple1.Items.Add(cb_customers);
 
-            var combobox = new KryptonRibbonGroupComboBox();
-            combobox.ComboBox.ToolTipValues.Description = @"Введіть слово і натисніть <Enter> для пошуку";
-            combobox.ComboBox.ToolTipValues.Image = Resources.Sql_runner_icon;
-            combobox.ComboBox.ToolTipValues.Heading = @"Пошук по базі";
-            combobox.ComboBox.ToolTipValues.EnableToolTips = true;
+            var cb_searchStr = new KryptonRibbonGroupComboBox();
+            cb_searchStr.ComboBox.ToolTipValues.Description = @"Введіть слово і натисніть <Enter> для пошуку";
+            cb_searchStr.ComboBox.ToolTipValues.Image = Resources.Sql_runner_icon;
+            cb_searchStr.ComboBox.ToolTipValues.Heading = @"Пошук по базі";
+            cb_searchStr.ComboBox.ToolTipValues.EnableToolTips = true;
             
 
             AutoCompleteStringCollection data = new AutoCompleteStringCollection();
@@ -381,30 +381,30 @@ namespace ActiveWorks
             {
                 data.AddRange(profile.Categories.GetAll().Select(x => x.Name).ToArray());
             }
-            combobox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            combobox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            cb_searchStr.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cb_searchStr.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
-            combobox.AutoCompleteCustomSource = data;
+            cb_searchStr.AutoCompleteCustomSource = data;
 
             if (profile.SearchHistory != null)
-                combobox.Items.AddRange(profile.SearchHistory.GetHistory());
+                cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
 
-            combobox.KeyDown += (sender, args) =>
+            cb_searchStr.KeyDown += (sender, args) =>
             {
 
                 if (args.KeyCode == Keys.Enter)
                 {
-                    profile.Jobs.JobListControl.ApplyViewListFilterText(combobox.Text);
+                    profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
                 }
             };
-            combobox.TextUpdate += (sender, args) =>
+            cb_searchStr.TextUpdate += (sender, args) =>
             {
-                if (string.IsNullOrEmpty(combobox.Text))
+                if (string.IsNullOrEmpty(cb_searchStr.Text))
                     profile.Jobs.JobListControl.ApplyViewListFilterText(string.Empty);
             };
-            combobox.SelectedIndexChanged += (sender, args) =>
+            cb_searchStr.SelectedIndexChanged += (sender, args) =>
             {
-                profile.Jobs.JobListControl.ApplyViewListFilterText(combobox.Text);
+                profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
             };
 
             var clearButton = new ButtonSpecAny
@@ -414,15 +414,15 @@ namespace ActiveWorks
             };
             clearButton.Click += (sender, args) =>
             {
-                profile.SearchHistory.Add(combobox.Text);
-                combobox.Text = string.Empty;
-                combobox.Items.Clear();
-                combobox.Items.AddRange(profile.SearchHistory.GetHistory());
-                profile.Jobs.JobListControl.ApplyViewListFilterText(combobox.Text);
+                profile.SearchHistory.Add(cb_searchStr.Text);
+                cb_searchStr.Text = string.Empty;
+                cb_searchStr.Items.Clear();
+                cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
+                profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
             };
 
-            combobox.ButtonSpecs.Add(clearButton);
-            triple1.Items.Add(combobox);
+            cb_searchStr.ButtonSpecs.Add(clearButton);
+            triple1.Items.Add(cb_searchStr);
 
             var textBox = new KryptonRibbonGroupTextBox();
             textBox.TextBox.ToolTipValues.EnableToolTips = true;
@@ -447,16 +447,66 @@ namespace ActiveWorks
             textBox.ButtonSpecs.Add(clearTextBoxBtn);
             triple1.Items.Add(textBox);
 
-            //var dateSelect = new KryptonRibbonGroupDateTimePicker
-            //{
-            //    MinimumSize = new Size(120, 0),
-            //    MaximumSize = new Size(120, 0)
-            //};
+            
+            var groupLines = new KryptonRibbonGroupLines { ItemSizeMaximum = GroupItemSize.Small };
 
-            //dateSelect.CloseUp += (sender, args) => profile.Jobs.JobListControl.ApplyViewListFilterDate(dateSelect.DateTimePicker.Value);
+            foreach (var status in profile.SearchManager.GetStatuses())
+            {
+                IJobStatus s = status.Key;
+                var button = new KryptonRibbonGroupButton()
+                {
+                    TextLine1 = s.Name,
+                    ImageSmall = s.Img,
+                    ButtonType = GroupButtonType.Check,
+                    Tag = status
+                };
+                button.Checked = status.Value;
 
-            //triple1.Items.Add(dateSelect);
+                button.Click += (sender, args) =>
+                {
+                    profile.SearchManager.ChangeStatus(s, ((KryptonRibbonGroupButton)sender).Checked);
+                };
+                
+                groupLines.Items.Add(button);
+            }
+            group.Items.Add(groupLines);
 
+            var triple2 = new KryptonRibbonGroupTriple { ItemSizeMaximum = GroupItemSize.Medium };
+            // додати кнопку для пошуку по базі даних
+            var btnSearch = new KryptonRibbonGroupButton
+            {
+                TextLine1 = @"Пошук",
+                ImageSmall = Resources.Sql_runner_icon,
+            };
+
+            btnSearch.Click += (sender, args) =>
+            {
+                profile.SearchManager.Search(cb_customers.Text, cb_searchStr.Text);
+            };
+
+
+            triple2.Items.Add(btnSearch);
+
+            // додати кнопку для скидання фільтрів
+            var btnReset = new KryptonRibbonGroupButton
+            {
+                TextLine1 = @"Скинути фільтри",
+                ImageSmall = Resources.filter_clear
+            };
+
+            btnReset.Click += (sender, args) =>
+            {
+                cb_customers.Text = string.Empty;
+                cb_searchStr.Text = string.Empty;
+                textBox.Text = string.Empty;
+                profile.SearchManager.ClearFilters();
+                
+            };
+
+            triple2.Items.Add(btnReset);
+
+
+            group.Items.Add(triple2);
         }
 
         private void CreateViewFilterGroup(KryptonRibbonTab tab, Profile profile)

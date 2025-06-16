@@ -190,10 +190,9 @@ namespace ActiveWorks.UserControls
                     c.Dock = DockStyle.Fill;
 
                     CreatePluginPage(parent, pluginName, pluginName, c);
-
                     _profile.Plugins.InvokeMethod(pluginName, "SetUserProfile", _profile);
-                    _profile.Plugins.InvokeMethod(pluginName, "Start");
                 }
+                _profile.Plugins.InvokeMethod(pluginName, "Start");
             }
 
             if (parent.Pages.Count > 0)

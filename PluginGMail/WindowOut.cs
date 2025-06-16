@@ -31,7 +31,7 @@ namespace PluginGMail
 
             webView21.Source = new Uri("https://gmail.com");
             webView21.CoreWebView2InitializationCompleted += WebView21_CoreWebView2InitializationCompleted;
-
+            SetZoom();
         }
 
         private async Task InitializeAsync()
@@ -148,6 +148,11 @@ namespace PluginGMail
         }
 
         private void tsb_okZoom_Click(object sender, EventArgs e)
+        {
+            SetZoom();
+        }
+
+        private void SetZoom()
         {
             var res = double.TryParse(toolStripTextBox1.Text, out double factor);
 

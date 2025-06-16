@@ -20,6 +20,8 @@ namespace Interfaces
         List<IJob> ApplyViewFilterCustomer(string customer);
         List<IJob> ApplyViewFilterDate(DateTime date);
         List<IJob> ApplyViewFilterText(string text);
+
+        List<IJob>ApplyViewFilter(string customer,string text, int[] statuses);
         string GetFilterViewCustomer();
         void RemoveAll<T>(string collectionString) where T : class, IWithId, new();
     }
