@@ -37,6 +37,8 @@ namespace JobSpace.Profiles
         public IMenuManager MenuManagers { get; set; }
         public IFileBrowsers FileBrowser { get; set; }
         public IJobStatusManager StatusManager { get; set; }
+
+        public SearchManager SearchManager { get;set; }
         public ISearchHistory SearchHistory { get; set; }
         public IScriptEngine ScriptEngine {get;set;}
 
@@ -94,7 +96,7 @@ namespace JobSpace.Profiles
                 Categories = new CategoryManager(this);
                 MailNotifier = new Mail(this, Settings.GetMail());
                 StatusManager = new JobStatusManager(this);
-
+                SearchManager = new SearchManager(this);
                 CustomersNotifyManager = new CustomerMailNotifyManager(this);
                 Jobs = new JobManager(this, Settings.GetJobSettings());
             }
@@ -145,7 +147,7 @@ namespace JobSpace.Profiles
         {
             if (IsInitialized)
             {
-                Jobs.JobListControl.Close();
+                Jobs?.JobListControl.Close();
                 //MailNotifier?.StopWatching();
                 Plugins?.MqController?.Disconnect();
                 FileBrowser?.SaveSettings();

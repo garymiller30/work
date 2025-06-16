@@ -461,5 +461,17 @@ namespace JobSpace.Fasades
                 }
             }
         }
+
+        public List<IJob> ApplyViewFilter(string customer, string text, int[] statuses)
+        {
+            if (statuses == null) statuses = new int[0];
+            jobListFilter.Statuses = statuses;
+            if (string.IsNullOrEmpty(text)) text = string.Empty;
+            jobListFilter.Text = text.ToLower();
+            if (string.IsNullOrEmpty(customer)) customer = string.Empty;
+            jobListFilter.Customer = customer.ToLower();
+
+            return filterJobs();
+        }
     }
 }
