@@ -191,6 +191,7 @@ namespace PluginFileshareWeb
             curwebView2 = new WebView2();
             curwebView2.ZoomFactor = zoomFactor / 100;
             curwebView2.EnsureCoreWebView2Async(environment);
+            
             if (_curJob != null)
             {
                 curwebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
