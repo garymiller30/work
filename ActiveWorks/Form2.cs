@@ -389,23 +389,23 @@ namespace ActiveWorks
             if (profile.SearchHistory != null)
                 cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
 
-            cb_searchStr.KeyDown += (sender, args) =>
-            {
+            //cb_searchStr.KeyDown += (sender, args) =>
+            //{
 
-                if (args.KeyCode == Keys.Enter)
-                {
-                    profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
-                }
-            };
-            cb_searchStr.TextUpdate += (sender, args) =>
-            {
-                if (string.IsNullOrEmpty(cb_searchStr.Text))
-                    profile.Jobs.JobListControl.ApplyViewListFilterText(string.Empty);
-            };
-            cb_searchStr.SelectedIndexChanged += (sender, args) =>
-            {
-                profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
-            };
+            //    if (args.KeyCode == Keys.Enter)
+            //    {
+            //        profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
+            //    }
+            //};
+            //cb_searchStr.TextUpdate += (sender, args) =>
+            //{
+            //    if (string.IsNullOrEmpty(cb_searchStr.Text))
+            //        profile.Jobs.JobListControl.ApplyViewListFilterText(string.Empty);
+            //};
+            //cb_searchStr.SelectedIndexChanged += (sender, args) =>
+            //{
+            //    profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
+            //};
 
             var clearButton = new ButtonSpecAny
             {
@@ -414,11 +414,11 @@ namespace ActiveWorks
             };
             clearButton.Click += (sender, args) =>
             {
-                profile.SearchHistory.Add(cb_searchStr.Text);
+                //profile.SearchHistory.Add(cb_searchStr.Text);
                 cb_searchStr.Text = string.Empty;
                 cb_searchStr.Items.Clear();
                 cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
-                profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
+                //profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
             };
 
             cb_searchStr.ButtonSpecs.Add(clearButton);
