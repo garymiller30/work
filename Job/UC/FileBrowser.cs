@@ -1783,10 +1783,9 @@ namespace JobSpace.UC
         {
             if (objectListView1.SelectedObjects.Count > 0)
             {
-                using (var form = new FormEnterTirag(_fileManager,objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>()))
-                {
-                    form.ShowDialog();
-                }
+
+                var form = new FormEnterTirag(_fileManager, objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>());
+                form.Show();
 
                 //using (var form = new FormTirag())
                 //{
