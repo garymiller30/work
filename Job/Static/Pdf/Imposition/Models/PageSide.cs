@@ -12,8 +12,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
     {
         public int MasterIdx { get; set; }
         public int PrintIdx { get; set; }
-        
-        [JsonIgnore]
+
+        [JsonIgnore] // This attribute requires the System.Text.Json.Serialization namespace
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public ImposRunPage AssignedRunPage { get; set; }
 
