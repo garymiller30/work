@@ -1,5 +1,4 @@
 ﻿using JobSpace.Static.Pdf.Common;
-using Microsoft.Web.WebView2.Core;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
