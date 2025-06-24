@@ -305,7 +305,6 @@ namespace ActiveWorks
         {
             if (profile.Customers is null) return;
 
-
             var group = new KryptonRibbonGroup
             {
                 TextLine1 = @"Пошук",
@@ -320,6 +319,14 @@ namespace ActiveWorks
             group.Image = Resources.Binoculars_icon;
             group.Items.Add(triple1);
 
+            var customerList = new List<string>(profile.Customers.Count());
+
+            foreach (var customer in profile.Customers)
+            {
+                if (customer.Show)
+                    customerList.Add(customer.Name);
+            }
+            var customers = customerList.ToArray();
 
             // додати cb_searchStr для фільтру по замовникам
             var cb_customers = new KryptonRibbonGroupComboBox();
@@ -329,7 +336,7 @@ namespace ActiveWorks
 
             AutoCompleteStringCollection customer_data = new AutoCompleteStringCollection();
 
-            var customers = profile.Customers.Where(x=> x.Show == true).Select(x => x.Name).ToArray();
+            //var customers = profile.Customers.Where(x=> x.Show == true).Select(x => x.Name).ToArray();
 
             if (profile.Customers != null) customer_data.AddRange(customers);
             cb_customers.ComboBox.Items.AddRange(customers);
@@ -337,18 +344,6 @@ namespace ActiveWorks
             cb_customers.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cb_customers.AutoCompleteSource = AutoCompleteSource.CustomSource;
             cb_customers.AutoCompleteCustomSource = customer_data;
-
-            cb_customers.KeyDown += (sender, args) =>
-            {
-                //if (args.KeyCode == Keys.Enter)
-                //{
-                 //   profile.Jobs.JobListControl.ApplyViewListFilterCustomer(cb_customers.Text);
-                //}
-            };
-            cb_customers.SelectedIndexChanged += (sender, args) =>
-            {
-                //profile.Jobs.JobListControl.ApplyViewListFilterCustomer(cb_customers.Text);
-            };
 
             var btn_clearCustomers = new ButtonSpecAny
             {
@@ -359,7 +354,6 @@ namespace ActiveWorks
             btn_clearCustomers.Click += (sender, args) =>
             {
                 cb_customers.Text = string.Empty;
-                //profile.Jobs.JobListControl.ApplyViewListFilterCustomer(string.Empty);
             };
 
             cb_customers.ButtonSpecs.Add(btn_clearCustomers);
@@ -372,11 +366,9 @@ namespace ActiveWorks
             cb_searchStr.ComboBox.ToolTipValues.Image = Resources.Sql_runner_icon;
             cb_searchStr.ComboBox.ToolTipValues.Heading = @"Пошук по базі";
             cb_searchStr.ComboBox.ToolTipValues.EnableToolTips = true;
-            
 
             AutoCompleteStringCollection data = new AutoCompleteStringCollection();
-            //if (profile.Customers != null)
-            //    data.AddRange(customers);
+
             if (profile.Categories != null)
             {
                 data.AddRange(profile.Categories.GetAll().Select(x => x.Name).ToArray());
@@ -388,24 +380,6 @@ namespace ActiveWorks
 
             if (profile.SearchHistory != null)
                 cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
-
-            //cb_searchStr.KeyDown += (sender, args) =>
-            //{
-
-            //    if (args.KeyCode == Keys.Enter)
-            //    {
-            //        profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
-            //    }
-            //};
-            //cb_searchStr.TextUpdate += (sender, args) =>
-            //{
-            //    if (string.IsNullOrEmpty(cb_searchStr.Text))
-            //        profile.Jobs.JobListControl.ApplyViewListFilterText(string.Empty);
-            //};
-            //cb_searchStr.SelectedIndexChanged += (sender, args) =>
-            //{
-            //    profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
-            //};
 
             var clearButton = new ButtonSpecAny
             {
@@ -446,11 +420,11 @@ namespace ActiveWorks
             };
             textBox.ButtonSpecs.Add(clearTextBoxBtn);
             triple1.Items.Add(textBox);
-
             
             var groupLines = new KryptonRibbonGroupLines { ItemSizeMaximum = GroupItemSize.Small };
 
-            foreach (var status in profile.SearchManager.GetStatuses())
+            var statuses = profile.SearchManager.GetStatuses();
+            foreach (var status in statuses)
             {
                 IJobStatus s = status.Key;
                 var button = new KryptonRibbonGroupButton()
@@ -485,7 +459,6 @@ namespace ActiveWorks
                 profile.SearchManager.Search(cb_customers.Text, cb_searchStr.Text);
             };
 
-
             triple2.Items.Add(btnSearch);
 
             // додати кнопку для скидання фільтрів
@@ -507,7 +480,6 @@ namespace ActiveWorks
 
             triple2.Items.Add(btnReset);
 
-
             group.Items.Add(triple2);
         }
 
@@ -520,8 +492,6 @@ namespace ActiveWorks
                 TextLine1 = @"Перегляд",
                 MinimumWidth = 100,
                 Image = Resources.Glasses_icon,
-
-
             };
             tab.Groups.Add(group);
             var groupLines = new KryptonRibbonGroupLines { ItemSizeMaximum = GroupItemSize.Small };
@@ -619,16 +589,12 @@ namespace ActiveWorks
                 {
                     TextLine1 = plugins[0].PluginName,
                     ImageLarge = plugins[0].PluginImage,
-
-                    //ToolTipBody = plugins[0].PluginDescription 
+                   
                 };
                 button.Click += (sender, args) => profile.Jobs.CreateJob(plugins[0]);
                 groupTriple.Items.Add(button);
             }
 
-            //button = new KryptonRibbonGroupButton { TextLine1 = @"повторити", ImageLarge = Resources.Document_copy_icon };
-            //button.Click += (sender, args) => profile.Jobs.RepeatSelectedJob();
-            //groupTriple.Items.Add(button);
             group.Items.Add(groupTriple);
             tab.Groups.Add(group);
         }

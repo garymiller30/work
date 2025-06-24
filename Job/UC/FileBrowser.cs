@@ -52,7 +52,6 @@ namespace JobSpace.UC
 
         private string[] _customButtonPath;
 
-        //public IJob CurrentJob { get; set; }
 
         public string DefaultSettingsFolder { get; set; }
 
@@ -75,10 +74,6 @@ namespace JobSpace.UC
             InitializeComponent();
             InitFileManager();
             InitListView();
-
-            //UseTheme();
-            //SetTheme();
-
             ApplySettings();
 
             ClonePdfMenu();
@@ -155,32 +150,6 @@ namespace JobSpace.UC
                 else if (column == olvColumn_DateTime) objectListView1.ListViewItemSorter = new FileDateComparer(order);
             };
         }
-
-        //private void SetTheme()
-        //{
-        //    objectListView1.BackColor = ThemeController.Back;
-        //    objectListView1.ForeColor = ThemeController.Fore;
-
-        //    objectListView1.HeaderUsesThemes = false;
-        //    objectListView1.HeaderFormatStyle = new HeaderFormatStyle();
-        //    objectListView1.HeaderFormatStyle.SetForeColor(ThemeController.HeaderFore);
-        //    objectListView1.HeaderFormatStyle.SetBackColor(ThemeController.HeaderBack);
-        //}
-
-        //private void UseTheme()
-        //{
-        //    ThemeController.ThemeChanged += ThemeController_ThemeChanged;
-        //}
-
-        //private void ThemeController_ThemeChanged(object sender, EventArgs e)
-        //{
-        //    SetTheme();
-        //    var objects = (ICollection)objectListView1.Objects;
-        //    objectListView1.ClearObjects();
-        //    objectListView1.AddObjects(objects);
-        //}
-
-
 
         #region [FILE MANAGER]
 
@@ -318,29 +287,26 @@ namespace JobSpace.UC
             long len = 0;
             int pages = 0;
             IFileSystemInfoExt file = null;
-
-            objectListView1.InvokeIfNeeded(() =>
+            
+            cnt = objectListView1.SelectedObjects.Count;
+            if (cnt > 1)
             {
-                cnt = objectListView1.SelectedObjects.Count;
-                if (cnt > 1)
-                {
-                    cnt = objectListView1.SelectedObjects.Count;
-                    len = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Sum(x => x.IsDir ? 0 : x.FileInfo.Length);
-                    pages = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Sum(x => x.IsDir ? 0 : x.Format.cntPages);
-                }
+                var selectedFiles = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToArray();
 
-                if (cnt == 1)
-                {
-                    file = objectListView1.SelectedObject as IFileSystemInfoExt;
-                    cnt = 1;
-                }
-            });
+                len = selectedFiles.Sum(x => x.IsDir ? 0 : x.FileInfo.Length);
+                pages = selectedFiles.Sum(x => x.IsDir ? 0 : x.Format.cntPages);
+            }
+
+            if (cnt == 1)
+            {
+                file = objectListView1.SelectedObject as IFileSystemInfoExt;
+                cnt = 1;
+            }
 
             if (file == null || file.IsDir) return $"{cnt} ({len.GetFileSizeInString()}, {pages} pp.)";
 
             len = file.FileInfo.Length;
             return $"{cnt} ({len.GetFileSizeInString()}, {file.Format.cntPages} pp., {file.Format.Width:N1} x {file.Format.Height:N1} mm)";
-
         }
 
         public void InitToolStripUtils(int idx)

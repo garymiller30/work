@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
-using Job;
-using Job.Profiles;
-using JobManager = Job.Fasades.JobManager;
+using JobSpace;
+using JobSpace.Profiles;
+using JobManager = JobSpace.Fasades.JobManager;
 
 namespace WeekReport
 {
