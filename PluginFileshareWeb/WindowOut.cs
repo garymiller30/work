@@ -48,7 +48,7 @@ namespace PluginFileshareWeb
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
 
-            if (curwebView2 == null) { AddTab(); }
+             AddTab();
 
             tabControl1.SelectedTab.Text = ((ToolStripButton)sender).Text;
 
@@ -202,6 +202,7 @@ namespace PluginFileshareWeb
             curwebView2.Dock = DockStyle.Fill;
             tabPage.Controls.Add(curwebView2);
             tabControl1.TabPages.Add(tabPage);
+            tabControl1.SelectedTab = tabPage;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Interfaces;
 
 namespace JobSpace.UC
@@ -29,7 +30,7 @@ namespace JobSpace.UC
         void CreateDirectoryInCurrentFolder(string name);
         
         void MoveFileOrDirectoryToCurrentFolder(IFileSystemInfoExt file, string newName);
-        void RefreshAsync(string selectFileName = null);
+        Task RefreshAsync(string selectFileName = null);
         void DirectoryUp();
         void SetRootDirectory(string rootDir);
         //void CreateJdf(IEnumerable<IFileSystemInfoExt> files);
@@ -42,7 +43,7 @@ namespace JobSpace.UC
         FileBrowserSettings Settings { get; set; }
 
         void MoveFolderContentsToHere(IFileSystemInfoExt folder);
-        void GetAllFilesWithoutDir();
+        Task GetAllFilesWithoutDir();
         void MoveTo(IFileSystemInfoExt file, string targetDir);
         //IFileManager UseWatcher(IWatcher watcher);
         //IFileManager UseCache(ICache cache);
