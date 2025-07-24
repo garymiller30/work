@@ -88,30 +88,30 @@ namespace JobSpace.UC
             OnDeleteFile(this, e);
         }
 
-        public async void RefreshAsync(string selectFileName = null)
+        public async Task RefreshAsync(string selectFileName = null)
         {
-            List<IFileSystemInfoExt> files = new List<IFileSystemInfoExt>(1);
             try
             {
+                List<IFileSystemInfoExt> files;
                 if (Settings.ShowAllFilesWithoutDir)
                 {
-                    GetAllFilesWithoutDir();
+                     await GetAllFilesWithoutDir();
+                    return;
                 }
                 else
                 {
-                    await Task.Run(() =>
-                                   {
-                                       files = _cache.GetFiles(Settings.CurFolder);
-                                   }).ConfigureAwait(false);
-                    OnRefreshDirectory(this, files);
-                    if (!string.IsNullOrEmpty(selectFileName))
-                        OnSelectFileName(this, selectFileName);
+                    files = await Task.Run(() => _cache.GetFiles(Settings.CurFolder)).ConfigureAwait(false);
                 }
+
+                // Викликайте події на UI-потоці, якщо потрібно
+                OnRefreshDirectory(this, files);
+                if (!string.IsNullOrEmpty(selectFileName))
+                    OnSelectFileName(this, selectFileName);
             }
-            catch
+            catch (Exception ex)
             {
-
-
+                // Логування або повідомлення про помилку
+                OnError(this, ex.Message);
             }
         }
 
@@ -391,7 +391,6 @@ namespace JobSpace.UC
                 Settings.CurFolder = Path.GetDirectoryName(Settings.CurFolder);
             }
 
-
             RefreshAsync(selectedFileName);
         }
 
@@ -411,9 +410,6 @@ namespace JobSpace.UC
                 {
                     MessageBox.Show(e.Message, "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-
-
             }
         }
 
@@ -434,7 +430,6 @@ namespace JobSpace.UC
                 string destName = $"{Path.GetFileNameWithoutExtension(file)}_";
                 string ext = Path.GetExtension(file);
 
-
                 while (File.Exists(dest))
                 {
                     destName += "C";
@@ -451,35 +446,38 @@ namespace JobSpace.UC
                 string name = Path.GetFileName(folder);
                 string dest = Path.Combine(destFolder, name);
                 MoveDir(folder, dest);
-
-
             }
-
             Directory.Delete(sourceFolder);
         }
 
-        public async void GetAllFilesWithoutDir()
+        // Псевдокод для покращення функції GetAllFilesWithoutDir:
+        // 1. Використати async/await для асинхронної роботи з файлами.
+        // 2. Уникати зайвого захоплення контексту синхронізації (ConfigureAwait(false)).
+        // 3. Перевірити, чи дійсно потрібна змінна files поза Task.Run.
+        // 4. Обробити винятки та повідомити про помилку через OnError.
+        // 5. Викликати OnRefreshDirectory лише після успішного отримання файлів.
+
+        public async Task GetAllFilesWithoutDir()
         {
-            List<IFileSystemInfoExt> files = new List<IFileSystemInfoExt>(1);
             try
             {
-                await Task.Run(() =>
+                List<IFileSystemInfoExt> files = await Task.Run(() =>
                 {
-                    files = _cache.GetAllFiles(Settings.CurFolder);
+                    var allFiles = _cache.GetAllFiles(Settings.CurFolder);
 
-                    if (Settings.IgnoreFolders.Length > 0)
+                    if (Settings.IgnoreFolders != null && Settings.IgnoreFolders.Length > 0)
                     {
-                        files = files.Where(f => CheckForIgnoreFolders(f)).ToList();
+                        allFiles = allFiles.Where(f => CheckForIgnoreFolders(f)).ToList();
                     }
-                }).ConfigureAwait(true);
+                    return allFiles;
+                }).ConfigureAwait(false);
+
+                OnRefreshDirectory(this, files);
             }
-            catch
+            catch (Exception ex)
             {
-
-
+                OnError(this, ex.Message);
             }
-
-            OnRefreshDirectory(this, files);
         }
 
         public List<IFileSystemInfoExt> GetDirs()
@@ -493,9 +491,13 @@ namespace JobSpace.UC
 
         private bool CheckForIgnoreFolders(IFileSystemInfoExt f)
         {
+            if (Settings.IgnoreFolders == null || Settings.IgnoreFolders.Length == 0)
+                return true;
+
+            var segments = f.FileInfo.FullName.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             foreach (var ignoreFolder in Settings.IgnoreFolders)
             {
-                if (f.FileInfo.FullName.Contains($"\\{ignoreFolder}\\"))
+                if (segments.Any(s => s.Equals(ignoreFolder, StringComparison.OrdinalIgnoreCase)))
                 {
                     return false;
                 }

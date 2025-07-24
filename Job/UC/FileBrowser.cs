@@ -250,10 +250,10 @@ namespace JobSpace.UC
 
         void ProcessTaskGetExtendedFileInfo(List<IFileSystemInfoExt> e, CancellationToken token)
         {
-            var array = e.ToArray();
+            //var array = e.ToArray();
 
 
-            foreach (var ext in array)
+            foreach (var ext in e)
             {
                 ext.GetExtendedFileInfoFormat();
                 if (token.IsCancellationRequested) break;
@@ -274,11 +274,17 @@ namespace JobSpace.UC
 
         private void UpdateStatusControl()
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(UpdateStatusControl));
+                return;
+            }
+
             toolStripStatusLabelCountFiles.Text = _fileManager.GetCountFiles().ToString(CultureInfo.InvariantCulture);
             toolStripStatusLabelSelected.Text = GetSelectedFilesSize();
 
             if (IsHandleCreated)
-                Invoke(new Action(() => kryptonLabelPath.Text = _fileManager.Settings.CurFolder ?? "\\"));
+                kryptonLabelPath.Text = _fileManager.Settings.CurFolder ?? "\\";
         }
 
         private string GetSelectedFilesSize()
@@ -421,6 +427,7 @@ namespace JobSpace.UC
                 WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path),
                 FileName = menuSendTo.Path,
                 Arguments = args,
+                
             };
             var p = Process.Start(processStartInfo);
             Log.Info(UserProfile, "Utils", $"process: {menuSendTo.Path} cmd: {processStartInfo.Arguments}");
