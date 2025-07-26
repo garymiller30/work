@@ -78,7 +78,14 @@ namespace PluginTelegramNotify
 
         public void ShowSettingsDlg()
         {
-            
+            using (var form = new FormSettings(_settings))
+            {
+                if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    UserProfile.Plugins.SaveSettings(_settings);
+                    Start(); // Restart the plugin with new settings
+                }
+            }
         }
 
         public void Start()
@@ -86,6 +93,8 @@ namespace PluginTelegramNotify
             _settings = UserProfile.Plugins.LoadSettings<TelegramNotifySettings>(this);
             if (string.IsNullOrEmpty(_settings.BotId) || string.IsNullOrEmpty(_settings.ChatId)) return;
 
+            // Initialize the Telegram Bot Client with the provided Bot ID
+            if (_botClient != null) _botClient.Close().Wait(); // Already initialized
             _botClient = new TelegramBotClient(_settings.BotId);
         }
     }
