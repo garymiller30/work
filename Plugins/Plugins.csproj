@@ -74,6 +74,8 @@
     <Compile Include="MailController.cs" />
     <Compile Include="MqController.cs" />
     <Compile Include="PluginManager.cs" />
+    <Compile Include="PluginsLoadSettings.cs" />
+    <Compile Include="PluginSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
