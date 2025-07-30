@@ -40,7 +40,7 @@ namespace PluginColorJobListRow
             item.BackColor = backColor;
             item.ForeColor = foreColor;
 
-            Settings.SetJob($"{job.Number}_{job.Customer.Transliteration()}", job.StatusCode);
+            Settings.SetJob($"{job.Number}", job.StatusCode);
 
         }
     }
