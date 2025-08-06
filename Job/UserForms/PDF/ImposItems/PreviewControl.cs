@@ -63,7 +63,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void Pb_preview_MouseUp(object sender, MouseEventArgs e)
         {
-
             if (e.Button == MouseButtons.Right && _toolParams.CurTool == ImposToolEnum.Select)
             {
                 parameters.SelectedPreviewPage = null;
@@ -144,8 +143,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             pb_preview.Height = (int)((parameters.Sheet.H + 1) * ScreenDrawer.ZoomFactor);
 
             pb_preview.Image = ScreenDrawer.Draw(parameters.Sheet);
-
-
         }
 
         public void InitBindParameters(ImposToolsParameters parameters)
@@ -427,9 +424,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     e.Graphics.FillRectangle(brush, x, y, w, h);
                 }
-
             }
-
         }
 
         private void pb_preview_MouseClick(object sender, MouseEventArgs e)
@@ -498,16 +493,21 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (parameters.Sheet is PrintSheet)
                 {
-                    parameters.HoverPage.Front.PrintIdx = _toolParams.FrontNum++;
+                    _toolParams.FrontNum++;
+                    parameters.HoverPage.Front.PrintIdx = _toolParams.FrontNum;
                     parameters.CheckRunListPages();
                 }
                 else
                 {
-                    parameters.HoverPage.Front.MasterIdx = _toolParams.FrontNum++;
+                    _toolParams.FrontNum++;
+                    parameters.HoverPage.Front.MasterIdx = _toolParams.FrontNum;
                 }
             }
             else
             {
+                _toolParams.FrontNum += 2;
+                _toolParams.BackNum += 2;
+
                 if (parameters.Sheet is PrintSheet)
                 {
                     parameters.HoverPage.Front.PrintIdx = _toolParams.FrontNum;
@@ -520,8 +520,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     parameters.HoverPage.Back.MasterIdx = _toolParams.BackNum;
 
                 }
-                _toolParams.FrontNum += 2;
-                _toolParams.BackNum += 2;
+               
             }
 
             RedrawSheet();
