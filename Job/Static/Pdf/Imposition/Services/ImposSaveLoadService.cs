@@ -1,4 +1,5 @@
 ﻿using ExtensionMethods;
+using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
@@ -15,18 +16,23 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Imposition.Services
 {
-    public static class SaveLoadService
+    public class ImposSaveLoadService
     {
-        static string RootPath;
-        static string SheetPath;
-        static string MarksPath;
-        static string SheetTemplatesPath;
-        static string PrintSheetsPath;
-        static string TemplatePlatesPath;
 
-        static SaveLoadService()
+        public MarksService Marks { get; set; }
+        string RootPath;
+        string SheetPath;
+        string MarksPath;
+        string SheetTemplatesPath;
+        string PrintSheetsPath;
+        string TemplatePlatesPath;
+        Profile _profile;
+
+        public ImposSaveLoadService( Profile profile)
         {
-            RootPath = Path.Combine(Directory.GetCurrentDirectory(), "Impos");
+            _profile = profile;
+            
+            RootPath = Path.Combine(profile.ProfilePath, "Impos");
             SheetPath = Path.Combine(RootPath, "Sheets");
             MarksPath = Path.Combine(RootPath, "Marks");
             SheetTemplatesPath = Path.Combine(RootPath, "SheetTemplates");
@@ -40,14 +46,15 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             if (!Directory.Exists(PrintSheetsPath)) Directory.CreateDirectory(PrintSheetsPath);
             if (!Directory.Exists(TemplatePlatesPath)) Directory.CreateDirectory(TemplatePlatesPath);
 
+            Marks = new MarksService(profile);
         }
 
-        public static string GetMarksPath()
+        public string GetMarksPath()
         {
             return MarksPath;
         }
 
-        public static void SaveSheet(TemplateSheet sheet)
+        public void SaveSheet(TemplateSheet sheet)
         {
             string sheetStr = JsonSerializer.Serialize(sheet);
             string fileName = sheet.Description.Transliteration();
@@ -55,7 +62,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             File.WriteAllText(filePath, sheetStr);
         }
 
-        public static List<TemplateSheet> LoadSheets()
+        public List<TemplateSheet> LoadSheets()
         {
             var files = Directory.GetFiles(SheetPath, "*.json");
 
@@ -72,7 +79,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return sheets;
         }
 
-        public static bool DeleteSheet(TemplateSheet sheet)
+        public bool DeleteSheet(TemplateSheet sheet)
         {
             string fileName = sheet.Description.Transliteration();
             string filePath = Path.Combine(SheetPath, fileName + ".json");
@@ -89,14 +96,14 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         }
 
-        public static void SaveResourceMarks(List<MarksContainer> marks)
+        public void SaveResourceMarks(List<MarksContainer> marks)
         {
             string filePath = Path.Combine(MarksPath, "resource_marks.json");
             string marksStr = JsonSerializer.Serialize(marks);
             File.WriteAllText(filePath, marksStr);
         }
 
-        public static List<MarksContainer> LoadResourceMarks()
+        public  List<MarksContainer> LoadResourceMarks()
         {
             string filePath = Path.Combine(MarksPath, "resource_marks.json");
             if (!File.Exists(filePath)) return new List<MarksContainer>();
@@ -105,7 +112,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return JsonSerializer.Deserialize<List<MarksContainer>>(marksStr);
         }
 
-        public static void SaveSheetTemplate(TemplateSheet sheet)
+        public void SaveSheetTemplate(TemplateSheet sheet)
         {
             using (var form = new SaveFileDialog())
             {
@@ -121,7 +128,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             }
         }
 
-        public static void SaveSheetTemplates(List<TemplateSheet> sheets)
+        public void SaveSheetTemplates(List<TemplateSheet> sheets)
         {
             using (var form = new SaveFileDialog())
             {
@@ -149,7 +156,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         }
 
 
-        public static List<TemplateSheet> LoadSheetTemplates()
+        public List<TemplateSheet> LoadSheetTemplates()
         {
 
             List<TemplateSheet> sheets = new List<TemplateSheet>();
@@ -177,7 +184,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return sheets;
         }
 
-        public static void SavePrintSheets(List<PrintSheet> sheets)
+        public void SavePrintSheets(List<PrintSheet> sheets)
         {
             using (var form = new SaveFileDialog())
             {
@@ -196,14 +203,14 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             }
         }
 
-        public static void SavePrintSheets(List<PrintSheet> sheets, string fileName)
+        public  void SavePrintSheets(List<PrintSheet> sheets, string fileName)
         {
             string str = JsonSerializer.Serialize(sheets);
             File.WriteAllText(fileName, str);
         }
 
 
-        public static List<PrintSheet> LoadPrintSheets()
+        public  List<PrintSheet> LoadPrintSheets()
         {
             using (var form = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
             {
@@ -217,7 +224,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return new List<PrintSheet>();
         }
 
-        public static List<PrintSheet> LoadPrintSheets(string fileName, bool checkFileExists = true)
+        public  List<PrintSheet> LoadPrintSheets(string fileName, bool checkFileExists = true)
         {
 
             if (checkFileExists)
@@ -232,7 +239,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return sheets;
         }
 
-        public static List<TemplatePlate> LoadTemplatePates()
+        public  List<TemplatePlate> LoadTemplatePates()
         {
             var fileName = Path.Combine(TemplatePlatesPath, "template_plates.json");
             if (!File.Exists(fileName)) return new List<TemplatePlate>();
@@ -241,14 +248,14 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return JsonSerializer.Deserialize<List<TemplatePlate>>(str);
         }
 
-        public static void SaveTemplatePlates(List<TemplatePlate> plates)
+        public  void SaveTemplatePlates(List<TemplatePlate> plates)
         {
             var fileName = Path.Combine(TemplatePlatesPath, "template_plates.json");
             string str = JsonSerializer.Serialize(plates);
             File.WriteAllText(fileName, str);
         }
 
-        public static List<string> LoadCustomsPath()
+        public  List<string> LoadCustomsPath()
         {
             var path = Path.Combine(RootPath, "customsOutputFolders.json");
             if (!File.Exists(path)) return new List<string>();
@@ -257,14 +264,14 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return JsonSerializer.Deserialize<List<string>>(src);
         }
 
-        public static void SaveCustomsPath(List<string> paths)
+        public  void SaveCustomsPath(List<string> paths)
         {
             var path = Path.Combine(RootPath, "customsOutputFolders.json");
             string str = JsonSerializer.Serialize(paths);
             File.WriteAllText(path, str);
         }
 
-        public static List<TemplateSheet> LoadQuickAccessTemplateSheets()
+        public  List<TemplateSheet> LoadQuickAccessTemplateSheets()
         {
             var path = Path.Combine(RootPath,"quickAccessSheets.json");
             if (!File.Exists(path)) return new List<TemplateSheet>();
@@ -273,21 +280,21 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return JsonSerializer.Deserialize<List<TemplateSheet>>(src);
         }
 
-        public static void SaveQuickAccessTemplateSheets(List<TemplateSheet> quickAccess)
+        public  void SaveQuickAccessTemplateSheets(List<TemplateSheet> quickAccess)
         {
             var path = Path.Combine(RootPath, "quickAccessSheets.json");
             string str = JsonSerializer.Serialize(quickAccess);
             File.WriteAllText(path, str);
         }
 
-        public static void SaveExportParameters(ExportParameters exportParameters)
+        public  void SaveExportParameters(ExportParameters exportParameters)
         {
             var path = Path.Combine(RootPath, "exportParameters.json");
             string str = JsonSerializer.Serialize(exportParameters);
             File.WriteAllText(path, str);
         }
 
-        public static ExportParameters LoadExportParameters()
+        public  ExportParameters LoadExportParameters()
         {
             var path = Path.Combine(RootPath, "exportParameters.json");
             if (!File.Exists(path)) return new ExportParameters();

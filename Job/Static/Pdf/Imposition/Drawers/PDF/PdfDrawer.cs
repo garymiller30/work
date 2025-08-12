@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using JobSpace.Profiles;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Models;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet;
 using JobSpace.Static.Pdf.Imposition.Models;
@@ -17,9 +18,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
         public EventHandler<int> ProcessingEvent { get; set; } = delegate { };
         public EventHandler FinishEvent { get; set; } = delegate { };
 
-        public PdfDrawer()
-        {
+        Profile _profile;
 
+        public PdfDrawer(Profile profile)
+        {
+            _profile= profile;
         }
 
         public void Draw(ProductPart impos)
@@ -95,7 +98,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                     var orderFileName = Path.GetFileNameWithoutExtension(impos.ExportParameters.OutputFilePath);
 
                     var orderFile = Path.Combine(orderFolder, Path.GetFileNameWithoutExtension(orderFileName) + ".json");
-                    SaveLoadService.SavePrintSheets(impos.PrintSheets, orderFile);
+                    _profile.ImposService.SavePrintSheets(impos.PrintSheets, orderFile);
                 }
             }
         }

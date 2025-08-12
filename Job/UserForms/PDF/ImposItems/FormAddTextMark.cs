@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+﻿using JobSpace.Profiles;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using Krypton.Toolkit;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class FormAddTextMark : Form
     {
+        Profile _profile;
         private string[] angles = new[] { "0", "90", "180", "270" };
         public TextMark Mark { get; set; }
-        public FormAddTextMark()
+        public FormAddTextMark(Profile profile)
         {
+            _profile = profile;
             InitializeComponent();
             cb_Angle.DataSource = angles;
             Mark = new TextMark();

@@ -66,24 +66,24 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void InitSheets()
         {
-            comboBoxSheetPlaceType.DataSource = Extensions.GetDescriptions(typeof(TemplateSheetPlaceType));
+            //comboBoxSheetPlaceType.DataSource = Extensions.GetDescriptions(typeof(TemplateSheetPlaceType));
 
-            var sheets = SaveLoadService.LoadSheets();
-            if (sheets.Any())
-            {
-                comboBoxSheets.Items.AddRange(sheets.ToArray());
-            }
+            //var sheets = ImposSaveLoadService.LoadSheets();
+            //if (sheets.Any())
+            //{
+            //    comboBoxSheets.Items.AddRange(sheets.ToArray());
+            //}
         }
         private void AddSheet()
         {
-            using (var form = new FormAddSheet())
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    SaveLoadService.SaveSheet(form.Sheet);
-                    comboBoxSheets.Items.Add(form.Sheet);
-                }
-            }
+            //using (var form = new FormAddSheet())
+            //{
+            //    if (form.ShowDialog() == DialogResult.OK)
+            //    {
+            //        ImposSaveLoadService.SaveSheet(form.Sheet);
+            //        comboBoxSheets.Items.Add(form.Sheet);
+            //    }
+            //}
         }
         private void buttonAddSheet_Click(object sender, EventArgs e)
         {
@@ -96,26 +96,26 @@ namespace JobSpace.UserForms.PDF.ImposItems
         }
         private void EditSheet()
         {
-            if (comboBoxSheets.SelectedItem is TemplateSheet sheet)
-            {
-                using (var form = new FormAddSheet(sheet))
-                {
-                    string old_desc = sheet.Description;
+            //if (comboBoxSheets.SelectedItem is TemplateSheet sheet)
+            //{
+            //    using (var form = new FormAddSheet(sheet))
+            //    {
+            //        string old_desc = sheet.Description;
 
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        if (old_desc != sheet.Description)
-                        {
-                            SaveLoadService.SaveSheet(form.Sheet);
-                            comboBoxSheets.Items.Add(form.Sheet);
-                        }
-                        else
-                        {
-                            SaveLoadService.SaveSheet(form.Sheet);
-                        }
-                    }
-                }
-            }
+            //        if (form.ShowDialog() == DialogResult.OK)
+            //        {
+            //            if (old_desc != sheet.Description)
+            //            {
+            //                ImposSaveLoadService.SaveSheet(form.Sheet);
+            //                comboBoxSheets.Items.Add(form.Sheet);
+            //            }
+            //            else
+            //            {
+            //                ImposSaveLoadService.SaveSheet(form.Sheet);
+            //            }
+            //        }
+            //    }
+            //}
         }
       
 
@@ -134,10 +134,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void btn_delSheet_Click(object sender, EventArgs e)
         {
-            if (comboBoxSheets.SelectedItem is TemplateSheet sheet)
-            {
-                if (SaveLoadService.DeleteSheet(sheet)) comboBoxSheets.Items.Remove(sheet);
-            }
+            //if (comboBoxSheets.SelectedItem is TemplateSheet sheet)
+            //{
+            //    if (ImposSaveLoadService.DeleteSheet(sheet)) comboBoxSheets.Items.Remove(sheet);
+            //}
         }
     }
 }
