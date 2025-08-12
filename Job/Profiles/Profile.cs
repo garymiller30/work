@@ -11,6 +11,7 @@ using JobSpace.CustomerNotify;
 using JobSpace.Data;
 using JobSpace.Fasades;
 using JobSpace.Menus;
+using JobSpace.Static.Pdf.Imposition.Services;
 using MailNotifier;
 using Plugins;
 using PythonEngine;
@@ -39,6 +40,7 @@ namespace JobSpace.Profiles
         public ISearchHistory SearchHistory { get; set; }
         public IScriptEngine ScriptEngine {get;set;}
 
+        public ImposSaveLoadService ImposService { get;set; }
         public override string ToString()
         {
             return Settings.ProfileName ?? "Unknown";
@@ -123,6 +125,8 @@ namespace JobSpace.Profiles
             FileBrowser = new FileBrowsers(this);
             _sw.Stop();
             Logger.Log.Info(this, "завантаження налаштувань з диску: FileBrowser", _sw.ElapsedMilliseconds);
+
+            ImposService = new ImposSaveLoadService(this);
 
         }
 

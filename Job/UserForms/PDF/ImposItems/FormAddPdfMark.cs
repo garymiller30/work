@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Profiles;
+using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
 using System;
@@ -16,11 +17,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class FormAddPdfMark : Form
     {
+        Profile _profile;
         private string[] angles = new [] {"0","90","180","270" };
         public PdfMark Mark { get; set; }
 
-        public FormAddPdfMark()
+        public FormAddPdfMark(Profile profile)
         {
+            _profile = profile;
             InitializeComponent();
             cb_Angle.DataSource = angles;
             
@@ -28,10 +31,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
             Mark = new PdfMark();
             SetParams();
             DialogResult = DialogResult.Cancel;
+            //Mark = mark;
         }
 
-        public FormAddPdfMark(PdfMark mark)
+        public FormAddPdfMark(Profile profile, PdfMark mark)
         {
+            _profile = profile;
             InitializeComponent();
             cb_Angle.DataSource = angles;
             Mark = mark;
@@ -131,7 +136,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void btn_SelectPdfFile_Click(object sender, EventArgs e)
         {
             vistaOpenFileDialog1.Filter = "PDF files (*.pdf)|*.pdf";
-            vistaOpenFileDialog1.FileName = SaveLoadService.GetMarksPath() + "\\";
+            vistaOpenFileDialog1.FileName = _profile.ImposService.GetMarksPath() + "\\";
 
             if (vistaOpenFileDialog1.ShowDialog() == DialogResult.OK)
             {

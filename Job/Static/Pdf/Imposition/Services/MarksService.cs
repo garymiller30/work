@@ -1,4 +1,5 @@
 ﻿using Ghostscript.NET.Rasterizer;
+using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Statuses;
@@ -15,11 +16,17 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Imposition.Services
 {
-    public static class MarksService
+    public class MarksService
     {
-        public static List<MarksContainer> Marks { get; set; }
+        Profile _profile;
 
-        public static MarksContainer CreateGroup(string name)
+        public MarksService(Profile profile)
+        {
+            _profile = profile;
+        }
+        public List<MarksContainer> Marks { get; set; }
+
+        public MarksContainer CreateGroup(string name)
         {
             MarksContainer container = new MarksContainer() { Name = name };
             Marks.Add(container);
@@ -27,7 +34,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return container;
         }
 
-        public static MarksContainer CreateGroup(string name, MarksContainer container)
+        public MarksContainer CreateGroup(string name, MarksContainer container)
         {
             MarksContainer group = new MarksContainer() { Name = name };
             group.ParentId = container.Id;
@@ -36,24 +43,24 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return group;
         }
 
-        public static List<MarksContainer> GetResourceMarks()
+        public List<MarksContainer> GetResourceMarks()
         {
             if (Marks == null) LoadResourceMarks();
 
             return Marks;
         }
 
-        public static void LoadResourceMarks()
+        public void LoadResourceMarks()
         {
-            Marks = SaveLoadService.LoadResourceMarks();
+            Marks = _profile.ImposService.LoadResourceMarks();
         }
 
-        public static void SaveResourceMarks()
+        public void SaveResourceMarks()
         {
-            SaveLoadService.SaveResourceMarks(Marks);
+            _profile.ImposService.SaveResourceMarks(Marks);
         }
 
-        public static void DeleteGroup(MarksContainer group)
+        public void DeleteGroup(MarksContainer group)
         {
             if (group.ParentId == null)
             {
@@ -72,7 +79,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             }
         }
 
-        public static bool DeleteGroup(List<MarksContainer> group, MarksContainer container)
+        public bool DeleteGroup(List<MarksContainer> group, MarksContainer container)
         {
             if (container.ParentId == null)
             {
@@ -93,7 +100,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return false;
         }
 
-        private static MarksContainer FindParent(List<MarksContainer> marks, string parentId)
+        private MarksContainer FindParent(List<MarksContainer> marks, string parentId)
         {
             foreach (MarksContainer mark in marks)
             {
@@ -106,25 +113,25 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return null;
         }
 
-        public static void AddMark(MarksContainer container, MarksContainer mark)
+        public void AddMark(MarksContainer container, MarksContainer mark)
         {
             container.Containers.Add(mark);
             SaveResourceMarks();
         }
 
-        public static void AddMark(MarksContainer container, PdfMark mark)
+        public void AddMark(MarksContainer container, PdfMark mark)
         {
             container.Pdf.Add(mark);
             SaveResourceMarks();
         }
 
-        public static void AddMark(MarksContainer container, TextMark mark)
+        public void AddMark(MarksContainer container, TextMark mark)
         {
             container.Text.Add(mark);
             SaveResourceMarks();
         }
 
-        public static void DeleteMark(PdfMark pdfMark)
+        public void DeleteMark(PdfMark pdfMark)
         {
             MarksContainer parent = FindPdfMarkParent(Marks, pdfMark.Id);
             if (parent == null) return;
@@ -133,7 +140,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             SaveResourceMarks();
         }
 
-        public static void DeleteMark(TextMark mark)
+        public void DeleteMark(TextMark mark)
         {
             MarksContainer parent = FindTextMarkParent(Marks, mark.Id);
             if (parent == null) return;
@@ -142,7 +149,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             SaveResourceMarks();
         }
 
-        private static MarksContainer FindTextMarkParent(List<MarksContainer> marks, string id)
+        private MarksContainer FindTextMarkParent(List<MarksContainer> marks, string id)
         {
 
             foreach (MarksContainer mark in marks)
@@ -159,7 +166,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return null;
         }
 
-        private static MarksContainer FindPdfMarkParent(List<MarksContainer> marks, string id)
+        private MarksContainer FindPdfMarkParent(List<MarksContainer> marks, string id)
         {
             foreach (MarksContainer mark in marks)
             {

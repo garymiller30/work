@@ -1,4 +1,5 @@
 ﻿using BrightIdeasSoftware;
+using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Drawers;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF;
@@ -37,8 +38,11 @@ namespace JobSpace.UserForms.PDF
         ControlBindParameters _parameters = new ControlBindParameters();
         ProductPart _productPart;
 
-        public FormPdfImposition()
+        Profile _profile;
+
+        public FormPdfImposition(Profile profile)
         {
+            _profile = profile;
             InitializeComponent();
             InitBindParameters();
             InitImposTools();
@@ -59,12 +63,12 @@ namespace JobSpace.UserForms.PDF
             btn_selectCustomFolder.DataBindings.Add("Enabled", cb_useCustomOutputFolder, "Checked");
             tb_useTemplate.DataBindings.Add("Enabled", cb_useTemplate, "Checked");
 
-            cb_CustomOutputPath.Items.AddRange(SaveLoadService.LoadCustomsPath().ToArray());
+            cb_CustomOutputPath.Items.AddRange(_profile.ImposService.LoadCustomsPath().ToArray());
         }
 
         private void LoadExportParameters()
         {
-            ExportParameters exportParameters = SaveLoadService.LoadExportParameters();
+            ExportParameters exportParameters = _profile.ImposService.LoadExportParameters();
 
             cb_savePrintSheetInOrder.Checked = exportParameters.SavePrintSheetToOrderFolder;
             cb_useTemplate.Checked = exportParameters.UseTemplate;
@@ -141,7 +145,7 @@ namespace JobSpace.UserForms.PDF
             imposBindingControl1.SetControlBindParameters(_parameters);
             pdfFileListControl1.SetControlBindParameters(_parameters);
             runListControl1.SetControlBindParameters(_parameters);
-            marksControl1.SetControlBindParameters(_parameters);
+            marksControl1.SetControlBindParameters(_profile, _parameters);
             previewControl1.SetControlBindParameters(_parameters);
         }
 
@@ -272,7 +276,7 @@ namespace JobSpace.UserForms.PDF
             _parameters.UpdateSheet();
         }
 
-        public FormPdfImposition(ImposInputParam param) : this()
+        public FormPdfImposition(Profile profile, ImposInputParam param) : this(profile)
         {
             _imposInputParam = param;
             
@@ -291,8 +295,8 @@ namespace JobSpace.UserForms.PDF
             masterPageSelectControl1.OnMasterPageAdded += OnMasterPageAdded;
             masterPageSelectControl1.SetFormats(_pdfFiles);
 
-            addTemplateSheetControl1.SetControlBindParameters(_parameters);
-            printSheetsControl1.SetControlBindParameters(_parameters);
+            addTemplateSheetControl1.SetControlBindParameters(_profile,_parameters);
+            printSheetsControl1.SetControlBindParameters(_profile, _parameters);
 
             //LoadImposFromFile();
 
@@ -371,7 +375,7 @@ namespace JobSpace.UserForms.PDF
 
             DrawerStatic.CurProductPart = _productPart;
 
-            PdfDrawer drawer = new PdfDrawer();
+            PdfDrawer drawer = new PdfDrawer(_profile);
 
             drawer.StartEvent+= startEvent;
             drawer.ProcessingEvent+= processingEvent;
@@ -382,13 +386,11 @@ namespace JobSpace.UserForms.PDF
             {
                 Process.Start(_productPart.ExportParameters.OutputFilePath);
             }
-
         }
 
         private void finishEvent(object sender, EventArgs e)
         {
             progressBar1.Invoke(new MethodInvoker(delegate { progressBar1.Value = 0; }));
-           
         }
 
         private void processingEvent(object sender, int e)
@@ -406,7 +408,7 @@ namespace JobSpace.UserForms.PDF
 
             //зберегти параметри експорту
             if (_productPart != null)
-                SaveLoadService.SaveExportParameters(_productPart.ExportParameters);
+                _profile.ImposService.SaveExportParameters(_productPart.ExportParameters);
 
             //if (_productPart != null)
             //{
@@ -457,7 +459,7 @@ namespace JobSpace.UserForms.PDF
                         cb_CustomOutputPath.Items.Add(item);
                     }
 
-                    SaveLoadService.SaveCustomsPath(paths.ToList());
+                    _profile.ImposService.SaveCustomsPath(paths.ToList());
                 }
             }
         }

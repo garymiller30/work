@@ -430,7 +430,7 @@
     <Compile Include="Static\Pdf\Imposition\Services\PdfFileService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PdfMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\PositioningService.cs" />
-    <Compile Include="Static\Pdf\Imposition\Services\SaveLoadService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\ImposSaveLoadService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextMarksService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextVariablesService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextVariables\StringToken.cs" />

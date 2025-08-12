@@ -8,6 +8,7 @@ using JobSpace.Dlg;
 using JobSpace.Ext;
 using JobSpace.Menus;
 using JobSpace.Models;
+using JobSpace.Profiles;
 using JobSpace.Static;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Services;
@@ -2024,7 +2025,7 @@ namespace JobSpace.UC
             };
 
 
-            var form = new FormPdfImposition(param);
+            var form = new FormPdfImposition((Profile)UserProfile, param);
             form.Show();
         }
 
