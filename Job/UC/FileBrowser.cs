@@ -331,7 +331,7 @@ namespace JobSpace.UC
                     {
                         AddRightClick(item);
 
-                        if (((MenuSendTo)item.Tag).IsScript())
+                        if (UserProfile.ScriptEngine.IsScriptFile(((MenuSendTo)item.Tag).Path))
                         {
 
                             toolStripScriptPanel.Items.Add(item);

@@ -8,6 +8,7 @@ using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 {
@@ -17,6 +18,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
         public EventHandler<int> StartEvent { get; set; } = delegate { };
         public EventHandler<int> ProcessingEvent { get; set; } = delegate { };
         public EventHandler FinishEvent { get; set; } = delegate { };
+
+        public int[] CustomSheets { get; set; } = null;
+
+        public bool IsCancelled { get; set; } = false;
 
         Profile _profile;
 
@@ -34,14 +39,31 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                 impos.ExportParameters.CreateOutputFileName();
                 var targetFile = impos.ExportParameters.OutputFilePath;
 
+                int[] range;
+
+                if (CustomSheets == null)
+                {
+                    range = Enumerable.Range(0, impos.PrintSheets.Count).ToArray();
+                }
+                else
+                {
+                    range = CustomSheets;
+                }
+
+
                 p.begin_document(targetFile, "");
 
-                StartEvent(this, impos.PrintSheets.Count);
+                StartEvent(this, range.Length);
 
-                for (int i = 0; i < impos.PrintSheets.Count; i++)
+                foreach (var i in range)
                 {
 
-                    ProcessingEvent(this, i + 1);
+                    if (IsCancelled)
+                        break;
+
+                    int pos = Array.IndexOf(range, i) + 1;
+                    // 
+                    ProcessingEvent(this, pos);
 
                     var sheet = impos.PrintSheets[i];
 
@@ -101,6 +123,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                     _profile.ImposService.SavePrintSheets(impos.PrintSheets, orderFile);
                 }
             }
+        }
+
+        public void Cancel()
+        {
+            IsCancelled = true;
         }
     }
 }

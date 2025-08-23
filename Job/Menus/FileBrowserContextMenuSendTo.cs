@@ -12,7 +12,7 @@ namespace JobSpace.Menus
 {
     public class FileBrowserContextMenuSendTo : IFileBrowserContextMenu
     {
-        private IUserProfile _userProfile { get; set; }
+        protected IUserProfile _userProfile { get; set; }
         protected List<MenuSendTo> _menus;
         protected readonly string _fn;
         public FileBrowserContextMenuSendTo(IUserProfile profile, string fileName)

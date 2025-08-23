@@ -68,7 +68,7 @@ namespace PythonEngine.Controllers
 
         public override void ProccessScriptByName(IDownloadTicket ticket, string scriptName)
         {
-            var script = Settings.Profile.MenuManagers.Utils.Get().FirstOrDefault(x => x.Name.ToLower().Equals(scriptName.ToLower()) && x.IsScript());
+            var script = Settings.Profile.MenuManagers.Utils.Get().FirstOrDefault(x => x.Name.ToLower().Equals(scriptName.ToLower()) && Settings.Profile.ScriptEngine.IsScriptFile(x.Path));
             if (script == null) return;
 
             var param = PrepareScriptToStart(ticket.Job,script);

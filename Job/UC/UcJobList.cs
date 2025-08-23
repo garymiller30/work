@@ -229,7 +229,7 @@ namespace JobSpace.UC
                     {
                         if (menuSendTo.UsedInMainWindow && menuSendTo.Enable)
                         {
-                            if (menuSendTo.IsScript())
+                            if (_profile.ScriptEngine.IsScriptFile( menuSendTo.Path))
                             {
                                 toolStripMainScriptPanel.Items.Add(menu);
                             }

@@ -171,5 +171,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 }
             }
         }
+
+        public int[] GetSheetsIdxForPrint()
+        {
+            if (objectListView1.SelectedObjects.Count != 0)
+            {
+               return objectListView1.SelectedIndices.Cast<int>().ToArray();
+            }
+            return null;
+        }
     }
 }

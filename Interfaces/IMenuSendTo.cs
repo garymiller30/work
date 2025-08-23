@@ -13,7 +13,6 @@ namespace Interfaces
         bool UsedInMainWindow { get; set; }
         bool[] UsedInExplorer { get; set; }
         
-        bool IsScript();
         Image GetImage();
     }
 }
