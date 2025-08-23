@@ -29,12 +29,6 @@ namespace JobSpace.Menus
 
         public bool[] UsedInExplorer { get; set; } = new bool[4];
 
-        public bool IsScript()
-        {
-            if (Path != null)
-                return System.IO.Path.GetExtension(Path).Equals(".py", StringComparison.InvariantCultureIgnoreCase);
-            return false;
-        }
 
         public Image GetImage() => Image;
     }

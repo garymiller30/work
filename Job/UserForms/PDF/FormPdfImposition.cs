@@ -37,7 +37,7 @@ namespace JobSpace.UserForms.PDF
         ImposToolsParameters _tool_param = new ImposToolsParameters();
         ControlBindParameters _parameters = new ControlBindParameters();
         ProductPart _productPart;
-
+        PdfDrawer drawer;
         Profile _profile;
 
         public FormPdfImposition(Profile profile)
@@ -81,7 +81,7 @@ namespace JobSpace.UserForms.PDF
         {
             if (ModifierKeys == Keys.Alt)
             {
-                NeedCheckRunListPages(this,null);
+                NeedCheckRunListPages(this, null);
             }
             else
             {
@@ -111,7 +111,7 @@ namespace JobSpace.UserForms.PDF
             int sheetCnt = cnt / maxId;
 
             PrintSheet sheet = PrintSheet.ConvertTemplateSheetToPrintSheet(e);
-            printSheetsControl1.AddSheets(sheet,sheetCnt);
+            printSheetsControl1.AddSheets(sheet, sheetCnt);
             _controlBindParameters_NeedRearangePages(this, null);
         }
 
@@ -195,7 +195,7 @@ namespace JobSpace.UserForms.PDF
 
         private void OnPageGroupDistributeHor(object sender, List<PageGroup> e)
         {
-            PageGroupsService.DistributeHor(_parameters.Sheet,_tool_param.IgnoreSheetFields,e);
+            PageGroupsService.DistributeHor(_parameters.Sheet, _tool_param.IgnoreSheetFields, e);
             _parameters.UpdateSheet();
         }
 
@@ -207,14 +207,14 @@ namespace JobSpace.UserForms.PDF
 
         private void OnFlipRowAngle(object sender, TemplatePage e)
         {
-            _parameters.Sheet.TemplatePageContainer.FlipPagesAngle(e,_parameters.Sheet.SheetPlaceType);
+            _parameters.Sheet.TemplatePageContainer.FlipPagesAngle(e, _parameters.Sheet.SheetPlaceType);
             ProcessFixBleeds.Front(_parameters.Sheet.TemplatePageContainer);
             _parameters.UpdateSheet();
         }
 
         private void OnFlipAngle(object sender, TemplatePage e)
         {
-             e.FlipAngle(_parameters.Sheet.SheetPlaceType);
+            e.FlipAngle(_parameters.Sheet.SheetPlaceType);
             ProcessFixBleeds.Front(_parameters.Sheet.TemplatePageContainer);
             _parameters.UpdateSheet();
         }
@@ -243,7 +243,7 @@ namespace JobSpace.UserForms.PDF
 
         private void OnRotateLeft(object sender, EventArgs e)
         {
-           if (_parameters.SelectedPreviewPage != null)
+            if (_parameters.SelectedPreviewPage != null)
             {
                 var sel_page = _parameters.SelectedPreviewPage;
                 ProcessRotatePage.Left(_parameters.Sheet, sel_page);
@@ -279,7 +279,7 @@ namespace JobSpace.UserForms.PDF
         public FormPdfImposition(Profile profile, ImposInputParam param) : this(profile)
         {
             _imposInputParam = param;
-            
+
             int id = 1;
             foreach (var file in _imposInputParam.Files)
             {
@@ -295,7 +295,7 @@ namespace JobSpace.UserForms.PDF
             masterPageSelectControl1.OnMasterPageAdded += OnMasterPageAdded;
             masterPageSelectControl1.SetFormats(_pdfFiles);
 
-            addTemplateSheetControl1.SetControlBindParameters(_profile,_parameters);
+            addTemplateSheetControl1.SetControlBindParameters(_profile, _parameters);
             printSheetsControl1.SetControlBindParameters(_profile, _parameters);
 
             //LoadImposFromFile();
@@ -350,7 +350,7 @@ namespace JobSpace.UserForms.PDF
             {
                 SaveToPdf();
             }
-            
+
         }
 
         private async void SaveToPdf()
@@ -363,7 +363,7 @@ namespace JobSpace.UserForms.PDF
             _productPart.RunList.RunPages = runListControl1.GetRunPages();
             _productPart.PdfFiles = _pdfFiles;
             _productPart.UsedColors = imposColorsControl1.GetUsedColors();
-            
+
             _productPart.ExportParameters.SavePrintSheetToOrderFolder = cb_savePrintSheetInOrder.Checked;
             _productPart.ExportParameters.OutputFolder = _imposInputParam.JobFolder;
             _productPart.ExportParameters.UseTemplate = cb_useTemplate.Checked;
@@ -375,16 +375,44 @@ namespace JobSpace.UserForms.PDF
 
             DrawerStatic.CurProductPart = _productPart;
 
-            PdfDrawer drawer = new PdfDrawer(_profile);
+            drawer = new PdfDrawer(_profile);
 
-            drawer.StartEvent+= startEvent;
-            drawer.ProcessingEvent+= processingEvent;
-            drawer.FinishEvent+= finishEvent;
+            drawer.StartEvent += startEvent;
+            drawer.ProcessingEvent += processingEvent;
+            drawer.FinishEvent += finishEvent;
 
-            await Task.Run(()=>  drawer.Draw(_productPart)).ConfigureAwait(true);
-            if (MessageBox.Show("Відкрити?","Виконано!",MessageBoxButtons.OKCancel,MessageBoxIcon.Question)== DialogResult.OK)
+
+             int[] sheetsIdx = printSheetsControl1.GetSheetsIdxForPrint();
+
+            if (sheetsIdx != null)
             {
-                Process.Start(_productPart.ExportParameters.OutputFilePath);
+                drawer.CustomSheets = sheetsIdx;
+            }
+            await Task.Run(() => drawer.Draw(_productPart)).ConfigureAwait(true);
+
+            drawer.StartEvent -= startEvent;
+            drawer.ProcessingEvent -= processingEvent;
+            drawer.FinishEvent -= finishEvent;
+
+            if (!drawer.IsCancelled)
+            {
+                if (MessageBox.Show("Відкрити?", "Виконано!", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    Process.Start(_productPart.ExportParameters.OutputFilePath);
+                }
+            }
+            drawer = null;
+        }
+
+        private void btn_cancel_export_Click(object sender, EventArgs e)
+        {
+            if (drawer != null)
+            {
+                var result = MessageBox.Show("Скасувати експорт?", "Підтвердження", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    drawer?.Cancel();
+                }
             }
         }
 
@@ -400,7 +428,7 @@ namespace JobSpace.UserForms.PDF
 
         private void startEvent(object sender, int e)
         {
-            progressBar1.Invoke(new MethodInvoker(delegate { progressBar1.Maximum = e; } ));
+            progressBar1.Invoke(new MethodInvoker(delegate { progressBar1.Maximum = e; }));
         }
 
         private void FormPdfImposition_FormClosing(object sender, FormClosingEventArgs e)
@@ -463,5 +491,7 @@ namespace JobSpace.UserForms.PDF
                 }
             }
         }
+
+
     }
 }

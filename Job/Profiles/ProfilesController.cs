@@ -26,9 +26,12 @@ namespace JobSpace.Profiles
 
                 if (!dirName.StartsWith("-"))
                 {
+
                     var profileFile = Path.Combine(_profilesFolder,dirName, ProfileFileName);
 
                     var profileSetting = Commons.DeserializeXML<ProfileSettings>(profileFile);
+
+                    if (profileSetting == null) continue;
 
                     var profile = new Profile { Settings = profileSetting, ProfilePath = dir};
                     Profiles.Add(profile);

@@ -81,7 +81,7 @@ namespace JobSpace.Menus
                 {
                     foreach (MenuSendTo menuSendTo in g)
                     {
-                        if (menuSendTo.IsScript())
+                        if (_userProfile.ScriptEngine.IsScriptFile(menuSendTo.Path))
                         {
                             var button = new ToolStripSplitButton()
                             {

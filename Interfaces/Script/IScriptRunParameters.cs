@@ -11,6 +11,5 @@ namespace Interfaces
     {
         dynamic Values { get;set; }
         string ScriptPath { get; set; }
-        //string ScriptPathArg { get; set; }
     }
 }

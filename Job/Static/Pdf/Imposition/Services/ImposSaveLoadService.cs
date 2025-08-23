@@ -32,7 +32,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         {
             _profile = profile;
             
-            RootPath = Path.Combine(profile.ProfilePath, "Impos");
+            RootPath = Path.Combine(System.AppContext.BaseDirectory,profile.ProfilePath, "Impos");
             SheetPath = Path.Combine(RootPath, "Sheets");
             MarksPath = Path.Combine(RootPath, "Marks");
             SheetTemplatesPath = Path.Combine(RootPath, "SheetTemplates");

@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using ActiveWorks;
+using CSScriptEngine;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.Script;
@@ -36,11 +37,11 @@ namespace JobSpace.Profiles
         public IFileBrowsers FileBrowser { get; set; }
         public IJobStatusManager StatusManager { get; set; }
 
-        public SearchManager SearchManager { get;set; }
+        public SearchManager SearchManager { get; set; }
         public ISearchHistory SearchHistory { get; set; }
-        public IScriptEngine ScriptEngine {get;set;}
+        public IScriptEngine ScriptEngine { get; set; }
 
-        public ImposSaveLoadService ImposService { get;set; }
+        public ImposSaveLoadService ImposService { get; set; }
         public override string ToString()
         {
             return Settings.ProfileName ?? "Unknown";
@@ -48,39 +49,40 @@ namespace JobSpace.Profiles
 
         public void InitProfile()
         {
-            Stopwatch _sw = new Stopwatch();
+            //Stopwatch _sw = new Stopwatch();
 
-            Logger.Log.Info(this, "завантажуємо плагіни: ", Settings.ProfileName);
-            _sw.Start();
+            //Logger.Log.Info(this, "завантажуємо плагіни: ", Settings.ProfileName);
+            //_sw.Start();
             LoadPlugins();
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження плагінів: ", _sw.ElapsedMilliseconds);
-            _sw.Reset();
-            _sw.Start();
-            Logger.Log.Info(this, "ініціалізація Python: ", Settings.ProfileName);
-            ScriptEngine = new PythonScriptEngine(this);
-            _sw.Stop();
-            Logger.Log.Info(this, "ініціалізація Python: ", _sw.ElapsedMilliseconds);
-            _sw.Reset();
+            //_sw.Stop();
+            //Logger.Log.Info(this, "завантаження плагінів: ", _sw.ElapsedMilliseconds);
+            //_sw.Reset();
+            //_sw.Start();
+            //Logger.Log.Info(this, "ініціалізація ScriptEngine: ", Settings.ProfileName);
+            ScriptEngine = new CSScriptEngine.CSScriptEngine(this);
+            //ScriptEngine = new PythonScriptEngine(this);
+            //_sw.Stop();
+            //Logger.Log.Info(this, "ініціалізація Python: ", _sw.ElapsedMilliseconds);
+            //_sw.Reset();
 
-            Logger.Log.Info(this, "завантаження налаштувань з диску: ", Settings.ProfileName);
-            _sw.Start();
+            //Logger.Log.Info(this, "завантаження налаштувань з диску: ", Settings.ProfileName);
+            //_sw.Start();
             LoadSettingsFromDisk();
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: ", _sw.ElapsedMilliseconds);
-            _sw.Reset();
-            Logger.Log.Info(this, "завантаження налаштувань з бази даних: ", Settings.ProfileName);
-            _sw.Start();
+            //_sw.Stop();
+            //Logger.Log.Info(this, "завантаження налаштувань з диску: ", _sw.ElapsedMilliseconds);
+            //_sw.Reset();
+            //Logger.Log.Info(this, "завантаження налаштувань з бази даних: ", Settings.ProfileName);
+            //_sw.Start();
             LoadSettingsFromBase();
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження налаштувань з бази даних: ", _sw.ElapsedMilliseconds);
+            //_sw.Stop();
+            //Logger.Log.Info(this, "завантаження налаштувань з бази даних: ", _sw.ElapsedMilliseconds);
 
             IsInitialized = true;
         }
 
         private void LoadPlugins()
         {
-            Plugins = new PluginManager(this,Path.Combine(ProfilePath, "Plugins"));
+            Plugins = new PluginManager(this, Path.Combine(ProfilePath, "Plugins"));
             Plugins.Load();
         }
 
@@ -101,36 +103,36 @@ namespace JobSpace.Profiles
             }
             else
             {
-                Logger.Log.Error(this, "LoadSettingsFromBase","Can't connect to base");
+                Logger.Log.Error(this, "LoadSettingsFromBase", "Can't connect to base");
             }
-         }
+        }
 
         private void LoadSettingsFromDisk()
         {
-            Stopwatch _sw = new Stopwatch();
-            _sw.Start();
+            //Stopwatch _sw = new Stopwatch();
+            //_sw.Start();
             Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", Settings.ProfileName);
             SearchHistory = new SearchHistory(this);
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", _sw.ElapsedMilliseconds);
-            _sw.Reset();
-            _sw.Start();
+            //_sw.Stop();
+            //Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", _sw.ElapsedMilliseconds);
+            //_sw.Reset();
+            //_sw.Start();
             Logger.Log.Info(this, "завантаження налаштувань з диску: MenuManagers", Settings.ProfileName);
             MenuManagers = new MenuManager(this);
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: MenuManagers", _sw.ElapsedMilliseconds);
-            _sw.Reset();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: FileBrowser", Settings.ProfileName);
-            _sw.Start();
+            //_sw.Stop();
+            //Logger.Log.Info(this, "завантаження налаштувань з диску: MenuManagers", _sw.ElapsedMilliseconds);
+            //_sw.Reset();
+            //Logger.Log.Info(this, "завантаження налаштувань з диску: FileBrowser", Settings.ProfileName);
+            //_sw.Start();
             FileBrowser = new FileBrowsers(this);
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: FileBrowser", _sw.ElapsedMilliseconds);
+            //_sw.Stop();
+            //Logger.Log.Info(this, "завантаження налаштувань з диску: FileBrowser", _sw.ElapsedMilliseconds);
 
             ImposService = new ImposSaveLoadService(this);
 
         }
 
-  
+
         /// <summary>
         /// визивається один раз при створенні профілю
         /// </summary>
@@ -159,7 +161,7 @@ namespace JobSpace.Profiles
 
         public void SaveSettings<T>(T settings) where T : class
         {
-            var str = JsonSerializer.Serialize(settings); 
+            var str = JsonSerializer.Serialize(settings);
 
             var pluginSettingsPath =
                 Path.Combine(ProfilePath, $"{typeof(T).Name}.json");
