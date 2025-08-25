@@ -373,7 +373,7 @@ namespace JobSpace.UserForms.PDF
 
             _productPart.ExportParameters.OutputFileName = _imposInputParam.Files[0] + ".impos.pdf";
 
-            DrawerStatic.CurProductPart = _productPart;
+            //DrawerStatic.CurProductPart = _productPart;
 
             drawer = new PdfDrawer(_profile);
 
@@ -381,13 +381,8 @@ namespace JobSpace.UserForms.PDF
             drawer.ProcessingEvent += processingEvent;
             drawer.FinishEvent += finishEvent;
 
-
-             int[] sheetsIdx = printSheetsControl1.GetSheetsIdxForPrint();
-
-            if (sheetsIdx != null)
-            {
-                drawer.CustomSheets = sheetsIdx;
-            }
+            // якщо не вибрано листи, то друкуємо всі
+            drawer.CustomSheets = printSheetsControl1.GetSheetsIdxForPrint();
             await Task.Run(() => drawer.Draw(_productPart)).ConfigureAwait(true);
 
             drawer.StartEvent -= startEvent;

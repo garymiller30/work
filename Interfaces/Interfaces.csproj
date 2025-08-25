@@ -107,6 +107,9 @@
     <Compile Include="IPdfConverterSettings.cs" />
     <Compile Include="IPlateFormat.cs" />
     <Compile Include="IWithId.cs" />
+    <Compile Include="Pdf\Imposition\IImpositionFactory.cs" />
+    <Compile Include="Pdf\Imposition\IPrintSheet.cs" />
+    <Compile Include="Pdf\Imposition\IProductPart.cs" />
     <Compile Include="Plugins\IMqController.cs" />
     <Compile Include="Plugins\IMqPlugin.cs" />
     <Compile Include="Plugins\IRowColor.cs" />
@@ -155,8 +158,6 @@
     <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
     <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pdf\Imposition\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

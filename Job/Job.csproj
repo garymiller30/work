@@ -352,6 +352,7 @@
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawWorkAndTumbleService.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawWorkAndTurnService.cs" />
     <Compile Include="Static\Pdf\Imposition\ImposInputParam.cs" />
+    <Compile Include="Static\Pdf\Imposition\ImpositionFactory.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorOfset.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AnchorPoint.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\AutoClipMarkEnum.cs" />
