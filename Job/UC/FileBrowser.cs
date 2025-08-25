@@ -545,7 +545,7 @@ namespace JobSpace.UC
             param.Values.Profile = UserProfile;
             param.ScriptPath = menuSendTo.Path;
             param.Values.FileName = args;
-
+            param.Values.ImposFactory = new ImpositionFactory((Profile)UserProfile);
             return param;
         }
 

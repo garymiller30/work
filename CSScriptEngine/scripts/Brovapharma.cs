@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.Json;
 using System.IO;
+using Interfaces.Pdf.Imposition;
 
 
 public class Brovapharma
@@ -52,6 +53,8 @@ public class Brovapharma
         string description = (string)(values.Description);
         string fileName = (string)(values.FileName);
 
+        IImpositionFactory imposFactory = (IImpositionFactory)(values.ImposFactory);
+
         string inputFiles = fileName + "\\files.json";
 
         var files = LoadFiles(inputFiles);
@@ -71,10 +74,16 @@ public class Brovapharma
             MessageBox.Show($"Failed to download order {orderNumber}.");
             return;
         }
-        
+
+        IProductPart productPart = imposFactory.CreateProductPart();
+
+        double sheet_w = 430;
+        double sheet_h = 305;
+
         foreach (var sheet in order.sheets)
         {
-            
+            IPrintSheet printSheet = productPart.CreatePrintSheet(sheet_w, sheet_h);
+
         }
 
     }
