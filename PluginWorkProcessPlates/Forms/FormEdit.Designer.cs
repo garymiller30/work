@@ -38,6 +38,13 @@
             this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.buttonPlus12 = new System.Windows.Forms.Button();
+            this.buttonPlus11 = new System.Windows.Forms.Button();
+            this.buttonPlus10 = new System.Windows.Forms.Button();
+            this.buttonPlus9 = new System.Windows.Forms.Button();
+            this.buttonPlus7 = new System.Windows.Forms.Button();
+            this.buttonPlus6 = new System.Windows.Forms.Button();
+            this.buttonPlus5 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonPlus4 = new System.Windows.Forms.Button();
@@ -56,13 +63,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.додатиПлатіжToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.видалитиПлатіжToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonPlus5 = new System.Windows.Forms.Button();
-            this.buttonPlus6 = new System.Windows.Forms.Button();
-            this.buttonPlus7 = new System.Windows.Forms.Button();
-            this.buttonPlus9 = new System.Windows.Forms.Button();
-            this.buttonPlus10 = new System.Windows.Forms.Button();
-            this.buttonPlus11 = new System.Windows.Forms.Button();
-            this.buttonPlus12 = new System.Windows.Forms.Button();
+            this.cms_komplects = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
@@ -169,6 +170,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.ContextMenuStrip = this.cms_komplects;
             this.groupBox2.Controls.Add(this.buttonPlus12);
             this.groupBox2.Controls.Add(this.buttonPlus11);
             this.groupBox2.Controls.Add(this.buttonPlus10);
@@ -191,6 +193,76 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "кількість";
+            // 
+            // buttonPlus12
+            // 
+            this.buttonPlus12.Location = new System.Drawing.Point(313, 45);
+            this.buttonPlus12.Name = "buttonPlus12";
+            this.buttonPlus12.Size = new System.Drawing.Size(35, 23);
+            this.buttonPlus12.TabIndex = 20;
+            this.buttonPlus12.Text = "+12";
+            this.buttonPlus12.UseVisualStyleBackColor = true;
+            this.buttonPlus12.Click += new System.EventHandler(this.buttonPlus12_Click);
+            // 
+            // buttonPlus11
+            // 
+            this.buttonPlus11.Location = new System.Drawing.Point(313, 16);
+            this.buttonPlus11.Name = "buttonPlus11";
+            this.buttonPlus11.Size = new System.Drawing.Size(35, 23);
+            this.buttonPlus11.TabIndex = 19;
+            this.buttonPlus11.Text = "+11";
+            this.buttonPlus11.UseVisualStyleBackColor = true;
+            this.buttonPlus11.Click += new System.EventHandler(this.buttonPlus11_Click);
+            // 
+            // buttonPlus10
+            // 
+            this.buttonPlus10.Location = new System.Drawing.Point(272, 45);
+            this.buttonPlus10.Name = "buttonPlus10";
+            this.buttonPlus10.Size = new System.Drawing.Size(35, 23);
+            this.buttonPlus10.TabIndex = 18;
+            this.buttonPlus10.Text = "+10";
+            this.buttonPlus10.UseVisualStyleBackColor = true;
+            this.buttonPlus10.Click += new System.EventHandler(this.buttonPlus10_Click);
+            // 
+            // buttonPlus9
+            // 
+            this.buttonPlus9.Location = new System.Drawing.Point(272, 16);
+            this.buttonPlus9.Name = "buttonPlus9";
+            this.buttonPlus9.Size = new System.Drawing.Size(35, 23);
+            this.buttonPlus9.TabIndex = 17;
+            this.buttonPlus9.Text = "+9";
+            this.buttonPlus9.UseVisualStyleBackColor = true;
+            this.buttonPlus9.Click += new System.EventHandler(this.buttonPlus9_Click);
+            // 
+            // buttonPlus7
+            // 
+            this.buttonPlus7.Location = new System.Drawing.Point(238, 16);
+            this.buttonPlus7.Name = "buttonPlus7";
+            this.buttonPlus7.Size = new System.Drawing.Size(28, 23);
+            this.buttonPlus7.TabIndex = 16;
+            this.buttonPlus7.Text = "+7";
+            this.buttonPlus7.UseVisualStyleBackColor = true;
+            this.buttonPlus7.Click += new System.EventHandler(this.buttonPlus7_Click);
+            // 
+            // buttonPlus6
+            // 
+            this.buttonPlus6.Location = new System.Drawing.Point(204, 45);
+            this.buttonPlus6.Name = "buttonPlus6";
+            this.buttonPlus6.Size = new System.Drawing.Size(28, 23);
+            this.buttonPlus6.TabIndex = 15;
+            this.buttonPlus6.Text = "+6";
+            this.buttonPlus6.UseVisualStyleBackColor = true;
+            this.buttonPlus6.Click += new System.EventHandler(this.buttonPlus6_Click);
+            // 
+            // buttonPlus5
+            // 
+            this.buttonPlus5.Location = new System.Drawing.Point(204, 16);
+            this.buttonPlus5.Name = "buttonPlus5";
+            this.buttonPlus5.Size = new System.Drawing.Size(28, 23);
+            this.buttonPlus5.TabIndex = 14;
+            this.buttonPlus5.Text = "+5";
+            this.buttonPlus5.UseVisualStyleBackColor = true;
+            this.buttonPlus5.Click += new System.EventHandler(this.buttonPlus5_Click);
             // 
             // button2
             // 
@@ -373,6 +445,7 @@
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.додатиПлатіжToolStripMenuItem,
             this.видалитиПлатіжToolStripMenuItem});
@@ -393,82 +466,18 @@
             this.видалитиПлатіжToolStripMenuItem.Text = "видалити платіж";
             this.видалитиПлатіжToolStripMenuItem.Click += new System.EventHandler(this.видалитиПлатіжToolStripMenuItem_Click);
             // 
-            // buttonPlus5
+            // cms_komplects
             // 
-            this.buttonPlus5.Location = new System.Drawing.Point(204, 16);
-            this.buttonPlus5.Name = "buttonPlus5";
-            this.buttonPlus5.Size = new System.Drawing.Size(28, 23);
-            this.buttonPlus5.TabIndex = 14;
-            this.buttonPlus5.Text = "+5";
-            this.buttonPlus5.UseVisualStyleBackColor = true;
-            this.buttonPlus5.Click += new System.EventHandler(this.buttonPlus5_Click);
-            // 
-            // buttonPlus6
-            // 
-            this.buttonPlus6.Location = new System.Drawing.Point(204, 45);
-            this.buttonPlus6.Name = "buttonPlus6";
-            this.buttonPlus6.Size = new System.Drawing.Size(28, 23);
-            this.buttonPlus6.TabIndex = 15;
-            this.buttonPlus6.Text = "+6";
-            this.buttonPlus6.UseVisualStyleBackColor = true;
-            this.buttonPlus6.Click += new System.EventHandler(this.buttonPlus6_Click);
-            // 
-            // buttonPlus7
-            // 
-            this.buttonPlus7.Location = new System.Drawing.Point(238, 16);
-            this.buttonPlus7.Name = "buttonPlus7";
-            this.buttonPlus7.Size = new System.Drawing.Size(28, 23);
-            this.buttonPlus7.TabIndex = 16;
-            this.buttonPlus7.Text = "+7";
-            this.buttonPlus7.UseVisualStyleBackColor = true;
-            this.buttonPlus7.Click += new System.EventHandler(this.buttonPlus7_Click);
-            // 
-            // buttonPlus9
-            // 
-            this.buttonPlus9.Location = new System.Drawing.Point(272, 16);
-            this.buttonPlus9.Name = "buttonPlus9";
-            this.buttonPlus9.Size = new System.Drawing.Size(35, 23);
-            this.buttonPlus9.TabIndex = 17;
-            this.buttonPlus9.Text = "+9";
-            this.buttonPlus9.UseVisualStyleBackColor = true;
-            this.buttonPlus9.Click += new System.EventHandler(this.buttonPlus9_Click);
-            // 
-            // buttonPlus10
-            // 
-            this.buttonPlus10.Location = new System.Drawing.Point(272, 45);
-            this.buttonPlus10.Name = "buttonPlus10";
-            this.buttonPlus10.Size = new System.Drawing.Size(35, 23);
-            this.buttonPlus10.TabIndex = 18;
-            this.buttonPlus10.Text = "+10";
-            this.buttonPlus10.UseVisualStyleBackColor = true;
-            this.buttonPlus10.Click += new System.EventHandler(this.buttonPlus10_Click);
-            // 
-            // buttonPlus11
-            // 
-            this.buttonPlus11.Location = new System.Drawing.Point(313, 16);
-            this.buttonPlus11.Name = "buttonPlus11";
-            this.buttonPlus11.Size = new System.Drawing.Size(35, 23);
-            this.buttonPlus11.TabIndex = 19;
-            this.buttonPlus11.Text = "+11";
-            this.buttonPlus11.UseVisualStyleBackColor = true;
-            this.buttonPlus11.Click += new System.EventHandler(this.buttonPlus11_Click);
-            // 
-            // buttonPlus12
-            // 
-            this.buttonPlus12.Location = new System.Drawing.Point(313, 45);
-            this.buttonPlus12.Name = "buttonPlus12";
-            this.buttonPlus12.Size = new System.Drawing.Size(35, 23);
-            this.buttonPlus12.TabIndex = 20;
-            this.buttonPlus12.Text = "+12";
-            this.buttonPlus12.UseVisualStyleBackColor = true;
-            this.buttonPlus12.Click += new System.EventHandler(this.buttonPlus12_Click);
+            this.cms_komplects.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cms_komplects.Name = "cms_komplects";
+            this.cms_komplects.Size = new System.Drawing.Size(61, 4);
             // 
             // FormEdit
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 366);
+            this.ClientSize = new System.Drawing.Size(435, 366);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -534,5 +543,6 @@
         private System.Windows.Forms.Button buttonPlus7;
         private System.Windows.Forms.Button buttonPlus6;
         private System.Windows.Forms.Button buttonPlus5;
+        private System.Windows.Forms.ContextMenuStrip cms_komplects;
     }
 }

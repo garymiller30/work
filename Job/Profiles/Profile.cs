@@ -59,8 +59,8 @@ namespace JobSpace.Profiles
             //_sw.Reset();
             //_sw.Start();
             //Logger.Log.Info(this, "ініціалізація ScriptEngine: ", Settings.ProfileName);
-            ScriptEngine = new CSScriptEngine.CSScriptEngine(this);
-            //ScriptEngine = new PythonScriptEngine(this);
+            //ScriptEngine = new CSScriptEngine.CSScriptEngine(this);
+            ScriptEngine = new PythonScriptEngine(this);
             //_sw.Stop();
             //Logger.Log.Info(this, "ініціалізація Python: ", _sw.ElapsedMilliseconds);
             //_sw.Reset();

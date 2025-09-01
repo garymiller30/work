@@ -36,5 +36,10 @@ namespace PluginWorkPrepress
         {
             MessageBox.Show("Наразі налаштувань немає");
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
