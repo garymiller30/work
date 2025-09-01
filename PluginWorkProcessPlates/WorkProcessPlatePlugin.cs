@@ -62,5 +62,10 @@ namespace PluginWorkProcessPlates
             if (_settings == null)
                 _settings = UserProfile.Plugins.LoadSettings<PlateSettings>();
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

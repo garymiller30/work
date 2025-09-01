@@ -571,9 +571,14 @@ namespace JobSpace.Fasades
                 catch
                 {
                     var message = FileUtil.GetNamesWhoBlock(oldDir);
-                    if (MessageBox.Show($"Тека {oldDir} заблокована такими програмами: {message}", "Теку заблоковано", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Retry)
+                    var res = MessageBox.Show($"Тека {oldDir} заблокована такими програмами: {message}", "Теку заблоковано", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Warning);
+                    if (res == DialogResult.Retry)
                     {
                         goto Retry;
+                    }
+                    else if (res == DialogResult.Ignore)
+                    {
+                        return true;
                     }
                     return false;
                 }

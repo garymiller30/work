@@ -160,9 +160,10 @@ namespace Plugins
                         }
 
                     }
-                    finally { 
+                    finally
+                    {
                         _sw.Stop();
-                        Log.Info(this, $"({_profile.Settings.ProfileName}) Plugin Manager : Load : ",$"{fi.Name} - {_sw.ElapsedMilliseconds} ms");
+                        Log.Info(this, $"({_profile.Settings.ProfileName}) Plugin Manager : Load : ", $"{fi.Name} - {_sw.ElapsedMilliseconds} ms");
                         _sw.Reset();
 
                     }

@@ -14,18 +14,35 @@ namespace PluginWorkProcessPlates.Forms
         private FormEdit()
         {
             InitializeComponent();
+            Init_cms_komplects();
             DialogResult = DialogResult.Cancel;
         }
 
+        private void Init_cms_komplects()
+        {
+            int maxCnt = 20;
+            for (int i = 1; i <= maxCnt; i++)
+            {
+                var menu_item = new ToolStripMenuItem(i.ToString());
+                menu_item.Click += (s, e) =>
+                {
+                    if (int.TryParse(((ToolStripMenuItem)s).Text, out int cnt))
+                    {
+                        numericUpDownKomplekt.Value = cnt;
+                    }
+                };
+                cms_komplects.Items.Add(menu_item);
+            }
+        }
 
         public FormEdit(PlateProcess process) : this()
         {
             _process = process;
             Bind();
-            
+
         }
 
-        public FormEdit(PlateProcess process,IUserProfile profile) : this(process)
+        public FormEdit(PlateProcess process, IUserProfile profile) : this(process)
         {
             _profile = profile;
             _settings = profile.Plugins.LoadSettings<PlateSettings>();
@@ -33,7 +50,7 @@ namespace PluginWorkProcessPlates.Forms
             comboBoxFormats.Items.AddRange(_settings.Formats?.ToArray());
 
 
-            
+
         }
 
         private void Bind()
@@ -67,17 +84,17 @@ namespace PluginWorkProcessPlates.Forms
                     _profile.Plugins.SaveSettings(_settings);
                 }
             }
-           
+
         }
 
         private void UnBind()
         {
             _process.PlateFormat.Width = numericUpDownWidth.Value;
             _process.PlateFormat.Height = numericUpDownHeight.Value;
-            _process.CountPlates = (int)numericUpDownCount.Value * (int) numericUpDownKomplekt.Value;
+            _process.CountPlates = (int)numericUpDownCount.Value * (int)numericUpDownKomplekt.Value;
             _process.PriceForPlate = (int)numericUpDownPrice.Value;
             _process.Pays.Clear();
-            if (objectListViewPays.GetItemCount()>0)
+            if (objectListViewPays.GetItemCount() > 0)
                 _process.Pays.AddRange(objectListViewPays.Objects.Cast<Pay>());
         }
 
@@ -98,7 +115,7 @@ namespace PluginWorkProcessPlates.Forms
             {
                 if (e.RowObject is Pay pay)
                 {
-                    var res = decimal.TryParse(e.NewValue.ToString(),out decimal result);
+                    var res = decimal.TryParse(e.NewValue.ToString(), out decimal result);
                     if (res) pay.Sum = result;
                 }
             }
@@ -106,7 +123,7 @@ namespace PluginWorkProcessPlates.Forms
 
         private void numericUpDownWidth_Enter(object sender, EventArgs e)
         {
-            ((NumericUpDown)sender).Select(0,((NumericUpDown)sender).Text.Length);
+            ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
         }
 
         private void comboBoxFormats_SelectedIndexChanged(object sender, EventArgs e)

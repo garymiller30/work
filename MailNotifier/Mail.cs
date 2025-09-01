@@ -277,7 +277,7 @@ namespace MailNotifier
         {
 
             var dialog = new FormSendMail(this){ StartPosition = FormStartPosition.CenterParent};
-            
+            dialog.SetJob(_curJob);
             dialog.InitSendToList(Settings.MailTo);
             dialog.SetAttachmentList(_attachmentsList);
             dialog.SetShablon((string)((ToolStripMenuItem)sender).Tag);

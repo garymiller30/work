@@ -17,6 +17,8 @@ namespace JobSpace.Profiles.ProfileEvents
 
         public override void Init(IUserProfile profile)
         {
+            if (profile == null || profile.Jobs == null) return; 
+
             profile.Jobs.OnSetCurrentJob += (sender,job) => OnSetCurrentJob(sender,job);
             profile.Jobs.OnJobAdd += (sender,job )=> OnJobAdd(sender,job);
             profile.Jobs.OnJobBeginEdit +=  (sender,job ) => OnJobBeginEdit(sender,job);

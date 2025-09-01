@@ -117,12 +117,14 @@ namespace PluginGMail
 
         public void SetCurJob(IJob curJob)
         {
-            if (curJob == null) { return; }
+            if (UserProfile == null || UserProfile.Jobs == null|| curJob == null) { return; }
             try
             {
                 _job = curJob;
+
                 var folder = UserProfile.Jobs.GetFullPathToWorkFolder(curJob);
-                webView21.CoreWebView2.Profile.DefaultDownloadFolderPath = folder;
+                if (webView21?.CoreWebView2?.Profile != null && Directory.Exists(folder))
+                    webView21.CoreWebView2.Profile.DefaultDownloadFolderPath = folder;
 
             }
             catch

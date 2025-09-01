@@ -1,7 +1,4 @@
-﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com 
-
-using ExtensionMethods;
+﻿using ExtensionMethods;
 using MailNotifier.Shablons;
 using Ookii.Dialogs.WinForms;
 using System;
@@ -12,6 +9,7 @@ using System.Linq;
 using System.Windows.Forms;
 using BackgroundTaskServiceLib;
 using Krypton.Toolkit;
+using Interfaces;
 
 namespace MailNotifier
 {
@@ -19,6 +17,8 @@ namespace MailNotifier
     {
         private readonly List<string> _attachList = new List<string>();
         private readonly Mail _mail;
+        private IJob _job;
+
         //readonly MailShablonManager _shablonsManager;
 
         private readonly List<string> _sendToList = new List<string>();
@@ -31,6 +31,11 @@ namespace MailNotifier
 
             CreateShablonMenuItems();
 
+        }
+
+        public void SetJob(IJob job)
+        {
+            _job = job;
         }
 
         public string GetHeader() => textBoxHeader.Text;
@@ -91,7 +96,7 @@ namespace MailNotifier
 
         internal void SetShablon(string shablonName)
         {
-            var shablon = _mail.ShablonManager.GetShablons().FirstOrDefault(x => x.ShablonName.Equals(shablonName));
+            MailShablon shablon = _mail.ShablonManager.GetShablons().FirstOrDefault(x => x.ShablonName.Equals(shablonName));
             if (shablon != null)
             {
                 SetShablon(shablon);
@@ -272,15 +277,14 @@ namespace MailNotifier
 
         private void SetShablon(MailShablon shablon)
         {
-            
-
             if (!comboBoxTo.Items.Contains(shablon.SendTo))
             {
                 comboBoxTo.Items.Add(shablon.SendTo);
             }
 
             comboBoxTo.Text = shablon.SendTo;
-            textBoxHeader.Text = shablon.Header;
+
+            textBoxHeader.Text = shablon.GetHeader(_job);
             richTextBoxMessage.Rtf = shablon.Message;
         }
 
