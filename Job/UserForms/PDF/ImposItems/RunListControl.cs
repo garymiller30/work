@@ -75,7 +75,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     }
                     else if (item is PdfFilePage page)
                     {
-                        int fileId = PdfFile.GetParentId(_parameters.PdfFiles, page);
+                        int fileId = PdfFile.GetParentId(_parameters.ProductPart.PdfFiles, page);
                         if (fileId == -1) throw new Exception("No file id");
                         ImposRunPage runPage = new ImposRunPage(fileId, page.Idx);
                         fastObjectListView1.AddObject(runPage);

@@ -12,9 +12,9 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public class ControlBindParameters : INotifyPropertyChanged
     {
-
+        public ProductPart ProductPart { get; set; }
         public TreeListView PdfFileList { get; set; }
-        public List<PdfFile> PdfFiles { get; set; }
+        //public List<PdfFile> PdfFiles { get; set; }
 
         TemplatePage masterPage = new TemplatePage();
 

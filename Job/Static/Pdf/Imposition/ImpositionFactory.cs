@@ -12,14 +12,43 @@ namespace JobSpace.Static.Pdf.Imposition
     public class ImpositionFactory : IImpositionFactory
     {
         Profile _profile;
+        List<ProductPart> _productParts = new List<ProductPart>();
+        int curProductPartIdx = -1;
+        int curPrintSheetIdx = -1;
 
         public ImpositionFactory(Profile userProfile)
         {
             _profile = userProfile;
         }
-        public IProductPart CreateProductPart()
+
+        public IImpositionFactory AddMasterPage(double w, double h, double bleed)
         {
-            return new ProductPart();
+            if (curProductPartIdx < 0) throw new Exception("Add Product Part first.");
+            if (curPrintSheetIdx < 0) throw new Exception("Add Print Sheet first.");
+            var s = new TemplatePage() { W = w, H = h, Bleeds = new ClipBox() { Default = bleed } };
+            _productParts[curProductPartIdx].PrintSheets[curPrintSheetIdx].MasterPage = s;
+            return this;
+        }
+
+        public IImpositionFactory AddPrintSheet(double w, double h)
+        {
+            if (curProductPartIdx < 0) throw new Exception("Add Product Part first.");
+
+            var s = new PrintSheet() { W = w, H = h };
+            _productParts[curProductPartIdx].PrintSheets.Add(s);
+
+
+            return this;
+        }
+
+        public IImpositionFactory AddProductPart()
+        {
+            var pp = new ProductPart();
+            _productParts.Add(pp);
+
+            curProductPartIdx++;
+
+            return this;
         }
     }
 }

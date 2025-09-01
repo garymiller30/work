@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -57,6 +58,7 @@ namespace JobSpace.UserForms
 
             }
             objectListView1.AddObjects(filesTirag);
+            SetTotalLabel();
         }
 
         class FileTirag
@@ -72,6 +74,7 @@ namespace JobSpace.UserForms
                 if (e.Column == olvColumn_tirag)
                 {
                     ft.Tirag = Convert.ToInt32(e.NewValue);
+                    SetTotalLabel();
                 }
             }
         }
@@ -87,6 +90,7 @@ namespace JobSpace.UserForms
             }
 
             objectListView1.RefreshObjects(objectListView1.SelectedObjects);
+            SetTotalLabel();
         }
 
         private void btn_ok_Click(object sender, EventArgs e)
@@ -127,6 +131,13 @@ namespace JobSpace.UserForms
                 
                 int idx = 0;
 
+                if (objectListView1.SelectedObjects.Count == 0)
+                {
+                    //select all objects
+                    objectListView1.SelectAll();
+                }
+
+
                 foreach (FileTirag ft in objectListView1.SelectedObjects)
                 {
                     if (idx >= files.Length) break;
@@ -136,6 +147,26 @@ namespace JobSpace.UserForms
 
                 objectListView1.RefreshObjects(objectListView1.SelectedObjects);
             }
+            SetTotalLabel();
+        }
+
+   
+
+        private void SetTotalLabel()
+        {
+            //set to label t_total sum of tirag
+            int total = 0;
+            if (objectListView1.Objects == null) {
+            }
+            else
+            {
+                foreach (FileTirag ft in objectListView1.Objects)
+                {
+                    total += ft.Tirag;
+                }
+
+            }
+            l_total.Text = $"{total}";
         }
     }
 }

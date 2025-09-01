@@ -32,7 +32,7 @@ namespace JobSpace.UserForms.PDF
     public partial class FormPdfImposition : KryptonForm
     {
         ImposInputParam _imposInputParam;
-        List<PdfFile> _pdfFiles = new List<PdfFile>();
+        //List<PdfFile> _pdfFiles = new List<PdfFile>();
 
         ImposToolsParameters _tool_param = new ImposToolsParameters();
         ControlBindParameters _parameters = new ControlBindParameters();
@@ -43,6 +43,8 @@ namespace JobSpace.UserForms.PDF
         public FormPdfImposition(Profile profile)
         {
             _profile = profile;
+            _productPart  = new ProductPart();
+
             InitializeComponent();
             InitBindParameters();
             InitImposTools();
@@ -139,7 +141,7 @@ namespace JobSpace.UserForms.PDF
 
         private void InitBindParameters()
         {
-            _parameters.PdfFiles = _pdfFiles;
+            _parameters.ProductPart = _productPart;
             _parameters.NeedRearangePages += _controlBindParameters_NeedRearangePages;
             _parameters.NeedCheckRunListPages += NeedCheckRunListPages;
             imposBindingControl1.SetControlBindParameters(_parameters);
@@ -284,16 +286,16 @@ namespace JobSpace.UserForms.PDF
             foreach (var file in _imposInputParam.Files)
             {
                 var pdfFile = new PdfFile(file) { Id = id++ };
-                _pdfFiles.Add(pdfFile);
+                _productPart.PdfFiles.Add(pdfFile);
                 runListControl1.AddPages(ImposRunList.CreatePagesFromFile(pdfFile));
             }
 
-            pdfFileListControl1.AddFiles(_pdfFiles);
+            pdfFileListControl1.AddFiles(_productPart.PdfFiles);
 
             // слідкуємо за змінами майстер сторінки
             masterPageSelectControl1.OnMasterPageChanged += OnMasterPageChanged;
             masterPageSelectControl1.OnMasterPageAdded += OnMasterPageAdded;
-            masterPageSelectControl1.SetFormats(_pdfFiles);
+            masterPageSelectControl1.SetFormats(_productPart.PdfFiles);
 
             addTemplateSheetControl1.SetControlBindParameters(_profile, _parameters);
             printSheetsControl1.SetControlBindParameters(_profile, _parameters);
@@ -355,13 +357,11 @@ namespace JobSpace.UserForms.PDF
 
         private async void SaveToPdf()
         {
-            _productPart = new ProductPart();
             _productPart.Proof.Enable = cb_UseProofColor.Checked;
-            _productPart.TemplateSheets = addTemplateSheetControl1.GetSheets();
+            //_productPart.TemplateSheets = addTemplateSheetControl1.GetSheets();
             _productPart.PrintSheets = printSheetsControl1.GetSheets();
 
             _productPart.RunList.RunPages = runListControl1.GetRunPages();
-            _productPart.PdfFiles = _pdfFiles;
             _productPart.UsedColors = imposColorsControl1.GetUsedColors();
 
             _productPart.ExportParameters.SavePrintSheetToOrderFolder = cb_savePrintSheetInOrder.Checked;

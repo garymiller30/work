@@ -8,6 +8,10 @@ namespace Interfaces.Pdf.Imposition
 {
     public interface IImpositionFactory
     {
-        IProductPart CreateProductPart();
+        IImpositionFactory AddProductPart();
+
+        IImpositionFactory AddPrintSheet(double w, double h);
+
+        IImpositionFactory AddMasterPage(double w,double h, double bleed);
     }
 }

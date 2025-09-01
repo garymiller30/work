@@ -32,13 +32,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public AddTemplateSheetControl()
         {
             InitializeComponent();
-            olvColumnId.AspectGetter += (r) => ((TemplateSheet)r).Id;
+            //olvColumnId.AspectGetter += (r) => ((TemplateSheet)r).Id;
             olvColumnDesc.AspectGetter += (r) => ((TemplateSheet)r).Description;
             olvColumnPrintType.AspectGetter += (r) => ((TemplateSheet)r).SheetPlaceType.GetDescription();
             objectListView1.SelectionChanged += ObjectListView1_SelectionChanged;
             olvColumnFormat.AspectGetter += (r) => $"{((TemplateSheet)r).W} x {((TemplateSheet)r).H}";
-
-          
         }
 
         private void InitQuickAccessMenu()
@@ -208,13 +206,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 TemplateSheet s = TemplateSheet.Duplicate(sheet);
                 objectListView1.AddObject(s);
             }
-
         }
 
         private void tsb_delete_Click(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Shift)
             {
+
+                _parameters.ProductPart.TemplateSheets.Clear();
                 objectListView1.ClearObjects();
             }
             else
@@ -222,7 +221,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 if (objectListView1.SelectedObjects.Count == 0) return;
                 foreach (var item in objectListView1.SelectedObjects)
                 {
-                    objectListView1.RemoveObject(item);
+                    if (item is TemplateSheet sheet)
+                    {
+                        _parameters.ProductPart.TemplateSheets.Remove(sheet);
+                        objectListView1.RemoveObject(item);
+                    }
                 }
             }
             _parameters.Sheet = null;
@@ -246,6 +249,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 sheet.SheetPlaceType = (TemplateSheetPlaceType)tscb_sheetType.SelectedIndex;
                 objectListView1.AddObject(sheet);
                 objectListView1.SelectObject(sheet);
+
+                _parameters.ProductPart.TemplateSheets.Add(sheet);
 
                 OnSheetAdded(this, sheet);
             }
