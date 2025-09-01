@@ -161,7 +161,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 form.CheckFileExists = true;
                 form.Filter = "JSON files (*.json)|*.json";
-                form.FileName = Path.GetDirectoryName(_controlBindParameters.PdfFiles[0].FileName)+ "\\";
+                form.FileName = Path.GetDirectoryName(_controlBindParameters.ProductPart.PdfFiles[0].FileName)+ "\\";
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {

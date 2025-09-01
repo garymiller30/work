@@ -75,15 +75,16 @@ public class Brovapharma
             return;
         }
 
-        IProductPart productPart = imposFactory.CreateProductPart();
 
         double sheet_w = 430;
         double sheet_h = 305;
 
+        imposFactory.AddProductPart().AddPrintSheet(sheet_w, sheet_h).AddMasterPage(210,297,2);//.AddPdfFile("").AddMarks().Impos().Draw();
+
+
         foreach (var sheet in order.sheets)
         {
-            IPrintSheet printSheet = productPart.CreatePrintSheet(sheet_w, sheet_h);
-
+           
         }
 
     }
