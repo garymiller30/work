@@ -18,7 +18,7 @@ namespace JobSpace.UC
 {
     public sealed class FileManager : IFileManager
     {
-
+        public const string TEMP_FOLDER = "temp";
         public FileBrowserSettings Settings { get; set; } = new FileBrowserSettings();
 
 
@@ -127,11 +127,11 @@ namespace JobSpace.UC
 
             if (Directory.Exists(rootDir))
             {
-
                 Settings.RootFolder = rootDir;
                 Settings.CurFolder = rootDir;
 
-                RefreshAsync();
+                // Fix CS4014: Fire and forget with explicit discard
+                _ = RefreshAsync();
             }
             else
             {
@@ -195,7 +195,7 @@ namespace JobSpace.UC
 
                 if (Directory.Exists(file))
                 {
-                    if (FileManager.CopyPaste) //вырезать
+                    if (FileManager.CopyPaste) //вирізати
                     {
                         _moveFileOrDir(info, Path.Combine(Settings.CurFolder, Path.Combine(Settings.CurFolder, Path.GetFileName(file))));
                     }
@@ -273,12 +273,13 @@ namespace JobSpace.UC
         public void GetTempFolder()
         {
             //todo: переробити корзину
-            var tempPath = Path.Combine(Settings.RootFolder, "temp");
+            var tempPath = Path.Combine(Settings.RootFolder, TEMP_FOLDER);
             if (Directory.Exists(tempPath))
             {
                 Settings.CurFolder = tempPath;
                 OnChangeDirectory(this, null);
-                RefreshAsync();
+                // Fix CS4014: Fire and forget with explicit discard
+                _ = RefreshAsync();
             }
         }
 
@@ -291,7 +292,7 @@ namespace JobSpace.UC
             do
             {
                 cnt++;
-                tmpPath = Path.Combine(Settings.RootFolder, "temp", cnt.ToString("D3"));
+                tmpPath = Path.Combine(Settings.RootFolder, TEMP_FOLDER, cnt.ToString("D3"));
 
             } while (Directory.Exists(tmpPath));
 
@@ -374,7 +375,7 @@ namespace JobSpace.UC
         {
             OnChangeDirectory(this, directory);
             Settings.CurFolder = directory.FileInfo.FullName.ToLower();
-            RefreshAsync();
+            _ = RefreshAsync();
         }
 
         public void DirectoryUp()
@@ -391,7 +392,7 @@ namespace JobSpace.UC
                 Settings.CurFolder = Path.GetDirectoryName(Settings.CurFolder);
             }
 
-            RefreshAsync(selectedFileName);
+            _ = RefreshAsync(selectedFileName);
         }
 
         public void MoveFolderContentsToHere(IFileSystemInfoExt folder)

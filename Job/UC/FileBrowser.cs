@@ -97,9 +97,6 @@ namespace JobSpace.UC
 
         private void InitListView()
         {
-
-            
-
             var rbd = new RowBorderDecoration
             {
                 BorderPen = new Pen(System.Drawing.Color.FromArgb(255, System.Drawing.Color.DarkGreen), 1),
@@ -142,7 +139,6 @@ namespace JobSpace.UC
 
             objectListView1.CustomSorter = delegate (OLVColumn column, SortOrder order)
             {
-
                 if (column == olvColumn_FileName) objectListView1.ListViewItemSorter = new FileNameNaturalComparer(order);
                 else if (column == olvColumnWidth) objectListView1.ListViewItemSorter = new FileWidthComparer(order);
                 else if (column == olvColumnHeight) objectListView1.ListViewItemSorter = new FileHeightComparer(order);
@@ -251,9 +247,6 @@ namespace JobSpace.UC
 
         void ProcessTaskGetExtendedFileInfo(List<IFileSystemInfoExt> e, CancellationToken token)
         {
-            //var array = e.ToArray();
-
-
             foreach (var ext in e)
             {
                 ext.GetExtendedFileInfoFormat();
@@ -349,7 +342,7 @@ namespace JobSpace.UC
         }
 
         /// <summary>
-        /// по кліку правою кнопкою миші, просто запускати програму
+        /// по кліку правою кнопкою миші, відкривати папку з утилітою
         /// </summary>
         /// <param name="obj"></param>
         private static void AddRightClick(ToolStripItem obj)
@@ -363,8 +356,8 @@ namespace JobSpace.UC
                     {
                         var pi = new ProcessStartInfo
                         {
-                            WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path) ?? throw new InvalidOperationException(),
-                            FileName = menuSendTo.Path,
+                            WorkingDirectory =  Path.GetDirectoryName(menuSendTo.Path) ?? throw new InvalidOperationException(),
+                            FileName = Path.GetDirectoryName(menuSendTo.Path),
                         };
                         Process.Start(pi);
                     }
@@ -1758,32 +1751,45 @@ namespace JobSpace.UC
             if (objectListView1.SelectedObjects.Count > 0)
             {
 
-                var form = new FormEnterTirag(_fileManager, objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>());
-                form.Show();
+                if (objectListView1.SelectedObjects.Count > 1)
+                {
+                    var form = new FormEnterTirag(_fileManager, objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>(), RenameFileByTirag);
+                    form.Show();
 
-                //using (var form = new FormTirag())
-                //{
-                //    if (form.ShowDialog() == DialogResult.OK)
-                //    {
-                //        foreach (IFileSystemInfoExt file in objectListView1.SelectedObjects)
-                //        {
-                //            var reg = new Regex(@"#(\d+)\.");
-                //            var match = reg.Match(file.FileInfo.Name);
-                //            string targetFile;
-                //            if (match.Success)
-                //            {
-                //                targetFile =
-                //                    $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name).Substring(0, match.Index)}#{form.Tirag}{file.FileInfo.Extension}";
-                //            }
-                //            else
-                //            {
-                //                targetFile = $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name)}#{form.Tirag}{file.FileInfo.Extension}";
-                //            }
-                 //           _fileManager.MoveFileOrDirectoryToCurrentFolder(file, targetFile);
-                //        }
-                //    }
-                //}
+                }
+                else
+                {
+                    using (var form = new FormTirag())
+                    {
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            foreach (IFileSystemInfoExt file in objectListView1.SelectedObjects)
+                            {
+                                RenameFileByTirag(form.Tirag, file);
+                            }
+                        }
+                    }
+
+                }
+
             }
+        }
+
+        private void RenameFileByTirag(int tirag, IFileSystemInfoExt file)
+        {
+            var reg = new Regex(@"#(\d+)\.");
+            var match = reg.Match(file.FileInfo.Name);
+            string targetFile;
+            if (match.Success)
+            {
+                targetFile =
+                    $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name).Substring(0, match.Index)}#{tirag}{file.FileInfo.Extension}";
+            }
+            else
+            {
+                targetFile = $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name)}#{tirag}{file.FileInfo.Extension}";
+            }
+            _fileManager.MoveFileOrDirectoryToCurrentFolder(file, targetFile);
         }
 
         private void розділитиОбкладинкуІБлокToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2077,6 +2083,12 @@ namespace JobSpace.UC
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
             FileFormatsUtil.AddCutCircle(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
+
+        private void контурВисічкиПрямокутникToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            FileFormatsUtil.AddCutRectangle(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
         }
     }
 }

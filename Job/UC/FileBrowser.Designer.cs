@@ -71,6 +71,7 @@ namespace JobSpace.UC
             this.створитиПрямокутникToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.створитиПлашкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.створитиЕліпсToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.додатиКонтурВисічкиКолоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.створитипустишкиЗТиражамиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.створитиМіткиДляБіговкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.спускПолосToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -148,7 +149,7 @@ namespace JobSpace.UC
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-            this.додатиКонтурВисічкиКолоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.контурВисічкиПрямокутникToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -414,6 +415,7 @@ namespace JobSpace.UC
             this.створитиПрямокутникToolStripMenuItem,
             this.створитиПлашкуToolStripMenuItem,
             this.створитиЕліпсToolStripMenuItem,
+            this.контурВисічкиПрямокутникToolStripMenuItem,
             this.додатиКонтурВисічкиКолоToolStripMenuItem,
             this.створитипустишкиЗТиражамиToolStripMenuItem,
             this.створитиМіткиДляБіговкиToolStripMenuItem,
@@ -561,6 +563,13 @@ namespace JobSpace.UC
             this.створитиЕліпсToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.створитиЕліпсToolStripMenuItem.Text = "Створити еліпс";
             this.створитиЕліпсToolStripMenuItem.Click += new System.EventHandler(this.СтворитиЕліпсToolStripMenuItem_Click);
+            // 
+            // додатиКонтурВисічкиКолоToolStripMenuItem
+            // 
+            this.додатиКонтурВисічкиКолоToolStripMenuItem.Name = "додатиКонтурВисічкиКолоToolStripMenuItem";
+            this.додатиКонтурВисічкиКолоToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.додатиКонтурВисічкиКолоToolStripMenuItem.Text = "+ контур висічки - коло";
+            this.додатиКонтурВисічкиКолоToolStripMenuItem.Click += new System.EventHandler(this.додатиКонтурВисічкиКолоToolStripMenuItem_Click);
             // 
             // створитипустишкиЗТиражамиToolStripMenuItem
             // 
@@ -1182,12 +1191,12 @@ namespace JobSpace.UC
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
             // 
-            // додатиКонтурВисічкиКолоToolStripMenuItem
+            // контурВисічкиПрямокутникToolStripMenuItem
             // 
-            this.додатиКонтурВисічкиКолоToolStripMenuItem.Name = "додатиКонтурВисічкиКолоToolStripMenuItem";
-            this.додатиКонтурВисічкиКолоToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
-            this.додатиКонтурВисічкиКолоToolStripMenuItem.Text = "додати контур висічки - коло";
-            this.додатиКонтурВисічкиКолоToolStripMenuItem.Click += new System.EventHandler(this.додатиКонтурВисічкиКолоToolStripMenuItem_Click);
+            this.контурВисічкиПрямокутникToolStripMenuItem.Name = "контурВисічкиПрямокутникToolStripMenuItem";
+            this.контурВисічкиПрямокутникToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.контурВисічкиПрямокутникToolStripMenuItem.Text = "+ контур висічки - прямокутник";
+            this.контурВисічкиПрямокутникToolStripMenuItem.Click += new System.EventHandler(this.контурВисічкиПрямокутникToolStripMenuItem_Click);
             // 
             // FileBrowser
             // 
@@ -1346,5 +1355,6 @@ namespace JobSpace.UC
         private System.Windows.Forms.ToolStripMenuItem коміюватиІмяФайлуБезРозширенняToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem додатиФорматСторінкиДоІменіФайлуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem додатиКонтурВисічкиКолоToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem контурВисічкиПрямокутникToolStripMenuItem;
     }
 }

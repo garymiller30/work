@@ -617,12 +617,25 @@ namespace JobSpace.Static
 
         public static void AddCutCircle(List<IFileSystemInfoExt> fileSystemInfoExts)
         {
-            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати формат документа до імені файлу", new Action(
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати контур висічки 'коло' до файлу", new Action(
             () =>
             {
                 foreach (var file in fileSystemInfoExts)
                 {
                     new PdfCreateCutEllipse().Run(file.FileInfo.FullName);
+
+                }
+            })));
+        }
+
+        public static void AddCutRectangle(List<IFileSystemInfoExt> fileSystemInfoExts)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати контур висічки 'прямокутник' до файлу", new Action(
+            () =>
+            {
+                foreach (var file in fileSystemInfoExts)
+                {
+                    new PdfCreateCutRectangle().Run(file.FileInfo.FullName);
 
                 }
             })));
