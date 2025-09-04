@@ -328,6 +328,7 @@
     <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarksParams.cs" />
     <Compile Include="Static\Pdf\Create\CutEllipse\PdfCreateCutEllipse.cs" />
     <Compile Include="Static\Pdf\Create\FillRectangle\PdfCreateFillRectangle.cs" />
+    <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateCutRectangle.cs" />
     <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateFillRectangleParams.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\DrawerSideEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\DrawerStatic.cs" />

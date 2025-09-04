@@ -19,15 +19,17 @@ namespace JobSpace.UserForms
     public partial class FormEnterTirag : Form
     {
         UC.IFileManager _fileManager;
+        Action<int, IFileSystemInfoExt> _renameAction;
 
         public FormEnterTirag()
         {
             InitializeComponent();
         }
 
-        public FormEnterTirag(UC.IFileManager fileManager, IEnumerable<IFileSystemInfoExt> files) : this()
+        public FormEnterTirag(UC.IFileManager fileManager, IEnumerable<IFileSystemInfoExt> files,Action<int, IFileSystemInfoExt> renameAction) : this()
         {
             _fileManager = fileManager;
+            _renameAction = renameAction;
             AddToList(files);
         }
 
@@ -101,20 +103,20 @@ namespace JobSpace.UserForms
                {
                    foreach (FileTirag ft in objectListView1.Objects)
                    {
-
-                       var reg = new Regex(@"#(\d+)\.");
-                       var match = reg.Match(ft.FileInfo.FileInfo.Name);
-                       string targetFile;
-                       if (match.Success)
-                       {
-                           targetFile =
-                               $"{Path.GetFileNameWithoutExtension(ft.FileInfo.FileInfo.Name).Substring(0, match.Index)}#{ft.Tirag}{ft.FileInfo.FileInfo.Extension}";
-                       }
-                       else
-                       {
-                           targetFile = $"{Path.GetFileNameWithoutExtension(ft.FileInfo.FileInfo.Name)}#{ft.Tirag}{ft.FileInfo.FileInfo.Extension}";
-                       }
-                       _fileManager.MoveFileOrDirectoryToCurrentFolder(ft.FileInfo, targetFile);
+                       _renameAction(ft.Tirag, ft.FileInfo);
+                       //var reg = new Regex(@"#(\d+)\.");
+                       //var match = reg.Match(ft.FileInfo.FileInfo.Name);
+                       //string targetFile;
+                       //if (match.Success)
+                       //{
+                       //    targetFile =
+                       //        $"{Path.GetFileNameWithoutExtension(ft.FileInfo.FileInfo.Name).Substring(0, match.Index)}#{ft.Tirag}{ft.FileInfo.FileInfo.Extension}";
+                       //}
+                       //else
+                       //{
+                       //    targetFile = $"{Path.GetFileNameWithoutExtension(ft.FileInfo.FileInfo.Name)}#{ft.Tirag}{ft.FileInfo.FileInfo.Extension}";
+                       //}
+                       //_fileManager.MoveFileOrDirectoryToCurrentFolder(ft.FileInfo, targetFile);
                    }
                }
                )));
