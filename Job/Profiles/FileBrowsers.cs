@@ -41,9 +41,6 @@ namespace JobSpace.Profiles
         private void BrowserEvents_OnChangeJobDescription(object sender, string e)
         {
             var job = _profile.Jobs.JobListControl.ChangeSelectedJobDescription(e);
-
-        
-            
         }
 
 

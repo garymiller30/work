@@ -32,6 +32,7 @@ namespace PluginGMail
             webView21.Source = new Uri("https://gmail.com");
             webView21.CoreWebView2InitializationCompleted += WebView21_CoreWebView2InitializationCompleted;
             SetZoom();
+            SetDefaultDownloadFolder();
         }
 
         private async Task InitializeAsync()
@@ -42,9 +43,25 @@ namespace PluginGMail
             CoreWebView2EnvironmentOptions options = new CoreWebView2EnvironmentOptions("--disable-features=msSmartScreenProtection");
             CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(
                browserExecutableFolder: null, 
-                userDataFolder: Path.Combine(userDataFolder), 
+                userDataFolder: Path.Combine(userDataFolder),
                 options);
             await webView21.EnsureCoreWebView2Async(environment);
+            
+        }
+
+        private void SetDefaultDownloadFolder()
+        {
+            if (_job == null || UserProfile == null || UserProfile.Jobs == null) {
+                tls_save_to.Text = "робота не вибрана";
+                return; }
+
+            var folder = UserProfile.Jobs.GetFullPathToWorkFolder(_job);
+            if (webView21?.CoreWebView2?.Profile != null && Directory.Exists(folder))
+            {
+                webView21.CoreWebView2.Profile.DefaultDownloadFolderPath = folder;
+                tls_save_to.Text = folder;
+            }
+
         }
 
         private void WebView21_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
@@ -117,21 +134,8 @@ namespace PluginGMail
 
         public void SetCurJob(IJob curJob)
         {
-            if (UserProfile == null || UserProfile.Jobs == null|| curJob == null) { return; }
-            try
-            {
-                _job = curJob;
-
-                var folder = UserProfile.Jobs.GetFullPathToWorkFolder(curJob);
-                if (webView21?.CoreWebView2?.Profile != null && Directory.Exists(folder))
-                    webView21.CoreWebView2.Profile.DefaultDownloadFolderPath = folder;
-
-            }
-            catch
-            {
-
-            }
-            //throw new NotImplementedException();
+            _job = curJob;
+            SetDefaultDownloadFolder();
         }
 
         public void ShowSettingsDlg()
