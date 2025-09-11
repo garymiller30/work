@@ -345,7 +345,6 @@ namespace JobSpace.UC
 
             if (fileOrDirectory.IsDir)
             {
-
                 ChangeDirectory(fileOrDirectory);
             }
             else if (File.Exists(fileOrDirectory.FileInfo.FullName))
@@ -357,17 +356,12 @@ namespace JobSpace.UC
                         WorkingDirectory = Path.GetDirectoryName(fileOrDirectory.FileInfo.FullName)
                     };
                     Process.Start(pi);
-
                 }
                 catch (Exception ex)
                 {
-
-
                     MessageBox.Show(ex.Message, @"Error!", MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
-
                 }
-
             }
         }
 
@@ -395,7 +389,7 @@ namespace JobSpace.UC
             _ = RefreshAsync(selectedFileName);
         }
 
-        public void MoveFolderContentsToHere(IFileSystemInfoExt folder)
+        public void MoveFolderContentsToHere(IFileSystemInfoExt folder,bool appendFolderName)
         {
             var sourceFolder = folder.FileInfo.FullName;
 
@@ -405,7 +399,7 @@ namespace JobSpace.UC
 
                 try
                 {
-                    MoveDir(sourceFolder, destFolder);
+                    MoveDir(sourceFolder, destFolder, appendFolderName);
                 }
                 catch (Exception e)
                 {
@@ -414,21 +408,27 @@ namespace JobSpace.UC
             }
         }
 
-        void MoveDir(string sourceFolder, string destFolder)
+        void MoveDir(string sourceFolder, string destFolder, bool appendFolderName)
         {
             if (!Directory.Exists(destFolder))
                 Directory.CreateDirectory(destFolder);
+
+            string folderName ="";
+            if (appendFolderName == true)
+            {
+                folderName = $"{Path.GetFileName(sourceFolder)}_"; 
+            }
 
             // Get Files & Copy
             string[] files = Directory.GetFiles(sourceFolder);
             foreach (string file in files)
             {
-                string name = Path.GetFileName(file);
+                string name = $"{folderName}{Path.GetFileName(file)}";
 
                 // ADD Unique File Name Check to Below!!!!
                 string dest = Path.Combine(destFolder, name);
 
-                string destName = $"{Path.GetFileNameWithoutExtension(file)}_";
+                string destName = $"{folderName}{Path.GetFileNameWithoutExtension(file)}_";
                 string ext = Path.GetExtension(file);
 
                 while (File.Exists(dest))
@@ -446,7 +446,7 @@ namespace JobSpace.UC
             {
                 string name = Path.GetFileName(folder);
                 string dest = Path.Combine(destFolder, name);
-                MoveDir(folder, dest);
+                MoveDir(folder, dest, appendFolderName);
             }
             Directory.Delete(sourceFolder);
         }

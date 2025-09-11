@@ -441,6 +441,10 @@
     <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableFromService.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableSimpleText.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableUsedColor.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\BlocknoteSpiralSettings.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralGlobalSettings.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralPlaceEnum.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralTypeEnum.cs" />
     <Compile Include="UC\UcSelectStandartPageFormat.cs">
       <SubType>UserControl</SubType>
     </Compile>

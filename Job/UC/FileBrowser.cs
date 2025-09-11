@@ -1683,7 +1683,7 @@ namespace JobSpace.UC
             {
                 if (infoExt.IsDir)
                 {
-                    _fileManager.MoveFolderContentsToHere(infoExt);
+                    _fileManager.MoveFolderContentsToHere(infoExt,false);
                 }
             }
         }
@@ -2089,6 +2089,39 @@ namespace JobSpace.UC
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
             FileFormatsUtil.AddCutRectangle(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
+
+        private void пружинаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            FileFormatsUtil.VisualBlocknoteSpiral(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList());
+        }
+
+        private void перенестиВмістПапкиСюдипапкафайлToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (IFileSystemInfoExt infoExt in objectListView1.SelectedObjects)
+            {
+                if (infoExt.IsDir)
+                {
+                    _fileManager.MoveFolderContentsToHere(infoExt,true);
+                }
+            }
+        }
+
+        private void копіюватиІмяФайлуРозмірToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var filePath = new StringBuilder();
+            foreach (IFileSystemInfoExt fsi in objectListView1.SelectedObjects)
+            {
+                filePath.AppendLine($"{Path.GetFileNameWithoutExtension(fsi.FileInfo.FullName)}\t{fsi.Format.Width:0.#}x{fsi.Format.Height:0.#}");
+            }
+
+            try
+            {
+                Clipboard.SetText(filePath.ToString());
+            }
+            catch { }
         }
     }
 }

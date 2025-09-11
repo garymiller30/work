@@ -58,6 +58,7 @@
             this.kryptonRichTextBox1.TabIndex = 0;
             this.kryptonRichTextBox1.Text = "";
             this.kryptonRichTextBox1.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.kryptonRichTextBox1_LinkClicked);
+            this.kryptonRichTextBox1.TextChanged += new System.EventHandler(this.kryptonRichTextBox1_TextChanged);
             // 
             // toolStrip1
             // 

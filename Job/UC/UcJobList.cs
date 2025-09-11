@@ -24,11 +24,8 @@ namespace JobSpace.UC
 {
     public sealed partial class UcJobList : UserControl, IUcJobList
     {
-
-        //private readonly PythonEngine.PythonEngine _pythonEngine;
         private readonly IUserProfile _profile;
         private readonly RichTextBox _richTextBox = new RichTextBox();
-        //private IJob _jobForToolStripActive;
 
         public EventHandler<int> OnChangeCountJobs { get; set; } = delegate { };
 
@@ -45,7 +42,6 @@ namespace JobSpace.UC
             SetTheme();
 
             objectListView_NewWorks.SelectedRowDecoration = rbd;
-
         }
 
         private void UseTheme()
@@ -55,13 +51,11 @@ namespace JobSpace.UC
 
         private void ThemeController_ThemeChanged(object sender, EventArgs e)
         {
-
             SetTheme();
 
             var objects = (ICollection)objectListView_NewWorks.Objects;
             objectListView_NewWorks.ClearObjects();
             objectListView_NewWorks.AddObjects(objects);
-
         }
 
         private void SetTheme()
@@ -128,7 +122,6 @@ namespace JobSpace.UC
                     _profile.Jobs.UnlockJob(j);
 
                 }
-
             }
         }
 
@@ -251,9 +244,6 @@ namespace JobSpace.UC
         {
             // без цього не малює прогрес бар
             objectListView_NewWorks.OwnerDraw = true;
-            //objectListView_NewWorks.AlwaysGroupByColumn = olvColumn_Date;
-
-
 
             olvColumn_Date.AspectGetter += x => ((IJob)x).Date.ToLocalTime();
             olvColumnCategories.AspectGetter += r => _profile.Categories.GetCategoryById(((IJob)r).CategoryId)?.Name;
@@ -295,8 +285,6 @@ namespace JobSpace.UC
             };
 
             objectListView_NewWorks.RebuildColumns();
-
-
         }
         private object AspectGetterNote(object job)
         {
@@ -307,7 +295,6 @@ namespace JobSpace.UC
                 _richTextBox.Rtf = note;
                 return _richTextBox.Text;
             }
-
             return note;
         }
 
@@ -710,7 +697,6 @@ namespace JobSpace.UC
             e.Item.ForeColor = ThemeController.Fore;
             e.Item.BackColor = ThemeController.Back;
             _profile.Plugins?.JobListFormatRow(e.Item);
-
         }
 
 

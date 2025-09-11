@@ -570,7 +570,6 @@ namespace JobSpace.Static
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("CreateFillRectangle", new Action(
                () =>
                {
-
                    new PdfCreateFillRectangle(param).Run(Path.Combine(pathTo, $"{param.Width}x{param.Height}.pdf"));
                }
                )));
@@ -639,6 +638,11 @@ namespace JobSpace.Static
 
                 }
             })));
+        }
+
+        public static void VisualBlocknoteSpiral(List<IFileSystemInfoExt> fileSystemInfoExts)
+        {
+            
         }
     }
 }
