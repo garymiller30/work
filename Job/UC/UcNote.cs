@@ -13,6 +13,9 @@ namespace JobSpace.UC
 {
     public sealed partial class UcNote : UserControl, INoteControl
     {
+        
+        public event EventHandler OnNoteTextChanged = delegate { };
+
         public UcNote()
         {
             InitializeComponent();
@@ -26,7 +29,7 @@ namespace JobSpace.UC
 
         public void SetText(string text)
         {
-            if (string.IsNullOrEmpty(text)) return;
+            if (text is null) return;
 
             if (text.TrimStart().StartsWith(@"{\rtf1", StringComparison.Ordinal))
             {
@@ -125,6 +128,9 @@ namespace JobSpace.UC
             System.Diagnostics.Process.Start(e.LinkText);
         }
 
-       
+        private void kryptonRichTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            OnNoteTextChanged(this, EventArgs.Empty);
+        }
     }
 }
