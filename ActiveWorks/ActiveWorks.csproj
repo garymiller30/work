@@ -724,6 +724,10 @@
       <Project>{ac6cfed7-8e64-469f-a97d-c25b644cd8a3}</Project>
       <Name>Logger</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MailNotifier\MailNotifier.csproj">
+      <Project>{32FF055B-5267-4802-BDC7-94D965CD730C}</Project>
+      <Name>MailNotifier</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

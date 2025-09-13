@@ -5,14 +5,16 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using Interfaces;
+using System.Text;
+using System.Text.Json;
 
 namespace MailNotifier.Shablons
 {
-    public class MailShablonManager
+    public class MailShablonManager : IMailShablonManager
     {
         private IMail _mail;
         List<MailShablon> _shablons = new List<MailShablon>();
-        private const string ShablonFile = "Shablons.mail";
+        private const string ShablonFile = "MailTemplates.json";
         private string _shablonsPath;
 
         public MailShablonManager(IMail mail)
@@ -34,16 +36,9 @@ namespace MailNotifier.Shablons
             {
                 try
                 {
-                    
 
-                    using (FileStream fs = new FileStream(_shablonsPath, FileMode.Open))
-                    {
-                        BinaryFormatter formatter = new BinaryFormatter();
-                        _shablons = (List<MailShablon>)formatter.Deserialize(fs);
-
-                    }
-
-
+                    string str = File.ReadAllText(_shablonsPath,Encoding.Unicode);
+                    _shablons = JsonSerializer.Deserialize<List<MailShablon>>(str);
                 }
                 catch 
                 {
@@ -79,18 +74,8 @@ namespace MailNotifier.Shablons
 
         public void Save()
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            try
-            {
-                using (FileStream fs = new FileStream(_shablonsPath, FileMode.OpenOrCreate))
-                {
-                    formatter.Serialize(fs, _shablons);
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, $@"save file {_shablonsPath}");
-            }
+            string str = JsonSerializer.Serialize(_shablons);
+            File.WriteAllText(_shablonsPath, str,Encoding.Unicode);
         }
     }
 }

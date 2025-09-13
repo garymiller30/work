@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using MailNotifier;
 
 namespace ActiveWorks
 {
@@ -383,18 +384,23 @@ namespace ActiveWorks
             kryptonCheckBox1.Checked = setup.GetJobSettings().UseJobFolder;
             textBox_FolderForSignaFileInJob.Text = setup.GetJobSettings().SubFolderForSignaFile;
 
+            // mail
+
             textBox_MailFrom.Text = setup.GetMail().MailFrom;
             textBox_MailPassword.Text = setup.GetMail().MailFromPassword;
             textBox_ImapServer.Text = setup.GetMail().MailImapHost;
             numericUpDown_ImapPort.Value = setup.GetMail().MailImapPort;
             textBoxSmtpServer.Text = setup.GetMail().MailSmtpServer;
             numericUpDownSmtpPort.Value = setup.GetMail().MailSmtpPort;
- 
+
             listBox_SendEmails.Items.Clear();
             if (setup.GetMail().MailTo.Any())
             {
                 listBox_SendEmails.Items.AddRange(setup.GetMail().MailTo.ToArray());
             }
+            olv_mail_templates.ClearObjects();
+            olv_mail_templates.AddObjects(_currentProfile.MailNotifier.GetMailTemplates());
+
 
             listBox_CustomButtonFolder.Items.Clear();
             if (setup.GetFileBrowser().CustomButtonPath.Any())
@@ -647,6 +653,7 @@ namespace ActiveWorks
             {
                 Properties.Settings.Default.DefaultProfile = profile.Settings.ProfileName;
                 Properties.Settings.Default.Save();
+                MessageBox.Show($"Профіль '{profile.Settings.ProfileName}' за замовчуванням встановлено");
             }
         }
 
@@ -742,6 +749,21 @@ namespace ActiveWorks
             {
                form.ShowDialog();
             }
+        }
+
+        private void додатиШаблонToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void редагуватиШаблонToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void видалитиШаблонToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
