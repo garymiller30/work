@@ -33,5 +33,6 @@ namespace Interfaces
         void PlaySound(AvailableSound soundType,object param);
 
         void RemoveProcessesByJobId(object id);
+        string ReplaceStr(IJob job, string str);
     }
 }

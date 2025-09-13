@@ -459,7 +459,7 @@ namespace JobSpace.UC
         //public void ApplyViewFilter()
         //{
         //    objectListView_NewWorks.ClearObjects();
-        //    _profile.Jobs?.ApplyStatusViewFilter();
+        //    Profile.Jobs?.ApplyStatusViewFilter();
         //    _onChangeCountJobs();
         //}
 

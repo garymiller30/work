@@ -41,5 +41,10 @@ namespace PluginWorkPrepress
         {
             return Name;
         }
+
+        public override string GetValue(IJob job, string param)
+        {
+            return string.Empty;
+        }
     }
 }

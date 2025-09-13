@@ -119,7 +119,7 @@ namespace JobSpace.Fasades
                 return GetFolder(job);
             }
 
-            var jobPath = _profile.Customers.GetCustomerWorkFolder(customer);//  Path.Combine(_profile.Jobs.Settings.WorkPath, customer.Name.Transliteration());
+            var jobPath = _profile.Customers.GetCustomerWorkFolder(customer);//  Path.Combine(Profile.Jobs.Settings.WorkPath, customer.Name.Transliteration());
 
             if (Settings.StoreByYear)
             {
