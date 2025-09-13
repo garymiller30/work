@@ -54,6 +54,7 @@
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.checkBoxHideCategory = new System.Windows.Forms.CheckBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.kryptonButton_MoveSignaFileToOrder = new Krypton.Toolkit.KryptonButton();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.textBox_FolderForSignaFileInJob = new System.Windows.Forms.TextBox();
             this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
@@ -126,6 +127,9 @@
             this.buttonFtpSettingsAdd = new System.Windows.Forms.Button();
             this.listBox_Ftp_Servers = new System.Windows.Forms.ListBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.olv_mail_templates = new BrightIdeasSoftware.ObjectListView();
+            this.olvc_mail_template_name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.label32 = new System.Windows.Forms.Label();
             this.numericUpDownSmtpPort = new System.Windows.Forms.NumericUpDown();
@@ -191,7 +195,11 @@
             this.objectListViewProfiles = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.statusChangeParamBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.kryptonButton_MoveSignaFileToOrder = new Krypton.Toolkit.KryptonButton();
+            this.cms_mail_templates = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.додатиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.редагуватиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.видалитиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.contextMenuStrip_FolderNames.SuspendLayout();
             this.tabControlMain.SuspendLayout();
@@ -223,6 +231,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewFtpScripts)).BeginInit();
             this.groupBox9.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.olv_mail_templates)).BeginInit();
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSmtpPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ImapPort)).BeginInit();
@@ -242,6 +252,7 @@
             this.groupBox17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewProfiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusChangeParamBindingSource)).BeginInit();
+            this.cms_mail_templates.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -519,6 +530,15 @@
             this.groupBox14.TabIndex = 12;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Prinect Signa 16+";
+            // 
+            // kryptonButton_MoveSignaFileToOrder
+            // 
+            this.kryptonButton_MoveSignaFileToOrder.Location = new System.Drawing.Point(87, 214);
+            this.kryptonButton_MoveSignaFileToOrder.Name = "kryptonButton_MoveSignaFileToOrder";
+            this.kryptonButton_MoveSignaFileToOrder.Size = new System.Drawing.Size(228, 25);
+            this.kryptonButton_MoveSignaFileToOrder.TabIndex = 16;
+            this.kryptonButton_MoveSignaFileToOrder.Values.Text = "перенести файл signa до замовлення";
+            this.kryptonButton_MoveSignaFileToOrder.Click += new System.EventHandler(this.kryptonButton_MoveSignaFileToOrder_Click);
             // 
             // kryptonLabel1
             // 
@@ -1248,6 +1268,7 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.groupBox10);
             this.tabPage6.Controls.Add(this.groupBox11);
             this.tabPage6.Controls.Add(this.groupBox7);
             this.tabPage6.ImageKey = "mail_yellow.png";
@@ -1258,6 +1279,45 @@
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Пошта";
             this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox10.Controls.Add(this.olv_mail_templates);
+            this.groupBox10.Location = new System.Drawing.Point(242, 126);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(451, 235);
+            this.groupBox10.TabIndex = 12;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "шаблони листів";
+            // 
+            // olv_mail_templates
+            // 
+            this.olv_mail_templates.AllColumns.Add(this.olvc_mail_template_name);
+            this.olv_mail_templates.CellEditUseWholeCell = false;
+            this.olv_mail_templates.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvc_mail_template_name});
+            this.olv_mail_templates.ContextMenuStrip = this.cms_mail_templates;
+            this.olv_mail_templates.Cursor = System.Windows.Forms.Cursors.Default;
+            this.olv_mail_templates.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.olv_mail_templates.FullRowSelect = true;
+            this.olv_mail_templates.GridLines = true;
+            this.olv_mail_templates.HideSelection = false;
+            this.olv_mail_templates.Location = new System.Drawing.Point(3, 16);
+            this.olv_mail_templates.Name = "olv_mail_templates";
+            this.olv_mail_templates.ShowGroups = false;
+            this.olv_mail_templates.Size = new System.Drawing.Size(445, 216);
+            this.olv_mail_templates.TabIndex = 0;
+            this.olv_mail_templates.UseCompatibleStateImageBehavior = false;
+            this.olv_mail_templates.View = System.Windows.Forms.View.Details;
+            // 
+            // olvc_mail_template_name
+            // 
+            this.olvc_mail_template_name.AspectName = "ShablonName";
+            this.olvc_mail_template_name.Text = "назва шаблону";
+            this.olvc_mail_template_name.Width = 392;
             // 
             // groupBox11
             // 
@@ -1276,7 +1336,7 @@
             this.groupBox11.Controls.Add(this.label12);
             this.groupBox11.Location = new System.Drawing.Point(7, 7);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(703, 156);
+            this.groupBox11.Size = new System.Drawing.Size(686, 113);
             this.groupBox11.TabIndex = 11;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "робоча поштова адреса";
@@ -1420,13 +1480,15 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox7.Controls.Add(this.button_MailAdd);
             this.groupBox7.Controls.Add(this.label13);
             this.groupBox7.Controls.Add(this.textBox_MailTo);
             this.groupBox7.Controls.Add(this.listBox_SendEmails);
-            this.groupBox7.Location = new System.Drawing.Point(7, 169);
+            this.groupBox7.Location = new System.Drawing.Point(7, 126);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(229, 186);
+            this.groupBox7.Size = new System.Drawing.Size(229, 235);
             this.groupBox7.TabIndex = 10;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "адреси для швидкого надсилання";
@@ -1463,11 +1525,14 @@
             // 
             // listBox_SendEmails
             // 
+            this.listBox_SendEmails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox_SendEmails.ContextMenuStrip = this.contextMenuStripMails;
             this.listBox_SendEmails.FormattingEnabled = true;
             this.listBox_SendEmails.Location = new System.Drawing.Point(9, 61);
             this.listBox_SendEmails.Name = "listBox_SendEmails";
-            this.listBox_SendEmails.Size = new System.Drawing.Size(209, 121);
+            this.listBox_SendEmails.Size = new System.Drawing.Size(209, 160);
             this.listBox_SendEmails.TabIndex = 2;
             // 
             // contextMenuStripMails
@@ -1953,15 +2018,42 @@
             this.olvColumnName.Text = "Ім\'я профілю";
             this.olvColumnName.Width = 200;
             // 
-            // kryptonButton_MoveSignaFileToOrder
+            // cms_mail_templates
             // 
-            this.kryptonButton_MoveSignaFileToOrder.CornerRoundingRadius = -1F;
-            this.kryptonButton_MoveSignaFileToOrder.Location = new System.Drawing.Point(87, 214);
-            this.kryptonButton_MoveSignaFileToOrder.Name = "kryptonButton_MoveSignaFileToOrder";
-            this.kryptonButton_MoveSignaFileToOrder.Size = new System.Drawing.Size(228, 25);
-            this.kryptonButton_MoveSignaFileToOrder.TabIndex = 16;
-            this.kryptonButton_MoveSignaFileToOrder.Values.Text = "перенести файл signa до замовлення";
-            this.kryptonButton_MoveSignaFileToOrder.Click += new System.EventHandler(this.kryptonButton_MoveSignaFileToOrder_Click);
+            this.cms_mail_templates.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cms_mail_templates.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.додатиШаблонToolStripMenuItem,
+            this.редагуватиШаблонToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.видалитиШаблонToolStripMenuItem});
+            this.cms_mail_templates.Name = "cms_mail_templates";
+            this.cms_mail_templates.Size = new System.Drawing.Size(183, 98);
+            // 
+            // додатиШаблонToolStripMenuItem
+            // 
+            this.додатиШаблонToolStripMenuItem.Name = "додатиШаблонToolStripMenuItem";
+            this.додатиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.додатиШаблонToolStripMenuItem.Text = "додати шаблон";
+            this.додатиШаблонToolStripMenuItem.Click += new System.EventHandler(this.додатиШаблонToolStripMenuItem_Click);
+            // 
+            // редагуватиШаблонToolStripMenuItem
+            // 
+            this.редагуватиШаблонToolStripMenuItem.Name = "редагуватиШаблонToolStripMenuItem";
+            this.редагуватиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.редагуватиШаблонToolStripMenuItem.Text = "редагувати шаблон";
+            this.редагуватиШаблонToolStripMenuItem.Click += new System.EventHandler(this.редагуватиШаблонToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(179, 6);
+            // 
+            // видалитиШаблонToolStripMenuItem
+            // 
+            this.видалитиШаблонToolStripMenuItem.Name = "видалитиШаблонToolStripMenuItem";
+            this.видалитиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.видалитиШаблонToolStripMenuItem.Text = "видалити шаблон";
+            this.видалитиШаблонToolStripMenuItem.Click += new System.EventHandler(this.видалитиШаблонToolStripMenuItem_Click);
             // 
             // FormSettings
             // 
@@ -2015,6 +2107,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewFtpScripts)).EndInit();
             this.groupBox9.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.olv_mail_templates)).EndInit();
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSmtpPort)).EndInit();
@@ -2039,6 +2133,7 @@
             this.groupBox17.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewProfiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusChangeParamBindingSource)).EndInit();
+            this.cms_mail_templates.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2207,5 +2302,13 @@
         private System.Windows.Forms.TextBox textBox_FolderForSignaFileInJob;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonButton kryptonButton_MoveSignaFileToOrder;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private BrightIdeasSoftware.ObjectListView olv_mail_templates;
+        private BrightIdeasSoftware.OLVColumn olvc_mail_template_name;
+        private System.Windows.Forms.ContextMenuStrip cms_mail_templates;
+        private System.Windows.Forms.ToolStripMenuItem додатиШаблонToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem редагуватиШаблонToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem видалитиШаблонToolStripMenuItem;
     }
 }

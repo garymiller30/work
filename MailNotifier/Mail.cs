@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using Interfaces;
 using Attachment = System.Net.Mail.Attachment;
 using MailMessage = System.Net.Mail.MailMessage;
+using System.Collections;
 
 namespace MailNotifier
 {
@@ -33,7 +34,7 @@ namespace MailNotifier
 
         //private CancellationTokenSource _tokenSource;
        
-        public MailShablonManager ShablonManager;
+        public MailShablonManager ShablonManager {get;set;}
 
         public Mail(IUserProfile userProfile, IMailSettings settings)
         {
@@ -331,6 +332,11 @@ namespace MailNotifier
                 dialog.ShowDialog();
             }
 
+        }
+
+        public ICollection GetMailTemplates()
+        {
+            return ShablonManager.GetShablons().ToArray();
         }
     }
 }

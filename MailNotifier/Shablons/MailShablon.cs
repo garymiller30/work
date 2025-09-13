@@ -16,7 +16,7 @@ namespace MailNotifier.Shablons
             if (job == null)
                 return Header;
 
-            //УСК, $plugin:"Форми":[TotalForms]  шт. (510*400) -$OrderNumber-
+            //УСК, $plugin:"Форми":[TotalForms] шт. ($plugin:"Форми":[FormFormat]) -$OrderNumber-
 
             var str = Header.Replace("$OrderNumber", job.Number);
             str = profile.Plugins.ReplaceStr(job, str);

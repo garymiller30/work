@@ -72,15 +72,28 @@ namespace PluginWorkProcessPlates
         {
             if (param == "TotalForms")
             {
-                var count = 0;
+                int count = 0;
                 foreach (var process in GetProcesses())
                 {
-                    if (process is PlateProcess p && process.ParentId.Equals(job.Id))
+                    if (process is PlateProcess p && p.ParentId.Equals(job.Id))
                     {
-                        count =+ p.CountPlates;
+                        count += p.CountPlates;
                     }
                 }
                 return count.ToString();
+            }
+            else if (param == "FormFormat")
+            {
+                string formats = string.Empty;
+                foreach (var process in GetProcesses())
+                {
+                    if (process is PlateProcess p && p.ParentId.Equals(job.Id))
+                    {
+                        formats = $"{p.PlateFormat.Width:0.#}x{p.PlateFormat.Height:0.#}";
+                    }
+                    break;
+                }
+                return formats;
             }
             return string.Empty;
         }

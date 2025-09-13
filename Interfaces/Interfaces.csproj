@@ -98,6 +98,7 @@
     <Compile Include="IMail.cs" />
     <Compile Include="IMailPluginController.cs" />
     <Compile Include="IMailSettings.cs" />
+    <Compile Include="IMailShablonManager.cs" />
     <Compile Include="IMenuManager.cs" />
     <Compile Include="IMenuSendTo.cs" />
     <Compile Include="IMQManager.cs" />
