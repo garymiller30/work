@@ -284,7 +284,7 @@ namespace MailNotifier
 
             comboBoxTo.Text = shablon.SendTo;
 
-            textBoxHeader.Text = shablon.GetHeader(_job);
+            textBoxHeader.Text = shablon.GetHeader(_mail.Profile,_job);
             richTextBoxMessage.Rtf = shablon.Message;
         }
 

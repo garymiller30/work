@@ -24,7 +24,7 @@ namespace MailNotifier
         public event EventHandler<Exception> OnError = delegate { };
 
         public IMailSettings Settings { get; set; }
-        private readonly IUserProfile _profile;
+        public readonly IUserProfile Profile;
         private IJob _curJob;
         private  List<string> _attachmentsList { get; set;} = new List<string>();
         public bool ShowBaloon;
@@ -37,7 +37,7 @@ namespace MailNotifier
 
         public Mail(IUserProfile userProfile, IMailSettings settings)
         {
-            _profile = userProfile;
+            Profile = userProfile;
 
             Settings = settings;
             Settings.SettingsFolder = userProfile.ProfilePath;
@@ -140,7 +140,7 @@ namespace MailNotifier
 
                     try
                     {
-                        _profile.Plugins.Mail?.ProcessMessageBeforeSend(message);
+                        Profile.Plugins.Mail?.ProcessMessageBeforeSend(message);
                         smtp.Send(message);
                         Logger.Log.Info(this, "Mail", $"\"{message.Subject}\" => \"{to}\"");
                     }
@@ -203,7 +203,7 @@ namespace MailNotifier
                 using (var message = new MailMessage(fromAddress, toAddress) {Subject = subject, Attachments = { attachment }})
                 {
                     message.IsBodyHtml = true;
-                    _profile.Plugins.Mail?.ProcessMessageBeforeSend(message);
+                    Profile.Plugins.Mail?.ProcessMessageBeforeSend(message);
                     smtp.Send(message);
                 }
 

@@ -51,9 +51,9 @@ namespace JobSpace.Fasades
             {
                 if (!reconnect && _profile.Plugins != null)
                 {
-                    //_profile.MQ.OnCustomerAdd += MQ_OnCustomerAdd;
-                    //_profile.MQ.OnCustomerChanged += MQ_OnCustomerChanged;
-                    //_profile.MQ.OnCustomerRemove += MQ_OnCustomerRemove;
+                    //Profile.MQ.OnCustomerAdd += MQ_OnCustomerAdd;
+                    //Profile.MQ.OnCustomerChanged += MQ_OnCustomerChanged;
+                    //Profile.MQ.OnCustomerRemove += MQ_OnCustomerRemove;
                     _profile.Plugins.MqController.OnCustomerAdd += MQ_OnCustomerAdd;
                     _profile.Plugins.MqController.OnCustomerChanged += MQ_OnCustomerChanged;
                     _profile.Plugins.MqController.OnCustomerRemove += MQ_OnCustomerRemove;

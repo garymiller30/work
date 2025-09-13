@@ -67,5 +67,22 @@ namespace PluginWorkProcessPlates
         {
             return Name;
         }
+
+        public override string GetValue(IJob job, string param)
+        {
+            if (param == "TotalForms")
+            {
+                var count = 0;
+                foreach (var process in GetProcesses())
+                {
+                    if (process is PlateProcess p && process.ParentId.Equals(job.Id))
+                    {
+                        count =+ p.CountPlates;
+                    }
+                }
+                return count.ToString();
+            }
+            return string.Empty;
+        }
     }
 }

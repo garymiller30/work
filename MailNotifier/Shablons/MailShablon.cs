@@ -11,11 +11,18 @@ namespace MailNotifier.Shablons
         public string Header { get; set; }
         public string Message { get; set; }
 
-        public string GetHeader(IJob job)
+        public string GetHeader(IUserProfile profile, IJob job)
         {
             if (job == null)
                 return Header;
-            return Header.Replace("$OrderNumber", job.Number);
+
+            //УСК, $plugin:"Форми":[TotalForms]  шт. (510*400) -$OrderNumber-
+
+            var str = Header.Replace("$OrderNumber", job.Number);
+            str = profile.Plugins.ReplaceStr(job, str);
+
+
+            return str;
                    
         }
     }
