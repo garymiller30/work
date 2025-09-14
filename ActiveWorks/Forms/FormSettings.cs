@@ -18,6 +18,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MailNotifier;
 using MailNotifier.Shablons;
+using Interfaces.Enums;
 
 namespace ActiveWorks
 {
@@ -324,6 +325,9 @@ namespace ActiveWorks
             mail.MailAutoRelogon = checkBoxMailAutoRelogon.Checked;
 
             _currentProfile.MailNotifier.SetMailTemplates(olv_mail_templates.Objects ?? new List<object>());
+            mail.MailConnectType = (MailConnectTypeEnum)cb_mail_connection_type.SelectedItem;
+
+            mail.ClientSecretFile = tb_mail_gmail_settings_secret_file.Text;
 
             var browser = setup.GetFileBrowser();
 
@@ -388,6 +392,11 @@ namespace ActiveWorks
             textBox_FolderForSignaFileInJob.Text = setup.GetJobSettings().SubFolderForSignaFile;
 
             // mail
+
+            cb_mail_connection_type.DataSource = Enum.GetValues(typeof(MailConnectTypeEnum));
+            cb_mail_connection_type.SelectedIndex = (int)setup.GetMail().MailConnectType;
+
+            tb_mail_gmail_settings_secret_file.Text = setup.GetMail().ClientSecretFile;
 
             textBox_MailFrom.Text = setup.GetMail().MailFrom;
             textBox_MailPassword.Text = setup.GetMail().MailFromPassword;
@@ -784,6 +793,18 @@ namespace ActiveWorks
             if (olv_mail_templates.SelectedObject is MailTemplate template)
             {
                 olv_mail_templates.RemoveObject(template);
+            }
+        }
+
+        private void btn_mail_gmail_settings_sel_secret_file_Click(object sender, EventArgs e)
+        {
+            using (var f = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            {
+                f.Filter = "*.json|*.json|*.*|*.*";
+                if (f.ShowDialog() == DialogResult.OK)
+                {
+                    tb_mail_gmail_settings_secret_file.Text = f.FileName;
+                }
             }
         }
     }
