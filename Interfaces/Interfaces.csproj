@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Classes\FileInfo.cs" />
     <Compile Include="Classes\MongoDbVer.cs" />
+    <Compile Include="Enums\MailConnectTypeEnum.cs" />
     <Compile Include="Ftp\FtpFileExtStatus.cs" />
     <Compile Include="Ftp\IDownloadTicket.cs" />
     <Compile Include="Ftp\IDownloadResult.cs" />
