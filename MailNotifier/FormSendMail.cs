@@ -96,7 +96,7 @@ namespace MailNotifier
 
         internal void SetShablon(string shablonName)
         {
-            MailShablon shablon = _mail.ShablonManager.GetShablons().FirstOrDefault(x => x.ShablonName.Equals(shablonName));
+            MailTemplate shablon = _mail.ShablonManager.GetTemplates().FirstOrDefault(x => x.ShablonName.Equals(shablonName));
             if (shablon != null)
             {
                 SetShablon(shablon);
@@ -121,7 +121,7 @@ namespace MailNotifier
 
         private void AddToolStripMenuItem(ToolStripMenuItem tsmi)
         {
-            var menus = toolStripDropDownButtonMailShablons.DropDownItems.Find(((MailShablon)tsmi.Tag).ShablonName, false);
+            var menus = toolStripDropDownButtonMailShablons.DropDownItems.Find(((MailTemplate)tsmi.Tag).ShablonName, false);
             if (!menus.Any())
             {
                 toolStripDropDownButtonMailShablons.DropDownItems.Add(tsmi);
@@ -143,13 +143,13 @@ namespace MailNotifier
 
         private void CreateShablonMenuItems()
         {
-            var shablons = _mail.ShablonManager.GetShablons();
+            var shablons = _mail.ShablonManager.GetTemplates();
 
             ClearDropDownButtonMailShablons();
 
             if (shablons.Any())
             {
-                foreach (MailShablon shablon in shablons)
+                foreach (MailTemplate shablon in shablons)
                 {
                     var tsmi = CreateToolStripMenuItem(shablon);
                    
@@ -182,13 +182,13 @@ namespace MailNotifier
 
         private void Del_Click(object sender, EventArgs e)
         {
-            var shablon = (MailShablon)((ToolStripMenuItem)sender).Tag;
+            var shablon = (MailTemplate)((ToolStripMenuItem)sender).Tag;
             _mail.ShablonManager.DeleteShablon(shablon);
             _mail.ShablonManager.Save();
             CreateShablonMenuItems();
         }
 
-        private ToolStripMenuItem CreateToolStripMenuItem(MailShablon shablon)
+        private ToolStripMenuItem CreateToolStripMenuItem(MailTemplate shablon)
         {
             var tsmi = new ToolStripMenuItem
             {
@@ -275,7 +275,7 @@ namespace MailNotifier
                 )));
         }
 
-        private void SetShablon(MailShablon shablon)
+        private void SetShablon(MailTemplate shablon)
         {
             if (!comboBoxTo.Items.Contains(shablon.SendTo))
             {
@@ -290,7 +290,7 @@ namespace MailNotifier
 
         private void Tsmi_Click(object sender, EventArgs e)
         {
-            var shablon = ((ToolStripMenuItem)sender).Tag as MailShablon;
+            var shablon = ((ToolStripMenuItem)sender).Tag as MailTemplate;
 
             SetShablon(shablon);
         }
@@ -299,7 +299,7 @@ namespace MailNotifier
         {
             if (e.Button == MouseButtons.Right)
             {
-                var shablon = ((ToolStripMenuItem)sender).Tag as MailShablon;
+                var shablon = ((ToolStripMenuItem)sender).Tag as MailTemplate;
 
                 if (MessageBox.Show("Delete?", ((ToolStripMenuItem)sender).Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                     DialogResult.Yes)

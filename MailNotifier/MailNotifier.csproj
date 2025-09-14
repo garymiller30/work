@@ -234,7 +234,7 @@
     <Compile Include="Serialization\SerializeableLinkedResource.cs" />
     <Compile Include="Serialization\SerializeableMailAddress.cs" />
     <Compile Include="Serialization\SerializeableMailMessage.cs" />
-    <Compile Include="Shablons\MailShablon.cs" />
+    <Compile Include="Shablons\MailTemplate.cs" />
     <Compile Include="Shablons\MailShablonManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +253,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMailDialog.resx">
       <DependentUpon>FormMailDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTemplate.resx">
+      <DependentUpon>FormTemplate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

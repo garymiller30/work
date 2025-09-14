@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using MailNotifier;
+using MailNotifier.Shablons;
 
 namespace ActiveWorks
 {
@@ -321,6 +322,8 @@ namespace ActiveWorks
             mail.MailSmtpPort = (int)numericUpDownSmtpPort.Value;
             mail.MailSmtpServer = textBoxSmtpServer.Text;
             mail.MailAutoRelogon = checkBoxMailAutoRelogon.Checked;
+
+            _currentProfile.MailNotifier.SetMailTemplates(olv_mail_templates.Objects ?? new List<object>());
 
             var browser = setup.GetFileBrowser();
 
@@ -753,17 +756,35 @@ namespace ActiveWorks
 
         private void додатиШаблонToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            using (var f = new FormTemplate())
+            {
+                if (f.ShowDialog() == DialogResult.OK)
+                {
+                    olv_mail_templates.AddObject(f.Template);
+                }
+            }
         }
 
         private void редагуватиШаблонToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (olv_mail_templates.SelectedObject is MailTemplate template)
+            {
+                using (var f = new FormTemplate(template))
+                {
+                    if (f.ShowDialog() == DialogResult.OK)
+                    {
+                        olv_mail_templates.RefreshObject(template);
+                    }
+                }
+            }
         }
 
         private void видалитиШаблонToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (olv_mail_templates.SelectedObject is MailTemplate template)
+            {
+                olv_mail_templates.RemoveObject(template);
+            }
         }
     }
 }

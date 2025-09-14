@@ -4,7 +4,7 @@ using System;
 namespace MailNotifier.Shablons
 {
     [Serializable]
-    public class MailShablon
+    public class MailTemplate
     {
         public string ShablonName { get; set; }
         public string SendTo { get; set; }

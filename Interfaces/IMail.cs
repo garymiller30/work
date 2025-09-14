@@ -19,5 +19,6 @@ namespace Interfaces
         void ShowSendMailDialog();
         void SendToMany(string to, string tema, string body, string[] attachFiles);
         ICollection GetMailTemplates();
+        void SetMailTemplates(IEnumerable enumerable);
     }
 }
