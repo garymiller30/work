@@ -241,11 +241,11 @@ namespace MailNotifier
             // додамо шаблони, якщо є
             // -----------------------------------------------
 
-            var shablons = ShablonManager.GetShablons();
+            var shablons = ShablonManager.GetTemplates();
 
             if (shablons.Any())
             {
-                foreach (MailShablon mailShablon in shablons)
+                foreach (MailTemplate mailShablon in shablons)
                 {
                     var ttm = new ToolStripMenuItem
                     {
@@ -336,7 +336,12 @@ namespace MailNotifier
 
         public ICollection GetMailTemplates()
         {
-            return ShablonManager.GetShablons().ToArray();
+            return ShablonManager.GetTemplates().ToArray();
+        }
+
+        public void SetMailTemplates(IEnumerable enumerable)
+        {
+            ShablonManager.SetMailTemplates(enumerable.Cast<MailTemplate>());
         }
     }
 }
