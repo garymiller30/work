@@ -207,9 +207,13 @@ namespace JobSpace.UC
                 else
                 {
                     var target = Path.Combine(Settings.CurFolder, Path.GetFileName(file));
-                    if (target.Equals(file))
-                        continue;
-
+                    int count = 1;
+                    
+                    while (File.Exists(target))
+                    {
+                        target = Path.Combine(Settings.CurFolder, $"{Path.GetFileNameWithoutExtension(file)}({count}){Path.GetExtension(file)}");
+                        count++;
+                    }
 
                     if (CopyPaste)
                     {

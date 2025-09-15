@@ -44,6 +44,10 @@ namespace JobSpace.UserForms
             DialogResult = DialogResult.Cancel;
 
             InitializeComponent();
+
+            ToolTip btn_tooltip = new ToolTip();
+            btn_tooltip.SetToolTip(btn_select_custom_folder, "Вибрати іншу папку для збереження файлів замовлення, якщо попередня була переміщена");
+
             _noteControl = ucNote1;
             InitializeUserInterface();
 
@@ -303,6 +307,24 @@ namespace JobSpace.UserForms
             else
             {
                 olv_categories.ModelFilter = new TextMatchFilter(olv_categories, str);
+            }
+        }
+
+        private void btn_select_custom_folder_Click(object sender, EventArgs e)
+        {
+            using (var form = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog())
+            {
+                form.Description = "Оберіть папку";
+
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    var path = form.SelectedPath;
+                    if (Directory.Exists(path))
+                    {
+                        _job.UseCustomFolder = true;
+                        _job.Folder = path;
+                    }
+                }
             }
         }
     }
