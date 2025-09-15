@@ -36,6 +36,9 @@
             this.kryptonComboBox_Customers = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.panelCategory = new Krypton.Toolkit.KryptonPanel();
+            this.tb_category = new System.Windows.Forms.TextBox();
+            this.olv_categories = new BrightIdeasSoftware.ObjectListView();
+            this.olvColumn_category_name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.checkBoxCloseAfterPaste = new Krypton.Toolkit.KryptonCheckBox();
@@ -46,9 +49,7 @@
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
             this.kryptonGroupBox2 = new Krypton.Toolkit.KryptonGroupBox();
             this.kryptonButton_OK = new Krypton.Toolkit.KryptonButton();
-            this.olv_categories = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumn_category_name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.tb_category = new System.Windows.Forms.TextBox();
+            this.btn_select_custom_folder = new System.Windows.Forms.Button();
             this.ucNote1 = new JobSpace.UC.UcNote();
             this.ucAddWorkPluginsContainer1 = new JobSpace.UC.UcAddWorkPluginsContainer();
             this.textBox_Description = new JobSpace.UC.UcTexBox(this.components);
@@ -57,6 +58,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox_Customers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelCategory)).BeginInit();
             this.panelCategory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.olv_categories)).BeginInit();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
@@ -76,7 +78,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox2.Panel)).BeginInit();
             this.kryptonGroupBox2.Panel.SuspendLayout();
             this.kryptonGroupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olv_categories)).BeginInit();
             this.SuspendLayout();
             // 
             // labelRetryNumber
@@ -149,6 +150,44 @@
             this.panelCategory.Size = new System.Drawing.Size(227, 487);
             this.panelCategory.TabIndex = 2;
             // 
+            // tb_category
+            // 
+            this.tb_category.Location = new System.Drawing.Point(73, 10);
+            this.tb_category.Name = "tb_category";
+            this.tb_category.Size = new System.Drawing.Size(146, 20);
+            this.tb_category.TabIndex = 53;
+            this.tb_category.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tb_category_KeyUp);
+            // 
+            // olv_categories
+            // 
+            this.olv_categories.AllColumns.Add(this.olvColumn_category_name);
+            this.olv_categories.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.olv_categories.CellEditUseWholeCell = false;
+            this.olv_categories.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColumn_category_name});
+            this.olv_categories.Cursor = System.Windows.Forms.Cursors.Default;
+            this.olv_categories.FullRowSelect = true;
+            this.olv_categories.GridLines = true;
+            this.olv_categories.HideSelection = false;
+            this.olv_categories.Location = new System.Drawing.Point(12, 39);
+            this.olv_categories.Name = "olv_categories";
+            this.olv_categories.ShowGroups = false;
+            this.olv_categories.Size = new System.Drawing.Size(207, 445);
+            this.olv_categories.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.olv_categories.TabIndex = 52;
+            this.olv_categories.UseCompatibleStateImageBehavior = false;
+            this.olv_categories.UseFiltering = true;
+            this.olv_categories.View = System.Windows.Forms.View.Details;
+            this.olv_categories.SelectionChanged += new System.EventHandler(this.olv_categories_SelectionChanged);
+            // 
+            // olvColumn_category_name
+            // 
+            this.olvColumn_category_name.AspectName = "Name";
+            this.olvColumn_category_name.Text = "Назва";
+            this.olvColumn_category_name.Width = 300;
+            // 
             // kryptonLabel2
             // 
             this.kryptonLabel2.Location = new System.Drawing.Point(12, 8);
@@ -189,6 +228,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.btn_select_custom_folder);
             this.kryptonPanel1.Controls.Add(this.panelCategory);
             this.kryptonPanel1.Controls.Add(this.kryptonPanel3);
             this.kryptonPanel1.Controls.Add(this.kryptonPanel2);
@@ -269,43 +309,16 @@
             this.kryptonButton_OK.Values.Text = "OK";
             this.kryptonButton_OK.Click += new System.EventHandler(this.Button_Ok_Click);
             // 
-            // olv_categories
+            // btn_select_custom_folder
             // 
-            this.olv_categories.AllColumns.Add(this.olvColumn_category_name);
-            this.olv_categories.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.olv_categories.CellEditUseWholeCell = false;
-            this.olv_categories.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn_category_name});
-            this.olv_categories.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olv_categories.FullRowSelect = true;
-            this.olv_categories.GridLines = true;
-            this.olv_categories.HideSelection = false;
-            this.olv_categories.Location = new System.Drawing.Point(12, 39);
-            this.olv_categories.Name = "olv_categories";
-            this.olv_categories.ShowGroups = false;
-            this.olv_categories.Size = new System.Drawing.Size(207, 445);
-            this.olv_categories.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.olv_categories.TabIndex = 52;
-            this.olv_categories.UseCompatibleStateImageBehavior = false;
-            this.olv_categories.UseFiltering = true;
-            this.olv_categories.View = System.Windows.Forms.View.Details;
-            this.olv_categories.SelectionChanged += new System.EventHandler(this.olv_categories_SelectionChanged);
-            // 
-            // olvColumn_category_name
-            // 
-            this.olvColumn_category_name.AspectName = "Name";
-            this.olvColumn_category_name.Text = "Назва";
-            this.olvColumn_category_name.Width = 300;
-            // 
-            // tb_category
-            // 
-            this.tb_category.Location = new System.Drawing.Point(73, 10);
-            this.tb_category.Name = "tb_category";
-            this.tb_category.Size = new System.Drawing.Size(146, 20);
-            this.tb_category.TabIndex = 53;
-            this.tb_category.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tb_category_KeyUp);
+            this.btn_select_custom_folder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_select_custom_folder.Location = new System.Drawing.Point(15, 473);
+            this.btn_select_custom_folder.Name = "btn_select_custom_folder";
+            this.btn_select_custom_folder.Size = new System.Drawing.Size(114, 23);
+            this.btn_select_custom_folder.TabIndex = 51;
+            this.btn_select_custom_folder.Text = "вибрати іншу папку";
+            this.btn_select_custom_folder.UseVisualStyleBackColor = true;
+            this.btn_select_custom_folder.Click += new System.EventHandler(this.btn_select_custom_folder_Click);
             // 
             // ucNote1
             // 
@@ -355,6 +368,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelCategory)).EndInit();
             this.panelCategory.ResumeLayout(false);
             this.panelCategory.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.olv_categories)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
@@ -376,7 +390,6 @@
             this.kryptonGroupBox2.Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox2)).EndInit();
             this.kryptonGroupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.olv_categories)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -405,5 +418,6 @@
         private BrightIdeasSoftware.ObjectListView olv_categories;
         private BrightIdeasSoftware.OLVColumn olvColumn_category_name;
         private System.Windows.Forms.TextBox tb_category;
+        private System.Windows.Forms.Button btn_select_custom_folder;
     }
 }

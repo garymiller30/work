@@ -51,7 +51,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                 }
 
 
-                p.begin_document(targetFile, "");
+                p.begin_document(targetFile, "optimize=true");
 
                 StartEvent(this, range.Length);
 

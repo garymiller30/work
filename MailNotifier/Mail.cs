@@ -64,7 +64,7 @@ namespace MailNotifier
         //    _tokenSource?.Cancel();
         //    _reconnectEvent?.Set();
         //}
-
+        /***
         public void Send(object job, string to, string tema, string body)
         {
             SmtpClient smtp = null;
@@ -103,7 +103,7 @@ namespace MailNotifier
                 smtp?.Dispose();
             }
         }
-
+        ***/
         /// <summary>
         /// відправити повідомлення декільком користувачам
         /// </summary>
@@ -169,9 +169,10 @@ namespace MailNotifier
                 var fi = new FileInfo(file);
                 totalSize += fi.Length;
             }
-            var attachGoogleFiles = new List<Google.Apis.Drive.v3.Data.File>();
+
             if (totalSize > 20 * 1024 * 1024)
             {
+                var attachGoogleFiles = new List<Google.Apis.Drive.v3.Data.File>();
                 // завантажити в Drive і  Робимо файл доступним за посиланням
                 foreach (var file in attachFiles)
                 {
@@ -353,46 +354,7 @@ namespace MailNotifier
 
         public void SendFile(string to, string attachmentPath)
         {
-
-            SmtpClient smtp = null;
-
-            try
-            {
-                var fromAddress = new MailAddress(Settings.MailFrom, Settings.MailFrom);
-                var toAddress = new MailAddress(to, to);
-
-                var subject = Path.GetFileName(attachmentPath);
-
-                var attachment = new Attachment(attachmentPath);
-
-                smtp = new SmtpClient
-                {
-                    Host = Settings.MailSmtpServer,
-                    Port = Settings.MailSmtpPort,
-                    EnableSsl = true,
-
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(fromAddress.Address, Settings.MailFromPassword)
-                };
-                using (var message = new MailMessage(fromAddress, toAddress) { Subject = subject, Attachments = { attachment } })
-                {
-                    message.IsBodyHtml = true;
-                    Profile.Plugins.Mail?.ProcessMessageBeforeSend(message);
-                    smtp.Send(message);
-                }
-
-                Logger.Log.Info(this, "Mail", $"\"{subject}\" => \"{to}\"");
-            }
-            catch (Exception e)
-            {
-                Logger.Log.Error(this, "Mail", e.Message);
-                OnError(this, e);
-            }
-            finally
-            {
-                smtp?.Dispose();
-            }
+            SendToMany(to, Path.GetFileName(attachmentPath), "", new[] { attachmentPath });
         }
 
         /// <summary>
