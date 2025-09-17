@@ -72,18 +72,14 @@ namespace JobSpace.UserForms
                     if (category != null)
                     {
                         tb_category.Text = category.Name;
-                   }
+                    }
                 }
                 _noteControl.SetText(_job.Note);
                 textBox_Description.Text = _job.Description;
 
-                if (string.IsNullOrEmpty(_job.PreviousOrder))
+                if (!string.IsNullOrEmpty(_job.PreviousOrder))
                 {
-                    labelRetryNumber.Visible = false;
-                }
-                else
-                {
-                    labelRetryNumber.Text = $"Повтор замовлення № {_job.PreviousOrder}";
+                    this.Text += $" Повтор замовлення № {_job.PreviousOrder}";
                 }
             }
         }
@@ -153,7 +149,7 @@ namespace JobSpace.UserForms
             _job.Number = kryptonTextBoxNumber.Text;
             _job.Customer = kryptonComboBox_Customers.Text;
 
-            var categoryName  = tb_category.Text;
+            var categoryName = tb_category.Text;
 
             if (!string.IsNullOrEmpty(categoryName))
             {
@@ -285,7 +281,7 @@ namespace JobSpace.UserForms
 
         private void kryptonComboBox_Customers_Enter(object sender, EventArgs e)
         {
-           // kryptonComboBox_Customers.DroppedDown = true;
+            // kryptonComboBox_Customers.DroppedDown = true;
         }
 
 
@@ -327,6 +323,35 @@ namespace JobSpace.UserForms
                 }
             }
         }
+
+        private void btn_fix_wrong_keyboard_Click(object sender, EventArgs e)
+        {
+            // взяти вибраний текст із textBox_Description, поміняти розкладку і вставити назад
+
+            var selStart = textBox_Description.SelectionStart;
+            var selLength = textBox_Description.SelectionLength;
+
+            string str;
+
+            if (selLength == 0)
+            {
+                // вибрати увесь текст
+                str = textBox_Description.Text;
+
+                textBox_Description.Text = Commons.FixWrongKeyboardLayout(str);
+            }
+            else
+            {
+                // вибраний текст
+                str = textBox_Description.Text.Substring(selStart, selLength);
+                var fixedStr = Commons.FixWrongKeyboardLayout(str);
+                textBox_Description.Text = textBox_Description.Text.Remove(selStart, selLength);
+                textBox_Description.Text = textBox_Description.Text.Insert(selStart, fixedStr);
+                textBox_Description.SelectionStart = selStart;
+                textBox_Description.SelectionLength = fixedStr.Length;
+            }
+        }
     }
 }
+
 

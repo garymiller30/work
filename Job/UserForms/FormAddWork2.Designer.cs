@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.labelRetryNumber = new System.Windows.Forms.Label();
             this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonTextBoxNumber = new System.Windows.Forms.TextBox();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
@@ -43,16 +42,17 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.checkBoxCloseAfterPaste = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
+            this.textBox_Description = new JobSpace.UC.UcTexBox(this.components);
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.btn_select_custom_folder = new System.Windows.Forms.Button();
             this.kryptonPanel3 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonSplitContainer1 = new Krypton.Toolkit.KryptonSplitContainer();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonGroupBox2 = new Krypton.Toolkit.KryptonGroupBox();
-            this.kryptonButton_OK = new Krypton.Toolkit.KryptonButton();
-            this.btn_select_custom_folder = new System.Windows.Forms.Button();
             this.ucNote1 = new JobSpace.UC.UcNote();
+            this.kryptonGroupBox2 = new Krypton.Toolkit.KryptonGroupBox();
             this.ucAddWorkPluginsContainer1 = new JobSpace.UC.UcAddWorkPluginsContainer();
-            this.textBox_Description = new JobSpace.UC.UcTexBox(this.components);
+            this.kryptonButton_OK = new Krypton.Toolkit.KryptonButton();
+            this.btn_fix_wrong_keyboard = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
             this.kryptonPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox_Customers)).BeginInit();
@@ -80,22 +80,11 @@
             this.kryptonGroupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // labelRetryNumber
-            // 
-            this.labelRetryNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelRetryNumber.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.labelRetryNumber.Location = new System.Drawing.Point(3, 39);
-            this.labelRetryNumber.Name = "labelRetryNumber";
-            this.labelRetryNumber.Size = new System.Drawing.Size(159, 21);
-            this.labelRetryNumber.TabIndex = 36;
-            this.labelRetryNumber.Text = "повтор зам. №";
-            this.labelRetryNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // kryptonLabel3
             // 
             this.kryptonLabel3.Location = new System.Drawing.Point(13, 10);
             this.kryptonLabel3.Name = "kryptonLabel3";
-            this.kryptonLabel3.Size = new System.Drawing.Size(51, 22);
+            this.kryptonLabel3.Size = new System.Drawing.Size(51, 20);
             this.kryptonLabel3.TabIndex = 51;
             this.kryptonLabel3.Values.Text = "№ зам.";
             // 
@@ -113,7 +102,7 @@
             this.kryptonPanel2.Controls.Add(this.kryptonLabel1);
             this.kryptonPanel2.Location = new System.Drawing.Point(183, 12);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(266, 69);
+            this.kryptonPanel2.Size = new System.Drawing.Size(266, 38);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // kryptonComboBox_Customers
@@ -136,7 +125,7 @@
             // 
             this.kryptonLabel1.Location = new System.Drawing.Point(2, 10);
             this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(66, 22);
+            this.kryptonLabel1.Size = new System.Drawing.Size(66, 20);
             this.kryptonLabel1.TabIndex = 0;
             this.kryptonLabel1.Values.Text = "Замовник";
             // 
@@ -192,39 +181,49 @@
             // 
             this.kryptonLabel2.Location = new System.Drawing.Point(12, 8);
             this.kryptonLabel2.Name = "kryptonLabel2";
-            this.kryptonLabel2.Size = new System.Drawing.Size(64, 22);
+            this.kryptonLabel2.Size = new System.Drawing.Size(64, 20);
             this.kryptonLabel2.TabIndex = 51;
             this.kryptonLabel2.Values.Text = "Категорія";
             // 
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.Transparent;
+            this.panel4.Controls.Add(this.btn_fix_wrong_keyboard);
             this.panel4.Controls.Add(this.checkBoxCloseAfterPaste);
             this.panel4.Controls.Add(this.kryptonLabel4);
             this.panel4.Controls.Add(this.textBox_Description);
-            this.panel4.Location = new System.Drawing.Point(12, 87);
+            this.panel4.Location = new System.Drawing.Point(12, 56);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(437, 47);
+            this.panel4.Size = new System.Drawing.Size(437, 78);
             this.panel4.TabIndex = 3;
             // 
             // checkBoxCloseAfterPaste
             // 
             this.checkBoxCloseAfterPaste.Checked = true;
             this.checkBoxCloseAfterPaste.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxCloseAfterPaste.Location = new System.Drawing.Point(49, 24);
+            this.checkBoxCloseAfterPaste.Location = new System.Drawing.Point(49, 53);
             this.checkBoxCloseAfterPaste.Name = "checkBoxCloseAfterPaste";
-            this.checkBoxCloseAfterPaste.Size = new System.Drawing.Size(185, 22);
+            this.checkBoxCloseAfterPaste.Size = new System.Drawing.Size(185, 20);
             this.checkBoxCloseAfterPaste.TabIndex = 51;
             this.checkBoxCloseAfterPaste.Values.Text = "закрити після вставки тексту";
             this.checkBoxCloseAfterPaste.CheckedChanged += new System.EventHandler(this.CheckBoxCloseAfterPaste_CheckedChanged);
             // 
             // kryptonLabel4
             // 
-            this.kryptonLabel4.Location = new System.Drawing.Point(3, 3);
+            this.kryptonLabel4.Location = new System.Drawing.Point(3, 32);
             this.kryptonLabel4.Name = "kryptonLabel4";
-            this.kryptonLabel4.Size = new System.Drawing.Size(40, 22);
+            this.kryptonLabel4.Size = new System.Drawing.Size(40, 20);
             this.kryptonLabel4.TabIndex = 51;
             this.kryptonLabel4.Values.Text = "Опис";
+            // 
+            // textBox_Description
+            // 
+            this.textBox_Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_Description.Location = new System.Drawing.Point(49, 32);
+            this.textBox_Description.Name = "textBox_Description";
+            this.textBox_Description.Size = new System.Drawing.Size(385, 20);
+            this.textBox_Description.TabIndex = 0;
             // 
             // kryptonPanel1
             // 
@@ -241,14 +240,24 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(696, 511);
             this.kryptonPanel1.TabIndex = 49;
             // 
+            // btn_select_custom_folder
+            // 
+            this.btn_select_custom_folder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_select_custom_folder.Location = new System.Drawing.Point(15, 473);
+            this.btn_select_custom_folder.Name = "btn_select_custom_folder";
+            this.btn_select_custom_folder.Size = new System.Drawing.Size(114, 23);
+            this.btn_select_custom_folder.TabIndex = 51;
+            this.btn_select_custom_folder.Text = "вибрати іншу папку";
+            this.btn_select_custom_folder.UseVisualStyleBackColor = true;
+            this.btn_select_custom_folder.Click += new System.EventHandler(this.btn_select_custom_folder_Click);
+            // 
             // kryptonPanel3
             // 
-            this.kryptonPanel3.Controls.Add(this.labelRetryNumber);
             this.kryptonPanel3.Controls.Add(this.kryptonLabel3);
             this.kryptonPanel3.Controls.Add(this.kryptonTextBoxNumber);
             this.kryptonPanel3.Location = new System.Drawing.Point(12, 12);
             this.kryptonPanel3.Name = "kryptonPanel3";
-            this.kryptonPanel3.Size = new System.Drawing.Size(165, 69);
+            this.kryptonPanel3.Size = new System.Drawing.Size(165, 38);
             this.kryptonPanel3.TabIndex = 0;
             // 
             // kryptonSplitContainer1
@@ -285,6 +294,14 @@
             this.kryptonGroupBox1.TabIndex = 0;
             this.kryptonGroupBox1.Values.Heading = "Примітка";
             // 
+            // ucNote1
+            // 
+            this.ucNote1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucNote1.Location = new System.Drawing.Point(0, 0);
+            this.ucNote1.Name = "ucNote1";
+            this.ucNote1.Size = new System.Drawing.Size(435, 157);
+            this.ucNote1.TabIndex = 0;
+            // 
             // kryptonGroupBox2
             // 
             this.kryptonGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -298,6 +315,14 @@
             this.kryptonGroupBox2.TabIndex = 0;
             this.kryptonGroupBox2.Values.Heading = "Додатково";
             // 
+            // ucAddWorkPluginsContainer1
+            // 
+            this.ucAddWorkPluginsContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucAddWorkPluginsContainer1.Location = new System.Drawing.Point(0, 0);
+            this.ucAddWorkPluginsContainer1.Name = "ucAddWorkPluginsContainer1";
+            this.ucAddWorkPluginsContainer1.Size = new System.Drawing.Size(435, 100);
+            this.ucAddWorkPluginsContainer1.TabIndex = 0;
+            // 
             // kryptonButton_OK
             // 
             this.kryptonButton_OK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -309,41 +334,15 @@
             this.kryptonButton_OK.Values.Text = "OK";
             this.kryptonButton_OK.Click += new System.EventHandler(this.Button_Ok_Click);
             // 
-            // btn_select_custom_folder
+            // btn_fix_wrong_keyboard
             // 
-            this.btn_select_custom_folder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_select_custom_folder.Location = new System.Drawing.Point(15, 473);
-            this.btn_select_custom_folder.Name = "btn_select_custom_folder";
-            this.btn_select_custom_folder.Size = new System.Drawing.Size(114, 23);
-            this.btn_select_custom_folder.TabIndex = 51;
-            this.btn_select_custom_folder.Text = "вибрати іншу папку";
-            this.btn_select_custom_folder.UseVisualStyleBackColor = true;
-            this.btn_select_custom_folder.Click += new System.EventHandler(this.btn_select_custom_folder_Click);
-            // 
-            // ucNote1
-            // 
-            this.ucNote1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucNote1.Location = new System.Drawing.Point(0, 0);
-            this.ucNote1.Name = "ucNote1";
-            this.ucNote1.Size = new System.Drawing.Size(435, 157);
-            this.ucNote1.TabIndex = 0;
-            // 
-            // ucAddWorkPluginsContainer1
-            // 
-            this.ucAddWorkPluginsContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucAddWorkPluginsContainer1.Location = new System.Drawing.Point(0, 0);
-            this.ucAddWorkPluginsContainer1.Name = "ucAddWorkPluginsContainer1";
-            this.ucAddWorkPluginsContainer1.Size = new System.Drawing.Size(435, 100);
-            this.ucAddWorkPluginsContainer1.TabIndex = 0;
-            // 
-            // textBox_Description
-            // 
-            this.textBox_Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Description.Location = new System.Drawing.Point(49, 3);
-            this.textBox_Description.Name = "textBox_Description";
-            this.textBox_Description.Size = new System.Drawing.Size(385, 20);
-            this.textBox_Description.TabIndex = 0;
+            this.btn_fix_wrong_keyboard.Location = new System.Drawing.Point(301, 3);
+            this.btn_fix_wrong_keyboard.Name = "btn_fix_wrong_keyboard";
+            this.btn_fix_wrong_keyboard.Size = new System.Drawing.Size(133, 23);
+            this.btn_fix_wrong_keyboard.TabIndex = 52;
+            this.btn_fix_wrong_keyboard.Text = "виправити розкладку";
+            this.btn_fix_wrong_keyboard.UseVisualStyleBackColor = true;
+            this.btn_fix_wrong_keyboard.Click += new System.EventHandler(this.btn_fix_wrong_keyboard_Click);
             // 
             // FormAddWork2
             // 
@@ -396,7 +395,6 @@
 
         #endregion
         private global::JobSpace.UC.UcTexBox textBox_Description;
-        private System.Windows.Forms.Label labelRetryNumber;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TextBox kryptonTextBoxNumber;
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
@@ -419,5 +417,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumn_category_name;
         private System.Windows.Forms.TextBox tb_category;
         private System.Windows.Forms.Button btn_select_custom_folder;
+        private System.Windows.Forms.Button btn_fix_wrong_keyboard;
     }
 }
