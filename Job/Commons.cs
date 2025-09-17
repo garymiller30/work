@@ -2,8 +2,11 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com 
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -89,6 +92,68 @@ namespace JobSpace
             return a;
         }
 
+        public static string FixWrongKeyboardLayout(string input)
+        {
+            Dictionary<char, char> EnToUk = new Dictionary<char, char>
+            {
+                ['q'] = 'й',
+                ['w'] = 'ц',
+                ['e'] = 'у',
+                ['r'] = 'к',
+                ['t'] = 'е',
+                ['y'] = 'н',
+                ['u'] = 'г',
+                ['i'] = 'ш',
+                ['o'] = 'щ',
+                ['p'] = 'з',
+                ['['] = 'х',
+                [']'] = 'ї',
 
+                ['a'] = 'ф',
+                ['s'] = 'і',
+                ['d'] = 'в',
+                ['f'] = 'а',
+                ['g'] = 'п',
+                ['h'] = 'р',
+                ['j'] = 'о',
+                ['k'] = 'л',
+                ['l'] = 'д',
+                [';'] = 'ж',
+                ['\''] = 'є',
+
+                ['z'] = 'я',
+                ['x'] = 'ч',
+                ['c'] = 'с',
+                ['v'] = 'м',
+                ['b'] = 'и',
+                ['n'] = 'т',
+                ['m'] = 'ь',
+                [','] = 'б',
+                ['.'] = 'ю'
+            };
+
+            Dictionary<char, char> UkToEn = EnToUk.ToDictionary(kv => kv.Value, kv => kv.Key);
+
+            int latinCount = input.Count(c => c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z');
+            int cyrillicCount = input.Count(c => c >= 'а' && c <= 'я' || c >= 'А' && c <= 'Я' || "іїєґІЇЄҐ".Contains(c));
+
+            // вибираємо напрямок
+            var map = latinCount >= cyrillicCount ? EnToUk : UkToEn;
+
+            var sb = new StringBuilder(input.Length);
+            foreach (char c in input)
+            {
+                char lower = char.ToLower(c);
+                if (map.TryGetValue(lower, out char mapped))
+                {
+                    sb.Append(char.IsUpper(c) ? char.ToUpper(mapped) : mapped);
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
+        }
     }
 }
