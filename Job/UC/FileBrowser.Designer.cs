@@ -77,6 +77,7 @@ namespace JobSpace.UC
             this.додатиКонтурВисічкиКолоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.створитипустишкиЗТиражамиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.створитиМіткиДляБіговкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.створитиМіткиДляПідборуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.спускПолосToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.зберегтиЯкJpgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -183,7 +184,7 @@ namespace JobSpace.UC
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
             this.toolStripContainer1.ContentPanel.Controls.Add(this.objectListView1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(459, 213);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(453, 213);
             // 
             // toolStripContainer1.LeftToolStripPanel
             // 
@@ -247,7 +248,7 @@ namespace JobSpace.UC
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
             this.objectListView1.ShowItemToolTips = true;
-            this.objectListView1.Size = new System.Drawing.Size(459, 213);
+            this.objectListView1.Size = new System.Drawing.Size(453, 213);
             this.objectListView1.SmallImageList = this.imageList1;
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
@@ -375,7 +376,7 @@ namespace JobSpace.UC
             this.додатиТираж000ToolStripMenuItem,
             this.отправитьВToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(309, 486);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(309, 464);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // предварительныйПросмотрToolStripMenuItem
@@ -425,6 +426,7 @@ namespace JobSpace.UC
             this.додатиКонтурВисічкиКолоToolStripMenuItem,
             this.створитипустишкиЗТиражамиToolStripMenuItem,
             this.створитиМіткиДляБіговкиToolStripMenuItem,
+            this.створитиМіткиДляПідборуToolStripMenuItem,
             this.спускПолосToolStripMenuItem,
             this.toolStripSeparator16,
             this.зберегтиЯкJpgToolStripMenuItem,
@@ -613,6 +615,13 @@ namespace JobSpace.UC
             this.створитиМіткиДляБіговкиToolStripMenuItem.Text = "Створити мітки для біговки";
             this.створитиМіткиДляБіговкиToolStripMenuItem.Click += new System.EventHandler(this.створитиМіткиДляБіговкиToolStripMenuItem_Click);
             // 
+            // створитиМіткиДляПідборуToolStripMenuItem
+            // 
+            this.створитиМіткиДляПідборуToolStripMenuItem.Name = "створитиМіткиДляПідборуToolStripMenuItem";
+            this.створитиМіткиДляПідборуToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.створитиМіткиДляПідборуToolStripMenuItem.Text = "Створити мітки для підбору";
+            this.створитиМіткиДляПідборуToolStripMenuItem.Click += new System.EventHandler(this.створитиМіткиДляПідборуToolStripMenuItem_Click);
+            // 
             // спускПолосToolStripMenuItem
             // 
             this.спускПолосToolStripMenuItem.Name = "спускПолосToolStripMenuItem";
@@ -797,7 +806,7 @@ namespace JobSpace.UC
             this.toolStripLeft.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripLeft.Location = new System.Drawing.Point(0, 3);
             this.toolStripLeft.Name = "toolStripLeft";
-            this.toolStripLeft.Size = new System.Drawing.Size(26, 111);
+            this.toolStripLeft.Size = new System.Drawing.Size(32, 30);
             this.toolStripLeft.TabIndex = 0;
             // 
             // toolStripPDF
@@ -1396,5 +1405,6 @@ namespace JobSpace.UC
         private System.Windows.Forms.ToolStripMenuItem пружинаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem перенестиВмістПапкиСюдипапкафайлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem копіюватиІмяФайлуРозмірToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem створитиМіткиДляПідборуToolStripMenuItem;
     }
 }

@@ -329,6 +329,9 @@
     <Compile Include="Static\Pdf\Common\PaperFormat.cs" />
     <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarks.cs" />
     <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarksParams.cs" />
+    <Compile Include="Static\Pdf\Create\CollatingPageMark\CreateCollatingPageMark.cs" />
+    <Compile Include="Static\Pdf\Create\CollatingPageMark\CreateCollatingPageMarkParams.cs" />
+    <Compile Include="Static\Pdf\Create\CollatingPageMark\PageCollatingMarkPositionEnum.cs" />
     <Compile Include="Static\Pdf\Create\CutEllipse\PdfCreateCutEllipse.cs" />
     <Compile Include="Static\Pdf\Create\FillRectangle\PdfCreateFillRectangle.cs" />
     <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateCutRectangle.cs" />
@@ -453,6 +456,12 @@
     </Compile>
     <Compile Include="UC\UcSelectStandartPageFormat.Designer.cs">
       <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateCollatingPageMark.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateCollatingPageMark.Designer.cs">
+      <DependentUpon>FormCreateCollatingPageMark.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\FormEnterTirag.cs">
       <SubType>Form</SubType>
@@ -1056,6 +1065,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UC\UcSelectStandartPageFormat.resx">
       <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateCollatingPageMark.resx">
+      <DependentUpon>FormCreateCollatingPageMark.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\FormEnterTirag.resx">
       <DependentUpon>FormEnterTirag.cs</DependentUpon>

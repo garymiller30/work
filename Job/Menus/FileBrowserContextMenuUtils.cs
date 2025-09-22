@@ -23,6 +23,7 @@ namespace JobSpace.Menus
         public override void Load()
         {
             _menus = Commons.DeserializeXML<List<MenuSendTo>>(_fn) ?? new List<MenuSendTo>();
+
             _menus.ForEach(GetImage);
 
         }

@@ -67,6 +67,9 @@ namespace ActiveWorks.UserControls
 
         private void Init(IUserProfile profile)
         {
+
+            // асинхронно ініціалізуємо профіль
+
             var saveStatus = SplashScreen.Splash.GetStatus();
             SplashScreen.Splash.SetStatus($"{saveStatus} ініціалізація профілю...");
             profile.InitProfile();
@@ -84,13 +87,16 @@ namespace ActiveWorks.UserControls
             LoadLayout();
 
             //profile.Jobs.LoadJobs();
-           
+
             profile.Jobs?.ApplyViewListFilterStatuses(_profile.StatusManager.GetEnabledViewStatuses());
+
+            //profile.InitProfile();
+
         }
 
         private void CreateJobListTab()
         {
-            if  (_profile.Jobs == null) return;
+            if (_profile.Jobs == null) return;
 
             var page = new KryptonPage(@"Список робіт") { TextTitle = @"JobList", UniqueName = "Список робіт" };
 
@@ -108,7 +114,7 @@ namespace ActiveWorks.UserControls
 
                 _manager.AddToWorkspace("Workspace", new[] { page });
             }
-          
+
         }
 
         private void CreateBrowserTab()
@@ -202,7 +208,7 @@ namespace ActiveWorks.UserControls
         }
         private void CreateEvents()
         {
-            if (_profile.Jobs == null) return;  
+            if (_profile.Jobs == null) return;
 
             _profile.Jobs.JobListControl.CreateEvents();
             _profile.FileBrowser.CreateEvents();
@@ -220,7 +226,7 @@ namespace ActiveWorks.UserControls
             {
                 var layoutPath = Path.Combine(_profile.ProfilePath, LayoutFile);
                 if (File.Exists(layoutPath)) { LoadLayoutFromFile(layoutPath); }
-                
+
             }
             catch (Exception e)
             {

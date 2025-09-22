@@ -37,10 +37,7 @@ namespace MailNotifier
         private IJob _curJob;
         private List<string> _attachmentsList { get; set; } = new List<string>();
         public bool ShowBaloon;
-
-        //private AutoResetEvent _reconnectEvent;
-
-        //private CancellationTokenSource _tokenSource;
+        List<ToolStripItem> _sendMenuItems;
 
         public MailShablonManager ShablonManager { get; set; }
 
@@ -59,51 +56,7 @@ namespace MailNotifier
         {
             ShablonManager = new MailShablonManager(this);
         }
-        //public void StopWatching()
-        //{
-        //    _tokenSource?.Cancel();
-        //    _reconnectEvent?.Set();
-        //}
-        /***
-        public void Send(object job, string to, string tema, string body)
-        {
-            SmtpClient smtp = null;
-
-            try
-            {
-                var fromAddress = new MailAddress(Settings.MailFrom, Settings.MailFrom);
-                var toAddress = new MailAddress(to, to);
-
-                smtp = new SmtpClient
-                {
-                    Host = Settings.MailSmtpServer, // "smtp.gmail.com",
-                    Port = Settings.MailSmtpPort, //587,
-                    EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(fromAddress.Address, Settings.MailFromPassword)
-                };
-                using (var message = new MailMessage(fromAddress, toAddress))
-                {
-                    message.Subject = Convert(job, tema);
-                    message.Body = Convert(job, body);
-
-                    smtp.Send(message);
-                    Logger.Log.Info(this, "Mail", $"\"{message.Subject}\" => \"{to}\"");
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Log.Error(this, "Mail", e.Message);
-                OnError(this, e);
-                //ExceptionMessage = e.Message;
-            }
-            finally
-            {
-                smtp?.Dispose();
-            }
-        }
-        ***/
+        
         /// <summary>
         /// відправити повідомлення декільком користувачам
         /// </summary>
@@ -122,8 +75,6 @@ namespace MailNotifier
             {
                 SendByGoogleApi(to, tema, body, attachFiles);
             }
-
-
         }
 
         private async void SendByGoogleApi(string to, string tema, string body, string[] attachFiles)
@@ -365,14 +316,22 @@ namespace MailNotifier
         public List<ToolStripItem> GetMenu(EventHandler ttmClick)
         {
             //-----------------------------------------------
-            var l = new List<ToolStripItem>();
+            if (_sendMenuItems != null) return _sendMenuItems;
+
+            CreateSendMailMenu(ttmClick);
+            return _sendMenuItems;
+        }
+
+        private void CreateSendMailMenu(EventHandler ttmClick)
+        {
+            _sendMenuItems = new List<ToolStripItem>();
 
             var sel = new ToolStripMenuItem { Text = @"Вибрати..." };
             sel.Click += SelOnClick;
             sel.ForeColor = Color.DarkGreen;
-            l.Add(sel);
+            _sendMenuItems.Add(sel);
 
-            l.Add(new ToolStripSeparator());
+            _sendMenuItems.Add(new ToolStripSeparator());
             //------------------------------------------------
             // додамо шаблони, якщо є
             // -----------------------------------------------
@@ -389,10 +348,10 @@ namespace MailNotifier
                         Tag = mailShablon.ShablonName
                     };
                     ttm.Click += OpenMailShablon;
-                    l.Add(ttm);
+                    _sendMenuItems.Add(ttm);
                 }
 
-                l.Add(new ToolStripSeparator());
+                _sendMenuItems.Add(new ToolStripSeparator());
             }
 
             //------------------------------------------------
@@ -405,9 +364,8 @@ namespace MailNotifier
                     Tag = item,
                 };
                 ttm.Click += ttmClick;
-                l.Add(ttm);
+                _sendMenuItems.Add(ttm);
             }
-            return l;
         }
 
         private void OpenMailShablon(object sender, EventArgs e)
