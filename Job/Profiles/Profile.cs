@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using ActiveWorks;
 using CSScriptEngine;
 using ExtensionMethods;
@@ -112,7 +113,7 @@ namespace JobSpace.Profiles
             //Stopwatch _sw = new Stopwatch();
             //_sw.Start();
             Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", Settings.ProfileName);
-            SearchHistory = new SearchHistory(this);
+             SearchHistory = new SearchHistory(this);
             //_sw.Stop();
             //Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", _sw.ElapsedMilliseconds);
             //_sw.Reset();

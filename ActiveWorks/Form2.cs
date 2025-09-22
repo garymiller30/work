@@ -390,9 +390,10 @@ namespace ActiveWorks
             {
                 //profile.SearchHistory.Add(cb_searchStr.Text);
                 cb_searchStr.Text = string.Empty;
-                cb_searchStr.Items.Clear();
-                cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
-                //profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
+                cb_searchStr.Sorted = false;
+
+                SetHistoryList(profile, cb_searchStr);
+
             };
 
             cb_searchStr.ButtonSpecs.Add(clearButton);
@@ -439,6 +440,7 @@ namespace ActiveWorks
                 button.Click += (sender, args) =>
                 {
                     profile.SearchManager.ChangeStatus(s, ((KryptonRibbonGroupButton)sender).Checked);
+                    
                 };
                 
                 groupLines.Items.Add(button);
@@ -457,6 +459,7 @@ namespace ActiveWorks
             btnSearch.Click += (sender, args) =>
             {
                 profile.SearchManager.Search(cb_customers.Text, cb_searchStr.Text);
+                SetHistoryList(profile, cb_searchStr);
             };
 
             triple2.Items.Add(btnSearch);
@@ -481,6 +484,12 @@ namespace ActiveWorks
             triple2.Items.Add(btnReset);
 
             group.Items.Add(triple2);
+        }
+
+        private static void SetHistoryList(Profile profile, KryptonRibbonGroupComboBox cb_searchStr)
+        {
+            cb_searchStr.Items.Clear();
+            cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
         }
 
         private void CreateViewFilterGroup(KryptonRibbonTab tab, Profile profile)

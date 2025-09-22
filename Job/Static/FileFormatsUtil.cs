@@ -16,6 +16,7 @@ using JobSpace.Models;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Convert;
 using JobSpace.Static.Pdf.Create.BigovkaMarks;
+using JobSpace.Static.Pdf.Create.CollatingPageMark;
 using JobSpace.Static.Pdf.Create.CutEllipse;
 using JobSpace.Static.Pdf.Create.Ellipse;
 using JobSpace.Static.Pdf.Create.EmptyPdfTemplateWithCount;
@@ -643,6 +644,18 @@ namespace JobSpace.Static
         public static void VisualBlocknoteSpiral(List<IFileSystemInfoExt> fileSystemInfoExts)
         {
             
+        }
+
+        public static void CreateCollatingPageMark(IEnumerable<string> enumerable, CreateCollatingPageMarkParams param)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати мітки підбору до файлу", new Action(
+            () =>
+            {
+                foreach (var file in enumerable)
+                {
+                    new CreateCollatingPageMark(param).Run(file);
+                }
+            })));
         }
     }
 }

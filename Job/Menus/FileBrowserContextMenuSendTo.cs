@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Interfaces;
 
@@ -35,6 +36,7 @@ namespace JobSpace.Menus
                 var icon = Icon.ExtractAssociatedIcon(menuSendTo.Path);
                 menuSendTo.Image = icon?.ToBitmap();
             }
+
         }
 
 

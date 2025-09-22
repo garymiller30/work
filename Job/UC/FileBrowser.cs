@@ -75,10 +75,14 @@ namespace JobSpace.UC
             InitializeComponent();
             InitFileManager();
             InitListView();
+           
             ApplySettings();
+
 
             ClonePdfMenu();
         }
+
+        
 
         private void ClonePdfMenu()
         {
@@ -843,25 +847,17 @@ namespace JobSpace.UC
             отправитьВToolStripMenuItem.DropDownItems.Clear();
             отправитьВToolStripMenuItem.DropDownItems.AddRange(UserProfile.MenuManagers.SendTo.Get(SendMenuItem_ClickAsync).ToArray());
 
-            //утилитыToolStripMenuItem.DropDownItems.Clear();
-            //утилитыToolStripMenuItem.DropDownItems.AddRange(UserProfile.MenuManagers.Utils.Get(ToolsStripMenuItem_Click).ToArray());
-
             SendEmailToolStripMenuItem.DropDownItems.Clear();
             SendEmailToolStripMenuItem.DropDownItems.AddRange(UserProfile.MailNotifier.GetMenu(ToolStripSendMenu_Click).ToArray());
 
-
             var nonPdfFiles = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Where(x =>
                 !x.FileInfo.Extension.Equals(".pdf", StringComparison.InvariantCultureIgnoreCase));
-
 
             bool visible = !nonPdfFiles.Any();
             утилітиДляPDFToolStripMenuItem.Visible = visible;
             setTrimBoxToolStripMenuItem.Visible = visible;
 
             SetToMoveFolders();
-
-
-
         }
 
         private void SetToMoveFolders()
@@ -2122,6 +2118,19 @@ namespace JobSpace.UC
                 Clipboard.SetText(filePath.ToString());
             }
             catch { }
+        }
+
+        private void створитиМіткиДляПідборуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+
+            using (var form = new FormCreateCollatingPageMark())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    FileFormatsUtil.CreateCollatingPageMark(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName),form.CreatePageCollationMarksParam);
+                }
+            }
         }
     }
 }
