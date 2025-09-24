@@ -1,6 +1,7 @@
 ﻿using BrightIdeasSoftware;
 using ExtensionMethods;
 using Interfaces;
+using Interfaces.MQ;
 using JobSpace.Ext;
 using JobSpace.Menus;
 using JobSpace.Models;
@@ -115,8 +116,10 @@ namespace JobSpace.UC
                             jobParameters.ApplyToJob();
                             _profile.Jobs.UpdateJob(j);
                             objectListView_NewWorks.RefreshObject(j);
+                            
                             var newPath = _profile.Jobs.GetFullPathToWorkFolder(j);
                             _profile.FileBrowser.Browsers[0].SetRootFolder(newPath);
+                            _profile.Plugins.MqController.PublishChanges(MessageEnum.JobChanged, j.Id);
                         }
                     }
                     _profile.Jobs.UnlockJob(j);

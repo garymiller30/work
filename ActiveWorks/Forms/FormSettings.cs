@@ -51,6 +51,22 @@ namespace ActiveWorks
             
         }
 
+        public FormSettings(Profile activeUserProfile): this()
+        {
+            if (activeUserProfile != null)
+            {
+                
+                objectListViewProfiles.SelectObject(activeUserProfile);
+                BindProfile();
+                tabControlMain.Enabled = true;
+                //_currentProfile = activeUserProfile;
+            }
+            else
+            {
+                tabControlMain.Enabled = false;
+            }
+        }
+
         private object GetChangeStatus(object r)
         {
             var status = _currentProfile.StatusManager.GetJobStatusByCode(((MenuSendTo)r).StatusCode);

@@ -92,7 +92,7 @@ namespace JobSpace.Fasades
             _profile.Jobs.JobListControl.RepeatSelectedJob();
         }
 
-        private List<IJob> _jobList = new List<IJob>();
+        private List<IJob> _jobList { get;set;} = new List<IJob>();
 
         public JobManager(IUserProfile profile, IJobSettings settings)
         {
@@ -304,8 +304,9 @@ namespace JobSpace.Fasades
             try
             {
                 _profile.Base.Update(CollectionString, (Job)job.GetJob());
-                _profile.Plugins.MqController.PublishChanges(MessageEnum.JobChanged, job.Id);
-                if (getEvent) OnJobChange(this, (Job)job.GetJob());
+                if (getEvent){
+                    _profile.Plugins.MqController.PublishChanges(MessageEnum.JobChanged, job.Id);
+                    OnJobChange(this, (Job)job.GetJob()); }
             }
             catch (Exception e)
             {
@@ -508,6 +509,7 @@ namespace JobSpace.Fasades
             if (RenameJobDirectory(oldPath, job))
             {
                 _profile.Jobs.UpdateJob(job, true);
+                
                 return true;
             }
             job.Description = save;
@@ -723,24 +725,28 @@ namespace JobSpace.Fasades
         public void ApplyViewListFilterCustomer(string text)
         {
             var orders = _profile.Base.ApplyViewFilterCustomer(text);
+            _jobList = orders.ToList();
             OnJobsAdd(this, orders);
         }
 
         public void ApplyViewListFilterStatuses(int[] statuses)
         {
             var orders = _profile.Base.ApplyViewFilterStatuses(statuses);
+            _jobList = orders.ToList();
             OnJobsAdd(this, orders);
         }
 
         public void ApplyViewListFilterDate(DateTime date)
         {
             var orders = _profile.Base.ApplyViewFilterDate(date);
+            _jobList = orders.ToList();
             OnJobsAdd(this, orders);
         }
 
         public void ApplyViewListFilterText(string text)
         {
             var orders = _profile.Base.ApplyViewFilterText(text);
+            _jobList = orders.ToList();
             OnJobsAdd(this, orders);
         }
     }
