@@ -1,27 +1,29 @@
 ﻿using ActiveWorks.Forms;
 using ActiveWorks.Properties;
 using ActiveWorks.UserControls;
-using Krypton.Ribbon;
-using Krypton.Toolkit;
+using Amazon;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.Plugins;
 using JobSpace.Profiles;
 using JobSpace.UserForms;
+using Krypton.Ribbon;
+using Krypton.Toolkit;
 using Logger;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        readonly List<FormProfile> _profileTabs = new List<FormProfile>();
+        List<FormProfile> _profileTabs {get;set; } = new List<FormProfile>();
+        FormProfile _activeProfileTab { get; set; }
 
         FormBackgroundTasks _formBackgroundTask;
         readonly Stopwatch _sw = new Stopwatch();
@@ -100,7 +102,12 @@ namespace ActiveWorks
         {
             var defProfileName = Settings.Default.DefaultProfile;
             var profile =
-                _profileTabs.FirstOrDefault(x => ((Profile)x.Tag).Settings.ProfileName.Equals(defProfileName));
+                _profileTabs.FirstOrDefault(x => ((JobSpace.Profiles.Profile)x.Tag).Settings.ProfileName.Equals(defProfileName));
+
+            if (profile == null && _profileTabs.Count > 0)
+            {
+                profile = _profileTabs[0];
+            }
 
             if (profile != null)
             {
@@ -122,6 +129,7 @@ namespace ActiveWorks
 
         private void ChangeUserProfile(FormProfile formProfile)
         {
+            _activeProfileTab = formProfile;
             formProfile.Activate();
         }
         /// <summary>
@@ -155,7 +163,7 @@ namespace ActiveWorks
             }
         }
 
-        private void CreateProfileTab(Profile profile)
+        private void CreateProfileTab(JobSpace.Profiles.Profile profile)
         {
             var tab = new KryptonRibbonTab { Text = profile.Settings.ProfileName };
             kryptonRibbon1.RibbonTabs.Add(tab);
@@ -185,9 +193,10 @@ namespace ActiveWorks
         {
             var formProfile = (FormProfile)((KryptonRibbon)sender)?.SelectedTab?.Tag;
             formProfile?.Activate();
+            _activeProfileTab = formProfile;
         }
 
-        private void FillRibbonTab(IFormProfile formProfile, KryptonRibbonTab tab, Profile profile)
+        private void FillRibbonTab(IFormProfile formProfile, KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
             CreateOrderGroup(tab, profile);
             CreateStatusesGroup(tab, profile);
@@ -196,7 +205,7 @@ namespace ActiveWorks
             CreateSettingsGroup(formProfile, tab, profile);
         }
 
-        private void CreateSettingsGroup(IFormProfile formProfile, KryptonRibbonTab tab, Profile profile)
+        private void CreateSettingsGroup(IFormProfile formProfile, KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
             // -----------------------------------------------
             var group = new KryptonRibbonGroup
@@ -217,7 +226,7 @@ namespace ActiveWorks
             };
             button.Click += (sender, args) =>
             {
-                using (var s = new FormSettings())
+                using (var s = new FormSettings((JobSpace.Profiles.Profile)(_activeProfileTab)?.Tag))
                 {
                     s.ShowDialog();
                     ApplySettings();
@@ -282,7 +291,7 @@ namespace ActiveWorks
                 formProfile.ResetLayout();
                 _profileTabs.Remove((FormProfile)formProfile);
                 kryptonRibbon1.RibbonTabs.Remove(tab);
-                CreateProfileTab((Profile)((FormProfile)formProfile).Tag);
+                CreateProfileTab((JobSpace.Profiles.Profile)((FormProfile)formProfile).Tag);
             };
             groupTriple.Items.Add(button);
             //// --- Theme switcher button ---
@@ -297,11 +306,11 @@ namespace ActiveWorks
         {
             foreach (var tab in _profileTabs)
             {
-                ((Profile)tab.Tag).FileBrowser.InitBrowserToolStripUtils();
+                ((JobSpace.Profiles.Profile)tab.Tag).FileBrowser.InitBrowserToolStripUtils();
             }
         }
 
-        private void CreateSearchGroup(KryptonRibbonTab tab, Profile profile)
+        private void CreateSearchGroup(KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
             if (profile.Customers is null) return;
 
@@ -486,13 +495,13 @@ namespace ActiveWorks
             group.Items.Add(triple2);
         }
 
-        private static void SetHistoryList(Profile profile, KryptonRibbonGroupComboBox cb_searchStr)
+        private static void SetHistoryList(JobSpace.Profiles.Profile profile, KryptonRibbonGroupComboBox cb_searchStr)
         {
             cb_searchStr.Items.Clear();
             cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
         }
 
-        private void CreateViewFilterGroup(KryptonRibbonTab tab, Profile profile)
+        private void CreateViewFilterGroup(KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
             if (profile.StatusManager == null) return;
 
@@ -529,7 +538,7 @@ namespace ActiveWorks
 
         }
 
-        private void CreateStatusesGroup(KryptonRibbonTab tab, Profile profile)
+        private void CreateStatusesGroup(KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
 
             if (profile.StatusManager == null) return;
@@ -562,7 +571,7 @@ namespace ActiveWorks
         }
 
 
-        private void CreateOrderGroup(KryptonRibbonTab tab, Profile profile)
+        private void CreateOrderGroup(KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
             var group = new KryptonRibbonGroup
             {
@@ -671,6 +680,11 @@ namespace ActiveWorks
 
             // Save settings
             Settings.Default.Save();
+        }
+
+        private void kryptonRibbon1_SelectedTabChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
