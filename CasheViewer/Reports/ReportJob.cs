@@ -19,6 +19,7 @@ namespace CasheViewer.Reports
             //var oldVariant = GetJobsByCustomers(false);
             var newVariant = GetJobsByCustomerRootByPlugin(false);
 
+            Total = newVariant.Sum(x => x.Children.Sum(y => y.Sum));
             //var comparer = new CustomerComparer();
 
             //foreach (JobNodeRoot customer in newVariant)

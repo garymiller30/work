@@ -3,6 +3,7 @@ using JobSpace.Models;
 using JobSpace.Profiles;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,21 @@ namespace JobSpace.Fasades
         public IEnumerable<IServiceState> GetAll()
         {
             return services;
+        }
+
+        public Image GetImage(IServiceState state)
+        {
+            if (state.Image != null) return state.Image;
+
+            switch (state.State)
+            {
+                case Interfaces.Enums.ServiceStateEnum.ACTIVE:
+                    return Properties.Resources.Hopstarter_Soft_Scraps_Button_Blank_Green_16;
+                case Interfaces.Enums.ServiceStateEnum.INACTIVE:
+                    return Properties.Resources.Hopstarter_Soft_Scraps_Button_Blank_Red_16;
+                default:
+                    return Properties.Resources.Hopstarter_Soft_Scraps_Button_Blank_Gray_16;
+            }
         }
     }
 }

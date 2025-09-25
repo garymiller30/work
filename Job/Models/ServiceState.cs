@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using Interfaces.Enums;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,6 +15,9 @@ namespace JobSpace.Models
         public string Name { get; set; } = string.Empty;
         public string Tooltip { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public ServiceStateEnum State { get; set; } = ServiceStateEnum.UNDEFINED;
         public Image Image { get; set; } = null;
+
+        
     }
 }

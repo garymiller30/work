@@ -75,7 +75,6 @@ namespace JobSpace.Profiles
             var state = ServicesState.Create();
             state.Name = "База данних";
             state.Tooltip = "Підключення до бази данних";
-            state.Image = Properties.Resources.Hopstarter_Soft_Scraps_Button_Blank_Gray_16;
 
 
             var repo = new MongoRepository();
@@ -83,15 +82,13 @@ namespace JobSpace.Profiles
             {
                 if (isConnected)
                 {
-                    state.Tooltip = "Підключено до бази данних";
                     state.Description = $"Підключено до бази данних {Settings.GetBaseSettings().MongoDbBaseName}";
-                    state.Image = Properties.Resources.Hopstarter_Soft_Scraps_Button_Blank_Green_16;
+                    state.State = Interfaces.Enums.ServiceStateEnum.ACTIVE;
                 }
                 else
                 {
-                    state.Tooltip = "Відсутнє підключення до бази данних";
                     state.Description = $"Відсутнє підключення до бази данних {Settings.GetBaseSettings().MongoDbBaseName}";
-                    state.Image = Properties.Resources.Hopstarter_Soft_Scraps_Button_Blank_Red_16;
+                    state.State = Interfaces.Enums.ServiceStateEnum.INACTIVE;
                 }
                 Events.ServiceStateEvents.UpdateServiceState(this, state);
             };
