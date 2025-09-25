@@ -13,7 +13,6 @@ namespace Interfaces
         IMail MailNotifier { get; set; }
         ICustomerManager Customers { get; set; }
         ICategoryManager Categories { get; set; }
-        //IMQManager MQ { get; set; }
         IJobStatusManager StatusManager { get; set; }
         IMenuManager MenuManagers { get; set; }
         IPluginManager Plugins { get; set; }
@@ -21,7 +20,7 @@ namespace Interfaces
         ICustomerMailNotifyManager CustomersNotifyManager { get; set; }
         ISearchHistory SearchHistory { get; set; }
         IScriptEngine ScriptEngine {get;set;}
-        
+        IServicesStateManager ServicesState { get; set; }
         void InitProfile();
         void Exit();
 

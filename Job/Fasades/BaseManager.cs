@@ -40,8 +40,6 @@ namespace JobSpace.Fasades
             }
         }
 
-
-
         /// <summary>
         /// підключення до сервера
         /// </summary>

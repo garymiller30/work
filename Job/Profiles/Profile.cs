@@ -37,46 +37,29 @@ namespace JobSpace.Profiles
         public IMenuManager MenuManagers { get; set; }
         public IFileBrowsers FileBrowser { get; set; }
         public IJobStatusManager StatusManager { get; set; }
-
         public SearchManager SearchManager { get; set; }
+        public IServicesStateManager ServicesState { get; set; }
         public ISearchHistory SearchHistory { get; set; }
         public IScriptEngine ScriptEngine { get; set; }
-
         public ImposSaveLoadService ImposService { get; set; }
         public override string ToString()
         {
             return Settings.ProfileName ?? "Unknown";
         }
 
+
+        public Profile()
+        {
+            ServicesState = new ServicesStateManager(this);
+        }
         public void InitProfile()
         {
-            //Stopwatch _sw = new Stopwatch();
-
-            //Logger.Log.Info(this, "завантажуємо плагіни: ", Settings.ProfileName);
-            //_sw.Start();
             LoadPlugins();
-            //_sw.Stop();
-            //Logger.Log.Info(this, "завантаження плагінів: ", _sw.ElapsedMilliseconds);
-            //_sw.Reset();
-            //_sw.Start();
-            //Logger.Log.Info(this, "ініціалізація ScriptEngine: ", Settings.ProfileName);
-            //ScriptEngine = new CSScriptEngine.CSScriptEngine(this);
-            ScriptEngine = new PythonScriptEngine(this);
-            //_sw.Stop();
-            //Logger.Log.Info(this, "ініціалізація Python: ", _sw.ElapsedMilliseconds);
-            //_sw.Reset();
 
-            //Logger.Log.Info(this, "завантаження налаштувань з диску: ", Settings.ProfileName);
-            //_sw.Start();
+            ScriptEngine = new PythonScriptEngine(this);
+            
             LoadSettingsFromDisk();
-            //_sw.Stop();
-            //Logger.Log.Info(this, "завантаження налаштувань з диску: ", _sw.ElapsedMilliseconds);
-            //_sw.Reset();
-            //Logger.Log.Info(this, "завантаження налаштувань з бази даних: ", Settings.ProfileName);
-            //_sw.Start();
             LoadSettingsFromBase();
-            //_sw.Stop();
-            //Logger.Log.Info(this, "завантаження налаштувань з бази даних: ", _sw.ElapsedMilliseconds);
 
             IsInitialized = true;
         }
@@ -89,7 +72,31 @@ namespace JobSpace.Profiles
 
         private void LoadSettingsFromBase()
         {
-            Base = new BaseManager(new MongoRepository(), Settings.GetBaseSettings());
+            var state = ServicesState.Create();
+            state.Name = "База данних";
+            state.Tooltip = "Підключення до бази данних";
+            state.Image = Properties.Resources.Hopstarter_Soft_Scraps_Button_Blank_Gray_16;
+
+
+            var repo = new MongoRepository();
+            repo.OnChangeConnectionState += (sender, isConnected) =>
+            {
+                if (isConnected)
+                {
+                    state.Tooltip = "Підключено до бази данних";
+                    state.Description = $"Підключено до бази данних {Settings.GetBaseSettings().MongoDbBaseName}";
+                    state.Image = Properties.Resources.Hopstarter_Soft_Scraps_Button_Blank_Green_16;
+                }
+                else
+                {
+                    state.Tooltip = "Відсутнє підключення до бази данних";
+                    state.Description = $"Відсутнє підключення до бази данних {Settings.GetBaseSettings().MongoDbBaseName}";
+                    state.Image = Properties.Resources.Hopstarter_Soft_Scraps_Button_Blank_Red_16;
+                }
+                Events.ServiceStateEvents.UpdateServiceState(this, state);
+            };
+
+            Base = new BaseManager(repo, Settings.GetBaseSettings());
             if (Base.Connect())
             {
                 Customers = new CustomerManager(this);
@@ -110,25 +117,11 @@ namespace JobSpace.Profiles
 
         private void LoadSettingsFromDisk()
         {
-            //Stopwatch _sw = new Stopwatch();
-            //_sw.Start();
             Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", Settings.ProfileName);
-             SearchHistory = new SearchHistory(this);
-            //_sw.Stop();
-            //Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", _sw.ElapsedMilliseconds);
-            //_sw.Reset();
-            //_sw.Start();
+            SearchHistory = new SearchHistory(this);
             Logger.Log.Info(this, "завантаження налаштувань з диску: MenuManagers", Settings.ProfileName);
             MenuManagers = new MenuManager(this);
-            //_sw.Stop();
-            //Logger.Log.Info(this, "завантаження налаштувань з диску: MenuManagers", _sw.ElapsedMilliseconds);
-            //_sw.Reset();
-            //Logger.Log.Info(this, "завантаження налаштувань з диску: FileBrowser", Settings.ProfileName);
-            //_sw.Start();
             FileBrowser = new FileBrowsers(this);
-            //_sw.Stop();
-            //Logger.Log.Info(this, "завантаження налаштувань з диску: FileBrowser", _sw.ElapsedMilliseconds);
-
             ImposService = new ImposSaveLoadService(this);
 
         }

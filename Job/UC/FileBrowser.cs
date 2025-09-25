@@ -562,8 +562,6 @@ namespace JobSpace.UC
             Process.Start(pi);
         }
 
-        private bool _copyPathToClipboadToSend;
-
         private void ObjectListView1_DoubleClick(object sender, EventArgs e)
         {
 
@@ -1082,11 +1080,7 @@ namespace JobSpace.UC
                         catch
                         {
                         }
-
                     }
-
-                    if (_copyPathToClipboadToSend)
-                        Clipboard.SetText(info1.FileInfo.FullName);
                 }
             }
         }

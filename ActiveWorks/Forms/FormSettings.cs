@@ -310,10 +310,14 @@ namespace ActiveWorks
         {
             var setup = _currentProfile.Settings;
 
-            setup.GetJobSettings().WorkPath = textBox_Work.Text;
-            setup.GetJobSettings().SignaJobsPath = textBoxFolderSignaJobs.Text;
-            setup.GetJobSettings().UseJobFolder = kryptonCheckBox1.Checked;
-            setup.GetJobSettings().SubFolderForSignaFile = textBox_FolderForSignaFileInJob.Text;
+            var jobSettings = setup.GetJobSettings();
+
+            jobSettings.WorkPath = textBox_Work.Text;
+            jobSettings.SignaJobsPath = textBoxFolderSignaJobs.Text;
+            jobSettings.UseJobFolder = kryptonCheckBox1.Checked;
+            jobSettings.SubFolderForSignaFile = textBox_FolderForSignaFileInJob.Text;
+            jobSettings.SignaFileShablon = textBoxSignaShablon.Text;
+            jobSettings.StoreByYear = checkBoxStoreByYear.Checked;
 
             var baseSettings = setup.GetBaseSettings();
 
@@ -361,8 +365,7 @@ namespace ActiveWorks
             browser.ViewerCommandLine = textBoxViewerCommandLine.Text;
             browser.UseViewer = checkBoxUseViewer.Enabled;
 
-            setup.GetJobSettings().SignaFileShablon = textBoxSignaShablon.Text;
-            setup.GetJobSettings().StoreByYear = checkBoxStoreByYear.Checked;
+            
 
 
             setup.HideCategory = checkBoxHideCategory.Checked;
@@ -393,51 +396,60 @@ namespace ActiveWorks
 
             var setup = _currentProfile.Settings;
 
-            textBox_Work.Text = setup.GetJobSettings().WorkPath;
+            var baseSettings = setup.GetBaseSettings();
+            var jobSettings = setup.GetJobSettings();
+            var browser = setup.GetFileBrowser();
+            var mail = setup.GetMail();
 
-            textBoxBaseName.Text = setup.GetBaseSettings().MongoDbBaseName;
-            textBox_mongoDB.Text = setup.GetBaseSettings().MongoDbServer;
+            textBox_Work.Text = jobSettings.WorkPath;
+
+            textBoxBaseName.Text = baseSettings.MongoDbBaseName;
+            textBox_mongoDB.Text = baseSettings.MongoDbServer;
+            numericUpDownBaseTimeOut.Value = baseSettings.BaseTimeOut;
 
             objectListViewSendTo.ClearObjects();
             objectListViewSendTo.AddObjects(_currentProfile.MenuManagers.SendTo.Get());
             objectListView_Utils.ClearObjects();
             objectListView_Utils.AddObjects(_currentProfile.MenuManagers.Utils.Get());
 
-            textBoxFolderSignaJobs.Text = setup.GetJobSettings().SignaJobsPath;
-            kryptonCheckBox1.Checked = setup.GetJobSettings().UseJobFolder;
-            textBox_FolderForSignaFileInJob.Text = setup.GetJobSettings().SubFolderForSignaFile;
+            textBoxFolderSignaJobs.Text = jobSettings.SignaJobsPath;
+            kryptonCheckBox1.Checked = jobSettings.UseJobFolder;
+            textBox_FolderForSignaFileInJob.Text = jobSettings.SubFolderForSignaFile;
+            checkBoxStoreByYear.Checked = jobSettings.StoreByYear;
+            textBoxSignaShablon.Text = jobSettings.SignaFileShablon;
 
             // mail
 
             cb_mail_connection_type.DataSource = Enum.GetValues(typeof(MailConnectTypeEnum));
-            cb_mail_connection_type.SelectedIndex = (int)setup.GetMail().MailConnectType;
+            cb_mail_connection_type.SelectedIndex = (int)mail.MailConnectType;
 
-            tb_mail_gmail_settings_secret_file.Text = setup.GetMail().ClientSecretFile;
+            tb_mail_gmail_settings_secret_file.Text = mail.ClientSecretFile;
 
-            textBox_MailFrom.Text = setup.GetMail().MailFrom;
-            textBox_MailPassword.Text = setup.GetMail().MailFromPassword;
-            textBox_ImapServer.Text = setup.GetMail().MailImapHost;
-            numericUpDown_ImapPort.Value = setup.GetMail().MailImapPort;
-            textBoxSmtpServer.Text = setup.GetMail().MailSmtpServer;
-            numericUpDownSmtpPort.Value = setup.GetMail().MailSmtpPort;
+            textBox_MailFrom.Text = mail.MailFrom;
+            textBox_MailPassword.Text = mail.MailFromPassword;
+            textBox_ImapServer.Text = mail.MailImapHost;
+            numericUpDown_ImapPort.Value = mail.MailImapPort;
+            textBoxSmtpServer.Text = mail.MailSmtpServer;
+            numericUpDownSmtpPort.Value = mail.MailSmtpPort;
+            checkBoxMailAutoRelogon.Checked = mail.MailAutoRelogon;
 
             listBox_SendEmails.Items.Clear();
-            if (setup.GetMail().MailTo.Any())
+            if (mail.MailTo.Any())
             {
-                listBox_SendEmails.Items.AddRange(setup.GetMail().MailTo.ToArray());
+                listBox_SendEmails.Items.AddRange(mail.MailTo.ToArray());
             }
             olv_mail_templates.ClearObjects();
             olv_mail_templates.AddObjects(_currentProfile.MailNotifier.GetMailTemplates());
 
 
             listBox_CustomButtonFolder.Items.Clear();
-            if (setup.GetFileBrowser().CustomButtonPath.Any())
+            if (browser.CustomButtonPath.Any())
             {
-                listBox_CustomButtonFolder.Items.AddRange(setup.GetFileBrowser().CustomButtonPath.ToArray());
+                listBox_CustomButtonFolder.Items.AddRange(browser.CustomButtonPath.ToArray());
             }
 
             listBoxFolderNames.Items.Clear();
-            listBoxFolderNames.Items.AddRange(setup.GetFileBrowser().FolderNamesForCreate?.ToArray());
+            listBoxFolderNames.Items.AddRange(browser.FolderNamesForCreate?.ToArray());
 
             listBox_Ftp_Servers.Items.Clear();
             listBox_Ftp_Servers.DisplayMember = "Name";
@@ -445,25 +457,18 @@ namespace ActiveWorks
                 listBox_Ftp_Servers.Items.AddRange(_currentProfile.Ftp.GetCollection().ToArray());
 
             numericUpDownCountExplorers.Value = setup.CountExplorers;
-            textBoxSignaShablon.Text = setup.GetJobSettings().SignaFileShablon;
-
-            checkBoxMailAutoRelogon.Checked = setup.GetMail().MailAutoRelogon;
-
-            numericUpDownBaseTimeOut.Value = setup.GetBaseSettings().BaseTimeOut;
-
+            
             objectListViewStatuses.Objects = _currentProfile.StatusManager?.GetJobStatuses();
-
-            checkBoxStoreByYear.Checked = setup.GetJobSettings().StoreByYear;
+            
             checkBoxHideCategory.Checked = setup.HideCategory;
 
-            textBoxViewer.Text = setup.GetFileBrowser().Viewer;
-            textBoxViewerCommandLine.Text = setup.GetFileBrowser().ViewerCommandLine;
-            checkBoxUseViewer.Checked = setup.GetFileBrowser().UseViewer;
+            textBoxViewer.Text = browser.Viewer;
+            textBoxViewerCommandLine.Text = browser.ViewerCommandLine;
+            checkBoxUseViewer.Checked = browser.UseViewer;
 
             checkBoxMoveOriginalFileToTrash.Checked = setup.GetPdfConverterSettings().MoveOriginalsToTrash;
             //plugins
             LoadPluginsInfo();
-
             LoadFtpScripts();
             ReloadCategories();
         }

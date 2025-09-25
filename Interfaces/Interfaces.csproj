@@ -108,6 +108,9 @@
     <Compile Include="IPart.cs" />
     <Compile Include="IPdfConverterSettings.cs" />
     <Compile Include="IPlateFormat.cs" />
+    <Compile Include="IServicesStateManager.cs" />
+    <Compile Include="IServiceState.cs" />
+    <Compile Include="IServiceStateEvents.cs" />
     <Compile Include="IWithId.cs" />
     <Compile Include="Pdf\Imposition\IImpositionFactory.cs" />
     <Compile Include="Pdf\Imposition\IPrintSheet.cs" />
