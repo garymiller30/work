@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Interfaces.Enums;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Interfaces
         string Name { get; set; }
         string Tooltip { get; set; }
         string Description { get; set; }
+        ServiceStateEnum State { get; set; }
         Image Image { get; set; }
     }
 }

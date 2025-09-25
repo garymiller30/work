@@ -222,10 +222,12 @@ namespace ActiveWorks
                 var button = new KryptonRibbonGroupButton
                 {
                     TextLine1 = service.Name,
-                    ImageSmall = service.Image,
+                    ImageSmall = profile.ServicesState.GetImage(service),
                     Tag = service
                 };
-                button.ToolTipValues.Heading = service.Tooltip;
+                button.ToolTipValues.Heading = $"Статус {service.Name}";
+                button.ToolTipValues.Description = service.Tooltip;
+                button.ToolTipValues.EnableToolTips = true;
                 button.Click += (sender, args) =>
                 {
                     MessageBox.Show(service.Description, service.Name, MessageBoxButtons.OK,
@@ -245,7 +247,7 @@ namespace ActiveWorks
                     var button = new KryptonRibbonGroupButton
                     {
                         TextLine1 = e.Name,
-                        ImageSmall = e.Image,
+                        ImageSmall = profile.ServicesState.GetImage(e),
                         Tag = e
                     };
 
@@ -268,9 +270,9 @@ namespace ActiveWorks
                         .FirstOrDefault(x => ((IServiceState)x.Tag).Id == e.Id);
                     if (button != null)
                     {
-                        button.ImageSmall = e.Image;
+                        button.ImageSmall = profile.ServicesState.GetImage(e);
                         button.TextLine1 = e.Name;
-                        button.ToolTipValues.Heading = e.Tooltip;
+                        button.ToolTipValues.Description = e.Tooltip;
                     }
                 }));
             };
