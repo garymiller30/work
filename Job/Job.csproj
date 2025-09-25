@@ -318,9 +318,17 @@
     </Compile>
     <Compile Include="Data\MongoRepository.cs" />
     <Compile Include="Fasades\SearchManager.cs" />
+    <Compile Include="Fasades\ServicesStateManager.cs" />
     <Compile Include="Models\JobListFilter.cs" />
     <Compile Include="Models\PantoneTable.cs" />
     <Compile Include="Models\PdfColorResult.cs" />
+    <Compile Include="Models\ServiceState.cs" />
+    <Compile Include="Profiles\ProfileEvents\ServicesStateEvents.cs" />
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Static\Pdf\ColorSpaces\ColorExtractionListener.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\PdfColorExtractor.cs" />
     <Compile Include="Static\Pdf\Common\CMYKColor.cs" />
@@ -782,11 +790,6 @@
     <Compile Include="Profiles\ProfileSettings.cs" />
     <Compile Include="Profiles\RabbitMqSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="ReportCustomerTree.cs" />
     <Compile Include="ReportJobsTree.cs" />
     <Compile Include="ReportPlateFormatTree.cs" />
@@ -1400,6 +1403,9 @@
     <None Include="Resources\users-2-icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Hopstarter-Soft-Scraps-Button-Blank-Gray.16.png" />
+    <None Include="Hopstarter-Soft-Scraps-Button-Blank-Green.16.png" />
+    <None Include="Hopstarter-Soft-Scraps-Button-Blank-Red.16.png" />
     <Content Include="mongocrypt.dll" />
     <Content Include="PDFlib_dotnet_native.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

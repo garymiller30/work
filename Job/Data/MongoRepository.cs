@@ -16,6 +16,8 @@ namespace JobSpace.Data
     {
         private IMongoDatabase _mongoDatabase;
 
+        public EventHandler<bool> OnChangeConnectionState { get; set; } = delegate { };
+
         public bool IsConnected { get; private set; }
 
         public void CreateConnection(string server, int port, string user, string password, string databaseName)
@@ -35,7 +37,13 @@ namespace JobSpace.Data
 
         private void Cluster_DescriptionChanged(object sender, MongoDB.Driver.Core.Clusters.ClusterDescriptionChangedEventArgs e)
         {
-            IsConnected = e.NewClusterDescription.State == MongoDB.Driver.Core.Clusters.ClusterState.Connected;
+            var newState = e.NewClusterDescription.State == MongoDB.Driver.Core.Clusters.ClusterState.Connected;
+            if (newState != IsConnected)
+            {
+                IsConnected = newState;
+                OnChangeConnectionState(this, IsConnected);
+            }
+
             Debug.WriteLine($"Mongodb description:{e.NewClusterDescription.State}");
         }
 
@@ -43,6 +51,9 @@ namespace JobSpace.Data
         public void CreateConnection(string connectingString,string databaseName,int timeout = 10)
         {
             var client = new MongoClient(connectingString);
+
+            IsConnected = client.Cluster.Description.State == MongoDB.Driver.Core.Clusters.ClusterState.Connected;
+            OnChangeConnectionState(this, IsConnected);
 
             Debug.WriteLine($"Mongodb description:{client.Cluster.Description.State}");
             client.Cluster.DescriptionChanged += Cluster_DescriptionChanged;

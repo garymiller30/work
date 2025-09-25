@@ -59,11 +59,6 @@ namespace ActiveWorks
             Process.Start("https://github.com/garymiller30/work/issues");
         }
 
-        //private void ThemeController_ThemeChanged(object sender, EventArgs e)
-        //{
-        //    kryptonManager1.GlobalPaletteMode = ThemeController.Theme == ThemeEnum.Light ? PaletteMode.Office2010Silver : PaletteMode.SparkleBlueDarkMode;
-        //}
-
         private void BackgroundTaskService_OnAllFinish(object sender, EventArgs e)
         {
             this.InvokeIfNeeded(new Action(() => buttonSpecBackgroundTasks.ExtraText = ""));
@@ -162,7 +157,13 @@ namespace ActiveWorks
                 Log.Info("App", "App", $"profile '{profile.Settings.ProfileName}' loaded by {sw.ElapsedMilliseconds} ms");
             }
         }
-
+        /// <summary>
+        /// Creates a new profile tab in the ribbon and initializes the associated profile form.
+        /// </summary>
+        /// <remarks>This method adds a new tab to the ribbon control, initializes a corresponding profile
+        /// form,  and associates the form with the tab. The profile form is displayed as an MDI child of the current
+        /// window.</remarks>
+        /// <param name="profile">The profile object containing the settings and data to be displayed in the tab and form.</param>
         private void CreateProfileTab(JobSpace.Profiles.Profile profile)
         {
             var tab = new KryptonRibbonTab { Text = profile.Settings.ProfileName };
@@ -203,7 +204,79 @@ namespace ActiveWorks
             CreateViewFilterGroup(tab, profile);
             CreateSearchGroup(tab, profile);
             CreateSettingsGroup(formProfile, tab, profile);
+            CreateServiceStateGroup(tab,profile);
         }
+
+        private void CreateServiceStateGroup(KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
+        {
+            var group = new KryptonRibbonGroup
+            {
+                TextLine1 = @"Стан сервісів",
+                MinimumWidth = 100,
+            };
+            // сюди будуть додаватися кнопки стану сервісів
+            var groupTriple = new KryptonRibbonGroupLines();
+
+            foreach (IServiceState service in profile.ServicesState.GetAll())
+            {
+                var button = new KryptonRibbonGroupButton
+                {
+                    TextLine1 = service.Name,
+                    ImageSmall = service.Image,
+                    Tag = service
+                };
+                button.ToolTipValues.Heading = service.Tooltip;
+                button.Click += (sender, args) =>
+                {
+                    MessageBox.Show(service.Description, service.Name, MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                };
+                groupTriple.Items.Add(button);
+            }
+
+            group.Items.Add(groupTriple);
+            tab.Groups.Add(group);
+
+            // підписка на події зміни стану сервісів
+            profile.Events.ServiceStateEvents.AddServiceState += (s, e) =>
+            {
+                this.InvokeIfNeeded(new Action(() =>
+                {
+                    var button = new KryptonRibbonGroupButton
+                    {
+                        TextLine1 = e.Name,
+                        ImageSmall = e.Image,
+                        Tag = e
+                    };
+
+                    button.ToolTipValues.Heading = e.Tooltip;
+
+                    button.Click += (sender, args) =>
+                    {
+                        MessageBox.Show(e.Description, e.Name, MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+                    };
+                    groupTriple.Items.Add(button);
+                }));
+            };
+
+            profile.Events.ServiceStateEvents.UpdateServiceState += (s, e) =>
+            {
+                this.InvokeIfNeeded(new Action(() =>
+                {
+                    var button = groupTriple.Items.OfType<KryptonRibbonGroupButton>()
+                        .FirstOrDefault(x => ((IServiceState)x.Tag).Id == e.Id);
+                    if (button != null)
+                    {
+                        button.ImageSmall = e.Image;
+                        button.TextLine1 = e.Name;
+                        button.ToolTipValues.Heading = e.Tooltip;
+                    }
+                }));
+            };
+        }
+
+
 
         private void CreateSettingsGroup(IFormProfile formProfile, KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
@@ -673,10 +746,6 @@ namespace ActiveWorks
             Settings.Default.VirtualScreenY = vs.Y;
             Settings.Default.VirtualScreenW = vs.Width;
             Settings.Default.VirtualScreenH = vs.Height;
-            // Copy window size to app settings
-            //Settings.Default.WindowSize =
-            //    WindowState == FormWindowState.Normal ?
-            //    Size : RestoreBounds.Size;
 
             // Save settings
             Settings.Default.Save();
