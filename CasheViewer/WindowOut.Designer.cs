@@ -41,8 +41,9 @@
             this.toolStripButtonPayed = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonSettings = new System.Windows.Forms.ToolStripButton();
-            this.panelControlReport = new System.Windows.Forms.Panel();
             this.toolStripButtonTotalPayedByCustomer = new System.Windows.Forms.ToolStripButton();
+            this.panelControlReport = new System.Windows.Forms.Panel();
+            this.tsb_pay_custom = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -90,12 +91,13 @@
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonJobs,
             this.toolStripButtonReportYears,
             this.toolStripSeparator4,
             this.toolStripButtonPayed,
+            this.tsb_pay_custom,
             this.toolStripSeparator5,
             this.toolStripButtonSettings,
             this.toolStripButtonTotalPayedByCustomer});
@@ -156,14 +158,6 @@
             this.toolStripButtonSettings.Text = "Налаштування";
             this.toolStripButtonSettings.Click += new System.EventHandler(this.toolStripButtonSettings_Click);
             // 
-            // panelControlReport
-            // 
-            this.panelControlReport.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControlReport.Location = new System.Drawing.Point(0, 25);
-            this.panelControlReport.Name = "panelControlReport";
-            this.panelControlReport.Size = new System.Drawing.Size(433, 208);
-            this.panelControlReport.TabIndex = 3;
-            // 
             // toolStripButtonTotalPayedByCustomer
             // 
             this.toolStripButtonTotalPayedByCustomer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -173,6 +167,24 @@
             this.toolStripButtonTotalPayedByCustomer.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonTotalPayedByCustomer.Text = "Показати скільки було сплачено взагалі";
             this.toolStripButtonTotalPayedByCustomer.Click += new System.EventHandler(this.toolStripButtonTotalPayedByCustomer_Click);
+            // 
+            // panelControlReport
+            // 
+            this.panelControlReport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelControlReport.Location = new System.Drawing.Point(0, 25);
+            this.panelControlReport.Name = "panelControlReport";
+            this.panelControlReport.Size = new System.Drawing.Size(433, 208);
+            this.panelControlReport.TabIndex = 3;
+            // 
+            // tsb_pay_custom
+            // 
+            this.tsb_pay_custom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_pay_custom.Image = ((System.Drawing.Image)(resources.GetObject("tsb_pay_custom.Image")));
+            this.tsb_pay_custom.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_pay_custom.Name = "tsb_pay_custom";
+            this.tsb_pay_custom.Size = new System.Drawing.Size(23, 22);
+            this.tsb_pay_custom.Text = "Відмітити певну суму";
+            this.tsb_pay_custom.Click += new System.EventHandler(this.tsb_pay_custom_Click);
             // 
             // WindowOut
             // 
@@ -207,5 +219,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonReportYears;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripButton toolStripButtonTotalPayedByCustomer;
+        private System.Windows.Forms.ToolStripButton tsb_pay_custom;
     }
 }
