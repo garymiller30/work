@@ -8,7 +8,9 @@ using System.Windows.Forms;
 using CasheViewer.Reports;
 using CasheViewer.UC;
 using Interfaces;
+using JobSpace.Dlg;
 using JobSpace.Profiles;
+using JobSpace.UserForms;
 
 namespace CasheViewer
 {
@@ -155,6 +157,18 @@ namespace CasheViewer
             _report = new ReportCustomerPayByYear() { UserProfile = UserProfile };
             _curReportControl.ShowReport( _report);
             ShowTotal();
+        }
+
+        private void tsb_pay_custom_Click(object sender, EventArgs e)
+        {
+            using (var form = new FormTirag())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    _curReportControl.PayCustomSum(_report,form.Tirag);
+                    RefreshReport();
+                }
+            }
         }
     }
 }

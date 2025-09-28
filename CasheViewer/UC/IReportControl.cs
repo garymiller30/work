@@ -11,5 +11,6 @@ namespace CasheViewer.UC
         void ShowReport(IReport report);
 
         void PaySelected(IReport report);
+        void PayCustomSum(IReport report, int tirag);
     }
 }
