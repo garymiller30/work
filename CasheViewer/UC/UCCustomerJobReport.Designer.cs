@@ -36,6 +36,8 @@
             this.olvColumnCategory = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn_Description = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn_Price = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn_ConsumerPrice = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn_PriceWithConsumerPrice = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.treeListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,6 +49,8 @@
             this.treeListView1.AllColumns.Add(this.olvColumnCategory);
             this.treeListView1.AllColumns.Add(this.olvColumn_Description);
             this.treeListView1.AllColumns.Add(this.olvColumn_Price);
+            this.treeListView1.AllColumns.Add(this.olvColumn_ConsumerPrice);
+            this.treeListView1.AllColumns.Add(this.olvColumn_PriceWithConsumerPrice);
             this.treeListView1.AllowColumnReorder = true;
             this.treeListView1.CellEditUseWholeCell = false;
             this.treeListView1.CheckBoxes = true;
@@ -56,7 +60,9 @@
             this.olvColumn_OrderNumber,
             this.olvColumnCategory,
             this.olvColumn_Description,
-            this.olvColumn_Price});
+            this.olvColumn_Price,
+            this.olvColumn_ConsumerPrice,
+            this.olvColumn_PriceWithConsumerPrice});
             this.treeListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.treeListView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeListView1.FullRowSelect = true;
@@ -65,6 +71,7 @@
             this.treeListView1.Location = new System.Drawing.Point(0, 0);
             this.treeListView1.Name = "treeListView1";
             this.treeListView1.ShowGroups = false;
+            this.treeListView1.ShowImagesOnSubItems = true;
             this.treeListView1.Size = new System.Drawing.Size(436, 253);
             this.treeListView1.TabIndex = 1;
             this.treeListView1.UseCompatibleStateImageBehavior = false;
@@ -101,6 +108,20 @@
             this.olvColumn_Price.Text = "Ціна";
             this.olvColumn_Price.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
+            // olvColumn_ConsumerPrice
+            // 
+            this.olvColumn_ConsumerPrice.AspectName = "ConsumerPrice";
+            this.olvColumn_ConsumerPrice.AspectToStringFormat = "{0:F1}";
+            this.olvColumn_ConsumerPrice.Text = "ІСЦ, %";
+            this.olvColumn_ConsumerPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // olvColumn_PriceWithConsumerPrice
+            // 
+            this.olvColumn_PriceWithConsumerPrice.AspectName = "SumWithConsumerPrice";
+            this.olvColumn_PriceWithConsumerPrice.AspectToStringFormat = "{0:F0}";
+            this.olvColumn_PriceWithConsumerPrice.Text = "Ціна з ІСЦ";
+            this.olvColumn_PriceWithConsumerPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // UCCustomerJobReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -122,5 +143,7 @@
         private BrightIdeasSoftware.OLVColumn olvColumnCategory;
         private BrightIdeasSoftware.OLVColumn olvColumn_Description;
         private BrightIdeasSoftware.OLVColumn olvColumn_Price;
+        private BrightIdeasSoftware.OLVColumn olvColumn_ConsumerPrice;
+        private BrightIdeasSoftware.OLVColumn olvColumn_PriceWithConsumerPrice;
     }
 }

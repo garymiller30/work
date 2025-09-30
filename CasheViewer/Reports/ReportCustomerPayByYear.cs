@@ -22,47 +22,7 @@ namespace CasheViewer.Reports
 
         private List<JobNodeRoot> GetJobsByCustomers()
         {
-//            var expTime = new DateTime(2020,5,12);
-
-//            // тимчасове рішення до поки не вийде термін оплати за місяці де використовується 
-//            var jobs = UserProfile.Jobs.GetJobs()
-//#pragma warning disable CS0612 // 'IJob.IsCashe' is obsolete
-//#pragma warning disable CS0612 // 'IJob.IsCashePayed' is obsolete
-//                .Where(x => x.IsCashe && x.IsCashePayed && x.Date.Date < expTime.Date)
-//#pragma warning restore CS0612 // 'IJob.IsCashePayed' is obsolete
-//#pragma warning restore CS0612 // 'IJob.IsCashe' is obsolete
-//                .GroupBy(y => y.Customer);
-            
             var reportDate = new List<JobNodeRoot>();
-
-//            foreach (var job in jobs)
-//            {
-//                var rd = new JobNodeRoot() { Name = job.Key };
-
-//                rd.Children =
-//                    job.GroupBy(x => x.Date.ToString("yy.MM"))
-//                        .Select(y => (INode)new JobNodeRoot()
-//                        {
-//                            Name = y.Key,
-//                            Children = y
-//                                .Select(u => (INode)new JobNode()
-//                                {
-//                                    Date = u.Date,
-//                                    Number = u.Number,
-//                                    Description = u.Description,
-//                                    Category = UserProfile.Categories.GetCategoryNameById(u.CategoryId),
-//#pragma warning disable CS0612 // 'IJob.CachePayedSum' is obsolete
-//                                    Sum = u.CachePayedSum,
-//#pragma warning restore CS0612 // 'IJob.CachePayedSum' is obsolete
-//                                    Job = u,
-//                                    ForegroundColor = Color.Black,
-//                                    ReportVersion = ReportVersionEnum.Version1
-//                                }).ToList()
-//                        }).ToList();
-
-//                reportDate.Add(rd);
-//            }
-
             // тепер візьмемо інфу з плагінів
             var preportPlugins = GetJobsByCustomerRootByPlugin(true);
 
@@ -169,9 +129,7 @@ namespace CasheViewer.Reports
         }
 
         public decimal Total { get; set; }
-
-
-
-
+        public DateTime DateMin { get; set; } = DateTime.Now;
+        public decimal TotalWithConsumerPrice { get; set; }
     }
 }

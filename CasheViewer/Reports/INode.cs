@@ -8,6 +8,8 @@ namespace CasheViewer.Reports
     {
         string Name { get; set; }
         decimal Sum { get; set; }
+        decimal ConsumerPrice { get; set; }
+        decimal SumWithConsumerPrice { get;set; }
         List<INode> Children { get; set; }
 
         DateTime Date { get; set; }

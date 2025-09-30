@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Interfaces;
@@ -17,6 +18,8 @@ namespace CasheViewer.Reports
         }
 
         public decimal Total { get; set; }
+        public DateTime DateMin { get; set; } = DateTime.Now;
+        public decimal TotalWithConsumerPrice { get; set; }
 
         public List<JobNodeRoot> GetJobsByCustomers(bool isPayed)
         {

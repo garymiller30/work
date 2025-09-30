@@ -12,5 +12,6 @@ namespace CasheViewer.UC
 
         void PaySelected(IReport report);
         void PayCustomSum(IReport report, int tirag);
+        void ApplyConsumerPriceIndices(IReport report);
     }
 }

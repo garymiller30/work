@@ -99,12 +99,13 @@ namespace CasheViewer
         private void RefreshReport()
         {
             _curReportControl.ShowReport( _report);
-            toolStripStatusLabel_TotalDecimal.Text = _report.Total.ToString("N0");
+            ShowTotal();
         }
 
         private void ShowTotal()
         {
             toolStripStatusLabel_TotalDecimal.Text = _report.Total.ToString("N0");
+            tssl_PriceWithCPI.Text = $"{_report.TotalWithConsumerPrice.ToString("N0")} ({(_report.TotalWithConsumerPrice - _report.Total).ToString("N0")})"  ;
         }
 
         private void ShowSettings()
@@ -169,6 +170,11 @@ namespace CasheViewer
                     RefreshReport();
                 }
             }
+        }
+
+        private void tsb_load_consumer_price_indices_Click(object sender, EventArgs e)
+        {
+            _curReportControl.ApplyConsumerPriceIndices(_report);
         }
     }
 }
