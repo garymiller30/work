@@ -190,6 +190,12 @@ namespace CasheViewer.UC
 
         }
 
-
+        public void ApplyConsumerPriceIndices(IReport report)
+        {
+            // знайти в рапорті найменшу дату
+           var dateMin = report.DateMin;
+            // отрмати індекс інфляції, починаючи з цієї дати і до сьогодні
+            var indices = ConsumerPriceIndices.GetConsumerPrices(dateMin.Year,dateMin.Month);
+        }
     }
 }
