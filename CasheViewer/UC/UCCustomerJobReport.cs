@@ -12,6 +12,7 @@ namespace CasheViewer.UC
     {
 
         IUserProfile _profile;
+        IReport _report;
 
         public UCCustomerJobReport(IUserProfile profile)
         {
@@ -35,12 +36,12 @@ namespace CasheViewer.UC
 
         public void ShowReport(IReport report)
         {
-
+            _report = report;
             treeListView1.ClearObjects();
             treeListView1.AddObjects(report.GetNodes());
         }
 
-        public void PayCustomSum(IReport report, int tirag)
+        public void PayCustomSum(int tirag)
         {
             var settings = _profile.Plugins.LoadSettings<CasheSettings>();
             var status = _profile.StatusManager.GetJobStatusByCode(settings.PayStatusCode);
@@ -119,7 +120,7 @@ namespace CasheViewer.UC
             return recursedTirag;
         }
 
-        public void PaySelected(IReport report)
+        public void PaySelected()
         {
             var settings = _profile.Plugins.LoadSettings<CasheSettings>();
             var status = _profile.StatusManager.GetJobStatusByCode(settings.PayStatusCode);
@@ -190,12 +191,19 @@ namespace CasheViewer.UC
 
         }
 
-        public void ApplyConsumerPriceIndices(IReport report)
+        public void ApplyConsumerPriceIndices()
         {
-            // знайти в рапорті найменшу дату
-           var dateMin = report.DateMin;
-            // отрмати індекс інфляції, починаючи з цієї дати і до сьогодні
-            var indices = ConsumerPriceIndices.GetConsumerPrices(dateMin.Year,dateMin.Month);
+            if (treeListView1.Objects == null) return;
+
+            foreach (INode r in treeListView1.Objects)
+            {
+                ConsumerPriceView priceView = ConsumerPriceIndices.GetConsumerPrice(r.Date);
+                r.ConsumerPrice = priceView.ValueTask;
+                r.SumWithConsumerPrice = ConsumerPriceIndices.CalcSumWithConsumerPrice(r.Sum,r.Date);
+                treeListView1.RefreshObject(r);
+            }
+
+            _report.TotalWithConsumerPrice = _report.GetNodes().Sum(x => x.SumWithConsumerPrice);
         }
     }
 }

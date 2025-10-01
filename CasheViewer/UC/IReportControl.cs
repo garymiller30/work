@@ -10,8 +10,8 @@ namespace CasheViewer.UC
         event EventHandler<decimal> OnChangeSelected;
         void ShowReport(IReport report);
 
-        void PaySelected(IReport report);
-        void PayCustomSum(IReport report, int tirag);
-        void ApplyConsumerPriceIndices(IReport report);
+        void PaySelected();
+        void PayCustomSum(int tirag);
+        void ApplyConsumerPriceIndices();
     }
 }

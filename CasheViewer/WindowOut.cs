@@ -134,7 +134,7 @@ namespace CasheViewer
 
         private void toolStripButtonPayed_Click(object sender, EventArgs e)
         {
-            _curReportControl.PaySelected(_report);
+            _curReportControl.PaySelected();
             RefreshReport();
 
         }
@@ -166,7 +166,7 @@ namespace CasheViewer
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    _curReportControl.PayCustomSum(_report,form.Tirag);
+                    _curReportControl.PayCustomSum(form.Tirag);
                     RefreshReport();
                 }
             }
@@ -174,7 +174,8 @@ namespace CasheViewer
 
         private void tsb_load_consumer_price_indices_Click(object sender, EventArgs e)
         {
-            _curReportControl.ApplyConsumerPriceIndices(_report);
+            _curReportControl.ApplyConsumerPriceIndices();
+            ShowTotal();
         }
     }
 }

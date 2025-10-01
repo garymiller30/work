@@ -15,15 +15,17 @@ namespace CasheViewer.Reports
         public decimal TotalWithConsumerPrice { get;set;}
         public DateTime DateMin { get; set; } = DateTime.MaxValue;
 
+        List<INode> nodes;
+
         public List<INode> GetNodes()
         {
-            Total = 0;
+            if (nodes != null) return nodes;
 
-            var newVariant = GetJobsByCustomerRootByPlugin(false);
+            nodes = GetJobsByCustomerRootByPlugin(false).Cast<INode>().ToList();
 
-            Total = newVariant.Sum(x => x.Children.Sum(y => y.Sum));
-            TotalWithConsumerPrice = newVariant.Sum(x => x.SumWithConsumerPrice);
-            return newVariant.Cast<INode>().ToList();
+            Total = nodes.Sum(x => x.Children.Sum(y => y.Sum));
+            //TotalWithConsumerPrice = newVariant.Sum(x => x.SumWithConsumerPrice);
+            return nodes;
         }
 
 
@@ -80,7 +82,10 @@ namespace CasheViewer.Reports
                 int year = int.Parse(parts[0]);
                 int month = int.Parse(parts[1]);
 
-                rd.ConsumerPrice = ConsumerPriceIndices.GetConsumerPrices(year, month)[0].ValueTask;
+                rd.Date = new DateTime(year, month, 1);
+
+
+                //rd.ConsumerPrice = ConsumerPriceIndices.GetConsumerPrices(year, month)[0].ValueTask;
 
                 rd.Children.AddRange(
                     job.Select(u => (INode)new JobNode()
@@ -102,6 +107,8 @@ namespace CasheViewer.Reports
             }
 
             // потрібно вирахувати суму з урахуванням індексу споживчих цін
+            // недолік - місяці мають бути послідовні інакше буде неправильно
+
             for (int i = 0; i < reportDate.Count; i++)
             {
                 var r = reportDate[i];
