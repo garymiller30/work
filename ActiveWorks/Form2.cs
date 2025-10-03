@@ -5,6 +5,7 @@ using Amazon;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.Plugins;
+using JobSpace.Fasades;
 using JobSpace.Profiles;
 using JobSpace.UserForms;
 using Krypton.Ribbon;
@@ -389,6 +390,9 @@ namespace ActiveWorks
         {
             if (profile.Customers is null) return;
 
+           
+            
+
             var group = new KryptonRibbonGroup
             {
                 TextLine1 = @"Пошук",
@@ -403,26 +407,19 @@ namespace ActiveWorks
             group.Image = Resources.Binoculars_icon;
             group.Items.Add(triple1);
 
-            var customerList = new List<string>(profile.Customers.Count());
-
-            foreach (var customer in profile.Customers)
-            {
-                if (customer.Show)
-                    customerList.Add(customer.Name);
-            }
-            var customers = customerList.ToArray();
-
-            // додати cb_searchStr для фільтру по замовникам
             var cb_customers = new KryptonRibbonGroupComboBox();
+            // додати cb_searchStr для фільтру по замовникам
+            
             cb_customers.ComboBox.ToolTipValues.Heading = @"Фільтр по замовнику";
             cb_customers.ComboBox.ToolTipValues.Description = @"Виберіть замовника";
             cb_customers.ComboBox.ToolTipValues.EnableToolTips = true;
 
             AutoCompleteStringCollection customer_data = new AutoCompleteStringCollection();
 
-            //var customers = profile.Customers.Where(x=> x.Show == true).Select(x => x.Name).ToArray();
+            string[] customers = CreateCustomersList(profile);
 
-            if (profile.Customers != null) customer_data.AddRange(customers);
+            if (customers.Length > 0) customer_data.AddRange(customers);
+
             cb_customers.ComboBox.Items.AddRange(customers);
             cb_customers.ComboBox.SelectedIndex = -1;
             cb_customers.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
@@ -442,9 +439,25 @@ namespace ActiveWorks
 
             cb_customers.ButtonSpecs.Add(btn_clearCustomers);
 
+            void OnCustomersChanged(JobSpace.Customer s)
+            {
+                string[] cadd = CreateCustomersList(profile);
+                customer_data.Clear();
+                if (cadd.Length > 0) customer_data.AddRange(cadd);
+                cb_customers.ComboBox.Items.Clear();
+                cb_customers.ComboBox.Items.AddRange(cadd);
+                cb_customers.ComboBox.SelectedIndex = -1;
+            }
+            CustomerManager customersManager = (CustomerManager)profile.Customers;
+            customersManager.OnCustomerAdd += OnCustomersChanged;
+            customersManager.OnCustomerChange += OnCustomersChanged;
+            customersManager.OnCustomerRemove += OnCustomersChanged;
 
             triple1.Items.Add(cb_customers);
 
+
+
+            // додати cb_searchStr для пошуку по базі
             var cb_searchStr = new KryptonRibbonGroupComboBox();
             cb_searchStr.ComboBox.ToolTipValues.Description = @"Введіть слово і натисніть <Enter> для пошуку";
             cb_searchStr.ComboBox.ToolTipValues.Image = Resources.Sql_runner_icon;
@@ -505,7 +518,7 @@ namespace ActiveWorks
             };
             textBox.ButtonSpecs.Add(clearTextBoxBtn);
             triple1.Items.Add(textBox);
-            
+
             var groupLines = new KryptonRibbonGroupLines { ItemSizeMaximum = GroupItemSize.Small };
 
             var statuses = profile.SearchManager.GetStatuses();
@@ -524,9 +537,9 @@ namespace ActiveWorks
                 button.Click += (sender, args) =>
                 {
                     profile.SearchManager.ChangeStatus(s, ((KryptonRibbonGroupButton)sender).Checked);
-                    
+
                 };
-                
+
                 groupLines.Items.Add(button);
             }
             group.Items.Add(groupLines);
@@ -562,12 +575,25 @@ namespace ActiveWorks
                 cb_searchStr.Text = string.Empty;
                 textBox.Text = string.Empty;
                 profile.SearchManager.ClearFilters();
-                
+
             };
 
             triple2.Items.Add(btnReset);
 
             group.Items.Add(triple2);
+        }
+
+        private static string[] CreateCustomersList(JobSpace.Profiles.Profile profile)
+        {
+            var customerList = new List<string>(profile.Customers.Count());
+
+            foreach (var customer in profile.Customers)
+            {
+                if (customer.Show)
+                    customerList.Add(customer.Name);
+            }
+            var customers = customerList.ToArray();
+            return customers;
         }
 
         private static void SetHistoryList(JobSpace.Profiles.Profile profile, KryptonRibbonGroupComboBox cb_searchStr)
