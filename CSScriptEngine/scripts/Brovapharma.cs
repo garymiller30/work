@@ -79,7 +79,10 @@ public class Brovapharma
         double sheet_w = 430;
         double sheet_h = 305;
 
-        imposFactory.AddProductPart().AddPrintSheet(sheet_w, sheet_h).AddMasterPage(210,297,2);//.AddPdfFile("").AddMarks().Impos().Draw();
+        imposFactory
+            .AddProductPart()
+            .AddPrintSheet(sheet_w, sheet_h,TemplateSheetPlaceType.Sheetwise)
+            .AddMasterPage(210,297,2);//.AddPdfFile("").AddMarks().Impos().Draw();
 
 
         foreach (var sheet in order.sheets)

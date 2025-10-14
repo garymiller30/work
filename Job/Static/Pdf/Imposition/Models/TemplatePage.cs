@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
+﻿using Interfaces.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Perfecting;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise;

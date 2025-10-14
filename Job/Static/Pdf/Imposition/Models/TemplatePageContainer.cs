@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+﻿using Interfaces.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;

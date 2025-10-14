@@ -412,7 +412,6 @@
     <Compile Include="Static\Pdf\Imposition\Models\TemplatePageContainer.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\TemplatePlate.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\TemplateSheet.cs" />
-    <Compile Include="Static\Pdf\Imposition\Models\TemplateSheetPlaceType.cs" />
     <Compile Include="Static\Pdf\Imposition\Models\View\PageFormatView.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\CropMarkCreator.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\CropMarksController.cs" />

@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
+﻿using Interfaces.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;

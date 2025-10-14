@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using Interfaces.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Perfecting;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTurn;

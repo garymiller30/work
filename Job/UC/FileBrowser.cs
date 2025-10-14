@@ -282,7 +282,31 @@ namespace JobSpace.UC
             toolStripStatusLabelSelected.Text = GetSelectedFilesSize();
 
             if (IsHandleCreated)
-                kryptonLabelPath.Text = _fileManager.Settings.CurFolder ?? "\\";
+            {
+                var workPath = UserProfile.Settings.GetJobSettings().WorkPath;
+                var jobPath = _fileManager.Settings.CurFolder;
+
+                if (string.IsNullOrEmpty(workPath))
+                {
+                    kryptonLabelPath.Text = "\\";
+                    return;
+                }
+
+                if (!string.IsNullOrEmpty(jobPath) && jobPath.StartsWith(workPath, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var relPath = jobPath.Remove(0, workPath.Length);
+                    if (string.IsNullOrEmpty(relPath)) relPath = "\\";
+                    kryptonLabelPath.Text = relPath;
+                    return;
+                }
+                else
+                {
+                    kryptonLabelPath.Text = jobPath;
+                }
+
+
+            }
+                
         }
 
         private string GetSelectedFilesSize()

@@ -30,11 +30,11 @@ namespace JobSpace.Static.Pdf.Imposition
             return this;
         }
 
-        public IImpositionFactory AddPrintSheet(double w, double h)
+        public IImpositionFactory AddPrintSheet(double w, double h, TemplateSheetPlaceType sheetPlaceType)
         {
             if (curProductPartIdx < 0) throw new Exception("Add Product Part first.");
 
-            var s = new PrintSheet() { W = w, H = h };
+            var s = new PrintSheet() { W = w, H = h,SheetPlaceType = sheetPlaceType };
             _productParts[curProductPartIdx].PrintSheets.Add(s);
 
 

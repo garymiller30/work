@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+﻿using Interfaces.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
 using System.Collections.Generic;
 using System.IO;
