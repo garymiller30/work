@@ -1,4 +1,5 @@
-﻿using JobSpace.Profiles;
+﻿using Interfaces.Pdf.Imposition;
+using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Models;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet;

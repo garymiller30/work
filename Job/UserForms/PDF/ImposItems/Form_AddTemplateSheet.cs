@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using JobSpace.Ext;
+using Interfaces.Pdf.Imposition;
 
 namespace JobSpace.UserForms.PDF.ImposItems
 {

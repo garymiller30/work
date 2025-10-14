@@ -10,7 +10,7 @@ namespace Interfaces.Pdf.Imposition
     {
         IImpositionFactory AddProductPart();
 
-        IImpositionFactory AddPrintSheet(double w, double h);
+        IImpositionFactory AddPrintSheet(double w, double h, TemplateSheetPlaceType placeType);
 
         IImpositionFactory AddMasterPage(double w,double h, double bleed);
     }

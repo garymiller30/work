@@ -116,6 +116,7 @@
     <Compile Include="Pdf\Imposition\IImpositionFactory.cs" />
     <Compile Include="Pdf\Imposition\IPrintSheet.cs" />
     <Compile Include="Pdf\Imposition\IProductPart.cs" />
+    <Compile Include="Pdf\Imposition\TemplateSheetPlaceType.cs" />
     <Compile Include="Plugins\IMqController.cs" />
     <Compile Include="Plugins\IMqPlugin.cs" />
     <Compile Include="Plugins\IRowColor.cs" />
