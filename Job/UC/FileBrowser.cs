@@ -303,10 +303,7 @@ namespace JobSpace.UC
                 {
                     kryptonLabelPath.Text = jobPath;
                 }
-
-
             }
-                
         }
 
         private string GetSelectedFilesSize()
