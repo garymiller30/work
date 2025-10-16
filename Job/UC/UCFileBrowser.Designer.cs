@@ -2,7 +2,7 @@
 
 namespace JobSpace.UC
 {
-    partial class FileBrowser
+    partial class UCFileBrowser
     {
         /// <summary> 
         /// Требуется переменная конструктора.
@@ -31,7 +31,7 @@ namespace JobSpace.UC
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileBrowser));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UCFileBrowser));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.toolStripScriptPanel = new System.Windows.Forms.ToolStrip();
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
@@ -747,7 +747,6 @@ namespace JobSpace.UC
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
             this.toolStripSeparator9.Size = new System.Drawing.Size(305, 6);
-            this.toolStripSeparator9.Click += new System.EventHandler(this.ToolStripSeparator9_Click);
             // 
             // имяФайлаОписаниеЗаказаToolStripMenuItem
             // 
@@ -903,7 +902,7 @@ namespace JobSpace.UC
             this.tsb_spusk.Size = new System.Drawing.Size(30, 19);
             this.tsb_spusk.Text = "СП";
             this.tsb_spusk.ToolTipText = "спуск полос";
-            this.tsb_spusk.Click += new System.EventHandler(this.toolStripButton5_Click);
+            this.tsb_spusk.Click += new System.EventHandler(this.спускПолосToolStripMenuItem_Click);
             // 
             // tsb_NumericFiles
             // 
@@ -1249,7 +1248,7 @@ namespace JobSpace.UC
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.kryptonPanel1);
-            this.Name = "FileBrowser";
+            this.Name = "UCFileBrowser";
             this.Size = new System.Drawing.Size(520, 308);
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();

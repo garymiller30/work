@@ -43,7 +43,7 @@ namespace JobSpace.UserForms.PDF
         public FormPdfImposition(Profile profile)
         {
             _profile = profile;
-            _productPart  = new ProductPart();
+            _productPart = new ProductPart();
 
             InitializeComponent();
             InitBindParameters();
@@ -278,9 +278,16 @@ namespace JobSpace.UserForms.PDF
             _parameters.UpdateSheet();
         }
 
-        public FormPdfImposition(Profile profile, ImposInputParam param) : this(profile)
+        public FormPdfImposition(ImposInputParam param) : this((Profile)param.UserProfile)
         {
             _imposInputParam = param;
+
+            if (param.Job != null)
+            {
+                TextVariablesService.SetValue(ValueList.OrderNo, param.Job.Number);
+                TextVariablesService.SetValue(ValueList.Customer, param.Job.Customer);
+                TextVariablesService.SetValue(ValueList.OrderDesc, param.Job.Description);
+            }
 
             int id = 1;
             foreach (var file in _imposInputParam.Files)

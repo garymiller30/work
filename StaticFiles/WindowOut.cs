@@ -14,7 +14,7 @@ namespace StaticFiles
     {
         private const string StaticFolderName = ".static";
 
-        private FileBrowser _fileBrowser;
+        private UCFileBrowser _fileBrowser;
         private Profile _profile;
 
         public WindowOut()
@@ -42,7 +42,7 @@ namespace StaticFiles
 
         public void Start()
         {
-            _fileBrowser = new FileBrowser(_profile)
+            _fileBrowser = new UCFileBrowser(_profile)
             {
                 Location = new Point(0, toolStrip1.Height),
                 Size = new Size(this.Width, this.Height - toolStrip1.Height),

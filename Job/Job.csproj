@@ -329,6 +329,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Static\FileBrowserSevices.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\ColorExtractionListener.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\PdfColorExtractor.cs" />
     <Compile Include="Static\Pdf\Common\CMYKColor.cs" />
@@ -741,11 +742,11 @@
     <Compile Include="Static\FileFormatsUtil.cs" />
     <Compile Include="Static\NaturalSorting.cs" />
     <Compile Include="Static\ShellUtilities.cs" />
-    <Compile Include="UC\FileBrowser.cs">
+    <Compile Include="UC\UCFileBrowser.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UC\FileBrowser.Designer.cs">
-      <DependentUpon>FileBrowser.cs</DependentUpon>
+    <Compile Include="UC\UCFileBrowser.Designer.cs">
+      <DependentUpon>UCFileBrowser.cs</DependentUpon>
     </Compile>
     <Compile Include="Factory.cs" />
     <Compile Include="Fasades\BaseManager.cs" />
@@ -1158,12 +1159,12 @@
     <EmbeddedResource Include="UserForms\PDF\FormPdfPreview.resx">
       <DependentUpon>FormPdfPreview.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UC\FileBrowser.resx">
-      <DependentUpon>FileBrowser.cs</DependentUpon>
+    <EmbeddedResource Include="UC\UCFileBrowser.resx">
+      <DependentUpon>UCFileBrowser.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UC\FileBrowser.uk-UA.resx">
-      <DependentUpon>FileBrowser.cs</DependentUpon>
+    <EmbeddedResource Include="UC\UCFileBrowser.uk-UA.resx">
+      <DependentUpon>UCFileBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Localize.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -25,7 +25,7 @@ namespace JobSpace
 
         public static IFileBrowser CreateFileBrowser(IUserProfile profile)
         {
-            return new FileBrowser(profile);
+            return new UCFileBrowser(profile);
         }
 
         public static Forms CreateForms()
