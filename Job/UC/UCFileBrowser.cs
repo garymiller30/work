@@ -107,14 +107,14 @@ namespace JobSpace.UC
                 BoundsPadding = new Size(0, -1),
                 CornerRounding = 3.0F,
             };
-
+            objectListView1.CopySelectionOnControlC = false;
             objectListView1.SelectedRowDecoration = rbd;
 
             CreateColorSpacesFlag();
 
             olvColumn_FileName.AspectGetter +=
                 r => ((IFileSystemInfoExt)r).IsDir ? ((IFileSystemInfoExt)r).FileInfo.Name : Path.GetFileNameWithoutExtension(((IFileSystemInfoExt)r).FileInfo.Name);
-            olvColumnType.AspectGetter += r => ((IFileSystemInfoExt)r).IsDir ? string.Empty : Path.GetExtension(((IFileSystemInfoExt)r).FileInfo.Name);
+            olvColumnType.AspectGetter += r => ((IFileSystemInfoExt)r).IsDir ? string.Empty : ((IFileSystemInfoExt)r).FileInfo.Extension;
 
 
             olvColumn_Size.AspectGetter += r =>
@@ -268,10 +268,22 @@ namespace JobSpace.UC
             _cts.Cancel();
             _cts.Dispose();
             _cts = null;
-            if (_taskGetExtendedFileInfo == null) return;
-            if (!_taskGetExtendedFileInfo.IsCompleted) return;
-            _taskGetExtendedFileInfo.Wait();
 
+            if (_taskGetExtendedFileInfo == null) return;
+
+            try
+            {
+                // Wait for the task to finish (with timeout to avoid UI freeze)
+                if (!_taskGetExtendedFileInfo.IsCompleted)
+                {
+                    _taskGetExtendedFileInfo.Wait(TimeSpan.FromSeconds(5));
+                }
+            }
+            catch (AggregateException) { /* log if needed */ }
+            finally
+            {
+                _taskGetExtendedFileInfo = null;
+            }
         }
 
         private void UpdateStatusControl()
@@ -1109,6 +1121,8 @@ namespace JobSpace.UC
 
         private void ObjectListView1_KeyDown(object sender, KeyEventArgs e)
         {
+            bool handled = true;
+
             if (e.Control && e.KeyCode == Keys.C)
             {
                 FileBrowserSevices.Clipboard_CopyFiles(objectListView1.SelectedObjects);
@@ -1128,26 +1142,24 @@ namespace JobSpace.UC
             }
             else if (e.KeyCode == Keys.Add)
             {
-                SelectFilesByExtention();
+                objectListView1.SelectObjects(FileBrowserSevices.File_SelectByExt(objectListView1.SelectedObjects, objectListView1.Objects));
             }
             else if (e.KeyCode == Keys.Enter)
             {
-                if (objectListView1.SelectedObject != null)
+                if (objectListView1.SelectedObject is IFileSystemInfoExt file)
                 {
-                    _fileManager.OpenFileOrFolder((IFileSystemInfoExt)objectListView1.SelectedObject);
+                    _fileManager.OpenFileOrFolder(file);
                 }
             }
-        }
-
-        private void SelectFilesByExtention()
-        {
-            if (objectListView1.SelectedObject == null) return;
-
-            var file = (IFileSystemInfoExt)objectListView1.SelectedObject;
-
-            var list = objectListView1.Objects.Cast<IFileSystemInfoExt>().Where(info => info.FileInfo.Extension.Equals(file.FileInfo.Extension, StringComparison.InvariantCultureIgnoreCase)).ToList();
-
-            objectListView1.SelectObjects(list);
+            else
+            {
+                handled = false;
+            }
+            if (handled)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
         }
 
         private void ОткрытьВПрограммеПоУмолчаниюToolStripMenuItem_Click(object sender, EventArgs e)

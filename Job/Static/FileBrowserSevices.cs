@@ -321,6 +321,26 @@ namespace JobSpace.Static
 
             return new Tuple<int, int, long>(files.Count, pages, len);
         }
+        public static IList File_SelectByExt(IList files,IEnumerable allFiles)
+        {
+            if (files.Count == 0) return files;
+            if (allFiles == null) return files;
+            var exts = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (IFileSystemInfoExt fsi in files)
+            {
+                if (!fsi.IsDir)
+                {
+                    exts.Add(fsi.FileInfo.Extension);
+                }
+            }
+            if (exts.Count == 0) return files;
+
+            var selectedFiles = allFiles.Cast<IFileSystemInfoExt>()
+                .Where(x => !x.IsDir && exts.Contains(x.FileInfo.Extension))
+                .ToArray();
+            return selectedFiles;
+
+        }
         #endregion
 
         #region CLIPBOARD
