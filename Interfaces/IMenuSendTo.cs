@@ -12,7 +12,7 @@ namespace Interfaces
         string FileName { get; set; }
         bool UsedInMainWindow { get; set; }
         bool[] UsedInExplorer { get; set; }
-        
+        bool EventOnFinish { get; set; }
         Image GetImage();
     }
 }

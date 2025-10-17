@@ -1,7 +1,10 @@
-﻿using BrightIdeasSoftware;
+﻿using BackgroundTaskServiceLib;
+using BrightIdeasSoftware;
 using ExtensionMethods;
 using Interfaces;
 using JobSpace.Dlg;
+using JobSpace.Menus;
+using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.MergeOddAndEven;
@@ -9,15 +12,21 @@ using JobSpace.Static.Pdf.MergeTemporary;
 using JobSpace.UC;
 using JobSpace.UserForms;
 using JobSpace.UserForms.PDF;
+using Krypton.Toolkit;
+using Logger;
+using Microsoft.VisualBasic.FileIO;
 using PDFManipulate.Forms;
+using PythonEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -321,7 +330,7 @@ namespace JobSpace.Static
 
             return new Tuple<int, int, long>(files.Count, pages, len);
         }
-        public static IList File_SelectByExt(IList files,IEnumerable allFiles)
+        public static IList File_SelectByExt(IList files, IEnumerable allFiles)
         {
             if (files.Count == 0) return files;
             if (allFiles == null) return files;
@@ -340,6 +349,297 @@ namespace JobSpace.Static
                 .ToArray();
             return selectedFiles;
 
+        }
+        public static async Task File_CopyToAsync(IUserProfile profile, IMenuSendTo menu, IList files)
+        {
+            if (files == null || files.Count == 0) return;
+            if (menu == null) throw new ArgumentNullException(nameof(menu));
+
+            var curJob = profile?.Jobs?.CurrentJob;
+            var fileList = files.Cast<IFileSystemInfoExt>().ToArray();
+
+            // If menu.FileName expects job-dependent placeholders but no current job -> do nothing
+            if (!string.IsNullOrEmpty(menu.FileName) &&
+                (menu.FileName.Contains("{3}") || menu.FileName.Contains("{4}") || menu.FileName.Contains("{5}")) &&
+                curJob == null)
+            {
+                return;
+            }
+
+            foreach (var info in fileList)
+            {
+                string fileName;
+                if (menu.FileName == null)
+                {
+                    fileName = info.FileInfo.Name;
+                }
+                else
+                {
+                    fileName = string.Format(menu.FileName, info.FileInfo.Name, curJob?.Number, curJob?.Customer);
+                }
+
+
+                var fn = Path.Combine(menu.Path, fileName);
+                var info1 = info;
+
+                if ((info.FileInfo.Attributes & FileAttributes.Directory) == FileAttributes.Directory)
+                {
+                    try
+                    {
+                        await Task.Run(() => FileSystem.CopyDirectory(info1.FileInfo.FullName, fn, UIOption.AllDialogs)).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                    }
+
+                }
+                else
+                {
+                    try
+                    {
+                        await Task.Run(() => FileSystem.CopyFile(info1.FileInfo.FullName, fn, UIOption.AllDialogs)).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+        }
+        public static void File_AddTirag(IFileManager manager, IList files)
+        {
+            if (files.Count == 0) return;
+            if (files.Count > 1)
+            {
+                var form = new FormEnterTirag(manager, files.Cast<IFileSystemInfoExt>(), RenameFileByTirag);
+                form.Show();
+            }
+            else
+            {
+                using (var form = new FormTirag())
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        foreach (IFileSystemInfoExt file in files)
+                        {
+                            RenameFileByTirag(manager,form.Tirag, file);
+                        }
+                    }
+                }
+            }
+        }
+        private static void RenameFileByTirag(IFileManager manager, int tirag, IFileSystemInfoExt file)
+        {
+            var reg = new Regex(@"#(\d+)\.");
+            var match = reg.Match(file.FileInfo.Name);
+            string targetFile;
+            if (match.Success)
+            {
+                targetFile =
+                    $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name).Substring(0, match.Index)}#{tirag}{file.FileInfo.Extension}";
+            }
+            else
+            {
+                targetFile = $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name)}#{tirag}{file.FileInfo.Extension}";
+            }
+            
+            manager.MoveFileOrDirectoryToCurrentFolder(file, targetFile);
+        }
+        #endregion
+
+        #region PROCESS
+        public static void Process_StartFromMenuSendTo(IMenuSendTo menu)
+        {
+            try
+            {
+                var pi = new ProcessStartInfo
+                {
+                    WorkingDirectory = Path.GetDirectoryName(menu.Path) ?? throw new InvalidOperationException(),
+                    FileName = Path.GetDirectoryName(menu.Path),
+                };
+                Process.Start(pi);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+        public static void Process_AppOrScript(IUserProfile profile, IMenuSendTo menu, IFileManager fileManager, IList files)
+        {
+            if (string.IsNullOrEmpty(menu.CommandLine)) { OpenFileForEdit(profile, menu); return; }
+
+            if (profile.ScriptEngine.IsScriptFile(menu.Path))
+            {
+                ProcessScript(profile, fileManager, menu, files);
+            }
+            else
+            {
+                ProcessAppFiles(profile, fileManager, menu, files);
+            }
+
+        }
+        private static void ProcessAppFiles(IUserProfile profile, IFileManager fileManager, IMenuSendTo menu, IList files)
+        {
+            if (menu.CommandLine.Contains("{1}") && files.Count == 0) // папка
+            {
+                ProcessAppFolder(profile, fileManager, menu);
+
+            }
+            else if (files.Count > 0)
+            {
+                var fileList = files.Cast<IFileSystemInfoExt>().ToArray();
+
+                foreach (var info in fileList)
+                {
+                    ProcessAppFile(profile, info, menu);
+                }
+            }
+        }
+        private static void ProcessAppFile(IUserProfile profile, IFileSystemInfoExt info, IMenuSendTo menu)
+        {
+            var curJob = profile.Jobs?.CurrentJob;
+
+            var args = string.Format(menu.CommandLine,
+                        info.FileInfo.FullName,
+                        Path.GetDirectoryName(info.FileInfo.FullName),
+                        Path.GetFileNameWithoutExtension(info.FileInfo.FullName),
+                        curJob?.Number,
+                        curJob?.Customer,
+                        curJob?.Description);
+            var pii = new ProcessStartInfo
+            {
+                WorkingDirectory = Path.GetDirectoryName(menu.Path),
+                FileName = menu.Path,
+                Arguments = args,
+            };
+
+            var p = Process.Start(pii);
+            Log.Info(profile, "Utils", $"process: {menu.Path} cmd: {pii.Arguments}");
+
+            if (menu.EventOnFinish)
+            {
+                p?.WaitForExit();
+                if (menu.StatusCode != 0)
+                {
+                    var number = info.FileInfo.Name.Split('_').First();
+                    profile.Jobs.ChangeStatusCode(number, menu.StatusCode);
+                }
+            }
+        }
+        private static void ProcessAppFolder(IUserProfile profile, IFileManager manager, IMenuSendTo menu)
+        {
+            var curJob = profile.Jobs?.CurrentJob;
+
+            var args = string.Format(menu.CommandLine,
+                                                string.Empty,
+                                                manager.Settings.CurFolder,
+                                                string.Empty,
+                                                curJob?.Number,
+                                                curJob?.Customer,
+                                                curJob?.Description);
+
+            var processStartInfo = new ProcessStartInfo
+            {
+                WorkingDirectory = Path.GetDirectoryName(menu.Path),
+                FileName = menu.Path,
+                Arguments = args,
+
+            };
+            var p = Process.Start(processStartInfo);
+            Log.Info(profile, "Utils", $"process: {menu.Path} cmd: {processStartInfo.Arguments}");
+
+            if (!menu.EventOnFinish) return;
+            p?.WaitForExit();
+        }
+        private static void ProcessScript(IUserProfile profile, IFileManager fileManager, IMenuSendTo menu, IList files)
+        {
+            if (menu.CommandLine.Contains("{1}")) // папка
+            {
+                ProcessScriptFolder(profile, fileManager, menu);
+
+            }
+            else if (files.Count > 0)
+            {
+                var fileList = files.Cast<IFileSystemInfoExt>().ToArray();
+
+                BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"run script {menu.Name}", new Action(
+                () =>
+                {
+                    foreach (var info in fileList)
+                    {
+                        ProcessScriptFile(profile, info, menu);
+                    }
+                }
+                )));
+            }
+        }
+        private static void ProcessScriptFile(IUserProfile profile, IFileSystemInfoExt info, IMenuSendTo menu)
+        {
+            var curJob = profile.Jobs?.CurrentJob;
+            var args = string.Format(menu.CommandLine,
+                        info.FileInfo.FullName,
+                        Path.GetDirectoryName(info.FileInfo.FullName),
+                        Path.GetFileNameWithoutExtension(info.FileInfo.FullName),
+                        curJob?.Number,
+                        curJob?.Customer,
+                        curJob?.Description);
+
+            var param = CreateScriptRunParameters(args, profile, menu);
+
+            profile.ScriptEngine.FileBrowser.RunScript(param);
+
+            if (menu.StatusCode != 0)
+            {
+                var number = info.FileInfo.Name.Split('_').First();
+                profile.Jobs.ChangeStatusCode(number, menu.StatusCode);
+            }
+        }
+        private static void ProcessScriptFolder(IUserProfile profile, IFileManager manager, IMenuSendTo menu)
+        {
+            var curJob = profile.Jobs?.CurrentJob;
+            var args = string.Format(menu.CommandLine,
+                                                string.Empty,
+                                                manager.Settings.CurFolder,
+                                                string.Empty,
+                                                curJob?.Number,
+                                                curJob?.Customer,
+                                                curJob?.Description);
+
+
+            var param = CreateScriptRunParameters(args, profile, menu);// new ScriptRunParameters();
+                                                                       //UserProfile.ScriptEngine.FileBrowser.RunScript(param);
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"run script '{menu.Name}'", new Action(
+               () => { profile.ScriptEngine.FileBrowser.RunScript(param); }
+               )));
+        }
+        private static IScriptRunParameters CreateScriptRunParameters(string args, IUserProfile profile, IMenuSendTo menu)
+        {
+            var curJob = profile.Jobs?.CurrentJob;
+
+            var param = new ScriptRunParameters();
+            param.Values.Order = curJob;
+            param.Values.OrderNumber = curJob?.Number;
+            param.Values.Customer = curJob?.Customer;
+            param.Values.Description = curJob?.Description;
+            param.Values.Profile = profile;
+            param.ScriptPath = menu.Path;
+            param.Values.FileName = args;
+            param.Values.ImposFactory = new ImpositionFactory((Profile)profile);
+            return param;
+        }
+        private static void OpenFileForEdit(IUserProfile profile, IMenuSendTo menuSendTo)
+        {
+            var pi = new ProcessStartInfo
+            {
+                WorkingDirectory = Path.GetDirectoryName(menuSendTo.Path) ?? throw new InvalidOperationException(),
+                FileName = menuSendTo.Path,
+            };
+
+            if (profile.ScriptEngine.IsScriptFile(menuSendTo.Path))
+            {
+                pi.Verb = "edit";
+            }
+
+            Process.Start(pi);
         }
         #endregion
 
@@ -457,6 +757,32 @@ namespace JobSpace.Static
             {
                 dropEffect.Dispose();
             }
+
+        }
+        #endregion
+
+        #region MAIL
+        public static void Mail_SendFiles(IUserProfile profile, IList files, string mailAddress)
+        {
+            if (files.Count == 0) return;
+
+
+            var filelist = files.Cast<IFileSystemInfoExt>();
+
+            BackgroundTaskService.AddTask(new BackgroundTaskItem()
+            {
+                Name = $"send mail to {mailAddress}",
+                BackgroundAction = () =>
+                {
+                    foreach (var file in filelist)
+                    {
+                        if (!file.IsDir)
+                        {
+                            profile.MailNotifier.SendFile(mailAddress, file.FileInfo.FullName);
+                        }
+                    }
+                },
+            });
 
         }
         #endregion

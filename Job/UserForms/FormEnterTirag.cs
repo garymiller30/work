@@ -1,6 +1,7 @@
 ﻿using BackgroundTaskServiceLib;
 using Interfaces;
 using JobSpace.Static.Pdf.MergeTemporary;
+using JobSpace.UC;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,14 +20,14 @@ namespace JobSpace.UserForms
     public partial class FormEnterTirag : Form
     {
         UC.IFileManager _fileManager;
-        Action<int, IFileSystemInfoExt> _renameAction;
+        Action<IFileManager,int, IFileSystemInfoExt> _renameAction;
 
         public FormEnterTirag()
         {
             InitializeComponent();
         }
 
-        public FormEnterTirag(UC.IFileManager fileManager, IEnumerable<IFileSystemInfoExt> files,Action<int, IFileSystemInfoExt> renameAction) : this()
+        public FormEnterTirag(UC.IFileManager fileManager, IEnumerable<IFileSystemInfoExt> files,Action<IFileManager, int, IFileSystemInfoExt> renameAction) : this()
         {
             _fileManager = fileManager;
             _renameAction = renameAction;
@@ -103,7 +104,7 @@ namespace JobSpace.UserForms
                {
                    foreach (FileTirag ft in objectListView1.Objects)
                    {
-                       _renameAction(ft.Tirag, ft.FileInfo);
+                       _renameAction(_fileManager,ft.Tirag, ft.FileInfo);
                        //var reg = new Regex(@"#(\d+)\.");
                        //var match = reg.Match(ft.FileInfo.FileInfo.Name);
                        //string targetFile;

@@ -16,9 +16,7 @@ namespace JobSpace.Menus
         [XmlIgnore]
         [NonSerialized]
         public Image Image;
-        /// <summary>
-        /// чекати завершення програми
-        /// </summary>
+        
         public bool EventOnFinish { get; set; }
         [Obsolete]
         public int ChangeStatus { get; set; }
