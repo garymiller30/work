@@ -14,11 +14,6 @@ namespace JobSpace.Profiles
         private static string _profilesFolder;
         private static readonly List<Profile> Profiles = new List<Profile>();
 
-        public static Profile CurrentProfile;
-        //load Profiles
-        //save Profiles
-        //apply Profile
-
         public static void LoadProfiles(string profilesFolder)
         {
             _profilesFolder = profilesFolder;
@@ -54,34 +49,6 @@ namespace JobSpace.Profiles
             {
                 Profiles.ForEach(x => x.InitProfile());
             }
-            //foreach (var dir in Directory.GetDirectories(_profilesFolder))
-            //{
-            //    var dirName = Path.GetFileName(dir);
-
-            //    if (!dirName.StartsWith("-"))
-            //    {
-
-            //        var profileFile = Path.Combine(_profilesFolder,dirName, ProfileFileName);
-
-            //        var profileSetting = Commons.DeserializeXML<ProfileSettings>(profileFile);
-
-            //        if (profileSetting == null) continue;
-
-            //        var profile = new Profile { Settings = profileSetting, ProfilePath = dir};
-
-            //        Profiles.Add(profile);
-            //    }
-            //}
-
-            //if (Profiles.Count == 0)
-            //{
-            //    //потрібно створити типчасовий профіль
-            //    ProfilesController.AddProfile();
-            //}
-            //else
-            //{
-            //   Profiles.ForEach(x=>x.InitProfile());
-            //}
         }
 
         public static Profile[] GetProfiles()

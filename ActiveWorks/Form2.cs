@@ -144,14 +144,9 @@ namespace ActiveWorks
 
             foreach (var profile in profiles)
             {
-                Stopwatch sw = Stopwatch.StartNew();
-                sw.Start();
-
+               
                 CreateProfileTab(profile);
                 
-                sw.Stop();
-                sw.Reset();
-                Log.Info("App", "App", $"profile '{profile.Settings.ProfileName}' loaded by {sw.ElapsedMilliseconds} ms");
             }
         }
         /// <summary>

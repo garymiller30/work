@@ -114,9 +114,8 @@ namespace JobSpace.Profiles
 
         private void LoadSettingsFromDisk()
         {
-            Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", Settings.ProfileName);
+           
             SearchHistory = new SearchHistory(this);
-            Logger.Log.Info(this, "завантаження налаштувань з диску: MenuManagers", Settings.ProfileName);
             MenuManagers = new MenuManager(this);
             FileBrowser = new FileBrowsers(this);
             ImposService = new ImposSaveLoadService(this);
