@@ -48,14 +48,14 @@ namespace ActiveWorks
 
             objectListViewStatuses.IsSimpleDragSource = true;
             objectListViewStatuses.DropSink = new RearrangingDropSink(true);
-            
+
         }
 
-        public FormSettings(Profile activeUserProfile): this()
+        public FormSettings(Profile activeUserProfile) : this()
         {
             if (activeUserProfile != null)
             {
-                
+
                 objectListViewProfiles.SelectObject(activeUserProfile);
                 BindProfile();
                 tabControlMain.Enabled = true;
@@ -110,7 +110,7 @@ namespace ActiveWorks
 
             var selIdx = new List<int>(listBoxFolderNames.SelectedIndices.Cast<int>());
             selIdx.Reverse();
-            selIdx.ForEach(i =>listBoxFolderNames.Items.RemoveAt(i));
+            selIdx.ForEach(i => listBoxFolderNames.Items.RemoveAt(i));
         }
 
         private void ДобавитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -365,7 +365,7 @@ namespace ActiveWorks
             browser.ViewerCommandLine = textBoxViewerCommandLine.Text;
             browser.UseViewer = checkBoxUseViewer.Enabled;
 
-            
+
 
 
             setup.HideCategory = checkBoxHideCategory.Checked;
@@ -380,7 +380,7 @@ namespace ActiveWorks
                 _currentProfile.StatusManager.SetJobStatuses(objectListViewStatuses.Objects?.Cast<JobStatus>() ?? new List<JobStatus>());
                 _currentProfile.StatusManager.OnChangeStatusesParams.Save();
             }
-            
+
 
             _currentProfile.Ftp?.FtpScriptController.SetList(objectListViewFtpScripts.Objects?.Cast<IFtpScript>() ??
                                                             new List<IFtpScript>());
@@ -389,10 +389,9 @@ namespace ActiveWorks
 
         private void BindProfile()
         {
-            if (!_currentProfile.IsInitialized)
-            {
-                _currentProfile.InitProfile();
-            }
+
+            _currentProfile.InitProfile();
+
 
             var setup = _currentProfile.Settings;
 
@@ -457,9 +456,9 @@ namespace ActiveWorks
                 listBox_Ftp_Servers.Items.AddRange(_currentProfile.Ftp.GetCollection().ToArray());
 
             numericUpDownCountExplorers.Value = setup.CountExplorers;
-            
+
             objectListViewStatuses.Objects = _currentProfile.StatusManager?.GetJobStatuses();
-            
+
             checkBoxHideCategory.Checked = setup.HideCategory;
 
             textBoxViewer.Text = browser.Viewer;
@@ -758,7 +757,7 @@ namespace ActiveWorks
         private void ReloadCategories()
         {
             objectListViewCategories.ClearObjects();
-            
+
             objectListViewCategories.AddObjects(_currentProfile.Categories?.GetAll().ToArray());
         }
 
@@ -770,8 +769,8 @@ namespace ActiveWorks
 
         private void buttonAddFolderName_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty( textBoxFolderName.Text)) return;
-            
+            if (string.IsNullOrEmpty(textBoxFolderName.Text)) return;
+
             listBoxFolderNames.Items.Add(textBoxFolderName.Text);
             textBoxFolderName.Clear();
         }
@@ -780,7 +779,7 @@ namespace ActiveWorks
         {
             using (var form = new FormMoveSignaFileToOrder(_currentProfile))
             {
-               form.ShowDialog();
+                form.ShowDialog();
             }
         }
 

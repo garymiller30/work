@@ -67,12 +67,10 @@ namespace ActiveWorks.UserControls
 
         private void Init(IUserProfile profile)
         {
-
+            SuspendLayout();
             // асинхронно ініціалізуємо профіль
 
             var saveStatus = SplashScreen.Splash.GetStatus();
-            SplashScreen.Splash.SetStatus($"{saveStatus} ініціалізація профілю...");
-            profile.InitProfile();
             SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладку зі списком робіт");
             CreateJobListTab();
             SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладки з провідниками");
@@ -85,13 +83,8 @@ namespace ActiveWorks.UserControls
             IsInitializedControl = true;
 
             LoadLayout();
-
-            //profile.Jobs.LoadJobs();
-
             profile.Jobs?.ApplyViewListFilterStatuses(_profile.StatusManager.GetEnabledViewStatuses());
-
-            //profile.InitProfile();
-
+            ResumeLayout();
         }
 
         private void CreateJobListTab()

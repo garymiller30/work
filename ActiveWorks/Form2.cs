@@ -138,13 +138,9 @@ namespace ActiveWorks
 
             var profiles = ProfilesController.GetProfiles(Settings.Default.ProfilesPath);
 
-            if (profiles.Length == 0)
-            {
-                //потрібно створити типчасовий профіль
-                profiles = new[] {ProfilesController.AddProfile()}; 
-            }
-
             SplashScreen.Splash.SetStatus("ок!");
+            
+            var defProfileName = Settings.Default.DefaultProfile;
 
             foreach (var profile in profiles)
             {
