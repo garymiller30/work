@@ -252,7 +252,6 @@ namespace ActiveWorks
             if (res == DialogResult.OK)
             {
                 textBoxViewer.Text = vistaOpenFileDialog1.FileName;
-
             }
         }
 
@@ -280,7 +279,6 @@ namespace ActiveWorks
                 ((Profile)e.RowObject).Settings.ProfileName = e.NewValue.ToString();
                 e.Cancel = true;
             }
-
         }
 
         private void objectListViewProfiles_SelectedIndexChanged(object sender, EventArgs e)
@@ -299,9 +297,7 @@ namespace ActiveWorks
             else
             {
                 tabControlMain.Enabled = true;
-
                 _currentProfile = objectListViewProfiles.SelectedObject as Profile;
-
                 BindProfile();
             }
         }
