@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Windows.Forms;
+﻿using Amazon;
 using Interfaces;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Profiles
 {
@@ -20,23 +23,65 @@ namespace JobSpace.Profiles
         {
             _profilesFolder = profilesFolder;
 
-            foreach (var dir in Directory.GetDirectories(_profilesFolder))
-            {
-                var dirName = Path.GetFileName(dir);
+            var dirs = Directory.GetDirectories(_profilesFolder)
+                                .Where(d => !Path.GetFileName(d).StartsWith("-"))
+                                .ToList();
 
-                if (!dirName.StartsWith("-"))
+            var loadedProfiles = dirs
+                .AsParallel()
+                .Select(dir =>
                 {
-
-                    var profileFile = Path.Combine(_profilesFolder,dirName, ProfileFileName);
-
+                    var profileFile = Path.Combine(dir, ProfileFileName);
                     var profileSetting = Commons.DeserializeXML<ProfileSettings>(profileFile);
+                    if (profileSetting == null) return null;
 
-                    if (profileSetting == null) continue;
+                    return new Profile
+                    {
+                        Settings = profileSetting,
+                        ProfilePath = dir
+                    };
+                })
+                .Where(p => p != null)
+                .ToList();
 
-                    var profile = new Profile { Settings = profileSetting, ProfilePath = dir};
-                    Profiles.Add(profile);
-                }
+            Profiles.AddRange(loadedProfiles);
+
+            if (Profiles.Count == 0)
+            {
+                ProfilesController.AddProfile();
             }
+            else
+            {
+                Profiles.ForEach(x => x.InitProfile());
+            }
+            //foreach (var dir in Directory.GetDirectories(_profilesFolder))
+            //{
+            //    var dirName = Path.GetFileName(dir);
+
+            //    if (!dirName.StartsWith("-"))
+            //    {
+
+            //        var profileFile = Path.Combine(_profilesFolder,dirName, ProfileFileName);
+
+            //        var profileSetting = Commons.DeserializeXML<ProfileSettings>(profileFile);
+
+            //        if (profileSetting == null) continue;
+
+            //        var profile = new Profile { Settings = profileSetting, ProfilePath = dir};
+
+            //        Profiles.Add(profile);
+            //    }
+            //}
+
+            //if (Profiles.Count == 0)
+            //{
+            //    //потрібно створити типчасовий профіль
+            //    ProfilesController.AddProfile();
+            //}
+            //else
+            //{
+            //   Profiles.ForEach(x=>x.InitProfile());
+            //}
         }
 
         public static Profile[] GetProfiles()

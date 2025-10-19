@@ -54,6 +54,7 @@ namespace JobSpace.Profiles
         }
         public void InitProfile()
         {
+            if (IsInitialized) return;
             LoadPlugins();
 
             ScriptEngine = new PythonScriptEngine(this);
@@ -75,7 +76,6 @@ namespace JobSpace.Profiles
             var state = ServicesState.Create();
             state.Name = "База данних";
             state.Tooltip = "Підключення до бази данних";
-
 
             var repo = new MongoRepository();
             repo.OnChangeConnectionState += (sender, isConnected) =>
@@ -120,9 +120,7 @@ namespace JobSpace.Profiles
             MenuManagers = new MenuManager(this);
             FileBrowser = new FileBrowsers(this);
             ImposService = new ImposSaveLoadService(this);
-
         }
-
 
         /// <summary>
         /// визивається один раз при створенні профілю

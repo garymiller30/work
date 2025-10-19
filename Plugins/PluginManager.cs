@@ -65,8 +65,6 @@ namespace Plugins
             {
                 Stopwatch _sw = new Stopwatch();
 
-
-
                 var files = new DirectoryInfo(path).GetFiles("*.dll");
 
                 foreach (var fi in files)
