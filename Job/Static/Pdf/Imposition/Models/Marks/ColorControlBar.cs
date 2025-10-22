@@ -271,8 +271,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
             ccb.Add(colorW);
             ccb.Add(registration);
 
-            //ccb.ReplaceColor(colorC,proof);
-
+            ccb.Palette.ReplaceColor(colorC,MarkColor.ProofColor);
 
             ccb.SaveToJson("!test.json");
             var ccb_copy = ccb.LoadFromJson("!test.json");
