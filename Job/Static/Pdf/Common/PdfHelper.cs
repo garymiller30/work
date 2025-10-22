@@ -1,7 +1,11 @@
 ﻿using iTextSharp.text;
+using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using JobSpace.Static.Pdf.Imposition.Models.Marks.ColorControl.Primitives;
 using PDFlib_dotnet;
 using SharpCompress.Common;
 using System.Collections.Generic;
+
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.Static.Pdf.Common
@@ -194,6 +198,73 @@ namespace JobSpace.Static.Pdf.Common
             }
             return pdfPageInfo;
         }
+
+        public static void SetFillStroke(PDFlib p,ColorPalette palette, PrimitiveAbstract primitive)
+        {
+            var t = (primitive.Tint / 100);
+
+            var fill = palette.GetBaseColorById(primitive.FillId);
+            var stroke = palette.GetBaseColorById(primitive.StrokeId);
+
+            if (fill != null)
+            {
+                if (fill.IsSpot)
+                {
+                    SetColor(p,"fill",fill,1);
+                    int spot = p.makespotcolor(fill.Name);
+                    p.setcolor("fill", "spot", spot, t, 0.0, 0.0);
+                }
+                else
+                {
+                    SetColor(p,"fill",fill,t);
+                }
+            }
+
+            if (stroke != null)
+            {
+                if (stroke.IsSpot)
+                {
+                    SetColor(p,"stroke",stroke,1);
+                    int spot = p.makespotcolor(stroke.Name);
+                    p.setcolor("stroke", "spot", spot, t, 0.0, 0.0);
+                }
+                else
+                {
+                    SetColor(p,"stroke",stroke,t);
+                }
+            }
+        }
+
+        public static void CloseFillStroke(PDFlib p, PrimitiveAbstract primitive)
+        {
+            bool fill = primitive.FillId != null;
+            bool stroke = primitive.StrokeId != null;
+
+            if (fill && stroke)
+            {
+                p.fill_stroke();
+            }
+            else if (stroke)
+            {
+                p.stroke();
+            }
+            else
+            {
+                p.fill();
+            }
+
+        }
+
+        static void SetColor(PDFlib p, string fill_stroke, MarkColor color, double tint)
+        {
+            p.setcolor(fill_stroke, "cmyk",
+                                color.C * tint / 100,
+                                color.M * tint / 100,
+                                color.Y * tint / 100,
+                                color.K * tint / 100);
+        }
+
+
 
 
         public static void LogException(PDFlibException e, string title)
