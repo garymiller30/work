@@ -71,16 +71,15 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
         public void Add(string colorId)
         {
-            var rect = Palette.FindRectangleByColorId(colorId);
-            if (rect  == null)
-                rect = Palette.CreateRectangle(colorId);
+           
+            var rect = Palette.CreateRectangle(colorId);
 
             RowElements.Add(rect.Id);
         }
 
         public void Add(string colorId, double tint)
         {
-            Rectangle rect = Palette.CreateRectangle(colorId, tint);
+            var rect = Palette.CreateRectangle(colorId, tint);
             RowElements.Add(rect.Id);
         }
 
@@ -139,8 +138,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
             groupM.Add(colorM, 80);
 
             var groupY = ccb.Palette.GroupAdd();
-            groupM.Add(colorY, 40);
-            groupM.Add(colorY, 80);
+            groupY.Add(colorY, 40);
+            groupY.Add(colorY, 80);
 
             // намалюємо хрест
             Figure registration = ccb.Palette.CreateFigure();
