@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using System;
 using System.Windows.Forms;
 
 namespace ActiveWorks
@@ -13,7 +14,10 @@ namespace ActiveWorks
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form2());
+
+            ColorControlBar.CreateTest();
+
+            //Application.Run(new Form2());
         }
     }
 }
