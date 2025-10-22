@@ -71,13 +71,13 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
         public IPrimitive CreateRectangle(string colorId, double tint)
         {
-            var rect = FindRectangleByColorId(colorId,tint);
+            var rect = FindRectangleByColorId(colorId, tint);
             if (rect == null)
             {
                 rect = new Rectangle { FillId = colorId, Tint = tint, W = DefaultWidth, H = DefaultHeight };
                 Elements.Add(rect);
             }
-            
+
             return rect;
         }
 
@@ -196,6 +196,17 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         public IPrimitive FindRectangleByColorId(string colorId, double tint)
         {
             return Elements.FirstOrDefault(x => (x is Rectangle r) && r.FillId == colorId && r.Tint == tint);
+        }
+
+        public void ReplaceColor(string colorId, MarkColor color)
+        {
+            var old_color = GetBaseColorById(colorId);
+            if (old_color != null)
+            {
+                BaseColors.Remove(old_color);
+                color.Id = colorId;
+                BaseColors.Add(color);
+            }
         }
     }
 }
