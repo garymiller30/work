@@ -58,17 +58,26 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
             return color;
         }
 
-        public Rectangle CreateRectangle(string colorId)
+        public IPrimitive CreateRectangle(string colorId)
         {
-            var rect = new Rectangle { FillId = colorId, W = DefaultWidth, H = DefaultHeight };
-            Elements.Add(rect);
+            var rect = FindRectangleByColorId(colorId);
+            if (rect == null)
+            {
+                rect = new Rectangle { FillId = colorId, W = DefaultWidth, H = DefaultHeight };
+                Elements.Add(rect);
+            }
             return rect;
         }
 
-        public Rectangle CreateRectangle(string colorId, double tint)
+        public IPrimitive CreateRectangle(string colorId, double tint)
         {
-            var rect = new Rectangle { FillId = colorId, Tint = tint, W = DefaultWidth, H = DefaultHeight };
-            Elements.Add(rect);
+            var rect = FindRectangleByColorId(colorId,tint);
+            if (rect == null)
+            {
+                rect = new Rectangle { FillId = colorId, Tint = tint, W = DefaultWidth, H = DefaultHeight };
+                Elements.Add(rect);
+            }
+            
             return rect;
         }
 
@@ -143,14 +152,14 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         {
             double w = 0;
 
-            double GetGroupWidth(Group group,double defW)
+            double GetGroupWidth(Group group, double defW)
             {
                 double gw = 0;
                 foreach (var item in group.Items)
                 {
                     if (item is Group g2)
                     {
-                        gw += GetGroupWidth(g2,defW);
+                        gw += GetGroupWidth(g2, defW);
                     }
                     else
                     {
@@ -167,7 +176,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
                 if (item is Group group)
                 {
-                   w += GetGroupWidth(group,DefaultWidth);
+                    w += GetGroupWidth(group, DefaultWidth);
                 }
                 else
                 {
@@ -181,7 +190,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
         public IPrimitive FindRectangleByColorId(string colorId)
         {
-            return Elements.FirstOrDefault(x => (x is Rectangle r) && r.FillId == colorId  && r.Tint == 100);
+            return Elements.FirstOrDefault(x => (x is Rectangle r) && r.FillId == colorId && r.Tint == 100);
+        }
+
+        public IPrimitive FindRectangleByColorId(string colorId, double tint)
+        {
+            return Elements.FirstOrDefault(x => (x is Rectangle r) && r.FillId == colorId && r.Tint == tint);
         }
     }
 }
