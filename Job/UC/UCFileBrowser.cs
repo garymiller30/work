@@ -1111,7 +1111,7 @@ namespace JobSpace.UC
 
         private void CombineFrontsBackToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileBrowserSevices.PDF_MergeFrontsAndBacks(objectListView1.CheckedObjects);
+            FileBrowserSevices.PDF_MergeFrontsAndBacks(objectListView1.SelectedObjects);
         }
 
         private void ReversePagesToolStripMenuItem_Click(object sender, EventArgs e)

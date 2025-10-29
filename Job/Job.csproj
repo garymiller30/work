@@ -866,10 +866,10 @@
     <Compile Include="UserForms\PDF\ImposItems\BindingSimpleSpreadControl.Designer.cs">
       <DependentUpon>BindingSimpleSpreadControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserForms\PDF\ImposItems\FormAddPdfMark.cs">
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormAddPdfMark.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForms\PDF\ImposItems\FormAddPdfMark.Designer.cs">
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormAddPdfMark.Designer.cs">
       <DependentUpon>FormAddPdfMark.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\ImposItems\FormAddSheet.cs">
@@ -884,10 +884,10 @@
     <Compile Include="UserForms\PDF\ImposItems\FormAddTemplatePlate.Designer.cs">
       <DependentUpon>FormAddTemplatePlate.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserForms\PDF\ImposItems\FormAddTextMark.cs">
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormAddTextMark.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForms\PDF\ImposItems\FormAddTextMark.Designer.cs">
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormAddTextMark.Designer.cs">
       <DependentUpon>FormAddTextMark.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\ImposItems\FormCalc.cs">
@@ -944,6 +944,12 @@
     </Compile>
     <Compile Include="UserForms\PDF\ImposItems\MarksControl.Designer.cs">
       <DependentUpon>MarksControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormColorControlBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormColorControlBar.Designer.cs">
+      <DependentUpon>FormColorControlBar.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\ImposItems\MasterPageSelectControl.cs">
       <SubType>UserControl</SubType>
@@ -1206,7 +1212,7 @@
     <EmbeddedResource Include="UserForms\PDF\ImposItems\BindingSimpleSpreadControl.resx">
       <DependentUpon>BindingSimpleSpreadControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddPdfMark.resx">
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\Marks\FormAddPdfMark.resx">
       <DependentUpon>FormAddPdfMark.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1216,7 +1222,7 @@
     <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddTemplatePlate.resx">
       <DependentUpon>FormAddTemplatePlate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddTextMark.resx">
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\Marks\FormAddTextMark.resx">
       <DependentUpon>FormAddTextMark.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -15,9 +15,7 @@ namespace ActiveWorks
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            ColorControlBar.CreateTest();
-
-            //Application.Run(new Form2());
+            Application.Run(new Form2());
         }
     }
 }
