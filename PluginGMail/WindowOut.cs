@@ -25,9 +25,10 @@ namespace PluginGMail
             
         }
 
-        private void Init()
+        private async void Init()
         {
-            _ = InitializeAsync();
+            if (UserProfile == null) { return; }
+            await InitializeAsync();
 
             webView21.Source = new Uri("https://gmail.com");
             webView21.CoreWebView2InitializationCompleted += WebView21_CoreWebView2InitializationCompleted;
@@ -145,6 +146,7 @@ namespace PluginGMail
 
         public void Start()
         {
+            Init();
             //throw new NotImplementedException();
         }
 
@@ -170,8 +172,6 @@ namespace PluginGMail
 
         private void tsb_start_Click(object sender, EventArgs e)
         {
-            if (_profile == null) { return; }
-
             Init();
         }
     }
