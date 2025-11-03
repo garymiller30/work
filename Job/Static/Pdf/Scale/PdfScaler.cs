@@ -50,7 +50,7 @@ namespace JobSpace.Static.Pdf.Scale
                     }
                     else if (_params.ScaleBy == ScaleByEnum.Mediabox)
                     {
-                        ScaleByMediabox(p, indoc, page, pageno);
+                        ScaleByMediabox(p, indoc, page);
 
                     }
                     p.close_pdi_page(page);
@@ -68,7 +68,7 @@ namespace JobSpace.Static.Pdf.Scale
             }
         }
 
-        private void ScaleByMediabox(PDFlib p, int indoc, int page, int pageno)
+        private void ScaleByMediabox(PDFlib p, int indoc, int page)
         {
             Box box = new Box();
 

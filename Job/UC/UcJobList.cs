@@ -1,4 +1,5 @@
-﻿using BrightIdeasSoftware;
+﻿using Amazon;
+using BrightIdeasSoftware;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.MQ;
@@ -504,6 +505,7 @@ namespace JobSpace.UC
                 повторитьЗаказToolStripMenuItem.Visible = false;
                 копироватьВБуферНомерЗаказаToolStripMenuItem.Visible = false;
                 копироватьВБуферОписаниеЗаказаToolStripMenuItem.Visible = false;
+                фільтрПоЗамовникуToolStripMenuItem.Visible = false;
             }
             else if (objectListView_NewWorks.SelectedObject != null)
             {
@@ -514,7 +516,7 @@ namespace JobSpace.UC
                 повторитьЗаказToolStripMenuItem.Visible = true;
                 копироватьВБуферНомерЗаказаToolStripMenuItem.Visible = true;
                 копироватьВБуферОписаниеЗаказаToolStripMenuItem.Visible = true;
-
+                фільтрПоЗамовникуToolStripMenuItem.Visible = true;
                 var job = objectListView_NewWorks.SelectedObject as IJob;
 
                 var signaFiles = job.GetSignaFileNames(_profile);
@@ -783,6 +785,14 @@ namespace JobSpace.UC
         public void ApplyViewFilter()
         {
             throw new NotImplementedException();
+        }
+
+        private void фільтрПоЗамовникуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView_NewWorks.SelectedObject is IJob o)
+            {
+                _profile.SearchManager.Search(o.Customer, "");
+            }
         }
     }
 }

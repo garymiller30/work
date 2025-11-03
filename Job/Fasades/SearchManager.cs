@@ -12,7 +12,7 @@ using Profile = JobSpace.Profiles.Profile;
 
 namespace JobSpace.Fasades
 {
-    public sealed class SearchManager
+    public sealed class SearchManager : ISearchManager
     {
         Profile _profile;
 

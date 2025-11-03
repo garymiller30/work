@@ -266,6 +266,15 @@ namespace JobSpace.Static
             form.Show();
 
         }
+
+        public static void PDF_MergeBlockBy3Months(object file)
+        {
+            if (file is IFileSystemInfoExt fsi)
+            {
+                FileFormatsUtil.MergeBlockBy3Months(fsi.FileInfo.FullName);
+            }
+        }
+
         #endregion
 
         #region FILE
@@ -785,6 +794,8 @@ namespace JobSpace.Static
             });
 
         }
+
+       
         #endregion
     }
 }

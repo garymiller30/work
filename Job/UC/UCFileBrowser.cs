@@ -1371,5 +1371,10 @@ namespace JobSpace.UC
         {
             FileBrowserSevices.PDF_CreateCollatingPageMark(objectListView1.SelectedObjects);
         }
+
+        private void зєднатиБлокПо3МісяціToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileBrowserSevices.PDF_MergeBlockBy3Months(objectListView1.SelectedObject);
+        }
     }
 }
