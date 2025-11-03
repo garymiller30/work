@@ -657,5 +657,10 @@ namespace JobSpace.Static
                 }
             })));
         }
+
+        public static void MergeBlockBy3Months(string file)
+        {
+            new MergeBlockBy3Months().Run(file);
+        }
     }
 }

@@ -37,7 +37,7 @@ namespace JobSpace.Profiles
         public IMenuManager MenuManagers { get; set; }
         public IFileBrowsers FileBrowser { get; set; }
         public IJobStatusManager StatusManager { get; set; }
-        public SearchManager SearchManager { get; set; }
+        public ISearchManager SearchManager { get; set; }
         public IServicesStateManager ServicesState { get; set; }
         public ISearchHistory SearchHistory { get; set; }
         public IScriptEngine ScriptEngine { get; set; }

@@ -14,6 +14,7 @@ namespace Interfaces
         ICustomerManager Customers { get; set; }
         ICategoryManager Categories { get; set; }
         IJobStatusManager StatusManager { get; set; }
+        ISearchManager SearchManager { get; set; }
         IMenuManager MenuManagers { get; set; }
         IPluginManager Plugins { get; set; }
         IFtpManager Ftp { get; set; }

@@ -123,9 +123,6 @@
   <metadata name="contextMenuStrip_NewJob.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>18, 22</value>
   </metadata>
-  <metadata name="toolStripWorks.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1021, 17</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="создатьSignaJobToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -205,6 +202,9 @@
         1wPpgxnABcTiQCxFAgap53Iv8GEAAK4zuf9t9H/IAAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="toolStripWorks.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1021, 17</value>
+  </metadata>
   <metadata name="kryptonContextMenu_new_job.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>216, 22</value>
   </metadata>
