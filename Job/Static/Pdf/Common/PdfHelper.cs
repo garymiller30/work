@@ -46,8 +46,8 @@ namespace JobSpace.Static.Pdf.Common
 
             boxes.Media.left = media[0];
             boxes.Media.bottom = media[1];
-            boxes.Media.width = media[2];
-            boxes.Media.height = media[3];
+            boxes.Media.width = media[2] - media[0];
+            boxes.Media.height = media[3] - media[1];
 
             boxes.Trim.left = trims[0] - media[0];
             boxes.Trim.bottom = trims[1] - media[1];

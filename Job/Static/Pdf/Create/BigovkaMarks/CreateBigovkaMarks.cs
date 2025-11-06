@@ -61,13 +61,18 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
                     curPage = i;
                     var page = p.open_pdi_page(doc, i, "cloneboxes");
                     p.begin_page_ext(0, 0, "");
-                    p.fit_pdi_page(page, 0, 0, "cloneboxes");
 
+                    int p_layer = p.define_layer("print","");
+                    int v_layer = p.define_layer("visual","");
+
+                    p.begin_layer(p_layer);
+                    p.fit_pdi_page(page, 0, 0, "cloneboxes");
+                    p.end_layer();
                     Boxes trimbox = PdfHelper.GetBoxes(p, doc, i - 1);
                     p.close_pdi_page(page);
-
+                    p.begin_layer(v_layer);
                     CreateBigovki(p, trimbox);
-
+                    p.end_layer();
                     p.end_page_ext("");
                 }
 

@@ -41,7 +41,9 @@ using JobSpace.Static.Pdf.SplitOddAndEven;
 using JobSpace.Static.Pdf.SplitSpread;
 using JobSpace.Static.Pdf.SplitTemporary;
 using JobSpace.Static.Pdf.ToJpg;
+using JobSpace.Static.Pdf.Visual.BlocknoteSpiral;
 using JobSpace.UserForms;
+using JobSpace.UserForms.PDF.Visual;
 using PDFManipulate.Forms;
 
 namespace JobSpace.Static
@@ -643,7 +645,20 @@ namespace JobSpace.Static
 
         public static void VisualBlocknoteSpiral(List<IFileSystemInfoExt> fileSystemInfoExts)
         {
-            
+            using (var form = new FormVisualBlocknoteSpiral())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати контур спіралі до файлу", new Action(
+                    () =>
+                    {
+                        foreach (var file in fileSystemInfoExts)
+                        {
+                            new VisualBlocknoteSpiral(form.SpiralSettings).Run(file.FileInfo.FullName);
+                        }
+                    })));
+                }
+            }
         }
 
         public static void CreateCollatingPageMark(IEnumerable<string> enumerable, CreateCollatingPageMarkParams param)

@@ -61,6 +61,9 @@ namespace JobSpace.UC
             this.змінитиРозмірToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.візуалізаціяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.пружинаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.календарToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.квартальнийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зєднатиБлокПо3МісяціToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.splitPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.розділитиТимчасовоЗібранийФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -155,9 +158,7 @@ namespace JobSpace.UC
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-            this.календарToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.квартальнийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.зєднатиБлокПо3МісяціToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.фальцовкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -499,7 +500,8 @@ namespace JobSpace.UC
             // 
             this.візуалізаціяToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.пружинаToolStripMenuItem,
-            this.календарToolStripMenuItem});
+            this.календарToolStripMenuItem,
+            this.фальцовкаToolStripMenuItem});
             this.візуалізаціяToolStripMenuItem.Name = "візуалізаціяToolStripMenuItem";
             this.візуалізаціяToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.візуалізаціяToolStripMenuItem.Text = "Візуалізація";
@@ -507,9 +509,32 @@ namespace JobSpace.UC
             // пружинаToolStripMenuItem
             // 
             this.пружинаToolStripMenuItem.Name = "пружинаToolStripMenuItem";
-            this.пружинаToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.пружинаToolStripMenuItem.Text = "пружина на блокнот";
+            this.пружинаToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.пружинаToolStripMenuItem.Text = "пружина";
             this.пружинаToolStripMenuItem.Click += new System.EventHandler(this.пружинаToolStripMenuItem_Click);
+            // 
+            // календарToolStripMenuItem
+            // 
+            this.календарToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.квартальнийToolStripMenuItem});
+            this.календарToolStripMenuItem.Name = "календарToolStripMenuItem";
+            this.календарToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.календарToolStripMenuItem.Text = "календар";
+            // 
+            // квартальнийToolStripMenuItem
+            // 
+            this.квартальнийToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.зєднатиБлокПо3МісяціToolStripMenuItem});
+            this.квартальнийToolStripMenuItem.Name = "квартальнийToolStripMenuItem";
+            this.квартальнийToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.квартальнийToolStripMenuItem.Text = "квартальний";
+            // 
+            // зєднатиБлокПо3МісяціToolStripMenuItem
+            // 
+            this.зєднатиБлокПо3МісяціToolStripMenuItem.Name = "зєднатиБлокПо3МісяціToolStripMenuItem";
+            this.зєднатиБлокПо3МісяціToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.зєднатиБлокПо3МісяціToolStripMenuItem.Text = "з\'єднати блок по 3 місяці";
+            this.зєднатиБлокПо3МісяціToolStripMenuItem.Click += new System.EventHandler(this.зєднатиБлокПо3МісяціToolStripMenuItem_Click);
             // 
             // toolStripSeparator14
             // 
@@ -1246,28 +1271,12 @@ namespace JobSpace.UC
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
             // 
-            // календарToolStripMenuItem
+            // фальцовкаToolStripMenuItem
             // 
-            this.календарToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.квартальнийToolStripMenuItem});
-            this.календарToolStripMenuItem.Name = "календарToolStripMenuItem";
-            this.календарToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.календарToolStripMenuItem.Text = "календар";
-            // 
-            // квартальнийToolStripMenuItem
-            // 
-            this.квартальнийToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.зєднатиБлокПо3МісяціToolStripMenuItem});
-            this.квартальнийToolStripMenuItem.Name = "квартальнийToolStripMenuItem";
-            this.квартальнийToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.квартальнийToolStripMenuItem.Text = "квартальний";
-            // 
-            // зєднатиБлокПо3МісяціToolStripMenuItem
-            // 
-            this.зєднатиБлокПо3МісяціToolStripMenuItem.Name = "зєднатиБлокПо3МісяціToolStripMenuItem";
-            this.зєднатиБлокПо3МісяціToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.зєднатиБлокПо3МісяціToolStripMenuItem.Text = "з\'єднати блок по 3 місяці";
-            this.зєднатиБлокПо3МісяціToolStripMenuItem.Click += new System.EventHandler(this.зєднатиБлокПо3МісяціToolStripMenuItem_Click);
+            this.фальцовкаToolStripMenuItem.Name = "фальцовкаToolStripMenuItem";
+            this.фальцовкаToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.фальцовкаToolStripMenuItem.Text = "фальцовка";
+            this.фальцовкаToolStripMenuItem.Click += new System.EventHandler(this.фальцовкаToolStripMenuItem_Click);
             // 
             // UCFileBrowser
             // 
@@ -1435,5 +1444,6 @@ namespace JobSpace.UC
         private System.Windows.Forms.ToolStripMenuItem календарToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem квартальнийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem зєднатиБлокПо3МісяціToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem фальцовкаToolStripMenuItem;
     }
 }
