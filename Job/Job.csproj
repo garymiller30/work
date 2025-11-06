@@ -460,10 +460,11 @@
     <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableSimpleText.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableUsedColor.cs" />
     <Compile Include="Static\Pdf\Merge\MergeBlockBy3Months.cs" />
-    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\BlocknoteSpiralSettings.cs" />
-    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralGlobalSettings.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralDrawer.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralSettings.cs" />
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralPlaceEnum.cs" />
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralTypeEnum.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\VisualBlocknoteSpiral.cs" />
     <Compile Include="UC\UcSelectStandartPageFormat.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -994,6 +995,18 @@
     <Compile Include="UserForms\PDF\ImposItems\SelectMarkSideControl.Designer.cs">
       <DependentUpon>SelectMarkSideControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualBlocknoteSpiral.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualBlocknoteSpiral.Designer.cs">
+      <DependentUpon>FormVisualBlocknoteSpiral.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualFalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualFalc.Designer.cs">
+      <DependentUpon>FormVisualFalc.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\SpreadBox.cs" />
     <Compile Include="UserForms\TrimBoxResult.cs" />
     <Compile Include="UserForms\TrimBoxResultEnum.cs" />
@@ -1274,6 +1287,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\SelectMarkSideControl.resx">
       <DependentUpon>SelectMarkSideControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualBlocknoteSpiral.resx">
+      <DependentUpon>FormVisualBlocknoteSpiral.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualFalc.resx">
+      <DependentUpon>FormVisualFalc.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

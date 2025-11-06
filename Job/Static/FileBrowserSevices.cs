@@ -12,6 +12,7 @@ using JobSpace.Static.Pdf.MergeTemporary;
 using JobSpace.UC;
 using JobSpace.UserForms;
 using JobSpace.UserForms.PDF;
+using JobSpace.UserForms.PDF.Visual;
 using Krypton.Toolkit;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
@@ -35,6 +36,20 @@ namespace JobSpace.Static
     public static class FileBrowserSevices
     {
         #region PDF
+        public static void PDF_VisualFalc(object selectedObject)
+        {
+            if (selectedObject != null && selectedObject is IFileSystemInfoExt fsi)
+            {
+                using (var form = new FormVisualFalc(fsi))
+                {
+                   
+                        form.ShowDialog();
+                    
+                }
+
+            }
+
+        }
         public static void PDF_ConvertToPdf(IList files, Action action)
         {
             if (files.Count == 0) return;
@@ -795,7 +810,8 @@ namespace JobSpace.Static
 
         }
 
-       
+
+
         #endregion
     }
 }

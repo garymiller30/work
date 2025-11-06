@@ -1376,5 +1376,10 @@ namespace JobSpace.UC
         {
             FileBrowserSevices.PDF_MergeBlockBy3Months(objectListView1.SelectedObject);
         }
+
+        private void фальцовкаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileBrowserSevices.PDF_VisualFalc(objectListView1.SelectedObject);
+        }
     }
 }

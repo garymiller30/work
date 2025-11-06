@@ -52,7 +52,6 @@ namespace JobSpace.Static.Pdf.Merge
                     // Нова висота - сума висот усіх трьох сторінок
                     double new_height = height1 + height2 + height3;
 
-
                     // 5. Початок вихідної сторінки (з достатньою висотою)
                     // Використовуємо begin_page_ext для встановлення розмірів сторінки [13]
                     p.begin_page_ext(new_width, new_height, "");
