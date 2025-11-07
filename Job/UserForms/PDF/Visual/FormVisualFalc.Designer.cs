@@ -63,6 +63,8 @@
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.nud_width = new System.Windows.Forms.NumericUpDown();
+            this.pb_preview = new System.Windows.Forms.PictureBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             this.gb_p1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -87,6 +89,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.groupBox12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -565,11 +569,32 @@
             0,
             0});
             // 
+            // pb_preview
+            // 
+            this.pb_preview.Location = new System.Drawing.Point(3, 3);
+            this.pb_preview.Name = "pb_preview";
+            this.pb_preview.Size = new System.Drawing.Size(527, 314);
+            this.pb_preview.TabIndex = 3;
+            this.pb_preview.TabStop = false;
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.pb_preview);
+            this.panel2.Location = new System.Drawing.Point(12, 171);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(734, 450);
+            this.panel2.TabIndex = 4;
+            // 
             // FormVisualFalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(751, 180);
+            this.ClientSize = new System.Drawing.Size(751, 633);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox12);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
@@ -579,6 +604,8 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FormVisualFalc";
+            this.Load += new System.EventHandler(this.FormVisualFalc_Load);
+            this.Shown += new System.EventHandler(this.FormVisualFalc_Shown);
             this.groupBox1.ResumeLayout(false);
             this.gb_p1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
@@ -603,6 +630,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.groupBox12.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -644,5 +673,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.NumericUpDown nud_width;
+        private System.Windows.Forms.PictureBox pb_preview;
+        private System.Windows.Forms.Panel panel2;
     }
 }
