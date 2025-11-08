@@ -65,6 +65,11 @@
             this.nud_width = new System.Windows.Forms.NumericUpDown();
             this.pb_preview = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.cb_mirrored_parts = new System.Windows.Forms.CheckBox();
+            this.nud_page_no = new System.Windows.Forms.NumericUpDown();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label_total_pages = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.gb_p1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -91,6 +96,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).BeginInit();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_page_no)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -571,9 +579,12 @@
             // 
             // pb_preview
             // 
+            this.pb_preview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pb_preview.Location = new System.Drawing.Point(3, 3);
             this.pb_preview.Name = "pb_preview";
-            this.pb_preview.Size = new System.Drawing.Size(527, 314);
+            this.pb_preview.Size = new System.Drawing.Size(883, 444);
             this.pb_preview.TabIndex = 3;
             this.pb_preview.TabStop = false;
             // 
@@ -586,24 +597,91 @@
             this.panel2.Controls.Add(this.pb_preview);
             this.panel2.Location = new System.Drawing.Point(12, 171);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(734, 450);
+            this.panel2.Size = new System.Drawing.Size(890, 450);
             this.panel2.TabIndex = 4;
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(302, 18);
+            this.trackBar1.Maximum = 100;
+            this.trackBar1.Minimum = 10;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(221, 45);
+            this.trackBar1.TabIndex = 5;
+            this.trackBar1.Value = 100;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // cb_mirrored_parts
+            // 
+            this.cb_mirrored_parts.AutoSize = true;
+            this.cb_mirrored_parts.Location = new System.Drawing.Point(529, 33);
+            this.cb_mirrored_parts.Name = "cb_mirrored_parts";
+            this.cb_mirrored_parts.Size = new System.Drawing.Size(89, 17);
+            this.cb_mirrored_parts.TabIndex = 6;
+            this.cb_mirrored_parts.Text = "Дзеркально";
+            this.cb_mirrored_parts.UseVisualStyleBackColor = true;
+            this.cb_mirrored_parts.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // nud_page_no
+            // 
+            this.nud_page_no.Location = new System.Drawing.Point(6, 20);
+            this.nud_page_no.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.nud_page_no.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_page_no.Name = "nud_page_no";
+            this.nud_page_no.Size = new System.Drawing.Size(59, 20);
+            this.nud_page_no.TabIndex = 7;
+            this.nud_page_no.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_page_no.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_page_no.ValueChanged += new System.EventHandler(this.nud_page_no_ValueChanged);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label_total_pages);
+            this.groupBox2.Controls.Add(this.nud_page_no);
+            this.groupBox2.Location = new System.Drawing.Point(624, 12);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(118, 54);
+            this.groupBox2.TabIndex = 8;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "сторінка";
+            // 
+            // label_total_pages
+            // 
+            this.label_total_pages.AutoSize = true;
+            this.label_total_pages.Location = new System.Drawing.Point(71, 22);
+            this.label_total_pages.Name = "label_total_pages";
+            this.label_total_pages.Size = new System.Drawing.Size(18, 13);
+            this.label_total_pages.TabIndex = 8;
+            this.label_total_pages.Text = "/1";
             // 
             // FormVisualFalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(751, 633);
+            this.ClientSize = new System.Drawing.Size(907, 633);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.cb_mirrored_parts);
+            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox12);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "FormVisualFalc";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "FormVisualFalc";
+            this.Text = "Перевірка фальцовки в намотку";
             this.Load += new System.EventHandler(this.FormVisualFalc_Load);
             this.Shown += new System.EventHandler(this.FormVisualFalc_Shown);
             this.groupBox1.ResumeLayout(false);
@@ -632,7 +710,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).EndInit();
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_page_no)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -675,5 +758,10 @@
         private System.Windows.Forms.NumericUpDown nud_width;
         private System.Windows.Forms.PictureBox pb_preview;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.CheckBox cb_mirrored_parts;
+        private System.Windows.Forms.NumericUpDown nud_page_no;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label_total_pages;
     }
 }
