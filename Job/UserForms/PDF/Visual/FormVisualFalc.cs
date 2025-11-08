@@ -2,6 +2,7 @@
 using Interfaces;
 using Interfaces.PdfUtils;
 using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Create.Falc;
 using JobSpace.Static.Pdf.Imposition.Models;
 using MongoDB.Bson.IO;
 using PDFiumSharp;
@@ -312,6 +313,17 @@ namespace JobSpace.UserForms.PDF.Visual
         {
             GeneratePageImage((int)(nud_page_no.Value - 1));
             pb_preview.Invalidate();
+        }
+
+        private void btn_create_schema_Click(object sender, EventArgs e)
+        {
+            FalcSchemaParams param = new FalcSchemaParams()
+            {
+                Mirrored = cb_mirrored_parts.Checked,
+                PartsWidth = partsDelta
+            };
+
+            new FalcSchema(param).Run(_fsi.FileInfo.FullName);
         }
     }
 }
