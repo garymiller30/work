@@ -204,10 +204,7 @@ namespace JobSpace.Static
             {
                 colorlist.Add(colorspace);
             }
-
             return colorlist;
-
-
         }
 
         private static void GetPdfColorspace(IFileSystemInfoExt sfi)
