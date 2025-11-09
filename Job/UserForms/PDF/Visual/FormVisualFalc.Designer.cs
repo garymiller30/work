@@ -580,9 +580,6 @@
             // 
             // pb_preview
             // 
-            this.pb_preview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.pb_preview.Location = new System.Drawing.Point(3, 3);
             this.pb_preview.Name = "pb_preview";
             this.pb_preview.Size = new System.Drawing.Size(883, 444);
@@ -615,6 +612,8 @@
             // cb_mirrored_parts
             // 
             this.cb_mirrored_parts.AutoSize = true;
+            this.cb_mirrored_parts.Checked = true;
+            this.cb_mirrored_parts.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_mirrored_parts.Location = new System.Drawing.Point(529, 33);
             this.cb_mirrored_parts.Name = "cb_mirrored_parts";
             this.cb_mirrored_parts.Size = new System.Drawing.Size(89, 17);
@@ -693,9 +692,8 @@
             this.Name = "FormVisualFalc";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Перевірка фальцовки в намотку";
+            this.Text = "Перевірка намотувального фальцювання";
             this.Load += new System.EventHandler(this.FormVisualFalc_Load);
-            this.Shown += new System.EventHandler(this.FormVisualFalc_Shown);
             this.groupBox1.ResumeLayout(false);
             this.gb_p1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
