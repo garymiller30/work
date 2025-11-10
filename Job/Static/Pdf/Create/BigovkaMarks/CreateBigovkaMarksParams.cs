@@ -1,4 +1,5 @@
 ﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
         public double Length { get;set;} = 1;
         public double[] Bigovki { get;set;}
         public double Bleed { get;set;} = 2;
-        public CMYKColor Color { get;set;} = new CMYKColor();
+        public MarkColor Color { get;set;} = new MarkColor();
 
         public bool MirrorEven { get;set;} = true;
     }

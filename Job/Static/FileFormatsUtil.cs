@@ -643,20 +643,32 @@ namespace JobSpace.Static
             })));
         }
 
-        public static void VisualBlocknoteSpiral(List<IFileSystemInfoExt> fileSystemInfoExts)
+        public static void VisualBlocknoteSpiral(List<IFileSystemInfoExt> files)
         {
-            using (var form = new FormVisualBlocknoteSpiral())
+            if (files.Count == 1)
             {
-                if (form.ShowDialog() == DialogResult.OK)
+                using (var form = new FormVisualBlocknoteSpiral(files[0]))
                 {
-                    BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати контур спіралі до файлу", new Action(
-                    () =>
+                    if (form.ShowDialog() == DialogResult.OK)
                     {
-                        foreach (var file in fileSystemInfoExts)
+                    }
+                }
+            }
+            else
+            {
+                using (var form = new FormVisualBlocknoteSpiral())
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати контур спіралі до файлу", new Action(
+                        () =>
                         {
-                            new VisualBlocknoteSpiral(form.SpiralSettings).Run(file.FileInfo.FullName);
-                        }
-                    })));
+                            foreach (var file in files)
+                            {
+                                new VisualBlocknoteSpiral(form.SpiralSettings).Run(file.FileInfo.FullName);
+                            }
+                        })));
+                    }
                 }
             }
         }

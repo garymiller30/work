@@ -35,6 +35,10 @@ namespace JobSpace.Static.Pdf.Create.Falc
                 MarkColor markColor = MarkColor.ProofColor;
 
                 p.begin_document(targetfile, "optimize=true");
+
+                //int font = p.load_font("Arial", "unicode", "");
+                
+
                 foreach (var pageInfo in boxes)
                 {
                     p.begin_page_ext(pageInfo.Mediabox.width, pageInfo.Mediabox.height, "");
@@ -42,7 +46,7 @@ namespace JobSpace.Static.Pdf.Create.Falc
                     int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
                     p.set_gstate(gstate);
 
-                    p.setcolor("fillstroke", "cmyk", markColor.C/100, markColor.M/100, markColor.Y/100, markColor.K/100);
+                    p.setcolor("fillstroke", "cmyk", markColor.C / 100, markColor.M / 100, markColor.Y / 100, markColor.K / 100);
                     int spot = p.makespotcolor(markColor.Name);
                     p.setlinewidth(1.0);
                     p.rect(pageInfo.Trimbox.left, pageInfo.Trimbox.bottom, pageInfo.Trimbox.width, pageInfo.Trimbox.height);
@@ -50,33 +54,17 @@ namespace JobSpace.Static.Pdf.Create.Falc
 
                     double xOfs = pageInfo.Trimbox.left;
                     double yOfs = pageInfo.Trimbox.bottom;
+                    int idx = boxes.IndexOf(pageInfo);
 
-                    if (_param.Mirrored) {
-                        // Логіка для дзеркальних частин
-                        //отримати індекс поточної частини
-                        
-                        int idx = boxes.IndexOf(pageInfo);
-                        if (idx % 2 == 1)
+                    if (_param.Mirrored && idx % 2 == 1)
+                    {
+                        // Логіка для парних частин
+                        for (int i = 0; i < _param.PartsWidth.Length - 1; i++)
                         {
-                            // Логіка для парних частин
-                            for (int i = 0; i < _param.PartsWidth.Length-1; i++)
-                            {
-                                xOfs += (double)_param.PartsWidth[i] *  PdfHelper.mn ;
-                                p.moveto(xOfs, yOfs);
-                                p.lineto(xOfs, yOfs + pageInfo.Trimbox.height);
-                                p.stroke();
-                            }
-                        }
-                        else
-                        {
-                            // Логіка для непарних частин
-                            for (int i = _param.PartsWidth.Length - 1; i > 0; i--)
-                            {
-                                xOfs += (double)_param.PartsWidth[i] * PdfHelper.mn;
-                                p.moveto(xOfs, yOfs);
-                                p.lineto(xOfs, yOfs + pageInfo.Trimbox.height);
-                                p.stroke();
-                            }
+                            xOfs += (double)_param.PartsWidth[i] * PdfHelper.mn;
+                            p.moveto(xOfs, yOfs);
+                            p.lineto(xOfs, yOfs + pageInfo.Trimbox.height);
+                            p.stroke();
                         }
                     }
                     else
