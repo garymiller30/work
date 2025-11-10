@@ -137,7 +137,7 @@
             this.gb_p1.Controls.Add(this.label1);
             this.gb_p1.Controls.Add(this.numericUpDown1);
             this.gb_p1.Enabled = false;
-            this.gb_p1.Location = new System.Drawing.Point(0, 0);
+            this.gb_p1.Location = new System.Drawing.Point(660, 0);
             this.gb_p1.Margin = new System.Windows.Forms.Padding(0);
             this.gb_p1.Name = "gb_p1";
             this.gb_p1.Padding = new System.Windows.Forms.Padding(0);
@@ -171,25 +171,25 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.gb_p10);
-            this.panel1.Controls.Add(this.gb_p9);
-            this.panel1.Controls.Add(this.gb_p8);
-            this.panel1.Controls.Add(this.gb_p7);
-            this.panel1.Controls.Add(this.gb_p6);
-            this.panel1.Controls.Add(this.gb_p5);
-            this.panel1.Controls.Add(this.gb_p4);
-            this.panel1.Controls.Add(this.gb_p3);
             this.panel1.Controls.Add(this.gb_p2);
+            this.panel1.Controls.Add(this.gb_p3);
+            this.panel1.Controls.Add(this.gb_p9);
             this.panel1.Controls.Add(this.gb_p1);
+            this.panel1.Controls.Add(this.gb_p4);
+            this.panel1.Controls.Add(this.gb_p8);
+            this.panel1.Controls.Add(this.gb_p5);
+            this.panel1.Controls.Add(this.gb_p6);
+            this.panel1.Controls.Add(this.gb_p7);
             this.panel1.Location = new System.Drawing.Point(12, 69);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(734, 96);
+            this.panel1.Size = new System.Drawing.Size(739, 96);
             this.panel1.TabIndex = 2;
             // 
             // gb_p10
             // 
             this.gb_p10.Controls.Add(this.label10);
             this.gb_p10.Controls.Add(this.numericUpDown10);
-            this.gb_p10.Location = new System.Drawing.Point(657, 0);
+            this.gb_p10.Location = new System.Drawing.Point(3, 0);
             this.gb_p10.Margin = new System.Windows.Forms.Padding(0);
             this.gb_p10.Name = "gb_p10";
             this.gb_p10.Padding = new System.Windows.Forms.Padding(0);
@@ -230,7 +230,7 @@
             // 
             this.gb_p9.Controls.Add(this.label9);
             this.gb_p9.Controls.Add(this.numericUpDown9);
-            this.gb_p9.Location = new System.Drawing.Point(584, 0);
+            this.gb_p9.Location = new System.Drawing.Point(76, 0);
             this.gb_p9.Margin = new System.Windows.Forms.Padding(0);
             this.gb_p9.Name = "gb_p9";
             this.gb_p9.Padding = new System.Windows.Forms.Padding(0);
@@ -271,7 +271,7 @@
             // 
             this.gb_p8.Controls.Add(this.label8);
             this.gb_p8.Controls.Add(this.numericUpDown8);
-            this.gb_p8.Location = new System.Drawing.Point(511, 0);
+            this.gb_p8.Location = new System.Drawing.Point(149, 0);
             this.gb_p8.Margin = new System.Windows.Forms.Padding(0);
             this.gb_p8.Name = "gb_p8";
             this.gb_p8.Padding = new System.Windows.Forms.Padding(0);
@@ -312,7 +312,7 @@
             // 
             this.gb_p7.Controls.Add(this.label7);
             this.gb_p7.Controls.Add(this.numericUpDown7);
-            this.gb_p7.Location = new System.Drawing.Point(438, 0);
+            this.gb_p7.Location = new System.Drawing.Point(222, 0);
             this.gb_p7.Margin = new System.Windows.Forms.Padding(0);
             this.gb_p7.Name = "gb_p7";
             this.gb_p7.Padding = new System.Windows.Forms.Padding(0);
@@ -353,7 +353,7 @@
             // 
             this.gb_p6.Controls.Add(this.label6);
             this.gb_p6.Controls.Add(this.numericUpDown6);
-            this.gb_p6.Location = new System.Drawing.Point(365, 0);
+            this.gb_p6.Location = new System.Drawing.Point(295, 0);
             this.gb_p6.Margin = new System.Windows.Forms.Padding(0);
             this.gb_p6.Name = "gb_p6";
             this.gb_p6.Padding = new System.Windows.Forms.Padding(0);
@@ -394,7 +394,7 @@
             // 
             this.gb_p5.Controls.Add(this.label5);
             this.gb_p5.Controls.Add(this.numericUpDown5);
-            this.gb_p5.Location = new System.Drawing.Point(292, 0);
+            this.gb_p5.Location = new System.Drawing.Point(368, 0);
             this.gb_p5.Margin = new System.Windows.Forms.Padding(0);
             this.gb_p5.Name = "gb_p5";
             this.gb_p5.Padding = new System.Windows.Forms.Padding(0);
@@ -435,7 +435,7 @@
             // 
             this.gb_p4.Controls.Add(this.label4);
             this.gb_p4.Controls.Add(this.numericUpDown4);
-            this.gb_p4.Location = new System.Drawing.Point(219, 0);
+            this.gb_p4.Location = new System.Drawing.Point(441, 0);
             this.gb_p4.Margin = new System.Windows.Forms.Padding(0);
             this.gb_p4.Name = "gb_p4";
             this.gb_p4.Padding = new System.Windows.Forms.Padding(0);
@@ -476,7 +476,7 @@
             // 
             this.gb_p3.Controls.Add(this.label3);
             this.gb_p3.Controls.Add(this.numericUpDown3);
-            this.gb_p3.Location = new System.Drawing.Point(146, 0);
+            this.gb_p3.Location = new System.Drawing.Point(514, 0);
             this.gb_p3.Margin = new System.Windows.Forms.Padding(0);
             this.gb_p3.Name = "gb_p3";
             this.gb_p3.Padding = new System.Windows.Forms.Padding(0);
@@ -517,7 +517,7 @@
             // 
             this.gb_p2.Controls.Add(this.label2);
             this.gb_p2.Controls.Add(this.numericUpDown2);
-            this.gb_p2.Location = new System.Drawing.Point(73, 0);
+            this.gb_p2.Location = new System.Drawing.Point(587, 0);
             this.gb_p2.Margin = new System.Windows.Forms.Padding(0);
             this.gb_p2.Name = "gb_p2";
             this.gb_p2.Padding = new System.Windows.Forms.Padding(0);
@@ -595,7 +595,7 @@
             this.panel2.Controls.Add(this.pb_preview);
             this.panel2.Location = new System.Drawing.Point(12, 171);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(890, 450);
+            this.panel2.Size = new System.Drawing.Size(889, 450);
             this.panel2.TabIndex = 4;
             // 
             // trackBar1
@@ -614,11 +614,11 @@
             this.cb_mirrored_parts.AutoSize = true;
             this.cb_mirrored_parts.Checked = true;
             this.cb_mirrored_parts.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_mirrored_parts.Location = new System.Drawing.Point(529, 33);
+            this.cb_mirrored_parts.Location = new System.Drawing.Point(549, 32);
             this.cb_mirrored_parts.Name = "cb_mirrored_parts";
-            this.cb_mirrored_parts.Size = new System.Drawing.Size(89, 17);
+            this.cb_mirrored_parts.Size = new System.Drawing.Size(193, 17);
             this.cb_mirrored_parts.TabIndex = 6;
-            this.cb_mirrored_parts.Text = "Дзеркально";
+            this.cb_mirrored_parts.Text = "Дзеркально на парних сторінках";
             this.cb_mirrored_parts.UseVisualStyleBackColor = true;
             this.cb_mirrored_parts.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -650,7 +650,7 @@
             // 
             this.groupBox2.Controls.Add(this.label_total_pages);
             this.groupBox2.Controls.Add(this.nud_page_no);
-            this.groupBox2.Location = new System.Drawing.Point(624, 12);
+            this.groupBox2.Location = new System.Drawing.Point(766, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(118, 54);
             this.groupBox2.TabIndex = 8;
@@ -668,9 +668,9 @@
             // 
             // btn_create_schema
             // 
-            this.btn_create_schema.Location = new System.Drawing.Point(748, 18);
+            this.btn_create_schema.Location = new System.Drawing.Point(757, 117);
             this.btn_create_schema.Name = "btn_create_schema";
-            this.btn_create_schema.Size = new System.Drawing.Size(147, 48);
+            this.btn_create_schema.Size = new System.Drawing.Size(127, 48);
             this.btn_create_schema.TabIndex = 9;
             this.btn_create_schema.Text = "створити схему";
             this.btn_create_schema.UseVisualStyleBackColor = true;
@@ -680,7 +680,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(907, 633);
+            this.ClientSize = new System.Drawing.Size(906, 633);
             this.Controls.Add(this.btn_create_schema);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cb_mirrored_parts);

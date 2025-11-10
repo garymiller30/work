@@ -27,9 +27,8 @@ namespace JobSpace.UserForms.PDF.Visual
         NumericUpDown[] _deltas;
         Label[] _labels;
         IFileSystemInfoExt _fsi;
-        //bool _isShowing = false;
-        private Pen _redLinePen = new Pen(Color.Red, 1);
-        private Pen _whiteLinePen = new Pen(Color.White, 2);
+        private Pen _redLinePen = new Pen(Color.Green, 0.6f);
+        private Pen _whiteLinePen = new Pen(Color.White, 1f);
         decimal[] partsDelta;
         Image document_prev;
         List<PdfPageInfo> boxes;
@@ -137,7 +136,6 @@ namespace JobSpace.UserForms.PDF.Visual
                     g.DrawLine(_whiteLinePen, x, 0, x, (float)_fsi.Format.Height);
                     g.DrawLine(_redLinePen, x, 0, x, (float)_fsi.Format.Height);
                 }
-
             }
         }
 
