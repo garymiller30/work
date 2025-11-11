@@ -651,6 +651,14 @@ namespace JobSpace.Static
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
+                        BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати контур спіралі до файлу", new Action(
+                        () =>
+                        {
+                            foreach (var file in files)
+                            {
+                                new VisualBlocknoteSpiral(form.SpiralSettings).Run(file.FileInfo.FullName);
+                            }
+                        })));
                     }
                 }
             }

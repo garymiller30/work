@@ -30,6 +30,7 @@
         {
             this.buttonCreate = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cb_mirrorEven = new System.Windows.Forms.CheckBox();
             this.radioButtonVer = new System.Windows.Forms.RadioButton();
             this.radioButtonHor = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -52,7 +53,11 @@
             this.numY = new System.Windows.Forms.NumericUpDown();
             this.numM = new System.Windows.Forms.NumericUpDown();
             this.numC = new System.Windows.Forms.NumericUpDown();
-            this.cb_mirrorEven = new System.Windows.Forms.CheckBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pb_preview = new System.Windows.Forms.PictureBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label_total_pages = new System.Windows.Forms.Label();
+            this.nud_page_number = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLen)).BeginInit();
@@ -66,6 +71,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numC)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_page_number)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonCreate
@@ -85,10 +94,20 @@
             this.groupBox1.Controls.Add(this.radioButtonHor);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(417, 70);
+            this.groupBox1.Size = new System.Drawing.Size(423, 70);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Напрямок";
+            // 
+            // cb_mirrorEven
+            // 
+            this.cb_mirrorEven.AutoSize = true;
+            this.cb_mirrorEven.Location = new System.Drawing.Point(32, 42);
+            this.cb_mirrorEven.Name = "cb_mirrorEven";
+            this.cb_mirrorEven.Size = new System.Drawing.Size(112, 17);
+            this.cb_mirrorEven.TabIndex = 11;
+            this.cb_mirrorEven.Text = "Дзеркальні поля";
+            this.cb_mirrorEven.UseVisualStyleBackColor = true;
             // 
             // radioButtonVer
             // 
@@ -99,6 +118,7 @@
             this.radioButtonVer.TabIndex = 1;
             this.radioButtonVer.Text = "Вертикально (знизу вгору)";
             this.radioButtonVer.UseVisualStyleBackColor = true;
+            this.radioButtonVer.Click += new System.EventHandler(this.radioButtonHor_Click);
             // 
             // radioButtonHor
             // 
@@ -111,6 +131,7 @@
             this.radioButtonHor.TabStop = true;
             this.radioButtonHor.Text = "Горизонтально (зліва направо)";
             this.radioButtonHor.UseVisualStyleBackColor = true;
+            this.radioButtonHor.Click += new System.EventHandler(this.radioButtonHor_Click);
             // 
             // groupBox2
             // 
@@ -248,6 +269,7 @@
             this.textBoxBigovky.Name = "textBoxBigovky";
             this.textBoxBigovky.Size = new System.Drawing.Size(204, 20);
             this.textBoxBigovky.TabIndex = 0;
+            this.textBoxBigovky.TextChanged += new System.EventHandler(this.textBoxBigovky_TextChanged);
             // 
             // groupBox6
             // 
@@ -354,21 +376,74 @@
             this.numC.Click += new System.EventHandler(this.numDistanse_Enter);
             this.numC.Enter += new System.EventHandler(this.numDistanse_Enter);
             // 
-            // cb_mirrorEven
+            // panel1
             // 
-            this.cb_mirrorEven.AutoSize = true;
-            this.cb_mirrorEven.Location = new System.Drawing.Point(32, 42);
-            this.cb_mirrorEven.Name = "cb_mirrorEven";
-            this.cb_mirrorEven.Size = new System.Drawing.Size(112, 17);
-            this.cb_mirrorEven.TabIndex = 11;
-            this.cb_mirrorEven.Text = "Дзеркальні поля";
-            this.cb_mirrorEven.UseVisualStyleBackColor = true;
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.pb_preview);
+            this.panel1.Location = new System.Drawing.Point(441, 12);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(655, 320);
+            this.panel1.TabIndex = 7;
+            // 
+            // pb_preview
+            // 
+            this.pb_preview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pb_preview.Location = new System.Drawing.Point(3, 3);
+            this.pb_preview.Name = "pb_preview";
+            this.pb_preview.Size = new System.Drawing.Size(100, 50);
+            this.pb_preview.TabIndex = 0;
+            this.pb_preview.TabStop = false;
+            this.pb_preview.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.label_total_pages);
+            this.groupBox7.Controls.Add(this.nud_page_number);
+            this.groupBox7.Location = new System.Drawing.Point(235, 88);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(200, 70);
+            this.groupBox7.TabIndex = 8;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "сторінка";
+            // 
+            // label_total_pages
+            // 
+            this.label_total_pages.AutoSize = true;
+            this.label_total_pages.Location = new System.Drawing.Point(102, 21);
+            this.label_total_pages.Name = "label_total_pages";
+            this.label_total_pages.Size = new System.Drawing.Size(27, 13);
+            this.label_total_pages.TabIndex = 1;
+            this.label_total_pages.Text = "/ 00";
+            // 
+            // nud_page_number
+            // 
+            this.nud_page_number.Location = new System.Drawing.Point(17, 19);
+            this.nud_page_number.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_page_number.Name = "nud_page_number";
+            this.nud_page_number.Size = new System.Drawing.Size(79, 20);
+            this.nud_page_number.TabIndex = 0;
+            this.nud_page_number.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_page_number.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nud_page_number.ValueChanged += new System.EventHandler(this.nud_page_number_ValueChanged);
             // 
             // FormCreateBigovkaMarks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 336);
+            this.ClientSize = new System.Drawing.Size(1099, 336);
+            this.Controls.Add(this.groupBox7);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -376,9 +451,6 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonCreate);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "FormCreateBigovkaMarks";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -402,6 +474,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.numY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numC)).EndInit();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_page_number)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -433,5 +510,10 @@
         private System.Windows.Forms.CheckBox cb_m;
         private System.Windows.Forms.CheckBox cb_c;
         private System.Windows.Forms.CheckBox cb_mirrorEven;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox pb_preview;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label label_total_pages;
+        private System.Windows.Forms.NumericUpDown nud_page_number;
     }
 }
