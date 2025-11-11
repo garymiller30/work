@@ -42,9 +42,9 @@ namespace JobSpace.Static
             {
                 using (var form = new FormVisualFalc(fsi))
                 {
-                   
-                        form.ShowDialog();
-                    
+
+                    form.ShowDialog();
+
                 }
 
             }
@@ -165,13 +165,29 @@ namespace JobSpace.Static
         public static void PDF_CreateBigovkaMarks(IList files)
         {
             if (files.Count == 0) return;
-            using (var form = new FormCreateBigovkaMarks())
+            else if (files.Count == 1)
             {
-                if (form.ShowDialog() == DialogResult.OK)
+                using (var form = new FormCreateBigovkaMarks((IFileSystemInfoExt)files[0]))
                 {
-                    FileFormatsUtil.CreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), form.BigovkaMarksParams);
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        FileFormatsUtil.CreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), form.BigovkaMarksParams);
+                    }
                 }
             }
+            else
+            {
+                using (var form = new FormCreateBigovkaMarks())
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        FileFormatsUtil.CreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), form.BigovkaMarksParams);
+                    }
+                }
+            }
+
+
+
         }
         public static void PDF_ExtractPages(IList files)
         {
@@ -445,7 +461,7 @@ namespace JobSpace.Static
                     {
                         foreach (IFileSystemInfoExt file in files)
                         {
-                            RenameFileByTirag(manager,form.Tirag, file);
+                            RenameFileByTirag(manager, form.Tirag, file);
                         }
                     }
                 }
@@ -465,7 +481,7 @@ namespace JobSpace.Static
             {
                 targetFile = $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name)}#{tirag}{file.FileInfo.Extension}";
             }
-            
+
             manager.MoveFileOrDirectoryToCurrentFolder(file, targetFile);
         }
         #endregion

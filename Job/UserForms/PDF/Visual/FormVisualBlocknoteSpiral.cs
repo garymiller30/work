@@ -227,7 +227,6 @@ namespace JobSpace.UserForms.PDF.Visual
 
                 g.ResetTransform();
             }
-
         }
 
         private void DrawSpiralTop(Graphics g, PdfPageInfo pi)
@@ -238,7 +237,6 @@ namespace JobSpace.UserForms.PDF.Visual
             double x = (pi.Trimbox.wMM() - (spiralWidth * cntHoles)) / 2;
             double y = 0;
 
-
             for (int i = 0; i < cntHoles; i++)
             {
                 double holeX = x + i * spiralWidth;
@@ -246,8 +244,6 @@ namespace JobSpace.UserForms.PDF.Visual
 
                 g.DrawImage(_spiralPreview, (float)holeX, (float)holeY, (float)spiralWidth, (float)spiralHeight);
             }
-
-
         }
 
         private void nud_page_number_ValueChanged(object sender, EventArgs e)
@@ -264,7 +260,6 @@ namespace JobSpace.UserForms.PDF.Visual
 
             pb_preview.Width = (int)(box.Trimbox.wMM() * pb_preview.DeviceDpi / 25.4d) + 1;
             pb_preview.Height = (int)(box.Trimbox.hMM() * pb_preview.DeviceDpi / 25.4d) + 1;
-
 
             pb_preview.Invalidate();
         }

@@ -37,30 +37,30 @@
             this.gb_p10 = new System.Windows.Forms.GroupBox();
             this.label10 = new System.Windows.Forms.Label();
             this.numericUpDown10 = new System.Windows.Forms.NumericUpDown();
-            this.gb_p9 = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
-            this.gb_p8 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.numericUpDown8 = new System.Windows.Forms.NumericUpDown();
-            this.gb_p7 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
-            this.gb_p6 = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
-            this.gb_p5 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
-            this.gb_p4 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
-            this.gb_p3 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.gb_p2 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.gb_p3 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.gb_p9 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
+            this.gb_p4 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.gb_p8 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.numericUpDown8 = new System.Windows.Forms.NumericUpDown();
+            this.gb_p5 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
+            this.gb_p6 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
+            this.gb_p7 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.nud_width = new System.Windows.Forms.NumericUpDown();
             this.pb_preview = new System.Windows.Forms.PictureBox();
@@ -77,22 +77,22 @@
             this.panel1.SuspendLayout();
             this.gb_p10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown10)).BeginInit();
-            this.gb_p9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).BeginInit();
-            this.gb_p8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).BeginInit();
-            this.gb_p7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
-            this.gb_p6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
-            this.gb_p5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
-            this.gb_p4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
-            this.gb_p3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             this.gb_p2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            this.gb_p3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            this.gb_p9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).BeginInit();
+            this.gb_p4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+            this.gb_p8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).BeginInit();
+            this.gb_p5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
+            this.gb_p6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
+            this.gb_p7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
             this.groupBox12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).BeginInit();
@@ -226,251 +226,41 @@
             0});
             this.numericUpDown10.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
-            // gb_p9
+            // gb_p2
             // 
-            this.gb_p9.Controls.Add(this.label9);
-            this.gb_p9.Controls.Add(this.numericUpDown9);
-            this.gb_p9.Location = new System.Drawing.Point(76, 0);
-            this.gb_p9.Margin = new System.Windows.Forms.Padding(0);
-            this.gb_p9.Name = "gb_p9";
-            this.gb_p9.Padding = new System.Windows.Forms.Padding(0);
-            this.gb_p9.Size = new System.Drawing.Size(73, 91);
-            this.gb_p9.TabIndex = 2;
-            this.gb_p9.TabStop = false;
+            this.gb_p2.Controls.Add(this.label2);
+            this.gb_p2.Controls.Add(this.numericUpDown2);
+            this.gb_p2.Location = new System.Drawing.Point(587, 0);
+            this.gb_p2.Margin = new System.Windows.Forms.Padding(0);
+            this.gb_p2.Name = "gb_p2";
+            this.gb_p2.Padding = new System.Windows.Forms.Padding(0);
+            this.gb_p2.Size = new System.Drawing.Size(73, 91);
+            this.gb_p2.TabIndex = 2;
+            this.gb_p2.TabStop = false;
             // 
-            // label9
+            // label2
             // 
-            this.label9.Location = new System.Drawing.Point(3, 69);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 19);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "000,0";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.label2.Location = new System.Drawing.Point(3, 69);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 19);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "000,0";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // numericUpDown9
+            // numericUpDown2
             // 
-            this.numericUpDown9.DecimalPlaces = 1;
-            this.numericUpDown9.Location = new System.Drawing.Point(3, 32);
-            this.numericUpDown9.Maximum = new decimal(new int[] {
+            this.numericUpDown2.DecimalPlaces = 1;
+            this.numericUpDown2.Location = new System.Drawing.Point(3, 32);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
-            this.numericUpDown9.Name = "numericUpDown9";
-            this.numericUpDown9.Size = new System.Drawing.Size(67, 20);
-            this.numericUpDown9.TabIndex = 0;
-            this.numericUpDown9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown9.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown9.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
-            // 
-            // gb_p8
-            // 
-            this.gb_p8.Controls.Add(this.label8);
-            this.gb_p8.Controls.Add(this.numericUpDown8);
-            this.gb_p8.Location = new System.Drawing.Point(149, 0);
-            this.gb_p8.Margin = new System.Windows.Forms.Padding(0);
-            this.gb_p8.Name = "gb_p8";
-            this.gb_p8.Padding = new System.Windows.Forms.Padding(0);
-            this.gb_p8.Size = new System.Drawing.Size(73, 91);
-            this.gb_p8.TabIndex = 2;
-            this.gb_p8.TabStop = false;
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(3, 69);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(67, 19);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "000,0";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // numericUpDown8
-            // 
-            this.numericUpDown8.DecimalPlaces = 1;
-            this.numericUpDown8.Location = new System.Drawing.Point(3, 32);
-            this.numericUpDown8.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numericUpDown8.Name = "numericUpDown8";
-            this.numericUpDown8.Size = new System.Drawing.Size(67, 20);
-            this.numericUpDown8.TabIndex = 0;
-            this.numericUpDown8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown8.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown8.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
-            // 
-            // gb_p7
-            // 
-            this.gb_p7.Controls.Add(this.label7);
-            this.gb_p7.Controls.Add(this.numericUpDown7);
-            this.gb_p7.Location = new System.Drawing.Point(222, 0);
-            this.gb_p7.Margin = new System.Windows.Forms.Padding(0);
-            this.gb_p7.Name = "gb_p7";
-            this.gb_p7.Padding = new System.Windows.Forms.Padding(0);
-            this.gb_p7.Size = new System.Drawing.Size(73, 91);
-            this.gb_p7.TabIndex = 2;
-            this.gb_p7.TabStop = false;
-            // 
-            // label7
-            // 
-            this.label7.Location = new System.Drawing.Point(3, 69);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(67, 19);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "000,0";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // numericUpDown7
-            // 
-            this.numericUpDown7.DecimalPlaces = 1;
-            this.numericUpDown7.Location = new System.Drawing.Point(3, 32);
-            this.numericUpDown7.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numericUpDown7.Name = "numericUpDown7";
-            this.numericUpDown7.Size = new System.Drawing.Size(67, 20);
-            this.numericUpDown7.TabIndex = 0;
-            this.numericUpDown7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown7.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown7.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
-            // 
-            // gb_p6
-            // 
-            this.gb_p6.Controls.Add(this.label6);
-            this.gb_p6.Controls.Add(this.numericUpDown6);
-            this.gb_p6.Location = new System.Drawing.Point(295, 0);
-            this.gb_p6.Margin = new System.Windows.Forms.Padding(0);
-            this.gb_p6.Name = "gb_p6";
-            this.gb_p6.Padding = new System.Windows.Forms.Padding(0);
-            this.gb_p6.Size = new System.Drawing.Size(73, 91);
-            this.gb_p6.TabIndex = 2;
-            this.gb_p6.TabStop = false;
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(3, 69);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(67, 19);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "000,0";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // numericUpDown6
-            // 
-            this.numericUpDown6.DecimalPlaces = 1;
-            this.numericUpDown6.Location = new System.Drawing.Point(3, 32);
-            this.numericUpDown6.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numericUpDown6.Name = "numericUpDown6";
-            this.numericUpDown6.Size = new System.Drawing.Size(67, 20);
-            this.numericUpDown6.TabIndex = 0;
-            this.numericUpDown6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown6.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown6.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
-            // 
-            // gb_p5
-            // 
-            this.gb_p5.Controls.Add(this.label5);
-            this.gb_p5.Controls.Add(this.numericUpDown5);
-            this.gb_p5.Location = new System.Drawing.Point(368, 0);
-            this.gb_p5.Margin = new System.Windows.Forms.Padding(0);
-            this.gb_p5.Name = "gb_p5";
-            this.gb_p5.Padding = new System.Windows.Forms.Padding(0);
-            this.gb_p5.Size = new System.Drawing.Size(73, 91);
-            this.gb_p5.TabIndex = 2;
-            this.gb_p5.TabStop = false;
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(3, 69);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(67, 19);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "000,0";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // numericUpDown5
-            // 
-            this.numericUpDown5.DecimalPlaces = 1;
-            this.numericUpDown5.Location = new System.Drawing.Point(3, 32);
-            this.numericUpDown5.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numericUpDown5.Name = "numericUpDown5";
-            this.numericUpDown5.Size = new System.Drawing.Size(67, 20);
-            this.numericUpDown5.TabIndex = 0;
-            this.numericUpDown5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown5.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown5.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
-            // 
-            // gb_p4
-            // 
-            this.gb_p4.Controls.Add(this.label4);
-            this.gb_p4.Controls.Add(this.numericUpDown4);
-            this.gb_p4.Location = new System.Drawing.Point(441, 0);
-            this.gb_p4.Margin = new System.Windows.Forms.Padding(0);
-            this.gb_p4.Name = "gb_p4";
-            this.gb_p4.Padding = new System.Windows.Forms.Padding(0);
-            this.gb_p4.Size = new System.Drawing.Size(73, 91);
-            this.gb_p4.TabIndex = 2;
-            this.gb_p4.TabStop = false;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(3, 69);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 19);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "000,0";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // numericUpDown4
-            // 
-            this.numericUpDown4.DecimalPlaces = 1;
-            this.numericUpDown4.Location = new System.Drawing.Point(3, 32);
-            this.numericUpDown4.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(67, 20);
-            this.numericUpDown4.TabIndex = 0;
-            this.numericUpDown4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown4.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown4.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(67, 20);
+            this.numericUpDown2.TabIndex = 0;
+            this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // gb_p3
             // 
@@ -513,41 +303,251 @@
             0});
             this.numericUpDown3.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
-            // gb_p2
+            // gb_p9
             // 
-            this.gb_p2.Controls.Add(this.label2);
-            this.gb_p2.Controls.Add(this.numericUpDown2);
-            this.gb_p2.Location = new System.Drawing.Point(587, 0);
-            this.gb_p2.Margin = new System.Windows.Forms.Padding(0);
-            this.gb_p2.Name = "gb_p2";
-            this.gb_p2.Padding = new System.Windows.Forms.Padding(0);
-            this.gb_p2.Size = new System.Drawing.Size(73, 91);
-            this.gb_p2.TabIndex = 2;
-            this.gb_p2.TabStop = false;
+            this.gb_p9.Controls.Add(this.label9);
+            this.gb_p9.Controls.Add(this.numericUpDown9);
+            this.gb_p9.Location = new System.Drawing.Point(76, 0);
+            this.gb_p9.Margin = new System.Windows.Forms.Padding(0);
+            this.gb_p9.Name = "gb_p9";
+            this.gb_p9.Padding = new System.Windows.Forms.Padding(0);
+            this.gb_p9.Size = new System.Drawing.Size(73, 91);
+            this.gb_p9.TabIndex = 2;
+            this.gb_p9.TabStop = false;
             // 
-            // label2
+            // label9
             // 
-            this.label2.Location = new System.Drawing.Point(3, 69);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 19);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "000,0";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.label9.Location = new System.Drawing.Point(3, 69);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 19);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "000,0";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // numericUpDown2
+            // numericUpDown9
             // 
-            this.numericUpDown2.DecimalPlaces = 1;
-            this.numericUpDown2.Location = new System.Drawing.Point(3, 32);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
+            this.numericUpDown9.DecimalPlaces = 1;
+            this.numericUpDown9.Location = new System.Drawing.Point(3, 32);
+            this.numericUpDown9.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(67, 20);
-            this.numericUpDown2.TabIndex = 0;
-            this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.numericUpDown9.Name = "numericUpDown9";
+            this.numericUpDown9.Size = new System.Drawing.Size(67, 20);
+            this.numericUpDown9.TabIndex = 0;
+            this.numericUpDown9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDown9.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown9.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // gb_p4
+            // 
+            this.gb_p4.Controls.Add(this.label4);
+            this.gb_p4.Controls.Add(this.numericUpDown4);
+            this.gb_p4.Location = new System.Drawing.Point(441, 0);
+            this.gb_p4.Margin = new System.Windows.Forms.Padding(0);
+            this.gb_p4.Name = "gb_p4";
+            this.gb_p4.Padding = new System.Windows.Forms.Padding(0);
+            this.gb_p4.Size = new System.Drawing.Size(73, 91);
+            this.gb_p4.TabIndex = 2;
+            this.gb_p4.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(3, 69);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(67, 19);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "000,0";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // numericUpDown4
+            // 
+            this.numericUpDown4.DecimalPlaces = 1;
+            this.numericUpDown4.Location = new System.Drawing.Point(3, 32);
+            this.numericUpDown4.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown4.Name = "numericUpDown4";
+            this.numericUpDown4.Size = new System.Drawing.Size(67, 20);
+            this.numericUpDown4.TabIndex = 0;
+            this.numericUpDown4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDown4.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown4.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // gb_p8
+            // 
+            this.gb_p8.Controls.Add(this.label8);
+            this.gb_p8.Controls.Add(this.numericUpDown8);
+            this.gb_p8.Location = new System.Drawing.Point(149, 0);
+            this.gb_p8.Margin = new System.Windows.Forms.Padding(0);
+            this.gb_p8.Name = "gb_p8";
+            this.gb_p8.Padding = new System.Windows.Forms.Padding(0);
+            this.gb_p8.Size = new System.Drawing.Size(73, 91);
+            this.gb_p8.TabIndex = 2;
+            this.gb_p8.TabStop = false;
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(3, 69);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(67, 19);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "000,0";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // numericUpDown8
+            // 
+            this.numericUpDown8.DecimalPlaces = 1;
+            this.numericUpDown8.Location = new System.Drawing.Point(3, 32);
+            this.numericUpDown8.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown8.Name = "numericUpDown8";
+            this.numericUpDown8.Size = new System.Drawing.Size(67, 20);
+            this.numericUpDown8.TabIndex = 0;
+            this.numericUpDown8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDown8.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown8.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // gb_p5
+            // 
+            this.gb_p5.Controls.Add(this.label5);
+            this.gb_p5.Controls.Add(this.numericUpDown5);
+            this.gb_p5.Location = new System.Drawing.Point(368, 0);
+            this.gb_p5.Margin = new System.Windows.Forms.Padding(0);
+            this.gb_p5.Name = "gb_p5";
+            this.gb_p5.Padding = new System.Windows.Forms.Padding(0);
+            this.gb_p5.Size = new System.Drawing.Size(73, 91);
+            this.gb_p5.TabIndex = 2;
+            this.gb_p5.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(3, 69);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(67, 19);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "000,0";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // numericUpDown5
+            // 
+            this.numericUpDown5.DecimalPlaces = 1;
+            this.numericUpDown5.Location = new System.Drawing.Point(3, 32);
+            this.numericUpDown5.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Name = "numericUpDown5";
+            this.numericUpDown5.Size = new System.Drawing.Size(67, 20);
+            this.numericUpDown5.TabIndex = 0;
+            this.numericUpDown5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDown5.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown5.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // gb_p6
+            // 
+            this.gb_p6.Controls.Add(this.label6);
+            this.gb_p6.Controls.Add(this.numericUpDown6);
+            this.gb_p6.Location = new System.Drawing.Point(295, 0);
+            this.gb_p6.Margin = new System.Windows.Forms.Padding(0);
+            this.gb_p6.Name = "gb_p6";
+            this.gb_p6.Padding = new System.Windows.Forms.Padding(0);
+            this.gb_p6.Size = new System.Drawing.Size(73, 91);
+            this.gb_p6.TabIndex = 2;
+            this.gb_p6.TabStop = false;
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(3, 69);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(67, 19);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "000,0";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // numericUpDown6
+            // 
+            this.numericUpDown6.DecimalPlaces = 1;
+            this.numericUpDown6.Location = new System.Drawing.Point(3, 32);
+            this.numericUpDown6.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown6.Name = "numericUpDown6";
+            this.numericUpDown6.Size = new System.Drawing.Size(67, 20);
+            this.numericUpDown6.TabIndex = 0;
+            this.numericUpDown6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDown6.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown6.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // gb_p7
+            // 
+            this.gb_p7.Controls.Add(this.label7);
+            this.gb_p7.Controls.Add(this.numericUpDown7);
+            this.gb_p7.Location = new System.Drawing.Point(222, 0);
+            this.gb_p7.Margin = new System.Windows.Forms.Padding(0);
+            this.gb_p7.Name = "gb_p7";
+            this.gb_p7.Padding = new System.Windows.Forms.Padding(0);
+            this.gb_p7.Size = new System.Drawing.Size(73, 91);
+            this.gb_p7.TabIndex = 2;
+            this.gb_p7.TabStop = false;
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(3, 69);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(67, 19);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "000,0";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // numericUpDown7
+            // 
+            this.numericUpDown7.DecimalPlaces = 1;
+            this.numericUpDown7.Location = new System.Drawing.Point(3, 32);
+            this.numericUpDown7.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown7.Name = "numericUpDown7";
+            this.numericUpDown7.Size = new System.Drawing.Size(67, 20);
+            this.numericUpDown7.TabIndex = 0;
+            this.numericUpDown7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDown7.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown7.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // groupBox12
             // 
@@ -580,6 +580,7 @@
             // 
             // pb_preview
             // 
+            this.pb_preview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pb_preview.Location = new System.Drawing.Point(3, 3);
             this.pb_preview.Name = "pb_preview";
             this.pb_preview.Size = new System.Drawing.Size(883, 444);
@@ -700,22 +701,22 @@
             this.panel1.ResumeLayout(false);
             this.gb_p10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown10)).EndInit();
-            this.gb_p9.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).EndInit();
-            this.gb_p8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).EndInit();
-            this.gb_p7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
-            this.gb_p6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
-            this.gb_p5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
-            this.gb_p4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
-            this.gb_p3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             this.gb_p2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            this.gb_p3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            this.gb_p9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).EndInit();
+            this.gb_p4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+            this.gb_p8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).EndInit();
+            this.gb_p5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
+            this.gb_p6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
+            this.gb_p7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
             this.groupBox12.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).EndInit();
