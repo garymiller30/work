@@ -184,12 +184,23 @@ namespace JobSpace.UserForms.PDF
             float y_start = 0;
             float y_end = (float)box.Trimbox.hMM();
 
-
-            for (int i = 0; i < BigovkaMarksParams.Bigovki.Length; i++)
+            if (BigovkaMarksParams.MirrorEven && page_idx %2 == 1)
             {
-                x += (float)BigovkaMarksParams.Bigovki[i];
-                g.DrawLine(white_pen, x, y_start, x, y_end);
-                g.DrawLine(big_pen, x, y_start, x, y_end);
+                for (int i = BigovkaMarksParams.Bigovki.Length -1; i >=0 ; i--)
+                {
+                    x += (float)BigovkaMarksParams.Bigovki[i];
+                    g.DrawLine(white_pen, (float)box.Trimbox.wMM() - x, y_start, (float)box.Trimbox.wMM() - x, y_end);
+                    g.DrawLine(big_pen, (float)box.Trimbox.wMM() - x, y_start, (float)box.Trimbox.wMM() - x, y_end);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < BigovkaMarksParams.Bigovki.Length; i++)
+                {
+                    x += (float)BigovkaMarksParams.Bigovki[i];
+                    g.DrawLine(white_pen, x, y_start, x, y_end);
+                    g.DrawLine(big_pen, x, y_start, x, y_end);
+                }
             }
         }
 
@@ -205,6 +216,11 @@ namespace JobSpace.UserForms.PDF
         }
 
         private void radioButtonHor_Click(object sender, EventArgs e)
+        {
+            pb_preview.Invalidate();
+        }
+
+        private void cb_mirrorEven_CheckedChanged(object sender, EventArgs e)
         {
             pb_preview.Invalidate();
         }
