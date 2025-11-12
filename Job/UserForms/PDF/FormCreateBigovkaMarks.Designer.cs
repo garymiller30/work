@@ -108,6 +108,7 @@
             this.cb_mirrorEven.TabIndex = 11;
             this.cb_mirrorEven.Text = "Дзеркальні поля";
             this.cb_mirrorEven.UseVisualStyleBackColor = true;
+            this.cb_mirrorEven.CheckedChanged += new System.EventHandler(this.cb_mirrorEven_CheckedChanged);
             // 
             // radioButtonVer
             // 
