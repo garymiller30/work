@@ -159,6 +159,8 @@ namespace JobSpace.UC
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
+            this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -408,17 +410,18 @@ namespace JobSpace.UC
             this.зєднатиФайлиВОдинToolStripMenuItem,
             this.зєднатиФайлиВОдинтимчасовоToolStripMenuItem,
             this.reversePagesToolStripMenuItem,
+            this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem,
             this.repeatPagesPDFToolStripMenuItem,
+            this.repeatDocumentToolStripMenuItem,
             this.combineFrontsBackToolStripMenuItem,
             this.зєднатиПарніІНепарніСторінкиToolStripMenuItem,
-            this.repeatDocumentToolStripMenuItem,
             this.змінитиРозмірToolStripMenuItem,
+            this.toolStripSeparator17,
             this.візуалізаціяToolStripMenuItem,
             this.toolStripSeparator14,
             this.splitPDFToolStripMenuItem,
             this.розділитиТимчасовоЗібранийФайлToolStripMenuItem,
             this.розділитиНаПарніІНепарніСторінкиToolStripMenuItem,
-            this.розвернутиСторінкиНа90ДзеркальноToolStripMenuItem,
             this.розділитиОбкладинкуІБлокToolStripMenuItem,
             this.розділитиРозворотиToolStripMenuItem,
             this.витягтиСторінкиToolStripMenuItem,
@@ -431,6 +434,7 @@ namespace JobSpace.UC
             this.створитипустишкиЗТиражамиToolStripMenuItem,
             this.створитиМіткиДляБіговкиToolStripMenuItem,
             this.створитиМіткиДляПідборуToolStripMenuItem,
+            this.toolStripSeparator18,
             this.спускПолосToolStripMenuItem,
             this.toolStripSeparator16,
             this.зберегтиЯкJpgToolStripMenuItem,
@@ -451,7 +455,7 @@ namespace JobSpace.UC
             // 
             this.зєднатиФайлиВОдинтимчасовоToolStripMenuItem.Name = "зєднатиФайлиВОдинтимчасовоToolStripMenuItem";
             this.зєднатиФайлиВОдинтимчасовоToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
-            this.зєднатиФайлиВОдинтимчасовоToolStripMenuItem.Text = "з\'єднати файли в один (тимчасово)";
+            this.зєднатиФайлиВОдинтимчасовоToolStripMenuItem.Text = "• З\'єднати файли в один (тимчасово)";
             this.зєднатиФайлиВОдинтимчасовоToolStripMenuItem.Click += new System.EventHandler(this.зєднатиФайлиВОдинтимчасовоToolStripMenuItem_Click);
             // 
             // reversePagesToolStripMenuItem
@@ -465,7 +469,7 @@ namespace JobSpace.UC
             // 
             this.repeatPagesPDFToolStripMenuItem.Name = "repeatPagesPDFToolStripMenuItem";
             this.repeatPagesPDFToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
-            this.repeatPagesPDFToolStripMenuItem.Text = "Повторити сторінки в PDF";
+            this.repeatPagesPDFToolStripMenuItem.Text = "Повторити сторінки";
             this.repeatPagesPDFToolStripMenuItem.Click += new System.EventHandler(this.RepeatPagesPDFToolStripMenuItem_Click);
             // 
             // combineFrontsBackToolStripMenuItem
@@ -502,6 +506,7 @@ namespace JobSpace.UC
             this.пружинаToolStripMenuItem,
             this.календарToolStripMenuItem,
             this.фальцовкаToolStripMenuItem});
+            this.візуалізаціяToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.візуалізаціяToolStripMenuItem.Name = "візуалізаціяToolStripMenuItem";
             this.візуалізаціяToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.візуалізаціяToolStripMenuItem.Text = "Візуалізація";
@@ -526,7 +531,7 @@ namespace JobSpace.UC
             this.квартальнийToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.зєднатиБлокПо3МісяціToolStripMenuItem});
             this.квартальнийToolStripMenuItem.Name = "квартальнийToolStripMenuItem";
-            this.квартальнийToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.квартальнийToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.квартальнийToolStripMenuItem.Text = "квартальний";
             // 
             // зєднатиБлокПо3МісяціToolStripMenuItem
@@ -552,14 +557,14 @@ namespace JobSpace.UC
             // 
             this.splitPDFToolStripMenuItem.Name = "splitPDFToolStripMenuItem";
             this.splitPDFToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
-            this.splitPDFToolStripMenuItem.Text = "Розділити PDF";
+            this.splitPDFToolStripMenuItem.Text = "Розділити файл на частини";
             this.splitPDFToolStripMenuItem.Click += new System.EventHandler(this.SplitPDFToolStripMenuItem_Click);
             // 
             // розділитиТимчасовоЗібранийФайлToolStripMenuItem
             // 
             this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Name = "розділитиТимчасовоЗібранийФайлToolStripMenuItem";
             this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
-            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Text = "Розділити тимчасово зібраний файл";
+            this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Text = "• Розділити тимчасово зібраний файл";
             this.розділитиТимчасовоЗібранийФайлToolStripMenuItem.Click += new System.EventHandler(this.розділитиТимчасовоЗібранийФайлToolStripMenuItem_Click);
             // 
             // розділитиНаПарніІНепарніСторінкиToolStripMenuItem
@@ -660,6 +665,7 @@ namespace JobSpace.UC
             // 
             // спускПолосToolStripMenuItem
             // 
+            this.спускПолосToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.спускПолосToolStripMenuItem.Name = "спускПолосToolStripMenuItem";
             this.спускПолосToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.спускПолосToolStripMenuItem.Text = "Спуск полос";
@@ -1156,6 +1162,7 @@ namespace JobSpace.UC
             // 
             // toolStripTextBox_Filter
             // 
+            this.toolStripTextBox_Filter.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBox_Filter.Name = "toolStripTextBox_Filter";
             this.toolStripTextBox_Filter.Size = new System.Drawing.Size(80, 25);
             this.toolStripTextBox_Filter.ToolTipText = "Filter";
@@ -1276,6 +1283,16 @@ namespace JobSpace.UC
             // kryptonContextMenuHeading1
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
+            // 
+            // toolStripSeparator17
+            // 
+            this.toolStripSeparator17.Name = "toolStripSeparator17";
+            this.toolStripSeparator17.Size = new System.Drawing.Size(292, 6);
+            // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            this.toolStripSeparator18.Size = new System.Drawing.Size(292, 6);
             // 
             // UCFileBrowser
             // 
@@ -1444,5 +1461,7 @@ namespace JobSpace.UC
         private System.Windows.Forms.ToolStripMenuItem квартальнийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem зєднатиБлокПо3МісяціToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem фальцовкаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
     }
 }
