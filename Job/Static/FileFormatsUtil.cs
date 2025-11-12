@@ -28,6 +28,7 @@ using JobSpace.Static.Pdf.Merge;
 using JobSpace.Static.Pdf.MergeFrontsAndBack;
 using JobSpace.Static.Pdf.MergeOddAndEven;
 using JobSpace.Static.Pdf.MergeTemporary;
+using JobSpace.Static.Pdf.Remove;
 using JobSpace.Static.Pdf.Repeat.Document;
 using JobSpace.Static.Pdf.RepeatPages;
 using JobSpace.Static.Pdf.Reverse;
@@ -696,6 +697,18 @@ namespace JobSpace.Static
         public static void MergeBlockBy3Months(string file)
         {
             new MergeBlockBy3Months().Run(file);
+        }
+
+        public static void RemoveICCProfiles(List<IFileSystemInfoExt> fileSystemInfoExts)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Remove ICC Profiles from PDF", new Action(
+            () =>
+            {
+                foreach (var file in fileSystemInfoExts)
+                {
+                    new PdfRemoveICCProfiles().Run(file.FileInfo.FullName);
+                }
+            })));
         }
     }
 }

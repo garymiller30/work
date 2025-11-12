@@ -1381,5 +1381,10 @@ namespace JobSpace.UC
         {
             FileBrowserSevices.PDF_VisualFalc(objectListView1.SelectedObject);
         }
+
+        private void видалитиICCПрофіліToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileBrowserSevices.PDF_RemoveICCProfiles(objectListView1.SelectedObjects);
+        }
     }
 }

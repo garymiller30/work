@@ -185,9 +185,6 @@ namespace JobSpace.Static
                     }
                 }
             }
-
-
-
         }
         public static void PDF_ExtractPages(IList files)
         {
@@ -829,6 +826,12 @@ namespace JobSpace.Static
                 },
             });
 
+        }
+
+        public static void PDF_RemoveICCProfiles(IList files)
+        {
+            if (files.Count == 0) return;
+            FileFormatsUtil.RemoveICCProfiles(files.Cast<IFileSystemInfoExt>().ToList());
         }
 
 
