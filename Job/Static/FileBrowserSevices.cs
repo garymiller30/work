@@ -206,13 +206,18 @@ namespace JobSpace.Static
                     {
                         Width = (double)form.PdfWidth,
                         Height = (double)form.PdfHeight,
-                        isSpot = color.IsSpot,
-                        C = color.C,
-                        M = color.M,
-                        Y = color.Y,
-                        K = color.K,
-                        Name = color.Name,
-                        Lab = color.Lab
+                        Lab = color.Lab,
+                        Color = new Pdf.Imposition.Models.MarkColor
+                        {
+                            IsSpot = color.IsSpot,
+                            C = (double)color.C,
+                            M = (double)color.M,
+                            Y = (double)color.Y,
+                            K = (double)color.K,
+                            Name = color.Name,
+                        },
+                        
+                        
                     }, targetDir);
 
                 }
@@ -221,7 +226,7 @@ namespace JobSpace.Static
         public static void PDF_ScaleFiles(IList files)
         {
             if (files.Count == 0) return;
-            using (var form = new FormSelectPdfNewSize())
+            using (var form = new FormSelectPdfNewSize((IFileSystemInfoExt)files[0]))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {

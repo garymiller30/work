@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobSpace.Static.Pdf.Imposition.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,13 +11,7 @@ namespace JobSpace.Static.Pdf.Create.Rectangle
     {
         public double Width { get; set; }
         public double Height { get; set; }
-
-        public bool isSpot { get;set;}
-        public decimal C { get;set;}
-        public decimal M { get;set;}
-        public decimal Y { get;set;}
-        public decimal K { get;set;}
-        public string Name { get;set;}
+        public MarkColor Color { get; set; } = new MarkColor();
         public string Lab { get;set;}
     }
 }
