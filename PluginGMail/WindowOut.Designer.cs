@@ -41,7 +41,6 @@
             this.tsb_okZoom = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.tls_save_to = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.webView21)).BeginInit();
             this.toolStrip2.SuspendLayout();
@@ -101,8 +100,7 @@
             this.toolStripLabel1,
             this.tsb_okZoom,
             this.toolStripSeparator2,
-            this.toolStripLabel2,
-            this.tls_save_to});
+            this.toolStripLabel2});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(608, 25);
@@ -158,11 +156,6 @@
             this.toolStripLabel2.Size = new System.Drawing.Size(77, 22);
             this.toolStripLabel2.Text = "зберігати до:";
             // 
-            // tls_save_to
-            // 
-            this.tls_save_to.Name = "tls_save_to";
-            this.tls_save_to.Size = new System.Drawing.Size(0, 22);
-            // 
             // WindowOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -195,6 +188,5 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
-        private System.Windows.Forms.ToolStripLabel tls_save_to;
     }
 }
