@@ -23,6 +23,8 @@ namespace PluginFileshareWeb
         CoreWebView2Environment environment;
         CoreWebView2EnvironmentOptions options;
         WebView2 curwebView2 = null;
+        List<ToolStripButton> toolStripButtons = new List<ToolStripButton>();
+
         double zoomFactor = 80;
         public IUserProfile UserProfile { get; set; }
 
@@ -65,9 +67,20 @@ namespace PluginFileshareWeb
         public void Start()
         {
             _settings = UserProfile.Plugins.LoadSettings<FileShareWebSettings>();
+            AddingLinksToToolStrip();
+        }
+
+        private void AddingLinksToToolStrip()
+        {
+            foreach (var btn in toolStripButtons)
+            {
+                toolStrip1.Items.Remove(btn);
+            }
+
             foreach (var link in _settings.Links)
             {
                 var button = CreateButton(link);
+                toolStripButtons.Add(button);
                 toolStrip1.Items.Add(button);
             }
         }
@@ -109,7 +122,15 @@ namespace PluginFileshareWeb
 
         public void ShowSettingsDlg()
         {
-            
+            using (var form = new FormSettings(_settings))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    _settings = form.Settings;
+                    UserProfile.Plugins.SaveSettings(_settings);
+                    AddingLinksToToolStrip();
+                }
+            }
         }
 
         private void toolStripButton_Add_Click(object sender, EventArgs e)
