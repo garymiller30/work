@@ -95,7 +95,7 @@ namespace JobSpace.UC
                 List<IFileSystemInfoExt> files;
                 if (Settings.ShowAllFilesWithoutDir)
                 {
-                     await GetAllFilesWithoutDir();
+                    await GetAllFilesWithoutDir();
                     return;
                 }
                 else
@@ -141,7 +141,7 @@ namespace JobSpace.UC
 
         public void MoveFileOrDirectoryToCurrentFolder(IFileSystemInfoExt file, string newName)
         {
-            if (file.FileInfo.Name.Equals(newName,StringComparison.InvariantCultureIgnoreCase)) return;
+            if (file.FileInfo.Name.Equals(newName, StringComparison.InvariantCultureIgnoreCase)) return;
 
             _moveFileOrDir(file, Path.Combine(Settings.CurFolder, newName));
         }
@@ -208,7 +208,7 @@ namespace JobSpace.UC
                 {
                     var target = Path.Combine(Settings.CurFolder, Path.GetFileName(file));
                     int count = 1;
-                    
+
                     while (File.Exists(target))
                     {
                         target = Path.Combine(Settings.CurFolder, $"{Path.GetFileNameWithoutExtension(file)}({count}){Path.GetExtension(file)}");
@@ -221,6 +221,33 @@ namespace JobSpace.UC
                     }
                     else
                         FileSystem.CopyFile(file, target, UIOption.AllDialogs);
+                }
+            }
+        }
+
+        public void PasteFromClipboardLikeCopy(string[] files)
+        {
+            foreach (var file in files)
+            {
+
+                var info = new FileInfo(file).ToFileSystemInfoExt();
+
+                if (Directory.Exists(file))
+                {
+                    FileSystem.CopyDirectory(file, Path.Combine(Settings.CurFolder, Path.GetFileName(file)), UIOption.AllDialogs);
+                }
+                else
+                {
+                    var target = Path.Combine(Settings.CurFolder, Path.GetFileName(file));
+                    int count = 1;
+
+                    while (File.Exists(target))
+                    {
+                        target = Path.Combine(Settings.CurFolder, $"{Path.GetFileNameWithoutExtension(file)}({count}){Path.GetExtension(file)}");
+                        count++;
+                    }
+
+                    FileSystem.CopyFile(file, target, UIOption.AllDialogs);
                 }
             }
         }
@@ -393,7 +420,7 @@ namespace JobSpace.UC
             _ = RefreshAsync(selectedFileName);
         }
 
-        public void MoveFolderContentsToHere(IFileSystemInfoExt folder,bool appendFolderName)
+        public void MoveFolderContentsToHere(IFileSystemInfoExt folder, bool appendFolderName)
         {
             var sourceFolder = folder.FileInfo.FullName;
 
@@ -417,10 +444,10 @@ namespace JobSpace.UC
             if (!Directory.Exists(destFolder))
                 Directory.CreateDirectory(destFolder);
 
-            string folderName ="";
+            string folderName = "";
             if (appendFolderName == true)
             {
-                folderName = $"{Path.GetFileName(sourceFolder)}_"; 
+                folderName = $"{Path.GetFileName(sourceFolder)}_";
             }
 
             // Get Files & Copy

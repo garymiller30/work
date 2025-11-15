@@ -1386,5 +1386,10 @@ namespace JobSpace.UC
         {
             FileBrowserSevices.PDF_RemoveICCProfiles(objectListView1.SelectedObjects);
         }
+
+        private void вставитиЯкКопіюToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileBrowserSevices.Clipboard_PasteLikeCopyFiles(_fileManager);
+        }
     }
 }

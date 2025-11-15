@@ -767,6 +767,17 @@ namespace JobSpace.Static
                 fileManager.PasteFromClipboard(filePaths.Cast<string>().ToArray());
             }
         }
+        public static void Clipboard_PasteLikeCopyFiles(IFileManager fileManager)
+        {
+            if (Clipboard.ContainsFileDropList())
+            {
+                // вставити файли як копії тих, що в буфері обміну
+                var filePaths = Clipboard.GetFileDropList();
+                fileManager.PasteFromClipboardLikeCopy(filePaths.Cast<string>().ToArray());
+            }
+        }
+
+
         public static void Clipboard_CutFiles(IList files)
         {
             if (files.Count == 0) return;
@@ -833,6 +844,8 @@ namespace JobSpace.Static
             if (files.Count == 0) return;
             FileFormatsUtil.RemoveICCProfiles(files.Cast<IFileSystemInfoExt>().ToList());
         }
+
+       
 
 
 

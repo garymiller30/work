@@ -45,6 +45,7 @@ namespace JobSpace.UC
         void MoveFolderContentsToHere(IFileSystemInfoExt folder, bool appendFolderName);
         Task GetAllFilesWithoutDir();
         void MoveTo(IFileSystemInfoExt file, string targetDir);
+        void PasteFromClipboardLikeCopy(string[] strings);
         //IFileManager UseWatcher(IWatcher watcher);
         //IFileManager UseCache(ICache cache);
     }
