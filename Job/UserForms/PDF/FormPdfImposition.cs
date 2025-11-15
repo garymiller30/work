@@ -377,8 +377,8 @@ namespace JobSpace.UserForms.PDF
             _productPart.ExportParameters.TemplateString = tb_useTemplate.Text;
             _productPart.ExportParameters.UseCustomOutputFolder = cb_useCustomOutputFolder.Checked;
             _productPart.ExportParameters.CustomOutputFolder = cb_CustomOutputPath.Text;
-
-            _productPart.ExportParameters.OutputFileName = _imposInputParam.Files[0] + ".impos.pdf";
+            string firstFile = _imposInputParam.Files[0];
+            _productPart.ExportParameters.OutputFileName = Path.Combine(Path.GetDirectoryName(firstFile),$"{Path.GetFileNameWithoutExtension(firstFile)}_impos{Path.GetExtension(firstFile)}");
 
             //DrawerStatic.CurProductPart = _productPart;
 
