@@ -23,7 +23,6 @@ namespace JobSpace.Profiles
                                 .ToList();
 
             var loadedProfiles = dirs
-                .AsParallel()
                 .Select(dir =>
                 {
                     var profileFile = Path.Combine(dir, ProfileFileName);
@@ -45,10 +44,10 @@ namespace JobSpace.Profiles
             {
                 ProfilesController.AddProfile();
             }
-            else
-            {
-                Profiles.ForEach(x => x.InitProfile());
-            }
+            //else
+            //{
+            //    Profiles.ForEach(x => x.InitProfile());
+            //}
         }
 
         public static Profile[] GetProfiles()
@@ -76,7 +75,7 @@ namespace JobSpace.Profiles
                     //todo:check for duplicate name profile
 
                     profile.InitProfile();
-                    
+
 
                     Profiles.Add(profile);
                     Save();
@@ -99,7 +98,7 @@ namespace JobSpace.Profiles
 
                 var profileFile = Path.Combine(userDir, ProfileFileName);
 
-                Commons.SerializeXML((ProfileSettings)profile.Settings,profileFile);
+                Commons.SerializeXML((ProfileSettings)profile.Settings, profileFile);
 
             }
         }
@@ -112,7 +111,7 @@ namespace JobSpace.Profiles
 
             var profileFile = Path.Combine(userDir, ProfileFileName);
 
-            Commons.SerializeXML((ProfileSettings)profile.Settings,profileFile);
+            Commons.SerializeXML((ProfileSettings)profile.Settings, profileFile);
         }
 
         public static void RemoveProfile(Profile profile)
@@ -147,7 +146,7 @@ namespace JobSpace.Profiles
 
         public static void CloseProgram()
         {
-            Profiles.ForEach(x=>x.Exit());
+            Profiles.ForEach(x => x.Exit());
         }
     }
 }

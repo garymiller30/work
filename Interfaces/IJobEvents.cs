@@ -13,6 +13,7 @@ namespace Interfaces
         EventHandler<IJob> OnJobBeginEdit { get; set; }
         EventHandler<IJob> OnJobFinishEdit { get; set; }
         EventHandler<IJob> OnJobDelete { get; set; }
+        EventHandler OnToolsMenuInitialized { get; set; }
 
         void RiseOnJobChange(IJob job);
         void Init(IUserProfile profile);

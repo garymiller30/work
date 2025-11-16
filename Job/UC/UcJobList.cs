@@ -83,9 +83,25 @@ namespace JobSpace.UC
             olvColumn_Status.ImageGetter += ImageGetter;
             olvColumnProcess.Renderer = new BarRenderer(0, 100);
 
+            if (_profile.MenuManagers == null || _profile.MenuManagers.IsInitialized == false)
+            {
+                _profile.Events.Jobs.OnToolsMenuInitialized += (s, e) =>
+                {
+                    InitMenus();
+                };
+            }
+            else
+            {
+                InitMenus();
+            }
+        }
+
+        private void InitMenus()
+        {
             InitMainToolStrip();
             AddingExtendedSettings();
         }
+
         private void ObjectListView_NewWorks_DoubleClick(object sender, EventArgs e)
         {
             EditJob2();
@@ -117,7 +133,7 @@ namespace JobSpace.UC
                             jobParameters.ApplyToJob();
                             _profile.Jobs.UpdateJob(j);
                             objectListView_NewWorks.RefreshObject(j);
-                            
+
                             var newPath = _profile.Jobs.GetFullPathToWorkFolder(j);
                             _profile.FileBrowser.Browsers[0].SetRootFolder(newPath);
                             _profile.Plugins.MqController.PublishChanges(MessageEnum.JobChanged, j.Id);
@@ -215,9 +231,6 @@ namespace JobSpace.UC
 
             var menus = _profile.MenuManagers.Utils.GetToolStripButtons(0, ToolsStripMenuItem_Click, true);
 
-            //var mainMenus = new List<ToolStripItem>();
-            //bool isMenuEmpty = true;
-
             foreach (var menu in menus)
             {
                 if (menu is ToolStripButton || menu is ToolStripSplitButton)
@@ -226,7 +239,7 @@ namespace JobSpace.UC
                     {
                         if (menuSendTo.UsedInMainWindow && menuSendTo.Enable)
                         {
-                            if (_profile.ScriptEngine.IsScriptFile( menuSendTo.Path))
+                            if (_profile.ScriptEngine.IsScriptFile(menuSendTo.Path))
                             {
                                 toolStripMainScriptPanel.Items.Add(menu);
                             }

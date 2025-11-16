@@ -17,7 +17,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Profile = JobSpace.Profiles.Profile;
 
 namespace ActiveWorks
 {
@@ -136,18 +138,22 @@ namespace ActiveWorks
             SplashScreen.Splash.SetHeader("профілі");
             SplashScreen.Splash.SetStatus("завантажуємо...");
 
-            var profiles = ProfilesController.GetProfiles(Settings.Default.ProfilesPath);
+            Profile[] profiles = ProfilesController.GetProfiles(Settings.Default.ProfilesPath);
 
             SplashScreen.Splash.SetStatus("ок!");
             
             var defProfileName = Settings.Default.DefaultProfile;
 
-            foreach (var profile in profiles)
-            {
-               
-                CreateProfileTab(profile);
-                
-            }
+            this.InvokeIfNeeded(() => {
+                foreach (var profile in profiles)
+                {
+
+                    CreateProfileTab(profile);
+
+                }
+            });
+
+         
         }
         /// <summary>
         /// Creates a new profile tab in the ribbon and initializes the associated profile form.
@@ -714,6 +720,7 @@ namespace ActiveWorks
         private void Form2_Load(object sender, EventArgs e)
         {
             SuspendLayout();
+            
             CreateProfilesTab();
 
             SetActiveDefaultProfile();
