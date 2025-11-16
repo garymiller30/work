@@ -57,6 +57,7 @@ namespace ActiveWorks.UserControls
         public void Init()
         {
             _profile = (IUserProfile)Tag;
+            _profile.InitProfile();
             Init(_profile);
         }
 

@@ -14,6 +14,7 @@ namespace JobSpace.Profiles.ProfileEvents
         public EventHandler<IJob> OnJobBeginEdit { get; set; } = delegate { };
         public EventHandler<IJob> OnJobFinishEdit { get; set; } = delegate { };
         public EventHandler<IJob> OnJobDelete { get; set; } = delegate { };
+        public EventHandler OnToolsMenuInitialized { get ; set ; } = delegate { };
 
         public override void Init(IUserProfile profile)
         {

@@ -53,7 +53,7 @@ namespace StaticFiles
             _fileBrowser.InitToolStripUtils(-1);
 
             Controls.Add(_fileBrowser);
-
+            if (_profile.Customers == null) return;
             var customers = _profile.Customers.Where(x => x.Show).ToList();
             toolStripComboBoxCustomers.ComboBox.DataSource = customers;
             toolStripComboBoxCustomers.ComboBox.DisplayMember = "Name";

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using ActiveWorks;
+﻿using ActiveWorks;
 using CSScriptEngine;
 using ExtensionMethods;
 using Interfaces;
@@ -15,8 +9,16 @@ using JobSpace.Fasades;
 using JobSpace.Menus;
 using JobSpace.Static.Pdf.Imposition.Services;
 using MailNotifier;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using Plugins;
 using PythonEngine;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace JobSpace.Profiles
 {
@@ -55,13 +57,8 @@ namespace JobSpace.Profiles
         public void InitProfile()
         {
             if (IsInitialized) return;
-            LoadPlugins();
-
-            ScriptEngine = new PythonScriptEngine(this);
-            
-            LoadSettingsFromDisk();
             LoadSettingsFromBase();
-
+            LoadPlugins();
             IsInitialized = true;
         }
 
@@ -94,8 +91,16 @@ namespace JobSpace.Profiles
             };
 
             Base = new BaseManager(repo, Settings.GetBaseSettings());
-            if (Base.Connect())
+
+            if (Base.Connect() == true)
             {
+                // ініціалізація фасадів, налаштування не залежать від бази, але потрібен Base для роботи
+                ScriptEngine = new PythonScriptEngine(this);
+                SearchHistory = new SearchHistory(this);
+                MenuManagers = new MenuManager(this);
+                FileBrowser = new FileBrowsers(this);
+                ImposService = new ImposSaveLoadService(this);
+
                 Customers = new CustomerManager(this);
                 Ftp = new FtpManager(this);
                 Ftp.InitUcFtpBrowserControls();
@@ -115,10 +120,7 @@ namespace JobSpace.Profiles
         private void LoadSettingsFromDisk()
         {
            
-            SearchHistory = new SearchHistory(this);
-            MenuManagers = new MenuManager(this);
-            FileBrowser = new FileBrowsers(this);
-            ImposService = new ImposSaveLoadService(this);
+           
         }
 
         /// <summary>
@@ -179,6 +181,5 @@ namespace JobSpace.Profiles
                 return new T();
             }
         }
-
     }
 }

@@ -7,10 +7,14 @@ namespace JobSpace.Menus
     {
         public IFileBrowserContextMenu SendTo { get; set; }
         public IFileBrowserContextMenu Utils { get; set; }
-        
+
+        public bool IsInitialized {get;set; }
+
         public MenuManager(IUserProfile userProfile)
         {
             InitializeMenus(userProfile);
+            IsInitialized = true;
+            userProfile.Events.Jobs.OnToolsMenuInitialized(this,null);
         }
 
         void InitializeMenus(IUserProfile userProfile)
