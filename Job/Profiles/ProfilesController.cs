@@ -44,10 +44,6 @@ namespace JobSpace.Profiles
             {
                 ProfilesController.AddProfile();
             }
-            //else
-            //{
-            //    Profiles.ForEach(x => x.InitProfile());
-            //}
         }
 
         public static Profile[] GetProfiles()
@@ -75,7 +71,6 @@ namespace JobSpace.Profiles
                     //todo:check for duplicate name profile
 
                     profile.InitProfile();
-
 
                     Profiles.Add(profile);
                     Save();
