@@ -1,4 +1,5 @@
-﻿using Interfaces;
+﻿using ImageMagick.Drawing;
+using Interfaces;
 using JobSpace.Models;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Visual.BlocknoteSpiral;
@@ -25,6 +26,7 @@ namespace JobSpace.UserForms.PDF.Visual
         Bitmap _spiralPreview;
         List<PdfPageInfo> boxes_pages;
         PdfPageInfo _spiralBox;
+        
 
         public FormVisualBlocknoteSpiral()
         {
@@ -106,6 +108,21 @@ namespace JobSpace.UserForms.PDF.Visual
             g.DrawImage(_page_preview, 0, 0, (float)box.Trimbox.wMM(), (float)box.Trimbox.hMM());
 
             DrawSpiral(g);
+            DrawRectangle(g);
+        }
+
+        private void DrawRectangle(Graphics g)
+        {
+            if (!cb_rect.Checked) return;
+            float rectX = (float)nud_rect_x.Value;
+            float rectY = (float)nud_rect_y.Value;
+            float rectW = (float)nud_rect_w.Value;
+            float rectH = (float)nud_rect_h.Value;
+            using (Brush b = new SolidBrush(System.Drawing.Color.FromArgb(64, 255, 0, 0)))
+            {
+                g.FillRectangle(b, rectX, rectY, rectW, rectH);
+            }
+            
 
         }
 
@@ -147,7 +164,7 @@ namespace JobSpace.UserForms.PDF.Visual
                     DrawSpiralTop(g, pageInfo);
                     DrawSpiralBottom(g, pageInfo);
                     break;
-                    
+
                 case SpiralPlaceEnum.left_right:
                     DrawSpiralLeft(g, pageInfo);
                     DrawSpiralRight(g, pageInfo);
@@ -273,6 +290,11 @@ namespace JobSpace.UserForms.PDF.Visual
         {
             GetSpiralPreview();
             pb_preview.Invalidate();
+        }
+
+        private void cb_rect_CheckedChanged(object sender, EventArgs e)
+        {
+            panel_rect_params.Enabled = cb_rect.Checked;
         }
     }
 }
