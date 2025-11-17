@@ -26,7 +26,7 @@ namespace JobSpace.UserForms.PDF.Visual
         Bitmap _spiralPreview;
         List<PdfPageInfo> boxes_pages;
         PdfPageInfo _spiralBox;
-        
+
 
         public FormVisualBlocknoteSpiral()
         {
@@ -122,7 +122,7 @@ namespace JobSpace.UserForms.PDF.Visual
             {
                 g.FillRectangle(b, rectX, rectY, rectW, rectH);
             }
-            
+
 
         }
 
@@ -275,10 +275,13 @@ namespace JobSpace.UserForms.PDF.Visual
 
             var box = boxes_pages[page - 1];
 
-            pb_preview.Width = (int)(box.Trimbox.wMM() * pb_preview.DeviceDpi / 25.4d) + 1;
-            pb_preview.Height = (int)(box.Trimbox.hMM() * pb_preview.DeviceDpi / 25.4d) + 1;
+            UpdatePreviewLayout();
+            //pb_preview.Width = (int)(box.Trimbox.wMM() * pb_preview.DeviceDpi / 25.4d) + 1;
+            //pb_preview.Height = (int)(box.Trimbox.hMM() * pb_preview.DeviceDpi / 25.4d) + 1;
 
-            pb_preview.Invalidate();
+            
+
+           // pb_preview.Invalidate();
         }
 
         private void cb_place_SelectedIndexChanged(object sender, EventArgs e)
@@ -295,6 +298,72 @@ namespace JobSpace.UserForms.PDF.Visual
         private void cb_rect_CheckedChanged(object sender, EventArgs e)
         {
             panel_rect_params.Enabled = cb_rect.Checked;
+        }
+
+        private void cb_fit_to_panel_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdatePreviewLayout();
+        }
+
+        private bool UpdatePreviewLayout()
+        {
+            if (_page_preview == null) return false;
+
+            var box = boxes_pages[(int)(nud_page_number.Value - 1)];
+
+            float pageWmm = (float)box.Trimbox.wMM();
+            float pageHmm = (float)box.Trimbox.hMM();
+
+            float dpi = pb_preview.DeviceDpi;
+
+            // розмір сторінки у пікселях
+            float pageWpx = pageWmm * dpi / 25.4f;
+            float pageHpx = pageHmm * dpi / 25.4f;
+
+            if (cb_fit_to_panel.Checked)
+            {
+                float availW = pb_preview.Parent.ClientSize.Width;
+                float availH = pb_preview.Parent.ClientSize.Height;
+
+                // масштаб
+                float scaleX = availW / pageWpx;
+                float scaleY = availH / pageHpx;
+
+                _zoomFactor = Math.Min(scaleX, scaleY);
+
+                // нові розміри PictureBox
+                int newW = (int)(pageWpx * _zoomFactor);
+                int newH = (int)(pageHpx * _zoomFactor);
+
+                pb_preview.Width = newW;
+                pb_preview.Height = newH;
+
+                //// центроване позиціонування
+                //pb_preview.Left = (pb_preview.Parent.ClientSize.Width - newW) / 2;
+                //pb_preview.Top = (pb_preview.Parent.ClientSize.Height - newH) / 2;
+            }
+            else
+            {
+                // масштаб 1:1
+                _zoomFactor = 1.0f;
+
+                int newW = (int)pageWpx + 1;
+                int newH = (int)pageHpx + 1;
+
+                pb_preview.Width = newW;
+                pb_preview.Height = newH;
+
+                pb_preview.Left = 0;
+                pb_preview.Top = 0;
+            }
+
+            pb_preview.Invalidate();
+            return true;
+        }
+
+        private void panel_preview_SizeChanged(object sender, EventArgs e)
+        {
+            UpdatePreviewLayout();
         }
     }
 }
