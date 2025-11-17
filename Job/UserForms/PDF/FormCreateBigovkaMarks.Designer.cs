@@ -79,7 +79,7 @@
             // 
             // buttonCreate
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(344, 291);
+            this.buttonCreate.Location = new System.Drawing.Point(344, 248);
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.Size = new System.Drawing.Size(91, 35);
             this.buttonCreate.TabIndex = 0;
@@ -138,7 +138,7 @@
             // 
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.numLen);
-            this.groupBox2.Location = new System.Drawing.Point(298, 179);
+            this.groupBox2.Location = new System.Drawing.Point(298, 142);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(137, 69);
             this.groupBox2.TabIndex = 2;
@@ -178,7 +178,7 @@
             // 
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.numDistanse);
-            this.groupBox3.Location = new System.Drawing.Point(155, 179);
+            this.groupBox3.Location = new System.Drawing.Point(155, 142);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(137, 69);
             this.groupBox3.TabIndex = 3;
@@ -218,7 +218,7 @@
             // 
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.numBleed);
-            this.groupBox4.Location = new System.Drawing.Point(12, 179);
+            this.groupBox4.Location = new System.Drawing.Point(12, 142);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(137, 69);
             this.groupBox4.TabIndex = 4;
@@ -259,14 +259,14 @@
             this.groupBox5.Controls.Add(this.textBoxBigovky);
             this.groupBox5.Location = new System.Drawing.Point(12, 88);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(217, 70);
+            this.groupBox5.Size = new System.Drawing.Size(217, 48);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Біговки (числа через пробіл)";
             // 
             // textBoxBigovky
             // 
-            this.textBoxBigovky.Location = new System.Drawing.Point(7, 29);
+            this.textBoxBigovky.Location = new System.Drawing.Point(7, 18);
             this.textBoxBigovky.Name = "textBoxBigovky";
             this.textBoxBigovky.Size = new System.Drawing.Size(204, 20);
             this.textBoxBigovky.TabIndex = 0;
@@ -282,7 +282,7 @@
             this.groupBox6.Controls.Add(this.numY);
             this.groupBox6.Controls.Add(this.numM);
             this.groupBox6.Controls.Add(this.numC);
-            this.groupBox6.Location = new System.Drawing.Point(12, 254);
+            this.groupBox6.Location = new System.Drawing.Point(12, 217);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(213, 72);
             this.groupBox6.TabIndex = 6;
@@ -386,7 +386,7 @@
             this.panel1.Controls.Add(this.pb_preview);
             this.panel1.Location = new System.Drawing.Point(441, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(655, 320);
+            this.panel1.Size = new System.Drawing.Size(346, 320);
             this.panel1.TabIndex = 7;
             // 
             // pb_preview
@@ -405,7 +405,7 @@
             this.groupBox7.Controls.Add(this.nud_page_number);
             this.groupBox7.Location = new System.Drawing.Point(235, 88);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(200, 70);
+            this.groupBox7.Size = new System.Drawing.Size(200, 48);
             this.groupBox7.TabIndex = 8;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "сторінка";
@@ -442,7 +442,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1099, 336);
+            this.ClientSize = new System.Drawing.Size(790, 336);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox6);

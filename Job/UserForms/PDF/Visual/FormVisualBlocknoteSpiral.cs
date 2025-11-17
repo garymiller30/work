@@ -194,6 +194,8 @@ namespace JobSpace.UserForms.PDF.Visual
                    (float)spiralWidth,
                    (float)spiralHeight);
                 g.ResetTransform();
+                g.PageUnit = GraphicsUnit.Millimeter;
+                g.ScaleTransform(_zoomFactor, _zoomFactor);
             }
         }
 
@@ -218,6 +220,8 @@ namespace JobSpace.UserForms.PDF.Visual
                    (float)spiralWidth,
                    (float)spiralHeight);
                 g.ResetTransform();
+                g.PageUnit = GraphicsUnit.Millimeter;
+                g.ScaleTransform(_zoomFactor, _zoomFactor);
             }
         }
 
@@ -233,6 +237,7 @@ namespace JobSpace.UserForms.PDF.Visual
             {
                 double holeX = x + i * spiralWidth;
                 double holeY = y;
+
                 g.TranslateTransform((float)(holeX + spiralWidth / 2), (float)(holeY + spiralHeight / 2));
                 g.RotateTransform(180);
                 g.DrawImage(
@@ -241,9 +246,11 @@ namespace JobSpace.UserForms.PDF.Visual
                    (float)(-spiralHeight / 2),
                    (float)spiralWidth,
                    (float)spiralHeight);
-
                 g.ResetTransform();
+                g.PageUnit = GraphicsUnit.Millimeter;
+                g.ScaleTransform(_zoomFactor, _zoomFactor);
             }
+
         }
 
         private void DrawSpiralTop(Graphics g, PdfPageInfo pi)

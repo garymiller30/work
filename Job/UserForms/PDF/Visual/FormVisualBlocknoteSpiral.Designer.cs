@@ -330,6 +330,8 @@
             // cb_fit_to_panel
             // 
             this.cb_fit_to_panel.AutoSize = true;
+            this.cb_fit_to_panel.Checked = true;
+            this.cb_fit_to_panel.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_fit_to_panel.Location = new System.Drawing.Point(18, 367);
             this.cb_fit_to_panel.Name = "cb_fit_to_panel";
             this.cb_fit_to_panel.Size = new System.Drawing.Size(163, 17);
