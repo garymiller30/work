@@ -36,6 +36,7 @@
             this.panel_preview = new System.Windows.Forms.Panel();
             this.pb_preview = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cb_files = new System.Windows.Forms.ComboBox();
             this.label_total_pages = new System.Windows.Forms.Label();
             this.nud_page_number = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -50,7 +51,6 @@
             this.nud_rect_w = new System.Windows.Forms.NumericUpDown();
             this.cb_rect = new System.Windows.Forms.CheckBox();
             this.cb_fit_to_panel = new System.Windows.Forms.CheckBox();
-            this.cb_files = new System.Windows.Forms.ComboBox();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.panel_preview.SuspendLayout();
@@ -124,6 +124,7 @@
             this.panel_preview.AutoScroll = true;
             this.panel_preview.Controls.Add(this.pb_preview);
             this.panel_preview.Location = new System.Drawing.Point(274, 12);
+            this.panel_preview.Margin = new System.Windows.Forms.Padding(0);
             this.panel_preview.Name = "panel_preview";
             this.panel_preview.Size = new System.Drawing.Size(688, 530);
             this.panel_preview.TabIndex = 5;
@@ -132,7 +133,8 @@
             // pb_preview
             // 
             this.pb_preview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb_preview.Location = new System.Drawing.Point(3, 3);
+            this.pb_preview.Location = new System.Drawing.Point(0, 0);
+            this.pb_preview.Margin = new System.Windows.Forms.Padding(0);
             this.pb_preview.Name = "pb_preview";
             this.pb_preview.Size = new System.Drawing.Size(627, 419);
             this.pb_preview.TabIndex = 0;
@@ -150,6 +152,16 @@
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "сторінка";
+            // 
+            // cb_files
+            // 
+            this.cb_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_files.FormattingEnabled = true;
+            this.cb_files.Location = new System.Drawing.Point(11, 18);
+            this.cb_files.Name = "cb_files";
+            this.cb_files.Size = new System.Drawing.Size(154, 21);
+            this.cb_files.TabIndex = 2;
+            this.cb_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged_1);
             // 
             // label_total_pages
             // 
@@ -341,16 +353,6 @@
             this.cb_fit_to_panel.Text = "зображення в розмір вікна";
             this.cb_fit_to_panel.UseVisualStyleBackColor = true;
             this.cb_fit_to_panel.CheckedChanged += new System.EventHandler(this.cb_fit_to_panel_CheckedChanged);
-            // 
-            // cb_files
-            // 
-            this.cb_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_files.FormattingEnabled = true;
-            this.cb_files.Location = new System.Drawing.Point(11, 18);
-            this.cb_files.Name = "cb_files";
-            this.cb_files.Size = new System.Drawing.Size(154, 21);
-            this.cb_files.TabIndex = 2;
-            this.cb_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged_1);
             // 
             // FormVisualBlocknoteSpiral
             // 
