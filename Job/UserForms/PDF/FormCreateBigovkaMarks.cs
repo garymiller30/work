@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -14,7 +15,7 @@ namespace JobSpace.UserForms.PDF
     public partial class FormCreateBigovkaMarks : Form
     {
         float _zoomFactor = 1.0f;
-        IFileSystemInfoExt _fsi;
+        FileInfo _fsi;
         Bitmap _page_preview;
         List<PdfPageInfo> boxes_pages;
         Pen big_pen = new Pen(Color.Green, 0.6f);
@@ -35,8 +36,8 @@ namespace JobSpace.UserForms.PDF
 
         public FormCreateBigovkaMarks(IFileSystemInfoExt fsi) : this()
         {
-            _fsi = fsi;
-            boxes_pages = PdfHelper.GetPagesInfo(_fsi.FileInfo.FullName);
+            _fsi = new FileInfo( fsi.FileInfo.FullName);
+            boxes_pages = PdfHelper.GetPagesInfo(_fsi.FullName);
             nud_page_number.Maximum = boxes_pages.Count;
             label_total_pages.Text = $"/{boxes_pages.Count}";
             GetPagePreview(0);

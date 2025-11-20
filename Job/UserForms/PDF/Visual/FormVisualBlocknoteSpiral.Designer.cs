@@ -30,7 +30,7 @@
         {
             this.btn_ok = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.cb_files = new System.Windows.Forms.ComboBox();
+            this.cb_spiral_files = new System.Windows.Forms.ComboBox();
             this.cb_place = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.panel_preview = new System.Windows.Forms.Panel();
@@ -50,6 +50,7 @@
             this.nud_rect_w = new System.Windows.Forms.NumericUpDown();
             this.cb_rect = new System.Windows.Forms.CheckBox();
             this.cb_fit_to_panel = new System.Windows.Forms.CheckBox();
+            this.cb_files = new System.Windows.Forms.ComboBox();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.panel_preview.SuspendLayout();
@@ -77,7 +78,7 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.cb_files);
+            this.groupBox5.Controls.Add(this.cb_spiral_files);
             this.groupBox5.Location = new System.Drawing.Point(12, 12);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(256, 55);
@@ -85,15 +86,15 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "файл пружинки";
             // 
-            // cb_files
+            // cb_spiral_files
             // 
-            this.cb_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_files.FormattingEnabled = true;
-            this.cb_files.Location = new System.Drawing.Point(6, 19);
-            this.cb_files.Name = "cb_files";
-            this.cb_files.Size = new System.Drawing.Size(244, 21);
-            this.cb_files.TabIndex = 0;
-            this.cb_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged);
+            this.cb_spiral_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_spiral_files.FormattingEnabled = true;
+            this.cb_spiral_files.Location = new System.Drawing.Point(6, 19);
+            this.cb_spiral_files.Name = "cb_spiral_files";
+            this.cb_spiral_files.Size = new System.Drawing.Size(244, 21);
+            this.cb_spiral_files.TabIndex = 0;
+            this.cb_spiral_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged);
             // 
             // cb_place
             // 
@@ -140,6 +141,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cb_files);
             this.groupBox1.Controls.Add(this.label_total_pages);
             this.groupBox1.Controls.Add(this.nud_page_number);
             this.groupBox1.Location = new System.Drawing.Point(12, 134);
@@ -152,7 +154,7 @@
             // label_total_pages
             // 
             this.label_total_pages.AutoSize = true;
-            this.label_total_pages.Location = new System.Drawing.Point(102, 21);
+            this.label_total_pages.Location = new System.Drawing.Point(219, 21);
             this.label_total_pages.Name = "label_total_pages";
             this.label_total_pages.Size = new System.Drawing.Size(27, 13);
             this.label_total_pages.TabIndex = 1;
@@ -160,14 +162,14 @@
             // 
             // nud_page_number
             // 
-            this.nud_page_number.Location = new System.Drawing.Point(17, 19);
+            this.nud_page_number.Location = new System.Drawing.Point(171, 19);
             this.nud_page_number.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.nud_page_number.Name = "nud_page_number";
-            this.nud_page_number.Size = new System.Drawing.Size(79, 20);
+            this.nud_page_number.Size = new System.Drawing.Size(42, 20);
             this.nud_page_number.TabIndex = 0;
             this.nud_page_number.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nud_page_number.Value = new decimal(new int[] {
@@ -340,6 +342,16 @@
             this.cb_fit_to_panel.UseVisualStyleBackColor = true;
             this.cb_fit_to_panel.CheckedChanged += new System.EventHandler(this.cb_fit_to_panel_CheckedChanged);
             // 
+            // cb_files
+            // 
+            this.cb_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_files.FormattingEnabled = true;
+            this.cb_files.Location = new System.Drawing.Point(11, 18);
+            this.cb_files.Name = "cb_files";
+            this.cb_files.Size = new System.Drawing.Size(154, 21);
+            this.cb_files.TabIndex = 2;
+            this.cb_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged_1);
+            // 
             // FormVisualBlocknoteSpiral
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -380,7 +392,7 @@
 
         private System.Windows.Forms.Button btn_ok;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.ComboBox cb_files;
+        private System.Windows.Forms.ComboBox cb_spiral_files;
         private System.Windows.Forms.ComboBox cb_place;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Panel panel_preview;
@@ -400,5 +412,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown nud_rect_x;
         private System.Windows.Forms.CheckBox cb_fit_to_panel;
+        private System.Windows.Forms.ComboBox cb_files;
     }
 }
