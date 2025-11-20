@@ -303,12 +303,6 @@ namespace JobSpace.UserForms.PDF.Visual
             var box = boxes_pages[page - 1];
 
             UpdatePreviewLayout();
-            //pb_preview.Width = (int)(box.Trimbox.wMM() * pb_preview.DeviceDpi / 25.4d) + 1;
-            //pb_preview.Height = (int)(box.Trimbox.hMM() * pb_preview.DeviceDpi / 25.4d) + 1;
-
-            
-
-           // pb_preview.Invalidate();
         }
 
         private void cb_place_SelectedIndexChanged(object sender, EventArgs e)
@@ -325,6 +319,7 @@ namespace JobSpace.UserForms.PDF.Visual
         private void cb_rect_CheckedChanged(object sender, EventArgs e)
         {
             panel_rect_params.Enabled = cb_rect.Checked;
+            pb_preview.Invalidate();
         }
 
         private void cb_fit_to_panel_CheckedChanged(object sender, EventArgs e)
@@ -349,8 +344,8 @@ namespace JobSpace.UserForms.PDF.Visual
 
             if (cb_fit_to_panel.Checked)
             {
-                float availW = pb_preview.Parent.ClientSize.Width;
-                float availH = pb_preview.Parent.ClientSize.Height;
+                float availW = pb_preview.Parent.Width;
+                float availH = pb_preview.Parent.Height;
 
                 // масштаб
                 float scaleX = availW / pageWpx;
@@ -359,8 +354,8 @@ namespace JobSpace.UserForms.PDF.Visual
                 _zoomFactor = Math.Min(scaleX, scaleY);
 
                 // нові розміри PictureBox
-                int newW = (int)(pageWpx * _zoomFactor);
-                int newH = (int)(pageHpx * _zoomFactor);
+                int newW = (int)(pageWpx * _zoomFactor)-1;
+                int newH = (int)(pageHpx * _zoomFactor)-1;
 
                 pb_preview.Width = newW;
                 pb_preview.Height = newH;
@@ -374,8 +369,8 @@ namespace JobSpace.UserForms.PDF.Visual
                 // масштаб 1:1
                 _zoomFactor = 1.0f;
 
-                int newW = (int)pageWpx + 1;
-                int newH = (int)pageHpx + 1;
+                int newW = (int)pageWpx ;
+                int newH = (int)pageHpx ;
 
                 pb_preview.Width = newW;
                 pb_preview.Height = newH;
