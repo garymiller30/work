@@ -554,7 +554,7 @@
             this.groupBox12.Controls.Add(this.nud_width);
             this.groupBox12.Location = new System.Drawing.Point(157, 12);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(139, 51);
+            this.groupBox12.Size = new System.Drawing.Size(101, 51);
             this.groupBox12.TabIndex = 1;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "ширина";
@@ -569,7 +569,7 @@
             0,
             0});
             this.nud_width.Name = "nud_width";
-            this.nud_width.Size = new System.Drawing.Size(120, 20);
+            this.nud_width.Size = new System.Drawing.Size(82, 20);
             this.nud_width.TabIndex = 0;
             this.nud_width.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nud_width.Value = new decimal(new int[] {
@@ -577,6 +577,7 @@
             0,
             0,
             0});
+            this.nud_width.ValueChanged += new System.EventHandler(this.nud_width_ValueChanged);
             // 
             // pb_preview
             // 
@@ -601,11 +602,11 @@
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(302, 18);
+            this.trackBar1.Location = new System.Drawing.Point(277, 18);
             this.trackBar1.Maximum = 100;
             this.trackBar1.Minimum = 10;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(221, 45);
+            this.trackBar1.Size = new System.Drawing.Size(246, 45);
             this.trackBar1.TabIndex = 5;
             this.trackBar1.Value = 100;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
@@ -615,7 +616,7 @@
             this.cb_mirrored_parts.AutoSize = true;
             this.cb_mirrored_parts.Checked = true;
             this.cb_mirrored_parts.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_mirrored_parts.Location = new System.Drawing.Point(549, 32);
+            this.cb_mirrored_parts.Location = new System.Drawing.Point(549, 27);
             this.cb_mirrored_parts.Name = "cb_mirrored_parts";
             this.cb_mirrored_parts.Size = new System.Drawing.Size(193, 17);
             this.cb_mirrored_parts.TabIndex = 6;
@@ -651,9 +652,9 @@
             // 
             this.groupBox2.Controls.Add(this.label_total_pages);
             this.groupBox2.Controls.Add(this.nud_page_no);
-            this.groupBox2.Location = new System.Drawing.Point(766, 12);
+            this.groupBox2.Location = new System.Drawing.Point(757, 9);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(118, 54);
+            this.groupBox2.Size = new System.Drawing.Size(127, 54);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "сторінка";

@@ -665,7 +665,7 @@ namespace JobSpace.Static
             }
             else
             {
-                using (var form = new FormVisualBlocknoteSpiral())
+                using (var form = new FormVisualBlocknoteSpiral(files))
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {

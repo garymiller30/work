@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,19 +27,24 @@ namespace JobSpace.UserForms.PDF.Visual
         Control[] _parts;
         NumericUpDown[] _deltas;
         Label[] _labels;
-        IFileSystemInfoExt _fsi;
+        FileInfo _fsi;
         private Pen _redLinePen = new Pen(Color.Green, 0.6f);
         private Pen _whiteLinePen = new Pen(Color.White, 1f);
         decimal[] partsDelta;
         Image document_prev;
         List<PdfPageInfo> boxes;
 
+        decimal page_w = 0;
+        decimal page_h = 0;
+
         public FormVisualFalc(IFileSystemInfoExt fsi)
         {
-            _fsi = fsi;
+            _fsi = new FileInfo( fsi.FileInfo.FullName);
             InitializeComponent();
 
-            nud_width.Value = _fsi.Format.Width;
+            nud_width.Value = fsi.Format.Width;
+            page_h = fsi.Format.Height;
+
             _parts = new Control[] { gb_p1, gb_p2, gb_p3, gb_p4, gb_p5, gb_p6, gb_p7, gb_p8, gb_p9, gb_p10 };
             _deltas = new NumericUpDown[] {numericUpDown1, numericUpDown2, numericUpDown3, numericUpDown4, numericUpDown5,
                 numericUpDown6, numericUpDown7, numericUpDown8, numericUpDown9, numericUpDown10 };
@@ -90,7 +96,7 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void FormVisualFalc_Load(object sender, EventArgs e)
         {
-            boxes = PdfHelper.GetPagesInfo(_fsi.FileInfo.FullName);
+            boxes = PdfHelper.GetPagesInfo(_fsi.FullName);
             nud_page_no.Maximum = boxes.Count;
             label_total_pages.Text = $"/ {boxes.Count}";
             GeneratePageImage(0);
@@ -104,8 +110,8 @@ namespace JobSpace.UserForms.PDF.Visual
             }
             Image pageImage = PdfHelper.RenderByTrimBox(_fsi, pageIdx, 150);
             document_prev = pageImage;
-            pb_preview.Width = (int)(_fsi.Format.Width * pb_preview.DeviceDpi/ 25.4m)+1;
-            pb_preview.Height = (int)(_fsi.Format.Height * pb_preview.DeviceDpi / 25.4m)+1;
+            pb_preview.Width = (int)(page_w * pb_preview.DeviceDpi/ 25.4m)+1;
+            pb_preview.Height = (int)(page_h * pb_preview.DeviceDpi / 25.4m)+1;
         }
 
         private void Pb_preview_Paint(object sender, PaintEventArgs e)
@@ -115,7 +121,7 @@ namespace JobSpace.UserForms.PDF.Visual
             Graphics g = e.Graphics;
             g.PageUnit = GraphicsUnit.Millimeter;
             e.Graphics.ScaleTransform(_zoomFactor, _zoomFactor);
-            e.Graphics.DrawImage(document_prev, 0, 0, (float)_fsi.Format.Width, (float)_fsi.Format.Height);
+            e.Graphics.DrawImage(document_prev, 0, 0, (float)page_w, (float)page_h);
            
             float x = 0;
 
@@ -124,8 +130,8 @@ namespace JobSpace.UserForms.PDF.Visual
                 for (int i = 0; i < partsDelta.Length - 1; i++)
                 {
                     x += (float)((double)partsDelta[i]);
-                    g.DrawLine(_whiteLinePen, x, 0, x, (float)_fsi.Format.Height);
-                    g.DrawLine(_redLinePen, x, 0, x, (float)_fsi.Format.Height);
+                    g.DrawLine(_whiteLinePen, x, 0, x, (float)page_h);
+                    g.DrawLine(_redLinePen, x, 0, x, (float)page_h);
                 }
             }
             else
@@ -133,8 +139,8 @@ namespace JobSpace.UserForms.PDF.Visual
                 for (int i = partsDelta.Length - 1; i > 0; i--)
                 {
                     x += (float)((double)partsDelta[i]);
-                    g.DrawLine(_whiteLinePen, x, 0, x, (float)_fsi.Format.Height);
-                    g.DrawLine(_redLinePen, x, 0, x, (float)_fsi.Format.Height);
+                    g.DrawLine(_whiteLinePen, x, 0, x, (float)page_h);
+                    g.DrawLine(_redLinePen, x, 0, x, (float)page_h);
                 }
             }
         }
@@ -164,7 +170,12 @@ namespace JobSpace.UserForms.PDF.Visual
                 PartsWidth = partsDelta
             };
 
-            new FalcSchema(param).Run(_fsi.FileInfo.FullName);
+            new FalcSchema(param).Run(_fsi.FullName);
+        }
+
+        private void nud_width_ValueChanged(object sender, EventArgs e)
+        {
+            page_w = nud_width.Value;
         }
     }
 }

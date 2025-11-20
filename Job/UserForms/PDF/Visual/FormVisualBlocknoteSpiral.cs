@@ -5,6 +5,7 @@ using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Visual.BlocknoteSpiral;
 using Org.BouncyCastle.Asn1.X509;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,7 +22,7 @@ namespace JobSpace.UserForms.PDF.Visual
     {
         public SpiralSettings SpiralSettings { get; set; } = new SpiralSettings();
         float _zoomFactor = 1.0f;
-        IFileSystemInfoExt _fsi;
+        FileInfo _fsi;
         Bitmap _page_preview;
         Bitmap _spiralPreview;
         List<PdfPageInfo> boxes_pages;
@@ -32,26 +33,45 @@ namespace JobSpace.UserForms.PDF.Visual
         {
             InitializeComponent();
             SetDefaults();
+            cb_files.DisplayMember = "Name";
             DialogResult = DialogResult.Cancel;
         }
 
         public FormVisualBlocknoteSpiral(IFileSystemInfoExt fsi) : this()
         {
-            _fsi = fsi;
-            boxes_pages = PdfHelper.GetPagesInfo(_fsi.FileInfo.FullName);
+            _fsi = new FileInfo( fsi.FileInfo.FullName);
+            cb_files.Items.Add(_fsi);
+            cb_files.SelectedIndex = 0;
+        }
+
+        public FormVisualBlocknoteSpiral(List<IFileSystemInfoExt> fsis):this()
+        {
+            foreach (var fsi in fsis)
+            {
+                FileInfo fi = new FileInfo( fsi.FileInfo.FullName);
+                cb_files.Items.Add(fi);
+            }
+            if (cb_files.Items.Count > 0)
+            {
+                cb_files.SelectedIndex = 0;
+            }
+        }
+
+        private void GetFilePreview()
+        {
+            boxes_pages = PdfHelper.GetPagesInfo(_fsi.FullName);
             label_total_pages.Text = $"/ {boxes_pages.Count}";
             nud_page_number.Maximum = boxes_pages.Count;
             GetPdfPagePreview((int)nud_page_number.Value);
-            GetSpiralPreview();
         }
 
         private void GetSpiralPreview()
         {
-            if (cb_files.SelectedItem is FileInfo fi)
+            if (cb_spiral_files.SelectedItem is FileInfo fi)
             {
                 _spiralBox = PdfHelper.GetPageInfo(fi.FullName);
                 if (_spiralPreview != null) _spiralPreview.Dispose();
-                _spiralPreview = PdfHelper.RenderByTrimBox(new FileSystemInfoExt(fi), 0);
+                _spiralPreview = PdfHelper.RenderByTrimBox(fi, 0);
             }
         }
 
@@ -73,24 +93,24 @@ namespace JobSpace.UserForms.PDF.Visual
 
             var files = Directory.GetFiles(spiralFolderPath, "*.pdf");
 
-            cb_files.DisplayMember = "Name";
+            cb_spiral_files.DisplayMember = "Name";
 
             foreach (var file in files)
             {
                 FileInfo fi = new FileInfo(file);
 
-                cb_files.Items.Add(fi);
+                cb_spiral_files.Items.Add(fi);
             }
-            if (cb_files.Items.Count > 0)
+            if (cb_spiral_files.Items.Count > 0)
             {
-                cb_files.SelectedIndex = 0;
+                cb_spiral_files.SelectedIndex = 0;
             }
         }
 
         private void btn_ok_Click(object sender, EventArgs e)
         {
             SpiralSettings.SpiralPlace = (SpiralPlaceEnum)cb_place.SelectedIndex;
-            SpiralSettings.SpiralFile = (cb_files.SelectedItem as FileInfo).FullName;
+            SpiralSettings.SpiralFile = (cb_spiral_files.SelectedItem as FileInfo).FullName;
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -371,6 +391,16 @@ namespace JobSpace.UserForms.PDF.Visual
         private void panel_preview_SizeChanged(object sender, EventArgs e)
         {
             UpdatePreviewLayout();
+        }
+
+        private void cb_files_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (cb_files.SelectedItem is FileInfo fsi)
+            {
+                _fsi = fsi;
+                GetFilePreview();
+                pb_preview.Invalidate();
+            }
         }
     }
 }

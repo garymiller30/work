@@ -9,6 +9,7 @@ using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -276,12 +277,12 @@ namespace JobSpace.Static.Pdf.Common
             Logger.Log.Error(null, title, $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
         }
 
-        public static Bitmap RenderByTrimBox(IFileSystemInfoExt fsi, int pageIndex, int dpi = 150)
+        public static Bitmap RenderByTrimBox(FileInfo fsi, int pageIndex, int dpi = 150)
         {
-            var box = GetPageInfo(fsi.FileInfo.FullName,pageIndex);
+            var box = GetPageInfo(fsi.FullName,pageIndex);
 
             // Open FileStream and use PDFiumSharp stream constructor to avoid loading whole file into memory
-            using (var fs = System.IO.File.Open(fsi.FileInfo.FullName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
+            using (var fs = System.IO.File.Open(fsi.FullName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
             {
                 // PdfDocument(Stream, FPDF_FILEREAD, Int32, string) requires the file-length as Int32.
                 if (fs.Length > int.MaxValue)
