@@ -27,7 +27,7 @@ namespace JobSpace.UserForms.PDF
         public FormCreateBigovkaMarks()
         {
             InitializeComponent();
-
+            cb_files.DisplayMember = "Name";
             cb_mirrorEven.DataBindings.Add("Enabled", radioButtonHor, "Checked");
 
             InitUi();
@@ -37,10 +37,27 @@ namespace JobSpace.UserForms.PDF
         public FormCreateBigovkaMarks(IFileSystemInfoExt fsi) : this()
         {
             _fsi = new FileInfo( fsi.FileInfo.FullName);
+            
+            cb_files.Items.Add(_fsi);
+            cb_files.SelectedIndex = 0;
+            
             boxes_pages = PdfHelper.GetPagesInfo(_fsi.FullName);
             nud_page_number.Maximum = boxes_pages.Count;
             label_total_pages.Text = $"/{boxes_pages.Count}";
             GetPagePreview(0);
+        }
+
+        public FormCreateBigovkaMarks(List<IFileSystemInfoExt> infoExts): this()
+        {
+            foreach (var fsi in infoExts)
+            {
+                FileInfo fi = new FileInfo(fsi.FileInfo.FullName);
+                cb_files.Items.Add(fi);
+            }
+            if (cb_files.Items.Count > 0)
+            {
+                cb_files.SelectedIndex = 0;
+            }
         }
 
         private void GetPagePreview(int page_idx)
@@ -224,6 +241,95 @@ namespace JobSpace.UserForms.PDF
         private void cb_mirrorEven_CheckedChanged(object sender, EventArgs e)
         {
             pb_preview.Invalidate();
+        }
+
+        private void cb_files_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cb_files.SelectedItem is FileInfo fsi)
+            {
+                _fsi = fsi;
+                GetFilePreview();
+                pb_preview.Invalidate();
+            }
+        }
+
+        private void GetFilePreview()
+        {
+            boxes_pages = PdfHelper.GetPagesInfo(_fsi.FullName);
+            label_total_pages.Text = $"/ {boxes_pages.Count}";
+            nud_page_number.Maximum = boxes_pages.Count;
+            GetPdfPagePreview((int)nud_page_number.Value);
+        }
+
+        private void GetPdfPagePreview(int page)
+        {
+            if (_page_preview != null) _page_preview.Dispose();
+            _page_preview = PdfHelper.RenderByTrimBox(_fsi, page - 1);
+
+            var box = boxes_pages[page - 1];
+
+            UpdatePreviewLayout();
+        }
+
+        private bool UpdatePreviewLayout()
+        {
+            if (_page_preview == null) return false;
+
+            var box = boxes_pages[(int)(nud_page_number.Value - 1)];
+
+            float pageWmm = (float)box.Trimbox.wMM();
+            float pageHmm = (float)box.Trimbox.hMM();
+
+            float dpi = pb_preview.DeviceDpi;
+
+            // розмір сторінки у пікселях
+            float pageWpx = pageWmm * dpi / 25.4f;
+            float pageHpx = pageHmm * dpi / 25.4f;
+
+            if (cb_fit_to_panel.Checked)
+            {
+                float availW = pb_preview.Parent.Width;
+                float availH = pb_preview.Parent.Height;
+
+                // масштаб
+                float scaleX = availW / pageWpx;
+                float scaleY = availH / pageHpx;
+
+                _zoomFactor = Math.Min(scaleX, scaleY);
+
+                // нові розміри PictureBox
+                int newW = (int)(pageWpx * _zoomFactor) - 1;
+                int newH = (int)(pageHpx * _zoomFactor) - 1;
+
+                pb_preview.Width = newW;
+                pb_preview.Height = newH;
+
+                //// центроване позиціонування
+                //pb_preview.Left = (pb_preview.Parent.ClientSize.Width - newW) / 2;
+                //pb_preview.Top = (pb_preview.Parent.ClientSize.Height - newH) / 2;
+            }
+            else
+            {
+                // масштаб 1:1
+                _zoomFactor = 1.0f;
+
+                int newW = (int)pageWpx;
+                int newH = (int)pageHpx;
+
+                pb_preview.Width = newW;
+                pb_preview.Height = newH;
+
+                pb_preview.Left = 0;
+                pb_preview.Top = 0;
+            }
+
+            pb_preview.Invalidate();
+            return true;
+        }
+
+        private void panel1_SizeChanged(object sender, EventArgs e)
+        {
+            UpdatePreviewLayout();
         }
     }
 }
