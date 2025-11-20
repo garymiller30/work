@@ -177,7 +177,7 @@ namespace JobSpace.Static
             }
             else
             {
-                using (var form = new FormCreateBigovkaMarks())
+                using (var form = new FormCreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().ToList()))
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
