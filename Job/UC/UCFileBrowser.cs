@@ -1391,5 +1391,10 @@ namespace JobSpace.UC
         {
             FileBrowserSevices.Clipboard_PasteLikeCopyFiles(_fileManager);
         }
+
+        private void підготуватиБлокДляДToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileBrowserSevices.PDF_RearangePagesForQuartalCalendar(objectListView1.SelectedObjects);
+        }
     }
 }

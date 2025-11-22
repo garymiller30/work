@@ -482,6 +482,7 @@
     <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableSimpleText.cs" />
     <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableUsedColor.cs" />
     <Compile Include="Static\Pdf\Merge\MergeBlockBy3Months.cs" />
+    <Compile Include="Static\Pdf\Rearange\RearangePagesForQuartalCalendar.cs" />
     <Compile Include="Static\Pdf\Remove\PdfRemoveICCProfiles.cs" />
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralDrawer.cs" />
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralSettings.cs" />
