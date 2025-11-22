@@ -23,7 +23,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         /// PDF мітки сюжету
         /// </summary>
 
-        //public MarksContainer Marks { get; set; } = new MarksContainer();
         public int GetMaxIdx()
         {
             int frontIdx = TemplatePages.Max(x => x.Front.MasterIdx);
