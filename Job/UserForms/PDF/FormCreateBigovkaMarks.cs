@@ -66,8 +66,6 @@ namespace JobSpace.UserForms.PDF
 
             _page_preview = PdfHelper.RenderByTrimBox(_fsi, page_idx);
             var box = boxes_pages[page_idx];
-            pb_preview.Width = (int)(box.Trimbox.wMM() * pb_preview.DeviceDpi / 25.4d) + 1;
-            pb_preview.Height = (int)(box.Trimbox.hMM() * pb_preview.DeviceDpi / 25.4d) + 1;
 
             pb_preview.Invalidate();
         }
@@ -225,7 +223,6 @@ namespace JobSpace.UserForms.PDF
         private void nud_page_number_ValueChanged(object sender, EventArgs e)
         {
             GetPagePreview((int)(nud_page_number.Value - 1));
-            pb_preview.Invalidate();
         }
 
         private void textBoxBigovky_TextChanged(object sender, EventArgs e)

@@ -36,19 +36,27 @@ namespace JobSpace.Static
     public static class FileBrowserSevices
     {
         #region PDF
+        public static void PDF_RemoveICCProfiles(IList files)
+        {
+            if (files.Count == 0) return;
+            FileFormatsUtil.RemoveICCProfiles(files.Cast<IFileSystemInfoExt>().ToList());
+        }
+
+        public static void PDF_RearangePagesForQuartalCalendar(IList files)
+        {
+            if (files.Count == 0) return;
+            FileFormatsUtil.RearangePagesForQuartalCalendar(files.Cast<IFileSystemInfoExt>().ToList());
+
+        }
         public static void PDF_VisualFalc(object selectedObject)
         {
             if (selectedObject != null && selectedObject is IFileSystemInfoExt fsi)
             {
                 using (var form = new FormVisualFalc(fsi))
                 {
-
                     form.ShowDialog();
-
                 }
-
             }
-
         }
         public static void PDF_ConvertToPdf(IList files, Action action)
         {
@@ -58,7 +66,6 @@ namespace JobSpace.Static
         public static void PDF_CreateCollatingPageMark(IList files)
         {
             if (files.Count == 0) return;
-
             using (var form = new FormCreateCollatingPageMark())
             {
                 if (form.ShowDialog() == DialogResult.OK)
@@ -839,13 +846,8 @@ namespace JobSpace.Static
 
         }
 
-        public static void PDF_RemoveICCProfiles(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.RemoveICCProfiles(files.Cast<IFileSystemInfoExt>().ToList());
-        }
 
-       
+
 
 
 

@@ -28,6 +28,7 @@ using JobSpace.Static.Pdf.Merge;
 using JobSpace.Static.Pdf.MergeFrontsAndBack;
 using JobSpace.Static.Pdf.MergeOddAndEven;
 using JobSpace.Static.Pdf.MergeTemporary;
+using JobSpace.Static.Pdf.Rearange;
 using JobSpace.Static.Pdf.Remove;
 using JobSpace.Static.Pdf.Repeat.Document;
 using JobSpace.Static.Pdf.RepeatPages;
@@ -709,6 +710,16 @@ namespace JobSpace.Static
                     new PdfRemoveICCProfiles().Run(file.FileInfo.FullName);
                 }
             })));
+        }
+
+        public static void RearangePagesForQuartalCalendar(List<IFileSystemInfoExt> files, int cntMonthInBlock = 3)
+        {
+            foreach (var file in files)
+            {
+                new RearangePagesForQuartalCalendar(cntMonthInBlock).Run(file.FileInfo.FullName);
+            }
+
+            
         }
     }
 }
