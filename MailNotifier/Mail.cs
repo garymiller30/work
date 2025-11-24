@@ -21,8 +21,10 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Interop;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 using Attachment = System.Net.Mail.Attachment;
 using MailMessage = System.Net.Mail.MailMessage;
 
@@ -56,7 +58,7 @@ namespace MailNotifier
         {
             ShablonManager = new MailShablonManager(this);
         }
-        
+
         /// <summary>
         /// відправити повідомлення декільком користувачам
         /// </summary>
@@ -84,7 +86,7 @@ namespace MailNotifier
             DriveService.Scope.DriveFile // дозвіл на завантаження в Drive
             };
             string ApplicationName = "ActiveWorks";
-            string credPath= Path.Combine( Path.GetDirectoryName(Settings.ClientSecretFile), "token_store");
+            string credPath = Path.Combine(Path.GetDirectoryName(Settings.ClientSecretFile), "token_store");
             UserCredential credential;
             using (var stream = new FileStream(Settings.ClientSecretFile, FileMode.Open, FileAccess.Read))
             {
@@ -111,7 +113,51 @@ namespace MailNotifier
             // створити повідомлення  через MimeKit
             var mimeMessage = new MimeMessage();
 
+            var res = Profile.Plugins.Mail?.UploadFiles(attachFiles);
 
+            if (!string.IsNullOrEmpty(res))
+            {
+                // додати посилання на файли в тілі листа
+                var sb = new StringBuilder();
+                sb.AppendLine(body);
+                sb.AppendLine(res);
+                mimeMessage.Body = new TextPart("html")
+                {
+                    Text = sb.ToString()
+                };
+            }
+            else
+            {
+                await AddAttachesToGoogleDisk(mimeMessage, attachFiles, driveService,body);
+            }
+
+            mimeMessage.From.Add(new MailboxAddress(Settings.MailFrom, Settings.MailFrom));
+            var sendTo = to.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var s in sendTo)
+            {
+                mimeMessage.To.Add(new MailboxAddress(s, s));
+            }
+            mimeMessage.Subject = tema;
+
+            // 4. Конвертуємо в raw base64
+            using (var memory = new MemoryStream())
+            {
+                mimeMessage.WriteTo(memory);
+                var raw = System.Convert.ToBase64String(memory.ToArray())
+                    .Replace('+', '-')
+                    .Replace('/', '_')
+                    .Replace("=", "");
+
+                var gmailMessage = new Google.Apis.Gmail.v1.Data.Message { Raw = raw };
+
+                // 5. Відправляємо
+                var result = await service.Users.Messages.Send(gmailMessage, "me").ExecuteAsync();
+            }
+
+        }
+
+        private async Task AddAttachesToGoogleDisk(MimeMessage mimeMessage, string[] attachFiles, DriveService driveService,string body)
+        {
             // перевірити загальний розмір вкладень, якщо більше 20 Мб - завантажити в Drive, якщо менше - прикріпити до листа
 
             long totalSize = 0;
@@ -135,13 +181,13 @@ namespace MailNotifier
                     FilesResource.CreateMediaUpload request;
                     using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
                     {
-                        
+
                         fs.Position = 0;
                         request = driveService.Files.Create(fileMetadata, fs, "application/octet-stream");
                         // Вкажи поля, які хочеш отримати у ResponseBody — робити це потрібно ДО UploadAsync
                         request.Fields = "id, webViewLink, name";
                         IUploadProgress progress = await request.UploadAsync();
-                        if(progress.Status == UploadStatus.Completed)
+                        if (progress.Status == UploadStatus.Completed)
                         {
                             var uploadedFile = request.ResponseBody;
                             if (uploadedFile != null)
@@ -160,7 +206,7 @@ namespace MailNotifier
                             Logger.Log.Error(this, "Mail", $"Error uploading file {file}: {progress.Exception.Message}");
                         }
                     }
-              
+
                 }
                 // додати посилання на файли в тілі листа
                 var sb = new StringBuilder();
@@ -204,29 +250,7 @@ namespace MailNotifier
                 mimeMessage.Body = multipart;
             }
 
-            mimeMessage.From.Add(new MailboxAddress(Settings.MailFrom, Settings.MailFrom));
-            var sendTo = to.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var s in sendTo)
-            {
-                mimeMessage.To.Add(new MailboxAddress(s, s));
-            }
-            mimeMessage.Subject =tema;
-
-            // 4. Конвертуємо в raw base64
-            using (var memory = new MemoryStream())
-            {
-                mimeMessage.WriteTo(memory);
-                var raw = System.Convert.ToBase64String(memory.ToArray())
-                    .Replace('+', '-')
-                    .Replace('/', '_')
-                    .Replace("=", "");
-
-                var gmailMessage = new Google.Apis.Gmail.v1.Data.Message { Raw = raw };
-
-                // 5. Відправляємо
-                var result = await service.Users.Messages.Send(gmailMessage, "me").ExecuteAsync();
-            }
-
+            
         }
 
         private void SendBySMTP(string to, string tema, string body, string[] attachFiles)
@@ -370,7 +394,6 @@ namespace MailNotifier
 
         private void OpenMailShablon(object sender, EventArgs e)
         {
-
             var dialog = new FormSendMail(this) { StartPosition = FormStartPosition.CenterParent };
             dialog.SetJob(_curJob);
             dialog.InitSendToList(Settings.MailTo);
@@ -415,7 +438,6 @@ namespace MailNotifier
                 dialog.SetBody(body);
                 dialog.ShowDialog();
             }
-
         }
 
         public void ShowSendMailDialog()
@@ -425,7 +447,6 @@ namespace MailNotifier
                 dialog.InitSendToList(Settings.MailTo);
                 dialog.ShowDialog();
             }
-
         }
 
         public ICollection GetMailTemplates()
