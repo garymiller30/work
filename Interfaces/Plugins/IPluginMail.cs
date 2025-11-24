@@ -11,5 +11,6 @@ namespace Interfaces.Plugins
     {
         IUserProfile UserProfile { get; set; }
         void ProcessMessageBeforeSend(MailMessage message);
+        string UploadFiles(string[] files);
     }
 }
