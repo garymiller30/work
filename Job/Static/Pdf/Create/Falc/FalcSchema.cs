@@ -35,14 +35,33 @@ namespace JobSpace.Static.Pdf.Create.Falc
                 MarkColor markColor = MarkColor.ProofColor;
 
                 p.begin_document(targetfile, "optimize=true");
-
-                //int font = p.load_font("Arial", "unicode", "");
                 
+                int doc = -1;
+                if (_param.IsMarkFile)
+                {
+                    doc = p.open_pdi_document(filePath, "");
+                }
+                //int font = p.load_font("Arial", "unicode", "");
+
 
                 foreach (var pageInfo in boxes)
                 {
                     p.begin_page_ext(pageInfo.Mediabox.width, pageInfo.Mediabox.height, "");
 
+                    int idx = boxes.IndexOf(pageInfo);
+                    int l_print = p.define_layer("print", "");
+                    int v_layer = p.define_layer("visual", "");
+
+                    if (_param.IsMarkFile)
+                    {
+                        p.begin_layer(l_print);
+                        var page_handle = p.open_pdi_page(doc, idx+1, "");
+                        p.fit_pdi_page(page_handle, 0, 0, "");
+                        p.close_pdi_page(page_handle);
+                        p.end_layer();
+                    }
+
+                    p.begin_layer(v_layer);
                     int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
                     p.set_gstate(gstate);
 
@@ -54,7 +73,6 @@ namespace JobSpace.Static.Pdf.Create.Falc
 
                     double xOfs = pageInfo.Trimbox.left;
                     double yOfs = pageInfo.Trimbox.bottom;
-                    int idx = boxes.IndexOf(pageInfo);
 
                     if (_param.Mirrored && idx % 2 == 1)
                     {
@@ -78,10 +96,19 @@ namespace JobSpace.Static.Pdf.Create.Falc
                             p.stroke();
                         }
                     }
+
+                    p.end_layer();
+
                     // Тут має бути логіка створення схеми Falc
                     // Використовуйте _param.Mirrored та _param.PartsWidth для налаштування схеми
-                    p.end_page_ext("");
+                    p.end_page_ext($"trimbox {{{pageInfo.Trimbox.left} {pageInfo.Trimbox.bottom} {pageInfo.Trimbox.width + pageInfo.Trimbox.left} {pageInfo.Trimbox.bottom + pageInfo.Trimbox.height}}}");
                 }
+
+                if (doc != -1)
+                {
+                    p.close_pdi_document(doc);
+                }
+
                 p.end_document("");
             }
             catch (PDFlibException e)
