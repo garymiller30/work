@@ -177,5 +177,17 @@ namespace JobSpace.UserForms.PDF.Visual
         {
             page_w = nud_width.Value;
         }
+
+        private void btn_mark_file_Click(object sender, EventArgs e)
+        {
+            FalcSchemaParams param = new FalcSchemaParams()
+            {
+                IsMarkFile = true,
+                Mirrored = cb_mirrored_parts.Checked,
+                PartsWidth = partsDelta
+            };
+
+            new FalcSchema(param).Run(_fsi.FullName);
+        }
     }
 }

@@ -71,6 +71,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label_total_pages = new System.Windows.Forms.Label();
             this.btn_create_schema = new System.Windows.Forms.Button();
+            this.btn_mark_file = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.gb_p1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -670,7 +671,7 @@
             // 
             // btn_create_schema
             // 
-            this.btn_create_schema.Location = new System.Drawing.Point(757, 117);
+            this.btn_create_schema.Location = new System.Drawing.Point(757, 69);
             this.btn_create_schema.Name = "btn_create_schema";
             this.btn_create_schema.Size = new System.Drawing.Size(127, 48);
             this.btn_create_schema.TabIndex = 9;
@@ -678,11 +679,22 @@
             this.btn_create_schema.UseVisualStyleBackColor = true;
             this.btn_create_schema.Click += new System.EventHandler(this.btn_create_schema_Click);
             // 
+            // btn_mark_file
+            // 
+            this.btn_mark_file.Location = new System.Drawing.Point(757, 123);
+            this.btn_mark_file.Name = "btn_mark_file";
+            this.btn_mark_file.Size = new System.Drawing.Size(127, 42);
+            this.btn_mark_file.TabIndex = 10;
+            this.btn_mark_file.Text = "розмітити файл";
+            this.btn_mark_file.UseVisualStyleBackColor = true;
+            this.btn_mark_file.Click += new System.EventHandler(this.btn_mark_file_Click);
+            // 
             // FormVisualFalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 633);
+            this.Controls.Add(this.btn_mark_file);
             this.Controls.Add(this.btn_create_schema);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cb_mirrored_parts);
@@ -776,5 +788,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label_total_pages;
         private System.Windows.Forms.Button btn_create_schema;
+        private System.Windows.Forms.Button btn_mark_file;
     }
 }

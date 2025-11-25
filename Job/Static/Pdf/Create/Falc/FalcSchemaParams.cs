@@ -8,6 +8,7 @@ namespace JobSpace.Static.Pdf.Create.Falc
 {
     public class FalcSchemaParams
     {
+        public bool IsMarkFile { get; set; }
         public bool Mirrored { get; set; } = true;
         public decimal[] PartsWidth { get;set; } 
     }
