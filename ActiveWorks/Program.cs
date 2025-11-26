@@ -1,5 +1,4 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace ActiveWorks
