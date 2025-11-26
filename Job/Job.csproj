@@ -353,6 +353,7 @@
     <Compile Include="Static\FileBrowserSevices.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\ColorExtractionListener.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\PdfColorExtractor.cs" />
+    <Compile Include="Static\Pdf\ColorSpaces\SignaColorExtractor.cs" />
     <Compile Include="Static\Pdf\Common\DirectionEnum.cs" />
     <Compile Include="Static\Pdf\Common\PaperFormat.cs" />
     <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarks.cs" />

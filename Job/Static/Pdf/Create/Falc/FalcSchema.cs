@@ -42,8 +42,6 @@ namespace JobSpace.Static.Pdf.Create.Falc
                     doc = p.open_pdi_document(filePath, "");
                 }
                 //int font = p.load_font("Arial", "unicode", "");
-
-
                 foreach (var pageInfo in boxes)
                 {
                     p.begin_page_ext(pageInfo.Mediabox.width, pageInfo.Mediabox.height, "");
