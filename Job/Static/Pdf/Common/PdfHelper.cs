@@ -277,6 +277,11 @@ namespace JobSpace.Static.Pdf.Common
             Logger.Log.Error(null, title, $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
         }
 
+        public static Bitmap RenderByTrimBox(string file, int pageIndex, int dpi = 150)
+        {
+            FileInfo fsi = new FileInfo(file);
+            return RenderByTrimBox(fsi, pageIndex, dpi);
+        }
         public static Bitmap RenderByTrimBox(FileInfo fsi, int pageIndex, int dpi = 150)
         {
             var box = GetPageInfo(fsi.FullName,pageIndex);
