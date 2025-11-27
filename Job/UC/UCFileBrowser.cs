@@ -783,7 +783,7 @@ namespace JobSpace.UC
         private void ВырезатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.Clipboard_CutFiles(objectListView1.SelectedObjects);
-            
+
         }
 
         private void ObjectListView1_KeyDown(object sender, KeyEventArgs e)
@@ -1225,7 +1225,7 @@ namespace JobSpace.UC
         private void додатиТираж000ToolStripMenuItem_Click(object sender, EventArgs e) => AddTirag();
         private void AddTirag()
         {
-            FileBrowserSevices.File_AddTirag(_fileManager,objectListView1.SelectedObjects);
+            FileBrowserSevices.File_AddTirag(_fileManager, objectListView1.SelectedObjects);
         }
         private void розділитиОбкладинкуІБлокToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1395,6 +1395,29 @@ namespace JobSpace.UC
         private void підготуватиБлокДляДToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_RearangePagesForQuartalCalendar(objectListView1.SelectedObjects);
+        }
+
+        private void tsb_preview_Click(object sender, EventArgs e)
+        {
+            sc_list.Panel2Collapsed = !sc_list.Panel2Collapsed;
+        }
+
+        private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // якщо активне cb_preview то показати превью
+            if (sc_list.Panel2Collapsed == false)
+            {
+                if (objectListView1.SelectedObject is IFileSystemInfoExt f)
+                {
+                    ShowPreviewInControl(f);
+                }
+            }
+        }
+
+        private void ShowPreviewInControl(IFileSystemInfoExt f)
+        {
+            if (pb_file_preview.Image != null) pb_file_preview.Image.Dispose(); 
+            pb_file_preview.Image = FileBrowserSevices.File_GetPreview(f);
         }
     }
 }

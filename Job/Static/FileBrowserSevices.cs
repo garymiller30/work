@@ -5,6 +5,7 @@ using Interfaces;
 using JobSpace.Dlg;
 using JobSpace.Menus;
 using JobSpace.Profiles;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.MergeOddAndEven;
@@ -23,6 +24,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -844,6 +846,22 @@ namespace JobSpace.Static
                 },
             });
 
+        }
+
+        
+
+        public static Image File_GetPreview(IFileSystemInfoExt f)
+        {
+            string ext = f.FileInfo.Extension.ToLowerInvariant();
+            if (ext == ".pdf" || ext == ".ai")
+            {
+                return PdfHelper.RenderByTrimBox(f.FileInfo.FullName,0);
+            }
+            else if (ext == ".tif" || ext == ".tiff" || ext == ".png" || ext == ".bmp" || ext == ".jpg" || ext == ".jpeg")
+            {
+                return Image.FromFile(f.FileInfo.FullName);
+            }
+            return null;
         }
 
 
