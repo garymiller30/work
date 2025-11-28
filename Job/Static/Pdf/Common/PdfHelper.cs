@@ -412,5 +412,29 @@ namespace JobSpace.Static.Pdf.Common
 
             return fr;
         }
+
+        public static int GetPageCount(string fullName)
+        {
+            // отримати кількість сторінок в pdf файлі
+            int pageCount = 0;
+            PDFlib p = null;
+            try
+            {
+                p = new PDFlib();
+                p.begin_document("", "");
+                int indoc = p.open_pdi_document(fullName, "");
+                pageCount = (int)p.pcos_get_number(indoc, "length:pages");
+                p.close_pdi_document(indoc);
+            }
+            catch (PDFlibException e)
+            {
+                LogException(e, "GetPageCount");
+            }
+            finally
+            {
+                p?.Dispose();
+            }
+            return pageCount;
+        }
     }
 }

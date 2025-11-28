@@ -850,12 +850,12 @@ namespace JobSpace.Static
 
         
 
-        public static Image File_GetPreview(IFileSystemInfoExt f)
+        public static Image File_GetPreview(IFileSystemInfoExt f, int pageIdx = 0)
         {
             string ext = f.FileInfo.Extension.ToLowerInvariant();
             if (ext == ".pdf" || ext == ".ai")
             {
-                return PdfHelper.RenderByTrimBox(f.FileInfo.FullName,0);
+                return PdfHelper.RenderByTrimBox(f.FileInfo.FullName,pageIdx);
             }
             else if (ext == ".tif" || ext == ".tiff" || ext == ".png" || ext == ".bmp" || ext == ".jpg" || ext == ".jpeg")
             {
@@ -863,10 +863,6 @@ namespace JobSpace.Static
             }
             return null;
         }
-
-
-
-
 
 
         #endregion

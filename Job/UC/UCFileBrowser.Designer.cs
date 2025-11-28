@@ -114,7 +114,7 @@ namespace JobSpace.UC
             this.додатиТираж000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отправитьВToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.pb_file_preview = new System.Windows.Forms.PictureBox();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
             this.toolStripLeft = new System.Windows.Forms.ToolStrip();
             this.toolStripPDF = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonCreatePdf = new System.Windows.Forms.ToolStripButton();
@@ -180,7 +180,6 @@ namespace JobSpace.UC
             this.sc_list.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_file_preview)).BeginInit();
             this.toolStripPDF.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -243,7 +242,7 @@ namespace JobSpace.UC
             // 
             // sc_list.Panel2
             // 
-            this.sc_list.Panel2.Controls.Add(this.pb_file_preview);
+            this.sc_list.Panel2.Controls.Add(this.uc_PreviewBrowserFile1);
             this.sc_list.Panel2Collapsed = true;
             this.sc_list.Size = new System.Drawing.Size(653, 213);
             this.sc_list.SplitterDistance = 444;
@@ -900,17 +899,14 @@ namespace JobSpace.UC
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // pb_file_preview
+            // uc_PreviewBrowserFile1
             // 
-            this.pb_file_preview.BackColor = System.Drawing.Color.White;
-            this.pb_file_preview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb_file_preview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pb_file_preview.Location = new System.Drawing.Point(0, 0);
-            this.pb_file_preview.Name = "pb_file_preview";
-            this.pb_file_preview.Size = new System.Drawing.Size(205, 213);
-            this.pb_file_preview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_file_preview.TabIndex = 0;
-            this.pb_file_preview.TabStop = false;
+            this.uc_PreviewBrowserFile1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(0, 0);
+            this.uc_PreviewBrowserFile1.Margin = new System.Windows.Forms.Padding(0);
+            this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
+            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(205, 213);
+            this.uc_PreviewBrowserFile1.TabIndex = 0;
             // 
             // toolStripLeft
             // 
@@ -1409,7 +1405,6 @@ namespace JobSpace.UC
             this.sc_list.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_file_preview)).EndInit();
             this.toolStripPDF.ResumeLayout(false);
             this.toolStripPDF.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -1564,6 +1559,6 @@ namespace JobSpace.UC
         private System.Windows.Forms.SplitContainer sc_list;
         private System.Windows.Forms.ToolStripButton tsb_preview;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
-        private System.Windows.Forms.PictureBox pb_file_preview;
+        private Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
     }
 }
