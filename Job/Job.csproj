@@ -497,6 +497,12 @@
     <Compile Include="UC\UcSelectStandartPageFormat.Designer.cs">
       <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
     </Compile>
+    <Compile Include="UC\Uc_PreviewBrowserFile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\Uc_PreviewBrowserFile.Designer.cs">
+      <DependentUpon>Uc_PreviewBrowserFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\FormCreateCollatingPageMark.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1118,6 +1124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UC\UcSelectStandartPageFormat.resx">
       <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\Uc_PreviewBrowserFile.resx">
+      <DependentUpon>Uc_PreviewBrowserFile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormCreateCollatingPageMark.resx">
       <DependentUpon>FormCreateCollatingPageMark.cs</DependentUpon>

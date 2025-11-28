@@ -1416,8 +1416,7 @@ namespace JobSpace.UC
 
         private void ShowPreviewInControl(IFileSystemInfoExt f)
         {
-            if (pb_file_preview.Image != null) pb_file_preview.Image.Dispose(); 
-            pb_file_preview.Image = FileBrowserSevices.File_GetPreview(f);
+           uc_PreviewBrowserFile1.Show(f);
         }
     }
 }
