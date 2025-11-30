@@ -1400,9 +1400,15 @@ namespace JobSpace.UC
         private void tsb_preview_Click(object sender, EventArgs e)
         {
             sc_list.Panel2Collapsed = !sc_list.Panel2Collapsed;
+            ShowFilePreview();
         }
 
         private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowFilePreview();
+        }
+
+        private void ShowFilePreview()
         {
             // якщо активне cb_preview то показати превью
             if (sc_list.Panel2Collapsed == false)
