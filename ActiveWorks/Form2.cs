@@ -152,8 +152,6 @@ namespace ActiveWorks
 
                 }
             });
-
-         
         }
         /// <summary>
         /// Creates a new profile tab in the ribbon and initializes the associated profile form.
@@ -387,9 +385,6 @@ namespace ActiveWorks
         {
             if (profile.Customers is null) return;
 
-           
-            
-
             var group = new KryptonRibbonGroup
             {
                 TextLine1 = @"Пошук",
@@ -452,8 +447,6 @@ namespace ActiveWorks
 
             triple1.Items.Add(cb_customers);
 
-
-
             // додати cb_searchStr для пошуку по базі
             var cb_searchStr = new KryptonRibbonGroupComboBox();
             cb_searchStr.ComboBox.ToolTipValues.Description = @"Введіть слово і натисніть <Enter> для пошуку";
@@ -475,6 +468,15 @@ namespace ActiveWorks
             if (profile.SearchHistory != null)
                 cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
 
+            cb_searchStr.KeyDown += (sender, args) =>
+            {
+                if (args.KeyCode == Keys.Enter)
+                {
+                    profile.SearchManager.Search(cb_customers.Text, cb_searchStr.Text);
+                    SetHistoryList(profile, cb_searchStr);
+                }
+            };
+
             var clearButton = new ButtonSpecAny
             {
                 Style = PaletteButtonStyle.Standalone,
@@ -482,12 +484,10 @@ namespace ActiveWorks
             };
             clearButton.Click += (sender, args) =>
             {
-                //profile.SearchHistory.Add(cb_searchStr.Text);
                 cb_searchStr.Text = string.Empty;
                 cb_searchStr.Sorted = false;
 
                 SetHistoryList(profile, cb_searchStr);
-
             };
 
             cb_searchStr.ButtonSpecs.Add(clearButton);

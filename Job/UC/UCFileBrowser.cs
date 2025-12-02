@@ -4,23 +4,13 @@ using ExtensionMethods;
 using FtpClient;
 using Interfaces;
 using Interfaces.PdfUtils;
-using JobSpace.Dlg;
 using JobSpace.Ext;
 using JobSpace.Menus;
 using JobSpace.Models;
-using JobSpace.Profiles;
 using JobSpace.Static;
 using JobSpace.Static.Pdf.Imposition;
-using JobSpace.Static.Pdf.Imposition.Services;
-using JobSpace.Static.Pdf.Imposition.Services.TextVariables;
-using JobSpace.Static.Pdf.MergeOddAndEven;
-using JobSpace.Static.Pdf.MergeTemporary;
 using JobSpace.UserForms;
-using JobSpace.UserForms.PDF;
-using Logger;
 using Microsoft.VisualBasic.FileIO;
-using PDFManipulate.Forms;
-using PythonEngine;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -30,8 +20,6 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -233,7 +221,6 @@ namespace JobSpace.UC
             _cts = new CancellationTokenSource();
             _taskGetExtendedFileInfo = Task.Run(() => { ProcessTaskGetExtendedFileInfo(e, _cts.Token); }, _cts.Token);
         }
-
         void ProcessTaskGetExtendedFileInfo(List<IFileSystemInfoExt> e, CancellationToken token)
         {
             foreach (var ext in e)
@@ -242,7 +229,6 @@ namespace JobSpace.UC
                 if (token.IsCancellationRequested) break;
             }
         }
-
         void StopTaskGetExtendedInfo()
         {
             if (_cts == null) return;
@@ -266,7 +252,6 @@ namespace JobSpace.UC
                 _taskGetExtendedFileInfo = null;
             }
         }
-
         private void UpdateStatusControl()
         {
             if (InvokeRequired)
@@ -302,14 +287,12 @@ namespace JobSpace.UC
                 }
             }
         }
-
         private string GetSelectedFilesSize()
         {
             // cnt files, cnt pages, size
             var res = FileBrowserSevices.File_GetSelectedFileSize(objectListView1.SelectedObjects);
             return $"{res.Item1} ({res.Item3.GetFileSizeInString()}, {res.Item2} pp.)";
         }
-
         public void InitToolStripUtils(int idx)
         {
             if (idx != -1)
@@ -361,7 +344,6 @@ namespace JobSpace.UC
             var menuSendTo = (MenuSendTo)((ToolStripItem)sender).Tag;
             FileBrowserSevices.Process_AppOrScript(UserProfile, menuSendTo, _fileManager, objectListView1.SelectedObjects);
         }
-
         private void ObjectListView1_DoubleClick(object sender, EventArgs e)
         {
 
@@ -370,7 +352,6 @@ namespace JobSpace.UC
                 _fileManager.OpenFileOrFolder((IFileSystemInfoExt)objectListView1.SelectedObject);
             }
         }
-
         private void ObjectListView1_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data is OLVDataObject olvobj)
@@ -394,7 +375,6 @@ namespace JobSpace.UC
                 }
             }
         }
-
         private void DropFiles(DragEventArgs e)
         {
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -486,33 +466,26 @@ namespace JobSpace.UC
                 e.Effect = DragDropEffects.None;
             }
         }
-
-
         private void УдалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DeleteFilesAndDirectories();
         }
-
         private void DeleteFilesAndDirectories()
         {
             FileBrowserSevices.File_DeleteFilesAndDirectories(objectListView1.SelectedObjects, _fileManager);
         }
-
         private void КопирвоатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.Clipboard_CopyFiles(objectListView1.SelectedObjects);
         }
-
         private void ВставитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.Clipboard_PasteFiles(_fileManager);
         }
-
         private void СоздатьПапкуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateDirectory();
         }
-
         private void CreateDirectory()
         {
             using (var ff = new FormEditFolder(UserProfile, _fileManager.CreateDirectoryInCurrentFolder))
@@ -523,7 +496,6 @@ namespace JobSpace.UC
                 }
             }
         }
-
         private void ПереименоватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (objectListView1.SelectedObject == null) return;
@@ -554,10 +526,8 @@ namespace JobSpace.UC
                 MessageBox.Show(exception.Message);
             }
         }
-
         private void СкопироватьВБуферПутьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             if (objectListView1.SelectedObjects.Count > 1)
             {
                 string str = "";
@@ -576,16 +546,13 @@ namespace JobSpace.UC
             {
                 Clipboard.SetText(_fileManager.Settings.CurFolder);
             }
-
         }
-
         private void ОбновитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             objectListView1.ClearObjects();
             objectListView1.EmptyListMsg = "LOADING...";
             _fileManager.RefreshAsync();
         }
-
         private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             предварительныйПросмотрToolStripMenuItem.Visible = UserProfile.Settings.GetFileBrowser().UseViewer;
@@ -605,7 +572,6 @@ namespace JobSpace.UC
 
             SetToMoveFolders();
         }
-
         private void SetToMoveFolders()
         {
             переміститиДоToolStripMenuItem.Visible = false;
@@ -680,39 +646,30 @@ namespace JobSpace.UC
 
                 });
             }
-
         }
-
         private void ToolStripSendMenu_Click(object sender, EventArgs eevnArgs)
         {
             FileBrowserSevices.Mail_SendFiles(UserProfile, objectListView1.SelectedObjects, ((ToolStripMenuItem)sender).Text);
         }
-
         async void SendMenuItem_ClickAsync(object sender, EventArgs e)
         {
             var sendToMenu = (MenuSendTo)((ToolStripMenuItem)sender).Tag;
             await FileBrowserSevices.File_CopyToAsync(UserProfile, sendToMenu, objectListView1.SelectedObjects);
         }
-
-
         private void ToolStripButton_Up_Click(object sender, EventArgs e)
         {
             objectListView1.ClearObjects();
             objectListView1.EmptyListMsg = LOADING;
 
             _fileManager.DirectoryUp();
-
         }
-
         private void ПредварительныйПросмотрToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             if (objectListView1.SelectedObject is IFileSystemInfoExt f)
             {
                 ShowPreview(f);
             }
         }
-
         private void ShowPreview(IFileSystemInfoExt f)
         {
             if (!string.IsNullOrEmpty(UserProfile.Settings.GetFileBrowser().Viewer))
@@ -725,7 +682,6 @@ namespace JobSpace.UC
                 }
             }
         }
-
         private void ToolStripButton1_Click(object sender, EventArgs e)
         {
             var menu = new ContextMenuStrip();
@@ -743,10 +699,8 @@ namespace JobSpace.UC
                     menu.Dispose();
                 };
             }
-
             menu.Show(Cursor.Position);
         }
-
         private void ToolStripTextBox_Filter_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(toolStripTextBox_Filter.Text))
@@ -758,13 +712,10 @@ namespace JobSpace.UC
                 objectListView1.ModelFilter = TextMatchFilter.Regex(objectListView1, toolStripTextBox_Filter.Text);
             }
         }
-
         public void SetFilter(string filterString)
         {
             toolStripTextBox_Filter.Text = filterString;
         }
-
-
         public void SetCustomButtonPath(string[] customPath)
         {
             _customButtonPath = customPath;
@@ -779,13 +730,10 @@ namespace JobSpace.UC
                 toolStripButton_Custom.Enabled = false;
             }
         }
-
         private void ВырезатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.Clipboard_CutFiles(objectListView1.SelectedObjects);
-
         }
-
         private void ObjectListView1_KeyDown(object sender, KeyEventArgs e)
         {
             bool handled = true;
@@ -828,12 +776,10 @@ namespace JobSpace.UC
                 e.SuppressKeyPress = true;
             }
         }
-
         private void ОткрытьВПрограммеПоУмолчаниюToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenSelectedFiles();
         }
-
         private void OpenSelectedFiles()
         {
             if (objectListView1.SelectedObjects != null)
@@ -845,18 +791,15 @@ namespace JobSpace.UC
                 }
             }
         }
-
         private void ToolStripButton_ClearFilter_Click(object sender, EventArgs e)
         {
             ClearFilter();
         }
-
         private void ClearFilter()
         {
             toolStripTextBox_Filter.Text = string.Empty;
             objectListView1.ModelFilter = null;
         }
-
         private void ИмяФайлаОписаниеЗаказаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var file = (IFileSystemInfoExt)objectListView1.SelectedObject;
@@ -865,7 +808,6 @@ namespace JobSpace.UC
                 OnChangeJobDescription(this, Path.GetFileNameWithoutExtension(file.FileInfo.Name));
             }
         }
-
         private void ObjectListView1_CellEditFinishing(object sender, CellEditEventArgs e)
         {
             if (e.Column == olvColumn_FileName)
@@ -887,7 +829,6 @@ namespace JobSpace.UC
             }
             e.Cancel = true;
         }
-
         private void ObjectListView1_ModelCanDrop(object sender, ModelDropEventArgs e)
         {
             if (e.TargetModel == null)
@@ -910,10 +851,7 @@ namespace JobSpace.UC
                     e.InfoMessage = "file";
                 }
             }
-
-
         }
-
         private void ObjectListView1_CanDrop_1(object sender, OlvDropEventArgs e)
         {
             if (e.DropTargetItem == null) return;
@@ -938,7 +876,6 @@ namespace JobSpace.UC
                 e.Effect = DragDropEffects.Copy;
             }
         }
-
         /// <summary>
         /// завантажити налаштування
         /// </summary>
@@ -958,22 +895,18 @@ namespace JobSpace.UC
                 _fileManager.LoadSettings(setPath);
             }
         }
-
         public IFileBrowserControlSettings GetSettings()
         {
             return _fileManager.Settings;
         }
-
         public void SetRootFolder(string directory)
         {
             _fileManager.SetRootDirectory(directory);
         }
-
         public void LockUI(bool enabled)
         {
             objectListView1.ClearObjects();
             Enabled = enabled;
-
         }
         /// <summary>
         /// зберегти налаштування
@@ -992,12 +925,10 @@ namespace JobSpace.UC
 
             _fileManager.SaveSettings(setPath);
         }
-
         private void ОтриматиДодатковуІнформаціюToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GetFilesInfo();
         }
-
         private void GetFilesInfo()
         {
             IFileSystemInfoExt[] fileSystemInfoExts;
@@ -1016,7 +947,6 @@ namespace JobSpace.UC
             }
             //todo: показати прогрес
 
-
             BackgroundTaskService.AddTask(new BackgroundTaskItem()
             {
                 Name = "get info from files...",
@@ -1026,17 +956,14 @@ namespace JobSpace.UC
                     {
                         infoExt.GetExtendedFileInfo();
                     }
-
                     objectListView1.RefreshObjects(fileSystemInfoExts.ToArray());
                 },
             });
         }
-
         private void ПереместитьВTEMPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MoveToTrash(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToArray());
         }
-
         private void MoveToTrash(IFileSystemInfoExt[] files = null)
         {
             if (files == null || files.Length == 0) return;
@@ -1045,48 +972,39 @@ namespace JobSpace.UC
                 () => { _fileManager.MoveFilesToTrash(files); }
                 )));
         }
-
         public List<IFileSystemInfoExt> GetFilesFromDirectory(string path)
         {
             return _fileManager.GetFiles(path);
         }
-
         private void DeleteToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             DeleteFilesAndDirectories();
         }
-
         private void SetTrimBoxToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileFormatsUtil.SetTrimBox(objectListView1.SelectedObjects);
         }
-
         private void ObjectListView1_SelectionChanged(object sender, EventArgs e)
         {
             toolStripStatusLabelSelected.Text = GetSelectedFilesSize();
         }
-
         private void ОтправитьEmailToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             FileBrowserSevices.File_SendMail(objectListView1.SelectedObjects, UserProfile);
         }
-
         private void ObjectListView1_ModelDropped(object sender, ModelDropEventArgs e)
         {
             MessageBox.Show($"dropped: {e.SourceModels} to {e.TargetModel}");
         }
-
         private void ObjectListView1_FormatRow(object sender, FormatRowEventArgs e)
         {
             // виклик плагіну
             UserProfile?.Plugins?.FileBrowserFormatRow(this, e);
         }
-
         private void ConvertToPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_ConvertToPdf(objectListView1.SelectedObjects, CreateMoveToTrashAction(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList()));
         }
-
         private Action CreateMoveToTrashAction(List<IFileSystemInfoExt> files)
         {
             Action moveToTrash = null;
@@ -1098,42 +1016,34 @@ namespace JobSpace.UC
 
             return moveToTrash;
         }
-
         private void SplitPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_SplitFile(objectListView1.SelectedObjects);
         }
-
         private void RepeatPagesPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_RepeatPages(objectListView1.SelectedObjects);
         }
-
         private void CombineFrontsBackToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_MergeFrontsAndBacks(objectListView1.SelectedObjects);
         }
-
         private void ReversePagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_ReversePages(objectListView1.SelectedObjects);
         }
-
         private void RepeatDocumentToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_RepeatDocument(objectListView1.SelectedObjects);
         }
-
         private void СтворитиПрямокутникToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_CreateRectangle(objectListView1.SelectedObjects);
         }
-
         private void СтворитиЕліпсToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_CreateEllipse(objectListView1.SelectedObjects);
         }
-
         private void CreateNewOrderFromFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (IFileSystemInfoExt ext in objectListView1.SelectedObjects)
@@ -1141,23 +1051,19 @@ namespace JobSpace.UC
                 OnCreateOrderFromFile(this, ext.FileInfo.FullName);
             }
         }
-
         private void toolStripSplitButtonTrash_ButtonClick(object sender, EventArgs e)
         {
             MoveToTrash(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToArray());
         }
-
         private void openTrashToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // open trash folder
             _fileManager.GetTempFolder();
         }
-
         private void kryptonLabelPath_LinkClicked(object sender, EventArgs e)
         {
             OpenCurrentFolderInExplorer();
         }
-
         private void перенестиВмістПапкиСюдиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (IFileSystemInfoExt infoExt in objectListView1.SelectedObjects)
@@ -1168,18 +1074,15 @@ namespace JobSpace.UC
                 }
             }
         }
-
         private void objectListView1_Click(object sender, EventArgs e)
         {
             if (objectListView1.SelectedObject is IFileSystemInfoExt file)
                 UserProfile.Plugins.FileBrowserSelectObject(file);
         }
-
         private void витягтиСторінкиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_ExtractPages(objectListView1.SelectedObjects);
         }
-
         private void toolStripButtonSettings_Click(object sender, EventArgs e)
         {
             using (var form = new FormFileBrowserSettings(_fileManager.Settings))
@@ -1191,7 +1094,6 @@ namespace JobSpace.UC
                 }
             }
         }
-
         private void ApplySettings()
         {
             objectListView1.ShowGroups = _fileManager.Settings.ShowGroups;
@@ -1208,16 +1110,11 @@ namespace JobSpace.UC
 
                 return new { Title = $"{date.Year}.{date.Month:00}.{date.Day:00}" };
             };
-
-
-
             olvColumn_DateTime.GroupKeyToTitleConverter = key =>
             {
                 return ((dynamic)key).Title;
             };
-
         }
-
         private void toolStripButtonFileInfo_Click(object sender, EventArgs e) => GetFilesInfo();
         private void toolStripButtonCopyToClipboard_Click(object sender, EventArgs e) => FileBrowserSevices.Clipboard_CopyFiles(objectListView1.SelectedObjects);
         private void toolStripButtonCut_Click(object sender, EventArgs e) => FileBrowserSevices.Clipboard_CutFiles(objectListView1.SelectedObjects);
@@ -1272,7 +1169,6 @@ namespace JobSpace.UC
             }
 
         }
-
         private void показатиВсіФайлибезПапокToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _fileManager.Settings.ShowAllFilesWithoutDir = показатиВсіФайлибезПапокToolStripMenuItem.Checked;
@@ -1281,7 +1177,6 @@ namespace JobSpace.UC
             objectListView1.EmptyListMsg = LOADING;
             _fileManager.RefreshAsync();
         }
-
         private void копіюватиІмяФайлуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.Clipboard_CopyFileNames(objectListView1.SelectedObjects);
@@ -1371,43 +1266,35 @@ namespace JobSpace.UC
         {
             FileBrowserSevices.PDF_CreateCollatingPageMark(objectListView1.SelectedObjects);
         }
-
         private void зєднатиБлокПо3МісяціToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_MergeBlockBy3Months(objectListView1.SelectedObject);
         }
-
         private void фальцовкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_VisualFalc(objectListView1.SelectedObject);
         }
-
         private void видалитиICCПрофіліToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_RemoveICCProfiles(objectListView1.SelectedObjects);
         }
-
         private void вставитиЯкКопіюToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.Clipboard_PasteLikeCopyFiles(_fileManager);
         }
-
         private void підготуватиБлокДляДToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_RearangePagesForQuartalCalendar(objectListView1.SelectedObjects);
         }
-
         private void tsb_preview_Click(object sender, EventArgs e)
         {
             sc_list.Panel2Collapsed = !sc_list.Panel2Collapsed;
             ShowFilePreview();
         }
-
         private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ShowFilePreview();
         }
-
         private void ShowFilePreview()
         {
             // якщо активне cb_preview то показати превью
@@ -1419,7 +1306,6 @@ namespace JobSpace.UC
                 }
             }
         }
-
         private void ShowPreviewInControl(IFileSystemInfoExt f)
         {
            uc_PreviewBrowserFile1.Show(f);
