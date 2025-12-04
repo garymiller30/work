@@ -1305,10 +1305,20 @@ namespace JobSpace.UC
                     ShowPreviewInControl(f);
                 }
             }
+            else
+            {
+                               uc_PreviewBrowserFile1.ClearPreview();
+            }
         }
         private void ShowPreviewInControl(IFileSystemInfoExt f)
         {
            uc_PreviewBrowserFile1.Show(f);
+        }
+
+        private void пошукзамінаТиражівToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            FileBrowserSevices.File_FindReplaceTirag(objectListView1.SelectedObjects);
         }
     }
 }

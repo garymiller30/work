@@ -82,7 +82,7 @@ namespace JobSpace.UC
         {
             var item = (PaperFormat)kryptonComboBoxNumber.SelectedItem;
 
-            PaperFormatChanged?.Invoke(this, item);
+            PaperFormatChanged(this, item);
             //numericUpDownWidth.Value = item.Width;
             //numericUpDownHeight.Value = item.Height;
         }

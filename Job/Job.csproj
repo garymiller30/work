@@ -503,6 +503,12 @@
     <Compile Include="UC\Uc_PreviewBrowserFile.Designer.cs">
       <DependentUpon>Uc_PreviewBrowserFile.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\FormRegexRenameFiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormRegexRenameFiles.Designer.cs">
+      <DependentUpon>FormRegexRenameFiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\FormCreateCollatingPageMark.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1127,6 +1133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UC\Uc_PreviewBrowserFile.resx">
       <DependentUpon>Uc_PreviewBrowserFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormRegexRenameFiles.resx">
+      <DependentUpon>FormRegexRenameFiles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormCreateCollatingPageMark.resx">
       <DependentUpon>FormCreateCollatingPageMark.cs</DependentUpon>

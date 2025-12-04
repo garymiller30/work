@@ -78,6 +78,7 @@ namespace JobSpace.Static
                 case ".jpg":
                 case ".tif":
                 case ".tiff":
+                case ".png":
                     GetTif(sfi);
                     break;
                 case ".ai":
@@ -194,60 +195,60 @@ namespace JobSpace.Static
 
         public static void SetTrimBox(IEnumerable objects)
         {
-            if (objects != null)
+            if (objects == null) return;
+
+            var firstFile = objects.Cast<FileSystemInfoExt>().First();
+            using (var formGetTrimBox = new FormGetTrimBox(firstFile))
             {
-                var firstFile = objects.Cast<FileSystemInfoExt>().First();
-                using (var formGetTrimBox = new FormGetTrimBox(firstFile))
+                if (formGetTrimBox.ShowDialog() == DialogResult.OK)
                 {
-                    if (formGetTrimBox.ShowDialog() == DialogResult.OK)
+                    var result = formGetTrimBox.Result;
+                    BackgroundTaskService.AddTask(new BackgroundTaskItem()
                     {
-                        var result = formGetTrimBox.Result;
-                        BackgroundTaskService.AddTask(new BackgroundTaskItem()
+                        Name = "set trimbox...",
+                        BackgroundAction = () =>
                         {
-                            Name = "set trimbox...",
-                            BackgroundAction = () =>
+                            if (result.ResultType == TrimBoxResultEnum.byBleed)
                             {
-                                if (result.ResultType == TrimBoxResultEnum.byBleed)
+                                PdfSetTrimBoxByBleedParams param = new PdfSetTrimBoxByBleedParams { Bleed = result.Bleed };
+
+                                foreach (FileSystemInfoExt ext in objects)
                                 {
-                                    PdfSetTrimBoxByBleedParams param = new PdfSetTrimBoxByBleedParams { Bleed = result.Bleed };
-
-                                    foreach (FileSystemInfoExt ext in objects)
-                                    {
-                                        new PdfSetTrimBoxByBleed(param).Run(ext.FileInfo.FullName);
-                                    }
+                                    new PdfSetTrimBoxByBleed(param).Run(ext.FileInfo.FullName);
                                 }
-                                else if (result.ResultType == TrimBoxResultEnum.byTrimbox)
+                            }
+                            else if (result.ResultType == TrimBoxResultEnum.byTrimbox)
+                            {
+                                PdfSetTrimBoxByFormatParams param =
+                                new PdfSetTrimBoxByFormatParams { Width = result.TrimBox.Width, Height = result.TrimBox.Height };
+
+                                foreach (FileSystemInfoExt ext in objects)
                                 {
-                                    PdfSetTrimBoxByFormatParams param =
-                                    new PdfSetTrimBoxByFormatParams { Width = result.TrimBox.Width, Height = result.TrimBox.Height };
-
-                                    foreach (FileSystemInfoExt ext in objects)
-                                    {
-                                        new PdfSetTrimBoxByFormat(param).Run(ext.FileInfo.FullName);
-                                    }
-
+                                    new PdfSetTrimBoxByFormat(param).Run(ext.FileInfo.FullName);
                                 }
-                                else if (result.ResultType == TrimBoxResultEnum.bySpread)
+
+                            }
+                            else if (result.ResultType == TrimBoxResultEnum.bySpread)
+                            {
+
+                                PdfSetTrimBoxBySpreadParams param = new PdfSetTrimBoxBySpreadParams
                                 {
+                                    Top = result.Spread.Top,
+                                    Bottom = result.Spread.Bottom,
+                                    Inside = result.Spread.Inside,
+                                    Outside = result.Spread.Outside,
+                                };
 
-                                    PdfSetTrimBoxBySpreadParams param = new PdfSetTrimBoxBySpreadParams
-                                    {
-                                        Top = result.Spread.Top,
-                                        Bottom = result.Spread.Bottom,
-                                        Inside = result.Spread.Inside,
-                                        Outside = result.Spread.Outside,
-                                    };
-
-                                    foreach (FileSystemInfoExt ext in objects)
-                                    {
-                                        new PdfSetTrimBoxBySpread(param).Run(ext.FileInfo.FullName);
-                                    }
+                                foreach (FileSystemInfoExt ext in objects)
+                                {
+                                    new PdfSetTrimBoxBySpread(param).Run(ext.FileInfo.FullName);
                                 }
-                            },
-                        });
-                    }
+                            }
+                        },
+                    });
                 }
             }
+
         }
 
         public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list, Action action)
@@ -469,7 +470,7 @@ namespace JobSpace.Static
 
         public static void SplitOddAndEven(IEnumerable<IFileSystemInfoExt> list)
         {
-            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge odd and even pages pdf", new Action(
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split odd and even pages pdf", new Action(
                 () =>
                 {
                     foreach (IFileSystemInfoExt file in list)
@@ -719,7 +720,7 @@ namespace JobSpace.Static
                 new RearangePagesForQuartalCalendar(cntMonthInBlock).Run(file.FileInfo.FullName);
             }
 
-            
+
         }
     }
 }
