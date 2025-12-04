@@ -36,7 +36,7 @@
             this.olvColumn_name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn_new_name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btn_rename = new System.Windows.Forms.Button();
-            this.panel_variants = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.olv_find)).BeginInit();
@@ -80,6 +80,7 @@
             this.tb_replace.Name = "tb_replace";
             this.tb_replace.Size = new System.Drawing.Size(229, 20);
             this.tb_replace.TabIndex = 0;
+            this.tb_replace.Text = "$0#$1";
             this.tb_replace.TextChanged += new System.EventHandler(this.tb_replace_TextChanged);
             // 
             // olv_find
@@ -115,33 +116,39 @@
             // olvColumn_new_name
             // 
             this.olvColumn_new_name.AspectName = "NewName";
+            this.olvColumn_new_name.Searchable = false;
             this.olvColumn_new_name.Text = "Нове ім\'я";
+            this.olvColumn_new_name.UseFiltering = false;
             this.olvColumn_new_name.Width = 237;
             // 
             // btn_rename
             // 
+            this.btn_rename.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btn_rename.Location = new System.Drawing.Point(202, 401);
             this.btn_rename.Name = "btn_rename";
             this.btn_rename.Size = new System.Drawing.Size(113, 38);
             this.btn_rename.TabIndex = 2;
             this.btn_rename.Text = "перейменувати";
             this.btn_rename.UseVisualStyleBackColor = true;
+            this.btn_rename.Click += new System.EventHandler(this.btn_rename_Click);
             // 
-            // panel_variants
+            // label1
             // 
-            this.panel_variants.AutoScroll = true;
-            this.panel_variants.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel_variants.Location = new System.Drawing.Point(12, 66);
-            this.panel_variants.Name = "panel_variants";
-            this.panel_variants.Size = new System.Drawing.Size(488, 41);
-            this.panel_variants.TabIndex = 3;
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label1.Location = new System.Drawing.Point(15, 62);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(485, 48);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "$0 - оригінальне ім\'я\r\n$1 і більше - знайдене співпадіння";
             // 
             // FormRegexRenameFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(510, 451);
-            this.Controls.Add(this.panel_variants);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_rename);
             this.Controls.Add(this.olv_find);
             this.Controls.Add(this.groupBox2);
@@ -166,6 +173,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumn_name;
         private BrightIdeasSoftware.OLVColumn olvColumn_new_name;
         private System.Windows.Forms.Button btn_rename;
-        private System.Windows.Forms.Panel panel_variants;
+        private System.Windows.Forms.Label label1;
     }
 }

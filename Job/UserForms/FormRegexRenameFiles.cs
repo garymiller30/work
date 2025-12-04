@@ -50,16 +50,27 @@ namespace JobSpace.UserForms
 
             public void CreateVariants(string text)
             {
-                Variants = Regex.Matches(OriginalName, text)
+                try
+                {
+                    Variants = Regex.Matches(OriginalName, text)
                     .Cast<Match>()
-                    .Select(x => x.Value)
+                    .Select(x => x.Groups[1].Value)
                     .Distinct()
                     .ToList();
+                }
+                catch
+                {
+                    Variants = new List<string>();
+                }
             }
 
             public void Parse(string text)
             {
-                
+                NewName = text.Replace("$0",OriginalName);
+                for (int i = 0; i < Variants.Count; i++)
+                {
+                    NewName = NewName.Replace($"${i+1}", Variants[i]);
+                }
             }
         }
 
@@ -73,9 +84,10 @@ namespace JobSpace.UserForms
             TextMatchFilter filter = TextMatchFilter.Regex(olv_find, tb_find.Text);
 
             olv_find.DefaultRenderer = new HighlightTextRenderer(filter);
-            olv_find.Refresh();
+            
            
             CreateVariants(tb_find.Text);
+            olv_find.RefreshObjects(_preview_items);
         }
 
         private void CreateVariants(string text)
@@ -88,7 +100,33 @@ namespace JobSpace.UserForms
         private void tb_replace_TextChanged(object sender, EventArgs e)
         {
             _preview_items.ForEach(x => x.Parse(tb_replace.Text));
+            olv_find.RefreshObjects(_preview_items);
         }
 
+        private void btn_rename_Click(object sender, EventArgs e)
+        {
+            // перевірити чи є конфлікти імен
+            var newNames = _preview_items.Select(x => System.IO.Path.Combine(x.Folder, x.NewName + x.Extension)).ToList();
+            if (newNames.Count != newNames.Distinct().Count())
+            {
+                MessageBox.Show("Conflict in new file names. Rename aborted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            for (int i = 0; i < _original_files.Count; i++)
+            {
+                var original = _original_files[i].FileInfo.FullName;
+                var newName = System.IO.Path.Combine(_preview_items[i].Folder, _preview_items[i].NewName + _preview_items[i].Extension);
+                try
+                {
+                    System.IO.File.Move(original, newName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error renaming file:\n{original}\nTo:\n{newName}\n\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            Close();
+        }
     }
 }
