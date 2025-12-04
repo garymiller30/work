@@ -864,6 +864,14 @@ namespace JobSpace.Static
             return null;
         }
 
+        public static void File_FindReplaceTirag(IList selectedObjects)
+        {
+            using (var form = new FormRegexRenameFiles(selectedObjects.Cast<IFileSystemInfoExt>().ToList()))
+            {
+                form.ShowDialog();
+            }
+        }
+
 
         #endregion
     }

@@ -32,6 +32,7 @@ namespace JobSpace.Static
                 case ".jpg":
                 case ".tif":
                 case ".tiff":
+                case ".png":
                     GetColorspaceImage(sfi);
                     break;
             }

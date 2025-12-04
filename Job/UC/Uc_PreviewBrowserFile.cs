@@ -60,12 +60,16 @@ namespace JobSpace.UC
             var preview = await Task.Run(() =>
                 FileBrowserSevices.File_GetPreview(_fileInfo, _currentPage - 1)
             );
+            // створити копію зображення, щоб уникнути проблем з потоками
+            var temp = new System.Drawing.Bitmap(preview);
+            preview.Dispose();
+
 
             // Зупиняємо завантаження GIF і прибираємо його
             pb_preview.ImageLocation = null;
             pb_preview.SizeMode = PictureBoxSizeMode.Zoom;
             // Тепер ставимо вже фінальне зображення
-            pb_preview.Image = preview;
+            pb_preview.Image = temp;
         }
 
         private void tsb_previous_page_Click(object sender, EventArgs e)
@@ -102,6 +106,12 @@ namespace JobSpace.UC
                     tst_cur_page.Text = _currentPage.ToString();
                 }
             }
+        }
+
+        public void ClearPreview()
+        {
+            pb_preview.Image?.Dispose();
+            pb_preview.Image = null;
         }
     }
 }

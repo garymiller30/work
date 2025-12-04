@@ -112,8 +112,18 @@ namespace JobSpace.UserForms
 
         private void ucSelectStandartPageFormat1_PaperFormatChanged(object sender, Static.Pdf.Common.PaperFormat e)
         {
-            numericUpDownWidth.Value = e.Width;
-            numericUpDownHeight.Value = e.Height;
+            bool isOldVertical = InfoExt.Format.Height > InfoExt.Format.Width;
+            bool isNewVertical = e.Height > e.Width;
+            if (isOldVertical != isNewVertical)
+            {
+                numericUpDownWidth.Value = e.Height;
+                numericUpDownHeight.Value = e.Width;
+            }
+            else
+            {
+                numericUpDownWidth.Value = e.Width;
+                numericUpDownHeight.Value = e.Height;
+            }
         }
     }
 }
