@@ -397,5 +397,68 @@ namespace JobSpace.UserForms.PDF.Visual
                 pb_preview.Invalidate();
             }
         }
+
+        private void bnt_top_left_Click(object sender, EventArgs e)
+        {
+            nud_rect_x.Value = 0;
+            nud_rect_y.Value = 0;
+            pb_preview.Invalidate();
+        }
+
+        private void btn_top_center_Click(object sender, EventArgs e)
+        {
+            nud_rect_x.Value = (decimal)(((decimal)boxes_pages[(int)(nud_page_number.Value-1)].Trimbox.wMM() - nud_rect_w.Value)/2);
+            nud_rect_y.Value = 0;
+            pb_preview.Invalidate();
+        }
+
+        private void bnt_top_right_Click(object sender, EventArgs e)
+        {
+            nud_rect_x.Value = (decimal)((decimal)boxes_pages[(int)(nud_page_number.Value - 1)].Trimbox.wMM() - nud_rect_w.Value);
+            nud_rect_y.Value = 0;
+            pb_preview.Invalidate();
+        }
+
+        private void btn_left_center_Click(object sender, EventArgs e)
+        {
+            nud_rect_x.Value = 0;
+            nud_rect_y.Value = (decimal)(((decimal)boxes_pages[(int)(nud_page_number.Value - 1)].Trimbox.hMM() - nud_rect_h.Value) / 2);
+            pb_preview.Invalidate();
+        }
+
+        private void btn_center_Click(object sender, EventArgs e)
+        {
+            nud_rect_x.Value = (decimal)(((decimal)boxes_pages[(int)(nud_page_number.Value - 1)].Trimbox.wMM() - nud_rect_w.Value) / 2);
+            nud_rect_y.Value = (decimal)(((decimal)boxes_pages[(int)(nud_page_number.Value - 1)].Trimbox.hMM() - nud_rect_h.Value) / 2);
+            pb_preview.Invalidate();
+        }
+
+        private void btn_right_center_Click(object sender, EventArgs e)
+        {
+            nud_rect_x.Value = (decimal)((decimal)boxes_pages[(int)(nud_page_number.Value - 1)].Trimbox.wMM() - nud_rect_w.Value);
+            nud_rect_y.Value = (decimal)(((decimal)boxes_pages[(int)(nud_page_number.Value - 1)].Trimbox.hMM() - nud_rect_h.Value) / 2);
+            pb_preview.Invalidate();
+        }
+
+        private void bnt_bottom_left_Click(object sender, EventArgs e)
+        {
+            nud_rect_x.Value = 0;
+            nud_rect_y.Value = (decimal)((decimal)boxes_pages[(int)(nud_page_number.Value - 1)].Trimbox.hMM() - nud_rect_h.Value);
+            pb_preview.Invalidate();
+        }
+
+        private void btn_bottom_center_Click(object sender, EventArgs e)
+        {
+            nud_rect_x.Value = (decimal)(((decimal)boxes_pages[(int)(nud_page_number.Value - 1)].Trimbox.wMM() - nud_rect_w.Value) / 2);
+            nud_rect_y.Value = (decimal)((decimal)boxes_pages[(int)(nud_page_number.Value - 1)].Trimbox.hMM() - nud_rect_h.Value);
+            pb_preview.Invalidate();
+        }
+
+        private void btn_bottom_right_Click(object sender, EventArgs e)
+        {
+            nud_rect_x.Value = (decimal)((decimal)boxes_pages[(int)(nud_page_number.Value - 1)].Trimbox.wMM() - nud_rect_w.Value);
+            nud_rect_y.Value = (decimal)((decimal)boxes_pages[(int)(nud_page_number.Value - 1)].Trimbox.hMM() - nud_rect_h.Value);
+            pb_preview.Invalidate();
+        }
     }
 }

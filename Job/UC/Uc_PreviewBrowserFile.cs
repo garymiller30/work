@@ -61,15 +61,18 @@ namespace JobSpace.UC
                 FileBrowserSevices.File_GetPreview(_fileInfo, _currentPage - 1)
             );
             // створити копію зображення, щоб уникнути проблем з потоками
-            var temp = new System.Drawing.Bitmap(preview);
-            preview.Dispose();
-
+            if (preview != null)
+            {
+                var temp = new System.Drawing.Bitmap(preview);
+                preview.Dispose();
+                preview = temp;
+            }
 
             // Зупиняємо завантаження GIF і прибираємо його
             pb_preview.ImageLocation = null;
             pb_preview.SizeMode = PictureBoxSizeMode.Zoom;
             // Тепер ставимо вже фінальне зображення
-            pb_preview.Image = temp;
+            pb_preview.Image = preview;
         }
 
         private void tsb_previous_page_Click(object sender, EventArgs e)
