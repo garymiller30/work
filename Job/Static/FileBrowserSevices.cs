@@ -872,6 +872,14 @@ namespace JobSpace.Static
             }
         }
 
+        public static void PDF_VisualHardCover(IFileSystemInfoExt f)
+        {
+            using (var form = new FormVisualHardCover(f))
+            {
+                form.ShowDialog();
+            }
+        }
+
 
         #endregion
     }

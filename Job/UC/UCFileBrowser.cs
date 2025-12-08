@@ -1320,5 +1320,13 @@ namespace JobSpace.UC
             if (objectListView1.SelectedObjects.Count == 0) return;
             FileBrowserSevices.File_FindReplaceTirag(objectListView1.SelectedObjects);
         }
+
+        private void твердаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is IFileSystemInfoExt f)
+            {
+                FileBrowserSevices.PDF_VisualHardCover(f);
+            }
+        }
     }
 }
