@@ -109,6 +109,7 @@
     <Compile Include="IPart.cs" />
     <Compile Include="IPdfConverterSettings.cs" />
     <Compile Include="IPlateFormat.cs" />
+    <Compile Include="IScreenPrimitive.cs" />
     <Compile Include="ISearchManager.cs" />
     <Compile Include="IServicesStateManager.cs" />
     <Compile Include="IServiceState.cs" />

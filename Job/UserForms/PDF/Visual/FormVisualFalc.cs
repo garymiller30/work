@@ -1,6 +1,7 @@
 ﻿using Amazon.Runtime.Internal.Util;
 using Interfaces;
 using Interfaces.PdfUtils;
+using JobSpace.Models.ScreenPrimitives;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Create.Falc;
 using JobSpace.Static.Pdf.Imposition.Models;
@@ -23,7 +24,6 @@ namespace JobSpace.UserForms.PDF.Visual
 {
     public partial class FormVisualFalc : Form
     {
-        float _zoomFactor = 1.0f;
         Control[] _parts;
         NumericUpDown[] _deltas;
         Label[] _labels;
@@ -33,6 +33,7 @@ namespace JobSpace.UserForms.PDF.Visual
         decimal[] partsDelta;
         Image document_prev;
         List<PdfPageInfo> boxes;
+        List<IScreenPrimitive> _primitives;
 
         decimal page_w = 0;
         decimal page_h = 0;
@@ -52,7 +53,7 @@ namespace JobSpace.UserForms.PDF.Visual
                 label6, label7, label8, label9, label10 };
 
             cb_cnt_falc.SelectedIndex = 0;
-            pb_preview.Paint += Pb_preview_Paint;
+           
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -86,7 +87,7 @@ namespace JobSpace.UserForms.PDF.Visual
                 _labels[i].Text = partsDelta[i].ToString();
             }
 
-            pb_preview.Invalidate();
+            Draw();
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -110,19 +111,19 @@ namespace JobSpace.UserForms.PDF.Visual
             }
             Image pageImage = PdfHelper.RenderByTrimBox(_fsi, pageIdx, 150);
             document_prev = pageImage;
-            pb_preview.Width = (int)(page_w * pb_preview.DeviceDpi/ 25.4m)+1;
-            pb_preview.Height = (int)(page_h * pb_preview.DeviceDpi / 25.4m)+1;
+            Draw();
         }
 
-        private void Pb_preview_Paint(object sender, PaintEventArgs e)
+        void Draw()
         {
-            if (partsDelta == null || e.Graphics == null || document_prev == null) return;
+            if (partsDelta == null || document_prev == null) return;
+            
+            _primitives = new List<IScreenPrimitive>();
 
-            Graphics g = e.Graphics;
-            g.PageUnit = GraphicsUnit.Millimeter;
-            e.Graphics.ScaleTransform(_zoomFactor, _zoomFactor);
-            e.Graphics.DrawImage(document_prev, 0, 0, (float)page_w, (float)page_h);
-           
+            double w = boxes[(int)nud_page_no.Value - 1].Trimbox.wMM();
+            double h = boxes[(int)nud_page_no.Value - 1].Trimbox.hMM();
+            uc_PreviewControl1.SetImage(document_prev,w,h);
+
             float x = 0;
 
             if (cb_mirrored_parts.Checked && nud_page_no.Value % 2 == 0)
@@ -130,8 +131,9 @@ namespace JobSpace.UserForms.PDF.Visual
                 for (int i = 0; i < partsDelta.Length - 1; i++)
                 {
                     x += (float)((double)partsDelta[i]);
-                    g.DrawLine(_whiteLinePen, x, 0, x, (float)page_h);
-                    g.DrawLine(_redLinePen, x, 0, x, (float)page_h);
+
+                    _primitives.Add(new ScreenLine(_whiteLinePen, x, 0, x, (float)page_h));
+                    _primitives.Add(new ScreenLine(_redLinePen, x, 0, x, (float)page_h));
                 }
             }
             else
@@ -139,27 +141,30 @@ namespace JobSpace.UserForms.PDF.Visual
                 for (int i = partsDelta.Length - 1; i > 0; i--)
                 {
                     x += (float)((double)partsDelta[i]);
-                    g.DrawLine(_whiteLinePen, x, 0, x, (float)page_h);
-                    g.DrawLine(_redLinePen, x, 0, x, (float)page_h);
+
+                    _primitives.Add(new ScreenLine(_whiteLinePen, x, 0, x, (float)page_h));
+                    _primitives.Add(new ScreenLine(_redLinePen, x, 0, x, (float)page_h));
                 }
             }
+
+            uc_PreviewControl1.Primitives = _primitives;
         }
+
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            _zoomFactor = trackBar1.Value / 100.0f;
-            pb_preview.Invalidate();
+            uc_PreviewControl1.ZoomFactor = trackBar1.Value / 100.0f;
+            
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            pb_preview.Invalidate();
+           Recalc();
         }
 
         private void nud_page_no_ValueChanged(object sender, EventArgs e)
         {
             GeneratePageImage((int)(nud_page_no.Value - 1));
-            pb_preview.Invalidate();
         }
 
         private void btn_create_schema_Click(object sender, EventArgs e)

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormVisualFalc));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cb_cnt_falc = new System.Windows.Forms.ComboBox();
             this.gb_p1 = new System.Windows.Forms.GroupBox();
@@ -63,8 +64,6 @@
             this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.nud_width = new System.Windows.Forms.NumericUpDown();
-            this.pb_preview = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.cb_mirrored_parts = new System.Windows.Forms.CheckBox();
             this.nud_page_no = new System.Windows.Forms.NumericUpDown();
@@ -72,6 +71,7 @@
             this.label_total_pages = new System.Windows.Forms.Label();
             this.btn_create_schema = new System.Windows.Forms.Button();
             this.btn_mark_file = new System.Windows.Forms.Button();
+            this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
             this.groupBox1.SuspendLayout();
             this.gb_p1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -96,8 +96,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
             this.groupBox12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).BeginInit();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_no)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -580,27 +578,6 @@
             0});
             this.nud_width.ValueChanged += new System.EventHandler(this.nud_width_ValueChanged);
             // 
-            // pb_preview
-            // 
-            this.pb_preview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb_preview.Location = new System.Drawing.Point(3, 3);
-            this.pb_preview.Name = "pb_preview";
-            this.pb_preview.Size = new System.Drawing.Size(883, 444);
-            this.pb_preview.TabIndex = 3;
-            this.pb_preview.TabStop = false;
-            // 
-            // panel2
-            // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.AutoScroll = true;
-            this.panel2.Controls.Add(this.pb_preview);
-            this.panel2.Location = new System.Drawing.Point(12, 171);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(889, 450);
-            this.panel2.TabIndex = 4;
-            // 
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(277, 18);
@@ -689,17 +666,30 @@
             this.btn_mark_file.UseVisualStyleBackColor = true;
             this.btn_mark_file.Click += new System.EventHandler(this.btn_mark_file_Click);
             // 
+            // uc_PreviewControl1
+            // 
+            this.uc_PreviewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.uc_PreviewControl1.FitToScreen = true;
+            this.uc_PreviewControl1.Location = new System.Drawing.Point(12, 171);
+            this.uc_PreviewControl1.Name = "uc_PreviewControl1";
+            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
+            this.uc_PreviewControl1.Size = new System.Drawing.Size(882, 450);
+            this.uc_PreviewControl1.TabIndex = 11;
+            this.uc_PreviewControl1.ZoomFactor = 1F;
+            // 
             // FormVisualFalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 633);
+            this.Controls.Add(this.uc_PreviewControl1);
             this.Controls.Add(this.btn_mark_file);
             this.Controls.Add(this.btn_create_schema);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cb_mirrored_parts);
             this.Controls.Add(this.trackBar1);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox12);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
@@ -732,8 +722,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
             this.groupBox12.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).EndInit();
-            this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_no)).EndInit();
             this.groupBox2.ResumeLayout(false);
@@ -780,8 +768,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.NumericUpDown nud_width;
-        private System.Windows.Forms.PictureBox pb_preview;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.CheckBox cb_mirrored_parts;
         private System.Windows.Forms.NumericUpDown nud_page_no;
@@ -789,5 +775,6 @@
         private System.Windows.Forms.Label label_total_pages;
         private System.Windows.Forms.Button btn_create_schema;
         private System.Windows.Forms.Button btn_mark_file;
+        private UC.Uc_PreviewControl uc_PreviewControl1;
     }
 }
