@@ -2,6 +2,7 @@
 using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,7 +14,7 @@ namespace JobSpace.UC
         int _currentPage = 1;
         int _totalPage = 1;
         IFileSystemInfoExt _fileInfo;
-
+        List<PdfPageInfo> boxes_pages;
 
         public Uc_PreviewBrowserFile()
         {
@@ -40,21 +41,13 @@ namespace JobSpace.UC
             {
                 _totalPage = await Task.Run(() => PdfHelper.GetPageCount(_fileInfo.FileInfo.FullName));
                 tsl_count_pages.Text = $"/{_totalPage}";
+                boxes_pages = PdfHelper.GetPagesInfo(_fileInfo.FileInfo.FullName);
             }
         }
 
         private async void GetPreview()
         {
-            // Скинути попереднє зображення коректно
-            if (pb_preview.Image != null)
-            {
-                var old = pb_preview.Image;
-                pb_preview.Image = null;
-                old.Dispose();
-            }
-            pb_preview.SizeMode = PictureBoxSizeMode.CenterImage;
-            // Спершу показуємо анімований GIF
-            pb_preview.ImageLocation = Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif");
+            uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
 
             // Асинхронно завантажуємо фінальне зображення
             var preview = await Task.Run(() =>
@@ -67,12 +60,8 @@ namespace JobSpace.UC
                 preview.Dispose();
                 preview = temp;
             }
-
-            // Зупиняємо завантаження GIF і прибираємо його
-            pb_preview.ImageLocation = null;
-            pb_preview.SizeMode = PictureBoxSizeMode.Zoom;
-            // Тепер ставимо вже фінальне зображення
-            pb_preview.Image = preview;
+            uc_PreviewControl1.StopWait();
+            uc_PreviewControl1.SetImage(preview, boxes_pages[_currentPage-1].Trimbox.wMM(), boxes_pages[_currentPage - 1].Trimbox.hMM());
         }
 
         private void tsb_previous_page_Click(object sender, EventArgs e)
@@ -113,8 +102,7 @@ namespace JobSpace.UC
 
         public void ClearPreview()
         {
-            pb_preview.Image?.Dispose();
-            pb_preview.Image = null;
+            uc_PreviewControl1.SetImage(null,0,0);
         }
     }
 }

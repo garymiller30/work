@@ -1307,7 +1307,7 @@ namespace JobSpace.UC
             }
             else
             {
-                               uc_PreviewBrowserFile1.ClearPreview();
+                 uc_PreviewBrowserFile1.ClearPreview();
             }
         }
         private void ShowPreviewInControl(IFileSystemInfoExt f)

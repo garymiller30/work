@@ -34,14 +34,22 @@
             this.cb_spiral_files = new System.Windows.Forms.ComboBox();
             this.cb_place = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.panel_preview = new System.Windows.Forms.Panel();
-            this.pb_preview = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cb_files = new System.Windows.Forms.ComboBox();
             this.label_total_pages = new System.Windows.Forms.Label();
             this.nud_page_number = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel_rect_params = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btn_center = new System.Windows.Forms.Button();
+            this.btn_bottom_right = new System.Windows.Forms.Button();
+            this.bnt_top_left = new System.Windows.Forms.Button();
+            this.btn_bottom_center = new System.Windows.Forms.Button();
+            this.btn_top_center = new System.Windows.Forms.Button();
+            this.bnt_bottom_left = new System.Windows.Forms.Button();
+            this.bnt_top_right = new System.Windows.Forms.Button();
+            this.btn_right_center = new System.Windows.Forms.Button();
+            this.btn_left_center = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.nud_rect_y = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
@@ -52,29 +60,18 @@
             this.nud_rect_w = new System.Windows.Forms.NumericUpDown();
             this.cb_rect = new System.Windows.Forms.CheckBox();
             this.cb_fit_to_panel = new System.Windows.Forms.CheckBox();
-            this.bnt_top_left = new System.Windows.Forms.Button();
-            this.btn_top_center = new System.Windows.Forms.Button();
-            this.bnt_top_right = new System.Windows.Forms.Button();
-            this.btn_left_center = new System.Windows.Forms.Button();
-            this.btn_center = new System.Windows.Forms.Button();
-            this.btn_right_center = new System.Windows.Forms.Button();
-            this.bnt_bottom_left = new System.Windows.Forms.Button();
-            this.btn_bottom_center = new System.Windows.Forms.Button();
-            this.btn_bottom_right = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.panel_preview.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_number)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.panel_rect_params.SuspendLayout();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_x)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_h)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_w)).BeginInit();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_ok
@@ -127,31 +124,6 @@
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "розташування пружини";
-            // 
-            // panel_preview
-            // 
-            this.panel_preview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel_preview.AutoScroll = true;
-            this.panel_preview.Controls.Add(this.pb_preview);
-            this.panel_preview.Location = new System.Drawing.Point(274, 12);
-            this.panel_preview.Margin = new System.Windows.Forms.Padding(0);
-            this.panel_preview.Name = "panel_preview";
-            this.panel_preview.Size = new System.Drawing.Size(688, 530);
-            this.panel_preview.TabIndex = 5;
-            this.panel_preview.SizeChanged += new System.EventHandler(this.panel_preview_SizeChanged);
-            // 
-            // pb_preview
-            // 
-            this.pb_preview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb_preview.Location = new System.Drawing.Point(0, 0);
-            this.pb_preview.Margin = new System.Windows.Forms.Padding(0);
-            this.pb_preview.Name = "pb_preview";
-            this.pb_preview.Size = new System.Drawing.Size(627, 419);
-            this.pb_preview.TabIndex = 0;
-            this.pb_preview.TabStop = false;
-            this.pb_preview.Paint += new System.Windows.Forms.PaintEventHandler(this.pb_preview_Paint);
             // 
             // groupBox1
             // 
@@ -230,6 +202,121 @@
             this.panel_rect_params.Name = "panel_rect_params";
             this.panel_rect_params.Size = new System.Drawing.Size(244, 220);
             this.panel_rect_params.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btn_center);
+            this.panel1.Controls.Add(this.btn_bottom_right);
+            this.panel1.Controls.Add(this.bnt_top_left);
+            this.panel1.Controls.Add(this.btn_bottom_center);
+            this.panel1.Controls.Add(this.btn_top_center);
+            this.panel1.Controls.Add(this.bnt_bottom_left);
+            this.panel1.Controls.Add(this.bnt_top_right);
+            this.panel1.Controls.Add(this.btn_right_center);
+            this.panel1.Controls.Add(this.btn_left_center);
+            this.panel1.Location = new System.Drawing.Point(25, 99);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(86, 86);
+            this.panel1.TabIndex = 18;
+            // 
+            // btn_center
+            // 
+            this.btn_center.Image = ((System.Drawing.Image)(resources.GetObject("btn_center.Image")));
+            this.btn_center.Location = new System.Drawing.Point(31, 30);
+            this.btn_center.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_center.Name = "btn_center";
+            this.btn_center.Size = new System.Drawing.Size(23, 23);
+            this.btn_center.TabIndex = 13;
+            this.btn_center.UseVisualStyleBackColor = true;
+            this.btn_center.Click += new System.EventHandler(this.btn_center_Click);
+            // 
+            // btn_bottom_right
+            // 
+            this.btn_bottom_right.Image = ((System.Drawing.Image)(resources.GetObject("btn_bottom_right.Image")));
+            this.btn_bottom_right.Location = new System.Drawing.Point(58, 57);
+            this.btn_bottom_right.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_bottom_right.Name = "btn_bottom_right";
+            this.btn_bottom_right.Size = new System.Drawing.Size(23, 23);
+            this.btn_bottom_right.TabIndex = 17;
+            this.btn_bottom_right.UseVisualStyleBackColor = true;
+            this.btn_bottom_right.Click += new System.EventHandler(this.btn_bottom_right_Click);
+            // 
+            // bnt_top_left
+            // 
+            this.bnt_top_left.Image = ((System.Drawing.Image)(resources.GetObject("bnt_top_left.Image")));
+            this.bnt_top_left.Location = new System.Drawing.Point(3, 3);
+            this.bnt_top_left.Margin = new System.Windows.Forms.Padding(2);
+            this.bnt_top_left.Name = "bnt_top_left";
+            this.bnt_top_left.Size = new System.Drawing.Size(23, 23);
+            this.bnt_top_left.TabIndex = 9;
+            this.bnt_top_left.UseVisualStyleBackColor = true;
+            this.bnt_top_left.Click += new System.EventHandler(this.bnt_top_left_Click);
+            // 
+            // btn_bottom_center
+            // 
+            this.btn_bottom_center.Image = ((System.Drawing.Image)(resources.GetObject("btn_bottom_center.Image")));
+            this.btn_bottom_center.Location = new System.Drawing.Point(31, 57);
+            this.btn_bottom_center.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_bottom_center.Name = "btn_bottom_center";
+            this.btn_bottom_center.Size = new System.Drawing.Size(23, 23);
+            this.btn_bottom_center.TabIndex = 16;
+            this.btn_bottom_center.UseVisualStyleBackColor = true;
+            this.btn_bottom_center.Click += new System.EventHandler(this.btn_bottom_center_Click);
+            // 
+            // btn_top_center
+            // 
+            this.btn_top_center.Image = ((System.Drawing.Image)(resources.GetObject("btn_top_center.Image")));
+            this.btn_top_center.Location = new System.Drawing.Point(31, 3);
+            this.btn_top_center.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_top_center.Name = "btn_top_center";
+            this.btn_top_center.Size = new System.Drawing.Size(23, 23);
+            this.btn_top_center.TabIndex = 10;
+            this.btn_top_center.UseVisualStyleBackColor = true;
+            this.btn_top_center.Click += new System.EventHandler(this.btn_top_center_Click);
+            // 
+            // bnt_bottom_left
+            // 
+            this.bnt_bottom_left.Image = ((System.Drawing.Image)(resources.GetObject("bnt_bottom_left.Image")));
+            this.bnt_bottom_left.Location = new System.Drawing.Point(3, 57);
+            this.bnt_bottom_left.Margin = new System.Windows.Forms.Padding(2);
+            this.bnt_bottom_left.Name = "bnt_bottom_left";
+            this.bnt_bottom_left.Size = new System.Drawing.Size(23, 23);
+            this.bnt_bottom_left.TabIndex = 15;
+            this.bnt_bottom_left.UseVisualStyleBackColor = true;
+            this.bnt_bottom_left.Click += new System.EventHandler(this.bnt_bottom_left_Click);
+            // 
+            // bnt_top_right
+            // 
+            this.bnt_top_right.Image = ((System.Drawing.Image)(resources.GetObject("bnt_top_right.Image")));
+            this.bnt_top_right.Location = new System.Drawing.Point(58, 3);
+            this.bnt_top_right.Margin = new System.Windows.Forms.Padding(2);
+            this.bnt_top_right.Name = "bnt_top_right";
+            this.bnt_top_right.Size = new System.Drawing.Size(23, 23);
+            this.bnt_top_right.TabIndex = 11;
+            this.bnt_top_right.UseVisualStyleBackColor = true;
+            this.bnt_top_right.Click += new System.EventHandler(this.bnt_top_right_Click);
+            // 
+            // btn_right_center
+            // 
+            this.btn_right_center.Image = ((System.Drawing.Image)(resources.GetObject("btn_right_center.Image")));
+            this.btn_right_center.Location = new System.Drawing.Point(58, 30);
+            this.btn_right_center.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_right_center.Name = "btn_right_center";
+            this.btn_right_center.Size = new System.Drawing.Size(23, 23);
+            this.btn_right_center.TabIndex = 14;
+            this.btn_right_center.UseVisualStyleBackColor = true;
+            this.btn_right_center.Click += new System.EventHandler(this.btn_right_center_Click);
+            // 
+            // btn_left_center
+            // 
+            this.btn_left_center.Image = ((System.Drawing.Image)(resources.GetObject("btn_left_center.Image")));
+            this.btn_left_center.Location = new System.Drawing.Point(3, 30);
+            this.btn_left_center.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_left_center.Name = "btn_left_center";
+            this.btn_left_center.Size = new System.Drawing.Size(23, 23);
+            this.btn_left_center.TabIndex = 12;
+            this.btn_left_center.UseVisualStyleBackColor = true;
+            this.btn_left_center.Click += new System.EventHandler(this.btn_left_center_Click);
             // 
             // label4
             // 
@@ -367,130 +454,28 @@
             this.cb_fit_to_panel.UseVisualStyleBackColor = true;
             this.cb_fit_to_panel.CheckedChanged += new System.EventHandler(this.cb_fit_to_panel_CheckedChanged);
             // 
-            // bnt_top_left
+            // uc_PreviewControl1
             // 
-            this.bnt_top_left.Image = ((System.Drawing.Image)(resources.GetObject("bnt_top_left.Image")));
-            this.bnt_top_left.Location = new System.Drawing.Point(3, 3);
-            this.bnt_top_left.Margin = new System.Windows.Forms.Padding(2);
-            this.bnt_top_left.Name = "bnt_top_left";
-            this.bnt_top_left.Size = new System.Drawing.Size(23, 23);
-            this.bnt_top_left.TabIndex = 9;
-            this.bnt_top_left.UseVisualStyleBackColor = true;
-            this.bnt_top_left.Click += new System.EventHandler(this.bnt_top_left_Click);
-            // 
-            // btn_top_center
-            // 
-            this.btn_top_center.Image = ((System.Drawing.Image)(resources.GetObject("btn_top_center.Image")));
-            this.btn_top_center.Location = new System.Drawing.Point(31, 3);
-            this.btn_top_center.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_top_center.Name = "btn_top_center";
-            this.btn_top_center.Size = new System.Drawing.Size(23, 23);
-            this.btn_top_center.TabIndex = 10;
-            this.btn_top_center.UseVisualStyleBackColor = true;
-            this.btn_top_center.Click += new System.EventHandler(this.btn_top_center_Click);
-            // 
-            // bnt_top_right
-            // 
-            this.bnt_top_right.Image = ((System.Drawing.Image)(resources.GetObject("bnt_top_right.Image")));
-            this.bnt_top_right.Location = new System.Drawing.Point(58, 3);
-            this.bnt_top_right.Margin = new System.Windows.Forms.Padding(2);
-            this.bnt_top_right.Name = "bnt_top_right";
-            this.bnt_top_right.Size = new System.Drawing.Size(23, 23);
-            this.bnt_top_right.TabIndex = 11;
-            this.bnt_top_right.UseVisualStyleBackColor = true;
-            this.bnt_top_right.Click += new System.EventHandler(this.bnt_top_right_Click);
-            // 
-            // btn_left_center
-            // 
-            this.btn_left_center.Image = ((System.Drawing.Image)(resources.GetObject("btn_left_center.Image")));
-            this.btn_left_center.Location = new System.Drawing.Point(3, 30);
-            this.btn_left_center.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_left_center.Name = "btn_left_center";
-            this.btn_left_center.Size = new System.Drawing.Size(23, 23);
-            this.btn_left_center.TabIndex = 12;
-            this.btn_left_center.UseVisualStyleBackColor = true;
-            this.btn_left_center.Click += new System.EventHandler(this.btn_left_center_Click);
-            // 
-            // btn_center
-            // 
-            this.btn_center.Image = ((System.Drawing.Image)(resources.GetObject("btn_center.Image")));
-            this.btn_center.Location = new System.Drawing.Point(31, 30);
-            this.btn_center.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_center.Name = "btn_center";
-            this.btn_center.Size = new System.Drawing.Size(23, 23);
-            this.btn_center.TabIndex = 13;
-            this.btn_center.UseVisualStyleBackColor = true;
-            this.btn_center.Click += new System.EventHandler(this.btn_center_Click);
-            // 
-            // btn_right_center
-            // 
-            this.btn_right_center.Image = ((System.Drawing.Image)(resources.GetObject("btn_right_center.Image")));
-            this.btn_right_center.Location = new System.Drawing.Point(58, 30);
-            this.btn_right_center.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_right_center.Name = "btn_right_center";
-            this.btn_right_center.Size = new System.Drawing.Size(23, 23);
-            this.btn_right_center.TabIndex = 14;
-            this.btn_right_center.UseVisualStyleBackColor = true;
-            this.btn_right_center.Click += new System.EventHandler(this.btn_right_center_Click);
-            // 
-            // bnt_bottom_left
-            // 
-            this.bnt_bottom_left.Image = ((System.Drawing.Image)(resources.GetObject("bnt_bottom_left.Image")));
-            this.bnt_bottom_left.Location = new System.Drawing.Point(3, 57);
-            this.bnt_bottom_left.Margin = new System.Windows.Forms.Padding(2);
-            this.bnt_bottom_left.Name = "bnt_bottom_left";
-            this.bnt_bottom_left.Size = new System.Drawing.Size(23, 23);
-            this.bnt_bottom_left.TabIndex = 15;
-            this.bnt_bottom_left.UseVisualStyleBackColor = true;
-            this.bnt_bottom_left.Click += new System.EventHandler(this.bnt_bottom_left_Click);
-            // 
-            // btn_bottom_center
-            // 
-            this.btn_bottom_center.Image = ((System.Drawing.Image)(resources.GetObject("btn_bottom_center.Image")));
-            this.btn_bottom_center.Location = new System.Drawing.Point(31, 57);
-            this.btn_bottom_center.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_bottom_center.Name = "btn_bottom_center";
-            this.btn_bottom_center.Size = new System.Drawing.Size(23, 23);
-            this.btn_bottom_center.TabIndex = 16;
-            this.btn_bottom_center.UseVisualStyleBackColor = true;
-            this.btn_bottom_center.Click += new System.EventHandler(this.btn_bottom_center_Click);
-            // 
-            // btn_bottom_right
-            // 
-            this.btn_bottom_right.Image = ((System.Drawing.Image)(resources.GetObject("btn_bottom_right.Image")));
-            this.btn_bottom_right.Location = new System.Drawing.Point(58, 57);
-            this.btn_bottom_right.Margin = new System.Windows.Forms.Padding(2);
-            this.btn_bottom_right.Name = "btn_bottom_right";
-            this.btn_bottom_right.Size = new System.Drawing.Size(23, 23);
-            this.btn_bottom_right.TabIndex = 17;
-            this.btn_bottom_right.UseVisualStyleBackColor = true;
-            this.btn_bottom_right.Click += new System.EventHandler(this.btn_bottom_right_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btn_center);
-            this.panel1.Controls.Add(this.btn_bottom_right);
-            this.panel1.Controls.Add(this.bnt_top_left);
-            this.panel1.Controls.Add(this.btn_bottom_center);
-            this.panel1.Controls.Add(this.btn_top_center);
-            this.panel1.Controls.Add(this.bnt_bottom_left);
-            this.panel1.Controls.Add(this.bnt_top_right);
-            this.panel1.Controls.Add(this.btn_right_center);
-            this.panel1.Controls.Add(this.btn_left_center);
-            this.panel1.Location = new System.Drawing.Point(25, 99);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(86, 86);
-            this.panel1.TabIndex = 18;
+            this.uc_PreviewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.uc_PreviewControl1.FitToScreen = true;
+            this.uc_PreviewControl1.Location = new System.Drawing.Point(274, 12);
+            this.uc_PreviewControl1.Name = "uc_PreviewControl1";
+            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
+            this.uc_PreviewControl1.Size = new System.Drawing.Size(688, 530);
+            this.uc_PreviewControl1.TabIndex = 9;
+            this.uc_PreviewControl1.ZoomFactor = 1F;
             // 
             // FormVisualBlocknoteSpiral
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(974, 554);
+            this.Controls.Add(this.uc_PreviewControl1);
             this.Controls.Add(this.cb_fit_to_panel);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.panel_preview);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.btn_ok);
@@ -500,8 +485,6 @@
             this.Text = "Параметри для пружини";
             this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
-            this.panel_preview.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_number)).EndInit();
@@ -509,11 +492,11 @@
             this.groupBox2.PerformLayout();
             this.panel_rect_params.ResumeLayout(false);
             this.panel_rect_params.PerformLayout();
+            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_x)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_h)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_w)).EndInit();
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -526,8 +509,6 @@
         private System.Windows.Forms.ComboBox cb_spiral_files;
         private System.Windows.Forms.ComboBox cb_place;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Panel panel_preview;
-        private System.Windows.Forms.PictureBox pb_preview;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label_total_pages;
         private System.Windows.Forms.NumericUpDown nud_page_number;
@@ -554,5 +535,6 @@
         private System.Windows.Forms.Button bnt_top_right;
         private System.Windows.Forms.Button btn_top_center;
         private System.Windows.Forms.Button bnt_top_left;
+        private UC.Uc_PreviewControl uc_PreviewControl1;
     }
 }

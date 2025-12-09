@@ -343,6 +343,10 @@
     <Compile Include="Models\JobListFilter.cs" />
     <Compile Include="Models\PantoneTable.cs" />
     <Compile Include="Models\PdfColorResult.cs" />
+    <Compile Include="Models\ScreenPrimitives\ScreenFillRectangle.cs" />
+    <Compile Include="Models\ScreenPrimitives\ScreenImage.cs" />
+    <Compile Include="Models\ScreenPrimitives\ScreenLine.cs" />
+    <Compile Include="Models\ScreenPrimitives\ScreenRectangle.cs" />
     <Compile Include="Models\ServiceState.cs" />
     <Compile Include="Profiles\ProfileEvents\ServicesStateEvents.cs" />
     <Compile Include="Properties\Resources1.Designer.cs">
@@ -502,6 +506,12 @@
     </Compile>
     <Compile Include="UC\Uc_PreviewBrowserFile.Designer.cs">
       <DependentUpon>Uc_PreviewBrowserFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Uc_PreviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\Uc_PreviewControl.Designer.cs">
+      <DependentUpon>Uc_PreviewControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\FormRegexRenameFiles.cs">
       <SubType>Form</SubType>
@@ -1139,6 +1149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UC\Uc_PreviewBrowserFile.resx">
       <DependentUpon>Uc_PreviewBrowserFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\Uc_PreviewControl.resx">
+      <DependentUpon>Uc_PreviewControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\FormRegexRenameFiles.resx">
       <DependentUpon>FormRegexRenameFiles.cs</DependentUpon>

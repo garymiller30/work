@@ -117,31 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="tsb_previous_page.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEuSURBVDhPYxi0gJPXS2O1QKjOCSifBCDEwMcXondQ61H9
-        f5m+oH9QUSIBL6+wYJTRae3njf/1vnSSaIAwp5RwqvkVndfNYM0grLIz659Yme0TDFxq+4TXWWU5UBcz
-        WC+7OL+iUKbNHZ13rXDNMJz1bdX/lu87wDj12/L/zl+mgGnlHen/WcR5zRkYeHhExAqtH+t+aMfQjA+r
-        Hsr5zyLJY8vAIsVrpbAg+L/uJzINAAFOQ8kuxTmB/3Tft2BVjA2rbE8GGWANNgAE2DVEUiQ6HX7qvm6A
-        K1I/mfNfrscFE3e7/BcM0T4L1MYJ0Q0F7HL8TqJFlm91HleDDQBHo6goD4M4AzcGxgXYpHjVBGN1bmlf
-        L/ov0xNAYkKCAT4+IX5vtV1CIZoXoSKDFjAwAADopeWubt4BkQAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="tsb_next_page.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE8SURBVDhPYxj8gD9E9wivu+pqBhkGTqgQaUCmL+if1r2a
-        /7y+mvsZRBl4oMLEA5ABel86/2s9rv/PH6J/nIGfXxAqBQesPK6qi8RKHa6LFdndQMcqO7PABoCw9vOm
-        /0IxRucZxLnFoHoZGJiluJ1VD+X8T/22/L/zlylguuX7DjDO+rYKrBEZ67xu+c+fZHadQYhTGmKANK+X
-        2pkiDIX4sO671v9CORZ3Gfj4hMgz4FPHf8WlYf9ZJHlsGZgl+DxUD2ZiVYgN635o/a+8Muw/t7nMdKAH
-        GBlAzhAK07wr1+3yX64HE6ufzEFoftMEEvvDqS1WAPY/EmBhEOWSwMAiXJKwaNR5VvtfstzmE5uKgA9U
-        D3FApifgn/bNkv8i8XoPWaUF9KHCxAP+EM3r/J5qx8AuIhMwQ2laAAYGAAq45sBrtZa3AAAAAElFTkSu
-        QmCC
-</value>
-  </data>
 </root>
