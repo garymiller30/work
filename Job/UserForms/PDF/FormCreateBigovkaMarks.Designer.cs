@@ -60,6 +60,7 @@
             this.nud_page_number = new System.Windows.Forms.NumericUpDown();
             this.cb_fit_to_panel = new System.Windows.Forms.CheckBox();
             this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
+            this.btn_add_to_center = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLen)).BeginInit();
@@ -256,17 +257,18 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.btn_add_to_center);
             this.groupBox5.Controls.Add(this.textBoxBigovky);
-            this.groupBox5.Location = new System.Drawing.Point(12, 205);
+            this.groupBox5.Location = new System.Drawing.Point(12, 174);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(423, 48);
+            this.groupBox5.Size = new System.Drawing.Size(423, 79);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Біговки (числа через пробіл)";
             // 
             // textBoxBigovky
             // 
-            this.textBoxBigovky.Location = new System.Drawing.Point(7, 18);
+            this.textBoxBigovky.Location = new System.Drawing.Point(6, 19);
             this.textBoxBigovky.Name = "textBoxBigovky";
             this.textBoxBigovky.Size = new System.Drawing.Size(410, 20);
             this.textBoxBigovky.TabIndex = 0;
@@ -452,6 +454,16 @@
             this.uc_PreviewControl1.Size = new System.Drawing.Size(339, 409);
             this.uc_PreviewControl1.TabIndex = 10;
             // 
+            // btn_add_to_center
+            // 
+            this.btn_add_to_center.Location = new System.Drawing.Point(7, 45);
+            this.btn_add_to_center.Name = "btn_add_to_center";
+            this.btn_add_to_center.Size = new System.Drawing.Size(75, 28);
+            this.btn_add_to_center.TabIndex = 1;
+            this.btn_add_to_center.Text = "+ по центру";
+            this.btn_add_to_center.UseVisualStyleBackColor = true;
+            this.btn_add_to_center.Click += new System.EventHandler(this.btn_add_to_center_Click);
+            // 
             // FormCreateBigovkaMarks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -531,5 +543,6 @@
         private System.Windows.Forms.ComboBox cb_files;
         private System.Windows.Forms.CheckBox cb_fit_to_panel;
         private UC.Uc_PreviewControl uc_PreviewControl1;
+        private System.Windows.Forms.Button btn_add_to_center;
     }
 }
