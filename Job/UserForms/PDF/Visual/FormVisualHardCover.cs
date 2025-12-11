@@ -24,6 +24,7 @@ namespace JobSpace.UserForms.PDF.Visual
         public FormVisualHardCover(IFileSystemInfoExt f)
         {
             InitializeComponent();
+            uc_PreviewControl1.FitToScreen = cb_fit_to_panel.Checked;
             _fileInfo = f;
             pdfPageInfo = PdfHelper.GetPageInfo(_fileInfo.FileInfo.FullName);
             GetFilePreview();
@@ -98,6 +99,15 @@ namespace JobSpace.UserForms.PDF.Visual
             }
 
             uc_PreviewControl1.Primitives = primitives;
+        }
+
+        private void cb_fit_to_panel_CheckedChanged(object sender, EventArgs e)
+        {
+            uc_PreviewControl1.FitToScreen = cb_fit_to_panel.Checked;
+            if (!cb_fit_to_panel.Checked)
+            {
+                uc_PreviewControl1.SetZoomFactor(1.0f);
+            }
         }
     }
 }

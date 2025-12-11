@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormVisualHardCover));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cb_fit_to_panel = new System.Windows.Forms.CheckBox();
             this.nud_total_height = new System.Windows.Forms.NumericUpDown();
@@ -92,6 +93,7 @@
             this.cb_fit_to_panel.TabIndex = 14;
             this.cb_fit_to_panel.Text = "в розмір вікна";
             this.cb_fit_to_panel.UseVisualStyleBackColor = true;
+            this.cb_fit_to_panel.CheckedChanged += new System.EventHandler(this.cb_fit_to_panel_CheckedChanged);
             // 
             // nud_total_height
             // 
@@ -329,12 +331,12 @@
             this.uc_PreviewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uc_PreviewControl1.FitToScreen = true;
+            this.uc_PreviewControl1.FitToScreen = false;
             this.uc_PreviewControl1.Location = new System.Drawing.Point(224, 12);
             this.uc_PreviewControl1.Name = "uc_PreviewControl1";
+            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
             this.uc_PreviewControl1.Size = new System.Drawing.Size(564, 426);
             this.uc_PreviewControl1.TabIndex = 1;
-            this.uc_PreviewControl1.ZoomFactor = 1F;
             // 
             // FormVisualHardCover
             // 

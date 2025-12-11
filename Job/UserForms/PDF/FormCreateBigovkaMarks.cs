@@ -1,9 +1,12 @@
 ﻿using Interfaces;
+using JobSpace.Models.ScreenPrimitives;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Create.BigovkaMarks;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.UC;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -21,6 +24,7 @@ namespace JobSpace.UserForms.PDF
         Pen big_pen = new Pen(Color.Green, 0.6f);
         Pen white_pen = new Pen(Color.White, 1.0f);
 
+        List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
 
         public CreateBigovkaMarksParams BigovkaMarksParams { get; set; } = new CreateBigovkaMarksParams();
 
@@ -29,8 +33,9 @@ namespace JobSpace.UserForms.PDF
             InitializeComponent();
             cb_files.DisplayMember = "Name";
             cb_mirrorEven.DataBindings.Add("Enabled", radioButtonHor, "Checked");
-
+            
             InitUi();
+
             DialogResult = DialogResult.Cancel;
         }
 
@@ -45,6 +50,9 @@ namespace JobSpace.UserForms.PDF
             nud_page_number.Maximum = boxes_pages.Count;
             label_total_pages.Text = $"/{boxes_pages.Count}";
             GetPagePreview(0);
+
+
+          
         }
 
         public FormCreateBigovkaMarks(List<IFileSystemInfoExt> infoExts): this()
@@ -67,12 +75,13 @@ namespace JobSpace.UserForms.PDF
             _page_preview = PdfHelper.RenderByTrimBox(_fsi, page_idx);
             var box = boxes_pages[page_idx];
 
-            pb_preview.Invalidate();
+            Draw();
         }
 
         private void InitUi()
         {
             cb_mirrorEven.Checked = BigovkaMarksParams.MirrorEven;
+            uc_PreviewControl1.FitToScreen = cb_fit_to_panel.Checked;
         }
 
         private void buttonCreate_Click(object sender, EventArgs e)
@@ -142,38 +151,40 @@ namespace JobSpace.UserForms.PDF
             ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
         }
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        void Draw()
         {
             if (_page_preview == null) return;
-            e.Graphics.PageUnit = GraphicsUnit.Millimeter;
-            e.Graphics.ScaleTransform(_zoomFactor, _zoomFactor);
+           
+            var box = boxes_pages[(int)(nud_page_number.Value - 1)];
 
-            int page_idx = (int)(nud_page_number.Value - 1);
-            var box = boxes_pages[page_idx];
+            uc_PreviewControl1.SetImage(_page_preview, (float)box.Trimbox.wMM(), (float)box.Trimbox.hMM());
 
-            e.Graphics.DrawImage(_page_preview, 0, 0, (float)box.Trimbox.wMM(), (float)box.Trimbox.hMM());
-
-            DrawBigovki(e.Graphics);
+            DrawBigovki();
         }
 
-        private void DrawBigovki(Graphics g)
+
+        private void DrawBigovki()
         {
+            _primitives.Clear();
+
             if (CreateParameters() == false) return;
 
             switch (BigovkaMarksParams.Direction)
             {
                 case Static.Pdf.Common.DirectionEnum.Horizontal:
-                    DrawHorizontalBigovki(g);
+                    DrawHorizontalBigovki();
                     break;
                 case Static.Pdf.Common.DirectionEnum.Vertical:
-                    DrawVerticalBigovki(g);
+                    DrawVerticalBigovki();
                     break;
                 default:
                     break;
             }
+
+            uc_PreviewControl1.Primitives = _primitives;
         }
 
-        private void DrawVerticalBigovki(Graphics g)
+        private void DrawVerticalBigovki()
         {
             var page_idx = (int)(nud_page_number.Value - 1);
             var box = boxes_pages[page_idx];
@@ -185,12 +196,12 @@ namespace JobSpace.UserForms.PDF
             for (int i = 0; i < BigovkaMarksParams.Bigovki.Length; i++)
             {
                 y_start -= (float)BigovkaMarksParams.Bigovki[i];
-                g.DrawLine(white_pen, x_start, y_start, x_end, y_start);
-                g.DrawLine(big_pen, x_start, y_start, x_end, y_start);
+                _primitives.Add(new ScreenLine(white_pen, x_start, y_start, x_end, y_start));
+                _primitives.Add(new ScreenLine(big_pen, x_start, y_start, x_end, y_start));
             }
         }
 
-        private void DrawHorizontalBigovki(Graphics g)
+        private void DrawHorizontalBigovki()
         {
             var page_idx = (int)(nud_page_number.Value - 1);
             var box = boxes_pages[page_idx];
@@ -205,8 +216,9 @@ namespace JobSpace.UserForms.PDF
                 for (int i = BigovkaMarksParams.Bigovki.Length -1; i >=0 ; i--)
                 {
                     x += (float)BigovkaMarksParams.Bigovki[i];
-                    g.DrawLine(white_pen, (float)box.Trimbox.wMM() - x, y_start, (float)box.Trimbox.wMM() - x, y_end);
-                    g.DrawLine(big_pen, (float)box.Trimbox.wMM() - x, y_start, (float)box.Trimbox.wMM() - x, y_end);
+
+                    _primitives.Add(new ScreenLine(white_pen, (float)box.Trimbox.wMM() - x, y_start, (float)box.Trimbox.wMM() - x, y_end));
+                    _primitives.Add(new ScreenLine(big_pen, (float)box.Trimbox.wMM() - x, y_start, (float)box.Trimbox.wMM() - x, y_end));
                 }
             }
             else
@@ -214,8 +226,8 @@ namespace JobSpace.UserForms.PDF
                 for (int i = 0; i < BigovkaMarksParams.Bigovki.Length; i++)
                 {
                     x += (float)BigovkaMarksParams.Bigovki[i];
-                    g.DrawLine(white_pen, x, y_start, x, y_end);
-                    g.DrawLine(big_pen, x, y_start, x, y_end);
+                    _primitives.Add(new ScreenLine(white_pen, x, y_start, x, y_end));
+                    _primitives.Add(new ScreenLine(big_pen, x, y_start, x, y_end));
                 }
             }
         }
@@ -227,17 +239,17 @@ namespace JobSpace.UserForms.PDF
 
         private void textBoxBigovky_TextChanged(object sender, EventArgs e)
         {
-            if (CreateParameters() == true) pb_preview.Invalidate();
+            if (CreateParameters() == true) Draw();
         }
 
         private void radioButtonHor_Click(object sender, EventArgs e)
         {
-            pb_preview.Invalidate();
+            Draw();
         }
 
         private void cb_mirrorEven_CheckedChanged(object sender, EventArgs e)
         {
-            pb_preview.Invalidate();
+            Draw();
         }
 
         private void cb_files_SelectedIndexChanged(object sender, EventArgs e)
@@ -246,7 +258,7 @@ namespace JobSpace.UserForms.PDF
             {
                 _fsi = fsi;
                 GetFilePreview();
-                pb_preview.Invalidate();
+                Draw();
             }
         }
 
@@ -262,71 +274,15 @@ namespace JobSpace.UserForms.PDF
         {
             if (_page_preview != null) _page_preview.Dispose();
             _page_preview = PdfHelper.RenderByTrimBox(_fsi, page - 1);
-
-            var box = boxes_pages[page - 1];
-
-            UpdatePreviewLayout();
         }
 
-        private bool UpdatePreviewLayout()
+        private void cb_fit_to_panel_CheckedChanged(object sender, EventArgs e)
         {
-            if (_page_preview == null) return false;
-
-            var box = boxes_pages[(int)(nud_page_number.Value - 1)];
-
-            float pageWmm = (float)box.Trimbox.wMM();
-            float pageHmm = (float)box.Trimbox.hMM();
-
-            float dpi = pb_preview.DeviceDpi;
-
-            // розмір сторінки у пікселях
-            float pageWpx = pageWmm * dpi / 25.4f;
-            float pageHpx = pageHmm * dpi / 25.4f;
-
-            if (cb_fit_to_panel.Checked)
+            uc_PreviewControl1.FitToScreen = cb_fit_to_panel.Checked;
+            if (!cb_fit_to_panel.Checked)
             {
-                float availW = pb_preview.Parent.Width;
-                float availH = pb_preview.Parent.Height;
-
-                // масштаб
-                float scaleX = availW / pageWpx;
-                float scaleY = availH / pageHpx;
-
-                _zoomFactor = Math.Min(scaleX, scaleY);
-
-                // нові розміри PictureBox
-                int newW = (int)(pageWpx * _zoomFactor) - 1;
-                int newH = (int)(pageHpx * _zoomFactor) - 1;
-
-                pb_preview.Width = newW;
-                pb_preview.Height = newH;
-
-                //// центроване позиціонування
-                //pb_preview.Left = (pb_preview.Parent.ClientSize.Width - newW) / 2;
-                //pb_preview.Top = (pb_preview.Parent.ClientSize.Height - newH) / 2;
+                uc_PreviewControl1.SetZoomFactor(1.0f);
             }
-            else
-            {
-                // масштаб 1:1
-                _zoomFactor = 1.0f;
-
-                int newW = (int)pageWpx;
-                int newH = (int)pageHpx;
-
-                pb_preview.Width = newW;
-                pb_preview.Height = newH;
-
-                pb_preview.Left = 0;
-                pb_preview.Top = 0;
-            }
-
-            pb_preview.Invalidate();
-            return true;
-        }
-
-        private void panel1_SizeChanged(object sender, EventArgs e)
-        {
-            UpdatePreviewLayout();
         }
     }
 }

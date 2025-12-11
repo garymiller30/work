@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCreateBigovkaMarks));
             this.buttonCreate = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cb_mirrorEven = new System.Windows.Forms.CheckBox();
@@ -53,13 +54,12 @@
             this.numY = new System.Windows.Forms.NumericUpDown();
             this.numM = new System.Windows.Forms.NumericUpDown();
             this.numC = new System.Windows.Forms.NumericUpDown();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pb_preview = new System.Windows.Forms.PictureBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cb_files = new System.Windows.Forms.ComboBox();
             this.label_total_pages = new System.Windows.Forms.Label();
             this.nud_page_number = new System.Windows.Forms.NumericUpDown();
-            this.cb_files = new System.Windows.Forms.ComboBox();
             this.cb_fit_to_panel = new System.Windows.Forms.CheckBox();
+            this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLen)).BeginInit();
@@ -73,8 +73,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numC)).BeginInit();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).BeginInit();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_number)).BeginInit();
             this.SuspendLayout();
@@ -379,30 +377,6 @@
             this.numC.Click += new System.EventHandler(this.numDistanse_Enter);
             this.numC.Enter += new System.EventHandler(this.numDistanse_Enter);
             // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.pb_preview);
-            this.panel1.Location = new System.Drawing.Point(441, 12);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(346, 415);
-            this.panel1.TabIndex = 7;
-            this.panel1.SizeChanged += new System.EventHandler(this.panel1_SizeChanged);
-            // 
-            // pb_preview
-            // 
-            this.pb_preview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pb_preview.Location = new System.Drawing.Point(0, 0);
-            this.pb_preview.Name = "pb_preview";
-            this.pb_preview.Size = new System.Drawing.Size(100, 50);
-            this.pb_preview.TabIndex = 0;
-            this.pb_preview.TabStop = false;
-            this.pb_preview.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
-            // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.cb_files);
@@ -414,6 +388,16 @@
             this.groupBox7.TabIndex = 8;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "сторінка";
+            // 
+            // cb_files
+            // 
+            this.cb_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_files.FormattingEnabled = true;
+            this.cb_files.Location = new System.Drawing.Point(7, 18);
+            this.cb_files.Name = "cb_files";
+            this.cb_files.Size = new System.Drawing.Size(273, 21);
+            this.cb_files.TabIndex = 3;
+            this.cb_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged);
             // 
             // label_total_pages
             // 
@@ -443,16 +427,6 @@
             0});
             this.nud_page_number.ValueChanged += new System.EventHandler(this.nud_page_number_ValueChanged);
             // 
-            // cb_files
-            // 
-            this.cb_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_files.FormattingEnabled = true;
-            this.cb_files.Location = new System.Drawing.Point(7, 18);
-            this.cb_files.Name = "cb_files";
-            this.cb_files.Size = new System.Drawing.Size(273, 21);
-            this.cb_files.TabIndex = 3;
-            this.cb_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged);
-            // 
             // cb_fit_to_panel
             // 
             this.cb_fit_to_panel.AutoSize = true;
@@ -464,15 +438,28 @@
             this.cb_fit_to_panel.TabIndex = 9;
             this.cb_fit_to_panel.Text = "зображення в розмір вікна";
             this.cb_fit_to_panel.UseVisualStyleBackColor = true;
+            this.cb_fit_to_panel.CheckedChanged += new System.EventHandler(this.cb_fit_to_panel_CheckedChanged);
+            // 
+            // uc_PreviewControl1
+            // 
+            this.uc_PreviewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.uc_PreviewControl1.FitToScreen = true;
+            this.uc_PreviewControl1.Location = new System.Drawing.Point(441, 10);
+            this.uc_PreviewControl1.Name = "uc_PreviewControl1";
+            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
+            this.uc_PreviewControl1.Size = new System.Drawing.Size(339, 409);
+            this.uc_PreviewControl1.TabIndex = 10;
             // 
             // FormCreateBigovkaMarks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(790, 431);
+            this.Controls.Add(this.uc_PreviewControl1);
             this.Controls.Add(this.cb_fit_to_panel);
             this.Controls.Add(this.groupBox7);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -503,8 +490,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numC)).EndInit();
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_page_number)).EndInit();
@@ -540,12 +525,11 @@
         private System.Windows.Forms.CheckBox cb_m;
         private System.Windows.Forms.CheckBox cb_c;
         private System.Windows.Forms.CheckBox cb_mirrorEven;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.PictureBox pb_preview;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Label label_total_pages;
         private System.Windows.Forms.NumericUpDown nud_page_number;
         private System.Windows.Forms.ComboBox cb_files;
         private System.Windows.Forms.CheckBox cb_fit_to_panel;
+        private UC.Uc_PreviewControl uc_PreviewControl1;
     }
 }

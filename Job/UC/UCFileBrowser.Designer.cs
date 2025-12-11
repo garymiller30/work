@@ -70,6 +70,8 @@ namespace JobSpace.UC
             this.зєднатиБлокПо3МісяціToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.підготуватиБлокДляДToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.фальцовкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.палітуркаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.твердаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.splitPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.розділитиТимчасовоЗібранийФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,7 +86,6 @@ namespace JobSpace.UC
             this.контурВисічкиПрямокутникToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.додатиКонтурВисічкиКолоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.створитипустишкиЗТиражамиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.створитиМіткиДляБіговкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.створитиМіткиДляПідборуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.спускПолосToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -169,8 +170,7 @@ namespace JobSpace.UC
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-            this.палітуркаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.твердаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.створитиМіткиДляБіговкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -466,7 +466,6 @@ namespace JobSpace.UC
             this.контурВисічкиПрямокутникToolStripMenuItem,
             this.додатиКонтурВисічкиКолоToolStripMenuItem,
             this.створитипустишкиЗТиражамиToolStripMenuItem,
-            this.створитиМіткиДляБіговкиToolStripMenuItem,
             this.створитиМіткиДляПідборуToolStripMenuItem,
             this.toolStripSeparator18,
             this.спускПолосToolStripMenuItem,
@@ -560,6 +559,7 @@ namespace JobSpace.UC
             this.візуалізаціяToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.пружинаToolStripMenuItem,
             this.календарToolStripMenuItem,
+            this.створитиМіткиДляБіговкиToolStripMenuItem,
             this.фальцовкаToolStripMenuItem,
             this.палітуркаToolStripMenuItem});
             this.візуалізаціяToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
@@ -611,6 +611,21 @@ namespace JobSpace.UC
             this.фальцовкаToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.фальцовкаToolStripMenuItem.Text = "намотувальне фальцювання";
             this.фальцовкаToolStripMenuItem.Click += new System.EventHandler(this.фальцовкаToolStripMenuItem_Click);
+            // 
+            // палітуркаToolStripMenuItem
+            // 
+            this.палітуркаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.твердаToolStripMenuItem});
+            this.палітуркаToolStripMenuItem.Name = "палітуркаToolStripMenuItem";
+            this.палітуркаToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.палітуркаToolStripMenuItem.Text = "палітурка";
+            // 
+            // твердаToolStripMenuItem
+            // 
+            this.твердаToolStripMenuItem.Name = "твердаToolStripMenuItem";
+            this.твердаToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.твердаToolStripMenuItem.Text = "тверда";
+            this.твердаToolStripMenuItem.Click += new System.EventHandler(this.твердаToolStripMenuItem_Click);
             // 
             // toolStripSeparator14
             // 
@@ -705,13 +720,6 @@ namespace JobSpace.UC
             this.створитипустишкиЗТиражамиToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.створитипустишкиЗТиражамиToolStripMenuItem.Text = "Створити \"пустишки\" з тиражами";
             this.створитипустишкиЗТиражамиToolStripMenuItem.Click += new System.EventHandler(this.створитипустишкиЗТиражамиToolStripMenuItem_Click);
-            // 
-            // створитиМіткиДляБіговкиToolStripMenuItem
-            // 
-            this.створитиМіткиДляБіговкиToolStripMenuItem.Name = "створитиМіткиДляБіговкиToolStripMenuItem";
-            this.створитиМіткиДляБіговкиToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
-            this.створитиМіткиДляБіговкиToolStripMenuItem.Text = "Створити мітки для біговки";
-            this.створитиМіткиДляБіговкиToolStripMenuItem.Click += new System.EventHandler(this.створитиМіткиДляБіговкиToolStripMenuItem_Click);
             // 
             // створитиМіткиДляПідборуToolStripMenuItem
             // 
@@ -1393,20 +1401,12 @@ namespace JobSpace.UC
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
             // 
-            // палітуркаToolStripMenuItem
+            // створитиМіткиДляБіговкиToolStripMenuItem
             // 
-            this.палітуркаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.твердаToolStripMenuItem});
-            this.палітуркаToolStripMenuItem.Name = "палітуркаToolStripMenuItem";
-            this.палітуркаToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
-            this.палітуркаToolStripMenuItem.Text = "палітурка";
-            // 
-            // твердаToolStripMenuItem
-            // 
-            this.твердаToolStripMenuItem.Name = "твердаToolStripMenuItem";
-            this.твердаToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.твердаToolStripMenuItem.Text = "тверда";
-            this.твердаToolStripMenuItem.Click += new System.EventHandler(this.твердаToolStripMenuItem_Click);
+            this.створитиМіткиДляБіговкиToolStripMenuItem.Name = "створитиМіткиДляБіговкиToolStripMenuItem";
+            this.створитиМіткиДляБіговкиToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.створитиМіткиДляБіговкиToolStripMenuItem.Text = "біговка";
+            this.створитиМіткиДляБіговкиToolStripMenuItem.Click += new System.EventHandler(this.створитиМіткиДляБіговкиToolStripMenuItem_Click);
             // 
             // UCFileBrowser
             // 
@@ -1557,7 +1557,6 @@ namespace JobSpace.UC
         private System.Windows.Forms.ToolStripButton tsb_splitFile;
         private System.Windows.Forms.ToolStripMenuItem зєднатиФайлиВОдинтимчасовоToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem розділитиТимчасовоЗібранийФайлToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem створитиМіткиДляБіговкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton tsb_SetCount;
         private System.Windows.Forms.ToolStripButton tsb_spusk;
         private System.Windows.Forms.ToolStripMenuItem створитиПлашкуToolStripMenuItem;
@@ -1591,5 +1590,6 @@ namespace JobSpace.UC
         private System.Windows.Forms.ToolStripMenuItem пошукзамінаТиражівToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem палітуркаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem твердаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem створитиМіткиДляБіговкиToolStripMenuItem;
     }
 }
