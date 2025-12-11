@@ -108,6 +108,9 @@ namespace JobSpace.UserForms.PDF.Visual
             {
                 cb_spiral_files.SelectedIndex = 0;
             }
+
+            uc_PreviewControl1.FitToScreen = cb_fit_to_panel.Checked;
+
         }
 
         private void btn_ok_Click(object sender, EventArgs e)
@@ -310,6 +313,10 @@ namespace JobSpace.UserForms.PDF.Visual
         private void cb_fit_to_panel_CheckedChanged(object sender, EventArgs e)
         {
             uc_PreviewControl1.FitToScreen = cb_fit_to_panel.Checked;
+            if (!cb_fit_to_panel.Checked)
+            {
+                uc_PreviewControl1.SetZoomFactor(1.0f);
+            }
         }
 
         private void cb_files_SelectedIndexChanged_1(object sender, EventArgs e)

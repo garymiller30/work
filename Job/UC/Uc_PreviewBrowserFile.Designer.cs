@@ -112,7 +112,6 @@
             this.uc_PreviewControl1.Name = "uc_PreviewControl1";
             this.uc_PreviewControl1.Size = new System.Drawing.Size(233, 202);
             this.uc_PreviewControl1.TabIndex = 1;
-            this.uc_PreviewControl1.ZoomFactor = 1F;
             // 
             // Uc_PreviewBrowserFile
             // 

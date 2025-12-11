@@ -153,7 +153,7 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            uc_PreviewControl1.ZoomFactor = trackBar1.Value / 100.0f;
+            uc_PreviewControl1.SetZoomFactor(trackBar1.Value / 100.0f);
             
         }
 

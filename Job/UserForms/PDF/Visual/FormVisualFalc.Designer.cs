@@ -677,7 +677,6 @@
             this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
             this.uc_PreviewControl1.Size = new System.Drawing.Size(882, 450);
             this.uc_PreviewControl1.TabIndex = 11;
-            this.uc_PreviewControl1.ZoomFactor = 1F;
             // 
             // FormVisualFalc
             // 

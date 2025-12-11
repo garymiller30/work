@@ -22,12 +22,7 @@ namespace JobSpace.UC
         private float _zoomFactor = 1.0f;
         public float ZoomFactor
         {
-            get => _zoomFactor; set
-            {
-                _zoomFactor = value;
-                FitToScreen = false;
-                
-            }
+            get => _zoomFactor; 
         }
         public bool FitToScreen
         {
@@ -36,6 +31,13 @@ namespace JobSpace.UC
                 _fitToScreen = value;
                 UpdatePreviewLayout();
             }
+        }
+
+        public void SetZoomFactor(float zoom)
+        {
+            _zoomFactor = zoom;
+            _fitToScreen = false;
+            UpdatePreviewLayout();
         }
 
         public List<IScreenPrimitive> Primitives
@@ -102,9 +104,14 @@ namespace JobSpace.UC
 
             Graphics g = e.Graphics;
             g.PageUnit = GraphicsUnit.Millimeter;
-            g.ScaleTransform(ZoomFactor, ZoomFactor);
+            g.ScaleTransform(_zoomFactor, _zoomFactor);
 
             g.DrawImage(image, 0, 0, size.Width, size.Height);
+
+            using (var pen = new Pen(Color.Magenta, 0.2f))
+            {
+                g.DrawRectangle(pen, 0, 0, size.Width, size.Height);
+            }
 
             DrawPrimitives(g);
         }
@@ -124,10 +131,10 @@ namespace JobSpace.UC
             float dpi = pb_preview.DeviceDpi;
 
             // розмір сторінки у пікселях
-            float pageWpx = size.Width * dpi / 25.4f;
-            float pageHpx = size.Height * dpi / 25.4f;
+            float pageWpx =(int) Math.Ceiling( size.Width * dpi / 25.4f);
+            float pageHpx = (int)Math.Ceiling( size.Height * dpi / 25.4f);
 
-            if (FitToScreen)
+            if (_fitToScreen)
             {
                 float availW = pb_preview.Parent.Width;
                 float availH = pb_preview.Parent.Height;
@@ -137,28 +144,14 @@ namespace JobSpace.UC
                 float scaleY = availH / pageHpx;
 
                 _zoomFactor = Math.Min(scaleX, scaleY);
-
-                // нові розміри PictureBox
-                int newW = (int)(pageWpx * _zoomFactor) - 1;
-                int newH = (int)(pageHpx * _zoomFactor) - 1;
-
-                pb_preview.Width = newW;
-                pb_preview.Height = newH;
             }
-            else
-            {
-                // масштаб 1:1
-                //_zoomFactor = 1.0f;
+            // при діленні перевірити чи є залишок. Якщо є - округлити в більшу сторону
 
-                int newW = (int)(pageWpx * _zoomFactor) -1;
-                int newH = (int)(pageHpx * _zoomFactor) -1;
+            int newW = (int)Math.Ceiling(pageWpx * _zoomFactor);
+            int newH = (int)Math.Ceiling(pageHpx * _zoomFactor);
 
-                pb_preview.Width = newW;
-                pb_preview.Height = newH;
-
-                pb_preview.Left = 0;
-                pb_preview.Top = 0;
-            }
+            pb_preview.Width = newW;
+            pb_preview.Height = newH;
 
             pb_preview.Invalidate();
         }
@@ -178,7 +171,7 @@ namespace JobSpace.UC
             pb_preview.SizeMode = PictureBoxSizeMode.Normal;
         }
 
-        internal void Redraw()
+        public void Redraw()
         {
             pb_preview.Invalidate();
         }
