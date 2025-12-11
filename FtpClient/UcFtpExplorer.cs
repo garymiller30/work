@@ -625,7 +625,7 @@ namespace FtpClient
                 _curCount = _defCount;
 
                 // запустимо скрипт
-                if (_timerFtpScript.Enable)
+                if (_timerFtpScript != null && _timerFtpScript.Enable)
                 {
                     ProcessScript(_timerFtpScript);
                 }
