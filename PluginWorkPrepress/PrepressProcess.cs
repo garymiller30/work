@@ -73,5 +73,18 @@ namespace PluginWorkPrepress
                 return form.ShowDialog() == DialogResult.OK;
             }
         }
+
+        public override string ToString()
+        {
+            if (PrePrice > 0)
+            {
+                return $"{Name} ({PrePrice} грн.)";
+            }
+            else
+            {
+                return $"{Name}";
+            }
+            
+        }
     }
 }

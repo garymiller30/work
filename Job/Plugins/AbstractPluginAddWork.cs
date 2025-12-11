@@ -169,5 +169,7 @@ namespace Interfaces.Plugins
         {
             return userProfile.Base.All<T>();
         }
+
+        public abstract string GetValue(IJob job, string param);
     }
 }

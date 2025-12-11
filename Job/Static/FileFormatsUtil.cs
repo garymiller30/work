@@ -16,6 +16,7 @@ using JobSpace.Models;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Convert;
 using JobSpace.Static.Pdf.Create.BigovkaMarks;
+using JobSpace.Static.Pdf.Create.CollatingPageMark;
 using JobSpace.Static.Pdf.Create.CutEllipse;
 using JobSpace.Static.Pdf.Create.Ellipse;
 using JobSpace.Static.Pdf.Create.EmptyPdfTemplateWithCount;
@@ -27,6 +28,8 @@ using JobSpace.Static.Pdf.Merge;
 using JobSpace.Static.Pdf.MergeFrontsAndBack;
 using JobSpace.Static.Pdf.MergeOddAndEven;
 using JobSpace.Static.Pdf.MergeTemporary;
+using JobSpace.Static.Pdf.Rearange;
+using JobSpace.Static.Pdf.Remove;
 using JobSpace.Static.Pdf.Repeat.Document;
 using JobSpace.Static.Pdf.RepeatPages;
 using JobSpace.Static.Pdf.Reverse;
@@ -40,7 +43,9 @@ using JobSpace.Static.Pdf.SplitOddAndEven;
 using JobSpace.Static.Pdf.SplitSpread;
 using JobSpace.Static.Pdf.SplitTemporary;
 using JobSpace.Static.Pdf.ToJpg;
+using JobSpace.Static.Pdf.Visual.BlocknoteSpiral;
 using JobSpace.UserForms;
+using JobSpace.UserForms.PDF.Visual;
 using PDFManipulate.Forms;
 
 namespace JobSpace.Static
@@ -73,6 +78,7 @@ namespace JobSpace.Static
                 case ".jpg":
                 case ".tif":
                 case ".tiff":
+                case ".png":
                     GetTif(sfi);
                     break;
                 case ".ai":
@@ -189,60 +195,60 @@ namespace JobSpace.Static
 
         public static void SetTrimBox(IEnumerable objects)
         {
-            if (objects != null)
+            if (objects == null) return;
+
+            var firstFile = objects.Cast<FileSystemInfoExt>().First();
+            using (var formGetTrimBox = new FormGetTrimBox(firstFile))
             {
-                var firstFile = objects.Cast<FileSystemInfoExt>().First();
-                using (var formGetTrimBox = new FormGetTrimBox(firstFile))
+                if (formGetTrimBox.ShowDialog() == DialogResult.OK)
                 {
-                    if (formGetTrimBox.ShowDialog() == DialogResult.OK)
+                    var result = formGetTrimBox.Result;
+                    BackgroundTaskService.AddTask(new BackgroundTaskItem()
                     {
-                        var result = formGetTrimBox.Result;
-                        BackgroundTaskService.AddTask(new BackgroundTaskItem()
+                        Name = "set trimbox...",
+                        BackgroundAction = () =>
                         {
-                            Name = "set trimbox...",
-                            BackgroundAction = () =>
+                            if (result.ResultType == TrimBoxResultEnum.byBleed)
                             {
-                                if (result.ResultType == TrimBoxResultEnum.byBleed)
+                                PdfSetTrimBoxByBleedParams param = new PdfSetTrimBoxByBleedParams { Bleed = result.Bleed };
+
+                                foreach (FileSystemInfoExt ext in objects)
                                 {
-                                    PdfSetTrimBoxByBleedParams param = new PdfSetTrimBoxByBleedParams { Bleed = result.Bleed };
-
-                                    foreach (FileSystemInfoExt ext in objects)
-                                    {
-                                        new PdfSetTrimBoxByBleed(param).Run(ext.FileInfo.FullName);
-                                    }
+                                    new PdfSetTrimBoxByBleed(param).Run(ext.FileInfo.FullName);
                                 }
-                                else if (result.ResultType == TrimBoxResultEnum.byTrimbox)
+                            }
+                            else if (result.ResultType == TrimBoxResultEnum.byTrimbox)
+                            {
+                                PdfSetTrimBoxByFormatParams param =
+                                new PdfSetTrimBoxByFormatParams { Width = result.TrimBox.Width, Height = result.TrimBox.Height };
+
+                                foreach (FileSystemInfoExt ext in objects)
                                 {
-                                    PdfSetTrimBoxByFormatParams param =
-                                    new PdfSetTrimBoxByFormatParams { Width = result.TrimBox.Width, Height = result.TrimBox.Height };
-
-                                    foreach (FileSystemInfoExt ext in objects)
-                                    {
-                                        new PdfSetTrimBoxByFormat(param).Run(ext.FileInfo.FullName);
-                                    }
-
+                                    new PdfSetTrimBoxByFormat(param).Run(ext.FileInfo.FullName);
                                 }
-                                else if (result.ResultType == TrimBoxResultEnum.bySpread)
+
+                            }
+                            else if (result.ResultType == TrimBoxResultEnum.bySpread)
+                            {
+
+                                PdfSetTrimBoxBySpreadParams param = new PdfSetTrimBoxBySpreadParams
                                 {
+                                    Top = result.Spread.Top,
+                                    Bottom = result.Spread.Bottom,
+                                    Inside = result.Spread.Inside,
+                                    Outside = result.Spread.Outside,
+                                };
 
-                                    PdfSetTrimBoxBySpreadParams param = new PdfSetTrimBoxBySpreadParams
-                                    {
-                                        Top = result.Spread.Top,
-                                        Bottom = result.Spread.Bottom,
-                                        Inside = result.Spread.Inside,
-                                        Outside = result.Spread.Outside,
-                                    };
-
-                                    foreach (FileSystemInfoExt ext in objects)
-                                    {
-                                        new PdfSetTrimBoxBySpread(param).Run(ext.FileInfo.FullName);
-                                    }
+                                foreach (FileSystemInfoExt ext in objects)
+                                {
+                                    new PdfSetTrimBoxBySpread(param).Run(ext.FileInfo.FullName);
                                 }
-                            },
-                        });
-                    }
+                            }
+                        },
+                    });
                 }
             }
+
         }
 
         public static void ConvertToPDF(IEnumerable<IFileSystemInfoExt> list, Action action)
@@ -464,7 +470,7 @@ namespace JobSpace.Static
 
         public static void SplitOddAndEven(IEnumerable<IFileSystemInfoExt> list)
         {
-            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("merge odd and even pages pdf", new Action(
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("split odd and even pages pdf", new Action(
                 () =>
                 {
                     foreach (IFileSystemInfoExt file in list)
@@ -570,7 +576,6 @@ namespace JobSpace.Static
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("CreateFillRectangle", new Action(
                () =>
                {
-
                    new PdfCreateFillRectangle(param).Run(Path.Combine(pathTo, $"{param.Width}x{param.Height}.pdf"));
                }
                )));
@@ -617,7 +622,7 @@ namespace JobSpace.Static
 
         public static void AddCutCircle(List<IFileSystemInfoExt> fileSystemInfoExts)
         {
-            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати формат документа до імені файлу", new Action(
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати контур висічки 'коло' до файлу", new Action(
             () =>
             {
                 foreach (var file in fileSystemInfoExts)
@@ -626,6 +631,96 @@ namespace JobSpace.Static
 
                 }
             })));
+        }
+
+        public static void AddCutRectangle(List<IFileSystemInfoExt> fileSystemInfoExts)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати контур висічки 'прямокутник' до файлу", new Action(
+            () =>
+            {
+                foreach (var file in fileSystemInfoExts)
+                {
+                    new PdfCreateCutRectangle().Run(file.FileInfo.FullName);
+
+                }
+            })));
+        }
+
+        public static void VisualBlocknoteSpiral(List<IFileSystemInfoExt> files)
+        {
+            if (files.Count == 1)
+            {
+                using (var form = new FormVisualBlocknoteSpiral(files[0]))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати контур спіралі до файлу", new Action(
+                        () =>
+                        {
+                            foreach (var file in files)
+                            {
+                                new VisualBlocknoteSpiral(form.SpiralSettings).Run(file.FileInfo.FullName);
+                            }
+                        })));
+                    }
+                }
+            }
+            else
+            {
+                using (var form = new FormVisualBlocknoteSpiral(files))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати контур спіралі до файлу", new Action(
+                        () =>
+                        {
+                            foreach (var file in files)
+                            {
+                                new VisualBlocknoteSpiral(form.SpiralSettings).Run(file.FileInfo.FullName);
+                            }
+                        })));
+                    }
+                }
+            }
+        }
+
+        public static void CreateCollatingPageMark(IEnumerable<string> enumerable, CreateCollatingPageMarkParams param)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Додати мітки підбору до файлу", new Action(
+            () =>
+            {
+                foreach (var file in enumerable)
+                {
+                    new CreateCollatingPageMark(param).Run(file);
+                }
+            })));
+        }
+
+        public static void MergeBlockBy3Months(string file)
+        {
+            new MergeBlockBy3Months().Run(file);
+        }
+
+        public static void RemoveICCProfiles(List<IFileSystemInfoExt> fileSystemInfoExts)
+        {
+            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Remove ICC Profiles from PDF", new Action(
+            () =>
+            {
+                foreach (var file in fileSystemInfoExts)
+                {
+                    new PdfRemoveICCProfiles().Run(file.FileInfo.FullName);
+                }
+            })));
+        }
+
+        public static void RearangePagesForQuartalCalendar(List<IFileSystemInfoExt> files, int cntMonthInBlock = 3)
+        {
+            foreach (var file in files)
+            {
+                new RearangePagesForQuartalCalendar(cntMonthInBlock).Run(file.FileInfo.FullName);
+            }
+
+
         }
     }
 }

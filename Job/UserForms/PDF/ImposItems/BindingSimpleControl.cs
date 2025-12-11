@@ -144,7 +144,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         protected bool ValidateFormat(ImposRunPage imposRunPage, TemplatePage page)
         {
-            var pdf_page = PdfFileService.GetPage(parameters.PdfFiles, imposRunPage);
+            var pdf_page = PdfFileService.GetPage(parameters.ProductPart.PdfFiles, imposRunPage);
             if (pdf_page == null) return false;
 
             //check format with admission 0.5mm

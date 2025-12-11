@@ -25,7 +25,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public void CreateOutputFileName()
         {
-            string fileName = OutputFileName;
+            string fileName = Path.GetFileNameWithoutExtension(OutputFileName);
             string folder = OutputFolder;
             int extra = 0;
             string ext = ".pdf";
@@ -42,10 +42,9 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                 folder = CustomOutputFolder;
             }
 
-
             do
             {
-                filePath = Path.Combine(folder, $"{fileName}{(extra == 0 ? "" : $".{extra}")}{ext}");
+                filePath = Path.Combine(folder, $"{fileName}{(extra == 0 ? "" : $"_{extra}")}{ext}");
                 extra++;
             } while (File.Exists(filePath));
 

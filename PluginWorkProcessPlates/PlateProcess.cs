@@ -73,5 +73,10 @@ namespace PluginWorkProcessPlates
                 return form.ShowDialog() == DialogResult.OK;
             }
         }
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

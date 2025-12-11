@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Windows.Forms;
+﻿using Amazon;
 using Interfaces;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Profiles
 {
@@ -11,28 +14,35 @@ namespace JobSpace.Profiles
         private static string _profilesFolder;
         private static readonly List<Profile> Profiles = new List<Profile>();
 
-        public static Profile CurrentProfile;
-        //load Profiles
-        //save Profiles
-        //apply Profile
-
         public static void LoadProfiles(string profilesFolder)
         {
             _profilesFolder = profilesFolder;
 
-            foreach (var dir in Directory.GetDirectories(_profilesFolder))
-            {
-                var dirName = Path.GetFileName(dir);
+            var dirs = Directory.GetDirectories(_profilesFolder)
+                                .Where(d => !Path.GetFileName(d).StartsWith("-"))
+                                .ToList();
 
-                if (!dirName.StartsWith("-"))
+            var loadedProfiles = dirs
+                .Select(dir =>
                 {
-                    var profileFile = Path.Combine(_profilesFolder,dirName, ProfileFileName);
-
+                    var profileFile = Path.Combine(dir, ProfileFileName);
                     var profileSetting = Commons.DeserializeXML<ProfileSettings>(profileFile);
+                    if (profileSetting == null) return null;
 
-                    var profile = new Profile { Settings = profileSetting, ProfilePath = dir};
-                    Profiles.Add(profile);
-                }
+                    return new Profile
+                    {
+                        Settings = profileSetting,
+                        ProfilePath = dir
+                    };
+                })
+                .Where(p => p != null)
+                .ToList();
+
+            Profiles.AddRange(loadedProfiles);
+
+            if (Profiles.Count == 0)
+            {
+                ProfilesController.AddProfile();
             }
         }
 
@@ -61,7 +71,6 @@ namespace JobSpace.Profiles
                     //todo:check for duplicate name profile
 
                     profile.InitProfile();
-                    
 
                     Profiles.Add(profile);
                     Save();
@@ -84,7 +93,7 @@ namespace JobSpace.Profiles
 
                 var profileFile = Path.Combine(userDir, ProfileFileName);
 
-                Commons.SerializeXML((ProfileSettings)profile.Settings,profileFile);
+                Commons.SerializeXML((ProfileSettings)profile.Settings, profileFile);
 
             }
         }
@@ -97,7 +106,7 @@ namespace JobSpace.Profiles
 
             var profileFile = Path.Combine(userDir, ProfileFileName);
 
-            Commons.SerializeXML((ProfileSettings)profile.Settings,profileFile);
+            Commons.SerializeXML((ProfileSettings)profile.Settings, profileFile);
         }
 
         public static void RemoveProfile(Profile profile)
@@ -132,7 +141,7 @@ namespace JobSpace.Profiles
 
         public static void CloseProgram()
         {
-            Profiles.ForEach(x=>x.Exit());
+            Profiles.ForEach(x => x.Exit());
         }
     }
 }

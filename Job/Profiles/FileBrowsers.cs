@@ -41,15 +41,6 @@ namespace JobSpace.Profiles
         private void BrowserEvents_OnChangeJobDescription(object sender, string e)
         {
             var job = _profile.Jobs.JobListControl.ChangeSelectedJobDescription(e);
-
-            //_profile.Jobs.SetCurrentJob(job);
-
-            //if (job != null)
-            //{
-            //    ((FileBrowser)sender).SetRootFolder(_profile.Jobs.GetFullPathToWorkFolder(job));
-            //    ((FileBrowser)sender).CurrentJob = job;
-            //}
-            
         }
 
 

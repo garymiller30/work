@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
+using Interfaces.Pdf.Imposition;
 
 namespace JobSpace.Static.Pdf.Imposition.Services
 {

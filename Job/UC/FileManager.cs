@@ -1,11 +1,7 @@
-﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com 
-
-using Interfaces;
+﻿using Interfaces;
 using JobSpace.Static;
 using Microsoft.VisualBasic.FileIO;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -18,7 +14,7 @@ namespace JobSpace.UC
 {
     public sealed class FileManager : IFileManager
     {
-
+        public const string TEMP_FOLDER = "temp";
         public FileBrowserSettings Settings { get; set; } = new FileBrowserSettings();
 
 
@@ -95,7 +91,7 @@ namespace JobSpace.UC
                 List<IFileSystemInfoExt> files;
                 if (Settings.ShowAllFilesWithoutDir)
                 {
-                     await GetAllFilesWithoutDir();
+                    await GetAllFilesWithoutDir();
                     return;
                 }
                 else
@@ -127,11 +123,11 @@ namespace JobSpace.UC
 
             if (Directory.Exists(rootDir))
             {
-
                 Settings.RootFolder = rootDir;
                 Settings.CurFolder = rootDir;
 
-                RefreshAsync();
+                // Fix CS4014: Fire and forget with explicit discard
+                _ = RefreshAsync();
             }
             else
             {
@@ -141,7 +137,7 @@ namespace JobSpace.UC
 
         public void MoveFileOrDirectoryToCurrentFolder(IFileSystemInfoExt file, string newName)
         {
-            if (file.FileInfo.Name.Equals(newName,StringComparison.InvariantCultureIgnoreCase)) return;
+            if (file.FileInfo.Name.Equals(newName, StringComparison.InvariantCultureIgnoreCase)) return;
 
             _moveFileOrDir(file, Path.Combine(Settings.CurFolder, newName));
         }
@@ -195,7 +191,7 @@ namespace JobSpace.UC
 
                 if (Directory.Exists(file))
                 {
-                    if (FileManager.CopyPaste) //вырезать
+                    if (FileManager.CopyPaste) //вирізати
                     {
                         _moveFileOrDir(info, Path.Combine(Settings.CurFolder, Path.Combine(Settings.CurFolder, Path.GetFileName(file))));
                     }
@@ -207,9 +203,13 @@ namespace JobSpace.UC
                 else
                 {
                     var target = Path.Combine(Settings.CurFolder, Path.GetFileName(file));
-                    if (target.Equals(file))
-                        continue;
+                    int count = 1;
 
+                    while (File.Exists(target))
+                    {
+                        target = Path.Combine(Settings.CurFolder, $"{Path.GetFileNameWithoutExtension(file)}({count}){Path.GetExtension(file)}");
+                        count++;
+                    }
 
                     if (CopyPaste)
                     {
@@ -217,6 +217,33 @@ namespace JobSpace.UC
                     }
                     else
                         FileSystem.CopyFile(file, target, UIOption.AllDialogs);
+                }
+            }
+        }
+
+        public void PasteFromClipboardLikeCopy(string[] files)
+        {
+            foreach (var file in files)
+            {
+
+                var info = new FileInfo(file).ToFileSystemInfoExt();
+
+                if (Directory.Exists(file))
+                {
+                    FileSystem.CopyDirectory(file, Path.Combine(Settings.CurFolder, Path.GetFileName(file)), UIOption.AllDialogs);
+                }
+                else
+                {
+                    var target = Path.Combine(Settings.CurFolder, Path.GetFileName(file));
+                    int count = 1;
+
+                    while (File.Exists(target))
+                    {
+                        target = Path.Combine(Settings.CurFolder, $"{Path.GetFileNameWithoutExtension(file)}({count}){Path.GetExtension(file)}");
+                        count++;
+                    }
+
+                    FileSystem.CopyFile(file, target, UIOption.AllDialogs);
                 }
             }
         }
@@ -273,12 +300,13 @@ namespace JobSpace.UC
         public void GetTempFolder()
         {
             //todo: переробити корзину
-            var tempPath = Path.Combine(Settings.RootFolder, "temp");
+            var tempPath = Path.Combine(Settings.RootFolder, TEMP_FOLDER);
             if (Directory.Exists(tempPath))
             {
                 Settings.CurFolder = tempPath;
                 OnChangeDirectory(this, null);
-                RefreshAsync();
+                // Fix CS4014: Fire and forget with explicit discard
+                _ = RefreshAsync();
             }
         }
 
@@ -291,7 +319,7 @@ namespace JobSpace.UC
             do
             {
                 cnt++;
-                tmpPath = Path.Combine(Settings.RootFolder, "temp", cnt.ToString("D3"));
+                tmpPath = Path.Combine(Settings.RootFolder, TEMP_FOLDER, cnt.ToString("D3"));
 
             } while (Directory.Exists(tmpPath));
 
@@ -344,7 +372,6 @@ namespace JobSpace.UC
 
             if (fileOrDirectory.IsDir)
             {
-
                 ChangeDirectory(fileOrDirectory);
             }
             else if (File.Exists(fileOrDirectory.FileInfo.FullName))
@@ -356,17 +383,12 @@ namespace JobSpace.UC
                         WorkingDirectory = Path.GetDirectoryName(fileOrDirectory.FileInfo.FullName)
                     };
                     Process.Start(pi);
-
                 }
                 catch (Exception ex)
                 {
-
-
                     MessageBox.Show(ex.Message, @"Error!", MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
-
                 }
-
             }
         }
 
@@ -374,7 +396,7 @@ namespace JobSpace.UC
         {
             OnChangeDirectory(this, directory);
             Settings.CurFolder = directory.FileInfo.FullName.ToLower();
-            RefreshAsync();
+            _ = RefreshAsync();
         }
 
         public void DirectoryUp()
@@ -391,10 +413,10 @@ namespace JobSpace.UC
                 Settings.CurFolder = Path.GetDirectoryName(Settings.CurFolder);
             }
 
-            RefreshAsync(selectedFileName);
+            _ = RefreshAsync(selectedFileName);
         }
 
-        public void MoveFolderContentsToHere(IFileSystemInfoExt folder)
+        public void MoveFolderContentsToHere(IFileSystemInfoExt folder, bool appendFolderName)
         {
             var sourceFolder = folder.FileInfo.FullName;
 
@@ -404,7 +426,7 @@ namespace JobSpace.UC
 
                 try
                 {
-                    MoveDir(sourceFolder, destFolder);
+                    MoveDir(sourceFolder, destFolder, appendFolderName);
                 }
                 catch (Exception e)
                 {
@@ -413,21 +435,27 @@ namespace JobSpace.UC
             }
         }
 
-        void MoveDir(string sourceFolder, string destFolder)
+        void MoveDir(string sourceFolder, string destFolder, bool appendFolderName)
         {
             if (!Directory.Exists(destFolder))
                 Directory.CreateDirectory(destFolder);
+
+            string folderName = "";
+            if (appendFolderName == true)
+            {
+                folderName = $"{Path.GetFileName(sourceFolder)}_";
+            }
 
             // Get Files & Copy
             string[] files = Directory.GetFiles(sourceFolder);
             foreach (string file in files)
             {
-                string name = Path.GetFileName(file);
+                string name = $"{folderName}{Path.GetFileName(file)}";
 
                 // ADD Unique File Name Check to Below!!!!
                 string dest = Path.Combine(destFolder, name);
 
-                string destName = $"{Path.GetFileNameWithoutExtension(file)}_";
+                string destName = $"{folderName}{Path.GetFileNameWithoutExtension(file)}_";
                 string ext = Path.GetExtension(file);
 
                 while (File.Exists(dest))
@@ -445,7 +473,7 @@ namespace JobSpace.UC
             {
                 string name = Path.GetFileName(folder);
                 string dest = Path.Combine(destFolder, name);
-                MoveDir(folder, dest);
+                MoveDir(folder, dest, appendFolderName);
             }
             Directory.Delete(sourceFolder);
         }

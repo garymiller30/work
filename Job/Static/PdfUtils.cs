@@ -32,6 +32,7 @@ namespace JobSpace.Static
                 case ".jpg":
                 case ".tif":
                 case ".tiff":
+                case ".png":
                     GetColorspaceImage(sfi);
                     break;
             }
@@ -204,10 +205,7 @@ namespace JobSpace.Static
             {
                 colorlist.Add(colorspace);
             }
-
             return colorlist;
-
-
         }
 
         private static void GetPdfColorspace(IFileSystemInfoExt sfi)

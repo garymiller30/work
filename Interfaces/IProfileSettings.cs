@@ -5,10 +5,8 @@ namespace Interfaces
     public interface IProfileSettings
     {
         string ProfileName { get; set; }
-
         IBaseSettings GetBaseSettings();
         IMailSettings GetMail();
-        IMQSettings GetRabbitMq();
         IFileBrowserSettings GetFileBrowser();
         IJobSettings GetJobSettings();
 
@@ -23,9 +21,5 @@ namespace Interfaces
         string OLVState { get; set; }
 
         decimal CountExplorers { get; set; }
-        //[Obsolete]
-        //bool ExplorerInRightPanel { get; set; }
-
-
     }
 }

@@ -14,7 +14,7 @@ namespace StaticFiles
     {
         private const string StaticFolderName = ".static";
 
-        private FileBrowser _fileBrowser;
+        private UCFileBrowser _fileBrowser;
         private Profile _profile;
 
         public WindowOut()
@@ -41,8 +41,8 @@ namespace StaticFiles
         }
 
         public void Start()
-        {
-            _fileBrowser = new FileBrowser(_profile)
+        { 
+            _fileBrowser = new UCFileBrowser(_profile)
             {
                 Location = new Point(0, toolStrip1.Height),
                 Size = new Size(this.Width, this.Height - toolStrip1.Height),
@@ -53,7 +53,7 @@ namespace StaticFiles
             _fileBrowser.InitToolStripUtils(-1);
 
             Controls.Add(_fileBrowser);
-
+            if (_profile.Customers == null) return;
             var customers = _profile.Customers.Where(x => x.Show).ToList();
             toolStripComboBoxCustomers.ComboBox.DataSource = customers;
             toolStripComboBoxCustomers.ComboBox.DisplayMember = "Name";

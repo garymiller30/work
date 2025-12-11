@@ -23,6 +23,7 @@ namespace JobSpace.Menus
         public override void Load()
         {
             _menus = Commons.DeserializeXML<List<MenuSendTo>>(_fn) ?? new List<MenuSendTo>();
+
             _menus.ForEach(GetImage);
 
         }
@@ -81,7 +82,7 @@ namespace JobSpace.Menus
                 {
                     foreach (MenuSendTo menuSendTo in g)
                     {
-                        if (menuSendTo.IsScript())
+                        if (_userProfile.ScriptEngine.IsScriptFile(menuSendTo.Path))
                         {
                             var button = new ToolStripSplitButton()
                             {

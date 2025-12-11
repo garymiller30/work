@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddTemplateSheetControl));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumnId = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnDesc = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnPrintType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnFormat = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -55,11 +54,11 @@
             this.tsb_delete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_saveTemplate = new System.Windows.Forms.ToolStripButton();
+            this.tsb_save_all = new System.Windows.Forms.ToolStripButton();
             this.tsb_loadTemplate = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_addToQuickAccess = new System.Windows.Forms.ToolStripButton();
             this.tsb_QuickAccess = new System.Windows.Forms.ToolStripSplitButton();
-            this.tsb_save_all = new System.Windows.Forms.ToolStripButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
@@ -81,13 +80,11 @@
             // 
             // objectListView1
             // 
-            this.objectListView1.AllColumns.Add(this.olvColumnId);
             this.objectListView1.AllColumns.Add(this.olvColumnDesc);
             this.objectListView1.AllColumns.Add(this.olvColumnPrintType);
             this.objectListView1.AllColumns.Add(this.olvColumnFormat);
             this.objectListView1.CellEditUseWholeCell = false;
             this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumnId,
             this.olvColumnDesc,
             this.olvColumnPrintType,
             this.olvColumnFormat});
@@ -105,12 +102,6 @@
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
             this.objectListView1.DoubleClick += new System.EventHandler(this.objectListView1_DoubleClick);
-            // 
-            // olvColumnId
-            // 
-            this.olvColumnId.IsEditable = false;
-            this.olvColumnId.Text = "Id";
-            this.olvColumnId.Width = 29;
             // 
             // olvColumnDesc
             // 
@@ -315,6 +306,17 @@
             this.tsb_saveTemplate.Text = "зберегти шаблон";
             this.tsb_saveTemplate.Click += new System.EventHandler(this.tsb_saveTemplate_Click_1);
             // 
+            // tsb_save_all
+            // 
+            this.tsb_save_all.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_save_all.Image = ((System.Drawing.Image)(resources.GetObject("tsb_save_all.Image")));
+            this.tsb_save_all.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_save_all.Name = "tsb_save_all";
+            this.tsb_save_all.Size = new System.Drawing.Size(23, 22);
+            this.tsb_save_all.Text = "зберегти список";
+            this.tsb_save_all.ToolTipText = "зберегти увесь список";
+            this.tsb_save_all.Click += new System.EventHandler(this.tsb_save_all_Click);
+            // 
             // tsb_loadTemplate
             // 
             this.tsb_loadTemplate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -350,17 +352,6 @@
             this.tsb_QuickAccess.Text = "Меню швидкого доступу";
             this.tsb_QuickAccess.ButtonClick += new System.EventHandler(this.tsb_QuickAccess_ButtonClick);
             // 
-            // tsb_save_all
-            // 
-            this.tsb_save_all.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_save_all.Image = ((System.Drawing.Image)(resources.GetObject("tsb_save_all.Image")));
-            this.tsb_save_all.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_save_all.Name = "tsb_save_all";
-            this.tsb_save_all.Size = new System.Drawing.Size(23, 22);
-            this.tsb_save_all.Text = "зберегти список";
-            this.tsb_save_all.ToolTipText = "зберегти увесь список";
-            this.tsb_save_all.Click += new System.EventHandler(this.tsb_save_all_Click);
-            // 
             // AddTemplateSheetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -386,7 +377,6 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private BrightIdeasSoftware.ObjectListView objectListView1;
-        private BrightIdeasSoftware.OLVColumn olvColumnId;
         private BrightIdeasSoftware.OLVColumn olvColumnDesc;
         private BrightIdeasSoftware.OLVColumn olvColumnPrintType;
         private System.Windows.Forms.ToolStrip toolStrip1;

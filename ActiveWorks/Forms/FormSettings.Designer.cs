@@ -54,6 +54,7 @@
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.checkBoxHideCategory = new System.Windows.Forms.CheckBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.kryptonButton_MoveSignaFileToOrder = new Krypton.Toolkit.KryptonButton();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.textBox_FolderForSignaFileInJob = new System.Windows.Forms.TextBox();
             this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
@@ -126,20 +127,33 @@
             this.buttonFtpSettingsAdd = new System.Windows.Forms.Button();
             this.listBox_Ftp_Servers = new System.Windows.Forms.ListBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.olv_mail_templates = new BrightIdeasSoftware.ObjectListView();
+            this.olvc_mail_template_name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.cms_mail_templates = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.додатиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.редагуватиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.видалитиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.gb_mail_googleApi_settings = new System.Windows.Forms.GroupBox();
+            this.btn_mail_gmail_settings_sel_secret_file = new System.Windows.Forms.Button();
+            this.tb_mail_gmail_settings_secret_file = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.gb_mail_smtp_settings = new System.Windows.Forms.GroupBox();
+            this.label30 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.numericUpDownSmtpPort = new System.Windows.Forms.NumericUpDown();
+            this.textBox_MailPassword = new System.Windows.Forms.TextBox();
             this.textBoxSmtpServer = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
+            this.textBox_MailFrom = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
+            this.checkBoxMailAutoRelogon = new System.Windows.Forms.CheckBox();
             this.numericUpDown_ImapPort = new System.Windows.Forms.NumericUpDown();
             this.textBox_ImapServer = new System.Windows.Forms.TextBox();
-            this.label30 = new System.Windows.Forms.Label();
-            this.checkBoxMailAutoRelogon = new System.Windows.Forms.CheckBox();
-            this.textBox_MailFrom = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox_MailPassword = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.button_MailAdd = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
@@ -191,7 +205,8 @@
             this.objectListViewProfiles = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.statusChangeParamBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.kryptonButton_MoveSignaFileToOrder = new Krypton.Toolkit.KryptonButton();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.cb_mail_connection_type = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.contextMenuStrip_FolderNames.SuspendLayout();
             this.tabControlMain.SuspendLayout();
@@ -223,7 +238,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewFtpScripts)).BeginInit();
             this.groupBox9.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.olv_mail_templates)).BeginInit();
+            this.cms_mail_templates.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            this.gb_mail_googleApi_settings.SuspendLayout();
+            this.gb_mail_smtp_settings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSmtpPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ImapPort)).BeginInit();
             this.groupBox7.SuspendLayout();
@@ -242,6 +262,7 @@
             this.groupBox17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewProfiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusChangeParamBindingSource)).BeginInit();
+            this.groupBox12.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -519,6 +540,15 @@
             this.groupBox14.TabIndex = 12;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Prinect Signa 16+";
+            // 
+            // kryptonButton_MoveSignaFileToOrder
+            // 
+            this.kryptonButton_MoveSignaFileToOrder.Location = new System.Drawing.Point(87, 214);
+            this.kryptonButton_MoveSignaFileToOrder.Name = "kryptonButton_MoveSignaFileToOrder";
+            this.kryptonButton_MoveSignaFileToOrder.Size = new System.Drawing.Size(228, 25);
+            this.kryptonButton_MoveSignaFileToOrder.TabIndex = 16;
+            this.kryptonButton_MoveSignaFileToOrder.Values.Text = "перенести файл signa до замовлення";
+            this.kryptonButton_MoveSignaFileToOrder.Click += new System.EventHandler(this.kryptonButton_MoveSignaFileToOrder_Click);
             // 
             // kryptonLabel1
             // 
@@ -1248,6 +1278,7 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.groupBox10);
             this.tabPage6.Controls.Add(this.groupBox11);
             this.tabPage6.Controls.Add(this.groupBox7);
             this.tabPage6.ImageKey = "mail_yellow.png";
@@ -1259,48 +1290,198 @@
             this.tabPage6.Text = "Пошта";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
+            // groupBox10
+            // 
+            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox10.Controls.Add(this.olv_mail_templates);
+            this.groupBox10.Location = new System.Drawing.Point(242, 184);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(451, 177);
+            this.groupBox10.TabIndex = 12;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "шаблони листів";
+            // 
+            // olv_mail_templates
+            // 
+            this.olv_mail_templates.AllColumns.Add(this.olvc_mail_template_name);
+            this.olv_mail_templates.CellEditUseWholeCell = false;
+            this.olv_mail_templates.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvc_mail_template_name});
+            this.olv_mail_templates.ContextMenuStrip = this.cms_mail_templates;
+            this.olv_mail_templates.Cursor = System.Windows.Forms.Cursors.Default;
+            this.olv_mail_templates.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.olv_mail_templates.FullRowSelect = true;
+            this.olv_mail_templates.GridLines = true;
+            this.olv_mail_templates.HideSelection = false;
+            this.olv_mail_templates.Location = new System.Drawing.Point(3, 16);
+            this.olv_mail_templates.Name = "olv_mail_templates";
+            this.olv_mail_templates.ShowGroups = false;
+            this.olv_mail_templates.Size = new System.Drawing.Size(445, 158);
+            this.olv_mail_templates.TabIndex = 0;
+            this.olv_mail_templates.UseCompatibleStateImageBehavior = false;
+            this.olv_mail_templates.View = System.Windows.Forms.View.Details;
+            // 
+            // olvc_mail_template_name
+            // 
+            this.olvc_mail_template_name.AspectName = "ShablonName";
+            this.olvc_mail_template_name.Text = "назва шаблону";
+            this.olvc_mail_template_name.Width = 392;
+            // 
+            // cms_mail_templates
+            // 
+            this.cms_mail_templates.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cms_mail_templates.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.додатиШаблонToolStripMenuItem,
+            this.редагуватиШаблонToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.видалитиШаблонToolStripMenuItem});
+            this.cms_mail_templates.Name = "cms_mail_templates";
+            this.cms_mail_templates.Size = new System.Drawing.Size(183, 76);
+            // 
+            // додатиШаблонToolStripMenuItem
+            // 
+            this.додатиШаблонToolStripMenuItem.Name = "додатиШаблонToolStripMenuItem";
+            this.додатиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.додатиШаблонToolStripMenuItem.Text = "додати шаблон";
+            this.додатиШаблонToolStripMenuItem.Click += new System.EventHandler(this.додатиШаблонToolStripMenuItem_Click);
+            // 
+            // редагуватиШаблонToolStripMenuItem
+            // 
+            this.редагуватиШаблонToolStripMenuItem.Name = "редагуватиШаблонToolStripMenuItem";
+            this.редагуватиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.редагуватиШаблонToolStripMenuItem.Text = "редагувати шаблон";
+            this.редагуватиШаблонToolStripMenuItem.Click += new System.EventHandler(this.редагуватиШаблонToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(179, 6);
+            // 
+            // видалитиШаблонToolStripMenuItem
+            // 
+            this.видалитиШаблонToolStripMenuItem.Name = "видалитиШаблонToolStripMenuItem";
+            this.видалитиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.видалитиШаблонToolStripMenuItem.Text = "видалити шаблон";
+            this.видалитиШаблонToolStripMenuItem.Click += new System.EventHandler(this.видалитиШаблонToolStripMenuItem_Click);
+            // 
             // groupBox11
             // 
-            this.groupBox11.Controls.Add(this.label32);
-            this.groupBox11.Controls.Add(this.numericUpDownSmtpPort);
-            this.groupBox11.Controls.Add(this.textBoxSmtpServer);
-            this.groupBox11.Controls.Add(this.label33);
-            this.groupBox11.Controls.Add(this.label31);
-            this.groupBox11.Controls.Add(this.numericUpDown_ImapPort);
-            this.groupBox11.Controls.Add(this.textBox_ImapServer);
-            this.groupBox11.Controls.Add(this.label30);
-            this.groupBox11.Controls.Add(this.checkBoxMailAutoRelogon);
-            this.groupBox11.Controls.Add(this.textBox_MailFrom);
-            this.groupBox11.Controls.Add(this.label11);
-            this.groupBox11.Controls.Add(this.textBox_MailPassword);
-            this.groupBox11.Controls.Add(this.label12);
-            this.groupBox11.Location = new System.Drawing.Point(7, 7);
+            this.groupBox11.Controls.Add(this.groupBox12);
+            this.groupBox11.Controls.Add(this.gb_mail_googleApi_settings);
+            this.groupBox11.Controls.Add(this.gb_mail_smtp_settings);
+            this.groupBox11.Location = new System.Drawing.Point(7, 0);
+            this.groupBox11.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(703, 156);
+            this.groupBox11.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.groupBox11.Size = new System.Drawing.Size(686, 178);
             this.groupBox11.TabIndex = 11;
             this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "робоча поштова адреса";
+            this.groupBox11.Text = "`";
+            // 
+            // gb_mail_googleApi_settings
+            // 
+            this.gb_mail_googleApi_settings.Controls.Add(this.btn_mail_gmail_settings_sel_secret_file);
+            this.gb_mail_googleApi_settings.Controls.Add(this.tb_mail_gmail_settings_secret_file);
+            this.gb_mail_googleApi_settings.Controls.Add(this.label1);
+            this.gb_mail_googleApi_settings.Location = new System.Drawing.Point(384, 6);
+            this.gb_mail_googleApi_settings.Name = "gb_mail_googleApi_settings";
+            this.gb_mail_googleApi_settings.Size = new System.Drawing.Size(296, 166);
+            this.gb_mail_googleApi_settings.TabIndex = 23;
+            this.gb_mail_googleApi_settings.TabStop = false;
+            this.gb_mail_googleApi_settings.Text = "Gmail API";
+            // 
+            // btn_mail_gmail_settings_sel_secret_file
+            // 
+            this.btn_mail_gmail_settings_sel_secret_file.Location = new System.Drawing.Point(256, 16);
+            this.btn_mail_gmail_settings_sel_secret_file.Name = "btn_mail_gmail_settings_sel_secret_file";
+            this.btn_mail_gmail_settings_sel_secret_file.Size = new System.Drawing.Size(34, 23);
+            this.btn_mail_gmail_settings_sel_secret_file.TabIndex = 24;
+            this.btn_mail_gmail_settings_sel_secret_file.Text = "...";
+            this.btn_mail_gmail_settings_sel_secret_file.UseVisualStyleBackColor = true;
+            this.btn_mail_gmail_settings_sel_secret_file.Click += new System.EventHandler(this.btn_mail_gmail_settings_sel_secret_file_Click);
+            // 
+            // tb_mail_gmail_settings_secret_file
+            // 
+            this.tb_mail_gmail_settings_secret_file.Location = new System.Drawing.Point(9, 43);
+            this.tb_mail_gmail_settings_secret_file.Name = "tb_mail_gmail_settings_secret_file";
+            this.tb_mail_gmail_settings_secret_file.ReadOnly = true;
+            this.tb_mail_gmail_settings_secret_file.Size = new System.Drawing.Size(281, 20);
+            this.tb_mail_gmail_settings_secret_file.TabIndex = 23;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label1.Location = new System.Drawing.Point(6, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(121, 13);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "client secret файл (json)";
+            // 
+            // gb_mail_smtp_settings
+            // 
+            this.gb_mail_smtp_settings.Controls.Add(this.label30);
+            this.gb_mail_smtp_settings.Controls.Add(this.label32);
+            this.gb_mail_smtp_settings.Controls.Add(this.label12);
+            this.gb_mail_smtp_settings.Controls.Add(this.numericUpDownSmtpPort);
+            this.gb_mail_smtp_settings.Controls.Add(this.textBox_MailPassword);
+            this.gb_mail_smtp_settings.Controls.Add(this.textBoxSmtpServer);
+            this.gb_mail_smtp_settings.Controls.Add(this.label11);
+            this.gb_mail_smtp_settings.Controls.Add(this.label33);
+            this.gb_mail_smtp_settings.Controls.Add(this.textBox_MailFrom);
+            this.gb_mail_smtp_settings.Controls.Add(this.label31);
+            this.gb_mail_smtp_settings.Controls.Add(this.checkBoxMailAutoRelogon);
+            this.gb_mail_smtp_settings.Controls.Add(this.numericUpDown_ImapPort);
+            this.gb_mail_smtp_settings.Controls.Add(this.textBox_ImapServer);
+            this.gb_mail_smtp_settings.Location = new System.Drawing.Point(101, 6);
+            this.gb_mail_smtp_settings.Name = "gb_mail_smtp_settings";
+            this.gb_mail_smtp_settings.Size = new System.Drawing.Size(277, 166);
+            this.gb_mail_smtp_settings.TabIndex = 22;
+            this.gb_mail_smtp_settings.TabStop = false;
+            this.gb_mail_smtp_settings.Text = "SMTP";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label30.Location = new System.Drawing.Point(6, 16);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(68, 13);
+            this.label30.TabIndex = 15;
+            this.label30.Text = "imap сервер";
             // 
             // label32
             // 
             this.label32.AutoSize = true;
             this.label32.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label32.Location = new System.Drawing.Point(512, 13);
+            this.label32.Location = new System.Drawing.Point(202, 50);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(25, 13);
+            this.label32.Size = new System.Drawing.Size(10, 13);
             this.label32.TabIndex = 21;
-            this.label32.Text = "port";
+            this.label32.Text = ":";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label12.Location = new System.Drawing.Point(31, 114);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(43, 13);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "пароль";
             // 
             // numericUpDownSmtpPort
             // 
-            this.numericUpDownSmtpPort.Location = new System.Drawing.Point(515, 29);
+            this.numericUpDownSmtpPort.Location = new System.Drawing.Point(218, 48);
             this.numericUpDownSmtpPort.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
             this.numericUpDownSmtpPort.Name = "numericUpDownSmtpPort";
-            this.numericUpDownSmtpPort.Size = new System.Drawing.Size(57, 20);
+            this.numericUpDownSmtpPort.Size = new System.Drawing.Size(48, 20);
             this.numericUpDownSmtpPort.TabIndex = 20;
             this.numericUpDownSmtpPort.Value = new decimal(new int[] {
             587,
@@ -1308,44 +1489,81 @@
             0,
             0});
             // 
+            // textBox_MailPassword
+            // 
+            this.textBox_MailPassword.Location = new System.Drawing.Point(80, 111);
+            this.textBox_MailPassword.Name = "textBox_MailPassword";
+            this.textBox_MailPassword.PasswordChar = '*';
+            this.textBox_MailPassword.Size = new System.Drawing.Size(186, 20);
+            this.textBox_MailPassword.TabIndex = 3;
+            this.textBox_MailPassword.UseSystemPasswordChar = true;
+            // 
             // textBoxSmtpServer
             // 
-            this.textBoxSmtpServer.Location = new System.Drawing.Point(315, 30);
+            this.textBoxSmtpServer.Location = new System.Drawing.Point(80, 47);
             this.textBoxSmtpServer.Name = "textBoxSmtpServer";
-            this.textBoxSmtpServer.Size = new System.Drawing.Size(186, 20);
+            this.textBoxSmtpServer.Size = new System.Drawing.Size(115, 20);
             this.textBoxSmtpServer.TabIndex = 18;
             this.textBoxSmtpServer.Text = "smtp.gmail.com";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label11.Location = new System.Drawing.Point(42, 81);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(32, 13);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "логін";
             // 
             // label33
             // 
             this.label33.AutoSize = true;
             this.label33.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label33.Location = new System.Drawing.Point(312, 14);
+            this.label33.Location = new System.Drawing.Point(6, 50);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(68, 13);
             this.label33.TabIndex = 19;
             this.label33.Text = "smtp сервер";
             // 
+            // textBox_MailFrom
+            // 
+            this.textBox_MailFrom.Location = new System.Drawing.Point(80, 78);
+            this.textBox_MailFrom.Name = "textBox_MailFrom";
+            this.textBox_MailFrom.Size = new System.Drawing.Size(186, 20);
+            this.textBox_MailFrom.TabIndex = 0;
+            // 
             // label31
             // 
             this.label31.AutoSize = true;
             this.label31.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label31.Location = new System.Drawing.Point(211, 15);
+            this.label31.Location = new System.Drawing.Point(201, 16);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(25, 13);
+            this.label31.Size = new System.Drawing.Size(10, 13);
             this.label31.TabIndex = 17;
-            this.label31.Text = "port";
+            this.label31.Text = ":";
+            // 
+            // checkBoxMailAutoRelogon
+            // 
+            this.checkBoxMailAutoRelogon.AutoSize = true;
+            this.checkBoxMailAutoRelogon.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.checkBoxMailAutoRelogon.Location = new System.Drawing.Point(21, 139);
+            this.checkBoxMailAutoRelogon.Name = "checkBoxMailAutoRelogon";
+            this.checkBoxMailAutoRelogon.Size = new System.Drawing.Size(245, 17);
+            this.checkBoxMailAutoRelogon.TabIndex = 13;
+            this.checkBoxMailAutoRelogon.Text = "автоматично підключатися при відключенні";
+            this.checkBoxMailAutoRelogon.UseVisualStyleBackColor = true;
             // 
             // numericUpDown_ImapPort
             // 
-            this.numericUpDown_ImapPort.Location = new System.Drawing.Point(214, 31);
+            this.numericUpDown_ImapPort.Location = new System.Drawing.Point(217, 14);
             this.numericUpDown_ImapPort.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
             this.numericUpDown_ImapPort.Name = "numericUpDown_ImapPort";
-            this.numericUpDown_ImapPort.Size = new System.Drawing.Size(57, 20);
+            this.numericUpDown_ImapPort.Size = new System.Drawing.Size(49, 20);
             this.numericUpDown_ImapPort.TabIndex = 16;
             this.numericUpDown_ImapPort.Value = new decimal(new int[] {
             993,
@@ -1355,78 +1573,23 @@
             // 
             // textBox_ImapServer
             // 
-            this.textBox_ImapServer.Location = new System.Drawing.Point(14, 32);
+            this.textBox_ImapServer.Location = new System.Drawing.Point(80, 13);
             this.textBox_ImapServer.Name = "textBox_ImapServer";
-            this.textBox_ImapServer.Size = new System.Drawing.Size(186, 20);
+            this.textBox_ImapServer.Size = new System.Drawing.Size(115, 20);
             this.textBox_ImapServer.TabIndex = 14;
             this.textBox_ImapServer.Text = "imap.gmail.com";
             // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label30.Location = new System.Drawing.Point(11, 16);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(68, 13);
-            this.label30.TabIndex = 15;
-            this.label30.Text = "imap сервер";
-            // 
-            // checkBoxMailAutoRelogon
-            // 
-            this.checkBoxMailAutoRelogon.AutoSize = true;
-            this.checkBoxMailAutoRelogon.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.checkBoxMailAutoRelogon.Location = new System.Drawing.Point(353, 80);
-            this.checkBoxMailAutoRelogon.Name = "checkBoxMailAutoRelogon";
-            this.checkBoxMailAutoRelogon.Size = new System.Drawing.Size(245, 17);
-            this.checkBoxMailAutoRelogon.TabIndex = 13;
-            this.checkBoxMailAutoRelogon.Text = "автоматично підключатися при відключенні";
-            this.checkBoxMailAutoRelogon.UseVisualStyleBackColor = true;
-            // 
-            // textBox_MailFrom
-            // 
-            this.textBox_MailFrom.Location = new System.Drawing.Point(14, 78);
-            this.textBox_MailFrom.Name = "textBox_MailFrom";
-            this.textBox_MailFrom.Size = new System.Drawing.Size(186, 20);
-            this.textBox_MailFrom.TabIndex = 0;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label11.Location = new System.Drawing.Point(11, 62);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(140, 13);
-            this.label11.TabIndex = 1;
-            this.label11.Text = "з якої адреси відправляти";
-            // 
-            // textBox_MailPassword
-            // 
-            this.textBox_MailPassword.Location = new System.Drawing.Point(214, 78);
-            this.textBox_MailPassword.Name = "textBox_MailPassword";
-            this.textBox_MailPassword.PasswordChar = '*';
-            this.textBox_MailPassword.Size = new System.Drawing.Size(122, 20);
-            this.textBox_MailPassword.TabIndex = 3;
-            this.textBox_MailPassword.UseSystemPasswordChar = true;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label12.Location = new System.Drawing.Point(211, 62);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(43, 13);
-            this.label12.TabIndex = 4;
-            this.label12.Text = "пароль";
-            // 
             // groupBox7
             // 
+            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox7.Controls.Add(this.button_MailAdd);
             this.groupBox7.Controls.Add(this.label13);
             this.groupBox7.Controls.Add(this.textBox_MailTo);
             this.groupBox7.Controls.Add(this.listBox_SendEmails);
-            this.groupBox7.Location = new System.Drawing.Point(7, 169);
+            this.groupBox7.Location = new System.Drawing.Point(7, 184);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(229, 186);
+            this.groupBox7.Size = new System.Drawing.Size(229, 177);
             this.groupBox7.TabIndex = 10;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "адреси для швидкого надсилання";
@@ -1463,11 +1626,14 @@
             // 
             // listBox_SendEmails
             // 
+            this.listBox_SendEmails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox_SendEmails.ContextMenuStrip = this.contextMenuStripMails;
             this.listBox_SendEmails.FormattingEnabled = true;
             this.listBox_SendEmails.Location = new System.Drawing.Point(9, 61);
             this.listBox_SendEmails.Name = "listBox_SendEmails";
-            this.listBox_SendEmails.Size = new System.Drawing.Size(209, 121);
+            this.listBox_SendEmails.Size = new System.Drawing.Size(209, 95);
             this.listBox_SendEmails.TabIndex = 2;
             // 
             // contextMenuStripMails
@@ -1953,15 +2119,23 @@
             this.olvColumnName.Text = "Ім\'я профілю";
             this.olvColumnName.Width = 200;
             // 
-            // kryptonButton_MoveSignaFileToOrder
+            // groupBox12
             // 
-            this.kryptonButton_MoveSignaFileToOrder.CornerRoundingRadius = -1F;
-            this.kryptonButton_MoveSignaFileToOrder.Location = new System.Drawing.Point(87, 214);
-            this.kryptonButton_MoveSignaFileToOrder.Name = "kryptonButton_MoveSignaFileToOrder";
-            this.kryptonButton_MoveSignaFileToOrder.Size = new System.Drawing.Size(228, 25);
-            this.kryptonButton_MoveSignaFileToOrder.TabIndex = 16;
-            this.kryptonButton_MoveSignaFileToOrder.Values.Text = "перенести файл signa до замовлення";
-            this.kryptonButton_MoveSignaFileToOrder.Click += new System.EventHandler(this.kryptonButton_MoveSignaFileToOrder_Click);
+            this.groupBox12.Controls.Add(this.cb_mail_connection_type);
+            this.groupBox12.Location = new System.Drawing.Point(6, 6);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(88, 166);
+            this.groupBox12.TabIndex = 24;
+            this.groupBox12.TabStop = false;
+            // 
+            // cb_mail_connection_type
+            // 
+            this.cb_mail_connection_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_mail_connection_type.FormattingEnabled = true;
+            this.cb_mail_connection_type.Location = new System.Drawing.Point(6, 14);
+            this.cb_mail_connection_type.Name = "cb_mail_connection_type";
+            this.cb_mail_connection_type.Size = new System.Drawing.Size(76, 21);
+            this.cb_mail_connection_type.TabIndex = 0;
             // 
             // FormSettings
             // 
@@ -2015,8 +2189,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewFtpScripts)).EndInit();
             this.groupBox9.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.olv_mail_templates)).EndInit();
+            this.cms_mail_templates.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
-            this.groupBox11.PerformLayout();
+            this.gb_mail_googleApi_settings.ResumeLayout(false);
+            this.gb_mail_googleApi_settings.PerformLayout();
+            this.gb_mail_smtp_settings.ResumeLayout(false);
+            this.gb_mail_smtp_settings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSmtpPort)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ImapPort)).EndInit();
             this.groupBox7.ResumeLayout(false);
@@ -2039,6 +2219,7 @@
             this.groupBox17.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewProfiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusChangeParamBindingSource)).EndInit();
+            this.groupBox12.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2207,5 +2388,20 @@
         private System.Windows.Forms.TextBox textBox_FolderForSignaFileInJob;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonButton kryptonButton_MoveSignaFileToOrder;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private BrightIdeasSoftware.ObjectListView olv_mail_templates;
+        private BrightIdeasSoftware.OLVColumn olvc_mail_template_name;
+        private System.Windows.Forms.ContextMenuStrip cms_mail_templates;
+        private System.Windows.Forms.ToolStripMenuItem додатиШаблонToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem редагуватиШаблонToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem видалитиШаблонToolStripMenuItem;
+        private System.Windows.Forms.GroupBox gb_mail_googleApi_settings;
+        private System.Windows.Forms.GroupBox gb_mail_smtp_settings;
+        private System.Windows.Forms.TextBox tb_mail_gmail_settings_secret_file;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btn_mail_gmail_settings_sel_secret_file;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.ComboBox cb_mail_connection_type;
     }
 }

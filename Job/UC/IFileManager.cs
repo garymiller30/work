@@ -42,9 +42,10 @@ namespace JobSpace.UC
 
         FileBrowserSettings Settings { get; set; }
 
-        void MoveFolderContentsToHere(IFileSystemInfoExt folder);
+        void MoveFolderContentsToHere(IFileSystemInfoExt folder, bool appendFolderName);
         Task GetAllFilesWithoutDir();
         void MoveTo(IFileSystemInfoExt file, string targetDir);
+        void PasteFromClipboardLikeCopy(string[] strings);
         //IFileManager UseWatcher(IWatcher watcher);
         //IFileManager UseCache(ICache cache);
     }

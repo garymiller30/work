@@ -13,5 +13,7 @@ namespace Interfaces
         void ProcessMessageBeforeSend(MailMessage message);
         void Add(IPluginMail obj);
         IEnumerable<IPluginBase> GetPluginBase();
+        bool HasPlugins { get; }
+        string UploadFiles(string[] files);
     }
 }

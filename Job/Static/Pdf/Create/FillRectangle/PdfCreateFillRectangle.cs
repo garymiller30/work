@@ -34,7 +34,7 @@ namespace JobSpace.Static.Pdf.Create.FillRectangle
 
                 p.begin_page_ext( w,h, "");
 
-                if (_param.isSpot)
+                if (_param.Color.IsSpot)
                 {
                     string[]labstr = _param.Lab.Split(' ');
 
@@ -43,16 +43,16 @@ namespace JobSpace.Static.Pdf.Create.FillRectangle
                     double b = double.Parse(labstr[2], System.Globalization.CultureInfo.InvariantCulture);
 
                     p.setcolor("fill", "lab",l/100, a/100, b/100, 0);
-                    int spot = p.makespotcolor(_param.Name);
+                    int spot = p.makespotcolor(_param.Color.Name);
                     p.setcolor("fill", "spot", spot, 1.0, 0.0, 0.0);
                 }
                 else
                 {
                     p.setcolor("fill", "cmyk", 
-                        (double)_param.C/100, 
-                        (double)_param.M/100, 
-                        (double)_param.Y/100, 
-                        (double)_param.K/100);
+                        (double)_param.Color.C/100, 
+                        (double)_param.Color.M/100, 
+                        (double)_param.Color.Y/100, 
+                        (double)_param.Color.K/100);
                 }
 
                 p.rect(0,0,w,h);

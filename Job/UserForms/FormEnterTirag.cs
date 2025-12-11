@@ -1,10 +1,12 @@
 ﻿using BackgroundTaskServiceLib;
 using Interfaces;
 using JobSpace.Static.Pdf.MergeTemporary;
+using JobSpace.UC;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -18,15 +20,17 @@ namespace JobSpace.UserForms
     public partial class FormEnterTirag : Form
     {
         UC.IFileManager _fileManager;
+        Action<IFileManager,int, IFileSystemInfoExt> _renameAction;
 
         public FormEnterTirag()
         {
             InitializeComponent();
         }
 
-        public FormEnterTirag(UC.IFileManager fileManager, IEnumerable<IFileSystemInfoExt> files) : this()
+        public FormEnterTirag(UC.IFileManager fileManager, IEnumerable<IFileSystemInfoExt> files,Action<IFileManager, int, IFileSystemInfoExt> renameAction) : this()
         {
             _fileManager = fileManager;
+            _renameAction = renameAction;
             AddToList(files);
         }
 
@@ -57,6 +61,7 @@ namespace JobSpace.UserForms
 
             }
             objectListView1.AddObjects(filesTirag);
+            SetTotalLabel();
         }
 
         class FileTirag
@@ -72,6 +77,7 @@ namespace JobSpace.UserForms
                 if (e.Column == olvColumn_tirag)
                 {
                     ft.Tirag = Convert.ToInt32(e.NewValue);
+                    SetTotalLabel();
                 }
             }
         }
@@ -87,6 +93,7 @@ namespace JobSpace.UserForms
             }
 
             objectListView1.RefreshObjects(objectListView1.SelectedObjects);
+            SetTotalLabel();
         }
 
         private void btn_ok_Click(object sender, EventArgs e)
@@ -97,20 +104,20 @@ namespace JobSpace.UserForms
                {
                    foreach (FileTirag ft in objectListView1.Objects)
                    {
-
-                       var reg = new Regex(@"#(\d+)\.");
-                       var match = reg.Match(ft.FileInfo.FileInfo.Name);
-                       string targetFile;
-                       if (match.Success)
-                       {
-                           targetFile =
-                               $"{Path.GetFileNameWithoutExtension(ft.FileInfo.FileInfo.Name).Substring(0, match.Index)}#{ft.Tirag}{ft.FileInfo.FileInfo.Extension}";
-                       }
-                       else
-                       {
-                           targetFile = $"{Path.GetFileNameWithoutExtension(ft.FileInfo.FileInfo.Name)}#{ft.Tirag}{ft.FileInfo.FileInfo.Extension}";
-                       }
-                       _fileManager.MoveFileOrDirectoryToCurrentFolder(ft.FileInfo, targetFile);
+                       _renameAction(_fileManager,ft.Tirag, ft.FileInfo);
+                       //var reg = new Regex(@"#(\d+)\.");
+                       //var match = reg.Match(ft.FileInfo.FileInfo.Name);
+                       //string targetFile;
+                       //if (match.Success)
+                       //{
+                       //    targetFile =
+                       //        $"{Path.GetFileNameWithoutExtension(ft.FileInfo.FileInfo.Name).Substring(0, match.Index)}#{ft.Tirag}{ft.FileInfo.FileInfo.Extension}";
+                       //}
+                       //else
+                       //{
+                       //    targetFile = $"{Path.GetFileNameWithoutExtension(ft.FileInfo.FileInfo.Name)}#{ft.Tirag}{ft.FileInfo.FileInfo.Extension}";
+                       //}
+                       //_fileManager.MoveFileOrDirectoryToCurrentFolder(ft.FileInfo, targetFile);
                    }
                }
                )));
@@ -127,6 +134,13 @@ namespace JobSpace.UserForms
                 
                 int idx = 0;
 
+                if (objectListView1.SelectedObjects.Count == 0)
+                {
+                    //select all objects
+                    objectListView1.SelectAll();
+                }
+
+
                 foreach (FileTirag ft in objectListView1.SelectedObjects)
                 {
                     if (idx >= files.Length) break;
@@ -136,6 +150,26 @@ namespace JobSpace.UserForms
 
                 objectListView1.RefreshObjects(objectListView1.SelectedObjects);
             }
+            SetTotalLabel();
+        }
+
+   
+
+        private void SetTotalLabel()
+        {
+            //set to label t_total sum of tirag
+            int total = 0;
+            if (objectListView1.Objects == null) {
+            }
+            else
+            {
+                foreach (FileTirag ft in objectListView1.Objects)
+                {
+                    total += ft.Tirag;
+                }
+
+            }
+            l_total.Text = $"{total}";
         }
     }
 }

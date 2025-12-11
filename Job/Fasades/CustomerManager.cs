@@ -18,9 +18,9 @@ namespace JobSpace.Fasades
 
         public delegate void EventHandler(Customer form);
 
-        public event EventHandler OnCustomerChange = delegate { };
-        public event EventHandler OnCustomerAdd = delegate { };
-        public event EventHandler OnCustomerRemove = delegate { };
+        public EventHandler OnCustomerChange { get; set; } = delegate { };
+        public EventHandler OnCustomerAdd { get; set; } = delegate { };
+        public EventHandler OnCustomerRemove { get;set;} = delegate { };
 
 
         List<Customer> _customers = new List<Customer>();
@@ -51,9 +51,7 @@ namespace JobSpace.Fasades
             {
                 if (!reconnect && _profile.Plugins != null)
                 {
-                    //_profile.MQ.OnCustomerAdd += MQ_OnCustomerAdd;
-                    //_profile.MQ.OnCustomerChanged += MQ_OnCustomerChanged;
-                    //_profile.MQ.OnCustomerRemove += MQ_OnCustomerRemove;
+                   
                     _profile.Plugins.MqController.OnCustomerAdd += MQ_OnCustomerAdd;
                     _profile.Plugins.MqController.OnCustomerChanged += MQ_OnCustomerChanged;
                     _profile.Plugins.MqController.OnCustomerRemove += MQ_OnCustomerRemove;
@@ -128,7 +126,10 @@ namespace JobSpace.Fasades
             if (_profile.Base.Add(CollectionString, (Customer)customer))
             {
                 _customers.Add((Customer)customer);
+                _customers.Sort(Customer.SortByName);
                 _profile.Plugins.MqController.PublishChanges(MessageEnum.CustomerAdd, customer.Id);
+               
+                OnCustomerAdd((Customer)customer);
             }
             else
             {
@@ -141,7 +142,9 @@ namespace JobSpace.Fasades
             if (_profile.Base.Remove(CollectionString, (Customer)customer))
             {
                 _customers.Remove((Customer)customer);
+                _customers.Sort(Customer.SortByName);
                 _profile.Plugins.MqController.PublishChanges(MessageEnum.CustomerRemove, customer.Id);
+                OnCustomerRemove((Customer)customer);
             }
             else
             {
@@ -153,8 +156,10 @@ namespace JobSpace.Fasades
         {
             try
             {
+                _customers.Sort(Customer.SortByName);
                 _profile.Base.Update(CollectionString, (Customer)customer);
                 _profile.Plugins.MqController.PublishChanges(MessageEnum.CustomerChange, customer.Id);
+                OnCustomerChange((Customer)customer);
             }
             catch
             {
@@ -263,7 +268,7 @@ namespace JobSpace.Fasades
 
             Directory.CreateDirectory(customerDir);
             _profile.Customers.Add(customer);
-
+            
             return true;
         }
     }

@@ -63,7 +63,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.numericUpDownPrice);
-            this.groupBox2.Location = new System.Drawing.Point(352, 90);
+            this.groupBox2.Location = new System.Drawing.Point(352, 13);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(82, 49);
             this.groupBox2.TabIndex = 1;
@@ -87,9 +87,9 @@
             // buttonOk
             // 
             this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOk.Location = new System.Drawing.Point(180, 110);
+            this.buttonOk.Location = new System.Drawing.Point(305, 121);
             this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(94, 29);
+            this.buttonOk.Size = new System.Drawing.Size(124, 46);
             this.buttonOk.TabIndex = 2;
             this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
@@ -97,7 +97,7 @@
             // 
             // buttonCalc
             // 
-            this.buttonCalc.Location = new System.Drawing.Point(312, 100);
+            this.buttonCalc.Location = new System.Drawing.Point(316, 23);
             this.buttonCalc.Name = "buttonCalc";
             this.buttonCalc.Size = new System.Drawing.Size(34, 34);
             this.buttonCalc.TabIndex = 3;
@@ -108,7 +108,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.numericUpDownPreprice);
-            this.groupBox3.Location = new System.Drawing.Point(320, 13);
+            this.groupBox3.Location = new System.Drawing.Point(13, 68);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(114, 49);
             this.groupBox3.TabIndex = 4;
@@ -133,7 +133,7 @@
             this.AcceptButton = this.buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(446, 151);
+            this.ClientSize = new System.Drawing.Size(446, 179);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.buttonCalc);
             this.Controls.Add(this.buttonOk);

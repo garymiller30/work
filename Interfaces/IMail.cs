@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -17,5 +18,7 @@ namespace Interfaces
         void SetAttachmentsList(IEnumerable<string> attach);
         void ShowSendMailDialog();
         void SendToMany(string to, string tema, string body, string[] attachFiles);
+        ICollection GetMailTemplates();
+        void SetMailTemplates(IEnumerable enumerable);
     }
 }

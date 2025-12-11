@@ -34,12 +34,13 @@
             this.tsb_ok = new System.Windows.Forms.ToolStripButton();
             this.webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.tstb_zoom = new System.Windows.Forms.ToolStripTextBox();
-            this.tsb_okZoom = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_start = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tstb_zoom = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.tsb_okZoom = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.webView21)).BeginInit();
             this.toolStrip2.SuspendLayout();
@@ -98,12 +99,27 @@
             this.tstb_zoom,
             this.toolStripLabel1,
             this.tsb_okZoom,
-            this.toolStripSeparator2});
+            this.toolStripSeparator2,
+            this.toolStripLabel2});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(608, 25);
             this.toolStrip2.TabIndex = 1;
             this.toolStrip2.Text = "toolStrip2";
+            // 
+            // tsb_start
+            // 
+            this.tsb_start.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsb_start.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_start.Name = "tsb_start";
+            this.tsb_start.Size = new System.Drawing.Size(42, 22);
+            this.tsb_start.Text = "Старт";
+            this.tsb_start.Click += new System.EventHandler(this.tsb_start_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // tstb_zoom
             // 
@@ -112,6 +128,12 @@
             this.tstb_zoom.Size = new System.Drawing.Size(30, 25);
             this.tstb_zoom.Text = "80";
             this.tstb_zoom.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(17, 22);
+            this.toolStripLabel1.Text = "%";
             // 
             // tsb_okZoom
             // 
@@ -123,30 +145,16 @@
             this.tsb_okZoom.Text = "Ok";
             this.tsb_okZoom.Click += new System.EventHandler(this.tsb_okZoom_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tsb_start
-            // 
-            this.tsb_start.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsb_start.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_start.Name = "tsb_start";
-            this.tsb_start.Size = new System.Drawing.Size(42, 22);
-            this.tsb_start.Text = "Старт";
-            this.tsb_start.Click += new System.EventHandler(this.tsb_start_Click);
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(17, 22);
-            this.toolStripLabel1.Text = "%";
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(77, 22);
+            this.toolStripLabel2.Text = "зберігати до:";
             // 
             // WindowOut
             // 
@@ -179,5 +187,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
     }
 }

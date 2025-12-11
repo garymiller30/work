@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Profiles;
+using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections;
@@ -16,9 +17,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
     public partial class FormAddTemplatePlate : Form
     {
         public TemplatePlate SelectedTemplatePlate { get; private set; }
-
-        public FormAddTemplatePlate()
+        Profile _profile;
+        public FormAddTemplatePlate(Profile profile)
         {
+            _profile = profile;
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
             objectListView1.AddObjects(LoadForms());
@@ -26,7 +28,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private ICollection LoadForms()
         {
-            return SaveLoadService.LoadTemplatePates();
+            return _profile.ImposService.LoadTemplatePates();
         }
 
         private void btn_saveToList_Click(object sender, EventArgs e)
@@ -72,7 +74,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 objectListView1.RefreshObject(SelectedTemplatePlate);
             }
 
-            SaveLoadService.SaveTemplatePlates(objectListView1.Objects.Cast<TemplatePlate>().ToList());
+            _profile.ImposService.SaveTemplatePlates(objectListView1.Objects.Cast<TemplatePlate>().ToList());
         }
 
         private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -117,7 +119,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 objectListView1.RemoveObject(templatePlate);
                 SelectedTemplatePlate = null;
-                SaveLoadService.SaveTemplatePlates(objectListView1.Objects.Cast<TemplatePlate>().ToList());
+                _profile.ImposService.SaveTemplatePlates(objectListView1.Objects.Cast<TemplatePlate>().ToList());
             }
         }
 

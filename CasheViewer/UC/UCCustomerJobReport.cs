@@ -1,9 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-using CasheViewer.Reports;
+﻿using CasheViewer.Reports;
 using Interfaces;
 using JobSpace.Profiles;
+using System;
+using System.Linq;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CasheViewer.UC
 {
@@ -11,6 +12,7 @@ namespace CasheViewer.UC
     {
 
         IUserProfile _profile;
+        IReport _report;
 
         public UCCustomerJobReport(IUserProfile profile)
         {
@@ -28,20 +30,97 @@ namespace CasheViewer.UC
 
             olvColumn_Price.AspectGetter = x => (x as INode).Sum;
             olvColumnDate.AspectGetter = x => (x as INode).Children.Any() ? string.Empty : $"{((INode)x).Date.Year}.{((INode)x).Date.Month:D2}.{((INode)x).Date.Day:D2}";
-
         }
-        
 
-        public event EventHandler<decimal> OnChangeSelected = delegate{};
+        public event EventHandler<decimal> OnChangeSelected = delegate { };
 
         public void ShowReport(IReport report)
         {
-            
+            _report = report;
             treeListView1.ClearObjects();
             treeListView1.AddObjects(report.GetNodes());
         }
 
-        public void PaySelected(IReport report)
+        public void PayCustomSum(int tirag)
+        {
+            var settings = _profile.Plugins.LoadSettings<CasheSettings>();
+            var status = _profile.StatusManager.GetJobStatusByCode(settings.PayStatusCode);
+            if (status != null && treeListView1.Objects != null)
+            {
+                RecurseReport(treeListView1.Objects.Cast<INode>().ToList(),status, tirag);
+            }
+        }
+
+        decimal RecurseReport(System.Collections.IEnumerable objects, IJobStatus status, decimal tirag)
+        {
+            if (tirag == 0) return 0;
+
+            decimal recursedTirag = tirag;
+
+            foreach (var o in objects)
+            {
+                if (recursedTirag == 0) break;
+
+                if (o is INode reportJob)
+                {
+                    if (reportJob.Children.Any())
+                    {
+                        recursedTirag = RecurseReport(reportJob.Children, status, recursedTirag);
+                    }
+                    else
+                    {
+                        recursedTirag = ApplyPayPlaginsByTirag(_profile,status, reportJob,recursedTirag);
+                    }
+                }
+            }
+            return recursedTirag;
+        }
+
+        decimal ApplyPayPlaginsByTirag(IUserProfile userProfile, IJobStatus status, INode reportJob,decimal tirag)
+        {
+            if (tirag == 0) return 0;
+            decimal recursedTirag = tirag;
+
+            foreach (var pluginFormAddWork in userProfile.Plugins.GetPluginFormAddWorks())
+            {
+                if (recursedTirag == 0) break;
+
+                pluginFormAddWork.SetJob(userProfile, (IJob)reportJob.Job);
+
+                var pays = pluginFormAddWork.Price - pluginFormAddWork.Pay;
+                
+                if (pays > 0)
+                {
+                    foreach (IProcess process in pluginFormAddWork.GetProcesses())
+                    {
+                        if (recursedTirag == 0) break;
+
+                        var processPay = process.Price - process.Pay;
+                        if (processPay > 0)
+                        {
+                            if (recursedTirag - processPay >= 0)
+                            {
+                                recursedTirag -= processPay;
+                                pluginFormAddWork.PayProcess(process, processPay);
+                            }
+                            else
+                            {
+                                pluginFormAddWork.PayProcess(process, recursedTirag);
+                                recursedTirag = 0;
+                            }
+
+                             ((JobSpace.Job)reportJob.Job).StatusCode = status.Code;
+                            _profile.Jobs.UpdateJob((JobSpace.Job)reportJob.Job, true);
+
+                        }
+                    }
+                }
+            }
+
+            return recursedTirag;
+        }
+
+        public void PaySelected()
         {
             var settings = _profile.Plugins.LoadSettings<CasheSettings>();
             var status = _profile.StatusManager.GetJobStatusByCode(settings.PayStatusCode);
@@ -69,7 +148,7 @@ namespace CasheViewer.UC
             }
         }
 
-        private void ApplyPayPlugins(IUserProfile userProfile,INode reportJob)
+        private void ApplyPayPlugins(IUserProfile userProfile, INode reportJob)
         {
             foreach (var pluginFormAddWork in userProfile.Plugins.GetPluginFormAddWorks())
             {
@@ -110,6 +189,21 @@ namespace CasheViewer.UC
 
             //_profile.FileBrowser.Browsers[0].SetRootFolder
 
+        }
+
+        public void ApplyConsumerPriceIndices()
+        {
+            if (treeListView1.Objects == null) return;
+
+            foreach (INode r in treeListView1.Objects)
+            {
+                ConsumerPriceView priceView = ConsumerPriceIndices.GetConsumerPrice(r.Date);
+                r.ConsumerPrice = priceView.ValueTask;
+                r.SumWithConsumerPrice = ConsumerPriceIndices.CalcSumWithConsumerPrice(r.Sum,r.Date);
+                treeListView1.RefreshObject(r);
+            }
+
+            _report.TotalWithConsumerPrice = _report.GetNodes().Sum(x => x.SumWithConsumerPrice);
         }
     }
 }

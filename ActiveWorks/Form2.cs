@@ -1,27 +1,32 @@
 ﻿using ActiveWorks.Forms;
 using ActiveWorks.Properties;
 using ActiveWorks.UserControls;
-using Krypton.Ribbon;
-using Krypton.Toolkit;
+using Amazon;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.Plugins;
+using JobSpace.Fasades;
 using JobSpace.Profiles;
 using JobSpace.UserForms;
+using Krypton.Ribbon;
+using Krypton.Toolkit;
 using Logger;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Profile = JobSpace.Profiles.Profile;
 
 namespace ActiveWorks
 {
     public sealed partial class Form2 : KryptonForm
     {
-        readonly List<FormProfile> _profileTabs = new List<FormProfile>();
+        List<FormProfile> _profileTabs {get;set; } = new List<FormProfile>();
+        FormProfile _activeProfileTab { get; set; }
 
         FormBackgroundTasks _formBackgroundTask;
         readonly Stopwatch _sw = new Stopwatch();
@@ -56,11 +61,6 @@ namespace ActiveWorks
         {
             Process.Start("https://github.com/garymiller30/work/issues");
         }
-
-        //private void ThemeController_ThemeChanged(object sender, EventArgs e)
-        //{
-        //    kryptonManager1.GlobalPaletteMode = ThemeController.Theme == ThemeEnum.Light ? PaletteMode.Office2010Silver : PaletteMode.SparkleBlueDarkMode;
-        //}
 
         private void BackgroundTaskService_OnAllFinish(object sender, EventArgs e)
         {
@@ -100,7 +100,12 @@ namespace ActiveWorks
         {
             var defProfileName = Settings.Default.DefaultProfile;
             var profile =
-                _profileTabs.FirstOrDefault(x => ((Profile)x.Tag).Settings.ProfileName.Equals(defProfileName));
+                _profileTabs.FirstOrDefault(x => ((JobSpace.Profiles.Profile)x.Tag).Settings.ProfileName.Equals(defProfileName));
+
+            if (profile == null && _profileTabs.Count > 0)
+            {
+                profile = _profileTabs[0];
+            }
 
             if (profile != null)
             {
@@ -122,6 +127,7 @@ namespace ActiveWorks
 
         private void ChangeUserProfile(FormProfile formProfile)
         {
+            _activeProfileTab = formProfile;
             formProfile.Activate();
         }
         /// <summary>
@@ -132,30 +138,29 @@ namespace ActiveWorks
             SplashScreen.Splash.SetHeader("профілі");
             SplashScreen.Splash.SetStatus("завантажуємо...");
 
-            var profiles = ProfilesController.GetProfiles(Settings.Default.ProfilesPath);
-
-            if (profiles.Length == 0)
-            {
-                //потрібно створити типчасовий профіль
-                profiles = new[] {ProfilesController.AddProfile()}; 
-            }
+            Profile[] profiles = ProfilesController.GetProfiles(Settings.Default.ProfilesPath);
 
             SplashScreen.Splash.SetStatus("ок!");
+            
+            var defProfileName = Settings.Default.DefaultProfile;
 
-            foreach (var profile in profiles)
-            {
-                Stopwatch sw = Stopwatch.StartNew();
-                sw.Start();
+            this.InvokeIfNeeded(() => {
+                foreach (var profile in profiles)
+                {
 
-                CreateProfileTab(profile);
-                
-                sw.Stop();
-                sw.Reset();
-                Log.Info("App", "App", $"profile '{profile.Settings.ProfileName}' loaded by {sw.ElapsedMilliseconds} ms");
-            }
+                    CreateProfileTab(profile);
+
+                }
+            });
         }
-
-        private void CreateProfileTab(Profile profile)
+        /// <summary>
+        /// Creates a new profile tab in the ribbon and initializes the associated profile form.
+        /// </summary>
+        /// <remarks>This method adds a new tab to the ribbon control, initializes a corresponding profile
+        /// form,  and associates the form with the tab. The profile form is displayed as an MDI child of the current
+        /// window.</remarks>
+        /// <param name="profile">The profile object containing the settings and data to be displayed in the tab and form.</param>
+        private void CreateProfileTab(JobSpace.Profiles.Profile profile)
         {
             var tab = new KryptonRibbonTab { Text = profile.Settings.ProfileName };
             kryptonRibbon1.RibbonTabs.Add(tab);
@@ -185,18 +190,93 @@ namespace ActiveWorks
         {
             var formProfile = (FormProfile)((KryptonRibbon)sender)?.SelectedTab?.Tag;
             formProfile?.Activate();
+            _activeProfileTab = formProfile;
         }
 
-        private void FillRibbonTab(IFormProfile formProfile, KryptonRibbonTab tab, Profile profile)
+        private void FillRibbonTab(IFormProfile formProfile, KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
             CreateOrderGroup(tab, profile);
             CreateStatusesGroup(tab, profile);
             CreateViewFilterGroup(tab, profile);
             CreateSearchGroup(tab, profile);
             CreateSettingsGroup(formProfile, tab, profile);
+            CreateServiceStateGroup(tab,profile);
         }
 
-        private void CreateSettingsGroup(IFormProfile formProfile, KryptonRibbonTab tab, Profile profile)
+        private void CreateServiceStateGroup(KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
+        {
+            var group = new KryptonRibbonGroup
+            {
+                TextLine1 = @"Стан сервісів",
+                MinimumWidth = 100,
+            };
+            // сюди будуть додаватися кнопки стану сервісів
+            var groupTriple = new KryptonRibbonGroupLines();
+
+            foreach (IServiceState service in profile.ServicesState.GetAll())
+            {
+                var button = new KryptonRibbonGroupButton
+                {
+                    TextLine1 = service.Name,
+                    ImageSmall = profile.ServicesState.GetImage(service),
+                    Tag = service
+                };
+                button.ToolTipValues.Heading = $"Статус {service.Name}";
+                button.ToolTipValues.Description = service.Tooltip;
+                button.ToolTipValues.EnableToolTips = true;
+                button.Click += (sender, args) =>
+                {
+                    MessageBox.Show(service.Description, service.Name, MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                };
+                groupTriple.Items.Add(button);
+            }
+
+            group.Items.Add(groupTriple);
+            tab.Groups.Add(group);
+
+            // підписка на події зміни стану сервісів
+            profile.Events.ServiceStateEvents.AddServiceState += (s, e) =>
+            {
+                this.InvokeIfNeeded(new Action(() =>
+                {
+                    var button = new KryptonRibbonGroupButton
+                    {
+                        TextLine1 = e.Name,
+                        ImageSmall = profile.ServicesState.GetImage(e),
+                        Tag = e
+                    };
+
+                    button.ToolTipValues.Heading = e.Tooltip;
+
+                    button.Click += (sender, args) =>
+                    {
+                        MessageBox.Show(e.Description, e.Name, MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+                    };
+                    groupTriple.Items.Add(button);
+                }));
+            };
+
+            profile.Events.ServiceStateEvents.UpdateServiceState += (s, e) =>
+            {
+                this.InvokeIfNeeded(new Action(() =>
+                {
+                    var button = groupTriple.Items.OfType<KryptonRibbonGroupButton>()
+                        .FirstOrDefault(x => ((IServiceState)x.Tag).Id == e.Id);
+                    if (button != null)
+                    {
+                        button.ImageSmall = profile.ServicesState.GetImage(e);
+                        button.TextLine1 = e.Name;
+                        button.ToolTipValues.Description = e.Tooltip;
+                    }
+                }));
+            };
+        }
+
+
+
+        private void CreateSettingsGroup(IFormProfile formProfile, KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
             // -----------------------------------------------
             var group = new KryptonRibbonGroup
@@ -217,7 +297,7 @@ namespace ActiveWorks
             };
             button.Click += (sender, args) =>
             {
-                using (var s = new FormSettings())
+                using (var s = new FormSettings((JobSpace.Profiles.Profile)(_activeProfileTab)?.Tag))
                 {
                     s.ShowDialog();
                     ApplySettings();
@@ -282,7 +362,7 @@ namespace ActiveWorks
                 formProfile.ResetLayout();
                 _profileTabs.Remove((FormProfile)formProfile);
                 kryptonRibbon1.RibbonTabs.Remove(tab);
-                CreateProfileTab((Profile)((FormProfile)formProfile).Tag);
+                CreateProfileTab((JobSpace.Profiles.Profile)((FormProfile)formProfile).Tag);
             };
             groupTriple.Items.Add(button);
             //// --- Theme switcher button ---
@@ -297,11 +377,11 @@ namespace ActiveWorks
         {
             foreach (var tab in _profileTabs)
             {
-                ((Profile)tab.Tag).FileBrowser.InitBrowserToolStripUtils();
+                ((JobSpace.Profiles.Profile)tab.Tag).FileBrowser.InitBrowserToolStripUtils();
             }
         }
 
-        private void CreateSearchGroup(KryptonRibbonTab tab, Profile profile)
+        private void CreateSearchGroup(KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
             if (profile.Customers is null) return;
 
@@ -319,26 +399,19 @@ namespace ActiveWorks
             group.Image = Resources.Binoculars_icon;
             group.Items.Add(triple1);
 
-            var customerList = new List<string>(profile.Customers.Count());
-
-            foreach (var customer in profile.Customers)
-            {
-                if (customer.Show)
-                    customerList.Add(customer.Name);
-            }
-            var customers = customerList.ToArray();
-
-            // додати cb_searchStr для фільтру по замовникам
             var cb_customers = new KryptonRibbonGroupComboBox();
+            // додати cb_searchStr для фільтру по замовникам
+            
             cb_customers.ComboBox.ToolTipValues.Heading = @"Фільтр по замовнику";
             cb_customers.ComboBox.ToolTipValues.Description = @"Виберіть замовника";
             cb_customers.ComboBox.ToolTipValues.EnableToolTips = true;
 
             AutoCompleteStringCollection customer_data = new AutoCompleteStringCollection();
 
-            //var customers = profile.Customers.Where(x=> x.Show == true).Select(x => x.Name).ToArray();
+            string[] customers = CreateCustomersList(profile);
 
-            if (profile.Customers != null) customer_data.AddRange(customers);
+            if (customers.Length > 0) customer_data.AddRange(customers);
+
             cb_customers.ComboBox.Items.AddRange(customers);
             cb_customers.ComboBox.SelectedIndex = -1;
             cb_customers.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
@@ -358,9 +431,23 @@ namespace ActiveWorks
 
             cb_customers.ButtonSpecs.Add(btn_clearCustomers);
 
+            void OnCustomersChanged(JobSpace.Customer s)
+            {
+                string[] cadd = CreateCustomersList(profile);
+                customer_data.Clear();
+                if (cadd.Length > 0) customer_data.AddRange(cadd);
+                cb_customers.ComboBox.Items.Clear();
+                cb_customers.ComboBox.Items.AddRange(cadd);
+                cb_customers.ComboBox.SelectedIndex = -1;
+            }
+            CustomerManager customersManager = (CustomerManager)profile.Customers;
+            customersManager.OnCustomerAdd += OnCustomersChanged;
+            customersManager.OnCustomerChange += OnCustomersChanged;
+            customersManager.OnCustomerRemove += OnCustomersChanged;
 
             triple1.Items.Add(cb_customers);
 
+            // додати cb_searchStr для пошуку по базі
             var cb_searchStr = new KryptonRibbonGroupComboBox();
             cb_searchStr.ComboBox.ToolTipValues.Description = @"Введіть слово і натисніть <Enter> для пошуку";
             cb_searchStr.ComboBox.ToolTipValues.Image = Resources.Sql_runner_icon;
@@ -381,6 +468,15 @@ namespace ActiveWorks
             if (profile.SearchHistory != null)
                 cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
 
+            cb_searchStr.KeyDown += (sender, args) =>
+            {
+                if (args.KeyCode == Keys.Enter)
+                {
+                    profile.SearchManager.Search(cb_customers.Text, cb_searchStr.Text);
+                    SetHistoryList(profile, cb_searchStr);
+                }
+            };
+
             var clearButton = new ButtonSpecAny
             {
                 Style = PaletteButtonStyle.Standalone,
@@ -388,11 +484,10 @@ namespace ActiveWorks
             };
             clearButton.Click += (sender, args) =>
             {
-                //profile.SearchHistory.Add(cb_searchStr.Text);
                 cb_searchStr.Text = string.Empty;
-                cb_searchStr.Items.Clear();
-                cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
-                //profile.Jobs.JobListControl.ApplyViewListFilterText(cb_searchStr.Text);
+                cb_searchStr.Sorted = false;
+
+                SetHistoryList(profile, cb_searchStr);
             };
 
             cb_searchStr.ButtonSpecs.Add(clearButton);
@@ -420,7 +515,7 @@ namespace ActiveWorks
             };
             textBox.ButtonSpecs.Add(clearTextBoxBtn);
             triple1.Items.Add(textBox);
-            
+
             var groupLines = new KryptonRibbonGroupLines { ItemSizeMaximum = GroupItemSize.Small };
 
             var statuses = profile.SearchManager.GetStatuses();
@@ -439,8 +534,9 @@ namespace ActiveWorks
                 button.Click += (sender, args) =>
                 {
                     profile.SearchManager.ChangeStatus(s, ((KryptonRibbonGroupButton)sender).Checked);
+
                 };
-                
+
                 groupLines.Items.Add(button);
             }
             group.Items.Add(groupLines);
@@ -457,6 +553,7 @@ namespace ActiveWorks
             btnSearch.Click += (sender, args) =>
             {
                 profile.SearchManager.Search(cb_customers.Text, cb_searchStr.Text);
+                SetHistoryList(profile, cb_searchStr);
             };
 
             triple2.Items.Add(btnSearch);
@@ -475,7 +572,7 @@ namespace ActiveWorks
                 cb_searchStr.Text = string.Empty;
                 textBox.Text = string.Empty;
                 profile.SearchManager.ClearFilters();
-                
+
             };
 
             triple2.Items.Add(btnReset);
@@ -483,7 +580,26 @@ namespace ActiveWorks
             group.Items.Add(triple2);
         }
 
-        private void CreateViewFilterGroup(KryptonRibbonTab tab, Profile profile)
+        private static string[] CreateCustomersList(JobSpace.Profiles.Profile profile)
+        {
+            var customerList = new List<string>(profile.Customers.Count());
+
+            foreach (var customer in profile.Customers)
+            {
+                if (customer.Show)
+                    customerList.Add(customer.Name);
+            }
+            var customers = customerList.ToArray();
+            return customers;
+        }
+
+        private static void SetHistoryList(JobSpace.Profiles.Profile profile, KryptonRibbonGroupComboBox cb_searchStr)
+        {
+            cb_searchStr.Items.Clear();
+            cb_searchStr.Items.AddRange(profile.SearchHistory.GetHistory());
+        }
+
+        private void CreateViewFilterGroup(KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
             if (profile.StatusManager == null) return;
 
@@ -520,7 +636,7 @@ namespace ActiveWorks
 
         }
 
-        private void CreateStatusesGroup(KryptonRibbonTab tab, Profile profile)
+        private void CreateStatusesGroup(KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
 
             if (profile.StatusManager == null) return;
@@ -553,7 +669,7 @@ namespace ActiveWorks
         }
 
 
-        private void CreateOrderGroup(KryptonRibbonTab tab, Profile profile)
+        private void CreateOrderGroup(KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
         {
             var group = new KryptonRibbonGroup
             {
@@ -604,6 +720,7 @@ namespace ActiveWorks
         private void Form2_Load(object sender, EventArgs e)
         {
             SuspendLayout();
+            
             CreateProfilesTab();
 
             SetActiveDefaultProfile();
@@ -655,13 +772,14 @@ namespace ActiveWorks
             Settings.Default.VirtualScreenY = vs.Y;
             Settings.Default.VirtualScreenW = vs.Width;
             Settings.Default.VirtualScreenH = vs.Height;
-            // Copy window size to app settings
-            //Settings.Default.WindowSize =
-            //    WindowState == FormWindowState.Normal ?
-            //    Size : RestoreBounds.Size;
 
             // Save settings
             Settings.Default.Save();
+        }
+
+        private void kryptonRibbon1_SelectedTabChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

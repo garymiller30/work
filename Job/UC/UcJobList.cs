@@ -1,6 +1,8 @@
-﻿using BrightIdeasSoftware;
+﻿using Amazon;
+using BrightIdeasSoftware;
 using ExtensionMethods;
 using Interfaces;
+using Interfaces.MQ;
 using JobSpace.Ext;
 using JobSpace.Menus;
 using JobSpace.Models;
@@ -24,11 +26,8 @@ namespace JobSpace.UC
 {
     public sealed partial class UcJobList : UserControl, IUcJobList
     {
-
-        //private readonly PythonEngine.PythonEngine _pythonEngine;
         private readonly IUserProfile _profile;
         private readonly RichTextBox _richTextBox = new RichTextBox();
-        //private IJob _jobForToolStripActive;
 
         public EventHandler<int> OnChangeCountJobs { get; set; } = delegate { };
 
@@ -45,7 +44,6 @@ namespace JobSpace.UC
             SetTheme();
 
             objectListView_NewWorks.SelectedRowDecoration = rbd;
-
         }
 
         private void UseTheme()
@@ -55,13 +53,11 @@ namespace JobSpace.UC
 
         private void ThemeController_ThemeChanged(object sender, EventArgs e)
         {
-
             SetTheme();
 
             var objects = (ICollection)objectListView_NewWorks.Objects;
             objectListView_NewWorks.ClearObjects();
             objectListView_NewWorks.AddObjects(objects);
-
         }
 
         private void SetTheme()
@@ -87,9 +83,25 @@ namespace JobSpace.UC
             olvColumn_Status.ImageGetter += ImageGetter;
             olvColumnProcess.Renderer = new BarRenderer(0, 100);
 
+            if (_profile.MenuManagers == null || _profile.MenuManagers.IsInitialized == false)
+            {
+                _profile.Events.Jobs.OnToolsMenuInitialized += (s, e) =>
+                {
+                    InitMenus();
+                };
+            }
+            else
+            {
+                InitMenus();
+            }
+        }
+
+        private void InitMenus()
+        {
             InitMainToolStrip();
             AddingExtendedSettings();
         }
+
         private void ObjectListView_NewWorks_DoubleClick(object sender, EventArgs e)
         {
             EditJob2();
@@ -121,14 +133,15 @@ namespace JobSpace.UC
                             jobParameters.ApplyToJob();
                             _profile.Jobs.UpdateJob(j);
                             objectListView_NewWorks.RefreshObject(j);
+
                             var newPath = _profile.Jobs.GetFullPathToWorkFolder(j);
                             _profile.FileBrowser.Browsers[0].SetRootFolder(newPath);
+                            _profile.Plugins.MqController.PublishChanges(MessageEnum.JobChanged, j.Id);
                         }
                     }
                     _profile.Jobs.UnlockJob(j);
 
                 }
-
             }
         }
 
@@ -218,9 +231,6 @@ namespace JobSpace.UC
 
             var menus = _profile.MenuManagers.Utils.GetToolStripButtons(0, ToolsStripMenuItem_Click, true);
 
-            //var mainMenus = new List<ToolStripItem>();
-            //bool isMenuEmpty = true;
-
             foreach (var menu in menus)
             {
                 if (menu is ToolStripButton || menu is ToolStripSplitButton)
@@ -229,7 +239,7 @@ namespace JobSpace.UC
                     {
                         if (menuSendTo.UsedInMainWindow && menuSendTo.Enable)
                         {
-                            if (menuSendTo.IsScript())
+                            if (_profile.ScriptEngine.IsScriptFile(menuSendTo.Path))
                             {
                                 toolStripMainScriptPanel.Items.Add(menu);
                             }
@@ -251,9 +261,6 @@ namespace JobSpace.UC
         {
             // без цього не малює прогрес бар
             objectListView_NewWorks.OwnerDraw = true;
-            //objectListView_NewWorks.AlwaysGroupByColumn = olvColumn_Date;
-
-
 
             olvColumn_Date.AspectGetter += x => ((IJob)x).Date.ToLocalTime();
             olvColumnCategories.AspectGetter += r => _profile.Categories.GetCategoryById(((IJob)r).CategoryId)?.Name;
@@ -295,8 +302,6 @@ namespace JobSpace.UC
             };
 
             objectListView_NewWorks.RebuildColumns();
-
-
         }
         private object AspectGetterNote(object job)
         {
@@ -307,7 +312,6 @@ namespace JobSpace.UC
                 _richTextBox.Rtf = note;
                 return _richTextBox.Text;
             }
-
             return note;
         }
 
@@ -472,7 +476,7 @@ namespace JobSpace.UC
         //public void ApplyViewFilter()
         //{
         //    objectListView_NewWorks.ClearObjects();
-        //    _profile.Jobs?.ApplyStatusViewFilter();
+        //    Profile.Jobs?.ApplyStatusViewFilter();
         //    _onChangeCountJobs();
         //}
 
@@ -514,6 +518,7 @@ namespace JobSpace.UC
                 повторитьЗаказToolStripMenuItem.Visible = false;
                 копироватьВБуферНомерЗаказаToolStripMenuItem.Visible = false;
                 копироватьВБуферОписаниеЗаказаToolStripMenuItem.Visible = false;
+                фільтрПоЗамовникуToolStripMenuItem.Visible = false;
             }
             else if (objectListView_NewWorks.SelectedObject != null)
             {
@@ -524,7 +529,7 @@ namespace JobSpace.UC
                 повторитьЗаказToolStripMenuItem.Visible = true;
                 копироватьВБуферНомерЗаказаToolStripMenuItem.Visible = true;
                 копироватьВБуферОписаниеЗаказаToolStripMenuItem.Visible = true;
-
+                фільтрПоЗамовникуToolStripMenuItem.Visible = true;
                 var job = objectListView_NewWorks.SelectedObject as IJob;
 
                 var signaFiles = job.GetSignaFileNames(_profile);
@@ -710,7 +715,6 @@ namespace JobSpace.UC
             e.Item.ForeColor = ThemeController.Fore;
             e.Item.BackColor = ThemeController.Back;
             _profile.Plugins?.JobListFormatRow(e.Item);
-
         }
 
 
@@ -794,6 +798,14 @@ namespace JobSpace.UC
         public void ApplyViewFilter()
         {
             throw new NotImplementedException();
+        }
+
+        private void фільтрПоЗамовникуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView_NewWorks.SelectedObject is IJob o)
+            {
+                _profile.SearchManager.Search(o.Customer, "");
+            }
         }
     }
 }

@@ -35,8 +35,12 @@
             this.btn_set_tirag = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.btn_paste = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.l_total = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // objectListView1
@@ -58,7 +62,7 @@
             this.objectListView1.Location = new System.Drawing.Point(12, 44);
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(432, 320);
+            this.objectListView1.Size = new System.Drawing.Size(432, 318);
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
@@ -82,7 +86,7 @@
             // btn_ok
             // 
             this.btn_ok.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_ok.Location = new System.Drawing.Point(174, 396);
+            this.btn_ok.Location = new System.Drawing.Point(174, 405);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(116, 37);
             this.btn_ok.TabIndex = 1;
@@ -123,11 +127,43 @@
             this.btn_paste.UseVisualStyleBackColor = true;
             this.btn_paste.Click += new System.EventHandler(this.btn_paste_Click);
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.Controls.Add(this.l_total);
+            this.flowLayoutPanel1.Controls.Add(this.label1);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 368);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(432, 31);
+            this.flowLayoutPanel1.TabIndex = 5;
+            // 
+            // l_total
+            // 
+            this.l_total.AutoSize = true;
+            this.l_total.Location = new System.Drawing.Point(416, 0);
+            this.l_total.Name = "l_total";
+            this.l_total.Size = new System.Drawing.Size(13, 13);
+            this.l_total.TabIndex = 1;
+            this.l_total.Text = "0";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(367, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Всього:";
+            // 
             // FormEnterTirag
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(456, 445);
+            this.ClientSize = new System.Drawing.Size(456, 454);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.btn_paste);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.btn_set_tirag);
@@ -138,6 +174,8 @@
             this.Text = "Виставити тиражі";
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -151,5 +189,8 @@
         private System.Windows.Forms.Button btn_set_tirag;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button btn_paste;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label l_total;
+        private System.Windows.Forms.Label label1;
     }
 }

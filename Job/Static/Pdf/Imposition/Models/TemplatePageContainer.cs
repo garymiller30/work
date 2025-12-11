@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+﻿using Interfaces.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
@@ -22,7 +23,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         /// PDF мітки сюжету
         /// </summary>
 
-        //public MarksContainer Marks { get; set; } = new MarksContainer();
         public int GetMaxIdx()
         {
             int frontIdx = TemplatePages.Max(x => x.Front.MasterIdx);

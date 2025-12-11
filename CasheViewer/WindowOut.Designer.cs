@@ -39,10 +39,14 @@
             this.toolStripButtonReportYears = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonPayed = new System.Windows.Forms.ToolStripButton();
+            this.tsb_pay_custom = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonSettings = new System.Windows.Forms.ToolStripButton();
-            this.panelControlReport = new System.Windows.Forms.Panel();
             this.toolStripButtonTotalPayedByCustomer = new System.Windows.Forms.ToolStripButton();
+            this.panelControlReport = new System.Windows.Forms.Panel();
+            this.tsb_load_consumer_price_indices = new System.Windows.Forms.ToolStripButton();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tssl_PriceWithCPI = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -52,6 +56,8 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel_Total,
             this.toolStripStatusLabel_TotalDecimal,
+            this.toolStripStatusLabel1,
+            this.tssl_PriceWithCPI,
             this.toolStripStatusLabel_SelectedTxt,
             this.toolStripStatusLabel_Selected});
             this.statusStrip1.Location = new System.Drawing.Point(0, 233);
@@ -90,15 +96,17 @@
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonJobs,
             this.toolStripButtonReportYears,
             this.toolStripSeparator4,
             this.toolStripButtonPayed,
+            this.tsb_pay_custom,
             this.toolStripSeparator5,
             this.toolStripButtonSettings,
-            this.toolStripButtonTotalPayedByCustomer});
+            this.toolStripButtonTotalPayedByCustomer,
+            this.tsb_load_consumer_price_indices});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(433, 25);
@@ -140,6 +148,16 @@
             this.toolStripButtonPayed.Text = "сплатити вибрані";
             this.toolStripButtonPayed.Click += new System.EventHandler(this.toolStripButtonPayed_Click);
             // 
+            // tsb_pay_custom
+            // 
+            this.tsb_pay_custom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_pay_custom.Image = ((System.Drawing.Image)(resources.GetObject("tsb_pay_custom.Image")));
+            this.tsb_pay_custom.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_pay_custom.Name = "tsb_pay_custom";
+            this.tsb_pay_custom.Size = new System.Drawing.Size(23, 22);
+            this.tsb_pay_custom.Text = "Відмітити певну суму";
+            this.tsb_pay_custom.Click += new System.EventHandler(this.tsb_pay_custom_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
@@ -156,14 +174,6 @@
             this.toolStripButtonSettings.Text = "Налаштування";
             this.toolStripButtonSettings.Click += new System.EventHandler(this.toolStripButtonSettings_Click);
             // 
-            // panelControlReport
-            // 
-            this.panelControlReport.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControlReport.Location = new System.Drawing.Point(0, 25);
-            this.panelControlReport.Name = "panelControlReport";
-            this.panelControlReport.Size = new System.Drawing.Size(433, 208);
-            this.panelControlReport.TabIndex = 3;
-            // 
             // toolStripButtonTotalPayedByCustomer
             // 
             this.toolStripButtonTotalPayedByCustomer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -173,6 +183,37 @@
             this.toolStripButtonTotalPayedByCustomer.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonTotalPayedByCustomer.Text = "Показати скільки було сплачено взагалі";
             this.toolStripButtonTotalPayedByCustomer.Click += new System.EventHandler(this.toolStripButtonTotalPayedByCustomer_Click);
+            // 
+            // panelControlReport
+            // 
+            this.panelControlReport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelControlReport.Location = new System.Drawing.Point(0, 25);
+            this.panelControlReport.Name = "panelControlReport";
+            this.panelControlReport.Size = new System.Drawing.Size(433, 208);
+            this.panelControlReport.TabIndex = 3;
+            // 
+            // tsb_load_consumer_price_indices
+            // 
+            this.tsb_load_consumer_price_indices.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_load_consumer_price_indices.Image = ((System.Drawing.Image)(resources.GetObject("tsb_load_consumer_price_indices.Image")));
+            this.tsb_load_consumer_price_indices.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_load_consumer_price_indices.Name = "tsb_load_consumer_price_indices";
+            this.tsb_load_consumer_price_indices.Size = new System.Drawing.Size(23, 22);
+            this.tsb_load_consumer_price_indices.Text = "toolStripButton1";
+            this.tsb_load_consumer_price_indices.ToolTipText = "Завантажити Індекс споживчих цін";
+            this.tsb_load_consumer_price_indices.Click += new System.EventHandler(this.tsb_load_consumer_price_indices_Click);
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(102, 17);
+            this.toolStripStatusLabel1.Text = "Враховуючи ІСЦ:";
+            // 
+            // tssl_PriceWithCPI
+            // 
+            this.tssl_PriceWithCPI.Name = "tssl_PriceWithCPI";
+            this.tssl_PriceWithCPI.Size = new System.Drawing.Size(13, 17);
+            this.tssl_PriceWithCPI.Text = "0";
             // 
             // WindowOut
             // 
@@ -207,5 +248,9 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonReportYears;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripButton toolStripButtonTotalPayedByCustomer;
+        private System.Windows.Forms.ToolStripButton tsb_pay_custom;
+        private System.Windows.Forms.ToolStripButton tsb_load_consumer_price_indices;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel tssl_PriceWithCPI;
     }
 }
