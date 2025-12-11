@@ -284,5 +284,22 @@ namespace JobSpace.UserForms.PDF
                 uc_PreviewControl1.SetZoomFactor(1.0f);
             }
         }
+
+        private void btn_add_to_center_Click(object sender, EventArgs e)
+        {
+            // отримати поточну сторінку, дізнатися ширину сторінки і додати в текстбокс біговки половину ширини
+            var page_idx = (int)(nud_page_number.Value - 1);
+            var box = boxes_pages[page_idx];
+            double half = 0;
+            if (radioButtonHor.Checked)
+            {
+                half = box.Trimbox.wMM() / 2.0;
+            }
+            else
+            {
+                half = box.Trimbox.hMM() / 2.0;
+            }
+            textBoxBigovky.Text = half.ToString("F1", CultureInfo.InvariantCulture);
+        }
     }
 }
