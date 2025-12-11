@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Interfaces;
 
@@ -12,7 +13,7 @@ namespace JobSpace.Menus
 {
     public class FileBrowserContextMenuSendTo : IFileBrowserContextMenu
     {
-        private IUserProfile _userProfile { get; set; }
+        protected IUserProfile _userProfile { get; set; }
         protected List<MenuSendTo> _menus;
         protected readonly string _fn;
         public FileBrowserContextMenuSendTo(IUserProfile profile, string fileName)
@@ -35,6 +36,7 @@ namespace JobSpace.Menus
                 var icon = Icon.ExtractAssociatedIcon(menuSendTo.Path);
                 menuSendTo.Image = icon?.ToBitmap();
             }
+
         }
 
 

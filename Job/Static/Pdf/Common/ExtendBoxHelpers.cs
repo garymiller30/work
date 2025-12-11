@@ -30,7 +30,10 @@ namespace JobSpace.Static.Pdf.Common
         /// <param name="box"></param>
         /// <returns></returns>
         public static double hMM(this Box box) => Math.Round(box.height / PdfScaler.mn, 1);
-
+        public static double leftMM(this Box box) => Math.Round(box.left / PdfScaler.mn, 1);
+        public static double rightMM(this Box box) => Math.Round(box.right / PdfScaler.mn, 1);
+        public static double bottomMM(this Box box) => Math.Round(box.bottom / PdfScaler.mn, 1);
+        public static double topMM(this Box box) => Math.Round(box.top / PdfScaler.mn, 1);
         public static double x(this Box box, double scaleFactor) => box.left * scaleFactor;
         public static double y(this Box box, double scaleFactor) => box.bottom * scaleFactor;
         public static double w(this Box box, double scaleFactor) => box.width * scaleFactor;

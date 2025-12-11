@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using Interfaces.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Imposition.Models
 {
-    public class PrintSheet : TemplateSheet 
+    public class PrintSheet : TemplateSheet , IPrintSheet
     {
         public static int printId = 1;
 

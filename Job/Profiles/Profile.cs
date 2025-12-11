@@ -1,9 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Text.Json;
-using ActiveWorks;
+﻿using ActiveWorks;
+using CSScriptEngine;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.Script;
@@ -11,9 +7,18 @@ using JobSpace.CustomerNotify;
 using JobSpace.Data;
 using JobSpace.Fasades;
 using JobSpace.Menus;
+using JobSpace.Static.Pdf.Imposition.Services;
 using MailNotifier;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using Plugins;
 using PythonEngine;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace JobSpace.Profiles
 {
@@ -34,59 +39,68 @@ namespace JobSpace.Profiles
         public IMenuManager MenuManagers { get; set; }
         public IFileBrowsers FileBrowser { get; set; }
         public IJobStatusManager StatusManager { get; set; }
-
-        public SearchManager SearchManager { get;set; }
+        public ISearchManager SearchManager { get; set; }
+        public IServicesStateManager ServicesState { get; set; }
         public ISearchHistory SearchHistory { get; set; }
-        public IScriptEngine ScriptEngine {get;set;}
-
+        public IScriptEngine ScriptEngine { get; set; }
+        public ImposSaveLoadService ImposService { get; set; }
         public override string ToString()
         {
             return Settings.ProfileName ?? "Unknown";
         }
 
+
+        public Profile()
+        {
+            ServicesState = new ServicesStateManager(this);
+        }
         public void InitProfile()
         {
-            Stopwatch _sw = new Stopwatch();
-
-            Logger.Log.Info(this, "завантажуємо плагіни: ", Settings.ProfileName);
-            _sw.Start();
-            LoadPlugins();
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження плагінів: ", _sw.ElapsedMilliseconds);
-            _sw.Reset();
-            _sw.Start();
-            Logger.Log.Info(this, "ініціалізація Python: ", Settings.ProfileName);
-            ScriptEngine = new PythonScriptEngine(this);
-            _sw.Stop();
-            Logger.Log.Info(this, "ініціалізація Python: ", _sw.ElapsedMilliseconds);
-            _sw.Reset();
-
-            Logger.Log.Info(this, "завантаження налаштувань з диску: ", Settings.ProfileName);
-            _sw.Start();
-            LoadSettingsFromDisk();
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: ", _sw.ElapsedMilliseconds);
-            _sw.Reset();
-            Logger.Log.Info(this, "завантаження налаштувань з бази даних: ", Settings.ProfileName);
-            _sw.Start();
+            if (IsInitialized) return;
             LoadSettingsFromBase();
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження налаштувань з бази даних: ", _sw.ElapsedMilliseconds);
-
+            LoadPlugins();
             IsInitialized = true;
         }
 
         private void LoadPlugins()
         {
-            Plugins = new PluginManager(this,Path.Combine(ProfilePath, "Plugins"));
+            Plugins = new PluginManager(this, Path.Combine(ProfilePath, "Plugins"));
             Plugins.Load();
         }
 
         private void LoadSettingsFromBase()
         {
-            Base = new BaseManager(new MongoRepository(), Settings.GetBaseSettings());
-            if (Base.Connect())
+            var state = ServicesState.Create();
+            state.Name = "База данних";
+            state.Tooltip = "Підключення до бази данних";
+
+            var repo = new MongoRepository();
+            repo.OnChangeConnectionState += (sender, isConnected) =>
             {
+                if (isConnected)
+                {
+                    state.Description = $"Підключено до бази данних {Settings.GetBaseSettings().MongoDbBaseName}";
+                    state.State = Interfaces.Enums.ServiceStateEnum.ACTIVE;
+                }
+                else
+                {
+                    state.Description = $"Відсутнє підключення до бази данних {Settings.GetBaseSettings().MongoDbBaseName}";
+                    state.State = Interfaces.Enums.ServiceStateEnum.INACTIVE;
+                }
+                Events.ServiceStateEvents.UpdateServiceState(this, state);
+            };
+
+            Base = new BaseManager(repo, Settings.GetBaseSettings());
+
+            if (Base.Connect() == true)
+            {
+                // ініціалізація фасадів, налаштування не залежать від бази, але потрібен Base для роботи
+                ScriptEngine = new PythonScriptEngine(this);
+                SearchHistory = new SearchHistory(this);
+                MenuManagers = new MenuManager(this);
+                FileBrowser = new FileBrowsers(this);
+                ImposService = new ImposSaveLoadService(this);
+
                 Customers = new CustomerManager(this);
                 Ftp = new FtpManager(this);
                 Ftp.InitUcFtpBrowserControls();
@@ -99,34 +113,16 @@ namespace JobSpace.Profiles
             }
             else
             {
-                Logger.Log.Error(this, "LoadSettingsFromBase","Can't connect to base");
+                Logger.Log.Error(this, "LoadSettingsFromBase", "Can't connect to base");
             }
-         }
+        }
 
         private void LoadSettingsFromDisk()
         {
-            Stopwatch _sw = new Stopwatch();
-            _sw.Start();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", Settings.ProfileName);
-            SearchHistory = new SearchHistory(this);
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: SearchHistory", _sw.ElapsedMilliseconds);
-            _sw.Reset();
-            _sw.Start();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: MenuManagers", Settings.ProfileName);
-            MenuManagers = new MenuManager(this);
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: MenuManagers", _sw.ElapsedMilliseconds);
-            _sw.Reset();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: FileBrowser", Settings.ProfileName);
-            _sw.Start();
-            FileBrowser = new FileBrowsers(this);
-            _sw.Stop();
-            Logger.Log.Info(this, "завантаження налаштувань з диску: FileBrowser", _sw.ElapsedMilliseconds);
-
+           
+           
         }
 
-  
         /// <summary>
         /// визивається один раз при створенні профілю
         /// </summary>
@@ -155,7 +151,7 @@ namespace JobSpace.Profiles
 
         public void SaveSettings<T>(T settings) where T : class
         {
-            var str = JsonSerializer.Serialize(settings); 
+            var str = JsonSerializer.Serialize(settings);
 
             var pluginSettingsPath =
                 Path.Combine(ProfilePath, $"{typeof(T).Name}.json");
@@ -185,6 +181,5 @@ namespace JobSpace.Profiles
                 return new T();
             }
         }
-
     }
 }

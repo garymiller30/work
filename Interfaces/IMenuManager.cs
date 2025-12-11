@@ -4,5 +4,6 @@
     {
         IFileBrowserContextMenu SendTo { get; set; }
         IFileBrowserContextMenu Utils { get; set; }
+        bool IsInitialized { get; }
     }
 }

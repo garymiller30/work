@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Interfaces;
@@ -11,32 +12,23 @@ namespace CasheViewer.Reports
     {
         public IUserProfile UserProfile { get; set; }
         public decimal Total { get; set; }
+        public decimal TotalWithConsumerPrice { get;set;}
+        public DateTime DateMin { get; set; } = DateTime.MaxValue;
+
+        List<INode> nodes;
 
         public List<INode> GetNodes()
         {
-            Total = 0;
+            if (nodes != null) return nodes;
 
-            //var oldVariant = GetJobsByCustomers(false);
-            var newVariant = GetJobsByCustomerRootByPlugin(false);
+            nodes = GetJobsByCustomerRootByPlugin(false).Cast<INode>().ToList();
 
-            //var comparer = new CustomerComparer();
-
-            //foreach (JobNodeRoot customer in newVariant)
-            //{
-            //    if (newVariant.Contains(customer, comparer))
-            //    {
-            //        var c = newVariant.First(x => x.Name.Equals(customer.Name));
-            //        c.Children.AddRange(customer.Children);
-            //    }
-            //    else
-            //    {
-            //        newVariant.Add(customer);
-            //    }
-            //}
-            return newVariant.Cast<INode>().ToList();
+            Total = nodes.Sum(x => x.Children.Sum(y => y.Sum));
+            //TotalWithConsumerPrice = newVariant.Sum(x => x.SumWithConsumerPrice);
+            return nodes;
         }
 
-        
+
         public List<JobNodeRoot> GetJobsByCustomerRootByPlugin(bool isPayed)
         {
             var reportDate = new List<JobNodeRoot>();
@@ -77,12 +69,23 @@ namespace CasheViewer.Reports
                 }
             }
 
-            var jobs = rawJobs.GroupBy(x => x.Date.ToString("yy.MM"));
+            var jobs = rawJobs.GroupBy(x => x.Date.ToString("yyyy.MM"));
+
             
 
             foreach (var job in jobs)
             {
                 var rd = new JobNodeRoot { Name = job.Key };
+                // потрібно з рядка "job.key" витягнути рік і місяць
+                var parts = job.Key.Split('.');
+
+                int year = int.Parse(parts[0]);
+                int month = int.Parse(parts[1]);
+
+                rd.Date = new DateTime(year, month, 1);
+
+
+                //rd.ConsumerPrice = ConsumerPriceIndices.GetConsumerPrices(year, month)[0].ValueTask;
 
                 rd.Children.AddRange(
                     job.Select(u => (INode)new JobNode()
@@ -102,6 +105,22 @@ namespace CasheViewer.Reports
 
                 reportDate.Add(rd);
             }
+
+            // потрібно вирахувати суму з урахуванням індексу споживчих цін
+            // недолік - місяці мають бути послідовні інакше буде неправильно
+
+            for (int i = 0; i < reportDate.Count; i++)
+            {
+                var r = reportDate[i];
+                r.SumWithConsumerPrice = r.Sum;
+
+                for (int j = i; j < reportDate.Count; j++)
+                {
+                    var r2 = reportDate[j];
+                    r.SumWithConsumerPrice = r.SumWithConsumerPrice * r2.ConsumerPrice / 100;
+                }
+            }
+
             return reportDate;
         }
         class CustomerComparer : IEqualityComparer<JobNodeRoot>

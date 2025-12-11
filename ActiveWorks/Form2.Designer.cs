@@ -46,10 +46,10 @@
             this.kryptonRibbon1.QATUserChange = false;
             this.kryptonRibbon1.RibbonAppButton.AppButtonShowRecentDocs = false;
             this.kryptonRibbon1.RibbonAppButton.AppButtonVisible = false;
-            this.kryptonRibbon1.SelectedContext = null;
             this.kryptonRibbon1.SelectedTab = null;
             this.kryptonRibbon1.Size = new System.Drawing.Size(800, 112);
             this.kryptonRibbon1.TabIndex = 0;
+            this.kryptonRibbon1.SelectedTabChanged += new System.EventHandler(this.kryptonRibbon1_SelectedTabChanged_1);
             // 
             // buttonSpecAnyWhatNew
             // 

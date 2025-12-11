@@ -8,7 +8,9 @@ using System.Windows.Forms;
 using CasheViewer.Reports;
 using CasheViewer.UC;
 using Interfaces;
+using JobSpace.Dlg;
 using JobSpace.Profiles;
+using JobSpace.UserForms;
 
 namespace CasheViewer
 {
@@ -97,12 +99,13 @@ namespace CasheViewer
         private void RefreshReport()
         {
             _curReportControl.ShowReport( _report);
-            toolStripStatusLabel_TotalDecimal.Text = _report.Total.ToString("N0");
+            ShowTotal();
         }
 
         private void ShowTotal()
         {
             toolStripStatusLabel_TotalDecimal.Text = _report.Total.ToString("N0");
+            tssl_PriceWithCPI.Text = $"{_report.TotalWithConsumerPrice.ToString("N0")} ({(_report.TotalWithConsumerPrice - _report.Total).ToString("N0")})"  ;
         }
 
         private void ShowSettings()
@@ -131,7 +134,7 @@ namespace CasheViewer
 
         private void toolStripButtonPayed_Click(object sender, EventArgs e)
         {
-            _curReportControl.PaySelected(_report);
+            _curReportControl.PaySelected();
             RefreshReport();
 
         }
@@ -154,6 +157,24 @@ namespace CasheViewer
         {
             _report = new ReportCustomerPayByYear() { UserProfile = UserProfile };
             _curReportControl.ShowReport( _report);
+            ShowTotal();
+        }
+
+        private void tsb_pay_custom_Click(object sender, EventArgs e)
+        {
+            using (var form = new FormTirag())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    _curReportControl.PayCustomSum(form.Tirag);
+                    RefreshReport();
+                }
+            }
+        }
+
+        private void tsb_load_consumer_price_indices_Click(object sender, EventArgs e)
+        {
+            _curReportControl.ApplyConsumerPriceIndices();
             ShowTotal();
         }
     }

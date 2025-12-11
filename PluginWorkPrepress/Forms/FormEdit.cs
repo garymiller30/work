@@ -37,8 +37,11 @@ namespace PluginWorkPrepress.Forms
 
         private void buttonCalc_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(textBox1.Text)) return;
+
             try
             {
+
                 var val = decimal.Parse( new DataTable().Compute(textBox1.Text,null).ToString());
                 numericUpDownPrice.Value = val;
             }

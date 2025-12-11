@@ -16,6 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using MailNotifier;
+using MailNotifier.Shablons;
+using Interfaces.Enums;
 
 namespace ActiveWorks
 {
@@ -45,7 +48,23 @@ namespace ActiveWorks
 
             objectListViewStatuses.IsSimpleDragSource = true;
             objectListViewStatuses.DropSink = new RearrangingDropSink(true);
-            
+
+        }
+
+        public FormSettings(Profile activeUserProfile) : this()
+        {
+            if (activeUserProfile != null)
+            {
+
+                objectListViewProfiles.SelectObject(activeUserProfile);
+                BindProfile();
+                tabControlMain.Enabled = true;
+                //_currentProfile = activeUserProfile;
+            }
+            else
+            {
+                tabControlMain.Enabled = false;
+            }
         }
 
         private object GetChangeStatus(object r)
@@ -91,7 +110,7 @@ namespace ActiveWorks
 
             var selIdx = new List<int>(listBoxFolderNames.SelectedIndices.Cast<int>());
             selIdx.Reverse();
-            selIdx.ForEach(i =>listBoxFolderNames.Items.RemoveAt(i));
+            selIdx.ForEach(i => listBoxFolderNames.Items.RemoveAt(i));
         }
 
         private void ДобавитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -233,7 +252,6 @@ namespace ActiveWorks
             if (res == DialogResult.OK)
             {
                 textBoxViewer.Text = vistaOpenFileDialog1.FileName;
-
             }
         }
 
@@ -261,7 +279,6 @@ namespace ActiveWorks
                 ((Profile)e.RowObject).Settings.ProfileName = e.NewValue.ToString();
                 e.Cancel = true;
             }
-
         }
 
         private void objectListViewProfiles_SelectedIndexChanged(object sender, EventArgs e)
@@ -280,9 +297,7 @@ namespace ActiveWorks
             else
             {
                 tabControlMain.Enabled = true;
-
                 _currentProfile = objectListViewProfiles.SelectedObject as Profile;
-
                 BindProfile();
             }
         }
@@ -291,10 +306,14 @@ namespace ActiveWorks
         {
             var setup = _currentProfile.Settings;
 
-            setup.GetJobSettings().WorkPath = textBox_Work.Text;
-            setup.GetJobSettings().SignaJobsPath = textBoxFolderSignaJobs.Text;
-            setup.GetJobSettings().UseJobFolder = kryptonCheckBox1.Checked;
-            setup.GetJobSettings().SubFolderForSignaFile = textBox_FolderForSignaFileInJob.Text;
+            var jobSettings = setup.GetJobSettings();
+
+            jobSettings.WorkPath = textBox_Work.Text;
+            jobSettings.SignaJobsPath = textBoxFolderSignaJobs.Text;
+            jobSettings.UseJobFolder = kryptonCheckBox1.Checked;
+            jobSettings.SubFolderForSignaFile = textBox_FolderForSignaFileInJob.Text;
+            jobSettings.SignaFileShablon = textBoxSignaShablon.Text;
+            jobSettings.StoreByYear = checkBoxStoreByYear.Checked;
 
             var baseSettings = setup.GetBaseSettings();
 
@@ -321,6 +340,11 @@ namespace ActiveWorks
             mail.MailSmtpServer = textBoxSmtpServer.Text;
             mail.MailAutoRelogon = checkBoxMailAutoRelogon.Checked;
 
+            _currentProfile.MailNotifier.SetMailTemplates(olv_mail_templates.Objects ?? new List<object>());
+            mail.MailConnectType = (MailConnectTypeEnum)cb_mail_connection_type.SelectedItem;
+
+            mail.ClientSecretFile = tb_mail_gmail_settings_secret_file.Text;
+
             var browser = setup.GetFileBrowser();
 
             browser.CustomButtonPath = new List<string>();
@@ -337,8 +361,7 @@ namespace ActiveWorks
             browser.ViewerCommandLine = textBoxViewerCommandLine.Text;
             browser.UseViewer = checkBoxUseViewer.Enabled;
 
-            setup.GetJobSettings().SignaFileShablon = textBoxSignaShablon.Text;
-            setup.GetJobSettings().StoreByYear = checkBoxStoreByYear.Checked;
+
 
 
             setup.HideCategory = checkBoxHideCategory.Checked;
@@ -353,7 +376,7 @@ namespace ActiveWorks
                 _currentProfile.StatusManager.SetJobStatuses(objectListViewStatuses.Objects?.Cast<JobStatus>() ?? new List<JobStatus>());
                 _currentProfile.StatusManager.OnChangeStatusesParams.Save();
             }
-            
+
 
             _currentProfile.Ftp?.FtpScriptController.SetList(objectListViewFtpScripts.Objects?.Cast<IFtpScript>() ??
                                                             new List<IFtpScript>());
@@ -362,48 +385,66 @@ namespace ActiveWorks
 
         private void BindProfile()
         {
-            if (!_currentProfile.IsInitialized)
-            {
-                _currentProfile.InitProfile();
-            }
+
+            _currentProfile.InitProfile();
+
 
             var setup = _currentProfile.Settings;
 
-            textBox_Work.Text = setup.GetJobSettings().WorkPath;
+            var baseSettings = setup.GetBaseSettings();
+            var jobSettings = setup.GetJobSettings();
+            var browser = setup.GetFileBrowser();
+            var mail = setup.GetMail();
 
-            textBoxBaseName.Text = setup.GetBaseSettings().MongoDbBaseName;
-            textBox_mongoDB.Text = setup.GetBaseSettings().MongoDbServer;
+            textBox_Work.Text = jobSettings.WorkPath;
+
+            textBoxBaseName.Text = baseSettings.MongoDbBaseName;
+            textBox_mongoDB.Text = baseSettings.MongoDbServer;
+            numericUpDownBaseTimeOut.Value = baseSettings.BaseTimeOut;
 
             objectListViewSendTo.ClearObjects();
             objectListViewSendTo.AddObjects(_currentProfile.MenuManagers.SendTo.Get());
             objectListView_Utils.ClearObjects();
             objectListView_Utils.AddObjects(_currentProfile.MenuManagers.Utils.Get());
 
-            textBoxFolderSignaJobs.Text = setup.GetJobSettings().SignaJobsPath;
-            kryptonCheckBox1.Checked = setup.GetJobSettings().UseJobFolder;
-            textBox_FolderForSignaFileInJob.Text = setup.GetJobSettings().SubFolderForSignaFile;
+            textBoxFolderSignaJobs.Text = jobSettings.SignaJobsPath;
+            kryptonCheckBox1.Checked = jobSettings.UseJobFolder;
+            textBox_FolderForSignaFileInJob.Text = jobSettings.SubFolderForSignaFile;
+            checkBoxStoreByYear.Checked = jobSettings.StoreByYear;
+            textBoxSignaShablon.Text = jobSettings.SignaFileShablon;
 
-            textBox_MailFrom.Text = setup.GetMail().MailFrom;
-            textBox_MailPassword.Text = setup.GetMail().MailFromPassword;
-            textBox_ImapServer.Text = setup.GetMail().MailImapHost;
-            numericUpDown_ImapPort.Value = setup.GetMail().MailImapPort;
-            textBoxSmtpServer.Text = setup.GetMail().MailSmtpServer;
-            numericUpDownSmtpPort.Value = setup.GetMail().MailSmtpPort;
- 
+            // mail
+
+            cb_mail_connection_type.DataSource = Enum.GetValues(typeof(MailConnectTypeEnum));
+            cb_mail_connection_type.SelectedIndex = (int)mail.MailConnectType;
+
+            tb_mail_gmail_settings_secret_file.Text = mail.ClientSecretFile;
+
+            textBox_MailFrom.Text = mail.MailFrom;
+            textBox_MailPassword.Text = mail.MailFromPassword;
+            textBox_ImapServer.Text = mail.MailImapHost;
+            numericUpDown_ImapPort.Value = mail.MailImapPort;
+            textBoxSmtpServer.Text = mail.MailSmtpServer;
+            numericUpDownSmtpPort.Value = mail.MailSmtpPort;
+            checkBoxMailAutoRelogon.Checked = mail.MailAutoRelogon;
+
             listBox_SendEmails.Items.Clear();
-            if (setup.GetMail().MailTo.Any())
+            if (mail.MailTo.Any())
             {
-                listBox_SendEmails.Items.AddRange(setup.GetMail().MailTo.ToArray());
+                listBox_SendEmails.Items.AddRange(mail.MailTo.ToArray());
             }
+            olv_mail_templates.ClearObjects();
+            olv_mail_templates.AddObjects(_currentProfile.MailNotifier.GetMailTemplates());
+
 
             listBox_CustomButtonFolder.Items.Clear();
-            if (setup.GetFileBrowser().CustomButtonPath.Any())
+            if (browser.CustomButtonPath.Any())
             {
-                listBox_CustomButtonFolder.Items.AddRange(setup.GetFileBrowser().CustomButtonPath.ToArray());
+                listBox_CustomButtonFolder.Items.AddRange(browser.CustomButtonPath.ToArray());
             }
 
             listBoxFolderNames.Items.Clear();
-            listBoxFolderNames.Items.AddRange(setup.GetFileBrowser().FolderNamesForCreate?.ToArray());
+            listBoxFolderNames.Items.AddRange(browser.FolderNamesForCreate?.ToArray());
 
             listBox_Ftp_Servers.Items.Clear();
             listBox_Ftp_Servers.DisplayMember = "Name";
@@ -411,25 +452,18 @@ namespace ActiveWorks
                 listBox_Ftp_Servers.Items.AddRange(_currentProfile.Ftp.GetCollection().ToArray());
 
             numericUpDownCountExplorers.Value = setup.CountExplorers;
-            textBoxSignaShablon.Text = setup.GetJobSettings().SignaFileShablon;
-
-            checkBoxMailAutoRelogon.Checked = setup.GetMail().MailAutoRelogon;
-
-            numericUpDownBaseTimeOut.Value = setup.GetBaseSettings().BaseTimeOut;
 
             objectListViewStatuses.Objects = _currentProfile.StatusManager?.GetJobStatuses();
 
-            checkBoxStoreByYear.Checked = setup.GetJobSettings().StoreByYear;
             checkBoxHideCategory.Checked = setup.HideCategory;
 
-            textBoxViewer.Text = setup.GetFileBrowser().Viewer;
-            textBoxViewerCommandLine.Text = setup.GetFileBrowser().ViewerCommandLine;
-            checkBoxUseViewer.Checked = setup.GetFileBrowser().UseViewer;
+            textBoxViewer.Text = browser.Viewer;
+            textBoxViewerCommandLine.Text = browser.ViewerCommandLine;
+            checkBoxUseViewer.Checked = browser.UseViewer;
 
             checkBoxMoveOriginalFileToTrash.Checked = setup.GetPdfConverterSettings().MoveOriginalsToTrash;
             //plugins
             LoadPluginsInfo();
-
             LoadFtpScripts();
             ReloadCategories();
         }
@@ -647,6 +681,7 @@ namespace ActiveWorks
             {
                 Properties.Settings.Default.DefaultProfile = profile.Settings.ProfileName;
                 Properties.Settings.Default.Save();
+                MessageBox.Show($"Профіль '{profile.Settings.ProfileName}' за замовчуванням встановлено");
             }
         }
 
@@ -718,7 +753,7 @@ namespace ActiveWorks
         private void ReloadCategories()
         {
             objectListViewCategories.ClearObjects();
-            
+
             objectListViewCategories.AddObjects(_currentProfile.Categories?.GetAll().ToArray());
         }
 
@@ -730,8 +765,8 @@ namespace ActiveWorks
 
         private void buttonAddFolderName_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty( textBoxFolderName.Text)) return;
-            
+            if (string.IsNullOrEmpty(textBoxFolderName.Text)) return;
+
             listBoxFolderNames.Items.Add(textBoxFolderName.Text);
             textBoxFolderName.Clear();
         }
@@ -740,7 +775,52 @@ namespace ActiveWorks
         {
             using (var form = new FormMoveSignaFileToOrder(_currentProfile))
             {
-               form.ShowDialog();
+                form.ShowDialog();
+            }
+        }
+
+        private void додатиШаблонToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var f = new FormTemplate())
+            {
+                if (f.ShowDialog() == DialogResult.OK)
+                {
+                    olv_mail_templates.AddObject(f.Template);
+                }
+            }
+        }
+
+        private void редагуватиШаблонToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (olv_mail_templates.SelectedObject is MailTemplate template)
+            {
+                using (var f = new FormTemplate(template))
+                {
+                    if (f.ShowDialog() == DialogResult.OK)
+                    {
+                        olv_mail_templates.RefreshObject(template);
+                    }
+                }
+            }
+        }
+
+        private void видалитиШаблонToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (olv_mail_templates.SelectedObject is MailTemplate template)
+            {
+                olv_mail_templates.RemoveObject(template);
+            }
+        }
+
+        private void btn_mail_gmail_settings_sel_secret_file_Click(object sender, EventArgs e)
+        {
+            using (var f = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            {
+                f.Filter = "*.json|*.json|*.*|*.*";
+                if (f.ShowDialog() == DialogResult.OK)
+                {
+                    tb_mail_gmail_settings_secret_file.Text = f.FileName;
+                }
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Interfaces;
+using Interfaces.Enums;
+using MailNotifier;
 
 namespace JobSpace.Profiles
 {
@@ -20,6 +22,9 @@ namespace JobSpace.Profiles
         public int MailSmtpPort { get; set; } = 587;
         public List<string> MailTo { get; set; } = new List<string>();
         public bool MailAutoRelogon { get; set; }
+
+        public MailConnectTypeEnum MailConnectType { get; set; } = MailConnectTypeEnum.SMTP;
+        public string ClientSecretFile { get; set; }
 
         public bool Validate()
         {

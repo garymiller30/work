@@ -62,7 +62,7 @@
             // 
             // olvColumnName
             // 
-            this.olvColumnName.AspectName = "Name";
+            this.olvColumnName.AspectName = "ToString";
             this.olvColumnName.Text = "Назва";
             this.olvColumnName.Width = 200;
             // 

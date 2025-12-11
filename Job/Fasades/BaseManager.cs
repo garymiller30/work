@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -40,8 +41,6 @@ namespace JobSpace.Fasades
             }
         }
 
-
-
         /// <summary>
         /// підключення до сервера
         /// </summary>
@@ -50,12 +49,12 @@ namespace JobSpace.Fasades
         {
             if (string.IsNullOrEmpty(Settings.MongoDbServer) ||
                 string.IsNullOrEmpty(Settings.MongoDbBaseName)
-            ) { 
+            )
+            {
                 Log.Error(this, $"({Settings.MongoDbServer})BaseManager", "Empty MongoDbServer or MongoDbBaseName");
-                
-                return false; 
-                } //return false;
 
+                return false;
+            }
             try
             {
                 _repository.CreateConnection(Settings.MongoDbServer, Settings.MongoDbBaseName, Settings.BaseTimeOut);
@@ -68,7 +67,26 @@ namespace JobSpace.Fasades
 
             return IsConnected;
         }
+        public async Task<bool> IsMongoAvailable(string connectionString, string databaseName = "admin")
+        {
+            try
+            {
+                var client = new MongoClient(connectionString);
 
+                // Отримуємо базу admin – вона існує у всіх інсталяціях
+                var database = client.GetDatabase(databaseName);
+
+                // Виконуємо швидку команду "ping"
+                var command = new BsonDocument("ping", 1);
+                await database.RunCommandAsync<BsonDocument>(command);
+
+                return true;    // MongoDB працює
+            }
+            catch
+            {
+                return false;   // Недоступна або проблеми зі з'єднанням
+            }
+        }
 
         public void CreateConnection(string connectionString, string databaseName, int baseTimeOut)
         {
@@ -90,7 +108,7 @@ namespace JobSpace.Fasades
 
                 throw;
             }
-            
+
         }
 
         public void Delete<T>(T item) where T : IWithId
@@ -104,7 +122,7 @@ namespace JobSpace.Fasades
 
                 throw;
             }
-            
+
         }
 
         public List<T> All<T>() where T : class, new()
@@ -170,7 +188,7 @@ namespace JobSpace.Fasades
 
                 throw;
             }
-            
+
         }
 
         public void Delete<T>(string collection, T item) where T : IWithId
@@ -184,7 +202,7 @@ namespace JobSpace.Fasades
 
                 throw;
             }
-            
+
         }
 
         public List<T> All<T>(string collection) where T : class, new()
@@ -197,7 +215,7 @@ namespace JobSpace.Fasades
             {
                 throw;
             }
-            
+
         }
 
         public void Update<T>(string collection, T item) where T : IWithId
@@ -225,7 +243,7 @@ namespace JobSpace.Fasades
 
                 throw;
             }
-            
+
         }
 
         public bool Add<T>(string collection, T obj) where T : class, new()
@@ -339,15 +357,15 @@ namespace JobSpace.Fasades
                 var catList = catFilter.ToList();
 
                 var filter = Builders<Job>.Filter.Or(
-                    Builders<Job>.Filter.Regex(j=>j.Number,new BsonRegularExpression($"/{text}/i")),
+                    Builders<Job>.Filter.Regex(j => j.Number, new BsonRegularExpression($"/{text}/i")),
                     Builders<Job>.Filter.Regex(j => j.Customer, new BsonRegularExpression($"/{text}/i")),
                     Builders<Job>.Filter.Regex(j => j.Note, new BsonRegularExpression($"/{text}/i")),
                     Builders<Job>.Filter.In("CategoryId", catFilter),
-                    Builders<Job>.Filter.Regex(j=>j.Description,new BsonRegularExpression($"/{text}/i")));
+                    Builders<Job>.Filter.Regex(j => j.Description, new BsonRegularExpression($"/{text}/i")));
 
                 var filtered = ((IMongoCollection<Job>)jobs).Find(filter).ToList(default);
                 return filtered.ToList<IJob>();
-                
+
             }
             catch (Exception e)
             {
@@ -407,7 +425,7 @@ namespace JobSpace.Fasades
 
             BsonDocument f_statuses;
 
-           
+
             f_statuses = new BsonDocument("StatusCode", new BsonDocument("$in", new BsonArray(jobListFilter.Statuses)));
 
             FilterDefinition<Job> f_customer = Builders<Job>.Filter.Regex(j => j.Customer, new BsonRegularExpression($"/{jobListFilter.Customer}/i"));
@@ -449,7 +467,7 @@ namespace JobSpace.Fasades
             return jobListFilter.Customer;
         }
 
-        public void RemoveAll<T>(string collectionString) where T : class, IWithId,new()
+        public void RemoveAll<T>(string collectionString) where T : class, IWithId, new()
         {
             var col = All<T>(collectionString);
 

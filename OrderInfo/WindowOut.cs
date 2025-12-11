@@ -22,6 +22,8 @@ namespace OrderInfo
         public WindowOut()
         {
             InitializeComponent();
+            ucNote1.OnNoteTextChanged += RichTextBox1_Leave;
+           
         }
 
         /*
@@ -67,6 +69,8 @@ namespace OrderInfo
                     var col = UserProfile.Base.GetRawCollection<JobInfo>();
                     _jobInfo = ((IMongoCollection<JobInfo>)col).AsQueryable().FirstOrDefault(x => x.JobId == (ObjectId)job.Id);
 
+                    RemoveCheckedEvents();
+
                     if (_jobInfo != null)
                     {
                         cb_cut.Checked = _jobInfo.Cut;
@@ -79,6 +83,8 @@ namespace OrderInfo
                         cb_uv_lak.Checked = false;
                         cb_protected_lak.Checked = false;
                     }
+
+                    AddCheckedEvents();
 
                     ucNote1.SetText(job.Note ?? string.Empty);
 
@@ -108,6 +114,110 @@ namespace OrderInfo
 
 
 
+        }
+
+        private void AddCheckedEvents()
+        {
+            cb_cut.CheckedChanged += Cb_cut_CheckedChanged;
+            cb_uv_lak.CheckedChanged += Cb_uv_lak_CheckedChanged;
+            cb_protected_lak.CheckedChanged += Cb_protected_lak_CheckedChanged;
+            cb_klishe.CheckedChanged += Cb_klishe_CheckedChanged;
+        }
+
+        private void Cb_klishe_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                if (!ucNote1.GetText().Contains("#klishe"))
+                {
+                    if (string.IsNullOrEmpty(ucNote1.GetText()))
+                        ucNote1.SetText("#klishe");
+                    else
+                        ucNote1.SetText(ucNote1.GetText() + Environment.NewLine + "#klishe");
+                }
+            }
+            else
+            {
+                if (ucNote1.GetText().Contains("#klishe"))
+                {
+                    ucNote1.SetText(ucNote1.GetText().Replace("#klishe", "").Trim());
+                }
+            }
+            SaveChanges();
+        }
+
+        private void Cb_protected_lak_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                if (!ucNote1.GetText().Contains("#protected_lak"))
+                {
+                    if (string.IsNullOrEmpty(ucNote1.GetText()))
+                        ucNote1.SetText("#protected_lak");
+                    else
+                        ucNote1.SetText(ucNote1.GetText() + Environment.NewLine + "#protected_lak");
+                }
+            }
+            else
+            {
+                if (ucNote1.GetText().Contains("#protected_lak"))
+                {
+                    ucNote1.SetText(ucNote1.GetText().Replace("#protected_lak", "").Trim());
+                }
+            }
+            SaveChanges();
+        }
+
+        private void Cb_uv_lak_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                if (!ucNote1.GetText().Contains("#uv_lak"))
+                {
+                    if (string.IsNullOrEmpty(ucNote1.GetText()))
+                        ucNote1.SetText("#uv_lak");
+                    else
+                        ucNote1.SetText(ucNote1.GetText() + Environment.NewLine + "#uv_lak");
+                }
+            }
+            else
+            {
+                if (ucNote1.GetText().Contains("#uv_lak"))
+                {
+                    ucNote1.SetText(ucNote1.GetText().Replace("#uv_lak", "").Trim());
+                }
+            }
+            SaveChanges();
+        }
+
+        private void Cb_cut_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                if (!ucNote1.GetText().Contains("#cut"))
+                {
+                    if (string.IsNullOrEmpty(ucNote1.GetText()))
+                        ucNote1.SetText("#cut");
+                    else
+                        ucNote1.SetText(ucNote1.GetText() + Environment.NewLine + "#cut");
+                }
+            }
+            else
+            {
+                if (ucNote1.GetText().Contains("#cut"))
+                {
+                    ucNote1.SetText(ucNote1.GetText().Replace("#cut", "").Trim());
+                }
+            }
+            SaveChanges();
+        }
+
+        private void RemoveCheckedEvents()
+        {
+            cb_cut.CheckedChanged -= Cb_cut_CheckedChanged;
+            cb_uv_lak.CheckedChanged -= Cb_uv_lak_CheckedChanged;
+            cb_protected_lak.CheckedChanged -= Cb_protected_lak_CheckedChanged;
+            cb_klishe.CheckedChanged -= Cb_klishe_CheckedChanged;
         }
 
         public void BeforeJobChange(IJob job)

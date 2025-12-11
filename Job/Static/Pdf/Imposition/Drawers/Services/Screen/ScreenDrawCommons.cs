@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
+﻿using Interfaces.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
@@ -16,7 +18,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
     {
         public static void DrawSheet(TemplateSheet sheet, Graphics g)
         {
-            
+
 
             Pen pen = new Pen(Color.Black);
             var rect = new RectangleF(0, 0, (float)sheet.W, (float)sheet.H);
@@ -258,11 +260,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         public static void DrawPageRotateMarker(Graphics g, TemplatePage page, PageSide side, RectangleF rect, int sH)
         {
-           
-
             var dist = 5;
             var height = 7;
-
+            float zoom = (float)ScreenDrawer.ZoomFactor;
             var brush = new SolidBrush(Color.Gray);
 
             var x = rect.X;
@@ -309,8 +309,70 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             }
             ScreenDrawer.DrawFillRectangle(g, new RectangleF(sx, sy, sw, sh), brush);
 
-            if (page.Group >0)
-                ScreenDrawer.DrawText(g,$"група {page.Group}",new PointF(sx,sy),"Arial",5);
+            if (page.Group > 0)
+            {
+                var state = g.Save();
+                // точка, від якої будемо крутити (кут сторінки)
+                //float cx = x;
+                //float cy = y;
+
+                switch (side.Angle)
+                {
+                    case 0:
+                        g.TranslateTransform(sx * zoom, sy * zoom);
+                        g.RotateTransform(0);
+                        ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
+                        break;
+
+                    case 90:
+                        g.TranslateTransform((sx)*zoom, (sy+page_h-dist*2)*zoom);
+                        g.RotateTransform(270);
+                        ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
+                        break;
+
+                    case 180:
+                        g.TranslateTransform((sx + page_w - dist - 5)*zoom, (sy + dist*2-2 )*zoom);
+                        g.RotateTransform(180);
+                        ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
+                        break;
+
+                    case 270:
+                        g.TranslateTransform((sx+dist+5-2)*zoom, (sy)*zoom);
+                        g.RotateTransform(90);
+                        ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
+                        break;
+                }
+
+                g.Restore(state);
+                //var state = g.Save();
+                //// малювати в кутку в залежності від кута сторінки. 
+                //switch(side.Angle)
+                //{
+                //    case 0:
+                //        sx = x + 6;
+                //        sy = y + dist;
+                //        g.RotateTransform(0);
+                //        break;
+                //    case 90:
+                //        sx = x + dist;
+                //        sy = y + page_h - dist - 10;
+                //        g.RotateTransform(90);
+                //        break;
+                //    case 180:
+                //        sx = x + dist;
+                //        sy = y + page_h - dist - 10;
+                //        g.RotateTransform(180);
+                //        break;
+                //    case 270:
+                //        sx = x + page_w - dist - 20;
+                //        sy = y + dist;
+                //        g.RotateTransform(270);
+                //        break;
+                //}
+                //ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(sx, sy), "Arial", 5);
+                //g.Restore(state);
+            }
+
 
             brush.Dispose();
         }

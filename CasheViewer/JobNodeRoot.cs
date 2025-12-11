@@ -30,5 +30,7 @@ namespace CasheViewer
         public object Job { get; set; }
         public Color ForegroundColor { get; set; }
         public ReportVersionEnum ReportVersion { get; set; }
+        public decimal ConsumerPrice { get; set; }
+        public decimal SumWithConsumerPrice { get; set; }
     }
 }

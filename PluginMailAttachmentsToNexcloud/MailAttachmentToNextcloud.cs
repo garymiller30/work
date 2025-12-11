@@ -128,9 +128,6 @@ namespace PluginMailAttachmentsToNextcloud
                 }
             }
 
-
-
-
             attachMessage += Properties.Resources.shablon_end;
 
             message.Body += attachMessage;
@@ -174,6 +171,52 @@ namespace PluginMailAttachmentsToNextcloud
             UserProfile.Plugins.SaveSettings(Settings);
             //var str = JsonConvert.SerializeObject(_settings);
             //File.WriteAllText(_fileSettingsPath, str,Encoding.Unicode);
+        }
+
+        bool IsNeedAddToCloud(string[] files)
+        {
+            long totalSize = 0;
+            foreach (var file in files)
+            {
+                var fi = new FileInfo(file);
+                totalSize += fi.Length;
+            }
+            return totalSize > Settings.SizeLimit;
+
+        }
+
+        public string UploadFiles(string[] files)
+        {
+            LoadSettings();
+
+            if (IsNeedAddToCloud(files))
+            {
+                string attachMessage = Properties.Resources.shablon_begin;
+                var client = new NextCloudClient(Settings);
+                foreach (var file in files)
+                {
+                    var fi = new FileInfo(file);
+                    var lenght = fi.Length.GetFileSizeInString();
+                    var filename = fi.Name;
+                    var link = client.Upload(file);
+                    if (!string.IsNullOrEmpty(link))
+                    {
+                        var filelink = Properties.Resources.shablon_attachment.Replace("{link}", link)
+                            .Replace("{size}", lenght)
+                            .Replace("{filename}", filename); ;
+                        attachMessage += filelink;
+                    }
+                    else
+                    {
+                        throw client.ErrorException;
+                    }
+                }
+                attachMessage += Properties.Resources.shablon_end;
+                return attachMessage;
+            }
+
+
+            return string.Empty;
         }
     }
 }

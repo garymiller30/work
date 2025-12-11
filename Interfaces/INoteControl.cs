@@ -8,6 +8,8 @@ namespace Interfaces
 {
     public interface INoteControl
     {
+        event EventHandler OnNoteTextChanged;
+
         void SetText(string text);
         string GetText();
         string GetRtf();

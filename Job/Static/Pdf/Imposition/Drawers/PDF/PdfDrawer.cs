@@ -1,4 +1,6 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using Interfaces.Pdf.Imposition;
+using JobSpace.Profiles;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Models;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet;
 using JobSpace.Static.Pdf.Imposition.Models;
@@ -7,6 +9,7 @@ using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 {
@@ -17,9 +20,15 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
         public EventHandler<int> ProcessingEvent { get; set; } = delegate { };
         public EventHandler FinishEvent { get; set; } = delegate { };
 
-        public PdfDrawer()
-        {
+        public int[] CustomSheets { get; set; } = null;
 
+        public bool IsCancelled { get; set; } = false;
+
+        Profile _profile;
+
+        public PdfDrawer(Profile profile)
+        {
+            _profile= profile;
         }
 
         public void Draw(ProductPart impos)
@@ -31,14 +40,31 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                 impos.ExportParameters.CreateOutputFileName();
                 var targetFile = impos.ExportParameters.OutputFilePath;
 
-                p.begin_document(targetFile, "");
+                int[] range;
 
-                StartEvent(this, impos.PrintSheets.Count);
+                if (CustomSheets == null)
+                {
+                    range = Enumerable.Range(0, impos.PrintSheets.Count).ToArray();
+                }
+                else
+                {
+                    range = CustomSheets;
+                }
 
-                for (int i = 0; i < impos.PrintSheets.Count; i++)
+
+                p.begin_document(targetFile, "optimize=true");
+
+                StartEvent(this, range.Length);
+
+                foreach (var i in range)
                 {
 
-                    ProcessingEvent(this, i + 1);
+                    if (IsCancelled)
+                        break;
+
+                    int pos = Array.IndexOf(range, i) + 1;
+                    // 
+                    ProcessingEvent(this, pos);
 
                     var sheet = impos.PrintSheets[i];
 
@@ -95,9 +121,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                     var orderFileName = Path.GetFileNameWithoutExtension(impos.ExportParameters.OutputFilePath);
 
                     var orderFile = Path.Combine(orderFolder, Path.GetFileNameWithoutExtension(orderFileName) + ".json");
-                    SaveLoadService.SavePrintSheets(impos.PrintSheets, orderFile);
+                    _profile.ImposService.SavePrintSheets(impos.PrintSheets, orderFile);
                 }
             }
+        }
+
+        public void Cancel()
+        {
+            IsCancelled = true;
         }
     }
 }

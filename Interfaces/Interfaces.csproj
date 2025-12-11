@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="Classes\FileInfo.cs" />
     <Compile Include="Classes\MongoDbVer.cs" />
+    <Compile Include="Enums\MailConnectTypeEnum.cs" />
+    <Compile Include="Enums\ServiceStateEnum.cs" />
     <Compile Include="Ftp\FtpFileExtStatus.cs" />
     <Compile Include="Ftp\IDownloadTicket.cs" />
     <Compile Include="Ftp\IDownloadResult.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="IMail.cs" />
     <Compile Include="IMailPluginController.cs" />
     <Compile Include="IMailSettings.cs" />
+    <Compile Include="IMailShablonManager.cs" />
     <Compile Include="IMenuManager.cs" />
     <Compile Include="IMenuSendTo.cs" />
     <Compile Include="IMQManager.cs" />
@@ -106,7 +109,16 @@
     <Compile Include="IPart.cs" />
     <Compile Include="IPdfConverterSettings.cs" />
     <Compile Include="IPlateFormat.cs" />
+    <Compile Include="IScreenPrimitive.cs" />
+    <Compile Include="ISearchManager.cs" />
+    <Compile Include="IServicesStateManager.cs" />
+    <Compile Include="IServiceState.cs" />
+    <Compile Include="IServiceStateEvents.cs" />
     <Compile Include="IWithId.cs" />
+    <Compile Include="Pdf\Imposition\IImpositionFactory.cs" />
+    <Compile Include="Pdf\Imposition\IPrintSheet.cs" />
+    <Compile Include="Pdf\Imposition\IProductPart.cs" />
+    <Compile Include="Pdf\Imposition\TemplateSheetPlaceType.cs" />
     <Compile Include="Plugins\IMqController.cs" />
     <Compile Include="Plugins\IMqPlugin.cs" />
     <Compile Include="Plugins\IRowColor.cs" />
@@ -155,5 +167,6 @@
     <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
     <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

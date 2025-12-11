@@ -20,5 +20,6 @@ namespace Interfaces
         decimal Pay { get; }
 
         void RemoveProcessByJobId(object id);
+        string GetValue(IJob job, string param);
     }
 }

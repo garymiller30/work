@@ -28,8 +28,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public ImposBindingControl()
         {
             InitializeComponent();
-            
-            
         }
 
         public void SetControlBindParameters(ControlBindParameters controlBindParameters)
@@ -49,12 +47,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 Calc();
             }
-
         }
 
         private void cb_SelectBindType_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             if (parameters == null) return;
             panelBindingControl.Controls.Clear();
             int idx = cb_SelectBindType.SelectedIndex;
@@ -63,7 +59,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 //LooseBinding
                 curBindControl = new BindingSimpleControl();
-                
             }
             else if (idx == 1)
             {

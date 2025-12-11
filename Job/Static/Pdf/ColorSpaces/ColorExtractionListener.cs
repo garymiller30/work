@@ -1,16 +1,17 @@
 ﻿using iText.Kernel.Colors;
-using iText.Kernel.Pdf.Canvas.Parser.Data;
+using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
+using iText.Kernel.Pdf.Canvas.Parser.Data;
 using iText.Kernel.Pdf.Canvas.Parser.Listener;
 using iText.Kernel.Pdf.Colorspace;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static iText.Kernel.Pdf.Colorspace.PdfSpecialCs;
-using Microsoft.Extensions.Primitives;
-using iText.Kernel.Pdf;
+using static iText.Kernel.Pdf.Colorspace.PdfCieBasedCs;
+
 
 namespace JobSpace.Static.Pdf.ColorSpaces
 {
@@ -77,7 +78,7 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                         _uniqueColors.Add(colorSpaceRepresentation);
                         break;
                 }
-                
+
             }
         }
 
@@ -93,20 +94,21 @@ namespace JobSpace.Static.Pdf.ColorSpaces
         }
         private string GetColorRepresentation(iText.Kernel.Colors.Color color)
         {
+
+            StringBuilder sb = new StringBuilder();
             PdfColorSpace cs = color.GetColorSpace();
             float[] components = color.GetColorValue();
-            StringBuilder sb = new StringBuilder();
 
             switch (cs.GetType().Name) // Перевіряємо тип колірного простору
             {
                 case "Gray":
-                case nameof(CalGray):
+                case nameof(iText.Kernel.Colors.CalGray):
                 case nameof(DeviceGray):
                     sb.Append("Grayscale");
                     //sb.Append($"Grayscale({components[0]:F3})"); // :F3 для форматування з 3 знаками після коми
                     break;
                 case "Rgb":
-                case nameof(CalRgb):
+                case nameof(iText.Kernel.Colors.CalRgb):
                 case nameof(DeviceRgb):
                     sb.Append("RGB");
                     //sb.Append($"RGB({components[0]:F3}, {components[1]:F3}, {components[2]:F3})");
@@ -122,8 +124,8 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                     // Replace the line causing the error with the correct method call
                     string colorantName = separationCs.GetName().GetValue(); // Отримуємо ім'я Spot кольору
                     sb.Append("Spot");                                                         // Компонент [0] - це зазвичай tint (відтінок) для Spot кольору (0.0 = alternate, 1.0 = full colorant)
-                    //sb.Append($"Spot(Name: '{colorantName}', Tint: {components[0]:F3})");
-                    // Можна також додати інформацію про альтернативний простір: separationCs.GetAlternateColorSpace().GetType().Name
+                                                                                               //sb.Append($"Spot(Name: '{colorantName}', Tint: {components[0]:F3})");
+                                                                                               // Можна також додати інформацію про альтернативний простір: separationCs.GetAlternateColorSpace().GetType().Name
                     break;
 
                 case nameof(PdfSpecialCs.Indexed):
@@ -134,7 +136,7 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                     // Для повного аналізу потрібно було б знайти PdfArray палітри і отримати звідти базовий колір.
                     break;
 
-                case nameof(Pattern):
+                case nameof(PdfSpecialCs.Pattern):
                     sb.Append("Pattern");
                     // Pattern кольори дуже складні (можуть бути зафарбовані або незафарбовані)
                     //if (color is PatternColor patternColor)
@@ -162,11 +164,14 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                 //    sb.Append(")");
                 //    break;
 
-                case nameof(Lab):
+                case nameof(iText.Kernel.Colors.Lab):
                     sb.Append("Lab");
                     //sb.Append($"Lab({components[0]:F3}, {components[1]:F3}, {components[2]:F3})");
                     break;
-                case nameof(IccBased):
+                case nameof(iText.Kernel.Pdf.Colorspace.PdfCieBasedCs.IccBased):
+                    //var (iccProfileInfo, profileExists) = CheckICCBasedProfile(cs);
+
+                    //Console.WriteLine($"iccProfileInfo: {iccProfileInfo}, Exist: {profileExists}");
                     sb.Append("ICCBased");
                     //sb.Append($"ICCBased(");
                     //for (int i = 0; i < components.Length; ++i)
@@ -184,6 +189,9 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                     break;
             }
 
+
+
+
             return sb.Length > 0 ? sb.ToString() : null;
         }
         public ICollection<EventType> GetSupportedEvents()
@@ -191,6 +199,54 @@ namespace JobSpace.Static.Pdf.ColorSpaces
             // Повертаємо null, щоб отримувати всі типи подій, або вказуємо конкретні:
             // return new HashSet<EventType> { EventType.RENDER_PATH, EventType.RENDER_TEXT, EventType.RENDER_IMAGE };
             return null;
+        }
+
+
+        public static (string Name, bool ProfileExists) CheckICCBasedProfile(PdfColorSpace cs)
+        {
+            // 1. Перевірка типу на ICCBased
+            if (cs is iText.Kernel.Pdf.Colorspace.PdfCieBasedCs.IccBased iccBasedCs)
+            {
+                // 2. Отримуємо базовий об'єкт колірного простору
+                PdfObject pdfObject = iccBasedCs.GetPdfObject();
+
+                PdfDictionary profileDict = null;
+
+                // ICCBased – це масив: [/ICCBased, Словник_Профілю]
+                if (pdfObject is PdfArray array && array.Size() > 1)
+                {
+                    // iText 9.x часто автоматично розв'язує посилання, але безпечніше спробувати GetAsDictionary,
+                    // який вміє працювати з непрямими посиланнями всередині масиву.
+                    // Ми використовуємо Get(1) для отримання об'єкта та приводимо його до словника.
+                    profileDict = array.GetAsDictionary(1); // Цей метод *може* автоматично розв'язати посилання
+                }
+
+                if (profileDict != null)
+                {
+                    // 3. Словник профілю має бути потоком (PdfStream)
+                    if (profileDict is PdfStream iccProfileStream)
+                    {
+                        // Профіль знайдено (існує як потік даних)
+                        PdfString description = iccProfileStream.GetAsString(PdfName.D);
+                        string profileName = description != null
+                            ? description.ToUnicodeString()
+                            : "Unnamed Profile";
+
+                        return ($"ICCBased: {profileName} (Components: {iccBasedCs.GetNumberOfComponents()})", true);
+                    }
+                    else
+                    {
+                        // Словник знайдено, але він не є потоком
+                        return ("ICCBased: Dictionary Found, but Stream MISSING", false);
+                    }
+                }
+
+                // 4. Невдала перевірка структури
+                return ("ICCBased: Invalid Structure or Dictionary Missing", false);
+            }
+
+            // Для інших типів
+            return (cs.GetType().Name, true);
         }
     }
 }

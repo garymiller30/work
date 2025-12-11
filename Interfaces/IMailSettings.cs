@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Interfaces.Enums;
+using System.Collections.Generic;
 
 namespace Interfaces
 {
@@ -17,7 +18,8 @@ namespace Interfaces
         int MailSmtpPort { get; set; }
         List<string> MailTo { get; set; } 
         bool MailAutoRelogon { get; set; }
-
+        MailConnectTypeEnum MailConnectType { get; set; }
+        string ClientSecretFile { get; set; }
         bool Validate();
     }
 }

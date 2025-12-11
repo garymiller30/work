@@ -25,7 +25,6 @@ namespace BackgroundTaskServiceLib
             catch (Exception e)
             {
                 Logger.Log.Error(null, "BackgroundTaskItem", $"[{e.Message}]"); ;
-
             }
             finally
             {

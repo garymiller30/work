@@ -65,8 +65,6 @@ namespace Plugins
             {
                 Stopwatch _sw = new Stopwatch();
 
-
-
                 var files = new DirectoryInfo(path).GetFiles("*.dll");
 
                 foreach (var fi in files)
@@ -160,9 +158,10 @@ namespace Plugins
                         }
 
                     }
-                    finally { 
+                    finally
+                    {
                         _sw.Stop();
-                        Log.Info(this, $"({_profile.Settings.ProfileName}) Plugin Manager : Load : ",$"{fi.Name} - {_sw.ElapsedMilliseconds} ms");
+                        Log.Info(this, $"({_profile.Settings.ProfileName}) Plugin Manager : Load : ", $"{fi.Name} - {_sw.ElapsedMilliseconds} ms");
                         _sw.Reset();
 
                     }
@@ -421,6 +420,45 @@ namespace Plugins
             {
                 pluginFormAddWork.RemoveProcessByJobId(id);
             }
+        }
+
+
+
+
+        public string ReplaceStr(IJob job, string str)
+        {
+            // знайти в рядку шаблон $plugin:"ІмяПлагіна":[Параметр] через регулярки
+            string template = @"\$plugin:""(?<pluginName>[^""]+)""\:\[(?<param>[^\]]+)\]";
+            var matches = System.Text.RegularExpressions.Regex.Matches(str, template);
+            if (matches.Count > 0)
+            {
+
+                string replaced = str;
+
+                foreach (System.Text.RegularExpressions.Match match in matches)
+                {
+                    var pluginName = match.Groups["pluginName"].Value;
+                    var param = match.Groups["param"].Value;
+
+                    IPluginFormAddWork plugin = GetPluginAddWorkByName(pluginName);
+                    if (plugin != null)
+                    {
+                        string res = plugin.GetValue(job, param);
+                        // замінити в рядку
+                        replaced = replaced.Replace(match.Value, res);
+                    }
+                }
+
+                return replaced;
+            }
+
+            return str;
+        }
+
+        private IPluginFormAddWork GetPluginAddWorkByName(string pluginName)
+        {
+            var plugin = _pluginFormAddWorks.FirstOrDefault(x => x.Name.Equals(pluginName, StringComparison.InvariantCulture));
+            return plugin;
         }
         #endregion
     }

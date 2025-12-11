@@ -1,5 +1,6 @@
 ﻿using BrightIdeasSoftware;
 using JobSpace.Dlg;
+using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using Ookii.Dialogs.WinForms;
@@ -21,7 +22,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public EventHandler<PrintSheet> OnPrintSheetsChanged { get; set; } = delegate { };
         public EventHandler JustReassignPages { get; set; } = delegate { };
         public EventHandler OnPrintSheetDeleted { get; set; } = delegate { };
-
+        Profile _profile;
         //int id = 1;
         ControlBindParameters _controlBindParameters;
         public PrintSheetsControl()
@@ -46,8 +47,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
             objectListView1.DropSink = new RearrangingDropSink(false);
         }
 
-        public void SetControlBindParameters(ControlBindParameters controlBindParameters)
+        public void SetControlBindParameters(Profile profile, ControlBindParameters controlBindParameters)
         {
+            _profile = profile;
             _controlBindParameters = controlBindParameters;
         }
 
@@ -93,12 +95,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void tsb_savePrintSheet_Click(object sender, EventArgs e)
         {
             if (objectListView1.Objects == null) return;
-            SaveLoadService.SavePrintSheets(objectListView1.Objects.Cast<PrintSheet>().ToList());
+            _profile.ImposService.SavePrintSheets(objectListView1.Objects.Cast<PrintSheet>().ToList());
         }
 
         private void tsb_loadPrintSheet_Click(object sender, EventArgs e)
         {
-             List<PrintSheet> list = SaveLoadService.LoadPrintSheets();
+             List<PrintSheet> list = _profile.ImposService.LoadPrintSheets();
 
             objectListView1.AddObjects(list);
 
@@ -110,7 +112,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
 
-            using (var form = new FormAddTemplatePlate())
+            using (var form = new FormAddTemplatePlate(_profile))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -159,15 +161,24 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 form.CheckFileExists = true;
                 form.Filter = "JSON files (*.json)|*.json";
-                form.FileName = Path.GetDirectoryName(_controlBindParameters.PdfFiles[0].FileName)+ "\\";
+                form.FileName = Path.GetDirectoryName(_controlBindParameters.ProductPart.PdfFiles[0].FileName)+ "\\";
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    var list = SaveLoadService.LoadPrintSheets(form.FileName);
+                    var list = _profile.ImposService.LoadPrintSheets(form.FileName);
                     objectListView1.AddObjects(list);
                     JustReassignPages(this, null);
                 }
             }
+        }
+
+        public int[] GetSheetsIdxForPrint()
+        {
+            if (objectListView1.SelectedObjects.Count != 0)
+            {
+               return objectListView1.SelectedIndices.Cast<int>().ToArray();
+            }
+            return null;
         }
     }
 }

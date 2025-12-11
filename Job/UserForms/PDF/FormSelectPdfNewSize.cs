@@ -1,4 +1,5 @@
 ﻿using ImageMagick;
+using Interfaces;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Scale;
 using System;
@@ -10,12 +11,21 @@ namespace JobSpace.UserForms
     {
 
         public PdfScaleParams Params { get; set; } = new PdfScaleParams();
+        IFileSystemInfoExt _fsi;
 
         public FormSelectPdfNewSize()
         {
             InitializeComponent();
             comboBoxWorH.SelectedIndex = 0;
             DialogResult = DialogResult.Cancel;
+        }
+
+        public FormSelectPdfNewSize(IFileSystemInfoExt fsi):this()
+        {
+            _fsi = fsi;
+            var pageInfo = PdfHelper.GetPageInfo(_fsi.FileInfo.FullName,0);
+            numericUpDownWidth.Value = (decimal)pageInfo.Trimbox.wMM();
+            numericUpDownHeight.Value = (decimal)pageInfo.Trimbox.hMM();
         }
 
         private void button1_Click(object sender, EventArgs e)
