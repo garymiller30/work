@@ -47,6 +47,9 @@ namespace JobSpace.UC
 
         private async void GetPreview()
         {
+            double wMM = 100;
+            double hMM = 100;
+
             uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
 
             // Асинхронно завантажуємо фінальне зображення
@@ -59,9 +62,18 @@ namespace JobSpace.UC
                 var temp = new System.Drawing.Bitmap(preview);
                 preview.Dispose();
                 preview = temp;
+                wMM = (double)(preview.Width / preview.HorizontalResolution * 25.4);
+                hMM = (double)(preview.Height / preview.VerticalResolution * 25.4);
             }
             uc_PreviewControl1.StopWait();
-            uc_PreviewControl1.SetImage(preview, boxes_pages[_currentPage-1].Trimbox.wMM(), boxes_pages[_currentPage - 1].Trimbox.hMM());
+
+            if (boxes_pages != null)
+            {
+                wMM = boxes_pages[_currentPage - 1].Trimbox.wMM();
+                hMM = boxes_pages[_currentPage - 1].Trimbox.hMM();
+            }
+
+            uc_PreviewControl1.SetImage(preview, wMM, hMM);
         }
 
         private void tsb_previous_page_Click(object sender, EventArgs e)
