@@ -1,20 +1,16 @@
 ﻿using BackgroundTaskServiceLib;
-using BrightIdeasSoftware;
-using ExtensionMethods;
+using ImageMagick;
 using Interfaces;
 using JobSpace.Dlg;
-using JobSpace.Menus;
 using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition;
-using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.MergeOddAndEven;
 using JobSpace.Static.Pdf.MergeTemporary;
 using JobSpace.UC;
 using JobSpace.UserForms;
 using JobSpace.UserForms.PDF;
 using JobSpace.UserForms.PDF.Visual;
-using Krypton.Toolkit;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
 using PDFManipulate.Forms;
@@ -860,6 +856,13 @@ namespace JobSpace.Static
             else if (ext == ".tif" || ext == ".tiff" || ext == ".png" || ext == ".bmp" || ext == ".jpg" || ext == ".jpeg")
             {
                 return Image.FromFile(f.FileInfo.FullName);
+            }
+            else if (ext == ".psd")
+            {
+                using (var psd = new MagickImage(f.FileInfo.FullName))
+                {
+                    return psd.ToBitmap();
+                }
             }
             return null;
         }
