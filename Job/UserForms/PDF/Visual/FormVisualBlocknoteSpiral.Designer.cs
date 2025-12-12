@@ -36,8 +36,6 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cb_files = new System.Windows.Forms.ComboBox();
-            this.label_total_pages = new System.Windows.Forms.Label();
-            this.nud_page_number = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel_rect_params = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -59,12 +57,10 @@
             this.nud_rect_h = new System.Windows.Forms.NumericUpDown();
             this.nud_rect_w = new System.Windows.Forms.NumericUpDown();
             this.cb_rect = new System.Windows.Forms.CheckBox();
-            this.cb_fit_to_panel = new System.Windows.Forms.CheckBox();
-            this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_page_number)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.panel_rect_params.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -128,52 +124,22 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.cb_files);
-            this.groupBox1.Controls.Add(this.label_total_pages);
-            this.groupBox1.Controls.Add(this.nud_page_number);
             this.groupBox1.Location = new System.Drawing.Point(12, 134);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(256, 51);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "сторінка";
+            this.groupBox1.Text = "файл";
             // 
             // cb_files
             // 
             this.cb_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_files.FormattingEnabled = true;
-            this.cb_files.Location = new System.Drawing.Point(11, 18);
+            this.cb_files.Location = new System.Drawing.Point(6, 18);
             this.cb_files.Name = "cb_files";
-            this.cb_files.Size = new System.Drawing.Size(154, 21);
+            this.cb_files.Size = new System.Drawing.Size(244, 21);
             this.cb_files.TabIndex = 2;
             this.cb_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged_1);
-            // 
-            // label_total_pages
-            // 
-            this.label_total_pages.AutoSize = true;
-            this.label_total_pages.Location = new System.Drawing.Point(219, 21);
-            this.label_total_pages.Name = "label_total_pages";
-            this.label_total_pages.Size = new System.Drawing.Size(27, 13);
-            this.label_total_pages.TabIndex = 1;
-            this.label_total_pages.Text = "/ 00";
-            // 
-            // nud_page_number
-            // 
-            this.nud_page_number.Location = new System.Drawing.Point(171, 19);
-            this.nud_page_number.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_page_number.Name = "nud_page_number";
-            this.nud_page_number.Size = new System.Drawing.Size(42, 20);
-            this.nud_page_number.TabIndex = 0;
-            this.nud_page_number.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_page_number.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_page_number.ValueChanged += new System.EventHandler(this.nud_page_number_ValueChanged);
             // 
             // groupBox2
             // 
@@ -441,38 +407,22 @@
             this.cb_rect.UseVisualStyleBackColor = true;
             this.cb_rect.CheckedChanged += new System.EventHandler(this.cb_rect_CheckedChanged);
             // 
-            // cb_fit_to_panel
+            // uc_PreviewBrowserFile1
             // 
-            this.cb_fit_to_panel.AutoSize = true;
-            this.cb_fit_to_panel.Checked = true;
-            this.cb_fit_to_panel.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_fit_to_panel.Location = new System.Drawing.Point(12, 464);
-            this.cb_fit_to_panel.Name = "cb_fit_to_panel";
-            this.cb_fit_to_panel.Size = new System.Drawing.Size(163, 17);
-            this.cb_fit_to_panel.TabIndex = 8;
-            this.cb_fit_to_panel.Text = "зображення в розмір вікна";
-            this.cb_fit_to_panel.UseVisualStyleBackColor = true;
-            this.cb_fit_to_panel.CheckedChanged += new System.EventHandler(this.cb_fit_to_panel_CheckedChanged);
-            // 
-            // uc_PreviewControl1
-            // 
-            this.uc_PreviewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.uc_PreviewBrowserFile1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uc_PreviewControl1.FitToScreen = true;
-            this.uc_PreviewControl1.Location = new System.Drawing.Point(274, 12);
-            this.uc_PreviewControl1.Name = "uc_PreviewControl1";
-            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
-            this.uc_PreviewControl1.Size = new System.Drawing.Size(688, 530);
-            this.uc_PreviewControl1.TabIndex = 9;
+            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(274, 12);
+            this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
+            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(688, 530);
+            this.uc_PreviewBrowserFile1.TabIndex = 9;
             // 
             // FormVisualBlocknoteSpiral
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(974, 554);
-            this.Controls.Add(this.uc_PreviewControl1);
-            this.Controls.Add(this.cb_fit_to_panel);
+            this.Controls.Add(this.uc_PreviewBrowserFile1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox5);
@@ -485,8 +435,6 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_page_number)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.panel_rect_params.ResumeLayout(false);
@@ -497,7 +445,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_h)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_w)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -509,8 +456,6 @@
         private System.Windows.Forms.ComboBox cb_place;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label_total_pages;
-        private System.Windows.Forms.NumericUpDown nud_page_number;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Panel panel_rect_params;
         private System.Windows.Forms.Label label2;
@@ -522,7 +467,6 @@
         private System.Windows.Forms.NumericUpDown nud_rect_y;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown nud_rect_x;
-        private System.Windows.Forms.CheckBox cb_fit_to_panel;
         private System.Windows.Forms.ComboBox cb_files;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btn_bottom_right;
@@ -534,6 +478,6 @@
         private System.Windows.Forms.Button bnt_top_right;
         private System.Windows.Forms.Button btn_top_center;
         private System.Windows.Forms.Button bnt_top_left;
-        private UC.Uc_PreviewControl uc_PreviewControl1;
+        private UC.Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
     }
 }
