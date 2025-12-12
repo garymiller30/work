@@ -37,6 +37,8 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_next_page = new System.Windows.Forms.ToolStripButton();
             this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsb_fit_to_window = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,7 +51,9 @@
             this.tst_cur_page,
             this.tsl_count_pages,
             this.toolStripSeparator2,
-            this.tsb_next_page});
+            this.tsb_next_page,
+            this.toolStripSeparator3,
+            this.tsb_fit_to_window});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(233, 25);
@@ -110,8 +114,27 @@
             this.uc_PreviewControl1.Location = new System.Drawing.Point(0, 25);
             this.uc_PreviewControl1.Margin = new System.Windows.Forms.Padding(0);
             this.uc_PreviewControl1.Name = "uc_PreviewControl1";
+            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
             this.uc_PreviewControl1.Size = new System.Drawing.Size(233, 202);
             this.uc_PreviewControl1.TabIndex = 1;
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsb_fit_to_window
+            // 
+            this.tsb_fit_to_window.Checked = true;
+            this.tsb_fit_to_window.CheckOnClick = true;
+            this.tsb_fit_to_window.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tsb_fit_to_window.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_fit_to_window.Image = ((System.Drawing.Image)(resources.GetObject("tsb_fit_to_window.Image")));
+            this.tsb_fit_to_window.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_fit_to_window.Name = "tsb_fit_to_window";
+            this.tsb_fit_to_window.Size = new System.Drawing.Size(23, 22);
+            this.tsb_fit_to_window.Text = "Зображення в розмір вікна";
+            this.tsb_fit_to_window.CheckStateChanged += new System.EventHandler(this.tsb_fit_to_window_CheckStateChanged);
             // 
             // Uc_PreviewBrowserFile
             // 
@@ -138,5 +161,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private Uc_PreviewControl uc_PreviewControl1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton tsb_fit_to_window;
     }
 }

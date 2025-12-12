@@ -175,5 +175,18 @@ namespace JobSpace.UC
         {
             pb_preview.Invalidate();
         }
+
+        public void SetFitWithResetZoom(bool fit)
+        {
+            if (fit) { 
+                _fitToScreen = true;
+            }
+            else
+            {
+                _fitToScreen = false;
+                _zoomFactor = 1.0f;
+            }
+            UpdatePreviewLayout();
+        }
     }
 }

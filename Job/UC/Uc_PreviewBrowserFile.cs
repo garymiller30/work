@@ -116,5 +116,16 @@ namespace JobSpace.UC
         {
             uc_PreviewControl1.SetImage(null,0,0);
         }
+
+        private void tsb_fit_to_window_CheckStateChanged(object sender, EventArgs e)
+        {
+            uc_PreviewControl1.SetFitWithResetZoom(tsb_fit_to_window.Checked) ;
+        }
+
+        public void SetPrimitives(List<IScreenPrimitive> primitives)
+        {
+            uc_PreviewControl1.Primitives = primitives;
+        }
+
     }
 }
