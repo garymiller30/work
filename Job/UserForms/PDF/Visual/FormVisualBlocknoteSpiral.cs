@@ -27,6 +27,11 @@ namespace JobSpace.UserForms.PDF.Visual
             InitializeComponent();
             SetDefaults();
             cb_files.DisplayMember = "Name";
+
+            uc_PreviewBrowserFile1.OnPageChanged += (s, pageIdx) =>
+            {
+                Redraw();
+            };
             DialogResult = DialogResult.Cancel;
         }
 

@@ -75,7 +75,7 @@
             // 
             // buttonCreate
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(344, 365);
+            this.buttonCreate.Location = new System.Drawing.Point(107, 431);
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.Size = new System.Drawing.Size(91, 35);
             this.buttonCreate.TabIndex = 0;
@@ -90,7 +90,7 @@
             this.groupBox1.Controls.Add(this.radioButtonHor);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(423, 70);
+            this.groupBox1.Size = new System.Drawing.Size(299, 102);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Напрямок";
@@ -109,7 +109,7 @@
             // radioButtonVer
             // 
             this.radioButtonVer.AutoSize = true;
-            this.radioButtonVer.Location = new System.Drawing.Point(231, 19);
+            this.radioButtonVer.Location = new System.Drawing.Point(7, 69);
             this.radioButtonVer.Name = "radioButtonVer";
             this.radioButtonVer.Size = new System.Drawing.Size(160, 17);
             this.radioButtonVer.TabIndex = 1;
@@ -134,9 +134,9 @@
             // 
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.numLen);
-            this.groupBox2.Location = new System.Drawing.Point(298, 259);
+            this.groupBox2.Location = new System.Drawing.Point(12, 337);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(137, 69);
+            this.groupBox2.Size = new System.Drawing.Size(90, 69);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "довжина лінії";
@@ -144,7 +144,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(108, 31);
+            this.label1.Location = new System.Drawing.Point(58, 31);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(23, 13);
             this.label1.TabIndex = 1;
@@ -152,14 +152,15 @@
             // 
             // numLen
             // 
-            this.numLen.Location = new System.Drawing.Point(6, 29);
+            this.numLen.DecimalPlaces = 1;
+            this.numLen.Location = new System.Drawing.Point(10, 29);
             this.numLen.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numLen.Name = "numLen";
-            this.numLen.Size = new System.Drawing.Size(99, 20);
+            this.numLen.Size = new System.Drawing.Size(42, 20);
             this.numLen.TabIndex = 0;
             this.numLen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numLen.Value = new decimal(new int[] {
@@ -174,9 +175,9 @@
             // 
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.numDistanse);
-            this.groupBox3.Location = new System.Drawing.Point(155, 259);
+            this.groupBox3.Location = new System.Drawing.Point(153, 259);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(137, 69);
+            this.groupBox3.Size = new System.Drawing.Size(158, 69);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "відстань від лінії різу";
@@ -184,7 +185,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(108, 31);
+            this.label2.Location = new System.Drawing.Point(98, 31);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(23, 13);
             this.label2.TabIndex = 2;
@@ -192,14 +193,15 @@
             // 
             // numDistanse
             // 
-            this.numDistanse.Location = new System.Drawing.Point(6, 29);
+            this.numDistanse.DecimalPlaces = 1;
+            this.numDistanse.Location = new System.Drawing.Point(33, 29);
             this.numDistanse.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numDistanse.Name = "numDistanse";
-            this.numDistanse.Size = new System.Drawing.Size(99, 20);
+            this.numDistanse.Size = new System.Drawing.Size(59, 20);
             this.numDistanse.TabIndex = 0;
             this.numDistanse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numDistanse.Value = new decimal(new int[] {
@@ -216,7 +218,7 @@
             this.groupBox4.Controls.Add(this.numBleed);
             this.groupBox4.Location = new System.Drawing.Point(12, 259);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(137, 69);
+            this.groupBox4.Size = new System.Drawing.Size(135, 69);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "поля на підрізку";
@@ -224,7 +226,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(108, 31);
+            this.label3.Location = new System.Drawing.Point(93, 31);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(23, 13);
             this.label3.TabIndex = 2;
@@ -232,14 +234,15 @@
             // 
             // numBleed
             // 
-            this.numBleed.Location = new System.Drawing.Point(6, 29);
+            this.numBleed.DecimalPlaces = 1;
+            this.numBleed.Location = new System.Drawing.Point(25, 29);
             this.numBleed.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numBleed.Name = "numBleed";
-            this.numBleed.Size = new System.Drawing.Size(99, 20);
+            this.numBleed.Size = new System.Drawing.Size(61, 20);
             this.numBleed.TabIndex = 0;
             this.numBleed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numBleed.Value = new decimal(new int[] {
@@ -256,7 +259,7 @@
             this.groupBox5.Controls.Add(this.textBoxBigovky);
             this.groupBox5.Location = new System.Drawing.Point(12, 174);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(423, 79);
+            this.groupBox5.Size = new System.Drawing.Size(299, 79);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Біговки (числа через пробіл)";
@@ -273,9 +276,11 @@
             // 
             // textBoxBigovky
             // 
+            this.textBoxBigovky.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxBigovky.Location = new System.Drawing.Point(6, 19);
             this.textBoxBigovky.Name = "textBoxBigovky";
-            this.textBoxBigovky.Size = new System.Drawing.Size(410, 20);
+            this.textBoxBigovky.Size = new System.Drawing.Size(286, 20);
             this.textBoxBigovky.TabIndex = 0;
             this.textBoxBigovky.TextChanged += new System.EventHandler(this.textBoxBigovky_TextChanged);
             // 
@@ -289,9 +294,9 @@
             this.groupBox6.Controls.Add(this.numY);
             this.groupBox6.Controls.Add(this.numM);
             this.groupBox6.Controls.Add(this.numC);
-            this.groupBox6.Location = new System.Drawing.Point(12, 334);
+            this.groupBox6.Location = new System.Drawing.Point(108, 334);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(213, 72);
+            this.groupBox6.Size = new System.Drawing.Size(203, 72);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Колір";
@@ -300,7 +305,7 @@
             // 
             this.cb_b.Appearance = System.Windows.Forms.Appearance.Button;
             this.cb_b.AutoSize = true;
-            this.cb_b.Location = new System.Drawing.Point(169, 19);
+            this.cb_b.Location = new System.Drawing.Point(162, 19);
             this.cb_b.Name = "cb_b";
             this.cb_b.Size = new System.Drawing.Size(24, 23);
             this.cb_b.TabIndex = 10;
@@ -312,7 +317,7 @@
             // 
             this.cb_y.Appearance = System.Windows.Forms.Appearance.Button;
             this.cb_y.AutoSize = true;
-            this.cb_y.Location = new System.Drawing.Point(120, 19);
+            this.cb_y.Location = new System.Drawing.Point(113, 19);
             this.cb_y.Name = "cb_y";
             this.cb_y.Size = new System.Drawing.Size(24, 23);
             this.cb_y.TabIndex = 9;
@@ -324,7 +329,7 @@
             // 
             this.cb_m.Appearance = System.Windows.Forms.Appearance.Button;
             this.cb_m.AutoSize = true;
-            this.cb_m.Location = new System.Drawing.Point(71, 19);
+            this.cb_m.Location = new System.Drawing.Point(64, 19);
             this.cb_m.Name = "cb_m";
             this.cb_m.Size = new System.Drawing.Size(26, 23);
             this.cb_m.TabIndex = 8;
@@ -336,7 +341,7 @@
             // 
             this.cb_c.Appearance = System.Windows.Forms.Appearance.Button;
             this.cb_c.AutoSize = true;
-            this.cb_c.Location = new System.Drawing.Point(22, 19);
+            this.cb_c.Location = new System.Drawing.Point(15, 19);
             this.cb_c.Name = "cb_c";
             this.cb_c.Size = new System.Drawing.Size(24, 23);
             this.cb_c.TabIndex = 7;
@@ -346,7 +351,7 @@
             // 
             // numK
             // 
-            this.numK.Location = new System.Drawing.Point(160, 46);
+            this.numK.Location = new System.Drawing.Point(153, 46);
             this.numK.Name = "numK";
             this.numK.Size = new System.Drawing.Size(43, 20);
             this.numK.TabIndex = 3;
@@ -356,7 +361,7 @@
             // 
             // numY
             // 
-            this.numY.Location = new System.Drawing.Point(111, 46);
+            this.numY.Location = new System.Drawing.Point(104, 46);
             this.numY.Name = "numY";
             this.numY.Size = new System.Drawing.Size(43, 20);
             this.numY.TabIndex = 2;
@@ -366,7 +371,7 @@
             // 
             // numM
             // 
-            this.numM.Location = new System.Drawing.Point(62, 46);
+            this.numM.Location = new System.Drawing.Point(55, 46);
             this.numM.Name = "numM";
             this.numM.Size = new System.Drawing.Size(43, 20);
             this.numM.TabIndex = 1;
@@ -376,7 +381,7 @@
             // 
             // numC
             // 
-            this.numC.Location = new System.Drawing.Point(13, 46);
+            this.numC.Location = new System.Drawing.Point(6, 46);
             this.numC.Name = "numC";
             this.numC.Size = new System.Drawing.Size(43, 20);
             this.numC.TabIndex = 0;
@@ -387,20 +392,22 @@
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.cb_files);
-            this.groupBox7.Location = new System.Drawing.Point(12, 88);
+            this.groupBox7.Location = new System.Drawing.Point(12, 120);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(290, 48);
+            this.groupBox7.Size = new System.Drawing.Size(299, 48);
             this.groupBox7.TabIndex = 8;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "файл";
             // 
             // cb_files
             // 
+            this.cb_files.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_files.FormattingEnabled = true;
             this.cb_files.Location = new System.Drawing.Point(7, 18);
             this.cb_files.Name = "cb_files";
-            this.cb_files.Size = new System.Drawing.Size(273, 21);
+            this.cb_files.Size = new System.Drawing.Size(285, 21);
             this.cb_files.TabIndex = 3;
             this.cb_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged);
             // 
@@ -409,16 +416,16 @@
             this.uc_PreviewBrowserFile1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(441, 12);
+            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(317, 12);
             this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
-            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(669, 404);
+            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(457, 460);
             this.uc_PreviewBrowserFile1.TabIndex = 10;
             // 
             // FormCreateBigovkaMarks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1122, 428);
+            this.ClientSize = new System.Drawing.Size(786, 484);
             this.Controls.Add(this.uc_PreviewBrowserFile1);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
