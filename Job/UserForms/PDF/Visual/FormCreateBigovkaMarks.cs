@@ -1,5 +1,6 @@
 ﻿using Interfaces;
 using JobSpace.Models.ScreenPrimitives;
+using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Create.BigovkaMarks;
 using JobSpace.Static.Pdf.Imposition.Models;
@@ -17,10 +18,7 @@ namespace JobSpace.UserForms.PDF
 {
     public partial class FormCreateBigovkaMarks : Form
     {
-        float _zoomFactor = 1.0f;
         FileInfo _fsi;
-        Bitmap _page_preview;
-        List<PdfPageInfo> boxes_pages;
         Pen big_pen = new Pen(Color.Green, 0.6f);
         Pen white_pen = new Pen(Color.White, 1.0f);
 
@@ -35,7 +33,7 @@ namespace JobSpace.UserForms.PDF
             cb_mirrorEven.DataBindings.Add("Enabled", radioButtonHor, "Checked");
             
             InitUi();
-
+            uc_PreviewBrowserFile1.OnPageChanged += (s, e) => { Draw(); };
             DialogResult = DialogResult.Cancel;
         }
 
@@ -45,14 +43,6 @@ namespace JobSpace.UserForms.PDF
             
             cb_files.Items.Add(_fsi);
             cb_files.SelectedIndex = 0;
-            
-            boxes_pages = PdfHelper.GetPagesInfo(_fsi.FullName);
-            nud_page_number.Maximum = boxes_pages.Count;
-            label_total_pages.Text = $"/{boxes_pages.Count}";
-            GetPagePreview(0);
-
-
-          
         }
 
         public FormCreateBigovkaMarks(List<IFileSystemInfoExt> infoExts): this()
@@ -68,20 +58,9 @@ namespace JobSpace.UserForms.PDF
             }
         }
 
-        private void GetPagePreview(int page_idx)
-        {
-            if (_page_preview != null) _page_preview.Dispose();
-
-            _page_preview = PdfHelper.RenderByTrimBox(_fsi, page_idx);
-            var box = boxes_pages[page_idx];
-
-            Draw();
-        }
-
         private void InitUi()
         {
             cb_mirrorEven.Checked = BigovkaMarksParams.MirrorEven;
-            uc_PreviewControl1.FitToScreen = cb_fit_to_panel.Checked;
         }
 
         private void buttonCreate_Click(object sender, EventArgs e)
@@ -153,11 +132,6 @@ namespace JobSpace.UserForms.PDF
 
         void Draw()
         {
-            if (_page_preview == null) return;
-           
-            var box = boxes_pages[(int)(nud_page_number.Value - 1)];
-
-            uc_PreviewControl1.SetImage(_page_preview, (float)box.Trimbox.wMM(), (float)box.Trimbox.hMM());
 
             DrawBigovki();
         }
@@ -181,13 +155,13 @@ namespace JobSpace.UserForms.PDF
                     break;
             }
 
-            uc_PreviewControl1.Primitives = _primitives;
+            uc_PreviewBrowserFile1.SetPrimitives( _primitives);
         }
 
         private void DrawVerticalBigovki()
         {
-            var page_idx = (int)(nud_page_number.Value - 1);
-            var box = boxes_pages[page_idx];
+            
+            var box = uc_PreviewBrowserFile1.GetCurrentPageInfo();
 
             float x_start = 0;
             float x_end = (float)box.Trimbox.wMM();
@@ -203,8 +177,8 @@ namespace JobSpace.UserForms.PDF
 
         private void DrawHorizontalBigovki()
         {
-            var page_idx = (int)(nud_page_number.Value - 1);
-            var box = boxes_pages[page_idx];
+            var page_idx = uc_PreviewBrowserFile1.GetCurrentPageIdx();
+            var box = uc_PreviewBrowserFile1.GetCurrentPageInfo();
 
             bool isEven = (page_idx + 1) % 2 == 0;
             float x = 0;
@@ -232,11 +206,6 @@ namespace JobSpace.UserForms.PDF
             }
         }
 
-        private void nud_page_number_ValueChanged(object sender, EventArgs e)
-        {
-            GetPagePreview((int)(nud_page_number.Value - 1));
-        }
-
         private void textBoxBigovky_TextChanged(object sender, EventArgs e)
         {
             if (CreateParameters() == true) Draw();
@@ -257,39 +226,16 @@ namespace JobSpace.UserForms.PDF
             if (cb_files.SelectedItem is FileInfo fsi)
             {
                 _fsi = fsi;
-                GetFilePreview();
+                uc_PreviewBrowserFile1.Show(fsi.ToFileSystemInfoExt());
                 Draw();
             }
         }
 
-        private void GetFilePreview()
-        {
-            boxes_pages = PdfHelper.GetPagesInfo(_fsi.FullName);
-            label_total_pages.Text = $"/ {boxes_pages.Count}";
-            nud_page_number.Maximum = boxes_pages.Count;
-            GetPdfPagePreview((int)nud_page_number.Value);
-        }
-
-        private void GetPdfPagePreview(int page)
-        {
-            if (_page_preview != null) _page_preview.Dispose();
-            _page_preview = PdfHelper.RenderByTrimBox(_fsi, page - 1);
-        }
-
-        private void cb_fit_to_panel_CheckedChanged(object sender, EventArgs e)
-        {
-            uc_PreviewControl1.FitToScreen = cb_fit_to_panel.Checked;
-            if (!cb_fit_to_panel.Checked)
-            {
-                uc_PreviewControl1.SetZoomFactor(1.0f);
-            }
-        }
 
         private void btn_add_to_center_Click(object sender, EventArgs e)
         {
             // отримати поточну сторінку, дізнатися ширину сторінки і додати в текстбокс біговки половину ширини
-            var page_idx = (int)(nud_page_number.Value - 1);
-            var box = boxes_pages[page_idx];
+            var box = uc_PreviewBrowserFile1.GetCurrentPageInfo();
             double half = 0;
             if (radioButtonHor.Checked)
             {

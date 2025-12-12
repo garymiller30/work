@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCreateBigovkaMarks));
             this.buttonCreate = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cb_mirrorEven = new System.Windows.Forms.CheckBox();
@@ -44,6 +43,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.numBleed = new System.Windows.Forms.NumericUpDown();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btn_add_to_center = new System.Windows.Forms.Button();
             this.textBoxBigovky = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.cb_b = new System.Windows.Forms.CheckBox();
@@ -56,11 +56,7 @@
             this.numC = new System.Windows.Forms.NumericUpDown();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.cb_files = new System.Windows.Forms.ComboBox();
-            this.label_total_pages = new System.Windows.Forms.Label();
-            this.nud_page_number = new System.Windows.Forms.NumericUpDown();
-            this.cb_fit_to_panel = new System.Windows.Forms.CheckBox();
-            this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
-            this.btn_add_to_center = new System.Windows.Forms.Button();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLen)).BeginInit();
@@ -75,7 +71,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numC)).BeginInit();
             this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_page_number)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonCreate
@@ -266,6 +261,16 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Біговки (числа через пробіл)";
             // 
+            // btn_add_to_center
+            // 
+            this.btn_add_to_center.Location = new System.Drawing.Point(7, 45);
+            this.btn_add_to_center.Name = "btn_add_to_center";
+            this.btn_add_to_center.Size = new System.Drawing.Size(75, 28);
+            this.btn_add_to_center.TabIndex = 1;
+            this.btn_add_to_center.Text = "+ по центру";
+            this.btn_add_to_center.UseVisualStyleBackColor = true;
+            this.btn_add_to_center.Click += new System.EventHandler(this.btn_add_to_center_Click);
+            // 
             // textBoxBigovky
             // 
             this.textBoxBigovky.Location = new System.Drawing.Point(6, 19);
@@ -382,14 +387,12 @@
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.cb_files);
-            this.groupBox7.Controls.Add(this.label_total_pages);
-            this.groupBox7.Controls.Add(this.nud_page_number);
             this.groupBox7.Location = new System.Drawing.Point(12, 88);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(423, 48);
+            this.groupBox7.Size = new System.Drawing.Size(290, 48);
             this.groupBox7.TabIndex = 8;
             this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "сторінка";
+            this.groupBox7.Text = "файл";
             // 
             // cb_files
             // 
@@ -401,76 +404,22 @@
             this.cb_files.TabIndex = 3;
             this.cb_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged);
             // 
-            // label_total_pages
+            // uc_PreviewBrowserFile1
             // 
-            this.label_total_pages.AutoSize = true;
-            this.label_total_pages.Location = new System.Drawing.Point(377, 21);
-            this.label_total_pages.Name = "label_total_pages";
-            this.label_total_pages.Size = new System.Drawing.Size(27, 13);
-            this.label_total_pages.TabIndex = 1;
-            this.label_total_pages.Text = "/ 00";
-            // 
-            // nud_page_number
-            // 
-            this.nud_page_number.Location = new System.Drawing.Point(292, 19);
-            this.nud_page_number.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_page_number.Name = "nud_page_number";
-            this.nud_page_number.Size = new System.Drawing.Size(79, 20);
-            this.nud_page_number.TabIndex = 0;
-            this.nud_page_number.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_page_number.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_page_number.ValueChanged += new System.EventHandler(this.nud_page_number_ValueChanged);
-            // 
-            // cb_fit_to_panel
-            // 
-            this.cb_fit_to_panel.AutoSize = true;
-            this.cb_fit_to_panel.Checked = true;
-            this.cb_fit_to_panel.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_fit_to_panel.Location = new System.Drawing.Point(19, 151);
-            this.cb_fit_to_panel.Name = "cb_fit_to_panel";
-            this.cb_fit_to_panel.Size = new System.Drawing.Size(163, 17);
-            this.cb_fit_to_panel.TabIndex = 9;
-            this.cb_fit_to_panel.Text = "зображення в розмір вікна";
-            this.cb_fit_to_panel.UseVisualStyleBackColor = true;
-            this.cb_fit_to_panel.CheckedChanged += new System.EventHandler(this.cb_fit_to_panel_CheckedChanged);
-            // 
-            // uc_PreviewControl1
-            // 
-            this.uc_PreviewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.uc_PreviewBrowserFile1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uc_PreviewControl1.FitToScreen = true;
-            this.uc_PreviewControl1.Location = new System.Drawing.Point(441, 10);
-            this.uc_PreviewControl1.Name = "uc_PreviewControl1";
-            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
-            this.uc_PreviewControl1.Size = new System.Drawing.Size(339, 409);
-            this.uc_PreviewControl1.TabIndex = 10;
-            // 
-            // btn_add_to_center
-            // 
-            this.btn_add_to_center.Location = new System.Drawing.Point(7, 45);
-            this.btn_add_to_center.Name = "btn_add_to_center";
-            this.btn_add_to_center.Size = new System.Drawing.Size(75, 28);
-            this.btn_add_to_center.TabIndex = 1;
-            this.btn_add_to_center.Text = "+ по центру";
-            this.btn_add_to_center.UseVisualStyleBackColor = true;
-            this.btn_add_to_center.Click += new System.EventHandler(this.btn_add_to_center_Click);
+            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(441, 12);
+            this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
+            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(669, 404);
+            this.uc_PreviewBrowserFile1.TabIndex = 10;
             // 
             // FormCreateBigovkaMarks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(790, 431);
-            this.Controls.Add(this.uc_PreviewControl1);
-            this.Controls.Add(this.cb_fit_to_panel);
+            this.ClientSize = new System.Drawing.Size(1122, 428);
+            this.Controls.Add(this.uc_PreviewBrowserFile1);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
@@ -503,10 +452,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numC)).EndInit();
             this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_page_number)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -538,11 +484,8 @@
         private System.Windows.Forms.CheckBox cb_c;
         private System.Windows.Forms.CheckBox cb_mirrorEven;
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.Label label_total_pages;
-        private System.Windows.Forms.NumericUpDown nud_page_number;
         private System.Windows.Forms.ComboBox cb_files;
-        private System.Windows.Forms.CheckBox cb_fit_to_panel;
-        private UC.Uc_PreviewControl uc_PreviewControl1;
         private System.Windows.Forms.Button btn_add_to_center;
+        private UC.Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
     }
 }
