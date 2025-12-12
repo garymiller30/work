@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormVisualFalc));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cb_cnt_falc = new System.Windows.Forms.ComboBox();
             this.gb_p1 = new System.Windows.Forms.GroupBox();
@@ -64,14 +63,10 @@
             this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.nud_width = new System.Windows.Forms.NumericUpDown();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.cb_mirrored_parts = new System.Windows.Forms.CheckBox();
-            this.nud_page_no = new System.Windows.Forms.NumericUpDown();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label_total_pages = new System.Windows.Forms.Label();
             this.btn_create_schema = new System.Windows.Forms.Button();
             this.btn_mark_file = new System.Windows.Forms.Button();
-            this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
             this.groupBox1.SuspendLayout();
             this.gb_p1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -96,9 +91,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
             this.groupBox12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_page_no)).BeginInit();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -106,13 +98,15 @@
             this.groupBox1.Controls.Add(this.cb_cnt_falc);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(139, 51);
+            this.groupBox1.Size = new System.Drawing.Size(117, 51);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "кількість фальців";
             // 
             // cb_cnt_falc
             // 
+            this.cb_cnt_falc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cb_cnt_falc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_cnt_falc.FormattingEnabled = true;
             this.cb_cnt_falc.Items.AddRange(new object[] {
@@ -127,7 +121,7 @@
             "9"});
             this.cb_cnt_falc.Location = new System.Drawing.Point(6, 19);
             this.cb_cnt_falc.Name = "cb_cnt_falc";
-            this.cb_cnt_falc.Size = new System.Drawing.Size(121, 21);
+            this.cb_cnt_falc.Size = new System.Drawing.Size(105, 21);
             this.cb_cnt_falc.TabIndex = 0;
             this.cb_cnt_falc.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -551,7 +545,7 @@
             // groupBox12
             // 
             this.groupBox12.Controls.Add(this.nud_width);
-            this.groupBox12.Location = new System.Drawing.Point(157, 12);
+            this.groupBox12.Location = new System.Drawing.Point(135, 12);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(101, 51);
             this.groupBox12.TabIndex = 1;
@@ -578,23 +572,12 @@
             0});
             this.nud_width.ValueChanged += new System.EventHandler(this.nud_width_ValueChanged);
             // 
-            // trackBar1
-            // 
-            this.trackBar1.Location = new System.Drawing.Point(277, 18);
-            this.trackBar1.Maximum = 100;
-            this.trackBar1.Minimum = 10;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(246, 45);
-            this.trackBar1.TabIndex = 5;
-            this.trackBar1.Value = 100;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-            // 
             // cb_mirrored_parts
             // 
             this.cb_mirrored_parts.AutoSize = true;
             this.cb_mirrored_parts.Checked = true;
             this.cb_mirrored_parts.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_mirrored_parts.Location = new System.Drawing.Point(549, 27);
+            this.cb_mirrored_parts.Location = new System.Drawing.Point(242, 33);
             this.cb_mirrored_parts.Name = "cb_mirrored_parts";
             this.cb_mirrored_parts.Size = new System.Drawing.Size(193, 17);
             this.cb_mirrored_parts.TabIndex = 6;
@@ -602,53 +585,9 @@
             this.cb_mirrored_parts.UseVisualStyleBackColor = true;
             this.cb_mirrored_parts.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // nud_page_no
-            // 
-            this.nud_page_no.Location = new System.Drawing.Point(6, 20);
-            this.nud_page_no.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.nud_page_no.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_page_no.Name = "nud_page_no";
-            this.nud_page_no.Size = new System.Drawing.Size(59, 20);
-            this.nud_page_no.TabIndex = 7;
-            this.nud_page_no.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_page_no.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nud_page_no.ValueChanged += new System.EventHandler(this.nud_page_no_ValueChanged);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label_total_pages);
-            this.groupBox2.Controls.Add(this.nud_page_no);
-            this.groupBox2.Location = new System.Drawing.Point(757, 9);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(127, 54);
-            this.groupBox2.TabIndex = 8;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "сторінка";
-            // 
-            // label_total_pages
-            // 
-            this.label_total_pages.AutoSize = true;
-            this.label_total_pages.Location = new System.Drawing.Point(71, 22);
-            this.label_total_pages.Name = "label_total_pages";
-            this.label_total_pages.Size = new System.Drawing.Size(18, 13);
-            this.label_total_pages.TabIndex = 8;
-            this.label_total_pages.Text = "/1";
-            // 
             // btn_create_schema
             // 
-            this.btn_create_schema.Location = new System.Drawing.Point(757, 69);
+            this.btn_create_schema.Location = new System.Drawing.Point(491, 15);
             this.btn_create_schema.Name = "btn_create_schema";
             this.btn_create_schema.Size = new System.Drawing.Size(127, 48);
             this.btn_create_schema.TabIndex = 9;
@@ -658,7 +597,7 @@
             // 
             // btn_mark_file
             // 
-            this.btn_mark_file.Location = new System.Drawing.Point(757, 123);
+            this.btn_mark_file.Location = new System.Drawing.Point(624, 18);
             this.btn_mark_file.Name = "btn_mark_file";
             this.btn_mark_file.Size = new System.Drawing.Size(127, 42);
             this.btn_mark_file.TabIndex = 10;
@@ -666,29 +605,25 @@
             this.btn_mark_file.UseVisualStyleBackColor = true;
             this.btn_mark_file.Click += new System.EventHandler(this.btn_mark_file_Click);
             // 
-            // uc_PreviewControl1
+            // uc_PreviewBrowserFile1
             // 
-            this.uc_PreviewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.uc_PreviewBrowserFile1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uc_PreviewControl1.FitToScreen = true;
-            this.uc_PreviewControl1.Location = new System.Drawing.Point(12, 171);
-            this.uc_PreviewControl1.Name = "uc_PreviewControl1";
-            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
-            this.uc_PreviewControl1.Size = new System.Drawing.Size(882, 450);
-            this.uc_PreviewControl1.TabIndex = 11;
+            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(12, 171);
+            this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
+            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(735, 450);
+            this.uc_PreviewBrowserFile1.TabIndex = 11;
             // 
             // FormVisualFalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(906, 633);
-            this.Controls.Add(this.uc_PreviewControl1);
+            this.ClientSize = new System.Drawing.Size(759, 633);
+            this.Controls.Add(this.uc_PreviewBrowserFile1);
             this.Controls.Add(this.btn_mark_file);
             this.Controls.Add(this.btn_create_schema);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cb_mirrored_parts);
-            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.groupBox12);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
@@ -721,10 +656,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
             this.groupBox12.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_page_no)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -767,13 +698,9 @@
         private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.NumericUpDown nud_width;
-        private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.CheckBox cb_mirrored_parts;
-        private System.Windows.Forms.NumericUpDown nud_page_no;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label_total_pages;
         private System.Windows.Forms.Button btn_create_schema;
         private System.Windows.Forms.Button btn_mark_file;
-        private UC.Uc_PreviewControl uc_PreviewControl1;
+        private UC.Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
     }
 }

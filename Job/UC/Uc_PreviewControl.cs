@@ -176,7 +176,7 @@ namespace JobSpace.UC
             pb_preview.Invalidate();
         }
 
-        public void SetFitWithResetZoom(bool fit)
+        public void SetFitAndResetZoom(bool fit)
         {
             if (fit) { 
                 _fitToScreen = true;

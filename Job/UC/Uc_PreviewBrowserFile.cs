@@ -16,6 +16,10 @@ namespace JobSpace.UC
         IFileSystemInfoExt _fileInfo;
         List<PdfPageInfo> boxes_pages;
 
+        #region [ EVENTS ]
+        public event EventHandler<int> OnPageChanged = delegate { };
+        #endregion
+
         public Uc_PreviewBrowserFile()
         {
             InitializeComponent();
@@ -83,6 +87,7 @@ namespace JobSpace.UC
                 _currentPage--;
                 tst_cur_page.Text = _currentPage.ToString();
                 GetPreview();
+                OnPageChanged(this,_currentPage);
             }
         }
 
@@ -93,6 +98,7 @@ namespace JobSpace.UC
                 _currentPage++;
                 tst_cur_page.Text = _currentPage.ToString();
                 GetPreview();
+                OnPageChanged(this, _currentPage);
             }
         }
 
@@ -104,6 +110,7 @@ namespace JobSpace.UC
                 {
                     _currentPage = page;
                     GetPreview();
+                    OnPageChanged(this, _currentPage);
                 }
                 else
                 {
@@ -119,7 +126,7 @@ namespace JobSpace.UC
 
         private void tsb_fit_to_window_CheckStateChanged(object sender, EventArgs e)
         {
-            uc_PreviewControl1.SetFitWithResetZoom(tsb_fit_to_window.Checked) ;
+            uc_PreviewControl1.SetFitAndResetZoom(tsb_fit_to_window.Checked) ;
         }
 
         public void SetPrimitives(List<IScreenPrimitive> primitives)

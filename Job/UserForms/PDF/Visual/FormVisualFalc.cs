@@ -2,6 +2,7 @@
 using Interfaces;
 using Interfaces.PdfUtils;
 using JobSpace.Models.ScreenPrimitives;
+using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Create.Falc;
 using JobSpace.Static.Pdf.Imposition.Models;
@@ -31,18 +32,20 @@ namespace JobSpace.UserForms.PDF.Visual
         private Pen _redLinePen = new Pen(Color.Green, 0.6f);
         private Pen _whiteLinePen = new Pen(Color.White, 1f);
         decimal[] partsDelta;
-        Image document_prev;
-        List<PdfPageInfo> boxes;
         List<IScreenPrimitive> _primitives;
-
+        int currentPageIdx = 1;
         decimal page_w = 0;
         decimal page_h = 0;
 
         public FormVisualFalc(IFileSystemInfoExt fsi)
         {
-            _fsi = new FileInfo( fsi.FileInfo.FullName);
+            _fsi = new FileInfo(fsi.FileInfo.FullName);
             InitializeComponent();
-
+            uc_PreviewBrowserFile1.OnPageChanged += (s, pageIdx) =>
+            {
+                currentPageIdx = pageIdx;
+                Draw();
+            };
             nud_width.Value = fsi.Format.Width;
             page_h = fsi.Format.Height;
 
@@ -53,7 +56,7 @@ namespace JobSpace.UserForms.PDF.Visual
                 label6, label7, label8, label9, label10 };
 
             cb_cnt_falc.SelectedIndex = 0;
-           
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -97,36 +100,18 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void FormVisualFalc_Load(object sender, EventArgs e)
         {
-            boxes = PdfHelper.GetPagesInfo(_fsi.FullName);
-            nud_page_no.Maximum = boxes.Count;
-            label_total_pages.Text = $"/ {boxes.Count}";
-            GeneratePageImage(0);
-        }
-
-        private void GeneratePageImage(int pageIdx)
-        {
-            if (document_prev != null)
-            {
-                document_prev.Dispose();
-            }
-            Image pageImage = PdfHelper.RenderByTrimBox(_fsi, pageIdx, 150);
-            document_prev = pageImage;
-            Draw();
+            uc_PreviewBrowserFile1.Show(_fsi.ToFileSystemInfoExt());
         }
 
         void Draw()
         {
-            if (partsDelta == null || document_prev == null) return;
-            
-            _primitives = new List<IScreenPrimitive>();
+            if (partsDelta == null) return;
 
-            double w = boxes[(int)nud_page_no.Value - 1].Trimbox.wMM();
-            double h = boxes[(int)nud_page_no.Value - 1].Trimbox.hMM();
-            uc_PreviewControl1.SetImage(document_prev,w,h);
+            _primitives = new List<IScreenPrimitive>();
 
             float x = 0;
 
-            if (cb_mirrored_parts.Checked && nud_page_no.Value % 2 == 0)
+            if (cb_mirrored_parts.Checked && uc_PreviewBrowserFile1.GetCurrentPageIdx() % 2 != 0)
             {
                 for (int i = 0; i < partsDelta.Length - 1; i++)
                 {
@@ -147,24 +132,13 @@ namespace JobSpace.UserForms.PDF.Visual
                 }
             }
 
-            uc_PreviewControl1.Primitives = _primitives;
+            uc_PreviewBrowserFile1.SetPrimitives(_primitives);
         }
 
-
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-            uc_PreviewControl1.SetZoomFactor(trackBar1.Value / 100.0f);
-            
-        }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-           Recalc();
-        }
-
-        private void nud_page_no_ValueChanged(object sender, EventArgs e)
-        {
-            GeneratePageImage((int)(nud_page_no.Value - 1));
+            Recalc();
         }
 
         private void btn_create_schema_Click(object sender, EventArgs e)
