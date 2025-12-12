@@ -28,7 +28,7 @@ namespace JobSpace.UC
             GetPreview();
         }
 
-        private async void GetFileInfo()
+        private void GetFileInfo()
         {
             _currentPage = 1;
             _totalPage = 1;
@@ -39,7 +39,7 @@ namespace JobSpace.UC
             // якщо це pdf файл, то отримуємо кількість сторінок
             if (ext == ".pdf" || ext == ".ai")
             {
-                _totalPage = await Task.Run(() => PdfHelper.GetPageCount(_fileInfo.FileInfo.FullName));
+                _totalPage = PdfHelper.GetPageCount(_fileInfo.FileInfo.FullName);
                 tsl_count_pages.Text = $"/{_totalPage}";
                 boxes_pages = PdfHelper.GetPagesInfo(_fileInfo.FileInfo.FullName);
             }
@@ -127,5 +127,14 @@ namespace JobSpace.UC
             uc_PreviewControl1.Primitives = primitives;
         }
 
+        public PdfPageInfo GetCurrentPageInfo()
+        {
+            return boxes_pages != null ? boxes_pages[_currentPage - 1] : null;
+        }
+
+        public int GetCurrentPageIdx()
+        {
+            return _currentPage - 1;
+        }
     }
 }
