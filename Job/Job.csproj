@@ -534,10 +534,10 @@
     <Compile Include="UserForms\FormEnterTirag.Designer.cs">
       <DependentUpon>FormEnterTirag.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserForms\PDF\FormCreateBigovkaMarks.cs">
+    <Compile Include="UserForms\PDF\Visual\FormCreateBigovkaMarks.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForms\PDF\FormCreateBigovkaMarks.Designer.cs">
+    <Compile Include="UserForms\PDF\Visual\FormCreateBigovkaMarks.Designer.cs">
       <DependentUpon>FormCreateBigovkaMarks.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\FormCreateFillRectangle.cs">
@@ -1165,7 +1165,7 @@
     <EmbeddedResource Include="UserForms\FormEnterTirag.resx">
       <DependentUpon>FormEnterTirag.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserForms\PDF\FormCreateBigovkaMarks.resx">
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormCreateBigovkaMarks.resx">
       <DependentUpon>FormCreateBigovkaMarks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormCreateFillRectangle.resx">
