@@ -1,12 +1,14 @@
 ﻿using Interfaces;
 using JobSpace.Models.ScreenPrimitives;
 using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Visual.HardCover;
 using JobSpace.UC;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,6 +94,31 @@ namespace JobSpace.UserForms.PDF.Visual
             uc_PreviewBrowserFile1.Show(_fileInfo);
             CalcSchemaAuto();
             ShowTotalCoverSize();
+        }
+
+        private void btn_create_schema_Click(object sender, EventArgs e)
+        {
+            new HardCover(new HardCoverParams { Height = (double)nud_height.Value,
+                                               Width = (double)nud_width.Value,
+                                               Zagyn = (double)nud_zagyn.Value,
+                                               Rastav = (double)nud_rastav.Value,
+                                               Root = (double)nud_root.Value,
+                                               FolderOutput = Path.GetDirectoryName(_fileInfo.FileInfo.FullName)
+            }).Run();
+        }
+
+        private void btn_apply_schema_Click(object sender, EventArgs e)
+        {
+            new HardCover(new HardCoverParams
+            {
+                Height = (double)nud_height.Value,
+                Width = (double)nud_width.Value,
+                Zagyn = (double)nud_zagyn.Value,
+                Rastav = (double)nud_rastav.Value,
+                Root = (double)nud_root.Value,
+                FolderOutput = Path.GetDirectoryName(_fileInfo.FileInfo.FullName)
+            }).Run(_fileInfo.FileInfo.FullName);
+
         }
     }
 }

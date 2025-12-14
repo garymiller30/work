@@ -44,6 +44,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
+            this.btn_create_schema = new System.Windows.Forms.Button();
+            this.btn_apply_schema = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_width)).BeginInit();
@@ -74,7 +76,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(206, 369);
+            this.groupBox1.Size = new System.Drawing.Size(206, 246);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "параметри";
@@ -320,11 +322,33 @@
             this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(564, 426);
             this.uc_PreviewBrowserFile1.TabIndex = 1;
             // 
+            // btn_create_schema
+            // 
+            this.btn_create_schema.Location = new System.Drawing.Point(52, 264);
+            this.btn_create_schema.Name = "btn_create_schema";
+            this.btn_create_schema.Size = new System.Drawing.Size(114, 37);
+            this.btn_create_schema.TabIndex = 2;
+            this.btn_create_schema.Text = "створити схему";
+            this.btn_create_schema.UseVisualStyleBackColor = true;
+            this.btn_create_schema.Click += new System.EventHandler(this.btn_create_schema_Click);
+            // 
+            // btn_apply_schema
+            // 
+            this.btn_apply_schema.Location = new System.Drawing.Point(52, 307);
+            this.btn_apply_schema.Name = "btn_apply_schema";
+            this.btn_apply_schema.Size = new System.Drawing.Size(114, 37);
+            this.btn_apply_schema.TabIndex = 3;
+            this.btn_apply_schema.Text = "файл + схема";
+            this.btn_apply_schema.UseVisualStyleBackColor = true;
+            this.btn_apply_schema.Click += new System.EventHandler(this.btn_apply_schema_Click);
+            // 
             // FormVisualHardCover
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btn_apply_schema);
+            this.Controls.Add(this.btn_create_schema);
             this.Controls.Add(this.uc_PreviewBrowserFile1);
             this.Controls.Add(this.groupBox1);
             this.Name = "FormVisualHardCover";
@@ -362,5 +386,7 @@
         private System.Windows.Forms.NumericUpDown nud_root;
         private System.Windows.Forms.NumericUpDown nud_height;
         private UC.Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
+        private System.Windows.Forms.Button btn_create_schema;
+        private System.Windows.Forms.Button btn_apply_schema;
     }
 }
