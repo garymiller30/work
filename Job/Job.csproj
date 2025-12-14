@@ -369,8 +369,8 @@
     <Compile Include="Static\Pdf\Create\CollatingPageMark\CreateCollatingPageMarkParams.cs" />
     <Compile Include="Static\Pdf\Create\CollatingPageMark\PageCollatingMarkPositionEnum.cs" />
     <Compile Include="Static\Pdf\Create\CutEllipse\PdfCreateCutEllipse.cs" />
-    <Compile Include="Static\Pdf\Create\Falc\FalcSchema.cs" />
-    <Compile Include="Static\Pdf\Create\Falc\FalcSchemaParams.cs" />
+    <Compile Include="Static\Pdf\Visual\Falc\FalcSchema.cs" />
+    <Compile Include="Static\Pdf\Visual\Falc\FalcSchemaParams.cs" />
     <Compile Include="Static\Pdf\Create\FillRectangle\PdfCreateFillRectangle.cs" />
     <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateCutRectangle.cs" />
     <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateFillRectangleParams.cs" />
@@ -498,6 +498,8 @@
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralPlaceEnum.cs" />
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralTypeEnum.cs" />
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\VisualBlocknoteSpiral.cs" />
+    <Compile Include="Static\Pdf\Visual\HardCover\HardCover.cs" />
+    <Compile Include="Static\Pdf\Visual\HardCover\HardCoverParams.cs" />
     <Compile Include="UC\UcSelectStandartPageFormat.cs">
       <SubType>UserControl</SubType>
     </Compile>
