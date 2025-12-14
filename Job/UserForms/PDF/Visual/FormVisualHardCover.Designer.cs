@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormVisualHardCover));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cb_fit_to_panel = new System.Windows.Forms.CheckBox();
             this.nud_total_height = new System.Windows.Forms.NumericUpDown();
             this.nud_total_width = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
@@ -45,7 +43,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_width)).BeginInit();
@@ -60,7 +58,6 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox1.Controls.Add(this.cb_fit_to_panel);
             this.groupBox1.Controls.Add(this.nud_total_height);
             this.groupBox1.Controls.Add(this.nud_total_width);
             this.groupBox1.Controls.Add(this.label7);
@@ -81,19 +78,6 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "параметри";
-            // 
-            // cb_fit_to_panel
-            // 
-            this.cb_fit_to_panel.AutoSize = true;
-            this.cb_fit_to_panel.Checked = true;
-            this.cb_fit_to_panel.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_fit_to_panel.Location = new System.Drawing.Point(12, 272);
-            this.cb_fit_to_panel.Name = "cb_fit_to_panel";
-            this.cb_fit_to_panel.Size = new System.Drawing.Size(98, 17);
-            this.cb_fit_to_panel.TabIndex = 14;
-            this.cb_fit_to_panel.Text = "в розмір вікна";
-            this.cb_fit_to_panel.UseVisualStyleBackColor = true;
-            this.cb_fit_to_panel.CheckedChanged += new System.EventHandler(this.cb_fit_to_panel_CheckedChanged);
             // 
             // nud_total_height
             // 
@@ -326,28 +310,27 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "ширина сторінки, мм";
             // 
-            // uc_PreviewControl1
+            // uc_PreviewBrowserFile1
             // 
-            this.uc_PreviewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.uc_PreviewBrowserFile1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uc_PreviewControl1.FitToScreen = false;
-            this.uc_PreviewControl1.Location = new System.Drawing.Point(224, 12);
-            this.uc_PreviewControl1.Name = "uc_PreviewControl1";
-            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
-            this.uc_PreviewControl1.Size = new System.Drawing.Size(564, 426);
-            this.uc_PreviewControl1.TabIndex = 1;
+            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(224, 12);
+            this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
+            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(564, 426);
+            this.uc_PreviewBrowserFile1.TabIndex = 1;
             // 
             // FormVisualHardCover
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.uc_PreviewControl1);
+            this.Controls.Add(this.uc_PreviewBrowserFile1);
             this.Controls.Add(this.groupBox1);
             this.Name = "FormVisualHardCover";
             this.ShowIcon = false;
             this.Text = "тверда палітурка";
+            this.Shown += new System.EventHandler(this.FormVisualHardCover_Shown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_height)).EndInit();
@@ -378,7 +361,6 @@
         private System.Windows.Forms.NumericUpDown nud_rastav;
         private System.Windows.Forms.NumericUpDown nud_root;
         private System.Windows.Forms.NumericUpDown nud_height;
-        private System.Windows.Forms.CheckBox cb_fit_to_panel;
-        private UC.Uc_PreviewControl uc_PreviewControl1;
+        private UC.Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
     }
 }

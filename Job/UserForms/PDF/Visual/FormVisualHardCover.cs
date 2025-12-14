@@ -18,39 +18,23 @@ namespace JobSpace.UserForms.PDF.Visual
     public partial class FormVisualHardCover : Form
     {
         IFileSystemInfoExt _fileInfo;
-        PdfPageInfo pdfPageInfo;
-        Image _page_preview;
-
         public FormVisualHardCover(IFileSystemInfoExt f)
         {
             InitializeComponent();
-            uc_PreviewControl1.FitToScreen = cb_fit_to_panel.Checked;
+            
             _fileInfo = f;
-            pdfPageInfo = PdfHelper.GetPageInfo(_fileInfo.FileInfo.FullName);
-            GetFilePreview();
-            CalcSchemaAuto();
-            ShowTotalCoverSize();
         }
 
         private void CalcSchemaAuto()
         {
+            var pdfPageInfo = uc_PreviewBrowserFile1.GetCurrentPageInfo();
+
             nud_width.Value = ((decimal)pdfPageInfo.Trimbox.wMM() - (nud_zagyn.Value + nud_rastav.Value) * 2 - nud_root.Value) / 2;
             nud_height.Value = (decimal)pdfPageInfo.Trimbox.hMM() - (nud_zagyn.Value * 2);
         }
-
-        private void GetFilePreview()
-        {
-            if (_page_preview != null) _page_preview.Dispose();
-            _page_preview = PdfHelper.RenderByTrimBox(_fileInfo.FileInfo.FullName, 0);
-            uc_PreviewControl1.SetImage(_page_preview, pdfPageInfo.Trimbox.wMM(), pdfPageInfo.Trimbox.hMM());
-        }
-
-
-
         private void nud_width_ValueChanged(object sender, EventArgs e)
         {
             ShowTotalCoverSize();
-            uc_PreviewControl1.Redraw();
         }
 
         private void ShowTotalCoverSize()
@@ -70,6 +54,8 @@ namespace JobSpace.UserForms.PDF.Visual
             float root = (float)nud_root.Value;
             float totalW = (float)nud_total_width.Value;
             float totalH = (float)nud_total_height.Value;
+
+            var pdfPageInfo = uc_PreviewBrowserFile1.GetCurrentPageInfo();
 
             float x = ((float)pdfPageInfo.Trimbox.wMM() - totalW) / 2;
             float y = ((float)pdfPageInfo.Trimbox.hMM() - totalH) / 2;
@@ -98,16 +84,14 @@ namespace JobSpace.UserForms.PDF.Visual
                 primitives.Add(new ScreenLine(pen, x + zagyn + width + rastav + root + rastav, y + zagyn, x + zagyn + width + rastav + root + rastav, y + totalH - zagyn));
             }
 
-            uc_PreviewControl1.Primitives = primitives;
+            uc_PreviewBrowserFile1.SetPrimitives(primitives);
         }
 
-        private void cb_fit_to_panel_CheckedChanged(object sender, EventArgs e)
+        private void FormVisualHardCover_Shown(object sender, EventArgs e)
         {
-            uc_PreviewControl1.FitToScreen = cb_fit_to_panel.Checked;
-            if (!cb_fit_to_panel.Checked)
-            {
-                uc_PreviewControl1.SetZoomFactor(1.0f);
-            }
+            uc_PreviewBrowserFile1.Show(_fileInfo);
+            CalcSchemaAuto();
+            ShowTotalCoverSize();
         }
     }
 }
