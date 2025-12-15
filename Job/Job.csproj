@@ -369,6 +369,7 @@
     <Compile Include="Static\Pdf\Create\CollatingPageMark\CreateCollatingPageMarkParams.cs" />
     <Compile Include="Static\Pdf\Create\CollatingPageMark\PageCollatingMarkPositionEnum.cs" />
     <Compile Include="Static\Pdf\Create\CutEllipse\PdfCreateCutEllipse.cs" />
+    <Compile Include="Static\Pdf\Visual\Commons\Screen\DrawSpiral.cs" />
     <Compile Include="Static\Pdf\Visual\Falc\FalcSchema.cs" />
     <Compile Include="Static\Pdf\Visual\Falc\FalcSchemaParams.cs" />
     <Compile Include="Static\Pdf\Create\FillRectangle\PdfCreateFillRectangle.cs" />
@@ -500,6 +501,18 @@
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\VisualBlocknoteSpiral.cs" />
     <Compile Include="Static\Pdf\Visual\HardCover\HardCover.cs" />
     <Compile Include="Static\Pdf\Visual\HardCover\HardCoverParams.cs" />
+    <Compile Include="UC\PDF\Visual\Uc_SelectSpiralControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\PDF\Visual\Uc_SelectSpiralControl.Designer.cs">
+      <DependentUpon>Uc_SelectSpiralControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\PDF\Visual\Uc_VisualRectangleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\PDF\Visual\Uc_VisualRectangleControl.Designer.cs">
+      <DependentUpon>Uc_VisualRectangleControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UC\UcSelectStandartPageFormat.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1066,6 +1079,12 @@
     <Compile Include="UserForms\PDF\Visual\FormVisualHardCover.Designer.cs">
       <DependentUpon>FormVisualHardCover.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualTableCalendar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualTableCalendar.Designer.cs">
+      <DependentUpon>FormVisualTableCalendar.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\SpreadBox.cs" />
     <Compile Include="UserForms\TrimBoxResult.cs" />
     <Compile Include="UserForms\TrimBoxResultEnum.cs" />
@@ -1148,6 +1167,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CustomForms\FormEnterText.resx">
       <DependentUpon>FormEnterText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\PDF\Visual\Uc_SelectSpiralControl.resx">
+      <DependentUpon>Uc_SelectSpiralControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\PDF\Visual\Uc_VisualRectangleControl.resx">
+      <DependentUpon>Uc_VisualRectangleControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UC\UcSelectStandartPageFormat.resx">
       <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
@@ -1364,6 +1389,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualHardCover.resx">
       <DependentUpon>FormVisualHardCover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualTableCalendar.resx">
+      <DependentUpon>FormVisualTableCalendar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

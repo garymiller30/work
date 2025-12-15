@@ -883,6 +883,14 @@ namespace JobSpace.Static
             }
         }
 
+        public static void PDF_VisualTableCalendar(IFileSystemInfoExt f)
+        {
+            using (var form = new FormVisualTableCalendar(f))
+            {
+                form.ShowDialog();
+            }
+        }
+
 
         #endregion
     }
