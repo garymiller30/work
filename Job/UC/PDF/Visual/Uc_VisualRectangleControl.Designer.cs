@@ -1,13 +1,13 @@
-﻿namespace JobSpace.UserForms.PDF.Visual
+﻿namespace JobSpace.UC.PDF.Visual
 {
-    partial class FormVisualBlocknoteSpiral
+    partial class Uc_VisualRectangleControl
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,21 +20,15 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormVisualBlocknoteSpiral));
-            this.btn_ok = new System.Windows.Forms.Button();
-            this.cb_place = new System.Windows.Forms.ComboBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cb_files = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Uc_VisualRectangleControl));
             this.panel_rect_params = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_center = new System.Windows.Forms.Button();
@@ -55,11 +49,6 @@
             this.nud_rect_h = new System.Windows.Forms.NumericUpDown();
             this.nud_rect_w = new System.Windows.Forms.NumericUpDown();
             this.cb_rect = new System.Windows.Forms.CheckBox();
-            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
-            this.uc_SelectSpiralControl1 = new JobSpace.UC.PDF.Visual.Uc_SelectSpiralControl();
-            this.groupBox4.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.panel_rect_params.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_y)).BeginInit();
@@ -67,68 +56,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_h)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_w)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btn_ok
-            // 
-            this.btn_ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_ok.Location = new System.Drawing.Point(69, 500);
-            this.btn_ok.Name = "btn_ok";
-            this.btn_ok.Size = new System.Drawing.Size(118, 42);
-            this.btn_ok.TabIndex = 0;
-            this.btn_ok.Text = "OK";
-            this.btn_ok.UseVisualStyleBackColor = true;
-            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
-            // 
-            // cb_place
-            // 
-            this.cb_place.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_place.FormattingEnabled = true;
-            this.cb_place.Location = new System.Drawing.Point(6, 19);
-            this.cb_place.Name = "cb_place";
-            this.cb_place.Size = new System.Drawing.Size(244, 21);
-            this.cb_place.TabIndex = 0;
-            this.cb_place.SelectedIndexChanged += new System.EventHandler(this.cb_place_SelectedIndexChanged);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.cb_place);
-            this.groupBox4.Location = new System.Drawing.Point(12, 60);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(256, 55);
-            this.groupBox4.TabIndex = 2;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "розташування пружини";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.cb_files);
-            this.groupBox1.Location = new System.Drawing.Point(12, 121);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(256, 51);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "файл";
-            // 
-            // cb_files
-            // 
-            this.cb_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_files.FormattingEnabled = true;
-            this.cb_files.Location = new System.Drawing.Point(6, 18);
-            this.cb_files.Name = "cb_files";
-            this.cb_files.Size = new System.Drawing.Size(244, 21);
-            this.cb_files.TabIndex = 2;
-            this.cb_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged_1);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.panel_rect_params);
-            this.groupBox2.Controls.Add(this.cb_rect);
-            this.groupBox2.Location = new System.Drawing.Point(12, 178);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(256, 267);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "додатково";
             // 
             // panel_rect_params
             // 
@@ -142,10 +69,10 @@
             this.panel_rect_params.Controls.Add(this.nud_rect_h);
             this.panel_rect_params.Controls.Add(this.nud_rect_w);
             this.panel_rect_params.Enabled = false;
-            this.panel_rect_params.Location = new System.Drawing.Point(6, 41);
+            this.panel_rect_params.Location = new System.Drawing.Point(3, 25);
             this.panel_rect_params.Name = "panel_rect_params";
-            this.panel_rect_params.Size = new System.Drawing.Size(244, 220);
-            this.panel_rect_params.TabIndex = 1;
+            this.panel_rect_params.Size = new System.Drawing.Size(166, 132);
+            this.panel_rect_params.TabIndex = 3;
             // 
             // panel1
             // 
@@ -158,7 +85,7 @@
             this.panel1.Controls.Add(this.bnt_top_right);
             this.panel1.Controls.Add(this.btn_right_center);
             this.panel1.Controls.Add(this.btn_left_center);
-            this.panel1.Location = new System.Drawing.Point(25, 99);
+            this.panel1.Location = new System.Drawing.Point(75, 41);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(86, 86);
             this.panel1.TabIndex = 18;
@@ -265,7 +192,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(143, 50);
+            this.label4.Location = new System.Drawing.Point(3, 80);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(36, 13);
             this.label4.TabIndex = 8;
@@ -273,22 +200,23 @@
             // 
             // nud_rect_y
             // 
-            this.nud_rect_y.Location = new System.Drawing.Point(143, 66);
+            this.nud_rect_y.DecimalPlaces = 1;
+            this.nud_rect_y.Location = new System.Drawing.Point(3, 96);
             this.nud_rect_y.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             this.nud_rect_y.Name = "nud_rect_y";
-            this.nud_rect_y.Size = new System.Drawing.Size(79, 20);
+            this.nud_rect_y.Size = new System.Drawing.Size(67, 20);
             this.nud_rect_y.TabIndex = 7;
             this.nud_rect_y.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_rect_y.ValueChanged += new System.EventHandler(this.cb_place_SelectedIndexChanged);
+            this.nud_rect_y.ValueChanged += new System.EventHandler(this.nud_rect_x_ValueChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(25, 50);
+            this.label3.Location = new System.Drawing.Point(3, 39);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 6;
@@ -296,22 +224,23 @@
             // 
             // nud_rect_x
             // 
-            this.nud_rect_x.Location = new System.Drawing.Point(25, 66);
+            this.nud_rect_x.DecimalPlaces = 1;
+            this.nud_rect_x.Location = new System.Drawing.Point(3, 55);
             this.nud_rect_x.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             this.nud_rect_x.Name = "nud_rect_x";
-            this.nud_rect_x.Size = new System.Drawing.Size(79, 20);
+            this.nud_rect_x.Size = new System.Drawing.Size(67, 20);
             this.nud_rect_x.TabIndex = 5;
             this.nud_rect_x.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_rect_x.ValueChanged += new System.EventHandler(this.cb_place_SelectedIndexChanged);
+            this.nud_rect_x.ValueChanged += new System.EventHandler(this.nud_rect_x_ValueChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(143, 11);
+            this.label2.Location = new System.Drawing.Point(75, -1);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 13);
             this.label2.TabIndex = 4;
@@ -320,7 +249,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 11);
+            this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 3;
@@ -328,7 +257,8 @@
             // 
             // nud_rect_h
             // 
-            this.nud_rect_h.Location = new System.Drawing.Point(143, 27);
+            this.nud_rect_h.DecimalPlaces = 1;
+            this.nud_rect_h.Location = new System.Drawing.Point(75, 15);
             this.nud_rect_h.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -340,7 +270,7 @@
             0,
             0});
             this.nud_rect_h.Name = "nud_rect_h";
-            this.nud_rect_h.Size = new System.Drawing.Size(79, 20);
+            this.nud_rect_h.Size = new System.Drawing.Size(64, 20);
             this.nud_rect_h.TabIndex = 2;
             this.nud_rect_h.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nud_rect_h.Value = new decimal(new int[] {
@@ -348,11 +278,12 @@
             0,
             0,
             0});
-            this.nud_rect_h.ValueChanged += new System.EventHandler(this.cb_place_SelectedIndexChanged);
+            this.nud_rect_h.ValueChanged += new System.EventHandler(this.nud_rect_w_ValueChanged);
             // 
             // nud_rect_w
             // 
-            this.nud_rect_w.Location = new System.Drawing.Point(25, 27);
+            this.nud_rect_w.DecimalPlaces = 1;
+            this.nud_rect_w.Location = new System.Drawing.Point(3, 16);
             this.nud_rect_w.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -364,7 +295,7 @@
             0,
             0});
             this.nud_rect_w.Name = "nud_rect_w";
-            this.nud_rect_w.Size = new System.Drawing.Size(79, 20);
+            this.nud_rect_w.Size = new System.Drawing.Size(67, 20);
             this.nud_rect_w.TabIndex = 1;
             this.nud_rect_w.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nud_rect_w.Value = new decimal(new int[] {
@@ -372,55 +303,27 @@
             0,
             0,
             0});
-            this.nud_rect_w.ValueChanged += new System.EventHandler(this.cb_place_SelectedIndexChanged);
+            this.nud_rect_w.ValueChanged += new System.EventHandler(this.nud_rect_w_ValueChanged);
             // 
             // cb_rect
             // 
             this.cb_rect.AutoSize = true;
-            this.cb_rect.Location = new System.Drawing.Point(6, 19);
+            this.cb_rect.Location = new System.Drawing.Point(3, 3);
             this.cb_rect.Name = "cb_rect";
-            this.cb_rect.Size = new System.Drawing.Size(92, 17);
-            this.cb_rect.TabIndex = 0;
-            this.cb_rect.Text = "прямокутник";
+            this.cb_rect.Size = new System.Drawing.Size(75, 17);
+            this.cb_rect.TabIndex = 2;
+            this.cb_rect.Text = "увімкнути";
             this.cb_rect.UseVisualStyleBackColor = true;
             this.cb_rect.CheckedChanged += new System.EventHandler(this.cb_rect_CheckedChanged);
             // 
-            // uc_PreviewBrowserFile1
-            // 
-            this.uc_PreviewBrowserFile1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(274, 12);
-            this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
-            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(688, 530);
-            this.uc_PreviewBrowserFile1.TabIndex = 9;
-            // 
-            // uc_SelectSpiralControl1
-            // 
-            this.uc_SelectSpiralControl1.Location = new System.Drawing.Point(12, 12);
-            this.uc_SelectSpiralControl1.Name = "uc_SelectSpiralControl1";
-            this.uc_SelectSpiralControl1.Size = new System.Drawing.Size(256, 42);
-            this.uc_SelectSpiralControl1.TabIndex = 10;
-            // 
-            // FormVisualBlocknoteSpiral
+            // Uc_VisualRectangleControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(974, 554);
-            this.Controls.Add(this.uc_SelectSpiralControl1);
-            this.Controls.Add(this.uc_PreviewBrowserFile1);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.btn_ok);
-            this.Name = "FormVisualBlocknoteSpiral";
-            this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Параметри для пружини";
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.Controls.Add(this.panel_rect_params);
+            this.Controls.Add(this.cb_rect);
+            this.Name = "Uc_VisualRectangleControl";
+            this.Size = new System.Drawing.Size(170, 158);
             this.panel_rect_params.ResumeLayout(false);
             this.panel_rect_params.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -429,38 +332,31 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_h)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_rect_w)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btn_ok;
-        private System.Windows.Forms.ComboBox cb_place;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Panel panel_rect_params;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btn_center;
+        private System.Windows.Forms.Button btn_bottom_right;
+        private System.Windows.Forms.Button bnt_top_left;
+        private System.Windows.Forms.Button btn_bottom_center;
+        private System.Windows.Forms.Button btn_top_center;
+        private System.Windows.Forms.Button bnt_bottom_left;
+        private System.Windows.Forms.Button bnt_top_right;
+        private System.Windows.Forms.Button btn_right_center;
+        private System.Windows.Forms.Button btn_left_center;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown nud_rect_y;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown nud_rect_x;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown nud_rect_h;
         private System.Windows.Forms.NumericUpDown nud_rect_w;
         private System.Windows.Forms.CheckBox cb_rect;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown nud_rect_y;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown nud_rect_x;
-        private System.Windows.Forms.ComboBox cb_files;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btn_bottom_right;
-        private System.Windows.Forms.Button btn_bottom_center;
-        private System.Windows.Forms.Button bnt_bottom_left;
-        private System.Windows.Forms.Button btn_right_center;
-        private System.Windows.Forms.Button btn_center;
-        private System.Windows.Forms.Button btn_left_center;
-        private System.Windows.Forms.Button bnt_top_right;
-        private System.Windows.Forms.Button btn_top_center;
-        private System.Windows.Forms.Button bnt_top_left;
-        private UC.Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
-        private UC.PDF.Visual.Uc_SelectSpiralControl uc_SelectSpiralControl1;
     }
 }

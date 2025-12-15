@@ -17,10 +17,8 @@ namespace JobSpace.UserForms.PDF.Visual
     {
         public SpiralSettings SpiralSettings { get; set; } = new SpiralSettings();
         FileInfo _fsi;
-        Bitmap _spiralPreview;
-        PdfPageInfo _spiralBox;
-        List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
 
+        List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
 
         public FormVisualBlocknoteSpiral()
         {
@@ -32,7 +30,14 @@ namespace JobSpace.UserForms.PDF.Visual
             {
                 Redraw();
             };
+
+            uc_SelectSpiralControl1.OnSpiralChanged += OnSpiralChanged;
             DialogResult = DialogResult.Cancel;
+        }
+
+        private void OnSpiralChanged(object sender, EventArgs e)
+        {
+            Redraw();
         }
 
         public FormVisualBlocknoteSpiral(IFileSystemInfoExt fsi) : this()
@@ -55,15 +60,7 @@ namespace JobSpace.UserForms.PDF.Visual
             }
         }
 
-        private void GetSpiralPreview()
-        {
-            if (cb_spiral_files.SelectedItem is FileInfo fi)
-            {
-                _spiralBox = PdfHelper.GetPageInfo(fi.FullName);
-                if (_spiralPreview != null) _spiralPreview.Dispose();
-                _spiralPreview = PdfHelper.RenderByTrimBox(fi, 0);
-            }
-        }
+       
 
         private void SetDefaults()
         {
@@ -79,29 +76,13 @@ namespace JobSpace.UserForms.PDF.Visual
             }
             cb_place.SelectedIndex = 0;
 
-            string spiralFolderPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "db", "spirals");
-
-            var files = Directory.GetFiles(spiralFolderPath, "*.pdf");
-
-            cb_spiral_files.DisplayMember = "Name";
-
-            foreach (var file in files)
-            {
-                FileInfo fi = new FileInfo(file);
-
-                cb_spiral_files.Items.Add(fi);
-            }
-            if (cb_spiral_files.Items.Count > 0)
-            {
-                cb_spiral_files.SelectedIndex = 0;
-                
-            }
+            
         }
 
         private void btn_ok_Click(object sender, EventArgs e)
         {
             SpiralSettings.SpiralPlace = (SpiralPlaceEnum)cb_place.SelectedIndex;
-            SpiralSettings.SpiralFile = (cb_spiral_files.SelectedItem as FileInfo).FullName;
+            SpiralSettings.SpiralFile = uc_SelectSpiralControl1.GetSelectedSpiralFilePath();
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -120,139 +101,19 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void DrawSpiral()
         {
-            if (_spiralPreview == null) return;
+
+            var spiralPreview = uc_SelectSpiralControl1.GetSpiralBitmap();
+            if (spiralPreview == null) return;
 
             PdfPageInfo pageInfo = uc_PreviewBrowserFile1.GetCurrentPageInfo();
-
             if (pageInfo == null) return;
+
+            var spiralPdfInfo = uc_SelectSpiralControl1.GetSpiralPdfInfo();
 
             SpiralPlaceEnum place = (SpiralPlaceEnum)cb_place.SelectedIndex;
             int curPageIdx = uc_PreviewBrowserFile1.GetCurrentPageIdx();
 
-            switch (place)
-            {
-                case SpiralPlaceEnum.top:
-                    DrawSpiralTop(pageInfo);
-                    break;
-                case SpiralPlaceEnum.bottom:
-                    DrawSpiralBottom(pageInfo);
-                    break;
-                case SpiralPlaceEnum.left:
-                    DrawSpiralLeft(pageInfo);
-                    break;
-                case SpiralPlaceEnum.right:
-                    DrawSpiralRight(pageInfo);
-                    break;
-                case SpiralPlaceEnum.spread_horizontal:
-                    if (curPageIdx % 2 == 0)
-                        DrawSpiralLeft(pageInfo);
-                    else
-                        DrawSpiralRight(pageInfo);
-                    break;
-                case SpiralPlaceEnum.spread_vertical:
-                    if (curPageIdx % 2 == 0)
-                        DrawSpiralTop(pageInfo);
-                    else
-                        DrawSpiralBottom( pageInfo);
-                    break;
-                case SpiralPlaceEnum.top_bottom:
-                    DrawSpiralTop(pageInfo);
-                    DrawSpiralBottom( pageInfo);
-                    break;
-
-                case SpiralPlaceEnum.left_right:
-                    DrawSpiralLeft(pageInfo);
-                    DrawSpiralRight(pageInfo);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void DrawSpiralRight( PdfPageInfo pi)
-        {
-            double spiralWidth = _spiralBox.Trimbox.wMM();
-            double spiralHeight = _spiralBox.Trimbox.hMM();
-            int cntHoles = (int)(pi.Trimbox.hMM() / spiralWidth);
-            double x = pi.Trimbox.wMM() - spiralHeight;
-            double y = (pi.Trimbox.hMM() - (spiralWidth * cntHoles)) / 2;
-
-            // розвернути _spiralPreview на 90 градусів
-            Bitmap rotatedSpiral = new Bitmap(_spiralPreview);
-            rotatedSpiral.RotateFlip(RotateFlipType.Rotate90FlipNone);
-           
-            for (int i = 0; i < cntHoles; i++)
-            {
-                double holeX = x;
-                double holeY = y + i * spiralWidth;
-                _primitives.Add(new ScreenImage(rotatedSpiral, (float)holeX, (float)holeY, (float)spiralHeight, (float)spiralWidth));
-            }
-
-            rotatedSpiral.Dispose();
-        }
-
-        private void DrawSpiralLeft( PdfPageInfo pi)
-        {
-            double spiralWidth = _spiralBox.Trimbox.wMM();
-            double spiralHeight = _spiralBox.Trimbox.hMM();
-            int cntHoles = (int)(pi.Trimbox.hMM() / spiralWidth);
-            double x = 0;
-            double y = (pi.Trimbox.hMM() - (spiralWidth * cntHoles)) / 2;
-
-            // розвернути _spiralPreview на -90 градусів
-            Bitmap rotatedSpiral = new Bitmap(_spiralPreview);
-            rotatedSpiral.RotateFlip(RotateFlipType.Rotate270FlipNone);
-
-            for (int i = 0; i < cntHoles; i++)
-            {
-                double holeX = x;
-                double holeY = y + i * spiralWidth;
-
-                _primitives.Add(new ScreenImage(rotatedSpiral, (float)holeX, (float)holeY, (float)spiralHeight, (float)spiralWidth));
-            }
-
-            rotatedSpiral.Dispose();
-        }
-
-        private void DrawSpiralBottom(PdfPageInfo pi)
-        {
-            double spiralWidth = _spiralBox.Trimbox.wMM();
-            double spiralHeight = _spiralBox.Trimbox.hMM();
-            int cntHoles = (int)(pi.Trimbox.wMM() / spiralWidth);
-            double x = (pi.Trimbox.wMM() - (spiralWidth * cntHoles)) / 2;
-            double y = pi.Trimbox.hMM() - spiralHeight;
-
-            // розвернути _spiralPreview на 180 градусів
-            Bitmap rotatedSpiral = new Bitmap(_spiralPreview);
-            rotatedSpiral.RotateFlip(RotateFlipType.Rotate180FlipNone);
-
-            for (int i = 0; i < cntHoles; i++)
-            {
-                double holeX = x + i * spiralWidth;
-                double holeY = y;
-
-                _primitives.Add(new ScreenImage(rotatedSpiral, (float)holeX, (float)holeY, (float)spiralWidth, (float)spiralHeight));
-            }
-
-            rotatedSpiral.Dispose();
-
-        }
-
-        private void DrawSpiralTop(PdfPageInfo pi)
-        {
-            double spiralWidth = _spiralBox.Trimbox.wMM();
-            double spiralHeight = _spiralBox.Trimbox.hMM();
-            int cntHoles = (int)(pi.Trimbox.wMM() / spiralWidth);
-            double x = (pi.Trimbox.wMM() - (spiralWidth * cntHoles)) / 2;
-            double y = 0;
-
-            for (int i = 0; i < cntHoles; i++)
-            {
-                double holeX = x + i * spiralWidth;
-                double holeY = y;
-
-                _primitives.Add(new ScreenImage(_spiralPreview, (float)holeX, (float)holeY, (float)spiralWidth, (float)spiralHeight));
-            }
+            _primitives.AddRange(Static.Pdf.Visual.Commons.Screen.DrawSpiral.Draw(spiralPreview, spiralPdfInfo, place,pageInfo,curPageIdx));
         }
 
         void Redraw()
@@ -269,11 +130,6 @@ namespace JobSpace.UserForms.PDF.Visual
             Redraw();
         }
 
-        private void cb_files_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            GetSpiralPreview();
-            Redraw();
-        }
 
         private void cb_rect_CheckedChanged(object sender, EventArgs e)
         {
