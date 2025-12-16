@@ -56,6 +56,9 @@
             this.pb_preview.TabIndex = 0;
             this.pb_preview.TabStop = false;
             this.pb_preview.Paint += new System.Windows.Forms.PaintEventHandler(this.pb_preview_Paint);
+            this.pb_preview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pb_preview_MouseDown);
+            this.pb_preview.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pb_preview_MouseMove);
+            this.pb_preview.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pb_preview_MouseUp);
             // 
             // Uc_PreviewControl
             // 

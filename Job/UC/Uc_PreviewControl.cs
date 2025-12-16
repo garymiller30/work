@@ -20,9 +20,15 @@ namespace JobSpace.UC
         private List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
         private bool _fitToScreen = true;
         private float _zoomFactor = 1.0f;
+
+        private bool _dragging = false;
+        private Point _dragStartPoint;
+        private Point _scrollStartPoint;
+
+
         public float ZoomFactor
         {
-            get => _zoomFactor; 
+            get => _zoomFactor;
         }
         public bool FitToScreen
         {
@@ -131,8 +137,8 @@ namespace JobSpace.UC
             float dpi = pb_preview.DeviceDpi;
 
             // розмір сторінки у пікселях
-            float pageWpx =(int) Math.Ceiling( size.Width * dpi / 25.4f);
-            float pageHpx = (int)Math.Ceiling( size.Height * dpi / 25.4f);
+            float pageWpx = (int)Math.Ceiling(size.Width * dpi / 25.4f);
+            float pageHpx = (int)Math.Ceiling(size.Height * dpi / 25.4f);
 
             if (_fitToScreen)
             {
@@ -178,7 +184,8 @@ namespace JobSpace.UC
 
         public void SetFitAndResetZoom(bool fit)
         {
-            if (fit) { 
+            if (fit)
+            {
                 _fitToScreen = true;
             }
             else
@@ -187,6 +194,46 @@ namespace JobSpace.UC
                 _zoomFactor = 1.0f;
             }
             UpdatePreviewLayout();
+        }
+
+        private void pb_preview_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+                return;
+
+            _dragging = true;
+            pb_preview.Cursor = Cursors.Hand;
+            // початкова позиція миші (у координатах panel)
+            _dragStartPoint = panel1.PointToClient(Cursor.Position);
+
+            // поточний скрол
+            _scrollStartPoint = new Point(
+                panel1.AutoScrollPosition.X,
+                panel1.AutoScrollPosition.Y);
+        }
+
+        private void pb_preview_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!_dragging)
+                return;
+
+            Point currentPoint = panel1.PointToClient(Cursor.Position);
+
+            int dx = currentPoint.X - _dragStartPoint.X;
+            int dy = currentPoint.Y - _dragStartPoint.Y;
+
+            panel1.AutoScrollPosition = new Point(
+                -_scrollStartPoint.X - dx,
+                -_scrollStartPoint.Y - dy);
+        }
+
+        private void pb_preview_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                _dragging = false;
+                pb_preview.Cursor = Cursors.Default;
+            }
         }
     }
 }
