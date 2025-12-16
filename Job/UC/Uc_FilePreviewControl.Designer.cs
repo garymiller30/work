@@ -1,6 +1,6 @@
 ﻿namespace JobSpace.UC
 {
-    partial class Uc_PreviewBrowserFile
+    partial class Uc_FilePreviewControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Uc_PreviewBrowserFile));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Uc_FilePreviewControl));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsb_previous_page = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -142,7 +142,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.uc_PreviewControl1);
             this.Controls.Add(this.toolStrip1);
-            this.Name = "Uc_PreviewBrowserFile";
+            this.Name = "Uc_FilePreviewControl";
             this.Size = new System.Drawing.Size(233, 227);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

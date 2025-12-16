@@ -519,11 +519,11 @@
     <Compile Include="UC\UcSelectStandartPageFormat.Designer.cs">
       <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
     </Compile>
-    <Compile Include="UC\Uc_PreviewBrowserFile.cs">
+    <Compile Include="UC\Uc_FilePreviewControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UC\Uc_PreviewBrowserFile.Designer.cs">
-      <DependentUpon>Uc_PreviewBrowserFile.cs</DependentUpon>
+    <Compile Include="UC\Uc_FilePreviewControl.Designer.cs">
+      <DependentUpon>Uc_FilePreviewControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UC\Uc_PreviewControl.cs">
       <SubType>UserControl</SubType>
@@ -1177,8 +1177,8 @@
     <EmbeddedResource Include="UC\UcSelectStandartPageFormat.resx">
       <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UC\Uc_PreviewBrowserFile.resx">
-      <DependentUpon>Uc_PreviewBrowserFile.cs</DependentUpon>
+    <EmbeddedResource Include="UC\Uc_FilePreviewControl.resx">
+      <DependentUpon>Uc_FilePreviewControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UC\Uc_PreviewControl.resx">
       <DependentUpon>Uc_PreviewControl.cs</DependentUpon>

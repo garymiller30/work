@@ -55,7 +55,7 @@
             this.nud_rect_h = new System.Windows.Forms.NumericUpDown();
             this.nud_rect_w = new System.Windows.Forms.NumericUpDown();
             this.cb_rect = new System.Windows.Forms.CheckBox();
-            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             this.uc_SelectSpiralControl1 = new JobSpace.UC.PDF.Visual.Uc_SelectSpiralControl();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -460,7 +460,7 @@
         private System.Windows.Forms.Button bnt_top_right;
         private System.Windows.Forms.Button btn_top_center;
         private System.Windows.Forms.Button bnt_top_left;
-        private UC.Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
+        private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
         private UC.PDF.Visual.Uc_SelectSpiralControl uc_SelectSpiralControl1;
     }
 }
