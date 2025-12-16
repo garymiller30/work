@@ -56,7 +56,7 @@
             this.numC = new System.Windows.Forms.NumericUpDown();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.cb_files = new System.Windows.Forms.ComboBox();
-            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLen)).BeginInit();
@@ -493,6 +493,6 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.ComboBox cb_files;
         private System.Windows.Forms.Button btn_add_to_center;
-        private UC.Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
+        private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
     }
 }

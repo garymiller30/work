@@ -43,7 +43,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             this.btn_create_schema = new System.Windows.Forms.Button();
             this.btn_apply_schema = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -385,7 +385,7 @@
         private System.Windows.Forms.NumericUpDown nud_rastav;
         private System.Windows.Forms.NumericUpDown nud_root;
         private System.Windows.Forms.NumericUpDown nud_height;
-        private UC.Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
+        private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
         private System.Windows.Forms.Button btn_create_schema;
         private System.Windows.Forms.Button btn_apply_schema;
     }

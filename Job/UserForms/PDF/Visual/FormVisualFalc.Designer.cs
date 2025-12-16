@@ -66,7 +66,7 @@
             this.cb_mirrored_parts = new System.Windows.Forms.CheckBox();
             this.btn_create_schema = new System.Windows.Forms.Button();
             this.btn_mark_file = new System.Windows.Forms.Button();
-            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             this.groupBox1.SuspendLayout();
             this.gb_p1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -701,6 +701,6 @@
         private System.Windows.Forms.CheckBox cb_mirrored_parts;
         private System.Windows.Forms.Button btn_create_schema;
         private System.Windows.Forms.Button btn_mark_file;
-        private UC.Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
+        private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
     }
 }

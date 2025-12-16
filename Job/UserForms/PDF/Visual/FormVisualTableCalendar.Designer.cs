@@ -35,7 +35,7 @@
             this.uc_VisualRectangleControl_top = new JobSpace.UC.PDF.Visual.Uc_VisualRectangleControl();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.nud_osnova = new System.Windows.Forms.NumericUpDown();
-            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_PreviewBrowserFile();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             this.uc_SelectSpiralControl1 = new JobSpace.UC.PDF.Visual.Uc_SelectSpiralControl();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -200,7 +200,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private UC.Uc_PreviewBrowserFile uc_PreviewBrowserFile1;
+        private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
         private System.Windows.Forms.NumericUpDown nud_osnova;
         private System.Windows.Forms.GroupBox groupBox3;
         private UC.PDF.Visual.Uc_SelectSpiralControl uc_SelectSpiralControl1;

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.UC
 {
-    public partial class Uc_PreviewBrowserFile : UserControl
+    public partial class Uc_FilePreviewControl : UserControl
     {
         int _currentPage = 1;
         int _totalPage = 1;
@@ -20,7 +20,7 @@ namespace JobSpace.UC
         public event EventHandler<int> OnPageChanged = delegate { };
         #endregion
 
-        public Uc_PreviewBrowserFile()
+        public Uc_FilePreviewControl()
         {
             InitializeComponent();
         }
