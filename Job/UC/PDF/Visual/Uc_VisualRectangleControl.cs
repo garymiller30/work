@@ -18,6 +18,8 @@ namespace JobSpace.UC.PDF.Visual
         public EventHandler<PointF> OnRectPositionChanged = delegate { };
         public EventHandler<bool> OnRectEnabledChanged = delegate { };
 
+        Dictionary<int, List<Control>> rows = new Dictionary<int, List<Control>>();
+
         PdfPageInfo _pageInfo;
         public bool RectEnabled
         {
@@ -34,9 +36,26 @@ namespace JobSpace.UC.PDF.Visual
             _pageInfo = pageInfo;
         }
 
+        public void DisableRows(params int[] rows)
+        {
+            foreach (var row in rows)
+            {
+                if (this.rows.ContainsKey(row))
+                {
+                    foreach (var control in this.rows[row])
+                    {
+                        control.Visible = false;
+                    }
+                }
+            }
+        }
+
         public Uc_VisualRectangleControl()
         {
             InitializeComponent();
+            rows.Add(0, new List<Control>() { bnt_top_left, btn_top_center, bnt_top_right });
+            rows.Add(1, new List<Control>() { btn_left_center, btn_center, btn_right_center });
+            rows.Add(2, new List<Control>() { bnt_bottom_left, btn_bottom_center, btn_bottom_right });
         }
 
         private void nud_rect_w_ValueChanged(object sender, EventArgs e)
