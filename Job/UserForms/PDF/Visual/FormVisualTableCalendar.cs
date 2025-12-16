@@ -27,6 +27,8 @@ namespace JobSpace.UserForms.PDF.Visual
             
             _file = f;
 
+            uc_VisualRectangleControl_top.DisableRows(1,2);
+            uc_VisualRectangleControl_bottom.DisableRows(0,1);
         }
 
         private void FormVisualTableCalendar_Load(object sender, EventArgs e)

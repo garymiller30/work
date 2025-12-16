@@ -1187,7 +1187,7 @@ namespace JobSpace.UC
         }
         private void розділитиРозворотиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileBrowserSevices.PDF_SplitSpread(objectListView1.CheckedObjects);
+            FileBrowserSevices.PDF_SplitSpread(objectListView1.SelectedObjects);
         }
         private void toolStripButtonCreatePdf_Click(object sender, EventArgs e)
         {
