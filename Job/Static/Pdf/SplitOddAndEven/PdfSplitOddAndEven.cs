@@ -30,7 +30,7 @@ namespace JobSpace.Static.Pdf.SplitOddAndEven
                 int page_count = (int)p.pcos_get_number(indoc, "length:pages");
 
                 string outFile = $"{outfile_basename}_odd.pdf";
-                if (p.begin_document(outFile, "") == -1) throw new Exception("Error: " + p.get_errmsg());
+                if (p.begin_document(outFile, "optimize=true") == -1) throw new Exception("Error: " + p.get_errmsg());
 
                 //odd
                 for (int i = 0; i < page_count; i += 2)

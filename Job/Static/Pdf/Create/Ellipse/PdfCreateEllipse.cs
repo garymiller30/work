@@ -30,7 +30,7 @@ namespace JobSpace.Static.Pdf.Create.Ellipse
                 var dir = Path.GetDirectoryName(filePath);
                 var filename = Path.GetFileNameWithoutExtension(filePath);
                 var outfile = Path.Combine(dir, filename + "_ellipse.pdf");
-                if (p.begin_document(outfile, "") == -1)
+                if (p.begin_document(outfile, "optimize=true") == -1)
                     throw new Exception("Error: " + p.get_errmsg());
 
                

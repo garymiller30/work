@@ -665,10 +665,9 @@ namespace JobSpace.UC
         }
         private void ПредварительныйПросмотрToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (objectListView1.SelectedObject is IFileSystemInfoExt f)
-            {
-                ShowPreview(f);
-            }
+            sc_list.Panel2Collapsed = false;
+            tsb_preview.Checked = true;
+            ShowFilePreview();
         }
         private void ShowPreview(IFileSystemInfoExt f)
         {

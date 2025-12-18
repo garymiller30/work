@@ -39,7 +39,7 @@ namespace JobSpace.Static.Pdf.MergeOddAndEven
                 string outfile = Path.Combine(Path.GetDirectoryName(_params.OddFile),
                     Path.GetFileNameWithoutExtension(_params.OddFile) + "_merged.pdf");
 
-                if (p.begin_document(outfile, "") == -1) throw new Exception("Error: " + p.get_errmsg());
+                if (p.begin_document(outfile, "optimize=true") == -1) throw new Exception("Error: " + p.get_errmsg());
 
                 for (int i = 0; i < page_count; i++)
                 {

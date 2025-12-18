@@ -56,7 +56,7 @@ namespace JobSpace.Static.Pdf.Convert
             string targetFile = CreateTargetFileName(filePath);
             try
             {
-                p.begin_document(targetFile, "");
+                p.begin_document(targetFile, "optimize=true");
                 p.begin_page_ext(0, 0, "");
                 int graphics = p.load_graphics("auto", filePath, "");
                 p.fit_graphics(graphics, 0, 0, "adjustpage");
@@ -94,7 +94,7 @@ namespace JobSpace.Static.Pdf.Convert
 
             try
             {
-                p.begin_document(targetFile,"");
+                p.begin_document(targetFile, "optimize=true");
 
                 p.begin_page_ext(0,0,"");
 

@@ -51,7 +51,7 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
                         Path.GetExtension(filePath));
                 }
 
-                p.begin_document(targetFile, "");
+                p.begin_document(targetFile, "optimize=true");
 
                 int doc = p.open_pdi_document(filePath, "");
                 int page_count = (int)p.pcos_get_number(doc, "length:pages");

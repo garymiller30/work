@@ -31,7 +31,7 @@ namespace JobSpace.Static.Pdf.SplitCoverAndBlock
                 int[] cover = new int[4] { 1, 2, page_count - 1, page_count };
 
                 string outFile = $"{outfile_basename}_cover.pdf";
-                if (p.begin_document(outFile, "") == -1) throw new Exception("Error: " + p.get_errmsg());
+                if (p.begin_document(outFile, "optimize=true") == -1) throw new Exception("Error: " + p.get_errmsg());
 
                 foreach (int i in cover)
                 {

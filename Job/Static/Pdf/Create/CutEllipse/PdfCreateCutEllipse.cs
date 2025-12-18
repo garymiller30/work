@@ -30,7 +30,7 @@ namespace JobSpace.Static.Pdf.Create.CutEllipse
                 var dir = Path.GetDirectoryName(filePath);
                 var filename = Path.GetFileNameWithoutExtension(filePath);
                 var outfile = Path.Combine(dir, filename + "+cut.pdf");
-                if (p.begin_document(outfile, "") == -1)
+                if (p.begin_document(outfile, "optimize=true") == -1)
                     throw new Exception("Error: " + p.get_errmsg());
 
                 int pagehdl = p.open_pdi_page(indoc, 1, "cloneboxes");

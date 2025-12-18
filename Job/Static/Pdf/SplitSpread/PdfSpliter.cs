@@ -20,7 +20,7 @@ namespace JobSpace.Static.Pdf.SplitSpread
             {
                 string targetFile = Path.Combine(Path.GetDirectoryName(filePath), $"{Path.GetFileNameWithoutExtension(filePath)}_splitted.pdf");
                 p = new PDFlib();
-                p.begin_document(targetFile, "");
+                p.begin_document(targetFile, "optimize=true");
                 {
                     var indoc = p.open_pdi_document(filePath, "");
                     var endpage = (int)p.pcos_get_number(indoc, "length:pages");

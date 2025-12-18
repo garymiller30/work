@@ -31,7 +31,7 @@ namespace JobSpace.Static.Pdf.Repeat.Document
                 int page_count = (int)p.pcos_get_number(indoc, "length:pages");
 
                 string outfile = filePath + ".tmp";
-                if (p.begin_document(outfile, "") == -1)
+                if (p.begin_document(outfile, "optimize=true") == -1)
                     throw new Exception("Error: " + p.get_errmsg());
 
                 for (int i = 0; i < _params.Count; i++)
