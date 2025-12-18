@@ -27,7 +27,7 @@ namespace JobSpace.Static.Pdf.Create.FillRectangle
             {
                 p = new PDFlib();
 
-                p.begin_document(filePath, "");
+                p.begin_document(filePath, "optimize=true");
 
                 double w = _param.Width * PdfHelper.mn;
                 double h = _param.Height * PdfHelper.mn;

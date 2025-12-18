@@ -31,7 +31,7 @@ namespace JobSpace.Static.Pdf.Create.EmptyPdfTemplateWithCount
                         fileCount++;
                     } while (File.Exists(outfile));
 
-                    if (p.begin_document(outfile, "") == -1)
+                    if (p.begin_document(outfile, "optimize=true") == -1)
                         throw new Exception("Error: " + p.get_errmsg());
 
                     Box trimbox = new Box();

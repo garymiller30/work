@@ -46,7 +46,7 @@ namespace JobSpace.Static.Pdf.MergeFrontsAndBack
                 string outfile = Path.Combine(Path.GetDirectoryName(frontFilePath),
                     Path.GetFileNameWithoutExtension(frontFilePath) + "_merged.pdf");
 
-                if (p.begin_document(outfile, "") == -1)
+                if (p.begin_document(outfile, "optimize=true") == -1)
                     throw new Exception("Error: " + p.get_errmsg());
 
                 for (int i = 0; i < page_count; i++)

@@ -195,9 +195,9 @@
     <Reference Include="PDFiumSharp, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PDFiumSharpV2.1.1.4\lib\netstandard2.0\PDFiumSharp.dll</HintPath>
     </Reference>
-    <Reference Include="PDFlib_dotnet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=af0805f2b25bb299, processorArchitecture=MSIL">
+    <Reference Include="PDFlib_dotnet, Version=4.2.0.0, Culture=neutral, PublicKeyToken=af0805f2b25bb299, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\_Components\PDFLIB\10.0.2\bind\dotnet\cracked\PDFlib_dotnet.dll</HintPath>
+      <HintPath>..\..\_Components\PDFLIB\11.0.0\crack\PDFlib_dotnet.dll</HintPath>
     </Reference>
     <Reference Include="SharpCompress, Version=0.36.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.36.0\lib\net462\SharpCompress.dll</HintPath>

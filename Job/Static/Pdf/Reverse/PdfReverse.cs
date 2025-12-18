@@ -28,7 +28,7 @@ namespace JobSpace.Static.Pdf.Reverse
 
                 int page_count = (int)p.pcos_get_number(indoc, "length:pages");
 
-                if (p.begin_document(outfile, "") == -1)
+                if (p.begin_document(outfile, "optimize=true") == -1)
                     throw new Exception("Error: " + p.get_errmsg());
 
                 /* Loop over all subsequent pages in reverse order */

@@ -23,7 +23,7 @@ namespace JobSpace.Static.Pdf.RotateMirrorFrontAndBack
                 p = new PDFlib();
 
                 var outputFile = Path.Combine(Path.GetDirectoryName(filePath), $"{Path.GetFileNameWithoutExtension(filePath)}_90grad{Path.GetExtension(filePath)}");
-                p.begin_document(outputFile, "");
+                p.begin_document(outputFile, "optimize=true");
 
                 int indoc = p.open_pdi_document(filePath, "");
                 if (indoc == -1)

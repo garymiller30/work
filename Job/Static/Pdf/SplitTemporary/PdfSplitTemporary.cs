@@ -36,7 +36,7 @@ namespace JobSpace.Static.Pdf.SplitTemporary
                 {
                     string itemFile = Path.Combine(rootDir, item.Name);
 
-                    p.begin_document(itemFile, "");
+                    p.begin_document(itemFile, "optimize=true");
 
                     for (int i = item.From; i <= item.To; i++)
                     {

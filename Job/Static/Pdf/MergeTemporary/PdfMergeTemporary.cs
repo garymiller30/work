@@ -30,7 +30,7 @@ namespace JobSpace.Static.Pdf.MergeTemporary
 
             try
             {
-                p.begin_document(fileName, "");
+                p.begin_document(fileName, "optimize=true");
 
                 foreach (string file in _params.Files)
                 {

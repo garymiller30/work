@@ -48,7 +48,7 @@ namespace JobSpace.Static.Pdf.ExtractPages
                 {
                     string outFile = $"{outfile_basename}_{pagesCount[i]}.pdf";
 
-                    if (p.begin_document(outFile, "") == -1)
+                    if (p.begin_document(outFile, "optimize=true") == -1)
                         throw new Exception("Error: " + p.get_errmsg());
 
                     p.begin_page_ext(0, 0, "");

@@ -23,7 +23,7 @@ namespace JobSpace.Static.Pdf.Merge
 
             try
             {
-                p.begin_document(fileName, "");
+                p.begin_document(fileName, "optimize=true");
 
                 foreach (string file in files)
                 {

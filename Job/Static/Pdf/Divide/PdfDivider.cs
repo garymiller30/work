@@ -42,7 +42,7 @@ namespace JobSpace.Static.Pdf.Divide
                         String outfile = outfile_basename + "_" + (outdoc_counter + 1)
                                      + ".pdf";
 
-                        p.begin_document(outfile, "");
+                        p.begin_document(outfile, "optimize=true");
 
                         for (int i = 0; page < page_count && i < _param.FixedCountPages;
                         page += 1, i += 1)

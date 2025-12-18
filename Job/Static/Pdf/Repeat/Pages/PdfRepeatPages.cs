@@ -29,7 +29,7 @@ namespace JobSpace.Static.Pdf.RepeatPages
 
                 p.set_option("errorpolicy=return");
 
-                int indoc = p.open_pdi_document(filePath, "");
+                int indoc = p.open_pdi_document(filePath, "optimize=true");
 
                 if (indoc == -1)
                     throw new Exception("Error: " + p.get_errmsg());

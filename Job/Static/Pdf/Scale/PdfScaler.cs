@@ -32,7 +32,7 @@ namespace JobSpace.Static.Pdf.Scale
 
                 p = new PDFlib();
 
-                p.begin_document(targetFile, "");
+                p.begin_document(targetFile, "optimize=true");
 
                 var indoc = p.open_pdi_document(filePath, "");
                 var endpage = (int)p.pcos_get_number(indoc, "length:pages");
