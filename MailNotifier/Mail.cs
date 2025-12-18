@@ -10,7 +10,6 @@ using Google.Apis.Util.Store;
 using Interfaces;
 using MailNotifier.Shablons;
 using MimeKit;
-using S22.Imap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,8 +22,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Interop;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 using Attachment = System.Net.Mail.Attachment;
 using MailMessage = System.Net.Mail.MailMessage;
 
@@ -71,11 +68,28 @@ namespace MailNotifier
         {
             if (Settings.MailConnectType == Interfaces.Enums.MailConnectTypeEnum.SMTP)
             {
-                SendBySMTP(to, tema, body, attachFiles);
+                try
+                {
+                    SendBySMTP(to, tema, body, attachFiles);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"Помилка відправки пошти через SMTP: {e.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else if (Settings.MailConnectType == Interfaces.Enums.MailConnectTypeEnum.GOOGLE_API)
             {
-                SendByGoogleApi(to, tema, body, attachFiles);
+                try
+                {
+                    SendByGoogleApi(to, tema, body, attachFiles);
+                }
+                catch (Exception e)
+                {
+
+                    MessageBox.Show($"Помилка відправки пошти через Google API: {e.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                
             }
         }
 
