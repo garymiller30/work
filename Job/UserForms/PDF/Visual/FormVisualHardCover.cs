@@ -41,9 +41,10 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void ShowTotalCoverSize()
         {
-            DrawSchema();
             nud_total_width.Value = nud_root.Value + (nud_width.Value + nud_rastav.Value + nud_zagyn.Value) * 2;
             nud_total_height.Value = nud_height.Value + (nud_zagyn.Value * 2);
+            DrawSchema();
+            
         }
 
         private void DrawSchema()
