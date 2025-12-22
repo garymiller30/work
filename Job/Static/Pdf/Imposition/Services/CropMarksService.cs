@@ -150,6 +150,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 double len = crops.Parameters.Len;
                 double dist = crops.Parameters.Distance;
 
+                if (len == 0) continue;
+                
                 CropDirection[] direction = crops.GetDrawDirectionFront(page.Front.Angle);
                 AnchorOfset[] ofsets = crops.GetAnchorOfsetsFront(page, page.Front.Angle);
 
@@ -165,7 +167,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                     {
                         int idx = i * 2 + j;
 
-                        var cropMark = new CropMarkCreator(x, y).From(direction[idx].X * dist, direction[idx].Y * dist).To(direction[idx].X * len, direction[idx].Y * len);
+                        CropMark cropMark = new CropMarkCreator(x, y).From(direction[idx].X * dist, direction[idx].Y * dist).To(direction[idx].X * len, direction[idx].Y * len);
                         crops.CropMarks.Add(cropMark);
 
                     }
@@ -187,6 +189,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
                 double len = crops.Parameters.Len;
                 double dist = crops.Parameters.Distance;
+
+                if (len == 0) continue;
 
                 CropDirection[] direction = crops.GetDrawDirectionBack(page.Front.Angle);
                 AnchorOfset[] ofsets = crops.GetAnchorOfsetsBack(page, sheet, page.Back.Angle);

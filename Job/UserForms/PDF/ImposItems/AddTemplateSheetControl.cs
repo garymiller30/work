@@ -239,6 +239,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (sheets.Count > 0)
             {
                 objectListView1.AddObjects(sheets);
+                objectListView1.SelectObject(sheets[0]);
             }
         }
 

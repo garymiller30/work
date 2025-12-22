@@ -21,7 +21,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         /// <summary>
         /// висота елемента палітри за замовчуванням
         /// </summary>
-        public double DefaultHeight { get; set; }
+        public double DefaultHeight { get; set; } 
 
         public List<MarkColor> BaseColors { get; set; } = new List<MarkColor>();
 

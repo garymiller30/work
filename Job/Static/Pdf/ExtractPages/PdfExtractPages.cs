@@ -21,7 +21,6 @@ namespace JobSpace.Static.Pdf.ExtractPages
         {
             PDFlib p = null;
 
-#pragma warning disable CS0168 // Variable is declared but never used
             try
             {
                 p = new PDFlib();
@@ -30,14 +29,12 @@ namespace JobSpace.Static.Pdf.ExtractPages
 
                 p.set_option("errorpolicy=return");
 
-                int indoc = p.open_pdi_document(filePath, "");
+                int indoc = p.open_pdi_document(filePath, "optimize=true");
 
                 if (indoc == -1)
                     throw new Exception("Error: " + p.get_errmsg());
 
                 int page_count = (int)p.pcos_get_number(indoc, "length:pages");
-
-                //if (page_count < customCountPages.Sum()) throw new Exception("Error: кількість вказаних сторінок більша за кількість сторінок в документі");
 
                 int maxPage = _params.Pages.Max();
                 if (maxPage > page_count) throw new Exception("Error: Номер сторінки більший за кількість сторінок в документі");
@@ -73,7 +70,6 @@ namespace JobSpace.Static.Pdf.ExtractPages
             {
                 p?.Dispose();
             }
-#pragma warning restore CS0168 // Variable is declared but never used
         }
     }
 }

@@ -501,6 +501,12 @@
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\VisualBlocknoteSpiral.cs" />
     <Compile Include="Static\Pdf\Visual\HardCover\HardCover.cs" />
     <Compile Include="Static\Pdf\Visual\HardCover\HardCoverParams.cs" />
+    <Compile Include="UC\PDF\Marks\ColorControlBar\Uc_ColorControlPalette.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\PDF\Marks\ColorControlBar\Uc_ColorControlPalette.Designer.cs">
+      <DependentUpon>Uc_ColorControlPalette.cs</DependentUpon>
+    </Compile>
     <Compile Include="UC\PDF\Visual\Uc_SelectSpiralControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1168,6 +1174,9 @@
     <EmbeddedResource Include="CustomForms\FormEnterText.resx">
       <DependentUpon>FormEnterText.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UC\PDF\Marks\ColorControlBar\Uc_ColorControlPalette.resx">
+      <DependentUpon>Uc_ColorControlPalette.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UC\PDF\Visual\Uc_SelectSpiralControl.resx">
       <DependentUpon>Uc_SelectSpiralControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1191,6 +1200,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\FormEnterTirag.resx">
       <DependentUpon>FormEnterTirag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\Marks\FormColorControlBar.resx">
+      <DependentUpon>FormColorControlBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\Visual\FormCreateBigovkaMarks.resx">
       <DependentUpon>FormCreateBigovkaMarks.cs</DependentUpon>
