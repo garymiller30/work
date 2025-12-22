@@ -16,7 +16,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
     public class ColorControlBar
     {
 
-        JsonSerializerOptions SerializerOptions = new JsonSerializerOptions
+        public static JsonSerializerOptions SerializerOptions = new JsonSerializerOptions
         {
             WriteIndented = false,
             TypeInfoResolver = new DefaultJsonTypeInfoResolver
@@ -48,9 +48,9 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         };
 
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public List<string> RowElements { get; set; } = new List<string>();
+        public List<string> RowElementsId { get; set; } = new List<string>();
 
-        public double Width { get => Palette.GetWidth(RowElements); }
+        public double Width { get => Palette.GetWidth(RowElementsId); }
         public double Height { get => Palette.DefaultHeight; }
 
         public ColorPalette Palette { get; set; }
@@ -61,12 +61,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         }
         public void Add(Group group)
         {
-            RowElements.Add(group.Id);
+            RowElementsId.Add(group.Id);
         }
 
         public void Add(Triangle triangle)
         {
-            RowElements.Add(triangle.Id);
+            RowElementsId.Add(triangle.Id);
         }
 
         public void Add(string colorId)
@@ -74,18 +74,18 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
            
             var rect = Palette.CreateRectangle(colorId);
 
-            RowElements.Add(rect.Id);
+            RowElementsId.Add(rect.Id);
         }
 
         public void Add(string colorId, double tint)
         {
             var rect = Palette.CreateRectangle(colorId, tint);
-            RowElements.Add(rect.Id);
+            RowElementsId.Add(rect.Id);
         }
 
         public void Add(IPrimitive figure)
         {
-            RowElements.Add(figure.Id);
+            RowElementsId.Add(figure.Id);
         }
 
         private void Draw(PDFlib p, PointD startCoord)
@@ -96,7 +96,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
             double w = Palette.DefaultWidth;
             double h = Palette.DefaultHeight;
 
-            foreach (var item in RowElements)
+            foreach (var item in RowElementsId)
             {
                 IPrimitive prim = Palette.GetElementById(item);
                 if (prim != null)

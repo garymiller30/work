@@ -21,7 +21,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Crop
             p.setcolor("fillstroke", "spot", color, 1, 0, 0);
             p.setlinewidth(crops.Parameters.Height);
 
-            foreach (var cropMark in crops.CropMarks.Where(x => x.IsFront))
+            foreach (Imposition.Models.Marks.CropMark cropMark in crops.CropMarks.Where(x => x.IsFront))
             {
                 PdfLineDrawer.DrawCropMark(p, cropMark);
             }
