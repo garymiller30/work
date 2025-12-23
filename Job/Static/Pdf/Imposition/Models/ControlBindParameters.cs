@@ -12,9 +12,8 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 {
     public class ControlBindParameters : INotifyPropertyChanged
     {
-        public ProductPart ProductPart { get; set; }
+        GlobalImposParameters _imposParam;
         public TreeListView PdfFileList { get; set; }
-        //public List<PdfFile> PdfFiles { get; set; }
 
         TemplatePage masterPage = new TemplatePage();
 
@@ -87,7 +86,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         {
             if (sheet != null)
             {
-                CropMarksService.FixCropMarks(sheet);
+                CropMarksService.FixCropMarks(sheet,_imposParam);
             }
             selectedPreviewPage = null;
             if(resetHover) HoverPage = null;
@@ -109,7 +108,10 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             selectedPreviewPage = null;
             Sheet = e;
         }
-        
 
+        public ControlBindParameters(GlobalImposParameters imposParam)
+        {
+            _imposParam = imposParam;
+        }
     }
 }

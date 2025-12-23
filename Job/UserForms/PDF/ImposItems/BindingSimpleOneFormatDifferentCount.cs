@@ -65,7 +65,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 if (form.ShowDialog() == DialogResult.Yes)
                 {
                     ApplyChanges();
-                    parameters.UpdatePreview();
+                    _imposParam.ControlsBind.UpdatePreview();
                 }
             }
         }
@@ -80,7 +80,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             // скинути 
             
 
-            _result = new CalcResult(parameters.PdfFileList.Objects.Cast<PdfFile>().ToList());
+            _result = new CalcResult(_imposParam.ControlsBind.PdfFileList.Objects.Cast<PdfFile>().ToList());
             _result.SetCountOnSheet(sheets[0].TemplatePageContainer.TemplatePages.Count);
             _result.Calc(_sheets[0].SheetPlaceType);
 

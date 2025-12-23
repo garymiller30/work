@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Static.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -81,9 +82,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
             treeListViewFiles.AddObjects(files);
         }
 
-        public void SetControlBindParameters(ControlBindParameters controlBindParameters)
+        public void SetControlBindParameters(GlobalImposParameters imposParam)
         {
-            controlBindParameters.PdfFileList = treeListViewFiles;
+            imposParam.ControlsBind.PdfFileList = treeListViewFiles;
         }
     }
 }

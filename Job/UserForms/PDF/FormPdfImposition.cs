@@ -1,51 +1,35 @@
-﻿using BrightIdeasSoftware;
-using JobSpace.Profiles;
+﻿using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition;
-using JobSpace.Static.Pdf.Imposition.Drawers;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF;
-using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.View;
 using JobSpace.Static.Pdf.Imposition.Services;
-using JobSpace.Static.Pdf.Imposition.Services.Impos;
-using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
-using JobSpace.UserForms.PDF.ImposItems;
 using Krypton.Toolkit;
 using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.UserForms.PDF
 {
     public partial class FormPdfImposition : KryptonForm
     {
-        ImposInputParam _imposInputParam;
-        //List<PdfFile> _pdfFiles = new List<PdfFile>();
-
-        ImposToolsParameters _tool_param = new ImposToolsParameters();
-        ControlBindParameters _parameters = new ControlBindParameters();
-        ProductPart _productPart;
+        GlobalImposParameters _imposParam {get;set; }
         PdfDrawer drawer;
-        Profile _profile;
 
         public FormPdfImposition(Profile profile)
         {
-            _profile = profile;
-            _productPart = new ProductPart();
-
             InitializeComponent();
+            _imposParam = new GlobalImposParameters();
+            _imposParam.Profile = profile;
+            
             InitBindParameters();
             InitImposTools();
 
@@ -65,12 +49,12 @@ namespace JobSpace.UserForms.PDF
             btn_selectCustomFolder.DataBindings.Add("Enabled", cb_useCustomOutputFolder, "Checked");
             tb_useTemplate.DataBindings.Add("Enabled", cb_useTemplate, "Checked");
 
-            cb_CustomOutputPath.Items.AddRange(_profile.ImposService.LoadCustomsPath().ToArray());
+            cb_CustomOutputPath.Items.AddRange(_imposParam.Profile.ImposService.LoadCustomsPath().ToArray());
         }
 
         private void LoadExportParameters()
         {
-            ExportParameters exportParameters = _profile.ImposService.LoadExportParameters();
+            ExportParameters exportParameters = _imposParam.Profile.ImposService.LoadExportParameters();
 
             cb_savePrintSheetInOrder.Checked = exportParameters.SavePrintSheetToOrderFolder;
             cb_useTemplate.Checked = exportParameters.UseTemplate;
@@ -93,16 +77,16 @@ namespace JobSpace.UserForms.PDF
 
         private void OnClickCenterH(object sender, EventArgs e)
         {
-            ProcessMoveSubject.CenterHor(_parameters.Sheet);
-            imposBindingControl1.FixBackPageSizePosition(_parameters.Sheet.TemplatePageContainer);
-            _parameters.UpdateSheet();
+            ProcessMoveSubject.CenterHor(_imposParam.ControlsBind.Sheet);
+            imposBindingControl1.FixBackPageSizePosition(_imposParam.ControlsBind.Sheet.TemplatePageContainer);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void OnClickCenterV(object sender, EventArgs e)
         {
-            ProcessMoveSubject.CenterVer(_parameters.Sheet);
-            imposBindingControl1.FixBackPageSizePosition(_parameters.Sheet.TemplatePageContainer);
-            _parameters.UpdateSheet();
+            ProcessMoveSubject.CenterVer(_imposParam.ControlsBind.Sheet);
+            imposBindingControl1.FixBackPageSizePosition(_imposParam.ControlsBind.Sheet.TemplatePageContainer);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void OnSheetAddManyToPrintEvent(object sender, TemplateSheet e)
@@ -120,7 +104,7 @@ namespace JobSpace.UserForms.PDF
         void AddPrintSheet(TemplateSheet e)
         {
             PrintSheet sheet = PrintSheet.ConvertTemplateSheetToPrintSheet(e);
-            //runListControl1.AssignPrintSheet(sheet);
+           
             printSheetsControl1.AddSheet(sheet);
 
             if (ModifierKeys != Keys.Alt)
@@ -136,19 +120,18 @@ namespace JobSpace.UserForms.PDF
 
         private void OnTemplateSheetSelected(object sender, TemplateSheet e)
         {
-            _parameters.SetSheet(e);
+            _imposParam.ControlsBind.SetSheet(e);
         }
 
         private void InitBindParameters()
         {
-            _parameters.ProductPart = _productPart;
-            _parameters.NeedRearangePages += _controlBindParameters_NeedRearangePages;
-            _parameters.NeedCheckRunListPages += NeedCheckRunListPages;
-            imposBindingControl1.SetControlBindParameters(_parameters);
-            pdfFileListControl1.SetControlBindParameters(_parameters);
-            runListControl1.SetControlBindParameters(_parameters);
-            marksControl1.SetControlBindParameters(_profile, _parameters);
-            previewControl1.SetControlBindParameters(_parameters);
+            _imposParam.ControlsBind.NeedRearangePages += _controlBindParameters_NeedRearangePages;
+            _imposParam.ControlsBind.NeedCheckRunListPages += NeedCheckRunListPages;
+            imposBindingControl1.SetControlBindParameters(_imposParam);
+            pdfFileListControl1.SetControlBindParameters(_imposParam);
+            runListControl1.SetControlBindParameters(_imposParam);
+            marksControl1.SetControlBindParameters(_imposParam);
+            previewControl1.SetControlBindParameters(_imposParam);
         }
 
         private void NeedCheckRunListPages(object sender, EventArgs e)
@@ -165,6 +148,8 @@ namespace JobSpace.UserForms.PDF
 
         private void InitImposTools()
         {
+            var _tool_param = _imposParam.ImposTools;
+
             _tool_param.OnClickCenterV += OnClickCenterV;
             _tool_param.OnClickCenterH += OnClickCenterH;
             _tool_param.OnMoveLeftClick += OnMoveLeftClick;
@@ -180,107 +165,107 @@ namespace JobSpace.UserForms.PDF
             _tool_param.OnPageGroupDistributeHor += OnPageGroupDistributeHor;
             _tool_param.OnPageGroupDistributeVer += OnPageGroupDistributeVer;
             _tool_param.OnPageGroupDelete += OnPageGroupDelete;
-            previewControl1.InitBindParameters(_tool_param);
+            
         }
 
         private void OnPageGroupDistributeVer(object sender, List<PageGroup> e)
         {
-            PageGroupsService.DistributeVer(_parameters.Sheet, _tool_param.IgnoreSheetFields, e);
-            _parameters.UpdateSheet();
+            PageGroupsService.DistributeVer(_imposParam.ControlsBind.Sheet, _imposParam.ImposTools.IgnoreSheetFields, e);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void OnPageGroupDelete(object sender, List<PageGroup> e)
         {
-            PageGroupsService.DeleteGroups(_parameters.Sheet, e);
-            _parameters.UpdateSheet();
+            PageGroupsService.DeleteGroups(_imposParam.ControlsBind.Sheet, e);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void OnPageGroupDistributeHor(object sender, List<PageGroup> e)
         {
-            PageGroupsService.DistributeHor(_parameters.Sheet, _tool_param.IgnoreSheetFields, e);
-            _parameters.UpdateSheet();
+            PageGroupsService.DistributeHor(_imposParam.ControlsBind.Sheet, _imposParam.ImposTools.IgnoreSheetFields, e);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void OnAddPageToGroup(object sender, TemplatePage e)
         {
-            e.Group = _tool_param.CurGroup;
-            _parameters.UpdateSheet();
+            e.Group = _imposParam.ImposTools.CurGroup;
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void OnFlipRowAngle(object sender, TemplatePage e)
         {
-            _parameters.Sheet.TemplatePageContainer.FlipPagesAngle(e, _parameters.Sheet.SheetPlaceType);
-            ProcessFixBleeds.Front(_parameters.Sheet.TemplatePageContainer);
-            _parameters.UpdateSheet();
+            _imposParam.ControlsBind.Sheet.TemplatePageContainer.FlipPagesAngle(e, _imposParam.ControlsBind.Sheet.SheetPlaceType);
+            ProcessFixBleeds.Front(_imposParam.ControlsBind.Sheet.TemplatePageContainer);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void OnFlipAngle(object sender, TemplatePage e)
         {
-            e.FlipAngle(_parameters.Sheet.SheetPlaceType);
-            ProcessFixBleeds.Front(_parameters.Sheet.TemplatePageContainer);
-            _parameters.UpdateSheet();
+            e.FlipAngle(_imposParam.ControlsBind.Sheet.SheetPlaceType);
+            ProcessFixBleeds.Front(_imposParam.ControlsBind.Sheet.TemplatePageContainer);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void OnSwitchWH(object sender, EventArgs e)
         {
-            if (_parameters.SelectedPreviewPage != null)
+            if (_imposParam.ControlsBind.SelectedPreviewPage != null)
             {
-                var sel_page = _parameters.SelectedPreviewPage;
-                sel_page.SwitchWH(_parameters.Sheet.SheetPlaceType);
-                _parameters.UpdateSheet();
-                _parameters.SelectedPreviewPage = sel_page;
+                var sel_page = _imposParam.ControlsBind.SelectedPreviewPage;
+                sel_page.SwitchWH(_imposParam.ControlsBind.Sheet.SheetPlaceType);
+                _imposParam.ControlsBind.UpdateSheet();
+                _imposParam.ControlsBind.SelectedPreviewPage = sel_page;
             }
         }
 
         private void OnRotateRight(object sender, EventArgs e)
         {
-            if (_parameters.SelectedPreviewPage != null)
+            if (_imposParam.ControlsBind.SelectedPreviewPage != null)
             {
-                var sel_page = _parameters.SelectedPreviewPage;
-                ProcessRotatePage.Right(_parameters.Sheet, sel_page);
-                _parameters.UpdateSheet();
-                _parameters.SelectedPreviewPage = sel_page;
+                var sel_page = _imposParam.ControlsBind.SelectedPreviewPage;
+                ProcessRotatePage.Right(_imposParam.ControlsBind.Sheet, sel_page);
+                _imposParam.ControlsBind.UpdateSheet();
+                _imposParam.ControlsBind.SelectedPreviewPage = sel_page;
             }
         }
 
         private void OnRotateLeft(object sender, EventArgs e)
         {
-            if (_parameters.SelectedPreviewPage != null)
+            if (_imposParam.ControlsBind.SelectedPreviewPage != null)
             {
-                var sel_page = _parameters.SelectedPreviewPage;
-                ProcessRotatePage.Left(_parameters.Sheet, sel_page);
-                _parameters.UpdateSheet();
-                _parameters.SelectedPreviewPage = sel_page;
+                var sel_page = _imposParam.ControlsBind.SelectedPreviewPage;
+                ProcessRotatePage.Left(_imposParam.ControlsBind.Sheet, sel_page);
+                _imposParam.ControlsBind.UpdateSheet();
+                _imposParam.ControlsBind.SelectedPreviewPage = sel_page;
             }
         }
 
         private void OnMoveDownClick(object sender, double e)
         {
-            ProcessMoveSubject.Down(_parameters.Sheet, e);
-            _parameters.UpdateSheet();
+            ProcessMoveSubject.Down(_imposParam.ControlsBind.Sheet, e);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void OnMoveUpClick(object sender, double e)
         {
-            ProcessMoveSubject.Up(_parameters.Sheet, e);
-            _parameters.UpdateSheet();
+            ProcessMoveSubject.Up(_imposParam.ControlsBind.Sheet, e);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void OnMoveRightClick(object sender, double e)
         {
-            ProcessMoveSubject.Right(_parameters.Sheet, e);
-            _parameters.UpdateSheet();
+            ProcessMoveSubject.Right(_imposParam.ControlsBind.Sheet, e);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void OnMoveLeftClick(object sender, double e)
         {
-            ProcessMoveSubject.Left(_parameters.Sheet, e);
-            _parameters.UpdateSheet();
+            ProcessMoveSubject.Left(_imposParam.ControlsBind.Sheet, e);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         public FormPdfImposition(ImposInputParam param) : this((Profile)param.UserProfile)
         {
-            _imposInputParam = param;
+            _imposParam.ImposInput = param;
 
             if (param.Job != null)
             {
@@ -290,22 +275,22 @@ namespace JobSpace.UserForms.PDF
             }
 
             int id = 1;
-            foreach (var file in _imposInputParam.Files)
+            foreach (var file in _imposParam.ImposInput.Files)
             {
                 var pdfFile = new PdfFile(file) { Id = id++ };
-                _productPart.PdfFiles.Add(pdfFile);
+                _imposParam.ProductPart.PdfFiles.Add(pdfFile);
                 runListControl1.AddPages(ImposRunList.CreatePagesFromFile(pdfFile));
             }
 
-            pdfFileListControl1.AddFiles(_productPart.PdfFiles);
+            pdfFileListControl1.AddFiles(_imposParam.ProductPart.PdfFiles);
 
             // слідкуємо за змінами майстер сторінки
             masterPageSelectControl1.OnMasterPageChanged += OnMasterPageChanged;
             masterPageSelectControl1.OnMasterPageAdded += OnMasterPageAdded;
-            masterPageSelectControl1.SetFormats(_productPart.PdfFiles);
+            masterPageSelectControl1.SetFormats(_imposParam.ProductPart.PdfFiles);
 
-            addTemplateSheetControl1.SetControlBindParameters(_profile, _parameters);
-            printSheetsControl1.SetControlBindParameters(_profile, _parameters);
+            addTemplateSheetControl1.SetControlBindParameters(_imposParam);
+            printSheetsControl1.SetControlBindParameters(_imposParam);
 
             //LoadImposFromFile();
 
@@ -315,20 +300,20 @@ namespace JobSpace.UserForms.PDF
         {
             // додаємо сторінку на поточний лист
             //TODO: додати сторінку на лист
-            if (_parameters.Sheet == null) return;
+            if (_imposParam.ControlsBind.Sheet == null) return;
 
-            _parameters.Sheet.TemplatePageContainer.AddPage(e.ToTemplatePage());
-            _parameters.UpdatePreview();
+            _imposParam.ControlsBind.Sheet.TemplatePageContainer.AddPage(e.ToTemplatePage());
+            _imposParam.ControlsBind.UpdatePreview();
         }
 
         private void OnMasterPageChanged(object sender, PageFormatView e)
         {
-            _parameters.MasterPage = e.ToTemplatePage();
+            _imposParam.ControlsBind.MasterPage = e.ToTemplatePage();
         }
 
         private void LoadImposFromFile()
         {
-            string folderPath = Path.Combine(_imposInputParam.JobFolder, ".impos");
+            string folderPath = Path.Combine(_imposParam.ImposInput.JobFolder, ".impos");
             if (Directory.Exists(folderPath))
             {
                 string filePath = Path.Combine(folderPath, "imposition.json");
@@ -336,8 +321,8 @@ namespace JobSpace.UserForms.PDF
                 if (File.Exists(filePath))
                 {
                     var str = File.ReadAllText(filePath);
-                    _productPart = JsonSerializer.Deserialize<ProductPart>(str);
-                    imposColorsControl1.SetUsedColors(_productPart.UsedColors);
+                    _imposParam.ProductPart = JsonSerializer.Deserialize<ProductPart>(str);
+                    imposColorsControl1.SetUsedColors(_imposParam.ProductPart.UsedColors);
                     RedrawProductPart();
                 }
             }
@@ -364,25 +349,25 @@ namespace JobSpace.UserForms.PDF
 
         private async void SaveToPdf()
         {
-            _productPart.Proof.Enable = cb_UseProofColor.Checked;
+            _imposParam.ProductPart.Proof.Enable = cb_UseProofColor.Checked;
             //_productPart.TemplateSheets = addTemplateSheetControl1.GetSheets();
-            _productPart.PrintSheets = printSheetsControl1.GetSheets();
+            _imposParam.ProductPart.PrintSheets = printSheetsControl1.GetSheets();
 
-            _productPart.RunList.RunPages = runListControl1.GetRunPages();
-            _productPart.UsedColors = imposColorsControl1.GetUsedColors();
+            _imposParam.ProductPart.RunList.RunPages = runListControl1.GetRunPages();
+            _imposParam.ProductPart.UsedColors = imposColorsControl1.GetUsedColors();
 
-            _productPart.ExportParameters.SavePrintSheetToOrderFolder = cb_savePrintSheetInOrder.Checked;
-            _productPart.ExportParameters.OutputFolder = _imposInputParam.JobFolder;
-            _productPart.ExportParameters.UseTemplate = cb_useTemplate.Checked;
-            _productPart.ExportParameters.TemplateString = tb_useTemplate.Text;
-            _productPart.ExportParameters.UseCustomOutputFolder = cb_useCustomOutputFolder.Checked;
-            _productPart.ExportParameters.CustomOutputFolder = cb_CustomOutputPath.Text;
-            string firstFile = _imposInputParam.Files[0];
-            _productPart.ExportParameters.OutputFileName = Path.Combine(Path.GetDirectoryName(firstFile),$"{Path.GetFileNameWithoutExtension(firstFile)}_impos{Path.GetExtension(firstFile)}");
+            _imposParam.ProductPart.ExportParameters.SavePrintSheetToOrderFolder = cb_savePrintSheetInOrder.Checked;
+            _imposParam.ProductPart.ExportParameters.OutputFolder = _imposParam.ImposInput.JobFolder;
+            _imposParam.ProductPart.ExportParameters.UseTemplate = cb_useTemplate.Checked;
+            _imposParam.ProductPart.ExportParameters.TemplateString = tb_useTemplate.Text;
+            _imposParam.ProductPart.ExportParameters.UseCustomOutputFolder = cb_useCustomOutputFolder.Checked;
+            _imposParam.ProductPart.ExportParameters.CustomOutputFolder = cb_CustomOutputPath.Text;
+            string firstFile = _imposParam.ImposInput.Files[0];
+            _imposParam.ProductPart.ExportParameters.OutputFileName = Path.Combine(Path.GetDirectoryName(firstFile),$"{Path.GetFileNameWithoutExtension(firstFile)}_impos{Path.GetExtension(firstFile)}");
 
             //DrawerStatic.CurProductPart = _productPart;
 
-            drawer = new PdfDrawer(_profile);
+            drawer = new PdfDrawer(_imposParam);
 
             drawer.StartEvent += startEvent;
             drawer.ProcessingEvent += processingEvent;
@@ -390,7 +375,7 @@ namespace JobSpace.UserForms.PDF
 
             // якщо не вибрано листи, то друкуємо всі
             drawer.CustomSheets = printSheetsControl1.GetSheetsIdxForPrint();
-            await Task.Run(() => drawer.Draw(_productPart)).ConfigureAwait(true);
+            await Task.Run(() => drawer.Draw(_imposParam.ProductPart)).ConfigureAwait(true);
 
             drawer.StartEvent -= startEvent;
             drawer.ProcessingEvent -= processingEvent;
@@ -400,7 +385,7 @@ namespace JobSpace.UserForms.PDF
             {
                 if (MessageBox.Show("Відкрити?", "Виконано!", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
-                    Process.Start(_productPart.ExportParameters.OutputFilePath);
+                    Process.Start(_imposParam.ProductPart.ExportParameters.OutputFilePath);
                 }
             }
             drawer = null;
@@ -437,8 +422,8 @@ namespace JobSpace.UserForms.PDF
         {
 
             //зберегти параметри експорту
-            if (_productPart != null)
-                _profile.ImposService.SaveExportParameters(_productPart.ExportParameters);
+            if (_imposParam.ProductPart != null)
+                _imposParam.Profile.ImposService.SaveExportParameters(_imposParam.ProductPart.ExportParameters);
 
             //if (_productPart != null)
             //{
@@ -453,21 +438,21 @@ namespace JobSpace.UserForms.PDF
 
         private void FormPdfImposition_Shown(object sender, EventArgs e)
         {
-            _parameters.PropertyChanged += _controlBindParameters_PropertyChanged;
+            _imposParam.ControlsBind.PropertyChanged += _controlBindParameters_PropertyChanged;
         }
 
         private void _controlBindParameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedPreviewPage")
             {
-                pg_Parameters2.SelectedObject = _parameters.SelectedPreviewPage;
+                pg_Parameters2.SelectedObject = _imposParam.ControlsBind.SelectedPreviewPage;
             }
         }
 
         private void pg_Parameters_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            imposBindingControl1.FixBackPageSizePosition(_parameters.SelectedPreviewPage);
-            _parameters.UpdateSheet();
+            imposBindingControl1.FixBackPageSizePosition(_imposParam.ControlsBind.SelectedPreviewPage);
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         private void btn_selectCustomFolder_Click(object sender, EventArgs e)
@@ -489,7 +474,7 @@ namespace JobSpace.UserForms.PDF
                         cb_CustomOutputPath.Items.Add(item);
                     }
 
-                    _profile.ImposService.SaveCustomsPath(paths.ToList());
+                    _imposParam.Profile.ImposService.SaveCustomsPath(paths.ToList());
                 }
             }
         }

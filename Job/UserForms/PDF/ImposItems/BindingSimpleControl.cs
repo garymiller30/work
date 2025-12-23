@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Static.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.Imposition.Services.Impos;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding;
@@ -17,7 +18,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class BindingSimpleControl : UserControl, IBindControl
     {
-        protected ControlBindParameters parameters;
+        protected GlobalImposParameters _imposParam;
 
         TemplatePageContainer variantNormal;
         TemplatePageContainer variantRotated;
@@ -30,10 +31,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
             InitializeComponent();
         }
 
-        public void SetControlBindParameters(ControlBindParameters p)
+        public void SetControlBindParameters(GlobalImposParameters imposParam)
         {
-            parameters = p;
-            parameters.PropertyChanged += Parameters_PropertyChanged;
+            _imposParam = imposParam;
+            _imposParam.ControlsBind.PropertyChanged += Parameters_PropertyChanged;
         }
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -63,18 +64,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void ApplyTemplatePages(TemplatePageContainer variant)
         {
-            if (variant != null && parameters != null)
+            if (variant != null && _imposParam.ControlsBind != null)
             {
-                parameters.Sheet.TemplatePageContainer.SetTemplatePages(variant.TemplatePages);
-                parameters.UpdatePreview();
+                _imposParam.ControlsBind.Sheet.TemplatePageContainer.SetTemplatePages(variant.TemplatePages);
+                CropMarksService.FixCropMarks(_imposParam.ControlsBind.Sheet, _imposParam);
+                _imposParam.ControlsBind.UpdatePreview();
             }
         }
 
         LooseBindingParameters CreateParameters()
         {
             LooseBindingParameters bindParam = new LooseBindingParameters();
-            bindParam.Sheet = parameters.Sheet;
-            bindParam.Sheet.MasterPage = parameters.MasterPage;
+            bindParam.Sheet = _imposParam.ControlsBind.Sheet;
+            bindParam.Sheet.MasterPage = _imposParam.ControlsBind.MasterPage;
             bindParam.Xofs = (double)nud_Xofs.Value;
             bindParam.Yofs = (double)nud_Yofs.Value;
             bindParam.IsCenterHorizontal = cb_centerWidth.Checked;
@@ -144,7 +146,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         protected bool ValidateFormat(ImposRunPage imposRunPage, TemplatePage page)
         {
-            var pdf_page = PdfFileService.GetPage(parameters.ProductPart.PdfFiles, imposRunPage);
+            var pdf_page = PdfFileService.GetPage(_imposParam.ProductPart.PdfFiles, imposRunPage);
             if (pdf_page == null) return false;
 
             //check format with admission 0.5mm
@@ -158,7 +160,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         public void Calc()
         {
-            if (parameters.Sheet == null || parameters.MasterPage == null) return;
+            if (_imposParam.ControlsBind.Sheet == null || _imposParam.ControlsBind.MasterPage == null) return;
 
             TemplatePageContainer sel;
 
@@ -195,9 +197,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (sel.TemplatePages.Count() < variantMaxRotated.TemplatePages.Count())
                 sel = variantMaxRotated;
 
-            parameters.Sheet.TemplatePageContainer.SetTemplatePages(sel.TemplatePages);
+            _imposParam.ControlsBind.Sheet.TemplatePageContainer.SetTemplatePages(sel.TemplatePages);
 
-            parameters.UpdateSheet();
+            _imposParam.ControlsBind.UpdateSheet();
         }
 
         public void CheckRunListPages(List<PrintSheet> printSheets, List<ImposRunPage> pages)

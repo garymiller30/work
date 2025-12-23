@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Static.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class ImposBindingControl : UserControl
     {
-        ControlBindParameters parameters;
-        //TemplateSheet sheet;
+        GlobalImposParameters _imposParam;
         IBindControl curBindControl;
 
         List<string> items = new List<string>(){
@@ -30,10 +30,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
             InitializeComponent();
         }
 
-        public void SetControlBindParameters(ControlBindParameters controlBindParameters)
+        public void SetControlBindParameters(GlobalImposParameters imposParam)
         {
-            parameters = controlBindParameters;
-            parameters.PropertyChanged += Parameters_PropertyChanged;
+            _imposParam = imposParam;
+            //parameters = controlBindParameters;
+            _imposParam.ControlsBind.PropertyChanged += Parameters_PropertyChanged;
             
             cb_SelectBindType.Items.AddRange(items.ToArray());
             cb_SelectBindType.SelectedIndex = 0;
@@ -41,7 +42,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != "Sheet" || parameters.Sheet == null || parameters.Sheet.TemplatePageContainer.TemplatePages.Count > 0) return;
+            if (e.PropertyName != "Sheet" || _imposParam.ControlsBind.Sheet == null || _imposParam.ControlsBind.Sheet.TemplatePageContainer.TemplatePages.Count > 0) return;
             
             if (ModifierKeys != Keys.Alt)
             {
@@ -51,7 +52,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void cb_SelectBindType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (parameters == null) return;
+            if (_imposParam.ControlsBind == null) return;
             panelBindingControl.Controls.Clear();
             int idx = cb_SelectBindType.SelectedIndex;
 
@@ -73,7 +74,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 curBindControl = new BindingSimpleSpreadControl();
             }
-            curBindControl.SetControlBindParameters(parameters);
+            curBindControl.SetControlBindParameters(_imposParam);
 
             ((UserControl)curBindControl).Dock = DockStyle.Fill;
             panelBindingControl.Controls.Add((UserControl)curBindControl);
@@ -106,12 +107,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         public void FixBackPageSizePosition(TemplatePage selectedPreviewPage)
         {
-            ProcessFixPageBackPosition.FixPosition(parameters.Sheet, selectedPreviewPage);
+            ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, selectedPreviewPage);
         }
 
         internal void FixBackPageSizePosition(TemplatePageContainer templatePageContainer)
         {
-            ProcessFixPageBackPosition.FixPosition(parameters.Sheet, templatePageContainer);
+            ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, templatePageContainer);
         }
 
         public void RotateRight(TemplatePage sel_page)
