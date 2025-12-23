@@ -1,6 +1,7 @@
 ﻿using BrightIdeasSoftware;
 using JobSpace.Dlg;
 using JobSpace.Profiles;
+using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using Ookii.Dialogs.WinForms;
@@ -24,7 +25,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public EventHandler OnPrintSheetDeleted { get; set; } = delegate { };
         Profile _profile;
         //int id = 1;
-        ControlBindParameters _controlBindParameters;
+        GlobalImposParameters _imposParam;
         public PrintSheetsControl()
         {
             InitializeComponent();
@@ -47,10 +48,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
             objectListView1.DropSink = new RearrangingDropSink(false);
         }
 
-        public void SetControlBindParameters(Profile profile, ControlBindParameters controlBindParameters)
+        public void SetControlBindParameters(GlobalImposParameters imposParam)
         {
-            _profile = profile;
-            _controlBindParameters = controlBindParameters;
+            _imposParam = imposParam;
         }
 
         public void AddSheet(PrintSheet sheet)
@@ -161,7 +161,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 form.CheckFileExists = true;
                 form.Filter = "JSON files (*.json)|*.json";
-                form.FileName = Path.GetDirectoryName(_controlBindParameters.ProductPart.PdfFiles[0].FileName)+ "\\";
+                form.FileName = Path.GetDirectoryName(_imposParam.ProductPart.PdfFiles[0].FileName)+ "\\";
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {

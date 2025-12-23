@@ -1,6 +1,7 @@
 ﻿using Interfaces.Pdf.Imposition;
 using JobSpace.Ext;
 using JobSpace.Profiles;
+using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using System;
@@ -25,10 +26,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         List<TemplateSheet> _quickAccess = new List<TemplateSheet> { };
 
-        ControlBindParameters _parameters;
-
-        Profile _profile;
-
+        GlobalImposParameters _imposParam;
         //int idx = 1;
         public AddTemplateSheetControl()
         {
@@ -42,7 +40,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void InitQuickAccessMenu()
         {
-            _quickAccess = _profile.ImposService.LoadQuickAccessTemplateSheets();
+            _quickAccess = _imposParam.Profile.ImposService.LoadQuickAccessTemplateSheets();
             AssignQuickAccessMenuItems();
         }
 
@@ -70,7 +68,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                 _quickAccess.Clear();
                 _quickAccess.AddRange(sheets);
-                _profile.ImposService.SaveQuickAccessTemplateSheets(_quickAccess);
+                _imposParam.Profile.ImposService.SaveQuickAccessTemplateSheets(_quickAccess);
                 AssignQuickAccessMenuItems();
             }
         }
@@ -114,7 +112,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             tscb_sheetType.ComboBox.DataSource = Extensions.GetDescriptions(typeof(TemplateSheetPlaceType));
 
-            var sheets = _profile.ImposService.LoadSheets();
+            var sheets = _imposParam.Profile.ImposService.LoadSheets();
             
             if (sheets.Any())
             {
@@ -130,10 +128,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
         }
 
-        public void SetControlBindParameters(Profile profile, ControlBindParameters parameters)
+        public void SetControlBindParameters(GlobalImposParameters imposParam)
         {
-            _profile = profile;
-            _parameters = parameters;
+            _imposParam = imposParam;
 
             InitQuickAccessMenu();
 
@@ -149,7 +146,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    _profile.ImposService.SaveSheet(form.Sheet);
+                    _imposParam.Profile.ImposService.SaveSheet(form.Sheet);
                     tscb_sheetTemplates.Items.Add(form.Sheet);
                 }
             }
@@ -170,12 +167,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
                         {
                             var copy = form.Sheet.Copy();
 
-                            _profile.ImposService.SaveSheet(copy);
+                            _imposParam.Profile.ImposService.SaveSheet(copy);
                             tscb_sheetTemplates.Items.Add(copy);
                         }
                         else
                         {
-                            _profile.ImposService.SaveSheet(form.Sheet);
+                            _imposParam.Profile.ImposService.SaveSheet(form.Sheet);
                         }
                     }
                 }
@@ -214,7 +211,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (ModifierKeys == Keys.Shift)
             {
 
-                _parameters.ProductPart.TemplateSheets.Clear();
+                _imposParam.ProductPart.TemplateSheets.Clear();
                 objectListView1.ClearObjects();
             }
             else
@@ -224,18 +221,18 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     if (item is TemplateSheet sheet)
                     {
-                        _parameters.ProductPart.TemplateSheets.Remove(sheet);
+                        _imposParam.ProductPart.TemplateSheets.Remove(sheet);
                         objectListView1.RemoveObject(item);
                     }
                 }
             }
-            _parameters.Sheet = null;
+            _imposParam.ControlsBind.Sheet = null;
         }
 
 
         private void tsb_loadTemplate_Click(object sender, EventArgs e)
         {
-            var sheets = _profile.ImposService.LoadSheetTemplates();
+            var sheets = _imposParam.Profile.ImposService.LoadSheetTemplates();
             if (sheets.Count > 0)
             {
                 objectListView1.AddObjects(sheets);
@@ -252,7 +249,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 objectListView1.AddObject(sheet);
                 objectListView1.SelectObject(sheet);
 
-                _parameters.ProductPart.TemplateSheets.Add(sheet);
+                _imposParam.ProductPart.TemplateSheets.Add(sheet);
 
                 OnSheetAdded(this, sheet);
             }
@@ -262,7 +259,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
 
-            _profile.ImposService.SaveSheetTemplates(objectListView1.SelectedObjects.Cast<TemplateSheet>().ToList());
+            _imposParam.Profile.ImposService.SaveSheetTemplates(objectListView1.SelectedObjects.Cast<TemplateSheet>().ToList());
 
         }
 
@@ -275,7 +272,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         objectListView1.RefreshObject(sheet);
-                        _parameters.UpdatePreview();
+                        _imposParam.ControlsBind.UpdatePreview();
                     }
                 }
             }
@@ -286,7 +283,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (tscb_sheetTemplates.SelectedItem is TemplateSheet sheet)
             {
                 tscb_sheetTemplates.Items.Remove(sheet);
-                _profile.ImposService.DeleteSheet(sheet);
+                _imposParam.Profile.ImposService.DeleteSheet(sheet);
             }
         }
 
@@ -299,7 +296,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (objectListView1.Objects == null) return;
             var sheets = objectListView1.Objects.Cast<TemplateSheet>().ToList();
-            _profile.ImposService.SaveSheetTemplates(sheets);
+            _imposParam.Profile.ImposService.SaveSheetTemplates(sheets);
         }
     }
 }

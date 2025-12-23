@@ -24,11 +24,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
         public bool IsCancelled { get; set; } = false;
 
-        Profile _profile;
+        GlobalImposParameters _imposParam;
 
-        public PdfDrawer(Profile profile)
+        public PdfDrawer(GlobalImposParameters imposParam)
         {
-            _profile= profile;
+            _imposParam = imposParam;
         }
 
         public void Draw(ProductPart impos)
@@ -74,7 +74,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                     TextVariablesService.SetValue(ValueList.CurDate, DateTime.Now.ToString());
                     TextVariablesService.SetValue(ValueList.SheetCount, sheet.Count);
 
-                    CropMarksService.FixCropMarks(sheet);
+                    CropMarksService.FixCropMarks(sheet, _imposParam);
 
                     switch (sheet.SheetPlaceType)
                     {
@@ -121,7 +121,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                     var orderFileName = Path.GetFileNameWithoutExtension(impos.ExportParameters.OutputFilePath);
 
                     var orderFile = Path.Combine(orderFolder, Path.GetFileNameWithoutExtension(orderFileName) + ".json");
-                    _profile.ImposService.SavePrintSheets(impos.PrintSheets, orderFile);
+                    _imposParam.Profile.ImposService.SavePrintSheets(impos.PrintSheets, orderFile);
                 }
             }
         }

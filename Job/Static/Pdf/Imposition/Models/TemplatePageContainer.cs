@@ -125,7 +125,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         {
             TemplatePages.Remove(page);
             // перерахувати мітки різу
-            CropMarksService.FixCropMarks(sheet);
+            //CropMarksService.FixCropMarks(sheet);
         }
 
         public TemplatePageContainer Copy()

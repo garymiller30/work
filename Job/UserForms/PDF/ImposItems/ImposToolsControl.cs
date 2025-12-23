@@ -1,4 +1,5 @@
 ﻿using BrightIdeasSoftware;
+using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Services;
 using System;
@@ -19,7 +20,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
     public partial class ImposToolsControl : UserControl
     {
-        ImposToolsParameters parameters;
+        GlobalImposParameters _imposParam;
         public ImposToolsControl()
         {
             InitializeComponent();
@@ -56,7 +57,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             bool check = rb_add_page_to_group.Checked;
             if (check)
             {
-                parameters.CurTool = ImposToolEnum.AddPageToGroup;
+                _imposParam.ImposTools.CurTool = ImposToolEnum.AddPageToGroup;
             }
         }
 
@@ -65,18 +66,18 @@ namespace JobSpace.UserForms.PDF.ImposItems
             bool check = rb_switchHW.Checked;
             if (check)
             {
-                parameters.CurTool = ImposToolEnum.SwitchHW;
+                _imposParam.ImposTools.CurTool = ImposToolEnum.SwitchHW;
             }
         }
 
         private void Rb_centerV_CheckedChanged(object sender, EventArgs e)
         {
-            parameters.OnClickCenterV(this, null);
+            _imposParam.ImposTools.OnClickCenterV(this, null);
         }
 
         private void Rb_centerH_CheckedChanged(object sender, EventArgs e)
         {
-            parameters.OnClickCenterH(this, null);
+            _imposParam.ImposTools.OnClickCenterH(this, null);
         }
 
         private void Rb_select_CheckedChanged(object sender, EventArgs e)
@@ -84,7 +85,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             bool check = rb_select.Checked;
             if (check)
             {
-                parameters.CurTool = ImposToolEnum.Select;
+                _imposParam.ImposTools.CurTool = ImposToolEnum.Select;
             }
         }
 
@@ -93,25 +94,26 @@ namespace JobSpace.UserForms.PDF.ImposItems
             bool check = rb_deletePage.Checked;
             if (check)
             {
-                parameters.CurTool = ImposToolEnum.DeletePage;
+                _imposParam.ImposTools.CurTool = ImposToolEnum.DeletePage;
             }
         }
 
-        public void InitParameters(ImposToolsParameters param)
+        public void InitParameters(GlobalImposParameters imposParam)
         {
-            parameters = param;
-            parameters.BackNumChanged += delegate (object sender, int num)
+            _imposParam = imposParam;
+            
+            _imposParam.ImposTools.BackNumChanged += delegate (object sender, int num)
             {
                 tb_back.Text = num.ToString();
             };
 
-            parameters.FrontNumChanged += delegate (object sender, int num)
+            _imposParam.ImposTools.FrontNumChanged += delegate (object sender, int num)
             {
                 tb_front.Text = num.ToString();
             };
 
-            nud_cropLen.Value = (decimal)parameters.CropMarksParameters.Len;
-            nud_cropDist.Value = (decimal)parameters.CropMarksParameters.Distance;
+            nud_cropLen.Value = (decimal)_imposParam.ImposTools.CropMarksParameters.Len;
+            nud_cropDist.Value = (decimal)_imposParam.ImposTools.CropMarksParameters.Distance;
         }
 
         private void tb_front_MouseClick(object sender, MouseEventArgs e)
@@ -129,7 +131,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             bool check = rb_rotate_180.Checked;
             if (check)
             {
-                parameters.CurTool = ImposToolEnum.FlipAngle;
+                _imposParam.ImposTools.CurTool = ImposToolEnum.FlipAngle;
             }
         }
 
@@ -138,7 +140,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             bool check = rb_EnableNumering.Checked;
             if (check)
             {
-                parameters.CurTool = ImposToolEnum.Numeration;
+                _imposParam.ImposTools.CurTool = ImposToolEnum.Numeration;
             }
         }
 
@@ -147,7 +149,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             bool res = int.TryParse(tb_front.Text, out int val);
             if (res)
             {
-                parameters.FrontNum = val;
+                _imposParam.ImposTools.FrontNum = val;
             }
         }
 
@@ -156,7 +158,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             bool res = int.TryParse(tb_back.Text, out int val);
             if (res)
             {
-                parameters.BackNum = val;
+                _imposParam.ImposTools.BackNum = val;
             }
         }
 
@@ -167,55 +169,55 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void btn_sameNumber_Click(object sender, EventArgs e)
         {
-            parameters.OnTheSameNumberClick(sender, e);
+            _imposParam.ImposTools.OnTheSameNumberClick(sender, e);
         }
 
         private void btn_listNumber_Click(object sender, EventArgs e)
         {
-            parameters.OnListNumberClick(sender, e);
+            _imposParam.ImposTools.OnListNumberClick(sender, e);
         }
 
         private void btn_ApplyCropMark_Click(object sender, EventArgs e)
         {
-            parameters.CropMarksParameters.Distance = (double)nud_cropDist.Value;
-            parameters.CropMarksParameters.Len = (double)nud_cropLen.Value;
+            _imposParam.ImposTools.CropMarksParameters.Distance = (double)nud_cropDist.Value;
+            _imposParam.ImposTools.CropMarksParameters.Len = (double)nud_cropLen.Value;
 
-            parameters.OnCropMarksChanged(this, null);
+            _imposParam.ImposTools.OnCropMarksChanged(this, null);
         }
 
         private void btn_left_Click(object sender, EventArgs e)
         {
-            parameters.OnMoveLeftClick(this, 1);
+            _imposParam.ImposTools.OnMoveLeftClick(this, 1);
         }
 
         private void btn_right_Click(object sender, EventArgs e)
         {
-            parameters.OnMoveRightClick(this, 1);
+            _imposParam.ImposTools.OnMoveRightClick(this, 1);
         }
 
         private void btn_up_Click(object sender, EventArgs e)
         {
-            parameters.OnMoveUpClick(this, 1);
+            _imposParam.ImposTools.OnMoveUpClick(this, 1);
         }
 
         private void btn_down_Click(object sender, EventArgs e)
         {
-            parameters.OnMoveDownClick(this, 1);
+            _imposParam.ImposTools.OnMoveDownClick(this, 1);
         }
 
         private void btn_rotateLeft_Click(object sender, EventArgs e)
         {
-            parameters.OnRotateLeft(this, null);
+            _imposParam.ImposTools.OnRotateLeft(this, null);
         }
 
         private void btn_rotateRight_Click(object sender, EventArgs e)
         {
-            parameters.OnRotateRight(this, null);
+            _imposParam.ImposTools.OnRotateRight(this, null);
         }
 
         private void b_switchWH_Click(object sender, EventArgs e)
         {
-            parameters.OnSwitchWH(this, null);
+            _imposParam.ImposTools.OnSwitchWH(this, null);
         }
 
         private void btn_add_group_Click(object sender, EventArgs e)
@@ -235,11 +237,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (olv_groups.SelectedObject != null)
             {
-                parameters.CurGroup = (olv_groups.SelectedObject as PageGroup).Id;
+                _imposParam.ImposTools.CurGroup = (olv_groups.SelectedObject as PageGroup).Id;
             }
             else
             {
-                parameters.CurGroup = 0;
+                _imposParam.ImposTools.CurGroup = 0;
             }
         }
 
@@ -247,7 +249,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (olv_groups.SelectedObjects.Count < 2) return;
 
-            parameters.OnPageGroupDistributeHor(this,olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
+            _imposParam.ImposTools.OnPageGroupDistributeHor(this,olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
         }
 
         private void btn_delete_group_Click(object sender, EventArgs e)
@@ -255,7 +257,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (olv_groups.SelectedObjects.Count > 0)
             {
 
-                parameters.OnPageGroupDelete(this, olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
+                _imposParam.ImposTools.OnPageGroupDelete(this, olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
 
                 olv_groups.RemoveObjects(olv_groups.SelectedObjects);
             }
@@ -265,13 +267,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void cb_ignore_sheet_fields_CheckedChanged(object sender, EventArgs e)
         {
-            parameters.IgnoreSheetFields = cb_ignore_sheet_fields.Checked;
+            _imposParam.ImposTools.IgnoreSheetFields = cb_ignore_sheet_fields.Checked;
         }
 
         private void btn_distribute_ver_Click(object sender, EventArgs e)
         {
             if (olv_groups.SelectedObjects.Count < 2) return;
-            parameters.OnPageGroupDistributeVer(this, olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
+            _imposParam.ImposTools.OnPageGroupDistributeVer(this, olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
         }
     }
 }

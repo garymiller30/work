@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition;
 
 namespace JobSpace.UserForms.PDF.ImposItems
 {
@@ -32,7 +33,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             
         }
-        public void SetControlBindParameters(ControlBindParameters parameters)
+        public void SetControlBindParameters(GlobalImposParameters imposParam)
         {
            
         }

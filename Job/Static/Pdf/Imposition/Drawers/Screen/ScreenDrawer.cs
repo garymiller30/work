@@ -20,7 +20,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
         public static Bitmap Draw(TemplateSheet sheet)
         {
 
-            CropMarksService.FixCropMarks(sheet);
+            //CropMarksService.FixCropMarks(sheet);
 
             switch (sheet.SheetPlaceType)
             {

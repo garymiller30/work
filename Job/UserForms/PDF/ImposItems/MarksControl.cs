@@ -1,5 +1,6 @@
 ﻿using BrightIdeasSoftware;
 using JobSpace.Profiles;
+using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services;
@@ -19,8 +20,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class MarksControl : UserControl
     {
-        ControlBindParameters parameters;
-        Profile _profile;
+        
+        GlobalImposParameters _imposParam;
 
         object _basket;
 
@@ -183,7 +184,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             if (tlv_MarksResources.SelectedObject is MarksContainer container)
             {
-                group = _profile.ImposService.Marks.CreateGroup(name, container);
+                group = _imposParam.Profile.ImposService.Marks.CreateGroup(name, container);
                 RefreshResourceTree();
             }
             else if (tlv_MarksResources.SelectedObject is List<MarksContainer> groups)
@@ -191,13 +192,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 var parent = tlv_MarksResources.GetParent(tlv_MarksResources.SelectedObject);
                 if (parent is MarksContainer container1)
                 {
-                    group = _profile.ImposService.Marks.CreateGroup(name, container1);
+                    group = _imposParam.Profile.ImposService.Marks.CreateGroup(name, container1);
                     RefreshResourceTree();
                 }
             }
             else
             {
-                group = _profile.ImposService.Marks.CreateGroup(name);
+                group = _imposParam.Profile.ImposService.Marks.CreateGroup(name);
                 tlv_MarksResources.AddObject(group);
             }
         }
@@ -205,7 +206,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (tlv_MarksResources.SelectedObject is MarksContainer group)
             {
-                _profile.ImposService.Marks.DeleteGroup(group);
+                _imposParam.Profile.ImposService.Marks.DeleteGroup(group);
 
                 if (group.ParentId == null)
                 {
@@ -216,12 +217,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
             else if (tlv_MarksResources.SelectedObject is PdfMark pdfMark)
             {
-                _profile.ImposService.Marks.DeleteMark(pdfMark);
+                _imposParam.Profile.ImposService.Marks.DeleteMark(pdfMark);
                 RefreshResourceTree();
             }
             else if (tlv_MarksResources.SelectedObject is TextMark textMark)
             {
-                _profile.ImposService.Marks.DeleteMark(textMark);
+                _imposParam.Profile.ImposService.Marks.DeleteMark(textMark);
                 RefreshResourceTree();
             }
         }
@@ -229,11 +230,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (tlv_MarksResources.SelectedObject is MarksContainer container)
             {
-                using (var form = new FormAddPdfMark(_profile))
+                using (var form = new FormAddPdfMark(_imposParam.Profile))
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        _profile.ImposService.Marks.AddMark(container, form.Mark);
+                        _imposParam.Profile.ImposService.Marks.AddMark(container, form.Mark);
                         RefreshResourceTree();
                     }
                 }
@@ -244,11 +245,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (tlv_MarksResources.SelectedObject is MarksContainer container)
             {
-                using (var form = new FormAddTextMark(_profile))
+                using (var form = new FormAddTextMark(_imposParam.Profile))
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        _profile.ImposService.Marks.AddMark(container, form.Mark);
+                        _imposParam.Profile.ImposService.Marks.AddMark(container, form.Mark);
                         RefreshResourceTree();
                     }
                 }
@@ -259,11 +260,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (tlv_MarksResources.SelectedObject is PdfMark mark)
             {
-                using (var form = new FormAddPdfMark(_profile,mark))
+                using (var form = new FormAddPdfMark(_imposParam.Profile, mark))
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        _profile.ImposService.Marks.SaveResourceMarks();
+                        _imposParam.Profile.ImposService.Marks.SaveResourceMarks();
                         RefreshResourceTree();
                     }
                 }
@@ -274,7 +275,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        _profile.ImposService.Marks.SaveResourceMarks();
+                        _imposParam.Profile.ImposService.Marks.SaveResourceMarks();
                         RefreshResourceTree();
                     }
                 }
@@ -286,7 +287,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         group.Name = form.NewName;
-                        _profile.ImposService.Marks.SaveResourceMarks();
+                        _imposParam.Profile.ImposService.Marks.SaveResourceMarks();
                         RefreshResourceTree();
                     }
                 }
@@ -320,23 +321,23 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void DeleteMark(TextMark textMark)
         {
-            parameters.Sheet.Marks.Delete(textMark);
+            _imposParam.ControlsBind.Sheet.Marks.Delete(textMark);
         }
 
         private void DeleteMark(PdfMark pdfMark)
         {
-            parameters.Sheet.Marks.Delete(pdfMark);
+            _imposParam.ControlsBind.Sheet.Marks.Delete(pdfMark);
         }
 
         private void DeleteMark(MarksContainer group)
         {
-            parameters.Sheet.Marks.Delete(group);
+            _imposParam.ControlsBind.Sheet.Marks.Delete(group);
         }
 
         private void RefreshSheetTree()
         {
             tlv_ProductMarks.RefreshObjects(tlv_ProductMarks.Objects.Cast<MarksContainer>().ToList());
-            parameters.UpdatePreview();
+            _imposParam.ControlsBind.UpdatePreview();
         }
 
 
@@ -436,12 +437,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (tlv_ProductMarks.SelectedObject is PdfMark pdfMark)
             {
-                using (var form = new FormAddPdfMark(_profile,pdfMark))
+                using (var form = new FormAddPdfMark(_imposParam.Profile,pdfMark))
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         // update preview
-                        parameters.UpdatePreview();
+                        _imposParam.ControlsBind.UpdatePreview();
                     }
                 }
             }
@@ -452,7 +453,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         // update preview
-                        parameters.UpdatePreview();
+                        _imposParam.ControlsBind.UpdatePreview();
                     }
                 }
             }
@@ -470,15 +471,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 textMark.Enable = e.Item.Checked;
             }
-            parameters.UpdatePreview();
+            _imposParam.ControlsBind.UpdatePreview();
         }
 
-        public void SetControlBindParameters(Profile profile, ControlBindParameters controlBindParameters)
+        public void SetControlBindParameters(GlobalImposParameters imposParam)
         {
-            _profile = profile;
-            parameters = controlBindParameters;
-            parameters.PropertyChanged += Parameters_PropertyChanged;
-            List<MarksContainer> marks = _profile.ImposService.Marks.GetResourceMarks();
+            _imposParam = imposParam;
+            _imposParam.ControlsBind.PropertyChanged += Parameters_PropertyChanged;
+            List<MarksContainer> marks = _imposParam.Profile.ImposService.Marks.GetResourceMarks();
             tlv_MarksResources.AddObjects(marks);
             tlv_MarksResources.ExpandAll();
         }
@@ -490,7 +490,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             if (e.PropertyName != "Sheet") return;
 
-            if (parameters.Sheet == null) tlv_ProductMarks.Enabled = false;
+            if (_imposParam.ControlsBind.Sheet == null) tlv_ProductMarks.Enabled = false;
             else
             {
                 Debug.WriteLine("-->MarksControl: Parameters_PropertyChanged");
@@ -500,7 +500,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                     new object[]
                 {
-                    parameters.Sheet.Marks,
+                    _imposParam.ControlsBind.Sheet.Marks,
                     };
                 Debug.WriteLine("<--MarksControl: Parameters_PropertyChanged");
             }
@@ -542,7 +542,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     var t = MarksService.Duplicate(textMark);
                     container.Text.Add(t);
                 }
-                _profile.ImposService.Marks.SaveResourceMarks();
+                _imposParam.Profile.ImposService.Marks.SaveResourceMarks();
                 RefreshResourceTree();
             }
         }
@@ -584,7 +584,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     container.Text.Add(t);
                 }
                 RefreshSheetTree();
-                parameters.UpdateSheet();
+                _imposParam.ControlsBind.UpdateSheet();
             }
         }
     }

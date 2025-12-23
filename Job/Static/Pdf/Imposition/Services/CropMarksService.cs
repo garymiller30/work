@@ -14,54 +14,54 @@ namespace JobSpace.Static.Pdf.Imposition.Services
     {
         public static double delta = 0.3;
 
-        public static void FixCropMarks(TemplateSheet sheet)
+        public static void FixCropMarks(TemplateSheet sheet,GlobalImposParameters imposParam)
         {
             if (sheet == null) return;
 
             switch (sheet.SheetPlaceType)
             {
                 case TemplateSheetPlaceType.SingleSide:
-                    FixCropMarksFront(sheet.TemplatePageContainer);
+                    FixCropMarksFront(sheet.TemplatePageContainer, imposParam);
                     break;
                 case TemplateSheetPlaceType.Sheetwise:
-                    FixCropMarksFront(sheet.TemplatePageContainer);
-                    FixCropMarksBack(sheet);
+                    FixCropMarksFront(sheet.TemplatePageContainer, imposParam);
+                    FixCropMarksBack(sheet, imposParam);
                     break;
                 case TemplateSheetPlaceType.WorkAndTurn:
-                    FixCropMarksWorkAndTurn(sheet);
+                    FixCropMarksWorkAndTurn(sheet, imposParam);
                     break;
                 case TemplateSheetPlaceType.WorkAndTumble:
-                    FixCropMarksWorkAndTumble(sheet);
+                    FixCropMarksWorkAndTumble(sheet, imposParam);
                     break;
                 default:
                     throw new NotImplementedException();
             }
         }
-        static void FixCropMarksFront(TemplatePageContainer templateContainer)
+        static void FixCropMarksFront(TemplatePageContainer templateContainer, GlobalImposParameters imposParam)
         {
-            RecalcCropsFront(templateContainer);
+            RecalcCropsFront(templateContainer, imposParam);
             RemoveCropsFront(templateContainer);
         }
 
-        static void FixCropMarksBack(TemplateSheet sheet)
+        static void FixCropMarksBack(TemplateSheet sheet, GlobalImposParameters imposParam)
         {
 
-            RecalcCropsBack(sheet);
+            RecalcCropsBack(sheet, imposParam);
             RemoveCropsBack(sheet);
         }
 
-        static void FixCropMarksWorkAndTurn(TemplateSheet sheet)
+        static void FixCropMarksWorkAndTurn(TemplateSheet sheet, GlobalImposParameters imposParam)
         {
 
-            RecalcCropsFront(sheet.TemplatePageContainer);
-            RecalcCropsBack(sheet);
+            RecalcCropsFront(sheet.TemplatePageContainer, imposParam);
+            RecalcCropsBack(sheet, imposParam);
             RemoveCropsWorkAndTurn(sheet);
         }
 
-        static void FixCropMarksWorkAndTumble(TemplateSheet sheet)
+        static void FixCropMarksWorkAndTumble(TemplateSheet sheet, GlobalImposParameters imposParam)
         {
             if (sheet == null) return;
-            RecalcCropsFront(sheet.TemplatePageContainer);
+            RecalcCropsFront(sheet.TemplatePageContainer, imposParam);
             RecalcCropsWorkandTumbleBack(sheet);
             RemoveCropsWorkAndTurn(sheet);
         }
@@ -136,7 +136,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             }
         }
 
-        static void RecalcCropsFront(TemplatePageContainer templateContainer)
+        static void RecalcCropsFront(TemplatePageContainer templateContainer, GlobalImposParameters imposParam)
         {
             foreach (var page in templateContainer.TemplatePages)
             {
@@ -147,8 +147,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
                 crops.CropMarks = crops.CropMarks.Except(delList).ToList();
 
-                double len = crops.Parameters.Len;
-                double dist = crops.Parameters.Distance;
+                double len = imposParam.ImposTools.CropMarksParameters.Len;
+                double dist = imposParam.ImposTools.CropMarksParameters.Distance;
 
                 if (len == 0) continue;
                 
@@ -175,7 +175,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             }
         }
 
-        static void RecalcCropsBack(TemplateSheet sheet)
+        static void RecalcCropsBack(TemplateSheet sheet, GlobalImposParameters imposParam)
         {
 
             foreach (var page in sheet.TemplatePageContainer.TemplatePages)
@@ -187,8 +187,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
                 crops.CropMarks = crops.CropMarks.Except(delList).ToList();
 
-                double len = crops.Parameters.Len;
-                double dist = crops.Parameters.Distance;
+                double len = imposParam.ImposTools.CropMarksParameters.Len;
+                double dist = imposParam.ImposTools.CropMarksParameters.Distance;
 
                 if (len == 0) continue;
 
@@ -228,6 +228,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
                 double len = crops.Parameters.Len;
                 double dist = crops.Parameters.Distance;
+
+                if (len == 0) continue;
 
                 CropDirection[] direction = crops.GetDrawDirectionWorkandTumbleBack(page.Back.Angle);
                 AnchorOfset[] ofsets = crops.GetAnchorOfsetsWorkandTumbleBack(page, sheet, page.Back.Angle);
