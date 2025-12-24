@@ -20,7 +20,7 @@ namespace JobSpace.Fasades
 
         public EventHandler OnCustomerChange { get; set; } = delegate { };
         public EventHandler OnCustomerAdd { get; set; } = delegate { };
-        public EventHandler OnCustomerRemove { get;set;} = delegate { };
+        public EventHandler OnCustomerRemove { get; set; } = delegate { };
 
 
         List<Customer> _customers = new List<Customer>();
@@ -32,8 +32,17 @@ namespace JobSpace.Fasades
         {
             _profile = userProfile;
             _profile.Events.Jobs.OnSetCurrentJob += Jobs_OnSetCurrentJob;
-            Connect(false);
+           // Connect(false);
             Load();
+        }
+
+        public void SubscribeEvents()
+        {
+            if (_profile.Plugins == null) return;
+            _profile.Plugins.MqController.OnCustomerAdd += MQ_OnCustomerAdd;
+            _profile.Plugins.MqController.OnCustomerChanged += MQ_OnCustomerChanged;
+            _profile.Plugins.MqController.OnCustomerRemove += MQ_OnCustomerRemove;
+
         }
 
         private void Jobs_OnSetCurrentJob(object sender, IJob e)
@@ -51,7 +60,7 @@ namespace JobSpace.Fasades
             {
                 if (!reconnect && _profile.Plugins != null)
                 {
-                   
+
                     _profile.Plugins.MqController.OnCustomerAdd += MQ_OnCustomerAdd;
                     _profile.Plugins.MqController.OnCustomerChanged += MQ_OnCustomerChanged;
                     _profile.Plugins.MqController.OnCustomerRemove += MQ_OnCustomerRemove;
@@ -103,7 +112,7 @@ namespace JobSpace.Fasades
             var o = _profile.Base.GetById<Customer>(CollectionString, id);
             if (o != null)
             {
-            
+
                 _customers.Add(o);
                 OnCustomerAdd(o);
             }
@@ -128,7 +137,7 @@ namespace JobSpace.Fasades
                 _customers.Add((Customer)customer);
                 _customers.Sort(Customer.SortByName);
                 _profile.Plugins.MqController.PublishChanges(MessageEnum.CustomerAdd, customer.Id);
-               
+
                 OnCustomerAdd((Customer)customer);
             }
             else
@@ -190,7 +199,7 @@ namespace JobSpace.Fasades
 
         public ICustomer FindCustomer(string p)
         {
-            var f = _customers.FirstOrDefault(x => x.Name.Equals(p,StringComparison.InvariantCultureIgnoreCase));
+            var f = _customers.FirstOrDefault(x => x.Name.Equals(p, StringComparison.InvariantCultureIgnoreCase));
 
             return f ?? Factory.CreateCustomer();
 
@@ -252,7 +261,7 @@ namespace JobSpace.Fasades
                                 MessageBoxIcon.Error);
                             return false;
                         }
-                        
+
                     }
                     else
                     {
@@ -268,7 +277,7 @@ namespace JobSpace.Fasades
 
             Directory.CreateDirectory(customerDir);
             _profile.Customers.Add(customer);
-            
+
             return true;
         }
     }

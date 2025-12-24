@@ -98,7 +98,7 @@ namespace JobSpace.Fasades
             _profile = profile;
 
             JobListControl = new UcJobList(_profile) { Dock = DockStyle.Fill };
-            Connect(false);
+            //Connect(false);
         }
 
         public string GetFullPathToWorkFolder(IJob job)
@@ -148,6 +148,12 @@ namespace JobSpace.Fasades
 
             return $"#{number}_{job.Customer.Transliteration()}_{category.Transliteration()}_{job.Description.Transliteration()}";
         }
+
+        public void SubscribeEvents()
+        {
+            FollowToRabbit();
+        }
+
 
         public void Connect(bool reconnect)
         {
