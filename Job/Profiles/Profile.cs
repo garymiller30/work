@@ -59,7 +59,14 @@ namespace JobSpace.Profiles
             if (IsInitialized) return;
             LoadSettingsFromBase();
             LoadPlugins();
+            SubscribeEvents();
             IsInitialized = true;
+        }
+
+        private void SubscribeEvents()
+        {
+            Jobs.SubscribeEvents();
+            Customers.SubscribeEvents();
         }
 
         private void LoadPlugins()
@@ -115,12 +122,6 @@ namespace JobSpace.Profiles
             {
                 Logger.Log.Error(this, "LoadSettingsFromBase", "Can't connect to base");
             }
-        }
-
-        private void LoadSettingsFromDisk()
-        {
-           
-           
         }
 
         /// <summary>

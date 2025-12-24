@@ -9,6 +9,8 @@ namespace Interfaces
         ICustomer FindCustomer(string p);
         //void SetCurrentCustomer(string customer);
         bool CheckCustomerPresent(string text,bool addSilence);
+        void SubscribeEvents();
+
         void Connect(bool reconnect);
         //void Load();
         ICustomer Add();

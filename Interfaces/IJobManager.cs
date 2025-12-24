@@ -11,6 +11,8 @@ namespace Interfaces
         IJobSettings Settings { get; set; }
         IUcJobList JobListControl { get; set; }
     
+        void SubscribeEvents();
+
         void Connect(bool reconnect);
         string GetFullPathToWorkFolder(IJob job);
         void UpdateJob(IJob job, bool getEvent=false);
