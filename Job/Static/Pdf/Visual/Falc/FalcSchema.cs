@@ -41,7 +41,7 @@ namespace JobSpace.Static.Pdf.Create.Falc
                 {
                     doc = p.open_pdi_document(filePath, "");
                 }
-                //int font = p.load_font("Arial", "unicode", "");
+                
                 foreach (var pageInfo in boxes)
                 {
                     p.begin_page_ext(pageInfo.Mediabox.width, pageInfo.Mediabox.height, "");
@@ -65,6 +65,7 @@ namespace JobSpace.Static.Pdf.Create.Falc
 
                     p.setcolor("fillstroke", "cmyk", markColor.C / 100, markColor.M / 100, markColor.Y / 100, markColor.K / 100);
                     int spot = p.makespotcolor(markColor.Name);
+                    p.setcolor("stroke", "spot", spot, 1.0, 0.0, 0.0);
                     p.setlinewidth(1.0);
                     p.rect(pageInfo.Trimbox.left, pageInfo.Trimbox.bottom, pageInfo.Trimbox.width, pageInfo.Trimbox.height);
                     p.stroke();
