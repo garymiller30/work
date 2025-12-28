@@ -24,23 +24,27 @@ namespace JobSpace.Static
         public static void GetExtendedFileInfoFormat(this FileSystemInfoExt file)
         {
             FileFormatsUtil.GetFormat(file);
+            PdfUtils.GetFileCreator(file);
         }
 
         public static void GetExtendedFileInfoFormat(this IFileSystemInfoExt file)
         {
             FileFormatsUtil.GetFormat(file);
+            PdfUtils.GetFileCreator(file);
         }
 
         public static void GetExtendedFileInfo(this FileSystemInfoExt file)
         {
             FileFormatsUtil.GetFormat(file);
             PdfUtils.GetColorspaces(file);
+            PdfUtils.GetFileCreator(file);
         }
 
         public static void GetExtendedFileInfo(this IFileSystemInfoExt file)
         {
             FileFormatsUtil.GetFormat(file);
             PdfUtils.GetColorspaces(file);
+            PdfUtils.GetFileCreator(file);
         }
     }
 }

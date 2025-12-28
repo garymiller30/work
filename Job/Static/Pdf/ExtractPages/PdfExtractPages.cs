@@ -29,7 +29,7 @@ namespace JobSpace.Static.Pdf.ExtractPages
 
                 p.set_option("errorpolicy=return");
 
-                int indoc = p.open_pdi_document(filePath, "optimize=true");
+                int indoc = p.open_pdi_document(filePath, "");
 
                 if (indoc == -1)
                     throw new Exception("Error: " + p.get_errmsg());
@@ -45,9 +45,7 @@ namespace JobSpace.Static.Pdf.ExtractPages
                 {
                     string outFile = $"{outfile_basename}_{pagesCount[i]}.pdf";
 
-                    if (p.begin_document(outFile, "optimize=true") == -1)
-                        throw new Exception("Error: " + p.get_errmsg());
-
+                    p.begin_document(outFile, "optimize=true");
                     p.begin_page_ext(0, 0, "");
 
                     int pagehdl = p.open_pdi_page(indoc, pagesCount[i], "cloneboxes");
@@ -63,8 +61,9 @@ namespace JobSpace.Static.Pdf.ExtractPages
 
                 p.close_pdi_document(indoc);
             }
-            catch (Exception e)
+            catch (PDFlibException e)
             {
+                Logger.Log.Error(null, "PdfExtractPages", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
             }
             finally
             {

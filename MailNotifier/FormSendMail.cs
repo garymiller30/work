@@ -271,7 +271,10 @@ namespace MailNotifier
             Debug.WriteLine(message);
             
             BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"send mail to {sendTo}", new Action(
-                () => _mail.SendToMany(sendTo, header, message, _attachList.ToArray())
+                () =>
+                {
+                        _mail.SendToMany(sendTo, header, message, _attachList.ToArray());
+                }
                 )));
         }
 

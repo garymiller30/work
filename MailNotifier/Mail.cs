@@ -102,72 +102,81 @@ namespace MailNotifier
             string ApplicationName = "ActiveWorks";
             string credPath = Path.Combine(Path.GetDirectoryName(Settings.ClientSecretFile), "token_store");
             UserCredential credential;
-            using (var stream = new FileStream(Settings.ClientSecretFile, FileMode.Open, FileAccess.Read))
+
+            try
             {
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.FromStream(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true));
-            }
-
-            var driveService = new DriveService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName
-            });
-
-            var service = new GmailService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
-            });
-
-            // створити повідомлення  через MimeKit
-            var mimeMessage = new MimeMessage();
-
-            var res = Profile.Plugins.Mail?.UploadFiles(attachFiles);
-
-            if (!string.IsNullOrEmpty(res))
-            {
-                // додати посилання на файли в тілі листа
-                var sb = new StringBuilder();
-                sb.AppendLine(body);
-                sb.AppendLine(res);
-                mimeMessage.Body = new TextPart("html")
+                using (var stream = new FileStream(Settings.ClientSecretFile, FileMode.Open, FileAccess.Read))
                 {
-                    Text = sb.ToString()
-                };
+                    credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                        GoogleClientSecrets.FromStream(stream).Secrets,
+                        Scopes,
+                        "user",
+                        CancellationToken.None,
+                        new FileDataStore(credPath, true));
+                }
+
+                var driveService = new DriveService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = ApplicationName
+                });
+
+                var service = new GmailService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = ApplicationName,
+                });
+
+                // створити повідомлення  через MimeKit
+                var mimeMessage = new MimeMessage();
+
+                var res = Profile.Plugins.Mail?.UploadFiles(attachFiles);
+
+                if (!string.IsNullOrEmpty(res))
+                {
+                    // додати посилання на файли в тілі листа
+                    var sb = new StringBuilder();
+                    sb.AppendLine(body);
+                    sb.AppendLine(res);
+                    mimeMessage.Body = new TextPart("html")
+                    {
+                        Text = sb.ToString()
+                    };
+                }
+                else
+                {
+                    await AddAttachesToGoogleDisk(mimeMessage, attachFiles, driveService, body);
+                }
+
+                mimeMessage.From.Add(new MailboxAddress(Settings.MailFrom, Settings.MailFrom));
+                var sendTo = to.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var s in sendTo)
+                {
+                    mimeMessage.To.Add(new MailboxAddress(s, s));
+                }
+                mimeMessage.Subject = tema;
+
+                // 4. Конвертуємо в raw base64
+                using (var memory = new MemoryStream())
+                {
+                    mimeMessage.WriteTo(memory);
+                    var raw = System.Convert.ToBase64String(memory.ToArray())
+                        .Replace('+', '-')
+                        .Replace('/', '_')
+                        .Replace("=", "");
+
+                    var gmailMessage = new Google.Apis.Gmail.v1.Data.Message { Raw = raw };
+
+                    // 5. Відправляємо
+                    var result = await service.Users.Messages.Send(gmailMessage, "me").ExecuteAsync();
+
+                }
             }
-            else
+            catch (Exception e)
             {
-                await AddAttachesToGoogleDisk(mimeMessage, attachFiles, driveService,body);
+                MessageBox.Show($"Помилка відправки пошти через Google API: {e.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logger.Log.Error(this, "Mail", e.Message);
             }
-
-            mimeMessage.From.Add(new MailboxAddress(Settings.MailFrom, Settings.MailFrom));
-            var sendTo = to.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var s in sendTo)
-            {
-                mimeMessage.To.Add(new MailboxAddress(s, s));
-            }
-            mimeMessage.Subject = tema;
-
-            // 4. Конвертуємо в raw base64
-            using (var memory = new MemoryStream())
-            {
-                mimeMessage.WriteTo(memory);
-                var raw = System.Convert.ToBase64String(memory.ToArray())
-                    .Replace('+', '-')
-                    .Replace('/', '_')
-                    .Replace("=", "");
-
-                var gmailMessage = new Google.Apis.Gmail.v1.Data.Message { Raw = raw };
-
-                // 5. Відправляємо
-                var result = await service.Users.Messages.Send(gmailMessage, "me").ExecuteAsync();
-            }
-
         }
 
         private async Task AddAttachesToGoogleDisk(MimeMessage mimeMessage, string[] attachFiles, DriveService driveService,string body)

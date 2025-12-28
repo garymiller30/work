@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Common
 {
-    public class Boxes
+    public sealed class Boxes
     {
-        public Box Media { get;set; } = new Box();
-        public Box Trim { get;set; } = new Box();
+        public Box Media = new Box();
+        public Box Trim = new Box();
     }
 }

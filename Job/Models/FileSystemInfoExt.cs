@@ -12,7 +12,7 @@ namespace JobSpace.Models
     {
         private IFileSystemInfo _fileInfo = new Interfaces.Classes.FileInfo();
         private ColorSpaces _usedColorSpace;
-
+        private string _creatorApp;
         private FileFormat _format = new FileFormat();
 
 
@@ -75,6 +75,7 @@ namespace JobSpace.Models
         }
 
         public bool IsDir { get; set; }
+        public string CreatorApp { get=>_creatorApp ; set{ _creatorApp = value; OnPropertyChanged();} }
 
         public void RefreshParam(string fullPath)
         {
@@ -93,6 +94,7 @@ namespace JobSpace.Models
             _fileInfo = newFileSystemInfoExt.FileInfo;
             _format = newFileSystemInfoExt.Format;
             _usedColorSpace = newFileSystemInfoExt.UsedColorSpace;
+            CreatorApp = newFileSystemInfoExt.CreatorApp;
 
         }
 

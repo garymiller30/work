@@ -117,6 +117,8 @@ namespace JobSpace.UC
                 else if (column == olvColumnBleeds) objectListView1.ListViewItemSorter = new FileBleedComparer(order);
                 else if (column == olvColumn_DateTime) objectListView1.ListViewItemSorter = new FileDateComparer(order);
             };
+
+            olvColumnCreatorApp.AspectGetter += r => ((IFileSystemInfoExt)r).CreatorApp;
         }
 
         private void CreateColorSpacesFlag()

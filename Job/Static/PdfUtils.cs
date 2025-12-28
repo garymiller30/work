@@ -226,10 +226,10 @@ namespace JobSpace.Static
                 sfi.UsedColorSpace = 0;
                 if (pageColors.Count > 0)
                 {
-                    
+
                     foreach (string color in pageColors)
                     {
-                        var c= color.ToLower();
+                        var c = color.ToLower();
 
                         switch (c)
                         {
@@ -265,6 +265,24 @@ namespace JobSpace.Static
                     Debug.WriteLine("Кольорів не знайдено або сталася помилка.");
                 }
 
+            }
+        }
+
+        public static void GetFileCreator(IFileSystemInfoExt file)
+        {
+            var ext = file.FileInfo.Extension.ToLower(System.Globalization.CultureInfo.InvariantCulture);
+            switch (ext)
+            {
+                case ".pdf":
+                    PdfHelper.GetPdfCreatorApp(file);
+                    break;
+                case ".psd":
+                case ".jpeg":
+                case ".jpg":
+                case ".tif":
+                case ".tiff":
+                case ".png":
+                    break;
             }
         }
     }
