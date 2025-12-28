@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using iText.Kernel.Pdf;
 using iTextSharp.text;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
@@ -296,7 +297,7 @@ namespace JobSpace.Static.Pdf.Common
                 int length = (int)fs.Length;
                 var fr = CreateFileReadStruct(fs);
 
-                using (var document = new PdfDocument(fs, fr, length, null))
+                using (var document = new PDFiumSharp.PdfDocument(fs, fr, length, null))
                 {
                     using (var page = document.Pages[pageIndex])
                     {
@@ -435,6 +436,74 @@ namespace JobSpace.Static.Pdf.Common
                 p?.Dispose();
             }
             return pageCount;
+        }
+
+        public static void GetPdfCreatorApp(IFileSystemInfoExt file)
+        {
+            #region [Use iText]
+            try
+            {
+                using (var pdfReader = new PdfReader(file.FileInfo.FullName))
+                {
+                    using (var pdfDocument = new iText.Kernel.Pdf.PdfDocument(pdfReader))
+                    {
+                        PdfDocumentInfo documentInfo = pdfDocument.GetDocumentInfo();
+
+                        // Get the standard metadata properties
+                        //string author = documentInfo.GetAuthor();
+                        //string title = documentInfo.GetTitle();
+                        file.CreatorApp = documentInfo.GetCreator();
+                        //string producer = documentInfo.GetProducer();
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            #endregion
+
+
+
+            #region [Use PDFLIB (evaluation mode)]
+
+            PDFlib p = null;
+            try
+            {
+                p = new PDFlib();
+                p.set_option("errorpolicy=return");
+                int doc = p.open_pdi_document(file.FileInfo.FullName, "infomode=true");
+                string objType = p.pcos_get_string(doc, "type:/Info/Creator");
+
+
+                if (p.begin_document("hello.pdf", "") == -1)
+                {
+                    Console.WriteLine("Error: {0}\n", p.get_errmsg());
+
+                }
+                if (objType == "string")
+                {
+                    file.CreatorApp = p.pcos_get_string(doc, "/Info/Creator");
+                }
+                else
+                {
+                    file.CreatorApp = string.Empty;
+                }
+                p.close_pdi_document(doc);
+            }
+            catch (PDFlibException ex)
+            {
+                LogException(ex, "GetPdfCreatorApp");
+            }
+            finally
+            {
+                p?.Dispose();
+            }
+            #endregion
         }
     }
 }

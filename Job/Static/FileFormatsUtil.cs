@@ -109,61 +109,73 @@ namespace JobSpace.Static
 
         private static void GetPdf(IFileSystemInfoExt sfi)
         {
-            Rectangle media = null;
 
-            PdfReader pdfReader = null;
-            int pages = 0;
+            var boxes = PdfHelper.GetPagesInfo(sfi.FileInfo.FullName);
+            var box = boxes[0];
+            sfi.Format = new FileFormat
+            {
+                Width = (decimal)box.Trimbox.wMM(),
+                Height = (decimal)box.Trimbox.hMM(),
+                Bleeds = (decimal)((box.Mediabox.wMM() - box.Trimbox.wMM()) / 2),
+                cntPages = boxes.Count(),
+            };
+            #region [USING ITEXT]
+            //Rectangle media = null;
 
-            try
-            {
-                pdfReader = new PdfReader(sfi.FileInfo.FullName);
-                pages = pdfReader.NumberOfPages;
-                media = pdfReader.GetBoxSize(1, "media");
-                var rect = pdfReader.GetBoxSize(1, "trim");
-                pdfReader.Dispose();
+            //PdfReader pdfReader = null;
+            //int pages = 0;
 
-                if (rect == null)
-                {
-                    sfi.Format = new FileFormat
-                    {
-                        Width = (decimal)media.Width / Mn,
-                        Height = (decimal)media.Height / Mn,
-                        Bleeds = 0,
-                        cntPages = pages,
-                    };
-                }
-                else
-                {
-                    sfi.Format = new FileFormat
-                    {
-                        Width = (decimal)rect.Width / Mn,
-                        Height = (decimal)rect.Height / Mn,
-                        Bleeds = (decimal)(media.Width - rect.Width) / 2 / Mn,
-                        cntPages = pages,
-                    };
-                }
-            }
-            catch
-            {
-                if (media != null)
-                {
-                    sfi.Format = new FileFormat()
-                    {
-                        Width = (decimal)media.Width / Mn,
-                        Height = (decimal)media.Height / Mn,
-                        Bleeds = 0,
-                        cntPages = pages,
-                    };
-                }
-                else
-                {
-                    sfi.Format = new FileFormat();
-                }
-            }
-            finally
-            {
-                pdfReader?.Dispose();
-            }
+            //try
+            //{
+            //    pdfReader = new PdfReader(sfi.FileInfo.FullName);
+            //    pages = pdfReader.NumberOfPages;
+            //    media = pdfReader.GetBoxSize(1, "media");
+            //    var rect = pdfReader.GetBoxSize(1, "trim");
+            //    pdfReader.Dispose();
+
+            //    if (rect == null)
+            //    {
+            //        sfi.Format = new FileFormat
+            //        {
+            //            Width = (decimal)media.Width / Mn,
+            //            Height = (decimal)media.Height / Mn,
+            //            Bleeds = 0,
+            //            cntPages = pages,
+            //        };
+            //    }
+            //    else
+            //    {
+            //        sfi.Format = new FileFormat
+            //        {
+            //            Width = (decimal)rect.Width / Mn,
+            //            Height = (decimal)rect.Height / Mn,
+            //            Bleeds = (decimal)(media.Width - rect.Width) / 2 / Mn,
+            //            cntPages = pages,
+            //        };
+            //    }
+            //}
+            //catch
+            //{
+            //    if (media != null)
+            //    {
+            //        sfi.Format = new FileFormat()
+            //        {
+            //            Width = (decimal)media.Width / Mn,
+            //            Height = (decimal)media.Height / Mn,
+            //            Bleeds = 0,
+            //            cntPages = pages,
+            //        };
+            //    }
+            //    else
+            //    {
+            //        sfi.Format = new FileFormat();
+            //    }
+            //}
+            //finally
+            //{
+            //    pdfReader?.Dispose();
+            //}
+            #endregion
         }
 
         private static void GetTif(IFileSystemInfoExt sfi)

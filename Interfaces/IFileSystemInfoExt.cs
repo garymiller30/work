@@ -10,8 +10,8 @@ namespace Interfaces
         FileFormat Format { get; set; }
         IFileSystemInfo FileInfo { get; set; }
         ColorSpaces UsedColorSpace { get; set; }
+        string CreatorApp { get; set; }
 
-       
         void RefreshParam(string filePath);
     }
 }
