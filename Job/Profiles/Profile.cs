@@ -65,8 +65,8 @@ namespace JobSpace.Profiles
 
         private void SubscribeEvents()
         {
-            Jobs.SubscribeEvents();
-            Customers.SubscribeEvents();
+            Jobs?.SubscribeEvents();
+            Customers?.SubscribeEvents();
         }
 
         private void LoadPlugins()
