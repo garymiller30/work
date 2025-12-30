@@ -69,29 +69,28 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByFormat
 
                 for (var pageno = 1; pageno <= endpage; pageno++)
                 {
-                    var page = p.open_pdi_page(indoc, pageno, "");
+                    var pageh = p.open_pdi_page(indoc, pageno, "");
 
-                    Box media = new Box();
-                    media.GetMediabox(p, indoc, page);
+                    var box = PdfHelper.GetBoxes(p, indoc, pageh);
 
                     double paramW = _params.Width * PdfScaler.mn;
                     double paramH = _params.Height * PdfScaler.mn;
 
-                    double bleedX = (media.width - paramW) / 2;
-                    double bleedY = (media.height - paramH) / 2;
+                    double bleedX = (box.Media.width - paramW) / 2;
+                    double bleedY = (box.Media.height - paramH) / 2;
 
                     double x = bleedX;
                     double y = bleedY;
-                    double w = media.width - bleedX;
-                    double h = media.height - bleedY;
+                    double w = box.Media.width - bleedX;
+                    double h = box.Media.height - bleedY;
 
-                    if (page == -1) throw new Exception("Error: " + p.get_errmsg());
+                    if (pageh == -1) throw new Exception("Error: " + p.get_errmsg());
 
                     p.begin_page_ext(0, 0, "");
-                    p.fit_pdi_page(page, 0, 0, "adjustpage");
+                    p.fit_pdi_page(pageh, 0, 0, "adjustpage");
                     p.end_page_ext($"trimbox {{{x} {y} {w} {h}}}");
 
-                    p.close_pdi_page(page);
+                    p.close_pdi_page(pageh);
                 }
                 p.close_pdi_document(indoc);
                 p.end_document("");
