@@ -109,72 +109,74 @@ namespace JobSpace.Static
 
         private static void GetPdf(IFileSystemInfoExt sfi)
         {
-
-            var boxes = PdfHelper.GetPagesInfo(sfi.FileInfo.FullName);
-            var box = boxes[0];
-            sfi.Format = new FileFormat
-            {
-                Width = (decimal)box.Trimbox.wMM(),
-                Height = (decimal)box.Trimbox.hMM(),
-                Bleeds = (decimal)((box.Mediabox.wMM() - box.Trimbox.wMM()) / 2),
-                cntPages = boxes.Count(),
-            };
+            #region [USING PDFLIB]
+            //var boxes = PdfHelper.GetPagesInfo(sfi.FileInfo.FullName);
+            //if (boxes.Count == 0) return;
+            //var box = boxes[0];
+            //sfi.Format = new FileFormat
+            //{
+            //    Width = (decimal)box.Trimbox.wMM(),
+            //    Height = (decimal)box.Trimbox.hMM(),
+            //    Bleeds = (decimal)((box.Mediabox.wMM() - box.Trimbox.wMM()) / 2),
+            //    cntPages = boxes.Count(),
+            //};
+            #endregion
             #region [USING ITEXT]
-            //Rectangle media = null;
+            Rectangle media = null;
 
-            //PdfReader pdfReader = null;
-            //int pages = 0;
+            PdfReader pdfReader = null;
+            int pages = 0;
 
-            //try
-            //{
-            //    pdfReader = new PdfReader(sfi.FileInfo.FullName);
-            //    pages = pdfReader.NumberOfPages;
-            //    media = pdfReader.GetBoxSize(1, "media");
-            //    var rect = pdfReader.GetBoxSize(1, "trim");
-            //    pdfReader.Dispose();
+            try
+            {
+                pdfReader = new PdfReader(sfi.FileInfo.FullName);
+                pages = pdfReader.NumberOfPages;
+                media = pdfReader.GetBoxSize(1, "media");
+                var rect = pdfReader.GetBoxSize(1, "trim");
+                pdfReader.Dispose();
 
-            //    if (rect == null)
-            //    {
-            //        sfi.Format = new FileFormat
-            //        {
-            //            Width = (decimal)media.Width / Mn,
-            //            Height = (decimal)media.Height / Mn,
-            //            Bleeds = 0,
-            //            cntPages = pages,
-            //        };
-            //    }
-            //    else
-            //    {
-            //        sfi.Format = new FileFormat
-            //        {
-            //            Width = (decimal)rect.Width / Mn,
-            //            Height = (decimal)rect.Height / Mn,
-            //            Bleeds = (decimal)(media.Width - rect.Width) / 2 / Mn,
-            //            cntPages = pages,
-            //        };
-            //    }
-            //}
-            //catch
-            //{
-            //    if (media != null)
-            //    {
-            //        sfi.Format = new FileFormat()
-            //        {
-            //            Width = (decimal)media.Width / Mn,
-            //            Height = (decimal)media.Height / Mn,
-            //            Bleeds = 0,
-            //            cntPages = pages,
-            //        };
-            //    }
-            //    else
-            //    {
-            //        sfi.Format = new FileFormat();
-            //    }
-            //}
-            //finally
-            //{
-            //    pdfReader?.Dispose();
-            //}
+                if (rect == null)
+                {
+                    sfi.Format = new FileFormat
+                    {
+                        Width = (decimal)media.Width / Mn,
+                        Height = (decimal)media.Height / Mn,
+                        Bleeds = 0,
+                        cntPages = pages,
+                    };
+                }
+                else
+                {
+                    sfi.Format = new FileFormat
+                    {
+                        Width = (decimal)rect.Width / Mn,
+                        Height = (decimal)rect.Height / Mn,
+                        Bleeds = (decimal)(media.Width - rect.Width) / 2 / Mn,
+                        cntPages = pages,
+                    };
+                }
+            }
+            catch
+            {
+                if (media != null)
+                {
+                    sfi.Format = new FileFormat()
+                    {
+                        Width = (decimal)media.Width / Mn,
+                        Height = (decimal)media.Height / Mn,
+                        Bleeds = 0,
+                        cntPages = pages,
+                    };
+                }
+                else
+                {
+                    sfi.Format = new FileFormat();
+                }
+            }
+            finally
+            {
+                pdfReader?.Dispose();
+            }
             #endregion
         }
 

@@ -21,7 +21,7 @@ namespace JobSpace.Static.Pdf.Common
         public static double mn = 2.83465;
 
 
-        public static Boxes GetBoxes(PDFlib p, int doc, int page)
+        public static Boxes GetBoxes(PDFlib p, int doc, int pageIdx)
         {
             Boxes boxes = new Boxes();
 
@@ -30,16 +30,16 @@ namespace JobSpace.Static.Pdf.Common
 
             for (int i = 0; i < 4; i++)
             {
-                media[i] = p.pcos_get_number(doc, $"pages[{page}]/MediaBox[{i}]");
+                media[i] = p.pcos_get_number(doc, $"pages[{pageIdx}]/MediaBox[{i}]");
             }
 
-            string trimtype = p.pcos_get_string(doc, $"type:pages[{page}]/TrimBox");
+            string trimtype = p.pcos_get_string(doc, $"type:pages[{pageIdx}]/TrimBox");
 
             if (string.Equals(trimtype, "array", System.StringComparison.OrdinalIgnoreCase))
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    trims[i] = p.pcos_get_number(doc, $"pages[{page}]/TrimBox[{i}]");
+                    trims[i] = p.pcos_get_number(doc, $"pages[{pageIdx}]/TrimBox[{i}]");
                 }
             }
             else

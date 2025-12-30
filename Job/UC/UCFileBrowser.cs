@@ -225,7 +225,10 @@ namespace JobSpace.UC
         }
         void ProcessTaskGetExtendedFileInfo(List<IFileSystemInfoExt> e, CancellationToken token)
         {
-            foreach (var ext in e)
+            // скопіювати список, щоб не було проблем з колекцією
+            var list = new List<IFileSystemInfoExt>(e);
+
+            foreach (var ext in list)
             {
                 ext.GetExtendedFileInfoFormat();
                 if (token.IsCancellationRequested) break;

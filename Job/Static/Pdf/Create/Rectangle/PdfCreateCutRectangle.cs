@@ -38,10 +38,7 @@ namespace JobSpace.Static.Pdf.Create.Rectangle
                     if (pagehdl == -1)
                         throw new Exception("Error: " + p.get_errmsg());
 
-                    var width = p.pcos_get_number(indoc, $"pages[{pagehdl}]/width");
-                    var height = p.pcos_get_number(indoc, $"pages[{pagehdl}]/height");
-
-                    Box trimbox = PdfHelper.GetTrimbox(p, indoc, 0);
+                    Boxes boxes = PdfHelper.GetBoxes(p,indoc,i-1);
 
                     var layer_print = p.define_layer("print", "");
                     var layer_cut = p.define_layer("cut", "");
@@ -61,17 +58,17 @@ namespace JobSpace.Static.Pdf.Create.Rectangle
 
                     p.setcolor("stroke", "spot", spot, 1.0, 0.0, 0.0);
 
-                    double x = trimbox.left;
-                    double y = trimbox.bottom;
-                    double w = trimbox.width;
-                    double h = trimbox.height;
+                    double x = boxes.Trim.left;
+                    double y = boxes.Trim.bottom;
+                    double w = boxes.Trim.width;
+                    double h = boxes.Trim.height;
 
                     p.rect(x, y, w, h);
                     p.stroke();
 
                     p.close_pdi_page(pagehdl);
                     p.end_layer();
-                    p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
+                    p.end_page_ext("");
                 }
 
 
