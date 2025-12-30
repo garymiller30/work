@@ -42,6 +42,8 @@ namespace StaticFiles
 
         public void Start()
         { 
+            if (_profile == null) return;
+
             _fileBrowser = new UCFileBrowser(_profile)
             {
                 Location = new Point(0, toolStrip1.Height),
