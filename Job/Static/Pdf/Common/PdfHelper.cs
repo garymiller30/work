@@ -471,38 +471,38 @@ namespace JobSpace.Static.Pdf.Common
 
             #region [Use PDFLIB (evaluation mode)]
 
-            PDFlib p = null;
-            try
-            {
-                p = new PDFlib();
-                p.set_option("errorpolicy=return");
-                int doc = p.open_pdi_document(file.FileInfo.FullName, "infomode=true");
-                string objType = p.pcos_get_string(doc, "type:/Info/Creator");
+            //PDFlib p = null;
+            //try
+            //{
+            //    p = new PDFlib();
+            //    p.set_option("errorpolicy=return");
+            //    int doc = p.open_pdi_document(file.FileInfo.FullName, "infomode=true");
+            //    string objType = p.pcos_get_string(doc, "type:/Info/Creator");
 
 
-                if (p.begin_document("hello.pdf", "") == -1)
-                {
-                    Console.WriteLine("Error: {0}\n", p.get_errmsg());
+            //    if (p.begin_document("hello.pdf", "") == -1)
+            //    {
+            //        Console.WriteLine("Error: {0}\n", p.get_errmsg());
 
-                }
-                if (objType == "string")
-                {
-                    file.CreatorApp = p.pcos_get_string(doc, "/Info/Creator");
-                }
-                else
-                {
-                    file.CreatorApp = string.Empty;
-                }
-                p.close_pdi_document(doc);
-            }
-            catch (PDFlibException ex)
-            {
-                LogException(ex, "GetPdfCreatorApp");
-            }
-            finally
-            {
-                p?.Dispose();
-            }
+            //    }
+            //    if (objType == "string")
+            //    {
+            //        file.CreatorApp = p.pcos_get_string(doc, "/Info/Creator");
+            //    }
+            //    else
+            //    {
+            //        file.CreatorApp = string.Empty;
+            //    }
+            //    p.close_pdi_document(doc);
+            //}
+            //catch (PDFlibException ex)
+            //{
+            //    LogException(ex, "GetPdfCreatorApp");
+            //}
+            //finally
+            //{
+            //    p?.Dispose();
+            //}
             #endregion
         }
     }
