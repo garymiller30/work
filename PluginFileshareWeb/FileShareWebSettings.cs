@@ -9,5 +9,6 @@ namespace PluginFileshareWeb
     public class FileShareWebSettings
     {
         public List<LinkInfo> Links = new List<LinkInfo>();
+        public HashSet<LinkInfo> OpenOnStart = new HashSet<LinkInfo>();
     }
 }

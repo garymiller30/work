@@ -10,5 +10,19 @@ namespace PluginFileshareWeb
     {
         public string Name {  get; set; }
         public string Url { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is LinkInfo other)
+            {
+                return this.Url == other.Url;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Url.GetHashCode();
+        }
     }
 }
