@@ -49,14 +49,19 @@ namespace PluginFileshareWeb
 
         private async void toolStripButton1_Click(object sender, EventArgs e)
         {
+            LinkInfo link = (LinkInfo)((ToolStripButton)sender).Tag;
 
-             await AddTabAsync();
-
-            tabControl1.SelectedTab.Text = ((ToolStripButton)sender).Text;
+            await AddTabAsync();
+            WebView2 webView = (WebView2)tabControl1.SelectedTab.Tag;
+            //збережемо посилання в тег вкладки
+            webView.Tag = link;
+            tabControl1.SelectedTab.Text = link.Name;
 
             curwebView2.Source = new Uri("about:blank");
-            curwebView2.Source = new Uri(((ToolStripButton)sender).Tag.ToString());
-            
+            curwebView2.Source = new Uri(link.Url);
+
+            _settings.OpenOnStart.Add(link);
+            UserProfile.Plugins.SaveSettings(_settings);
         }
 
         public UserControl GetUserControl()
@@ -64,10 +69,26 @@ namespace PluginFileshareWeb
             return this;
         }
 
-        public void Start()
+        public  void Start()
         {
             _settings = UserProfile.Plugins.LoadSettings<FileShareWebSettings>();
             AddingLinksToToolStrip();
+            OpenSavedTabs();
+        }
+
+        private async void OpenSavedTabs()
+        {
+            foreach (var link in _settings.OpenOnStart)
+            {
+                await AddTabAsync();
+                WebView2 webView = (WebView2)tabControl1.SelectedTab.Tag;
+                //збережемо посилання в тег вкладки
+                webView.Tag = link;
+                tabControl1.SelectedTab.Text = link.Name;
+
+                curwebView2.Source = new Uri("about:blank");
+                curwebView2.Source = new Uri(link.Url);
+            }
         }
 
         private void AddingLinksToToolStrip()
@@ -88,7 +109,7 @@ namespace PluginFileshareWeb
         private ToolStripButton CreateButton(LinkInfo link)
         {
             var button = new ToolStripButton(link.Name);
-            button.Tag = link.Url;
+            button.Tag = link;
             button.Click += toolStripButton1_Click;
 
             return button;
@@ -258,6 +279,9 @@ namespace PluginFileshareWeb
                         var tabPage = tabControl1.TabPages[i];
                         if (tabPage.Tag is WebView2 webView2)
                         {
+                            LinkInfo link = (LinkInfo)webView2.Tag;
+                            _settings.OpenOnStart.Remove(link);
+                            UserProfile.Plugins.SaveSettings(_settings);
                             // Dispose the WebView2 control
                             webView2.Dispose();
                         }

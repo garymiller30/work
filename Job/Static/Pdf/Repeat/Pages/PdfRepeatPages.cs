@@ -29,7 +29,7 @@ namespace JobSpace.Static.Pdf.RepeatPages
 
                 p.set_option("errorpolicy=return");
 
-                int indoc = p.open_pdi_document(filePath, "optimize=true");
+                int indoc = p.open_pdi_document(filePath, "");
 
                 if (indoc == -1)
                     throw new Exception("Error: " + p.get_errmsg());
@@ -38,7 +38,7 @@ namespace JobSpace.Static.Pdf.RepeatPages
                 int outdoc_count = page_count * _params.Count;
 
                 String outfile = filePath + ".tmp";
-                if (p.begin_document(outfile, "") == -1)
+                if (p.begin_document(outfile, "optimize=true") == -1)
                     throw new Exception("Error: " + p.get_errmsg());
 
                 for (int i = 0; i < page_count; i++)
