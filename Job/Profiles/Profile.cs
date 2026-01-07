@@ -44,11 +44,12 @@ namespace JobSpace.Profiles
         public ISearchHistory SearchHistory { get; set; }
         public IScriptEngine ScriptEngine { get; set; }
         public ImposSaveLoadService ImposService { get; set; }
+        
         public override string ToString()
         {
             return Settings.ProfileName ?? "Unknown";
         }
-
+        
 
         public Profile()
         {

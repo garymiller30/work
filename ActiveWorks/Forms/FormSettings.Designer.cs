@@ -136,6 +136,8 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.видалитиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.cb_mail_connection_type = new System.Windows.Forms.ComboBox();
             this.gb_mail_googleApi_settings = new System.Windows.Forms.GroupBox();
             this.btn_mail_gmail_settings_sel_secret_file = new System.Windows.Forms.Button();
             this.tb_mail_gmail_settings_secret_file = new System.Windows.Forms.TextBox();
@@ -205,8 +207,10 @@
             this.objectListViewProfiles = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.statusChangeParamBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.cb_mail_connection_type = new System.Windows.Forms.ComboBox();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tb_joblist_font = new System.Windows.Forms.TextBox();
+            this.btn_joblist_select_font = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.contextMenuStrip_FolderNames.SuspendLayout();
             this.tabControlMain.SuspendLayout();
@@ -242,6 +246,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.olv_mail_templates)).BeginInit();
             this.cms_mail_templates.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            this.groupBox12.SuspendLayout();
             this.gb_mail_googleApi_settings.SuspendLayout();
             this.gb_mail_smtp_settings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSmtpPort)).BeginInit();
@@ -262,7 +267,7 @@
             this.groupBox17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewProfiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusChangeParamBindingSource)).BeginInit();
-            this.groupBox12.SuspendLayout();
+            this.groupBox15.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -489,6 +494,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox15);
             this.tabPage1.Controls.Add(this.groupBox16);
             this.tabPage1.Controls.Add(this.groupBox14);
             this.tabPage1.Controls.Add(this.groupBox1);
@@ -506,7 +512,7 @@
             this.groupBox16.Controls.Add(this.checkBoxHideCategory);
             this.groupBox16.Location = new System.Drawing.Point(6, 112);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(273, 100);
+            this.groupBox16.Size = new System.Drawing.Size(273, 50);
             this.groupBox16.TabIndex = 13;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Нове замовлення";
@@ -543,6 +549,7 @@
             // 
             // kryptonButton_MoveSignaFileToOrder
             // 
+            this.kryptonButton_MoveSignaFileToOrder.Enabled = false;
             this.kryptonButton_MoveSignaFileToOrder.Location = new System.Drawing.Point(87, 214);
             this.kryptonButton_MoveSignaFileToOrder.Name = "kryptonButton_MoveSignaFileToOrder";
             this.kryptonButton_MoveSignaFileToOrder.Size = new System.Drawing.Size(228, 25);
@@ -1380,6 +1387,24 @@
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "`";
             // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.cb_mail_connection_type);
+            this.groupBox12.Location = new System.Drawing.Point(6, 6);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(88, 166);
+            this.groupBox12.TabIndex = 24;
+            this.groupBox12.TabStop = false;
+            // 
+            // cb_mail_connection_type
+            // 
+            this.cb_mail_connection_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cb_mail_connection_type.FormattingEnabled = true;
+            this.cb_mail_connection_type.Location = new System.Drawing.Point(6, 14);
+            this.cb_mail_connection_type.Name = "cb_mail_connection_type";
+            this.cb_mail_connection_type.Size = new System.Drawing.Size(76, 21);
+            this.cb_mail_connection_type.TabIndex = 0;
+            // 
             // gb_mail_googleApi_settings
             // 
             this.gb_mail_googleApi_settings.Controls.Add(this.btn_mail_gmail_settings_sel_secret_file);
@@ -2119,23 +2144,46 @@
             this.olvColumnName.Text = "Ім\'я профілю";
             this.olvColumnName.Width = 200;
             // 
-            // groupBox12
+            // groupBox15
             // 
-            this.groupBox12.Controls.Add(this.cb_mail_connection_type);
-            this.groupBox12.Location = new System.Drawing.Point(6, 6);
-            this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(88, 166);
-            this.groupBox12.TabIndex = 24;
-            this.groupBox12.TabStop = false;
+            this.groupBox15.Controls.Add(this.btn_joblist_select_font);
+            this.groupBox15.Controls.Add(this.tb_joblist_font);
+            this.groupBox15.Controls.Add(this.label3);
+            this.groupBox15.Location = new System.Drawing.Point(6, 168);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(273, 92);
+            this.groupBox15.TabIndex = 14;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "Список робіт";
             // 
-            // cb_mail_connection_type
+            // label3
             // 
-            this.cb_mail_connection_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_mail_connection_type.FormattingEnabled = true;
-            this.cb_mail_connection_type.Location = new System.Drawing.Point(6, 14);
-            this.cb_mail_connection_type.Name = "cb_mail_connection_type";
-            this.cb_mail_connection_type.Size = new System.Drawing.Size(76, 21);
-            this.cb_mail_connection_type.TabIndex = 0;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "шрифт";
+            // 
+            // tb_joblist_font
+            // 
+            this.tb_joblist_font.Location = new System.Drawing.Point(52, 13);
+            this.tb_joblist_font.Name = "tb_joblist_font";
+            this.tb_joblist_font.ReadOnly = true;
+            this.tb_joblist_font.Size = new System.Drawing.Size(172, 20);
+            this.tb_joblist_font.TabIndex = 1;
+            // 
+            // btn_joblist_select_font
+            // 
+            this.btn_joblist_select_font.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_joblist_select_font.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btn_joblist_select_font.Location = new System.Drawing.Point(230, 11);
+            this.btn_joblist_select_font.Name = "btn_joblist_select_font";
+            this.btn_joblist_select_font.Size = new System.Drawing.Size(32, 23);
+            this.btn_joblist_select_font.TabIndex = 14;
+            this.btn_joblist_select_font.Text = " ...";
+            this.btn_joblist_select_font.UseVisualStyleBackColor = true;
+            this.btn_joblist_select_font.Click += new System.EventHandler(this.btn_joblist_select_font_Click);
             // 
             // FormSettings
             // 
@@ -2193,6 +2241,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.olv_mail_templates)).EndInit();
             this.cms_mail_templates.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
+            this.groupBox12.ResumeLayout(false);
             this.gb_mail_googleApi_settings.ResumeLayout(false);
             this.gb_mail_googleApi_settings.PerformLayout();
             this.gb_mail_smtp_settings.ResumeLayout(false);
@@ -2219,7 +2268,8 @@
             this.groupBox17.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewProfiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusChangeParamBindingSource)).EndInit();
-            this.groupBox12.ResumeLayout(false);
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2403,5 +2453,9 @@
         private System.Windows.Forms.Button btn_mail_gmail_settings_sel_secret_file;
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.ComboBox cb_mail_connection_type;
+        private System.Windows.Forms.GroupBox groupBox15;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btn_joblist_select_font;
+        private System.Windows.Forms.TextBox tb_joblist_font;
     }
 }

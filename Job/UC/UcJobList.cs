@@ -74,7 +74,7 @@ namespace JobSpace.UC
         public UcJobList(IUserProfile userProfile) : this()
         {
             _profile = userProfile;
-
+            objectListView_NewWorks.Font = _profile.Settings.GetJobListSettings().UserFont;
             InitOlvColumns();
             RestoreOLVState();
             InitObjectListviewImageList();
@@ -806,6 +806,11 @@ namespace JobSpace.UC
             {
                 _profile.SearchManager.Search(o.Customer, "");
             }
+        }
+
+        public void ApplyJobListFontSettings()
+        {
+            objectListView_NewWorks.Font = _profile.Settings.GetJobListSettings().UserFont;
         }
     }
 }

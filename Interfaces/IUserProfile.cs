@@ -24,7 +24,6 @@ namespace Interfaces
         IServicesStateManager ServicesState { get; set; }
         void InitProfile();
         void Exit();
-
         T LoadSettings<T>() where T : class, new();
         void SaveSettings<T>(T settings) where T : class;
     }

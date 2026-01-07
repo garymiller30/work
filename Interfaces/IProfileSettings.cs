@@ -9,7 +9,7 @@ namespace Interfaces
         IMailSettings GetMail();
         IFileBrowserSettings GetFileBrowser();
         IJobSettings GetJobSettings();
-
+        IJobListSettings GetJobListSettings(); 
         IPdfConverterSettings GetPdfConverterSettings(); 
 
         /// <summary>
@@ -21,5 +21,8 @@ namespace Interfaces
         string OLVState { get; set; }
 
         decimal CountExplorers { get; set; }
+
+        void Normalize();
+
     }
 }

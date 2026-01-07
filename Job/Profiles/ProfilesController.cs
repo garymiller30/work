@@ -27,13 +27,17 @@ namespace JobSpace.Profiles
                 {
                     var profileFile = Path.Combine(dir, ProfileFileName);
                     var profileSetting = Commons.DeserializeXML<ProfileSettings>(profileFile);
-                    if (profileSetting == null) return null;
 
-                    return new Profile
+                    if (profileSetting == null) return null;
+                    profileSetting.Normalize();
+                    var profile = new Profile()
                     {
                         Settings = profileSetting,
                         ProfilePath = dir
+
                     };
+                   
+                    return profile;
                 })
                 .Where(p => p != null)
                 .ToList();
