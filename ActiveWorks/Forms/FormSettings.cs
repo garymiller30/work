@@ -462,6 +462,9 @@ namespace ActiveWorks
             checkBoxUseViewer.Checked = browser.UseViewer;
 
             checkBoxMoveOriginalFileToTrash.Checked = setup.GetPdfConverterSettings().MoveOriginalsToTrash;
+
+
+            tb_joblist_font.Text = $"{setup.GetJobListSettings().FontName}, {setup.GetJobListSettings().FontSize}pt, {setup.GetJobListSettings().FontStyle}";
             //plugins
             LoadPluginsInfo();
             LoadFtpScripts();
@@ -820,6 +823,20 @@ namespace ActiveWorks
                 if (f.ShowDialog() == DialogResult.OK)
                 {
                     tb_mail_gmail_settings_secret_file.Text = f.FileName;
+                }
+            }
+        }
+
+        private void btn_joblist_select_font_Click(object sender, EventArgs e)
+        {
+            // show select font dialog
+            using (var fontDialog = new FontDialog())
+            {
+                fontDialog.Font = _currentProfile.Settings.GetJobListSettings().UserFont;
+                if (fontDialog.ShowDialog() == DialogResult.OK)
+                {
+                    _currentProfile.Settings.GetJobListSettings().UserFont = fontDialog.Font;
+                    tb_joblist_font.Text = $"{fontDialog.Font.Name}, {fontDialog.Font.Size}pt, {fontDialog.Font.Style}";
                 }
             }
         }

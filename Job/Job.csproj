@@ -351,6 +351,7 @@
     <Compile Include="Models\ScreenPrimitives\ScreenLine.cs" />
     <Compile Include="Models\ScreenPrimitives\ScreenRectangle.cs" />
     <Compile Include="Models\ServiceState.cs" />
+    <Compile Include="Profiles\JobListSettings.cs" />
     <Compile Include="Profiles\ProfileEvents\ServicesStateEvents.cs" />
     <Compile Include="Properties\Resources1.Designer.cs">
       <AutoGen>True</AutoGen>

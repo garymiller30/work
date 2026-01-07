@@ -110,6 +110,7 @@ namespace PluginFileshareWeb
         {
             var button = new ToolStripButton(link.Name);
             button.Tag = link;
+            button.ToolTipText = link.Url;
             button.Click += toolStripButton1_Click;
 
             return button;
@@ -168,14 +169,14 @@ namespace PluginFileshareWeb
             }
         }
 
-        private void toolStripButtonGo_Click(object sender, EventArgs e)
+        private async void toolStripButtonGo_Click(object sender, EventArgs e)
         {
             
             if (!string.IsNullOrEmpty(toolStripTextBoxUrl.Text))
             {
                 try
                 {
-                    if (curwebView2 == null) { AddTabAsync(); }
+                    if (curwebView2 == null) { await AddTabAsync(); }
 
                     curwebView2.Source = new Uri(EnsureUrlHasProtocol(toolStripTextBoxUrl.Text));
                 }
@@ -237,7 +238,13 @@ namespace PluginFileshareWeb
             curwebView2 = new WebView2();
             curwebView2.ZoomFactor = zoomFactor / 100;
              await curwebView2.EnsureCoreWebView2Async(environment);
-            
+
+            curwebView2.CoreWebView2.ServerCertificateErrorDetected += (s, e) =>
+            {
+                e.Action = CoreWebView2ServerCertificateErrorAction.AlwaysAllow;
+            };
+
+
             if (_curJob != null)
             {
                 curwebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;

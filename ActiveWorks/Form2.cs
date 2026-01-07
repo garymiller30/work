@@ -377,6 +377,8 @@ namespace ActiveWorks
         {
             foreach (var tab in _profileTabs)
             {
+                // примінити налаштування шрифту для JobList
+                ((JobSpace.Profiles.Profile)tab.Tag).Jobs.JobListControl.ApplyJobListFontSettings();
                 ((JobSpace.Profiles.Profile)tab.Tag).FileBrowser.InitBrowserToolStripUtils();
             }
         }

@@ -897,6 +897,9 @@ namespace JobSpace.UC
 
                 var setPath = Path.Combine(DefaultSettingsFolder, "settings");
                 _fileManager.LoadSettings(setPath);
+
+                SetObjectListViewFont();
+                SetObjectListViewRowHeight();
             }
         }
         public IFileBrowserControlSettings GetSettings()
@@ -1118,7 +1121,32 @@ namespace JobSpace.UC
             {
                 return ((dynamic)key).Title;
             };
+
+            SetObjectListViewFont();
+            SetObjectListViewRowHeight();
         }
+
+        private void SetObjectListViewRowHeight()
+        {
+            if (_fileManager.Settings.RowHeight > 0)
+                objectListView1.RowHeight = _fileManager.Settings.RowHeight;
+        }
+
+        private void SetObjectListViewFont()
+        {
+            if (_fileManager.Settings.FontSize != 0)
+            {
+                objectListView1.Font = new Font(
+                    _fileManager.Settings.FontName,
+                    _fileManager.Settings.FontSize,
+                    _fileManager.Settings.FontStyle,
+                    objectListView1.Font.Unit,
+                    objectListView1.Font.GdiCharSet,
+                    objectListView1.Font.GdiVerticalFont
+                );
+            }
+        }
+
         private void toolStripButtonFileInfo_Click(object sender, EventArgs e) => GetFilesInfo();
         private void toolStripButtonCopyToClipboard_Click(object sender, EventArgs e) => FileBrowserSevices.Clipboard_CopyFiles(objectListView1.SelectedObjects);
         private void toolStripButtonCut_Click(object sender, EventArgs e) => FileBrowserSevices.Clipboard_CutFiles(objectListView1.SelectedObjects);

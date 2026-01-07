@@ -116,7 +116,7 @@ namespace ActiveWorks.UserControls
             KryptonWorkspaceCell parent = new KryptonWorkspaceCell();
             parent.CloseAction += (sender, args) => args.Action = CloseButtonAction.None;
 
-            var filebrowsers = _profile.FileBrowser;
+            IFileBrowsers filebrowsers = _profile.FileBrowser;
 
             if (filebrowsers == null) return;
 

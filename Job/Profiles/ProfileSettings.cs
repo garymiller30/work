@@ -22,6 +22,8 @@ namespace JobSpace.Profiles
         public IMailSettings GetMail() => Mail;
         public IFileBrowserSettings GetFileBrowser() => FileBrowser;
         public IJobSettings GetJobSettings() => JobSettings;
+        public JobListSettings JobListSettings { get; set; } = new JobListSettings();
+        public IJobListSettings GetJobListSettings() => JobListSettings;
         public decimal CountExplorers { get; set; } = 1;
         public bool HideCategory { get; set; }
         public bool CloseAfterPasteText { get; set; }
@@ -33,7 +35,10 @@ namespace JobSpace.Profiles
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
+        public void Normalize()
+        {
+            if (JobListSettings == null) JobListSettings = new JobListSettings();
+        }
 
     }
 }

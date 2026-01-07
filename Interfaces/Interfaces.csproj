@@ -93,6 +93,7 @@
     <Compile Include="IFtpSettings.cs" />
     <Compile Include="IJobDecorator.cs" />
     <Compile Include="IJobEvents.cs" />
+    <Compile Include="IJobListSettings.cs" />
     <Compile Include="IJobManager.cs" />
     <Compile Include="IJobSettings.cs" />
     <Compile Include="IJobStatus.cs" />
