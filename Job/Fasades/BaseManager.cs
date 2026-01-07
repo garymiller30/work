@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
@@ -482,12 +483,16 @@ namespace JobSpace.Fasades
 
         public List<IJob> ApplyViewFilter(string customer, string text, int[] statuses)
         {
+
+            var text_safe = Regex.Escape(text);
+            string customer_safe = Regex.Escape(customer);
+
             if (statuses == null) statuses = new int[0];
             jobListFilter.Statuses = statuses;
             if (string.IsNullOrEmpty(text)) text = string.Empty;
-            jobListFilter.Text = text.ToLower();
+            jobListFilter.Text = text_safe.ToLower();
             if (string.IsNullOrEmpty(customer)) customer = string.Empty;
-            jobListFilter.Customer = customer.ToLower();
+            jobListFilter.Customer = customer_safe.ToLower();
 
             return filterJobs();
         }
