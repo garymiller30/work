@@ -648,12 +648,17 @@ namespace JobSpace.UC
 
                         _fileManager.MoveTo(file, targetFile);
                     }
-
                 });
             }
         }
         private void ToolStripSendMenu_Click(object sender, EventArgs eevnArgs)
         {
+            if (objectListView1.SelectedObjects.Count == 0)
+            {
+                MessageBox.Show("Виберіть файли для відправки електронною поштою.");
+                return;
+            }
+
             FileBrowserSevices.Mail_SendFiles(UserProfile, objectListView1.SelectedObjects, ((ToolStripMenuItem)sender).Text);
         }
         async void SendMenuItem_ClickAsync(object sender, EventArgs e)

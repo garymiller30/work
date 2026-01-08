@@ -10,7 +10,7 @@ namespace PluginFileshareWeb
     {
         public string Name {  get; set; }
         public string Url { get; set; }
-
+        public double ZoomFactor { get; set; } = 1.0f;
         public override bool Equals(object obj)
         {
             if (obj is LinkInfo other)

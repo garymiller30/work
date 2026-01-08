@@ -59,10 +59,16 @@ namespace PluginFileshareWeb
 
             curwebView2.Source = new Uri("about:blank");
             curwebView2.Source = new Uri(link.Url);
-
+            curwebView2.ZoomFactorChanged += (s, ev) =>
+            {
+                link.ZoomFactor = curwebView2.ZoomFactor;
+                tstb_zoomFactor.Text = (link.ZoomFactor * 100).ToString("N0");
+                UserProfile.Plugins.SaveSettings(_settings);
+            };
             _settings.OpenOnStart.Add(link);
             UserProfile.Plugins.SaveSettings(_settings);
         }
+
 
         public UserControl GetUserControl()
         {
@@ -72,6 +78,8 @@ namespace PluginFileshareWeb
         public  void Start()
         {
             _settings = UserProfile.Plugins.LoadSettings<FileShareWebSettings>();
+            _settings.Normalize();
+
             AddingLinksToToolStrip();
             OpenSavedTabs();
         }
@@ -88,6 +96,13 @@ namespace PluginFileshareWeb
 
                 curwebView2.Source = new Uri("about:blank");
                 curwebView2.Source = new Uri(link.Url);
+                curwebView2.ZoomFactor = link.ZoomFactor;
+                curwebView2.ZoomFactorChanged += (s, ev) =>
+                {
+                    link.ZoomFactor = curwebView2.ZoomFactor;
+                    tstb_zoomFactor.Text = (link.ZoomFactor * 100).ToString("N0");
+                    UserProfile.Plugins.SaveSettings(_settings);
+                };
             }
         }
 

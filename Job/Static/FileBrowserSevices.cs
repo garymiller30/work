@@ -824,7 +824,6 @@ namespace JobSpace.Static
         {
             if (files.Count == 0) return;
 
-
             var filelist = files.Cast<IFileSystemInfoExt>();
 
             BackgroundTaskService.AddTask(new BackgroundTaskItem()
