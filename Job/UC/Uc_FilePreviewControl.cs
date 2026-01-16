@@ -15,7 +15,7 @@ namespace JobSpace.UC
         int _currentPage = 1;
         int _totalPage = 1;
         IFileSystemInfoExt _fileInfo;
-        List<PdfPageInfo> boxes_pages;
+        PdfPageInfo[] boxes_pages;
         Image[] images;
 
         #region [ EVENTS ]
@@ -47,7 +47,7 @@ namespace JobSpace.UC
             {
                 _totalPage = PdfHelper.GetPageCount(_fileInfo.FileInfo.FullName);
                 tsl_count_pages.Text = $"/{_totalPage}";
-                boxes_pages = PdfHelper.GetPagesInfo(_fileInfo.FileInfo.FullName);
+                boxes_pages = new PdfPageInfo[_totalPage];// PdfHelper.GetPagesInfo(_fileInfo.FileInfo.FullName);
 
                 // очистити старі зображення
                 if (images != null)
@@ -79,6 +79,8 @@ namespace JobSpace.UC
             }
             else
             {
+                PdfPageInfo pageInfo = PdfHelper.GetPageInfo(_fileInfo.FileInfo.FullName, _currentPage - 1);
+                boxes_pages[_currentPage - 1] = pageInfo;
                 uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
                 // Асинхронно завантажуємо фінальне зображення
                 preview = await Task.Run(() =>
