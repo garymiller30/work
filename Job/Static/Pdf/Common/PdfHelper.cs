@@ -131,7 +131,7 @@ namespace JobSpace.Static.Pdf.Common
                         info.Rotate = p.pcos_get_number(indoc, $"pages[{i}]/Rotate");
                     }
 
-                    Boxes boxes = GetBoxes(p, indoc, page);
+                    Boxes boxes = GetBoxes(p, indoc, i);
                     info.Mediabox = boxes.Media;
                     info.Trimbox = boxes.Trim;
 
@@ -181,7 +181,7 @@ namespace JobSpace.Static.Pdf.Common
                     info.Rotate = p.pcos_get_number(indoc, $"pages[{i}]/Rotate");
                 }
 
-                Boxes boxes = GetBoxes(p, indoc, page);
+                Boxes boxes = GetBoxes(p, indoc, pageIdx);
                 info.Mediabox = boxes.Media;
                 info.Trimbox = boxes.Trim;
 
