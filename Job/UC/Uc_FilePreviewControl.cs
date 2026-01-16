@@ -3,6 +3,7 @@ using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +16,7 @@ namespace JobSpace.UC
         int _totalPage = 1;
         IFileSystemInfoExt _fileInfo;
         List<PdfPageInfo> boxes_pages;
+        Image[] images;
 
         #region [ EVENTS ]
         public event EventHandler<int> OnPageChanged = delegate { };
@@ -46,6 +48,20 @@ namespace JobSpace.UC
                 _totalPage = PdfHelper.GetPageCount(_fileInfo.FileInfo.FullName);
                 tsl_count_pages.Text = $"/{_totalPage}";
                 boxes_pages = PdfHelper.GetPagesInfo(_fileInfo.FileInfo.FullName);
+
+                // очистити старі зображення
+                if (images != null)
+                {
+                    for (int i = 0; i < images.Length; i++)
+                    {
+                        if (images[i] != null)
+                        {
+                            images[i].Dispose();
+                        }
+                    }
+                }
+                // підготувати кеш зображень
+                images = new Image[_totalPage];
             }
         }
 
@@ -54,22 +70,36 @@ namespace JobSpace.UC
             double wMM = 100;
             double hMM = 100;
 
-            uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
+            Image preview = null;
 
-            // Асинхронно завантажуємо фінальне зображення
-            var preview = await Task.Run(() =>
-                FileBrowserSevices.File_GetPreview(_fileInfo, _currentPage - 1)
-            );
-            // створити копію зображення, щоб уникнути проблем з потоками
-            if (preview != null)
+            // перевірити чи є кешоване зображення
+            if (images != null && images[_currentPage - 1] != null)
             {
-                var temp = new System.Drawing.Bitmap(preview);
-                preview.Dispose();
-                preview = temp;
-                wMM = (double)(preview.Width / preview.HorizontalResolution * 25.4);
-                hMM = (double)(preview.Height / preview.VerticalResolution * 25.4);
+                preview = images[_currentPage - 1];
             }
-            uc_PreviewControl1.StopWait();
+            else
+            {
+                uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
+                // Асинхронно завантажуємо фінальне зображення
+                preview = await Task.Run(() =>
+                   FileBrowserSevices.File_GetPreview(_fileInfo, _currentPage - 1)
+               );
+                // створити копію зображення, щоб уникнути проблем з потоками
+                if (preview != null)
+                {
+                    var temp = new System.Drawing.Bitmap(preview);
+                    preview.Dispose();
+                    preview = temp;
+                    wMM = (double)(preview.Width / preview.HorizontalResolution * 25.4);
+                    hMM = (double)(preview.Height / preview.VerticalResolution * 25.4);
+                    // кешувати зображення
+                    if (images != null)
+                    {
+                        images[_currentPage - 1] = preview;
+                    }
+                }
+                uc_PreviewControl1.StopWait();
+            }
 
             if (boxes_pages != null)
             {
@@ -87,7 +117,7 @@ namespace JobSpace.UC
                 _currentPage--;
                 tst_cur_page.Text = _currentPage.ToString();
                 GetPreview();
-                OnPageChanged(this,_currentPage);
+                OnPageChanged(this, _currentPage);
             }
         }
 
@@ -121,12 +151,12 @@ namespace JobSpace.UC
 
         public void ClearPreview()
         {
-            uc_PreviewControl1.SetImage(null,0,0);
+            uc_PreviewControl1.SetImage(null, 0, 0);
         }
 
         private void tsb_fit_to_window_CheckStateChanged(object sender, EventArgs e)
         {
-            uc_PreviewControl1.SetFitAndResetZoom(tsb_fit_to_window.Checked) ;
+            uc_PreviewControl1.SetFitAndResetZoom(tsb_fit_to_window.Checked);
         }
 
         public void SetPrimitives(List<IScreenPrimitive> primitives)
