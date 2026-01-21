@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using iText.Barcodes.Dmcode;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Create.Rectangle;
 using PDFlib_dotnet;
 using System;
@@ -29,8 +30,8 @@ namespace JobSpace.Static.Pdf.Create.FillRectangle
 
                 p.begin_document(filePath, "optimize=true");
 
-                double w = _param.Width * PdfHelper.mn;
-                double h = _param.Height * PdfHelper.mn;
+                double w = (_param.Width + _param.Bleeds*2) * PdfHelper.mn;
+                double h = (_param.Height + _param.Bleeds*2) * PdfHelper.mn;
 
                 p.begin_page_ext( w,h, "");
 
@@ -58,7 +59,12 @@ namespace JobSpace.Static.Pdf.Create.FillRectangle
                 p.rect(0,0,w,h);
                 p.fill();
 
-                p.end_page_ext("");
+                double trim_x = _param.Bleeds * PdfHelper.mn;
+                double trim_y = _param.Bleeds * PdfHelper.mn;
+                double trim_w = (_param.Bleeds + _param.Width) * PdfHelper.mn;
+                double trim_h = (_param.Bleeds + _param.Height) * PdfHelper.mn;
+                p.end_page_ext($"trimbox {{{trim_x} {trim_y} {trim_w} {trim_h}}}");
+                
                 p.end_document("");
 
 

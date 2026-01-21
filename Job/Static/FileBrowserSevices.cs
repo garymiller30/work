@@ -50,10 +50,8 @@ namespace JobSpace.Static
         {
             if (selectedObject != null && selectedObject is IFileSystemInfoExt fsi)
             {
-                using (var form = new FormVisualFalc(fsi))
-                {
-                    form.ShowDialog();
-                }
+                var form = new FormVisualFalc(fsi);
+                form.Show();
             }
         }
         public static void PDF_ConvertToPdf(IList files, Action action)
@@ -170,26 +168,11 @@ namespace JobSpace.Static
         public static void PDF_CreateBigovkaMarks(IList files)
         {
             if (files.Count == 0) return;
-            else if (files.Count == 1)
-            {
-                using (var form = new FormCreateBigovkaMarks((IFileSystemInfoExt)files[0]))
-                {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        FileFormatsUtil.CreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), form.BigovkaMarksParams);
-                    }
-                }
-            }
-            else
-            {
-                using (var form = new FormCreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().ToList()))
-                {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        FileFormatsUtil.CreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), form.BigovkaMarksParams);
-                    }
-                }
-            }
+
+            var form = new FormCreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().ToList());
+
+            form.Show();
+            
         }
         public static void PDF_ExtractPages(IList files)
         {
@@ -198,32 +181,9 @@ namespace JobSpace.Static
         }
         public static void PDF_CreateFillRectangle(string targetDir)
         {
-            using (var form = new FormCreateFillRectangle())
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    var color = form.PdfColorResult;
 
-                    FileFormatsUtil.CreateFillRectangle(new Static.Pdf.Create.Rectangle.PdfCreateFillRectangleParams
-                    {
-                        Width = (double)form.PdfWidth,
-                        Height = (double)form.PdfHeight,
-                        Lab = color.Lab,
-                        Color = new Pdf.Imposition.Models.MarkColor
-                        {
-                            IsSpot = color.IsSpot,
-                            C = (double)color.C,
-                            M = (double)color.M,
-                            Y = (double)color.Y,
-                            K = (double)color.K,
-                            Name = color.Name,
-                        },
-                        
-                        
-                    }, targetDir);
-
-                }
-            }
+            var form = new FormCreateFillRectangle(targetDir);
+            form.Show();
         }
         public static void PDF_ScaleFiles(IList files)
         {
@@ -840,10 +800,7 @@ namespace JobSpace.Static
                     }
                 },
             });
-
         }
-
-        
 
         public static Image File_GetPreview(IFileSystemInfoExt f, int pageIdx = 0)
         {
@@ -876,18 +833,14 @@ namespace JobSpace.Static
 
         public static void PDF_VisualHardCover(IFileSystemInfoExt f)
         {
-            using (var form = new FormVisualHardCover(f))
-            {
-                form.ShowDialog();
-            }
+            var form = new FormVisualHardCover(f);
+            form.Show();
         }
 
         public static void PDF_VisualTableCalendar(IFileSystemInfoExt f)
         {
-            using (var form = new FormVisualTableCalendar(f))
-            {
-                form.ShowDialog();
-            }
+            var form = new FormVisualTableCalendar(f);
+            form.Show();
         }
 
 

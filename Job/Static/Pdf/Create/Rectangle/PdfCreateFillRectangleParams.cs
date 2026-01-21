@@ -11,6 +11,7 @@ namespace JobSpace.Static.Pdf.Create.Rectangle
     {
         public double Width { get; set; }
         public double Height { get; set; }
+        public double Bleeds { get; set; }
         public MarkColor Color { get; set; } = new MarkColor();
         public string Lab { get;set;}
     }

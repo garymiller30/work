@@ -32,6 +32,12 @@ namespace JobSpace.UserForms
             _fileManager = fileManager;
             _renameAction = renameAction;
             AddToList(files);
+
+            //вибрати всі елементи
+            objectListView1.SelectAll();
+            // перейти до nud_tirag і вибрати все в ньому
+            nud_tirag.Focus();
+            nud_tirag.Select(0, nud_tirag.Text.Length);
         }
 
         private void AddToList(IEnumerable<IFileSystemInfoExt> files)
@@ -89,7 +95,7 @@ namespace JobSpace.UserForms
 
             foreach (FileTirag ft in objectListView1.SelectedObjects)
             {
-                ft.Tirag = Convert.ToInt32(numericUpDown1.Value);
+                ft.Tirag = Convert.ToInt32(nud_tirag.Value);
             }
 
             objectListView1.RefreshObjects(objectListView1.SelectedObjects);

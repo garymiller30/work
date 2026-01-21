@@ -48,6 +48,8 @@
             this.radioButtonSpot = new System.Windows.Forms.RadioButton();
             this.radioButtonCMYK = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
+            this.nud_bleed = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -56,10 +58,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.numY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_bleed)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.nud_bleed);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.numericUpDown2);
             this.groupBox1.Controls.Add(this.numericUpDown1);
             this.groupBox1.Controls.Add(this.label2);
@@ -73,7 +78,7 @@
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(71, 53);
+            this.numericUpDown2.Location = new System.Drawing.Point(71, 45);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             9999999,
             0,
@@ -97,7 +102,7 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(71, 25);
+            this.numericUpDown1.Location = new System.Drawing.Point(71, 17);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             99999999,
             0,
@@ -122,7 +127,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 55);
+            this.label2.Location = new System.Drawing.Point(20, 47);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 1;
@@ -131,7 +136,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 27);
+            this.label1.Location = new System.Drawing.Point(20, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(45, 13);
             this.label1.TabIndex = 0;
@@ -323,6 +328,32 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // nud_bleed
+            // 
+            this.nud_bleed.Location = new System.Drawing.Point(71, 74);
+            this.nud_bleed.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.nud_bleed.Name = "nud_bleed";
+            this.nud_bleed.Size = new System.Drawing.Size(69, 20);
+            this.nud_bleed.TabIndex = 5;
+            this.nud_bleed.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(20, 76);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(48, 13);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "на обріз";
+            // 
             // FormCreateFillRectangle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -346,6 +377,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_bleed)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -372,5 +404,7 @@
         private System.Windows.Forms.ComboBox comboBoxListTables;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panelColor;
+        private System.Windows.Forms.NumericUpDown nud_bleed;
+        private System.Windows.Forms.Label label7;
     }
 }

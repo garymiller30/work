@@ -33,13 +33,13 @@
             this.olvColumn_tirag = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.btn_ok = new System.Windows.Forms.Button();
             this.btn_set_tirag = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.nud_tirag = new System.Windows.Forms.NumericUpDown();
             this.btn_paste = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.l_total = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_tirag)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,7 +63,7 @@
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
             this.objectListView1.Size = new System.Drawing.Size(432, 318);
-            this.objectListView1.TabIndex = 0;
+            this.objectListView1.TabIndex = 2;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
             this.objectListView1.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.objectListView1_CellEditFinished);
@@ -89,7 +89,7 @@
             this.btn_ok.Location = new System.Drawing.Point(174, 405);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(116, 37);
-            this.btn_ok.TabIndex = 1;
+            this.btn_ok.TabIndex = 3;
             this.btn_ok.Text = "OK";
             this.btn_ok.UseVisualStyleBackColor = true;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
@@ -99,22 +99,22 @@
             this.btn_set_tirag.Location = new System.Drawing.Point(103, 15);
             this.btn_set_tirag.Name = "btn_set_tirag";
             this.btn_set_tirag.Size = new System.Drawing.Size(145, 23);
-            this.btn_set_tirag.TabIndex = 2;
+            this.btn_set_tirag.TabIndex = 1;
             this.btn_set_tirag.Text = "примінити до вибраних";
             this.btn_set_tirag.UseVisualStyleBackColor = true;
             this.btn_set_tirag.Click += new System.EventHandler(this.btn_set_tirag_Click);
             // 
-            // numericUpDown1
+            // nud_tirag
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(12, 16);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.nud_tirag.Location = new System.Drawing.Point(12, 16);
+            this.nud_tirag.Maximum = new decimal(new int[] {
             276447232,
             23283,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(85, 20);
-            this.numericUpDown1.TabIndex = 3;
+            this.nud_tirag.Name = "nud_tirag";
+            this.nud_tirag.Size = new System.Drawing.Size(85, 20);
+            this.nud_tirag.TabIndex = 0;
             // 
             // btn_paste
             // 
@@ -165,7 +165,7 @@
             this.ClientSize = new System.Drawing.Size(456, 454);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.btn_paste);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.nud_tirag);
             this.Controls.Add(this.btn_set_tirag);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.objectListView1);
@@ -173,7 +173,7 @@
             this.ShowIcon = false;
             this.Text = "Виставити тиражі";
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_tirag)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -187,7 +187,7 @@
         private BrightIdeasSoftware.OLVColumn olvColumn_name;
         private BrightIdeasSoftware.OLVColumn olvColumn_tirag;
         private System.Windows.Forms.Button btn_set_tirag;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown nud_tirag;
         private System.Windows.Forms.Button btn_paste;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label l_total;
