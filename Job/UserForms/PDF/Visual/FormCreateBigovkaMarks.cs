@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -18,7 +19,8 @@ namespace JobSpace.UserForms.PDF
 {
     public partial class FormCreateBigovkaMarks : Form
     {
-        FileInfo _fsi;
+        List<IFileSystemInfoExt> files;
+
         Pen big_pen = new Pen(Color.Green, 0.6f);
         Pen white_pen = new Pen(Color.White, 1.0f);
 
@@ -31,7 +33,7 @@ namespace JobSpace.UserForms.PDF
             InitializeComponent();
             cb_files.DisplayMember = "Name";
             cb_mirrorEven.DataBindings.Add("Enabled", radioButtonHor, "Checked");
-            
+
             InitUi();
             uc_PreviewBrowserFile1.OnPageChanged += (s, e) => { Draw(); };
             DialogResult = DialogResult.Cancel;
@@ -39,19 +41,17 @@ namespace JobSpace.UserForms.PDF
 
         public FormCreateBigovkaMarks(IFileSystemInfoExt fsi) : this()
         {
-            _fsi = new FileInfo( fsi.FileInfo.FullName);
-            
-            cb_files.Items.Add(_fsi);
+            files = new List<IFileSystemInfoExt>() { fsi };
+            cb_files.Items.Add(fsi);
             cb_files.SelectedIndex = 0;
         }
 
-        public FormCreateBigovkaMarks(List<IFileSystemInfoExt> infoExts): this()
+        public FormCreateBigovkaMarks(List<IFileSystemInfoExt> infoExts) : this()
         {
-            foreach (var fsi in infoExts)
-            {
-                FileInfo fi = new FileInfo(fsi.FileInfo.FullName);
-                cb_files.Items.Add(fi);
-            }
+            files = infoExts;
+
+            cb_files.Items.AddRange(files.ToArray());
+
             if (cb_files.Items.Count > 0)
             {
                 cb_files.SelectedIndex = 0;
@@ -69,6 +69,7 @@ namespace JobSpace.UserForms.PDF
             if (CreateParameters())
             {
                 DialogResult = DialogResult.OK;
+                FileFormatsUtil.CreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), BigovkaMarksParams);
                 Close();
             }
             else { MessageBox.Show("Перевір біговки"); return; }
@@ -155,12 +156,12 @@ namespace JobSpace.UserForms.PDF
                     break;
             }
 
-            uc_PreviewBrowserFile1.SetPrimitives( _primitives);
+            uc_PreviewBrowserFile1.SetPrimitives(_primitives);
         }
 
         private void DrawVerticalBigovki()
         {
-            
+
             var box = uc_PreviewBrowserFile1.GetCurrentPageInfo();
 
             float x_start = 0;
@@ -185,9 +186,9 @@ namespace JobSpace.UserForms.PDF
             float y_start = 0;
             float y_end = (float)box.Trimbox.hMM();
 
-            if (BigovkaMarksParams.MirrorEven && page_idx %2 == 1)
+            if (BigovkaMarksParams.MirrorEven && page_idx % 2 == 1)
             {
-                for (int i = BigovkaMarksParams.Bigovki.Length -1; i >=0 ; i--)
+                for (int i = BigovkaMarksParams.Bigovki.Length - 1; i >= 0; i--)
                 {
                     x += (float)BigovkaMarksParams.Bigovki[i];
 
@@ -223,10 +224,9 @@ namespace JobSpace.UserForms.PDF
 
         private void cb_files_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cb_files.SelectedItem is FileInfo fsi)
+            if (cb_files.SelectedItem is IFileSystemInfoExt fsi)
             {
-                _fsi = fsi;
-                uc_PreviewBrowserFile1.Show(fsi.ToFileSystemInfoExt());
+                uc_PreviewBrowserFile1.Show(fsi);
                 Draw();
             }
         }

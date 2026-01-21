@@ -77,6 +77,8 @@ namespace JobSpace.Models
         public bool IsDir { get; set; }
         public string CreatorApp { get=>_creatorApp ; set{ _creatorApp = value; OnPropertyChanged();} }
 
+        public string FullName => _fileInfo?.FullName;
+        public string Name => _fileInfo?.Name;
         public void RefreshParam(string fullPath)
         {
             var fsie = new FileSystemInfoExt(fullPath);

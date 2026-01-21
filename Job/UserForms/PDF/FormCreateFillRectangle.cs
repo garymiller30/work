@@ -1,4 +1,6 @@
 ﻿using JobSpace.Fasades;
+using JobSpace.Static;
+using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,7 +14,7 @@ namespace JobSpace.UserForms.PDF
     {
         const string PANTONE_PATH = "ColorTables";
         List<Models.ColorTable> pantone_tables = new List<Models.ColorTable>();
-
+        string _targetDir;
 
         public Models.PdfColorResult PdfColorResult { get; set; } = new Models.PdfColorResult();
         public decimal PdfWidth { get; set; }
@@ -22,6 +24,11 @@ namespace JobSpace.UserForms.PDF
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
+            
+        }
+        public FormCreateFillRectangle(string targetDir):this()
+        {
+            _targetDir = targetDir;
             LoadPantones();
         }
 
@@ -98,8 +105,26 @@ namespace JobSpace.UserForms.PDF
                 PdfColorResult.Name = $"{table._Prefix} {pantone._Name}";
             }
 
-            PdfWidth = numericUpDown1.Value;
-            PdfHeight = numericUpDown2.Value;
+            var color = PdfColorResult;
+
+            FileFormatsUtil.CreateFillRectangle(new Static.Pdf.Create.Rectangle.PdfCreateFillRectangleParams
+            {
+                Width = (double)numericUpDown1.Value,
+                Height = (double)numericUpDown2.Value,
+                Bleeds = (double)nud_bleed.Value,
+                Lab = color.Lab,
+                Color = new MarkColor
+                {
+                    IsSpot = color.IsSpot,
+                    C = (double)color.C,
+                    M = (double)color.M,
+                    Y = (double)color.Y,
+                    K = (double)color.K,
+                    Name = color.Name,
+                },
+
+
+            }, _targetDir);
 
             DialogResult = DialogResult.OK;
             Close();
