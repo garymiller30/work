@@ -44,6 +44,7 @@ namespace PluginFileshareWeb
             environment = await CoreWebView2Environment.CreateAsync(
                browserExecutableFolder: null,
                 userDataFolder: Path.Combine(Path.GetTempPath(), $"{Environment.UserName}", "aw_shares"),
+                
                 options);
         }
 
@@ -239,10 +240,10 @@ namespace PluginFileshareWeb
 
             CoreWebView2EnvironmentOptions options = new CoreWebView2EnvironmentOptions("--disable-features=msSmartScreenProtection");
 
-            var task = await CoreWebView2Environment.CreateAsync(
-               browserExecutableFolder: null,
-                userDataFolder: Path.Combine(userDataFolder),
-                options);
+            //CoreWebView2Environment task = await CoreWebView2Environment.CreateAsync(
+            //   browserExecutableFolder: null,
+            //    userDataFolder: Path.Combine(userDataFolder),
+            //    options);
             
 
             CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(
@@ -259,6 +260,7 @@ namespace PluginFileshareWeb
                 e.Action = CoreWebView2ServerCertificateErrorAction.AlwaysAllow;
             };
 
+            curwebView2.CoreWebView2.Settings.IsPasswordAutosaveEnabled = true;
 
             if (_curJob != null)
             {
