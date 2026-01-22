@@ -29,7 +29,7 @@ namespace JobSpace.UserForms.PDF.Visual
         NumericUpDown[] _deltas;
         Label[] _labels;
         FileInfo _fsi;
-        private Pen _redLinePen = new Pen(Color.Green, 0.6f);
+        private Pen _greenLinePen = new Pen(Color.Green, 0.6f);
         private Pen _whiteLinePen = new Pen(Color.White, 1f);
         decimal[] partsDelta;
         List<IScreenPrimitive> _primitives;
@@ -118,7 +118,7 @@ namespace JobSpace.UserForms.PDF.Visual
                     x += (float)((double)partsDelta[i]);
 
                     _primitives.Add(new ScreenLine(_whiteLinePen, x, 0, x, (float)page_h));
-                    _primitives.Add(new ScreenLine(_redLinePen, x, 0, x, (float)page_h));
+                    _primitives.Add(new ScreenLine(_greenLinePen, x, 0, x, (float)page_h));
                 }
             }
             else
@@ -128,13 +128,56 @@ namespace JobSpace.UserForms.PDF.Visual
                     x += (float)((double)partsDelta[i]);
 
                     _primitives.Add(new ScreenLine(_whiteLinePen, x, 0, x, (float)page_h));
-                    _primitives.Add(new ScreenLine(_redLinePen, x, 0, x, (float)page_h));
+                    _primitives.Add(new ScreenLine(_greenLinePen, x, 0, x, (float)page_h));
                 }
             }
+
+            DrawDimensions();
 
             uc_PreviewBrowserFile1.SetPrimitives(_primitives);
         }
 
+        private void DrawDimensions()
+        {
+            float x = 0;
+            float y = 5;
+            if (cb_mirrored_parts.Checked && uc_PreviewBrowserFile1.GetCurrentPageIdx() % 2 != 0)
+            {
+                for (int i = 0; i <= partsDelta.Length - 1; i++)
+                {
+                    var x_ofs = x+ (float)((double)partsDelta[i] / 2);
+                    
+
+
+                    ScreenText screenText = new ScreenText()
+                    {
+                        Text = (partsDelta[i]).ToString(),
+                        Location = new PointF(x_ofs, y)
+                    };
+
+                    _primitives.Add(screenText);
+                    x += (float)((double)partsDelta[i]);
+                }
+            }
+            else
+            {
+                for (int i = partsDelta.Length - 1; i >= 0; i--)
+                {
+                    var x_ofs = x + (float)((double)partsDelta[i] / 2);
+                    
+
+
+                    ScreenText screenText = new ScreenText()
+                    {
+                        Text = (partsDelta[i]).ToString(),
+                        Location = new PointF(x_ofs, y)
+                    };
+
+                    _primitives.Add(screenText);
+                    x += (float)((double)partsDelta[i]);
+                }
+            }
+        }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
