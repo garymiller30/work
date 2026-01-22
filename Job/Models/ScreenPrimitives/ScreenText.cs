@@ -23,7 +23,6 @@ namespace JobSpace.Models.ScreenPrimitives
             g.SmoothingMode = SmoothingMode.AntiAlias;
             using (var path = new GraphicsPath())
             {
-
                 using (Font font = new Font(FontName, FontSize, FontStyle))
                 {
                     using (SolidBrush brush = new SolidBrush(FontColor))
