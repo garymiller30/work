@@ -1,5 +1,6 @@
 ﻿using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Models;
+using Org.BouncyCastle.Utilities;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
@@ -35,14 +36,14 @@ namespace JobSpace.Static.Pdf.Create.Falc
                 MarkColor markColor = MarkColor.ProofColor;
 
                 p.begin_document(targetfile, "optimize=true");
-                
+
                 int doc = -1;
                 if (_param.IsMarkFile)
                 {
                     doc = p.open_pdi_document(filePath, "");
                 }
-                
-                foreach (var pageInfo in boxes)
+
+                foreach (PdfPageInfo pageInfo in boxes)
                 {
                     p.begin_page_ext(pageInfo.Mediabox.width, pageInfo.Mediabox.height, "");
 
@@ -53,9 +54,12 @@ namespace JobSpace.Static.Pdf.Create.Falc
                     if (_param.IsMarkFile)
                     {
                         p.begin_layer(l_print);
-                        var page_handle = p.open_pdi_page(doc, idx+1, "");
+                        var page_handle = p.open_pdi_page(doc, idx + 1, "");
                         p.fit_pdi_page(page_handle, 0, 0, "");
                         p.close_pdi_page(page_handle);
+
+                        DrawFalcMarks(p, pageInfo, idx);
+
                         p.end_layer();
                     }
 
@@ -118,6 +122,59 @@ namespace JobSpace.Static.Pdf.Create.Falc
             {
                 p?.Dispose();
             }
+        }
+
+        private void DrawFalcMarks(PDFlib p, PdfPageInfo pageInfo, int pageIdx)
+        {
+            var trimbox = pageInfo.Trimbox;
+
+            p.setcolor("fillstroke", "cmyk", 1, 0, 1, 0);
+            p.setlinewidth(1.5);
+
+            double x = trimbox.left;
+            double y = trimbox.bottom;
+
+            double distanceFromTrim = 2;
+            double markLength = 2;
+
+            y -= (distanceFromTrim + markLength) * PdfHelper.mn;
+
+            if (pageIdx % 2 == 0)
+            {
+                x = pageInfo.Mediabox.width - trimbox.right;
+                double xOfs = x;// + boxes.Media.left;
+
+                for (int i = 0; i < _param.PartsWidth.Length-1; i++)
+                {
+                    xOfs -= (double)_param.PartsWidth[i] * PdfHelper.mn;
+
+                    DrawHorLines(p, pageInfo, trimbox, xOfs, markLength, distanceFromTrim);
+                }
+            }
+            else
+            {
+            double xOfs = x; //+ pageInfo.Mediabox.left;
+            for (int i = 0; i < _param.PartsWidth.Length-1; i++)
+            {
+                xOfs += (double)_param.PartsWidth[i] * PdfHelper.mn;
+
+                DrawHorLines(p, pageInfo, trimbox, xOfs, markLength, distanceFromTrim);
+            }
+            }
+
+        }
+
+        private void DrawHorLines(PDFlib p, PdfPageInfo pageInfo, Box box,double xOfs, double markLength, double distanceFromTrim)
+        {
+            var yOfs = box.bottom - (distanceFromTrim + markLength) * PdfHelper.mn;
+
+            p.moveto(xOfs, yOfs);
+            p.lineto(xOfs, yOfs + markLength * PdfHelper.mn);
+            p.stroke();
+
+            p.moveto(xOfs, box.bottom + box.height + distanceFromTrim * PdfHelper.mn);
+            p.lineto(xOfs, box.bottom + box.height + (distanceFromTrim + markLength) * PdfHelper.mn);
+            p.stroke();
         }
     }
 }
