@@ -106,9 +106,6 @@ namespace JobSpace.UC
                     }
                     uc_PreviewControl1.StopWait();
                 }
-
-
-       
             }
 
             if (boxes_pages != null)
