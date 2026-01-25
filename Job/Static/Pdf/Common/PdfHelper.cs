@@ -505,5 +505,39 @@ namespace JobSpace.Static.Pdf.Common
             //}
             #endregion
         }
+
+        #region [Draw dimensions in pdf]
+        public static void DrawDimensionsY(PDFlib p, int spot, double x, double y, double value)
+        {
+            if (value == 0) return;
+            p.moveto(x * PdfHelper.mn, y * PdfHelper.mn);        // переместить курсор
+            p.lineto(x * PdfHelper.mn, (y + value) * PdfHelper.mn); // нарисовать
+            p.stroke();
+
+            String txt = value.ToString();
+
+            String cr_optlist = "fontname=Calibri fontsize=12 fillcolor={spot " + spot + " 1} encoding=unicode " +
+            "leading=100% alignment=center";
+
+            int tf = p.create_textflow(txt, cr_optlist);
+            p.fit_textflow(tf, x * PdfHelper.mn, y * PdfHelper.mn, (x - 5) * PdfHelper.mn, (y + value) * PdfHelper.mn, "orientate=west");
+            p.delete_textflow(tf);
+        }
+
+        public static void DrawDimensionsX(PDFlib p, int spot, double x, double y, double value)
+        {
+            if (value == 0) return;
+            p.moveto(x * PdfHelper.mn, y * PdfHelper.mn);
+            p.lineto((x + value) * PdfHelper.mn, y * PdfHelper.mn);
+            p.stroke();
+
+            String txt = value.ToString();
+            String cr_optlist = "fontname=Calibri fontsize=12 fillcolor={spot " + spot + " 1} encoding=unicode " +
+            "leading=100% alignment=center";
+            int tf = p.create_textflow(txt, cr_optlist);
+            p.fit_textflow(tf, x * PdfHelper.mn, y * PdfHelper.mn, (x + value) * PdfHelper.mn, (y + 5) * PdfHelper.mn, "");
+            p.delete_textflow(tf);
+        }
+        #endregion
     }
 }

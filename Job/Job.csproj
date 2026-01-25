@@ -504,6 +504,8 @@
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\VisualBlocknoteSpiral.cs" />
     <Compile Include="Static\Pdf\Visual\HardCover\HardCover.cs" />
     <Compile Include="Static\Pdf\Visual\HardCover\HardCoverParams.cs" />
+    <Compile Include="Static\Pdf\Visual\SoftCover\SoftCover.cs" />
+    <Compile Include="Static\Pdf\Visual\SoftCover\SoftCoverParams.cs" />
     <Compile Include="UC\PDF\Marks\ColorControlBar\Uc_ColorControlPalette.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1088,6 +1090,12 @@
     <Compile Include="UserForms\PDF\Visual\FormVisualHardCover.Designer.cs">
       <DependentUpon>FormVisualHardCover.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualSoftCover.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualSoftCover.Designer.cs">
+      <DependentUpon>FormVisualSoftCover.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\Visual\FormVisualTableCalendar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1404,6 +1412,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualHardCover.resx">
       <DependentUpon>FormVisualHardCover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualSoftCover.resx">
+      <DependentUpon>FormVisualSoftCover.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualTableCalendar.resx">
       <DependentUpon>FormVisualTableCalendar.cs</DependentUpon>
