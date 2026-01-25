@@ -144,7 +144,7 @@ namespace JobSpace.Static.Pdf.Create.Falc
                 x = pageInfo.Mediabox.width - trimbox.right;
                 double xOfs = x;// + boxes.Media.left;
 
-                for (int i = 0; i < _param.PartsWidth.Length-1; i++)
+                for (int i = 0; i < _param.PartsWidth.Length - 1; i++)
                 {
                     xOfs -= (double)_param.PartsWidth[i] * PdfHelper.mn;
 
@@ -153,18 +153,18 @@ namespace JobSpace.Static.Pdf.Create.Falc
             }
             else
             {
-            double xOfs = x; //+ pageInfo.Mediabox.left;
-            for (int i = 0; i < _param.PartsWidth.Length-1; i++)
-            {
-                xOfs += (double)_param.PartsWidth[i] * PdfHelper.mn;
+                double xOfs = x; //+ pageInfo.Mediabox.left;
+                for (int i = 0; i < _param.PartsWidth.Length - 1; i++)
+                {
+                    xOfs += (double)_param.PartsWidth[i] * PdfHelper.mn;
 
-                DrawHorLines(p, pageInfo, trimbox, xOfs, markLength, distanceFromTrim);
-            }
+                    DrawHorLines(p, pageInfo, trimbox, xOfs, markLength, distanceFromTrim);
+                }
             }
 
         }
 
-        private void DrawHorLines(PDFlib p, PdfPageInfo pageInfo, Box box,double xOfs, double markLength, double distanceFromTrim)
+        private void DrawHorLines(PDFlib p, PdfPageInfo pageInfo, Box box, double xOfs, double markLength, double distanceFromTrim)
         {
             var yOfs = box.bottom - (distanceFromTrim + markLength) * PdfHelper.mn;
 
