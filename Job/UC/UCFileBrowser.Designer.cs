@@ -176,6 +176,7 @@ namespace JobSpace.UC
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
+            this.мякаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -427,7 +428,7 @@ namespace JobSpace.UC
             this.додатиТираж000ToolStripMenuItem,
             this.отправитьВToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(309, 464);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(309, 486);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // предварительныйПросмотрToolStripMenuItem
@@ -570,7 +571,7 @@ namespace JobSpace.UC
             // пружинаToolStripMenuItem
             // 
             this.пружинаToolStripMenuItem.Name = "пружинаToolStripMenuItem";
-            this.пружинаToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.пружинаToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.пружинаToolStripMenuItem.Text = "пружина";
             this.пружинаToolStripMenuItem.Click += new System.EventHandler(this.пружинаToolStripMenuItem_Click);
             // 
@@ -580,7 +581,7 @@ namespace JobSpace.UC
             this.квартальнийToolStripMenuItem,
             this.настільнийToolStripMenuItem});
             this.календарToolStripMenuItem.Name = "календарToolStripMenuItem";
-            this.календарToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.календарToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.календарToolStripMenuItem.Text = "календар";
             // 
             // квартальнийToolStripMenuItem
@@ -589,56 +590,57 @@ namespace JobSpace.UC
             this.зєднатиБлокПо3МісяціToolStripMenuItem,
             this.підготуватиБлокДляДToolStripMenuItem});
             this.квартальнийToolStripMenuItem.Name = "квартальнийToolStripMenuItem";
-            this.квартальнийToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.квартальнийToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.квартальнийToolStripMenuItem.Text = "квартальний";
             // 
             // зєднатиБлокПо3МісяціToolStripMenuItem
             // 
             this.зєднатиБлокПо3МісяціToolStripMenuItem.Name = "зєднатиБлокПо3МісяціToolStripMenuItem";
-            this.зєднатиБлокПо3МісяціToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.зєднатиБлокПо3МісяціToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.зєднатиБлокПо3МісяціToolStripMenuItem.Text = "з\'єднати блок по 3 місяці";
             this.зєднатиБлокПо3МісяціToolStripMenuItem.Click += new System.EventHandler(this.зєднатиБлокПо3МісяціToolStripMenuItem_Click);
             // 
             // підготуватиБлокДляДToolStripMenuItem
             // 
             this.підготуватиБлокДляДToolStripMenuItem.Name = "підготуватиБлокДляДToolStripMenuItem";
-            this.підготуватиБлокДляДToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.підготуватиБлокДляДToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.підготуватиБлокДляДToolStripMenuItem.Text = "блок (14 > 36)";
             this.підготуватиБлокДляДToolStripMenuItem.Click += new System.EventHandler(this.підготуватиБлокДляДToolStripMenuItem_Click);
             // 
             // настільнийToolStripMenuItem
             // 
             this.настільнийToolStripMenuItem.Name = "настільнийToolStripMenuItem";
-            this.настільнийToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.настільнийToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.настільнийToolStripMenuItem.Text = "настільний (пружина)";
             this.настільнийToolStripMenuItem.Click += new System.EventHandler(this.настільнийToolStripMenuItem_Click);
             // 
             // створитиМіткиДляБіговкиToolStripMenuItem
             // 
             this.створитиМіткиДляБіговкиToolStripMenuItem.Name = "створитиМіткиДляБіговкиToolStripMenuItem";
-            this.створитиМіткиДляБіговкиToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.створитиМіткиДляБіговкиToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.створитиМіткиДляБіговкиToolStripMenuItem.Text = "біговка";
             this.створитиМіткиДляБіговкиToolStripMenuItem.Click += new System.EventHandler(this.створитиМіткиДляБіговкиToolStripMenuItem_Click);
             // 
             // фальцовкаToolStripMenuItem
             // 
             this.фальцовкаToolStripMenuItem.Name = "фальцовкаToolStripMenuItem";
-            this.фальцовкаToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.фальцовкаToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.фальцовкаToolStripMenuItem.Text = "намотувальне фальцювання";
             this.фальцовкаToolStripMenuItem.Click += new System.EventHandler(this.фальцовкаToolStripMenuItem_Click);
             // 
             // палітуркаToolStripMenuItem
             // 
             this.палітуркаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.твердаToolStripMenuItem});
+            this.твердаToolStripMenuItem,
+            this.мякаToolStripMenuItem});
             this.палітуркаToolStripMenuItem.Name = "палітуркаToolStripMenuItem";
-            this.палітуркаToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.палітуркаToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.палітуркаToolStripMenuItem.Text = "палітурка";
             // 
             // твердаToolStripMenuItem
             // 
             this.твердаToolStripMenuItem.Name = "твердаToolStripMenuItem";
-            this.твердаToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.твердаToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.твердаToolStripMenuItem.Text = "тверда";
             this.твердаToolStripMenuItem.Click += new System.EventHandler(this.твердаToolStripMenuItem_Click);
             // 
@@ -1447,6 +1449,13 @@ namespace JobSpace.UC
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
             // 
+            // мякаToolStripMenuItem
+            // 
+            this.мякаToolStripMenuItem.Name = "мякаToolStripMenuItem";
+            this.мякаToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.мякаToolStripMenuItem.Text = "м\'яка";
+            this.мякаToolStripMenuItem.Click += new System.EventHandler(this.мякаToolStripMenuItem_Click);
+            // 
             // UCFileBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1635,5 +1644,6 @@ namespace JobSpace.UC
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
         private BrightIdeasSoftware.OLVColumn olvColumnCreatorApp;
+        private System.Windows.Forms.ToolStripMenuItem мякаToolStripMenuItem;
     }
 }

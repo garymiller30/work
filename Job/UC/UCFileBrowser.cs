@@ -1373,5 +1373,13 @@ namespace JobSpace.UC
                 FileBrowserSevices.PDF_VisualTableCalendar(f);
             }
         }
+
+        private void мякаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is IFileSystemInfoExt f)
+            {
+                FileBrowserSevices.PDF_VisualSoftCover(f);
+            }
+        }
     }
 }

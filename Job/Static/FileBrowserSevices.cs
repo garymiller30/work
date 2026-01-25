@@ -843,6 +843,12 @@ namespace JobSpace.Static
             form.Show();
         }
 
+        public static void PDF_VisualSoftCover(IFileSystemInfoExt f)
+        {
+            var form = new FormVisualSoftCover(f);
+            form.Show();
+        }
+
 
         #endregion
     }
