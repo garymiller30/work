@@ -287,73 +287,103 @@ namespace JobSpace.Static.Pdf.Common
         {
             var box = GetPageInfo(fsi.FullName, pageIndex);
 
-            // Open FileStream and use PDFiumSharp stream constructor to avoid loading whole file into memory
-            using (var fs = System.IO.File.Open(fsi.FullName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
+            using (var fs = File.Open(fsi.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                // PdfDocument(Stream, FPDF_FILEREAD, Int32, string) requires the file-length as Int32.
                 if (fs.Length > int.MaxValue)
-                    throw new NotSupportedException("PDF too large to open via PDFiumSharp stream constructor (file length > Int32.MaxValue).");
+                    throw new NotSupportedException("PDF too large");
 
                 int length = (int)fs.Length;
                 var fr = CreateFileReadStruct(fs);
 
                 using (var document = new PDFiumSharp.PdfDocument(fs, fr, length, null))
+                using (var page = document.Pages[pageIndex])
                 {
-                    using (var page = document.Pages[pageIndex])
+                    double scale = dpi / 72.0;
+
+                    int pagePxW = (int)Math.Ceiling(page.Width * scale);
+                    int pagePxH = (int)Math.Ceiling(page.Height * scale);
+
+                    using (var pdfiumBmp = new PDFiumBitmap(pagePxW, pagePxH, true))
                     {
-                        double scale = dpi / 72.0;
-                        int pagePxW = (int)Math.Ceiling(page.Width * scale);
-                        int pagePxH = (int)Math.Ceiling(page.Height * scale);
+                        page.Render(
+                            pdfiumBmp,
+                            (0, 0, pagePxW, pagePxH),
+                            PDFiumSharp.Enums.PageOrientations.Normal,
+                            PDFiumSharp.Enums.RenderingFlags.Annotations |
+                            PDFiumSharp.Enums.RenderingFlags.LcdText |
+                            PDFiumSharp.Enums.RenderingFlags.Printing
+                        );
 
-                        // Create PDFiumBitmap for rendering
-                        using (var pdfiumBmp = new PDFiumBitmap(pagePxW, pagePxH, true))
+                        using (var bmpStream = pdfiumBmp.AsBmpStream(dpi, dpi))
+                        using (var fullBmp = new Bitmap(bmpStream))
                         {
-                            page.Render(
-                                pdfiumBmp,
-                                (0, 0, pagePxW, pagePxH),
-                                PDFiumSharp.Enums.PageOrientations.Normal,
-                                PDFiumSharp.Enums.RenderingFlags.Annotations | PDFiumSharp.Enums.RenderingFlags.LcdText
-                            );
+                            // TrimBox у PDF координатах (bottom-left)
+                            double l = box.Trimbox.left * scale;
+                            double b = box.Trimbox.bottom * scale;
+                            double w = box.Trimbox.width * scale;
+                            double h = box.Trimbox.height * scale;
 
-                            // Convert PDFiumBitmap to System.Drawing.Bitmap
-                            using (var bmpStream = pdfiumBmp.AsBmpStream(dpi, dpi))
+                            int rotation = 0;
+                            rotation = ((int)box.Rotate) % 360;
+
+                            System.Drawing.Rectangle crop;
+
+                            switch (rotation)
                             {
-                                using (var fullBmp = new Bitmap(bmpStream))
-                                {
-                                    double trimLeft = box.Trimbox.left,
-                                            trimTop = box.Trimbox.top,
-                                            trimWidth = box.Trimbox.width,
-                                            trimHeight = box.Trimbox.height;
+                                case 0:
+                                    crop = new System.Drawing.Rectangle(
+                                        (int)Math.Round(l),
+                                        (int)Math.Round(pagePxH - b - h),
+                                        (int)Math.Round(w),
+                                        (int)Math.Round(h)
+                                    );
+                                    break;
 
-                                    int trimX = (int)Math.Round(trimLeft * scale);
-                                    int trimYTop = (int)Math.Round(trimTop * scale);
-                                    int trimW = (int)Math.Round(trimWidth * scale);
-                                    int trimH = (int)Math.Round(trimHeight * scale);
+                                case 90:
+                                    crop = new System.Drawing.Rectangle(
+                                        (int)Math.Round(b),
+                                        (int)Math.Round(l),
+                                        (int)Math.Round(h),
+                                        (int)Math.Round(w)
+                                    );
+                                    break;
 
-                                    // Convert PDF bottom-left origin to bitmap top-left origin correctly:
-                                    int trimY = pagePxH - trimYTop - trimH;
+                                case 180:
+                                    crop = new System.Drawing.Rectangle(
+                                        (int)Math.Round(pagePxW - l - w),
+                                        (int)Math.Round(b),
+                                        (int)Math.Round(w),
+                                        (int)Math.Round(h)
+                                    );
+                                    break;
 
-                                    // Clamp to image bounds
-                                    var requested = new System.Drawing.Rectangle(trimX, trimY, trimW, trimH);
-                                    var imageRect = new System.Drawing.Rectangle(0, 0, pagePxW, pagePxH);
-                                    var crop = System.Drawing.Rectangle.Intersect(requested, imageRect);
+                                case 270:
+                                    crop = new System.Drawing.Rectangle(
+                                        (int)Math.Round(pagePxW - b - h),
+                                        (int)Math.Round(pagePxH - l - w),
+                                        (int)Math.Round(h),
+                                        (int)Math.Round(w)
+                                    );
+                                    break;
 
-                                    // Validate crop before cloning
-                                    if (crop.Width <= 0 || crop.Height <= 0)
-                                    {
-                                        return new Bitmap(fullBmp);
-                                    }
-
-                                    var preview = fullBmp.Clone(crop, fullBmp.PixelFormat);
-
-                                    return preview;
-                                }
+                                default:
+                                    crop = new System.Drawing.Rectangle(0, 0, pagePxW, pagePxH);
+                                    break;
                             }
+
+                            System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(0, 0, pagePxW, pagePxH);
+                            crop = System.Drawing.Rectangle.Intersect(crop, bounds);
+
+                            if (crop.Width <= 0 || crop.Height <= 0)
+                                return new Bitmap(fullBmp);
+
+                            return fullBmp.Clone(crop, fullBmp.PixelFormat);
                         }
                     }
                 }
             }
         }
+
         private static PDFiumSharp.Types.FPDF_FILEREAD CreateFileReadStruct(System.IO.FileStream fs)
         {
             // Delegate signature: bool Handler(IntPtr fileAccess, int position, IntPtr buffer, int size)
