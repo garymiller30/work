@@ -11,6 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -23,7 +24,7 @@ namespace JobSpace.UserForms.PDF.Visual
         public FormVisualHardCover(IFileSystemInfoExt f)
         {
             InitializeComponent();
-            
+
             _fileInfo = f;
         }
 
@@ -44,7 +45,7 @@ namespace JobSpace.UserForms.PDF.Visual
             nud_total_width.Value = nud_root.Value + (nud_width.Value + nud_rastav.Value + nud_zagyn.Value) * 2;
             nud_total_height.Value = nud_height.Value + (nud_zagyn.Value * 2);
             DrawSchema();
-            
+
         }
 
         private void DrawSchema()
@@ -99,12 +100,14 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void btn_create_schema_Click(object sender, EventArgs e)
         {
-            new HardCover(new HardCoverParams { Height = (double)nud_height.Value,
-                                               Width = (double)nud_width.Value,
-                                               Zagyn = (double)nud_zagyn.Value,
-                                               Rastav = (double)nud_rastav.Value,
-                                               Root = (double)nud_root.Value,
-                                               FolderOutput = Path.GetDirectoryName(_fileInfo.FileInfo.FullName)
+            new HardCover(new HardCoverParams
+            {
+                Height = (double)nud_height.Value,
+                Width = (double)nud_width.Value,
+                Zagyn = (double)nud_zagyn.Value,
+                Rastav = (double)nud_rastav.Value,
+                Root = (double)nud_root.Value,
+                FolderOutput = Path.GetDirectoryName(_fileInfo.FileInfo.FullName)
             }).Run();
         }
 
@@ -119,6 +122,78 @@ namespace JobSpace.UserForms.PDF.Visual
                 Root = (double)nud_root.Value,
                 FolderOutput = Path.GetDirectoryName(_fileInfo.FileInfo.FullName)
             }).Run(_fileInfo.FileInfo.FullName);
+
+        }
+
+        private void btn_save_schema_Click(object sender, EventArgs e)
+        {
+            using (Ookii.Dialogs.WinForms.VistaSaveFileDialog sfd = new Ookii.Dialogs.WinForms.VistaSaveFileDialog())
+            {
+                sfd.Filter = "Hard Cover Schema|*.hcschema";
+                sfd.DefaultExt = ".hcschema";
+                sfd.AddExtension = true;
+                sfd.RestoreDirectory = false;
+                sfd.InitialDirectory = Path.GetDirectoryName(_fileInfo.FileInfo.FullName);
+                sfd.FileName = Path.Combine(Path.GetDirectoryName(_fileInfo.FullName), Path.GetFileNameWithoutExtension(_fileInfo.FileInfo.Name) + ".hcschema");
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        HardCoverParams hcp = new HardCoverParams
+                        {
+                            Height = (double)nud_height.Value,
+                            Width = (double)nud_width.Value,
+                            Zagyn = (double)nud_zagyn.Value,
+                            Rastav = (double)nud_rastav.Value,
+                            Root = (double)nud_root.Value
+                        };
+                        var strJson = System.Text.Json.JsonSerializer.Serialize<HardCoverParams>(hcp, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+                        File.WriteAllText(sfd.FileName, strJson);
+                    }
+                    catch (Exception error)
+                    {
+                        MessageBox.Show("Error save schema: " + error.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void btn_load_schema_Click(object sender, EventArgs e)
+        {
+            using (Ookii.Dialogs.WinForms.VistaOpenFileDialog ofd = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            {
+                ofd.Filter = "Hard Cover Schema|*.hcschema";
+                ofd.DefaultExt = ".hcschema";
+                ofd.AddExtension = true;
+                ofd.InitialDirectory = Path.GetDirectoryName(_fileInfo.FileInfo.FullName);
+                ofd.FileName = Path.Combine(Path.GetDirectoryName(_fileInfo.FullName), Path.GetFileNameWithoutExtension(_fileInfo.FileInfo.Name) + ".hcschema");
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // відкриваємо .json файл
+                        var strJson = File.ReadAllText(ofd.FileName);
+                        HardCoverParams hcp = System.Text.Json.JsonSerializer.Deserialize<HardCoverParams>(strJson);
+                        nud_height.Value = (decimal)hcp.Height;
+                        nud_width.Value = (decimal)hcp.Width;
+                        nud_zagyn.Value = (decimal)hcp.Zagyn;
+                        nud_rastav.Value = (decimal)hcp.Rastav;
+                        nud_root.Value = (decimal)hcp.Root;
+                        ShowTotalCoverSize();
+                    }
+                    catch (Exception error)
+                    {
+                        MessageBox.Show("Error load schema: " + error.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void nud_Enter(object sender, EventArgs e)
+        {
+            // віділиняємо все в NumericUpDown при фокусі
+            NumericUpDown nud = sender as NumericUpDown;
+            nud.Select(0, nud.Text.Length);
 
         }
     }

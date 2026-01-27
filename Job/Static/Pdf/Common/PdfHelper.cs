@@ -157,7 +157,7 @@ namespace JobSpace.Static.Pdf.Common
             return list;
         }
 
-        public static PdfPageInfo GetPageInfo(string path,int pageIdx = 0)
+        public static PdfPageInfo GetPageInfo(string path, int pageIdx = 0)
         {
             PdfPageInfo pdfPageInfo = new PdfPageInfo();
             PDFlib p = null;
@@ -205,7 +205,7 @@ namespace JobSpace.Static.Pdf.Common
             return pdfPageInfo;
         }
 
-        public static void SetFillStroke(PDFlib p,ColorPalette palette, PrimitiveAbstract primitive)
+        public static void SetFillStroke(PDFlib p, ColorPalette palette, PrimitiveAbstract primitive)
         {
             var t = (primitive.Tint / 100);
 
@@ -216,13 +216,13 @@ namespace JobSpace.Static.Pdf.Common
             {
                 if (fill.IsSpot)
                 {
-                    SetColor(p,"fill",fill,1);
+                    SetColor(p, "fill", fill, 1);
                     int spot = p.makespotcolor(fill.Name);
                     p.setcolor("fill", "spot", spot, t, 0.0, 0.0);
                 }
                 else
                 {
-                    SetColor(p,"fill",fill,t);
+                    SetColor(p, "fill", fill, t);
                 }
             }
 
@@ -230,13 +230,13 @@ namespace JobSpace.Static.Pdf.Common
             {
                 if (stroke.IsSpot)
                 {
-                    SetColor(p,"stroke",stroke,1);
+                    SetColor(p, "stroke", stroke, 1);
                     int spot = p.makespotcolor(stroke.Name);
                     p.setcolor("stroke", "spot", spot, t, 0.0, 0.0);
                 }
                 else
                 {
-                    SetColor(p,"stroke",stroke,t);
+                    SetColor(p, "stroke", stroke, t);
                 }
             }
         }
@@ -285,7 +285,7 @@ namespace JobSpace.Static.Pdf.Common
         }
         public static Bitmap RenderByTrimBox(FileInfo fsi, int pageIndex, int dpi = 150)
         {
-            var box = GetPageInfo(fsi.FullName,pageIndex);
+            var box = GetPageInfo(fsi.FullName, pageIndex);
 
             // Open FileStream and use PDFiumSharp stream constructor to avoid loading whole file into memory
             using (var fs = System.IO.File.Open(fsi.FullName, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
@@ -459,11 +459,11 @@ namespace JobSpace.Static.Pdf.Common
             }
             catch (IOException ex)
             {
-                
+
             }
             catch (Exception ex)
             {
-                
+
             }
             #endregion
 

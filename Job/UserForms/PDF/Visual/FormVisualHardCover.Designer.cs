@@ -43,9 +43,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             this.btn_create_schema = new System.Windows.Forms.Button();
             this.btn_apply_schema = new System.Windows.Forms.Button();
+            this.btn_save_schema = new System.Windows.Forms.Button();
+            this.btn_load_schema = new System.Windows.Forms.Button();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_width)).BeginInit();
@@ -170,6 +172,7 @@
             0,
             0});
             this.nud_zagyn.ValueChanged += new System.EventHandler(this.nud_width_ValueChanged);
+            this.nud_zagyn.Enter += new System.EventHandler(this.nud_Enter);
             // 
             // nud_rastav
             // 
@@ -194,6 +197,7 @@
             0,
             0});
             this.nud_rastav.ValueChanged += new System.EventHandler(this.nud_width_ValueChanged);
+            this.nud_rastav.Enter += new System.EventHandler(this.nud_Enter);
             // 
             // nud_root
             // 
@@ -218,6 +222,7 @@
             0,
             0});
             this.nud_root.ValueChanged += new System.EventHandler(this.nud_width_ValueChanged);
+            this.nud_root.Enter += new System.EventHandler(this.nud_Enter);
             // 
             // nud_height
             // 
@@ -242,6 +247,7 @@
             0,
             0});
             this.nud_height.ValueChanged += new System.EventHandler(this.nud_width_ValueChanged);
+            this.nud_height.Enter += new System.EventHandler(this.nud_Enter);
             // 
             // nud_width
             // 
@@ -266,6 +272,7 @@
             0,
             0});
             this.nud_width.ValueChanged += new System.EventHandler(this.nud_width_ValueChanged);
+            this.nud_width.Enter += new System.EventHandler(this.nud_Enter);
             // 
             // label5
             // 
@@ -312,6 +319,46 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "ширина сторінки, мм";
             // 
+            // btn_create_schema
+            // 
+            this.btn_create_schema.Location = new System.Drawing.Point(125, 264);
+            this.btn_create_schema.Name = "btn_create_schema";
+            this.btn_create_schema.Size = new System.Drawing.Size(93, 37);
+            this.btn_create_schema.TabIndex = 0;
+            this.btn_create_schema.Text = "створити схему";
+            this.btn_create_schema.UseVisualStyleBackColor = true;
+            this.btn_create_schema.Click += new System.EventHandler(this.btn_create_schema_Click);
+            // 
+            // btn_apply_schema
+            // 
+            this.btn_apply_schema.Location = new System.Drawing.Point(125, 307);
+            this.btn_apply_schema.Name = "btn_apply_schema";
+            this.btn_apply_schema.Size = new System.Drawing.Size(93, 37);
+            this.btn_apply_schema.TabIndex = 1;
+            this.btn_apply_schema.Text = "файл + схема";
+            this.btn_apply_schema.UseVisualStyleBackColor = true;
+            this.btn_apply_schema.Click += new System.EventHandler(this.btn_apply_schema_Click);
+            // 
+            // btn_save_schema
+            // 
+            this.btn_save_schema.Location = new System.Drawing.Point(12, 264);
+            this.btn_save_schema.Name = "btn_save_schema";
+            this.btn_save_schema.Size = new System.Drawing.Size(93, 37);
+            this.btn_save_schema.TabIndex = 2;
+            this.btn_save_schema.Text = "зберегти схему";
+            this.btn_save_schema.UseVisualStyleBackColor = true;
+            this.btn_save_schema.Click += new System.EventHandler(this.btn_save_schema_Click);
+            // 
+            // btn_load_schema
+            // 
+            this.btn_load_schema.Location = new System.Drawing.Point(12, 307);
+            this.btn_load_schema.Name = "btn_load_schema";
+            this.btn_load_schema.Size = new System.Drawing.Size(93, 37);
+            this.btn_load_schema.TabIndex = 3;
+            this.btn_load_schema.Text = "завантажити схему";
+            this.btn_load_schema.UseVisualStyleBackColor = true;
+            this.btn_load_schema.Click += new System.EventHandler(this.btn_load_schema_Click);
+            // 
             // uc_PreviewBrowserFile1
             // 
             this.uc_PreviewBrowserFile1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -322,31 +369,13 @@
             this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(564, 426);
             this.uc_PreviewBrowserFile1.TabIndex = 1;
             // 
-            // btn_create_schema
-            // 
-            this.btn_create_schema.Location = new System.Drawing.Point(52, 264);
-            this.btn_create_schema.Name = "btn_create_schema";
-            this.btn_create_schema.Size = new System.Drawing.Size(114, 37);
-            this.btn_create_schema.TabIndex = 0;
-            this.btn_create_schema.Text = "створити схему";
-            this.btn_create_schema.UseVisualStyleBackColor = true;
-            this.btn_create_schema.Click += new System.EventHandler(this.btn_create_schema_Click);
-            // 
-            // btn_apply_schema
-            // 
-            this.btn_apply_schema.Location = new System.Drawing.Point(52, 307);
-            this.btn_apply_schema.Name = "btn_apply_schema";
-            this.btn_apply_schema.Size = new System.Drawing.Size(114, 37);
-            this.btn_apply_schema.TabIndex = 1;
-            this.btn_apply_schema.Text = "файл + схема";
-            this.btn_apply_schema.UseVisualStyleBackColor = true;
-            this.btn_apply_schema.Click += new System.EventHandler(this.btn_apply_schema_Click);
-            // 
             // FormVisualHardCover
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btn_load_schema);
+            this.Controls.Add(this.btn_save_schema);
             this.Controls.Add(this.btn_apply_schema);
             this.Controls.Add(this.btn_create_schema);
             this.Controls.Add(this.uc_PreviewBrowserFile1);
@@ -388,5 +417,7 @@
         private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
         private System.Windows.Forms.Button btn_create_schema;
         private System.Windows.Forms.Button btn_apply_schema;
+        private System.Windows.Forms.Button btn_save_schema;
+        private System.Windows.Forms.Button btn_load_schema;
     }
 }
