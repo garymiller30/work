@@ -1,6 +1,7 @@
 ﻿using Interfaces;
 using JobSpace.Models.ScreenPrimitives;
 using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Visual.HardCover;
 using JobSpace.Static.Pdf.Visual.SoftCover;
 using System;
 using System.Collections.Generic;
@@ -134,6 +135,75 @@ namespace JobSpace.UserForms.PDF.Visual
                 FolderOutput = Path.GetDirectoryName(_fileInfo.FullName),
 
             }).Run(_fileInfo.FullName);
+        }
+
+        private void nud_Enter(object sender, EventArgs e)
+        {
+            // Select all text when entering numeric up-down
+            NumericUpDown nud = sender as NumericUpDown;
+            nud.Select(0, nud.Text.Length);
+        }
+
+        private void btn_save_schema_Click(object sender, EventArgs e)
+        {
+            using (Ookii.Dialogs.WinForms.VistaSaveFileDialog sfd = new Ookii.Dialogs.WinForms.VistaSaveFileDialog())
+            {
+                sfd.Filter = "Soft Cover Schema|*.scschema";
+                sfd.DefaultExt = ".scschema";
+                sfd.AddExtension = true;
+                sfd.RestoreDirectory = false;
+                sfd.InitialDirectory = Path.GetDirectoryName(_fileInfo.FullName);
+                sfd.FileName = Path.Combine(Path.GetDirectoryName(_fileInfo.FullName), Path.GetFileNameWithoutExtension(_fileInfo.Name) + ".scschema");
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    SoftCoverParams schema = new SoftCoverParams
+                    {
+                        Bleed = (double)nud_bleed.Value,
+                        Width = (double)nud_width.Value,
+                        Height = (double)nud_height.Value,
+                        LeftKlapan = (double)nud_left_klapan.Value,
+                        RightKlapan = (double)nud_right_klapan.Value,
+                        Root = (double)nud_root.Value,
+                    };
+                    var strJson = System.Text.Json.JsonSerializer.Serialize<SoftCoverParams>(schema, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+                    File.WriteAllText(sfd.FileName, strJson);
+
+                }
+            }
+        }
+
+        private void btn_load_schema_Click(object sender, EventArgs e)
+        {
+            using (Ookii.Dialogs.WinForms.VistaOpenFileDialog ofd = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            {
+                ofd.Filter = "Hard Cover Schema|*.scschema";
+                ofd.DefaultExt = ".scschema";
+                ofd.AddExtension = true;
+                ofd.InitialDirectory = Path.GetDirectoryName(_fileInfo.FileInfo.FullName);
+                ofd.FileName = Path.Combine(Path.GetDirectoryName(_fileInfo.FullName), Path.GetFileNameWithoutExtension(_fileInfo.FileInfo.Name) + ".hcschema");
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // відкриваємо .json файл
+                        var strJson = File.ReadAllText(ofd.FileName);
+                        SoftCoverParams hcp = System.Text.Json.JsonSerializer.Deserialize<SoftCoverParams>(strJson);
+                        nud_bleed.Value = (decimal)hcp.Bleed;
+                        nud_width.Value = (decimal)hcp.Width;
+                        nud_height.Value = (decimal)hcp.Height;
+                        nud_left_klapan.Value = (decimal)hcp.LeftKlapan;
+                        nud_right_klapan.Value = (decimal)hcp.RightKlapan;
+                        nud_root.Value = (decimal)hcp.Root;
+
+                        ShowTotalCoverSize();
+                    }
+                    catch (Exception error)
+                    {
+                        MessageBox.Show("Error load schema: " + error.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+
         }
     }
 }
