@@ -67,6 +67,8 @@
             this.btn_create_schema = new System.Windows.Forms.Button();
             this.btn_mark_file = new System.Windows.Forms.Button();
             this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
+            this.btn_load_schema = new System.Windows.Forms.Button();
+            this.btn_save_schema = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.gb_p1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -574,12 +576,11 @@
             // 
             // cb_mirrored_parts
             // 
-            this.cb_mirrored_parts.AutoSize = true;
             this.cb_mirrored_parts.Checked = true;
             this.cb_mirrored_parts.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_mirrored_parts.Location = new System.Drawing.Point(242, 33);
+            this.cb_mirrored_parts.Location = new System.Drawing.Point(240, 18);
             this.cb_mirrored_parts.Name = "cb_mirrored_parts";
-            this.cb_mirrored_parts.Size = new System.Drawing.Size(193, 17);
+            this.cb_mirrored_parts.Size = new System.Drawing.Size(138, 45);
             this.cb_mirrored_parts.TabIndex = 6;
             this.cb_mirrored_parts.Text = "Дзеркально на парних сторінках";
             this.cb_mirrored_parts.UseVisualStyleBackColor = true;
@@ -587,9 +588,9 @@
             // 
             // btn_create_schema
             // 
-            this.btn_create_schema.Location = new System.Drawing.Point(491, 15);
+            this.btn_create_schema.Location = new System.Drawing.Point(413, 18);
             this.btn_create_schema.Name = "btn_create_schema";
-            this.btn_create_schema.Size = new System.Drawing.Size(127, 48);
+            this.btn_create_schema.Size = new System.Drawing.Size(79, 42);
             this.btn_create_schema.TabIndex = 9;
             this.btn_create_schema.Text = "створити схему";
             this.btn_create_schema.UseVisualStyleBackColor = true;
@@ -597,11 +598,11 @@
             // 
             // btn_mark_file
             // 
-            this.btn_mark_file.Location = new System.Drawing.Point(624, 18);
+            this.btn_mark_file.Location = new System.Drawing.Point(498, 18);
             this.btn_mark_file.Name = "btn_mark_file";
-            this.btn_mark_file.Size = new System.Drawing.Size(127, 42);
+            this.btn_mark_file.Size = new System.Drawing.Size(81, 42);
             this.btn_mark_file.TabIndex = 10;
-            this.btn_mark_file.Text = "розмітити файл";
+            this.btn_mark_file.Text = "файл + схема";
             this.btn_mark_file.UseVisualStyleBackColor = true;
             this.btn_mark_file.Click += new System.EventHandler(this.btn_mark_file_Click);
             // 
@@ -612,14 +613,36 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(12, 171);
             this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
-            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(735, 450);
+            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(739, 450);
             this.uc_PreviewBrowserFile1.TabIndex = 11;
+            // 
+            // btn_load_schema
+            // 
+            this.btn_load_schema.Location = new System.Drawing.Point(670, 18);
+            this.btn_load_schema.Name = "btn_load_schema";
+            this.btn_load_schema.Size = new System.Drawing.Size(81, 42);
+            this.btn_load_schema.TabIndex = 13;
+            this.btn_load_schema.Text = "заватажити схему";
+            this.btn_load_schema.UseVisualStyleBackColor = true;
+            this.btn_load_schema.Click += new System.EventHandler(this.btn_load_schema_Click);
+            // 
+            // btn_save_schema
+            // 
+            this.btn_save_schema.Location = new System.Drawing.Point(585, 18);
+            this.btn_save_schema.Name = "btn_save_schema";
+            this.btn_save_schema.Size = new System.Drawing.Size(79, 42);
+            this.btn_save_schema.TabIndex = 12;
+            this.btn_save_schema.Text = "зберегти схему";
+            this.btn_save_schema.UseVisualStyleBackColor = true;
+            this.btn_save_schema.Click += new System.EventHandler(this.btn_save_schema_Click);
             // 
             // FormVisualFalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(759, 633);
+            this.ClientSize = new System.Drawing.Size(763, 633);
+            this.Controls.Add(this.btn_load_schema);
+            this.Controls.Add(this.btn_save_schema);
             this.Controls.Add(this.uc_PreviewBrowserFile1);
             this.Controls.Add(this.btn_mark_file);
             this.Controls.Add(this.btn_create_schema);
@@ -657,7 +680,6 @@
             this.groupBox12.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -702,5 +724,7 @@
         private System.Windows.Forms.Button btn_create_schema;
         private System.Windows.Forms.Button btn_mark_file;
         private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
+        private System.Windows.Forms.Button btn_load_schema;
+        private System.Windows.Forms.Button btn_save_schema;
     }
 }

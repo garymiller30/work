@@ -6,6 +6,7 @@ using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Create.Falc;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Visual.SoftCover;
 using MongoDB.Bson.IO;
 using PDFiumSharp;
 using PDFiumSharp.Enums;
@@ -206,10 +207,67 @@ namespace JobSpace.UserForms.PDF.Visual
             {
                 IsMarkFile = true,
                 Mirrored = cb_mirrored_parts.Checked,
-                PartsWidth = partsDelta
+                
             };
 
+            param.PartsWidth = partsDelta;
+
             new FalcSchema(param).Run(_fsi.FullName);
+        }
+
+        private void btn_load_schema_Click(object sender, EventArgs e)
+        {
+            using (Ookii.Dialogs.WinForms.VistaOpenFileDialog ofd = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            {
+                ofd.Filter = "Falc Schema|*.falcschema";
+                ofd.RestoreDirectory = false;
+                ofd.InitialDirectory = Path.GetDirectoryName(_fsi.FullName);
+                ofd.FileName = Path.Combine(Path.GetDirectoryName(_fsi.FullName), Path.GetFileNameWithoutExtension(_fsi.FullName) + ".falcschema");
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    // зчитати json файл
+                    var strJson = File.ReadAllText(ofd.FileName);
+                    var param = System.Text.Json.JsonSerializer.Deserialize<FalcSchemaParams>(strJson);
+                    cb_mirrored_parts.Checked = param.Mirrored;
+                    int cntPart = param.PartsWidth.Length;
+                    cb_cnt_falc.SelectedIndex = cntPart - 2;
+                    
+                    for (int i = 0; i < cntPart; i++)
+                    {
+                        decimal partWidth = param.PartsWidth[i];
+                        _deltas[i].Value = partWidth;
+                    }
+                    Recalc();
+                }
+            }
+        }
+
+        private void btn_save_schema_Click(object sender, EventArgs e)
+        {
+            using (Ookii.Dialogs.WinForms.VistaSaveFileDialog sfd = new Ookii.Dialogs.WinForms.VistaSaveFileDialog())
+            {
+                sfd.Filter = "Falc Schema|*.falcschema";
+                sfd.AddExtension = true;
+                sfd.DefaultExt = "falcschema";
+                sfd.RestoreDirectory = false;
+                sfd.InitialDirectory = Path.GetDirectoryName(_fsi.FullName);
+                sfd.FileName = Path.Combine(Path.GetDirectoryName(_fsi.FullName), Path.GetFileNameWithoutExtension(_fsi.FullName) + ".falcschema");
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    FalcSchemaParams param = new FalcSchemaParams()
+                    {
+                        Mirrored = cb_mirrored_parts.Checked,
+                        
+                    };
+
+                    param.PartsWidth = _deltas.Select((d, idx) => d.Value).Take(partsDelta.Count()).ToArray();
+
+                    // зберегти в json файл 
+                    var strJson = System.Text.Json.JsonSerializer.Serialize<FalcSchemaParams>(param, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+                    File.WriteAllText(sfd.FileName, strJson);
+                }
+            }
         }
     }
 }
