@@ -71,11 +71,11 @@ namespace JobSpace.UC
             double hMM = 100;
 
             Image preview = null;
-
+            int pageIdx = _currentPage - 1;
             // перевірити чи є кешоване зображення
-            if (images != null && images[_currentPage - 1] != null)
+            if (images != null && images[pageIdx] != null)
             {
-                preview = images[_currentPage - 1];
+                preview = images[pageIdx];
             }
             else
             {
@@ -83,11 +83,11 @@ namespace JobSpace.UC
                 // якщо це pdf файл, то отримуємо кількість сторінок
                 if (ext == ".pdf" || ext == ".ai")
                 {
-                    PdfPageInfo pageInfo = PdfHelper.GetPageInfo(_fileInfo.FileInfo.FullName, _currentPage - 1);
-                    boxes_pages[_currentPage - 1] = pageInfo;
+                    PdfPageInfo pageInfo = PdfHelper.GetPageInfo(_fileInfo.FileInfo.FullName, pageIdx);
+                    boxes_pages[pageIdx] = pageInfo;
                     uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
                     // Асинхронно завантажуємо фінальне зображення
-                    preview = await Task.Run(() => FileBrowserSevices.File_GetPreview(_fileInfo, _currentPage - 1));
+                    preview = await Task.Run(() => FileBrowserSevices.File_GetPreview(_fileInfo, pageIdx));
                     uc_PreviewControl1.StopWait();
                 }
             }
@@ -102,13 +102,13 @@ namespace JobSpace.UC
                 // кешувати зображення
                 if (images != null)
                 {
-                    images[_currentPage - 1] = preview;
+                    images[pageIdx] = preview;
                 }
 
-                wMM = boxes_pages[_currentPage - 1].Trimbox.wMM();
-                hMM = boxes_pages[_currentPage - 1].Trimbox.hMM();
+                wMM = boxes_pages[pageIdx].Trimbox.wMM();
+                hMM = boxes_pages[pageIdx].Trimbox.hMM();
 
-                double angle = boxes_pages[_currentPage - 1].Rotate;
+                double angle = boxes_pages[pageIdx].Rotate;
 
                 if (angle == 90 || angle == 270)
                 {
