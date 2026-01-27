@@ -77,7 +77,7 @@ namespace JobSpace.UC
             {
                 preview = images[_currentPage - 1];
             }
-            else 
+            else
             {
                 string ext = _fileInfo.FileInfo.Extension.ToLower();
                 // якщо це pdf файл, то отримуємо кількість сторінок
@@ -87,34 +87,37 @@ namespace JobSpace.UC
                     boxes_pages[_currentPage - 1] = pageInfo;
                     uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
                     // Асинхронно завантажуємо фінальне зображення
-                    preview = await Task.Run(() =>
-                       FileBrowserSevices.File_GetPreview(_fileInfo, _currentPage - 1)
-                   );
-                    // створити копію зображення, щоб уникнути проблем з потоками
-                    if (preview != null)
-                    {
-                        var temp = new System.Drawing.Bitmap(preview);
-                        preview.Dispose();
-                        preview = temp;
-                        wMM = (double)(preview.Width / preview.HorizontalResolution * 25.4);
-                        hMM = (double)(preview.Height / preview.VerticalResolution * 25.4);
-                        // кешувати зображення
-                        if (images != null)
-                        {
-                            images[_currentPage - 1] = preview;
-                        }
-                    }
+                    preview = await Task.Run(() => FileBrowserSevices.File_GetPreview(_fileInfo, _currentPage - 1));
                     uc_PreviewControl1.StopWait();
                 }
             }
-
-            if (boxes_pages != null)
+            if (preview != null)
             {
+                // створити копію зображення, щоб уникнути проблем з потоками
+                var temp = new System.Drawing.Bitmap(preview);
+                preview.Dispose();
+                preview = temp;
+                //wMM = (double)(preview.Width / preview.HorizontalResolution * 25.4);
+                //hMM = (double)(preview.Height / preview.VerticalResolution * 25.4);
+                // кешувати зображення
+                if (images != null)
+                {
+                    images[_currentPage - 1] = preview;
+                }
+
                 wMM = boxes_pages[_currentPage - 1].Trimbox.wMM();
                 hMM = boxes_pages[_currentPage - 1].Trimbox.hMM();
-            }
 
-            uc_PreviewControl1.SetImage(preview, wMM, hMM);
+                double angle = boxes_pages[_currentPage - 1].Rotate;
+
+                if (angle == 90 || angle == 270)
+                {
+                    (wMM,hMM) = (hMM,wMM);
+                }
+
+                uc_PreviewControl1.SetImage(preview, wMM, hMM);
+            }
+            
         }
 
         private void tsb_previous_page_Click(object sender, EventArgs e)
