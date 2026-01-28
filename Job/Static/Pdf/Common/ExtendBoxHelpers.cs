@@ -24,12 +24,26 @@ namespace JobSpace.Static.Pdf.Common
         /// <param name="box"></param>
         /// <returns></returns>
         public static double wMM(this Box box) => Math.Round(box.width / PdfScaler.mn, 1);
+        public static double wMM(this Box box, double angle)
+        {
+            if (angle == 90 || angle == 270)
+                return box.hMM();
+            else
+                return box.wMM();
+        }
         /// <summary>
         /// Висота в мм
         /// </summary>
         /// <param name="box"></param>
         /// <returns></returns>
         public static double hMM(this Box box) => Math.Round(box.height / PdfScaler.mn, 1);
+        public static double hMM(this Box box, double angle)
+        {
+            if (angle == 90 || angle == 270)
+                return box.wMM();
+            else
+                return box.hMM();
+        }
         public static double leftMM(this Box box) => Math.Round(box.left / PdfScaler.mn, 1);
         public static double rightMM(this Box box) => Math.Round(box.right / PdfScaler.mn, 1);
         public static double bottomMM(this Box box) => Math.Round(box.bottom / PdfScaler.mn, 1);
@@ -46,7 +60,7 @@ namespace JobSpace.Static.Pdf.Common
 
         public static bool IsEmpty(this Box box) => box.width == 0 || box.height == 0;
 
-        public static void GetMediabox(this Box box, PDFlib p, int indoc,int page)
+        public static void GetMediabox(this Box box, PDFlib p, int indoc, int page)
         {
             box.width = p.pcos_get_number(indoc, "pages[" + page + "]/width");
             box.height = p.pcos_get_number(indoc, "pages[" + page + "]/height");
