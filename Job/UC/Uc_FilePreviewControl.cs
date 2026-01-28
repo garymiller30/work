@@ -97,23 +97,14 @@ namespace JobSpace.UC
                 var temp = new System.Drawing.Bitmap(preview);
                 preview.Dispose();
                 preview = temp;
-                //wMM = (double)(preview.Width / preview.HorizontalResolution * 25.4);
-                //hMM = (double)(preview.Height / preview.VerticalResolution * 25.4);
                 // кешувати зображення
                 if (images != null)
                 {
                     images[pageIdx] = preview;
                 }
-
-                wMM = boxes_pages[pageIdx].Trimbox.wMM();
-                hMM = boxes_pages[pageIdx].Trimbox.hMM();
-
                 double angle = boxes_pages[pageIdx].Rotate;
-
-                if (angle == 90 || angle == 270)
-                {
-                    (wMM,hMM) = (hMM,wMM);
-                }
+                wMM = boxes_pages[pageIdx].Trimbox.wMM(angle);
+                hMM = boxes_pages[pageIdx].Trimbox.hMM(angle);
 
                 uc_PreviewControl1.SetImage(preview, wMM, hMM);
             }
