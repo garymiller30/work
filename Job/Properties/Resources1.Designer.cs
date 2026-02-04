@@ -32,8 +32,6 @@ namespace JobSpace.Properties {
         internal Resources() {
         }
 
-        public static string WaitGifPath { get; internal set; }
-
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
