@@ -108,7 +108,6 @@ namespace JobSpace.UC
 
                 uc_PreviewControl1.SetImage(preview, wMM, hMM);
             }
-            
         }
 
         private void tsb_previous_page_Click(object sender, EventArgs e)
