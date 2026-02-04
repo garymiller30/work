@@ -47,10 +47,12 @@ namespace PluginWorkProcessPlates.Forms
             _profile = profile;
             _settings = profile.Plugins.LoadSettings<PlateSettings>();
 
-            comboBoxFormats.Items.AddRange(_settings.Formats?.ToArray());
-
-
-
+            var items = _settings.Formats?.ToArray();
+            if (items != null && items.Length >0)
+            {
+                comboBoxFormats.Items.AddRange(items);
+                comboBoxFormats.SelectedIndex= 0;
+            }
         }
 
         private void Bind()
@@ -67,7 +69,11 @@ namespace PluginWorkProcessPlates.Forms
         private void buttonOk_Click(object sender, EventArgs e)
         {
             UnBind();
-
+            if (_process.PlateFormat.Width == 0 || _process.PlateFormat.Height == 0 || _process.CountPlates == 0)
+            {
+                MessageBox.Show("Вкажіть коректні параметри форми та кількість!", "Увага", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             SaveFormat();
 
             Close();
@@ -78,6 +84,8 @@ namespace PluginWorkProcessPlates.Forms
             if (_profile != null)
             {
                 var format = new Format() { Width = numericUpDownWidth.Value, Height = numericUpDownHeight.Value };
+                if (format.Width == 0 || format.Height == 0) return;
+
                 if (!_settings.Formats.Contains(format))
                 {
                     _settings.Formats.Add(format);
