@@ -471,10 +471,7 @@ namespace JobSpace.UC
                 e.Effect = DragDropEffects.None;
             }
         }
-        private void УдалитьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DeleteFilesAndDirectories();
-        }
+        
         private void DeleteFilesAndDirectories()
         {
             FileBrowserSevices.File_DeleteFilesAndDirectories(objectListView1.SelectedObjects, _fileManager);
@@ -602,7 +599,6 @@ namespace JobSpace.UC
             {
                 переміститиДоToolStripMenuItem.DropDownItems.Add(folder, null, (sender, e) =>
                 {
-
                     var targetDir = Path.Combine(_fileManager.Settings.RootFolder, folder);
                     if (!Directory.Exists(targetDir)) { Directory.CreateDirectory(targetDir); }
 
@@ -612,7 +608,6 @@ namespace JobSpace.UC
 
                         _fileManager.MoveTo(file, targetFile);
                     }
-
                 });
             }
 
@@ -638,7 +633,6 @@ namespace JobSpace.UC
             {
                 переміститиДоToolStripMenuItem.DropDownItems.Add(localFolder.FileInfo.Name, null, (sender, e) =>
                 {
-
                     var targetDir = Path.Combine(_fileManager.Settings.RootFolder, localFolder.FileInfo.Name);
                     if (!Directory.Exists(targetDir)) { Directory.CreateDirectory(targetDir); }
 
@@ -980,9 +974,17 @@ namespace JobSpace.UC
         {
             if (files == null || files.Length == 0) return;
 
-            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("move files to trash", new Action(
-                () => { _fileManager.MoveFilesToTrash(files); }
-                )));
+            if (Control.ModifierKeys == Keys.Shift)
+            {
+                FileBrowserSevices.File_DeleteFilesAndDirectories(files, _fileManager);
+            }
+            else
+            {
+                BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("move files to trash", new Action(
+                    () => { _fileManager.MoveFilesToTrash(files); }
+                    )));
+
+            }
         }
         public List<IFileSystemInfoExt> GetFilesFromDirectory(string path)
         {
@@ -1344,12 +1346,12 @@ namespace JobSpace.UC
             }
             else
             {
-                 uc_PreviewBrowserFile1.ClearPreview();
+                uc_PreviewBrowserFile1.ClearPreview();
             }
         }
         private void ShowPreviewInControl(IFileSystemInfoExt f)
         {
-           uc_PreviewBrowserFile1.Show(f);
+            uc_PreviewBrowserFile1.Show(f);
         }
 
         private void пошукзамінаТиражівToolStripMenuItem_Click(object sender, EventArgs e)
