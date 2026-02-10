@@ -102,7 +102,8 @@ namespace PluginAddWorkFromPolymix
 
                 jobParameters.Customer = order.Customer;
                 jobParameters.Number = order.Number.ToString("D5");
-                jobParameters.Description = order.Description.Split(',').First();
+                var description = order.Description.Split(',', '.').First().Trim();
+                jobParameters.Description = description.Length > 50 ? description.Substring(0,50) : description;
                 jobParameters.Note = order.Description;
 
                 jobParameters.ApplyToJob();
