@@ -792,7 +792,15 @@ namespace JobSpace.UC
 
         public void ApplyViewListFilterText(string text)
         {
-            _profile.Jobs.ApplyViewListFilterText(text);
+            if (string.IsNullOrEmpty(text))
+            {
+                objectListView_NewWorks.ModelFilter = null;
+            }
+            else
+            {
+                objectListView_NewWorks.ModelFilter = TextMatchFilter.Regex(objectListView_NewWorks, text);
+            }
+            //_profile.Jobs.ApplyViewListFilterText(text);
         }
 
         public void ApplyViewFilter()

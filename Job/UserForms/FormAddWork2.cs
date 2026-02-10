@@ -161,7 +161,7 @@ namespace JobSpace.UserForms
                 _job.CategoryId = ObjectId.Empty;
             }
 
-            _job.Description = textBox_Description.Text;
+            _job.Description = textBox_Description.Text.Trim();
             _job.Note = _noteControl.GetRtf();
         }
 

@@ -58,6 +58,8 @@ namespace PluginFileshareWeb
             webView.Tag = link;
             tabControl1.SelectedTab.Text = link.Name;
 
+
+
             curwebView2.Source = new Uri("about:blank");
             curwebView2.Source = new Uri(link.Url);
             curwebView2.ZoomFactorChanged += (s, ev) =>
@@ -259,7 +261,17 @@ namespace PluginFileshareWeb
             {
                 e.Action = CoreWebView2ServerCertificateErrorAction.AlwaysAllow;
             };
-
+            curwebView2.CoreWebView2.DocumentTitleChanged += (s, e) =>
+            {
+                if (curwebView2.CoreWebView2 != null)
+                {
+                    var tab = (TabPage)curwebView2.Parent;
+                    if (tab != null)
+                    {
+                        tab.Text = curwebView2.CoreWebView2.DocumentTitle;
+                    }
+                }
+            };
             curwebView2.CoreWebView2.Settings.IsPasswordAutosaveEnabled = true;
 
             if (_curJob != null)
