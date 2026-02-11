@@ -820,5 +820,10 @@ namespace JobSpace.UC
         {
             objectListView_NewWorks.Font = _profile.Settings.GetJobListSettings().UserFont;
         }
+
+        public IEnumerable GetJobList()
+        {
+            return objectListView_NewWorks.FilteredObjects;
+        }
     }
 }

@@ -42,11 +42,6 @@ namespace Interfaces
         void CreateJob();
         void RepeatSelectedJob();
         void CreateJob(IPluginNewOrder pluginNewOrder);
-
-
-        //void ApplyStatusViewFilter();
-        //void Search(string text);
-        //void ApplyDateFilter(DateTime date);
         void DeleteJob(IJob job);
         void ApplyViewListFilterCustomer(string text);
         void ApplyViewListFilterStatuses(int[] statuses);

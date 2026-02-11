@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace Interfaces
 {
@@ -13,13 +14,8 @@ namespace Interfaces
         IJob ChangeSelectedJobDescription(string e);
         void Close();
         void RepeatSelectedJob();
-        //void ApplyViewFilter(DateTime date);
-        //void ApplyJobListFilter(string filterText);
         void SelectJob(IJob job);
-
-
         EventHandler<int> OnChangeCountJobs { get; set; }
-
         /// <summary>
         /// заблокувати роботу
         /// </summary>
@@ -35,5 +31,6 @@ namespace Interfaces
         void ApplyViewListFilterDate(DateTime date);
         void ApplyViewListFilterText(string text);
         void ApplyJobListFontSettings();
+        IEnumerable GetJobList();
     }
 }
