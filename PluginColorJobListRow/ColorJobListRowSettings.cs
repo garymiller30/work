@@ -14,7 +14,7 @@ namespace PluginColorJobListRow
     {
         public Dictionary<int, RowColor> ColorDictionary { get; set; } = new Dictionary<int, RowColor>();
 
-
+        public bool SelectJobOnClick { get; set; } = true;
         public IRowColor GetColor(int status)
         {
 
