@@ -849,6 +849,36 @@ namespace JobSpace.Static
             form.Show();
         }
 
+        /// <summary>
+        /// отримати розмір зображення в міліметрах. 
+        /// </summary>
+        /// <param name="fullName"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static Size GetImageSize(string fullName)
+        {
+            
+            string ext = Path.GetExtension(fullName).ToLowerInvariant();
+
+            if (ext == ".tif" || ext == ".tiff" || ext == ".png" || ext == ".bmp" || ext == ".jpg" || ext == ".jpeg")
+            {
+                using (var img = Image.FromFile(fullName))
+                {
+                    // розмір в міліметрах
+                    return new Size((int)(img.Width * 25.4 / img.HorizontalResolution), (int)(img.Height * 25.4 / img.VerticalResolution));
+                }
+            }
+            else if (ext == ".psd")
+            {
+                using (var psd = new MagickImage(fullName))
+                {
+                    return new Size((int)(psd.Width * 25.4 / psd.Density.X), (int)(psd.Height * 25.4 / psd.Density.Y));
+                }
+            }
+            
+            return new Size(100, 100);
+        }
+
 
         #endregion
     }

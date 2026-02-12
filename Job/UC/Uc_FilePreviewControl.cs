@@ -47,22 +47,23 @@ namespace JobSpace.UC
             {
                 _totalPage = PdfHelper.GetPageCount(_fileInfo.FileInfo.FullName);
                 tsl_count_pages.Text = $"/{_totalPage}";
-                boxes_pages = new PdfPageInfo[_totalPage];// PdfHelper.GetPagesInfo(_fileInfo.FileInfo.FullName);
 
-                // очистити старі зображення
-                if (images != null)
+            }
+
+            boxes_pages = new PdfPageInfo[_totalPage];
+            // очистити старі зображення
+            if (images != null)
+            {
+                for (int i = 0; i < images.Length; i++)
                 {
-                    for (int i = 0; i < images.Length; i++)
+                    if (images[i] != null)
                     {
-                        if (images[i] != null)
-                        {
-                            images[i].Dispose();
-                        }
+                        images[i].Dispose();
                     }
                 }
-                // підготувати кеш зображень
-                images = new Image[_totalPage];
             }
+            // підготувати кеш зображень
+            images = new Image[_totalPage];
         }
 
         private async void GetPreview()
@@ -85,12 +86,25 @@ namespace JobSpace.UC
                 {
                     PdfPageInfo pageInfo = PdfHelper.GetPageInfo(_fileInfo.FileInfo.FullName, pageIdx);
                     boxes_pages[pageIdx] = pageInfo;
-                    uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
-                    // Асинхронно завантажуємо фінальне зображення
-                    preview = await Task.Run(() => FileBrowserSevices.File_GetPreview(_fileInfo, pageIdx));
-                    uc_PreviewControl1.StopWait();
                 }
+                else {
+                    // для інших типів файлів можна отримати розміри, але не обертати
+                    //Отримати розміри зображення без завантаження повного зображення
+                    Size size = FileBrowserSevices.GetImageSize(_fileInfo.FileInfo.FullName);
+
+                    boxes_pages[pageIdx] = new PdfPageInfo
+                    {
+                        Trimbox = new Box { width = size.Width * PdfHelper.mn, height = size.Height * PdfHelper.mn },
+                        Rotate = 0
+                    };
+                }
+
+                uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
+                // Асинхронно завантажуємо фінальне зображення
+                preview = await Task.Run(() => FileBrowserSevices.File_GetPreview(_fileInfo, pageIdx));
+                uc_PreviewControl1.StopWait();
             }
+
             if (preview != null)
             {
                 // створити копію зображення, щоб уникнути проблем з потоками
