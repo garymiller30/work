@@ -8,6 +8,7 @@ namespace JobSpace.Static.Pdf.Common
 {
     public sealed class EmptyTemplate
     {
+        public int Idx { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
         public int Count { get; set; }

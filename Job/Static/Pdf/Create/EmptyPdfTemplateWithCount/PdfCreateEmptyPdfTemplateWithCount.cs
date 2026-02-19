@@ -25,9 +25,12 @@ namespace JobSpace.Static.Pdf.Create.EmptyPdfTemplateWithCount
                     int fileCount = i;
 
                     string outfile;
+                    // на початку імені файлу буде порядковий номер, який буде виглядати так: 001, 002, 003 і так далі, щоб уникнути перезапису файлів при повторному запуску програми
+
+                    string fileIdx = template.Idx.ToString("D3"); // Форматування числа з провідними нулями (D3 - 3 цифри) 
                     do
                     {
-                        outfile = Path.Combine(pathTo, $"{filename}_{fileCount}#{template.Count}.pdf");
+                        outfile = Path.Combine(pathTo, $"{fileIdx}_{filename}_{fileCount}#{template.Count}.pdf");
                         fileCount++;
                     } while (File.Exists(outfile));
 

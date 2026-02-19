@@ -440,8 +440,6 @@ namespace JobSpace.Static
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-
-
                     var list = form.PdfTemplates;
                     if (list.Count > 0)
                     {
@@ -449,6 +447,7 @@ namespace JobSpace.Static
                         {
                             foreach (EmptyTemplate item in list)
                             {
+                                item.Idx = list.IndexOf(item) + 1;
                                 new PdfCreateEmptyPdfTemplateWithCount().Run(pathTo, item);
                             }
                         }
