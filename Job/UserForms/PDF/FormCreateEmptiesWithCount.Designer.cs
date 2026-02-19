@@ -46,6 +46,7 @@
             this.olvColumnCnt = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnMul = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.buttonCreate = new System.Windows.Forms.Button();
+            this.bnt_import = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nW)).BeginInit();
@@ -266,16 +267,18 @@
             // 
             this.olvColumnCnt.AspectName = "Count";
             this.olvColumnCnt.Text = "тираж";
+            this.olvColumnCnt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // olvColumnMul
             // 
             this.olvColumnMul.AspectName = "Multiplier";
             this.olvColumnMul.Text = "кількість";
+            this.olvColumnMul.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // buttonCreate
             // 
             this.buttonCreate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonCreate.Location = new System.Drawing.Point(225, 310);
+            this.buttonCreate.Location = new System.Drawing.Point(438, 310);
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.Size = new System.Drawing.Size(90, 35);
             this.buttonCreate.TabIndex = 2;
@@ -283,11 +286,23 @@
             this.buttonCreate.UseVisualStyleBackColor = true;
             this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
             // 
+            // bnt_import
+            // 
+            this.bnt_import.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.bnt_import.Location = new System.Drawing.Point(16, 310);
+            this.bnt_import.Name = "bnt_import";
+            this.bnt_import.Size = new System.Drawing.Size(133, 35);
+            this.bnt_import.TabIndex = 3;
+            this.bnt_import.Text = "Імпортувати список";
+            this.bnt_import.UseVisualStyleBackColor = true;
+            this.bnt_import.Click += new System.EventHandler(this.bnt_import_Click);
+            // 
             // FormCreateEmptiesWithCount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(540, 357);
+            this.Controls.Add(this.bnt_import);
             this.Controls.Add(this.buttonCreate);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -327,5 +342,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumnH;
         private BrightIdeasSoftware.OLVColumn olvColumnCnt;
         private BrightIdeasSoftware.OLVColumn olvColumnMul;
+        private System.Windows.Forms.Button bnt_import;
     }
 }

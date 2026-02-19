@@ -29,6 +29,7 @@ namespace JobSpace.UserForms
             }
             olv_find.OwnerDraw = true;
             olv_find.AddObjects(_preview_items);
+            ApplyRegex();
         }
 
         class PreviewItem
@@ -76,16 +77,20 @@ namespace JobSpace.UserForms
 
         private void tb_find_TextChanged(object sender, EventArgs e)
         {
+           ApplyRegex();
+        }
+
+        private void ApplyRegex()
+        {
             if (string.IsNullOrEmpty(tb_find.Text))
             {
                 olv_find.DefaultRenderer = null;
-                return;
+                
             }
             TextMatchFilter filter = TextMatchFilter.Regex(olv_find, tb_find.Text);
 
             olv_find.DefaultRenderer = new HighlightTextRenderer(filter);
-            
-           
+
             CreateVariants(tb_find.Text);
             olv_find.RefreshObjects(_preview_items);
         }

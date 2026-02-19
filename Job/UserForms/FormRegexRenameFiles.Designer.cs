@@ -60,6 +60,7 @@
             this.tb_find.Name = "tb_find";
             this.tb_find.Size = new System.Drawing.Size(229, 20);
             this.tb_find.TabIndex = 0;
+            this.tb_find.Text = "(\\d+)";
             this.tb_find.TextChanged += new System.EventHandler(this.tb_find_TextChanged);
             // 
             // groupBox2
