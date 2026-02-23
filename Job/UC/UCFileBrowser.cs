@@ -1383,5 +1383,13 @@ namespace JobSpace.UC
                 FileBrowserSevices.PDF_VisualSoftCover(f);
             }
         }
+
+        private void вставитиЗІменемФайлаПідКурсоромToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is IFileSystemInfoExt f)
+            {
+                FileBrowserSevices.Clipboard_PasteWithSpecificName(_fileManager, f);
+            }
+        }
     }
 }

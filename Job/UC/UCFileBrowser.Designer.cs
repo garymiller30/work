@@ -176,6 +176,7 @@ namespace JobSpace.UC
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
+            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -1241,7 +1242,8 @@ namespace JobSpace.UC
             // 
             this.tsddb_paste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tsddb_paste.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.вставитиЯкКопіюToolStripMenuItem});
+            this.вставитиЯкКопіюToolStripMenuItem,
+            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem});
             this.tsddb_paste.Image = ((System.Drawing.Image)(resources.GetObject("tsddb_paste.Image")));
             this.tsddb_paste.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsddb_paste.Name = "tsddb_paste";
@@ -1252,7 +1254,7 @@ namespace JobSpace.UC
             // вставитиЯкКопіюToolStripMenuItem
             // 
             this.вставитиЯкКопіюToolStripMenuItem.Name = "вставитиЯкКопіюToolStripMenuItem";
-            this.вставитиЯкКопіюToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.вставитиЯкКопіюToolStripMenuItem.Size = new System.Drawing.Size(288, 22);
             this.вставитиЯкКопіюToolStripMenuItem.Text = "вставити як копію";
             this.вставитиЯкКопіюToolStripMenuItem.Click += new System.EventHandler(this.вставитиЯкКопіюToolStripMenuItem_Click);
             // 
@@ -1271,7 +1273,7 @@ namespace JobSpace.UC
             // openTrashToolStripMenuItem
             // 
             this.openTrashToolStripMenuItem.Name = "openTrashToolStripMenuItem";
-            this.openTrashToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openTrashToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.openTrashToolStripMenuItem.Text = "відкрити кошик";
             this.openTrashToolStripMenuItem.Click += new System.EventHandler(this.openTrashToolStripMenuItem_Click);
             // 
@@ -1443,6 +1445,13 @@ namespace JobSpace.UC
             // kryptonContextMenuHeading1
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
+            // 
+            // вставитиЗІменемФайлаПідКурсоромToolStripMenuItem
+            // 
+            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Name = "вставитиЗІменемФайлаПідКурсоромToolStripMenuItem";
+            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Size = new System.Drawing.Size(288, 22);
+            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Text = "вставити з іменем файла під курсором";
+            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Click += new System.EventHandler(this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem_Click);
             // 
             // UCFileBrowser
             // 
@@ -1632,5 +1641,6 @@ namespace JobSpace.UC
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
         private BrightIdeasSoftware.OLVColumn olvColumnCreatorApp;
         private System.Windows.Forms.ToolStripMenuItem мякаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem вставитиЗІменемФайлаПідКурсоромToolStripMenuItem;
     }
 }
