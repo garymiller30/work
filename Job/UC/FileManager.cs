@@ -542,6 +542,18 @@ namespace JobSpace.UC
         {
             _moveFileOrDir(file, targetDir);
         }
-    }
 
+        public void PasteFromClipboardWithSpecificName(string sourceFile, IFileSystemInfoExt targetfile)
+        {
+            string target = Path.Combine(Settings.CurFolder, $"{Path.GetFileNameWithoutExtension(targetfile.FullName)}{Path.GetExtension(sourceFile)}");
+            try
+            {
+                File.Copy(sourceFile, target,false);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
 }

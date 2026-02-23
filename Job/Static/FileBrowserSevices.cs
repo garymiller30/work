@@ -742,6 +742,15 @@ namespace JobSpace.Static
             }
         }
 
+        public static void Clipboard_PasteWithSpecificName(IFileManager fileManager, IFileSystemInfoExt Targetfile)
+        {
+            if (Clipboard.ContainsFileDropList())
+            {
+                var filePaths = Clipboard.GetFileDropList();
+
+                fileManager.PasteFromClipboardWithSpecificName(filePaths[0], Targetfile);
+            }
+        }
 
         public static void Clipboard_CutFiles(IList files)
         {
