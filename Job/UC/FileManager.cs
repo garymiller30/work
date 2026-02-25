@@ -28,7 +28,7 @@ namespace JobSpace.UC
         public event EventHandler<string> OnError = delegate { };
         public event EventHandler<string> OnSelectFileName = delegate { };
 
-        public static bool CopyPaste;
+        public static bool CutFromClipboard;
 
 
         private readonly ICache<IFileSystemInfoExt> _cache;
@@ -191,7 +191,7 @@ namespace JobSpace.UC
 
                 if (Directory.Exists(file))
                 {
-                    if (FileManager.CopyPaste) //вирізати
+                    if (FileManager.CutFromClipboard) //вирізати
                     {
                         _moveFileOrDir(info, Path.Combine(Settings.CurFolder, Path.Combine(Settings.CurFolder, Path.GetFileName(file))));
                     }
@@ -211,7 +211,7 @@ namespace JobSpace.UC
                         count++;
                     }
 
-                    if (CopyPaste)
+                    if (CutFromClipboard)
                     {
                         _moveFileOrDir(info, target);
                     }
