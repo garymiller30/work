@@ -718,6 +718,7 @@ namespace JobSpace.Static
             try
             {
                 Clipboard.SetFileDropList(filePaths);
+                FileManager.CutFromClipboard = false;
             }
             catch (Exception ex)
             {
@@ -775,7 +776,7 @@ namespace JobSpace.Static
                 Clipboard.Clear();
                 Clipboard.SetDataObject(data, true);
 
-                FileManager.CopyPaste = true;
+                FileManager.CutFromClipboard = true;
             }
             catch
             {
