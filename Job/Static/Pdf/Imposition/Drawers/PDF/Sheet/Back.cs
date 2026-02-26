@@ -40,43 +40,43 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
                     // отримати сторінку з ран листа
                     int runListPageIdx = side.PrintIdx - 1;
-                    ImposRunPage runPage = impos.RunList.RunPages[runListPageIdx];
-
-                    if ((runPage.FileId == 0 && runPage.PageIdx == 0) || side.PrintIdx == 0)
+                    // перевірити,щоб індекс не виходив за межі
+                    if (runListPageIdx >= 0 && runListPageIdx < impos.RunList.RunPages.Count)
                     {
-                        // пропускаємо
-                    }
-                    else
-                    {
-                        PdfFile pdfFile = impos.GetPdfFile(runPage);
-                        PdfFilePage pdfPage = impos.GetPdfPage(runPage);
+                        ImposRunPage runPage = impos.RunList.RunPages[runListPageIdx];
 
-                        int pageNo = Array.IndexOf(pdfFile.Pages, pdfPage) + 1;
-
-                        using (PDFLIBDocument document = new PDFLIBDocument(p, pdfFile.FileName, ""))
+                        if ((runPage.FileId != 0 || runPage.PageIdx != 0) && side.PrintIdx != 0)
                         {
+                            PdfFile pdfFile = impos.GetPdfFile(runPage);
+                            PdfFilePage pdfPage = impos.GetPdfPage(runPage);
 
-                            (double c_llx, double c_lly) = GetClippingCoordinatesBack(pdfFile, pdfPage, templatePage);
+                            int pageNo = Array.IndexOf(pdfFile.Pages, pdfPage) + 1;
 
-                            double c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
-                            double c_ury = c_lly + templatePage.GetPageHeightWithBleeds;
+                            using (PDFLIBDocument document = new PDFLIBDocument(p, pdfFile.FileName, ""))
+                            {
 
-                            var pd  = ScreenDrawCommons.GetPageDrawBack(sheet,templatePage, side);
+                                (double c_llx, double c_lly) = GetClippingCoordinatesBack(pdfFile, pdfPage, templatePage);
 
-                            double llx = pd.page_x - ScreenDrawCommons.GetLeftBleedByAngleBack(sheet,templatePage, side);
-                            double lly = pd.page_y - ScreenDrawCommons.GetBottomBleedByAngleBack(sheet,templatePage, side);
+                                double c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
+                                double c_ury = c_lly + templatePage.GetPageHeightWithBleeds;
 
-                            double angle = side.Angle;
-                            
-                            string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
-                            document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
+                                var pd = ScreenDrawCommons.GetPageDrawBack(sheet, templatePage, side);
+
+                                double llx = pd.page_x - ScreenDrawCommons.GetLeftBleedByAngleBack(sheet, templatePage, side);
+                                double lly = pd.page_y - ScreenDrawCommons.GetBottomBleedByAngleBack(sheet, templatePage, side);
+
+                                double angle = side.Angle;
+
+                                string clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
+                                document.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
+                            }
                         }
                     }
                 }
 
                 DrawCropMarks.Back(p, templatePage);
 
-                Proof.DrawPageBack(p,sheet, templatePage, templatePage.Back, impos.Proof);
+                Proof.DrawPageBack(p, sheet, templatePage, templatePage.Back, impos.Proof);
             }
 
             //draw foreground marks
