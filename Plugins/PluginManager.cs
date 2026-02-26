@@ -281,11 +281,11 @@ namespace Plugins
             }
         }
 
-        public void FileBrowserSelectObject(IFileSystemInfoExt file)
+        public void FileBrowserSelectObject(IFileBrowser fileBrowser,IFileSystemInfoExt file)
         {
             foreach (var pluginFileBrowser in _pluginsFileBrowser)
             {
-                pluginFileBrowser.FileBrowserSelectObject(file);
+                pluginFileBrowser.FileBrowserSelectObject(fileBrowser,file);
             }
         }
 

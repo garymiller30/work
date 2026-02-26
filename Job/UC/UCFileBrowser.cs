@@ -667,7 +667,7 @@ namespace JobSpace.UC
 
             _fileManager.DirectoryUp();
         }
-        private void ПредварительныйПросмотрToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PreviewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             sc_list.Panel2Collapsed = false;
             tsb_preview.Checked = true;
@@ -1091,7 +1091,7 @@ namespace JobSpace.UC
         private void objectListView1_Click(object sender, EventArgs e)
         {
             if (objectListView1.SelectedObject is IFileSystemInfoExt file)
-                UserProfile.Plugins.FileBrowserSelectObject(file);
+                UserProfile.Plugins.FileBrowserSelectObject(this,file);
         }
         private void витягтиСторінкиToolStripMenuItem_Click(object sender, EventArgs e)
         {

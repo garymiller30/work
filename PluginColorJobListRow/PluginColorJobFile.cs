@@ -41,23 +41,26 @@ namespace PluginColorJobListRow
             }
         }
 
-        public void FileBrowserSelectObject(IFileSystemInfoExt file)
+        public void FileBrowserSelectObject(IFileBrowser fileBrowser, IFileSystemInfoExt file)
         {
-            if (Settings.Get(UserProfile).SelectJobOnClick)
+            List<IFileBrowser> fileBrowsers = UserProfile.FileBrowser.Browsers;
+            if (fileBrowsers.Count>1 && fileBrowsers[1] == fileBrowser)
             {
-                //з імені файлу взяти номер замовлення. Номер знаходиться на початку файлу, містить 5 цифр і відділяється від решти нижнім підкресленням. Наприклад: 12345_назва_файлу.pdf
-                var name = file.FileInfo.Name;
-                var jobNumber = name.Split('_').FirstOrDefault();
-                if (jobNumber != null && jobNumber.Length == 5 && jobNumber.All(char.IsDigit))
+                if (Settings.Get(UserProfile).SelectJobOnClick)
                 {
-                    var jobList = UserProfile.Jobs.JobListControl.GetJobList();
-                    //знайти замовлення з таким номером
-                    var job = jobList.Cast<IJob>().FirstOrDefault(j => j.Number == jobNumber);
-                    if (job != null)
-                        UserProfile.Jobs.JobListControl.SelectJob(job);
+                    //з імені файлу взяти номер замовлення. Номер знаходиться на початку файлу, містить 5 цифр і відділяється від решти нижнім підкресленням. Наприклад: 12345_назва_файлу.pdf
+                    var name = file.FileInfo.Name;
+                    var jobNumber = name.Split('_').FirstOrDefault();
+                    if (jobNumber != null && jobNumber.Length == 5 && jobNumber.All(char.IsDigit))
+                    {
+                        var jobList = UserProfile.Jobs.JobListControl.GetJobList();
+                        //знайти замовлення з таким номером
+                        var job = jobList.Cast<IJob>().FirstOrDefault(j => j.Number == jobNumber);
+                        if (job != null)
+                            UserProfile.Jobs.JobListControl.SelectJob(job);
+                    }
                 }
             }
-            //throw new NotImplementedException();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Interfaces
         void AfterJobChange(IJob job);
         void FileBrowserFormatRow(IFileBrowser browser, object row);
         void JobListFormatRow(object row);
-        void FileBrowserSelectObject(IFileSystemInfoExt file);
+        void FileBrowserSelectObject(IFileBrowser fileBrowser,IFileSystemInfoExt file);
         IPluginBase[] GetPluginsBase();
         IPluginNewOrder[] GetPluginsNewOrder();
         IMailPluginController Mail { get; set; }

@@ -436,7 +436,7 @@ namespace JobSpace.UC
             this.предварительныйПросмотрToolStripMenuItem.Name = "предварительныйПросмотрToolStripMenuItem";
             this.предварительныйПросмотрToolStripMenuItem.Size = new System.Drawing.Size(308, 22);
             this.предварительныйПросмотрToolStripMenuItem.Text = "попередній перегляд";
-            this.предварительныйПросмотрToolStripMenuItem.Click += new System.EventHandler(this.ПредварительныйПросмотрToolStripMenuItem_Click);
+            this.предварительныйПросмотрToolStripMenuItem.Click += new System.EventHandler(this.PreviewToolStripMenuItem_Click);
             // 
             // отриматиДодатковуІнформаціюToolStripMenuItem
             // 
