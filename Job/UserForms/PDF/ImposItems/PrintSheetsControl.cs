@@ -23,7 +23,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public EventHandler<PrintSheet> OnPrintSheetsChanged { get; set; } = delegate { };
         public EventHandler JustReassignPages { get; set; } = delegate { };
         public EventHandler OnPrintSheetDeleted { get; set; } = delegate { };
-        Profile _profile;
+        
         //int id = 1;
         GlobalImposParameters _imposParam;
         public PrintSheetsControl()
@@ -95,12 +95,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void tsb_savePrintSheet_Click(object sender, EventArgs e)
         {
             if (objectListView1.Objects == null) return;
-            _profile.ImposService.SavePrintSheets(objectListView1.Objects.Cast<PrintSheet>().ToList());
+            _imposParam.Profile.ImposService.SavePrintSheets(objectListView1.Objects.Cast<PrintSheet>().ToList());
         }
 
         private void tsb_loadPrintSheet_Click(object sender, EventArgs e)
         {
-             List<PrintSheet> list = _profile.ImposService.LoadPrintSheets();
+             List<PrintSheet> list = _imposParam.Profile.ImposService.LoadPrintSheets();
 
             objectListView1.AddObjects(list);
 
@@ -112,7 +112,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
 
-            using (var form = new FormAddTemplatePlate(_profile))
+            using (var form = new FormAddTemplatePlate(_imposParam.Profile))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -165,7 +165,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    var list = _profile.ImposService.LoadPrintSheets(form.FileName);
+                    var list = _imposParam.Profile.ImposService.LoadPrintSheets(form.FileName);
                     objectListView1.AddObjects(list);
                     JustReassignPages(this, null);
                 }
