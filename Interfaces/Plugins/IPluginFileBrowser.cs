@@ -5,6 +5,6 @@
         IUserProfile UserProfile { get; set; }
 
         void FileBrowserFormatRow(IFileBrowser browser, object row);
-        void FileBrowserSelectObject(IFileSystemInfoExt file);
+        void FileBrowserSelectObject(IFileBrowser fileBrowser, IFileSystemInfoExt file);
     }
 }
