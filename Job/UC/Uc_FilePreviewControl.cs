@@ -73,8 +73,11 @@ namespace JobSpace.UC
 
             Image preview = null;
             int pageIdx = _currentPage - 1;
-            // перевірити чи є кешоване зображення
-            if (images != null && images[pageIdx] != null)
+
+            if (pageIdx >=0 && pageIdx < _totalPage)
+
+                // перевірити чи є кешоване зображення
+                if (images != null && images[pageIdx] != null)
             {
                 preview = images[pageIdx];
             }
