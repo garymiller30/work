@@ -63,41 +63,39 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                         side = templatePage.Back;
 
                         runListPageIdx = side.PrintIdx - 1;
-                        runPage = impos.RunList.RunPages[runListPageIdx];
 
-                        if ((runPage.FileId == 0 && runPage.PageIdx == 0) || templatePage.Back.PrintIdx == 0)
+                        if (runListPageIdx >= 0 && runListPageIdx < impos.RunList.RunPages.Count)
                         {
-                            // пропускаємо
-                        }
-                        else
-                        {
-                            pdfFile = impos.GetPdfFile(runPage);
-                            pdfPage = impos.GetPdfPage(runPage);
-                            pageNo = Array.IndexOf(pdfFile.Pages, pdfPage) + 1;
+                            runPage = impos.RunList.RunPages[runListPageIdx];
 
-                            using (PDFLIBDocument documentB = new PDFLIBDocument(p, pdfFile.FileName, ""))
+                            if ((runPage.FileId != 0 || runPage.PageIdx != 0) && templatePage.Back.PrintIdx != 0)
                             {
-                                (c_llx, c_lly) = GetClippingCoordinatesBack(pdfFile, pdfPage, templatePage);
+                                pdfFile = impos.GetPdfFile(runPage);
+                                pdfPage = impos.GetPdfPage(runPage);
+                                pageNo = Array.IndexOf(pdfFile.Pages, pdfPage) + 1;
 
-                                c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
-                                c_ury = c_lly + templatePage.GetPageHeightWithBleeds;
+                                using (PDFLIBDocument documentB = new PDFLIBDocument(p, pdfFile.FileName, ""))
+                                {
+                                    (c_llx, c_lly) = GetClippingCoordinatesBack(pdfFile, pdfPage, templatePage);
 
-                                pd = ScreenDrawCommons.GetPageDrawBack(sheet, templatePage, side);
+                                    c_urx = c_llx + templatePage.GetPageWidthWithBleeds;
+                                    c_ury = c_lly + templatePage.GetPageHeightWithBleeds;
 
-                                llx = pd.page_x - ScreenDrawCommons.GetLeftBleedByAngleBack(sheet, templatePage, side);
-                                lly = pd.page_y - ScreenDrawCommons.GetBottomBleedByAngleBack(sheet, templatePage, side);
+                                    pd = ScreenDrawCommons.GetPageDrawBack(sheet, templatePage, side);
 
-                                angle = side.Angle;
-                                clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
+                                    llx = pd.page_x - ScreenDrawCommons.GetLeftBleedByAngleBack(sheet, templatePage, side);
+                                    lly = pd.page_y - ScreenDrawCommons.GetBottomBleedByAngleBack(sheet, templatePage, side);
 
-                                documentB.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
+                                    angle = side.Angle;
+                                    clipping_optlist = $"matchbox={{clipping={{{c_llx * PdfHelper.mn} {c_lly * PdfHelper.mn} {c_urx * PdfHelper.mn} {c_ury * PdfHelper.mn}}}}} orientate={Commons.Orientate[angle]}";
 
-
+                                    documentB.fit_pdi_page(pageNo, llx, lly, clipping_optlist);
+                                }
                             }
                         }
                     }
                 }
-               
+
 
                 DrawCropMarks.Front(p, templatePage);
                 DrawCropMarks.Back(p, templatePage);
