@@ -38,6 +38,8 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.l_total = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.txt_filter = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_tirag)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -62,9 +64,10 @@
             this.objectListView1.Location = new System.Drawing.Point(12, 44);
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(432, 318);
+            this.objectListView1.Size = new System.Drawing.Size(667, 424);
             this.objectListView1.TabIndex = 2;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
+            this.objectListView1.UseFiltering = true;
             this.objectListView1.View = System.Windows.Forms.View.Details;
             this.objectListView1.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.objectListView1_CellEditFinished);
             // 
@@ -86,7 +89,7 @@
             // btn_ok
             // 
             this.btn_ok.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_ok.Location = new System.Drawing.Point(174, 405);
+            this.btn_ok.Location = new System.Drawing.Point(291, 511);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(116, 37);
             this.btn_ok.TabIndex = 3;
@@ -119,7 +122,7 @@
             // btn_paste
             // 
             this.btn_paste.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_paste.Location = new System.Drawing.Point(316, 12);
+            this.btn_paste.Location = new System.Drawing.Point(551, 12);
             this.btn_paste.Name = "btn_paste";
             this.btn_paste.Size = new System.Drawing.Size(128, 23);
             this.btn_paste.TabIndex = 4;
@@ -134,15 +137,15 @@
             this.flowLayoutPanel1.Controls.Add(this.l_total);
             this.flowLayoutPanel1.Controls.Add(this.label1);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 368);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 474);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(432, 31);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(667, 31);
             this.flowLayoutPanel1.TabIndex = 5;
             // 
             // l_total
             // 
             this.l_total.AutoSize = true;
-            this.l_total.Location = new System.Drawing.Point(416, 0);
+            this.l_total.Location = new System.Drawing.Point(651, 0);
             this.l_total.Name = "l_total";
             this.l_total.Size = new System.Drawing.Size(13, 13);
             this.l_total.TabIndex = 1;
@@ -151,18 +154,37 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(367, 0);
+            this.label1.Location = new System.Drawing.Point(602, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Всього:";
             // 
+            // txt_filter
+            // 
+            this.txt_filter.Location = new System.Drawing.Point(334, 17);
+            this.txt_filter.Name = "txt_filter";
+            this.txt_filter.Size = new System.Drawing.Size(100, 20);
+            this.txt_filter.TabIndex = 6;
+            this.txt_filter.TextChanged += new System.EventHandler(this.txt_filter_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(288, 22);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(40, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "фільтр";
+            // 
             // FormEnterTirag
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(456, 454);
+            this.ClientSize = new System.Drawing.Size(691, 560);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txt_filter);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.btn_paste);
             this.Controls.Add(this.nud_tirag);
@@ -177,6 +199,7 @@
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -192,5 +215,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label l_total;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txt_filter;
+        private System.Windows.Forms.Label label2;
     }
 }
