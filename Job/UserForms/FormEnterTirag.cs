@@ -177,5 +177,14 @@ namespace JobSpace.UserForms
             }
             l_total.Text = $"{total}";
         }
+
+        private void txt_filter_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty( txt_filter.Text))            {
+                objectListView1.ModelFilter = null;
+            }
+            else
+                objectListView1.ModelFilter = new BrightIdeasSoftware.TextMatchFilter(objectListView1, txt_filter.Text);
+        }
     }
 }
