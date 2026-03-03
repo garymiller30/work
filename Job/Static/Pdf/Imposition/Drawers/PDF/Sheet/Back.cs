@@ -19,16 +19,18 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
     {
 
 
-        public static void Back(PDFlib p, ProductPart impos, PrintSheet sheet)
+        public static void Back(PDFlib p, ProductPart impos, PrintSheet sheet, GlobalImposParameters imposParameters)
         {
 
             DrawerStatic.CurSide = DrawerSideEnum.Back;
 
             p.begin_page_ext(sheet.W * PdfHelper.mn, sheet.H * PdfHelper.mn, "");
 
+            p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
+
             RecalcBackMarks(sheet);
             // draw background marks
-            DrawBackMarks(p, impos, sheet, foreground: false);
+            DrawBackMarks(p, impos, sheet, foreground: false, imposParameters);
 
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
@@ -73,14 +75,15 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                         }
                     }
                 }
-
+                
                 DrawCropMarks.Back(p, templatePage);
 
-                Proof.DrawPageBack(p, sheet, templatePage, templatePage.Back, impos.Proof);
+                Proof.DrawPageBack(p, sheet, templatePage, templatePage.Back, impos.Proof,imposParameters);
             }
-
+            
             //draw foreground marks
-            DrawBackMarks(p, impos, sheet, foreground: true);
+            DrawBackMarks(p, impos, sheet, foreground: true,imposParameters);
+            p.end_layer();
             p.end_page_ext($"mediabox={{{GetMediabox(impos, sheet)}}}");
         }
 
@@ -101,11 +104,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             }
         }
 
-        private static void DrawBackMarks(PDFlib p, ProductPart impos, PrintSheet sheet, bool foreground)
+        private static void DrawBackMarks(PDFlib p, ProductPart impos, PrintSheet sheet, bool foreground,GlobalImposParameters imposParameters)
         {
             DrawPdfMarks.Back(p, sheet, sheet.Marks, foreground);
-            DrawTextMarks.Back(p, sheet.Marks, foreground);
-            Proof.DrawSheet(p, sheet, impos.Proof);
+            DrawTextMarks.Back(p, sheet.Marks, foreground,imposParameters);
+            Proof.DrawSheet(p, sheet, impos.Proof,imposParameters);
         }
 
         private static void RecalcBackMarks(PrintSheet sheet)

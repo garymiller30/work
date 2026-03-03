@@ -14,15 +14,18 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 {
     public static partial class DrawSheet
     {
-        public static void WorkAndTumble(PDFlib p, ProductPart impos, PrintSheet sheet)
+        public static void WorkAndTumble(PDFlib p, ProductPart impos, PrintSheet sheet, GlobalImposParameters imposParameters)
         {
             p.begin_page_ext(sheet.W * PdfHelper.mn, sheet.H * PdfHelper.mn, "");
+
+            p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
+
 
             RecalcFrontMarks(sheet);
             RecalcBackMarks(sheet);
             // draw background marks
-            DrawFrontMarks(p, impos, sheet, foreground: false);
-            DrawBackMarks(p, impos, sheet, foreground: false);
+            DrawFrontMarks(p, impos, sheet, foreground: false, imposParameters);
+            DrawBackMarks(p, impos, sheet, foreground: false, imposParameters);
 
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
@@ -113,14 +116,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 DrawCropMarks.Front(p, templatePage);
                 DrawCropMarks.Back(p, templatePage);
 
-                Proof.DrawPage(p, templatePage, templatePage.Front, impos.Proof);
-                Proof.DrawPage(p, templatePage, templatePage.Back, impos.Proof);
+                Proof.DrawPage(p, templatePage, templatePage.Front, impos.Proof,imposParameters);
+                Proof.DrawPage(p, templatePage, templatePage.Back, impos.Proof, imposParameters);
             }
-
+            
             // draw foreground marks
-            DrawFrontMarks(p, impos, sheet, foreground: true);
-            DrawBackMarks(p, impos, sheet, foreground: true);
-
+            DrawFrontMarks(p, impos, sheet, foreground: true, imposParameters);
+            DrawBackMarks(p, impos, sheet, foreground: true, imposParameters);
+            p.end_layer();
             p.end_page_ext($"mediabox={{{GetMediabox(impos, sheet)}}}");
         }
     }

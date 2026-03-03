@@ -80,7 +80,7 @@ namespace JobSpace.Static.Pdf.Visual.BlocknoteSpiral
         {
             int cntHoles = (int)(box.Trim.height / spiralSettings.SpiralWidth);
 
-            double x = box.Media.width - box.Trim.left - spiralSettings.SpiralHeight;
+            double x = box.Media.width - box.Trim.right - spiralSettings.SpiralHeight;
             double y = (box.Media.height - (spiralSettings.SpiralWidth * cntHoles)) / 2;
             for (int i = 0; i < cntHoles; i++)
             {

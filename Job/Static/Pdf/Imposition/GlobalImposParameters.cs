@@ -1,4 +1,5 @@
 ﻿using JobSpace.Profiles;
+using JobSpace.Static.Pdf.Imposition.Drawers.PDF;
 using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,9 @@ namespace JobSpace.Static.Pdf.Imposition
         public ProductPart ProductPart { get; set; } = new ProductPart();
         public Profile Profile { get; set; }
 
-        public GlobalImposParameters()
+        public DrawParameters PdfDrawParameters {get;set;} = new DrawParameters();
+
+    public GlobalImposParameters()
         {
             ControlsBind = new ControlBindParameters(this);
         }

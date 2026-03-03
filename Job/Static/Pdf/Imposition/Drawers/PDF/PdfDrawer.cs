@@ -56,6 +56,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
                 StartEvent(this, range.Length);
 
+                _imposParam.PdfDrawParameters.LayerPrint = p.define_layer("Print", "");
+                _imposParam.PdfDrawParameters.LayerProof = p.define_layer("Proof", "");
+
                 foreach (var i in range)
                 {
 
@@ -80,25 +83,25 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                     {
                         case TemplateSheetPlaceType.SingleSide:
                             TextVariablesService.SetValue(ValueList.SheetSide, "Без звороту");
-                            DrawSheet.Front(p, impos, sheet);
+                            DrawSheet.Front(p, impos, sheet,_imposParam);
                             break;
 
                         case TemplateSheetPlaceType.Sheetwise:
 
                             TextVariablesService.SetValue(ValueList.SheetSide, "Лице");
-                            DrawSheet.Front(p, impos, sheet);
+                            DrawSheet.Front(p, impos, sheet,_imposParam);
                             TextVariablesService.SetValue(ValueList.SheetSide, "Зворот");
-                            DrawSheet.Back(p, impos, sheet);
+                            DrawSheet.Back(p, impos, sheet,_imposParam);
                             break;
 
                         case TemplateSheetPlaceType.WorkAndTurn:
                             TextVariablesService.SetValue(ValueList.SheetSide, "Свій зворот");
-                            DrawSheet.WorkAndTurn(p, impos, sheet);
+                            DrawSheet.WorkAndTurn(p, impos, sheet, _imposParam);
                             break;
 
                         case TemplateSheetPlaceType.WorkAndTumble:
                             TextVariablesService.SetValue(ValueList.SheetSide, "Клапан-хвіст");
-                            DrawSheet.WorkAndTurn(p, impos, sheet);
+                            DrawSheet.WorkAndTumble(p, impos, sheet, _imposParam);
                             break;
                         default:
                             throw new NotImplementedException();

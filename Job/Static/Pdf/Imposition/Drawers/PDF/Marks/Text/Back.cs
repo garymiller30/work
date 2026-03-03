@@ -15,7 +15,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
 {
     public static partial class DrawTextMarks
     {
-        public static void Back(PDFlib p, MarksContainer marksContainer, bool foreground)
+        public static void Back(PDFlib p, MarksContainer marksContainer, bool foreground, GlobalImposParameters imposParameters)
         {
             foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack && x.Enable && x.IsForeground == foreground))
             {
@@ -28,6 +28,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
 
                 foreach (var token in stringToken.Tokens)
                 {
+                    MarkColor color = token.Color;
+
+                    if (color.IsProofColor())
+                    {
+                        p.begin_layer(imposParameters.PdfDrawParameters.LayerProof);
+                    }
+                    else
+                    {
+                        p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
+                    }
+
                     p.save();
                     if (mark.Color.IsOverprint)
                     {
@@ -35,7 +46,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                         p.set_gstate(gstate);
                     }
 
-                    MarkColor color = token.Color;
+                    
                     string fillColor = color.IsSpot ? $"fillcolor={{spotname {{{color.Name}}} {color.Opasity / 100} {{cmyk {color.C / 100} {color.M / 100} {color.Y / 100} {color.K / 100}}}}}" :
                                                       $"fillcolor={{cmyk {color.C / 100} {color.M / 100} {color.Y / 100} {color.K / 100}}}";
                     p.fit_textline(token.Text, x, y, $"{fillColor} orientate={Commons.Orientate[mark.Angle]}");
@@ -60,31 +71,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
 
                     p.restore();
                 }
-
-                //p.save();
-
-                //if (mark.Color.IsOverprint)
-                //{
-                //    int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
-                //    p.set_gstate(gstate);
-                //}
-
-                //string fillColor = mark.Color.IsSpot ? $"fillcolor={{spotname {{{mark.Color.Name}}} {mark.Color.Opasity / 100} {{cmyk {mark.Color.C / 100} {mark.Color.M / 100} {mark.Color.Y / 100} {mark.Color.K / 100}}}}}" :
-                //    $"fillcolor={{cmyk {mark.Color.C / 100} {mark.Color.M / 100} {mark.Color.Y / 100} {mark.Color.K / 100}}}";
-
-                //string txt = TextVariablesService.ReplaceToRealValues(mark.Text);
-
-                //double x = mark.Back.X;
-                //if (mark.Parameters.IsBackMirrored)
-                //{
-                //    //TODO: хз, що тут робити. Поки не знадобилося
-                //}
-
-                //p.fit_textline(txt, x * PdfHelper.mn, mark.Back.Y * PdfHelper.mn, $"fontname={mark.FontName} fontsize={mark.FontSize} {fillColor} orientate={Commons.Orientate[mark.Angle]}");
-                //p.restore();
             }
 
-            marksContainer.Containers.ForEach(x => DrawTextMarks.Back(p, x, foreground));
+            marksContainer.Containers.ForEach(x => DrawTextMarks.Back(p, x, foreground, imposParameters));
+
+            p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
         }
     }
 }
