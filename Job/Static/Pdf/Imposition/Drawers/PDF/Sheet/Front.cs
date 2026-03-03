@@ -18,16 +18,18 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 {
     public static partial class DrawSheet
     {
-        public static void Front(PDFlib p, ProductPart impos, PrintSheet sheet)
+        public static void Front(PDFlib p, ProductPart impos, PrintSheet sheet, GlobalImposParameters imposParameters)
         {
             DrawerStatic.CurSide = DrawerSideEnum.Front;
 
             p.begin_page_ext(sheet.W * PdfHelper.mn, sheet.H * PdfHelper.mn, "");
 
+            p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
+
             RecalcFrontMarks(sheet);
 
             // draw background marks
-            DrawFrontMarks(p, impos, sheet, foreground: false);
+            DrawFrontMarks(p, impos, sheet, foreground: false, imposParameters);
 
             foreach (TemplatePage templatePage in sheet.TemplatePageContainer.TemplatePages)
             {
@@ -65,20 +67,25 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                     }
                 }
                 DrawCropMarks.Front(p, templatePage);
-                Proof.DrawPage(p, templatePage, templatePage.Front, impos.Proof);
+
+                
+
+                Proof.DrawPage(p, templatePage, templatePage.Front, impos.Proof,imposParameters);
             }
-
+            
             // draw foreground marks
-            DrawFrontMarks(p, impos, sheet, foreground: true);
+            DrawFrontMarks(p, impos, sheet, foreground: true, imposParameters);
 
+            p.end_layer();
             p.end_page_ext($"mediabox={{{GetMediabox(impos, sheet)}}}");
         }
 
-        private static void DrawFrontMarks(PDFlib p, ProductPart impos, TemplateSheet sheet, bool foreground)
+        private static void DrawFrontMarks(PDFlib p, ProductPart impos, TemplateSheet sheet, bool foreground, GlobalImposParameters imposParameters)
         {
             DrawPdfMarks.Front(p, sheet, sheet.Marks, foreground);
-            DrawTextMarks.Front(p, sheet.Marks, foreground);
-            Proof.DrawSheet(p, sheet, impos.Proof);
+            DrawTextMarks.Front(p, sheet.Marks, foreground, imposParameters);
+
+            Proof.DrawSheet(p, sheet, impos.Proof, imposParameters);
         }
 
         private static void RecalcFrontMarks(PrintSheet sheet)

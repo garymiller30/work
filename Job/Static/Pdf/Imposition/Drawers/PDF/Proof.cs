@@ -13,10 +13,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
     public static class Proof
     {
 
-        public static void DrawPage(PDFlib p, TemplatePage templatePage,PageSide side, ProofParameters proof)
+        public static void DrawPage(PDFlib p, TemplatePage templatePage,PageSide side, ProofParameters proof, GlobalImposParameters imposParameters)
         {
 
             if (!proof.Enable) return;
+
+            p.begin_layer(imposParameters.PdfDrawParameters.LayerProof);
+
             (double x,double y, double w,double h) = ScreenDrawCommons.GetPageDraw(templatePage, side);
 
             DrawStrokeRect(p, MarkColor.ProofColor,
@@ -28,11 +31,15 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                     Y2 = y + h
                 });
 
+            p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
 
         }
-        public static void DrawPageBack(PDFlib p, PrintSheet sheet, TemplatePage templatePage, PageSide side, ProofParameters proof)
+        public static void DrawPageBack(PDFlib p, PrintSheet sheet, TemplatePage templatePage, PageSide side, ProofParameters proof, GlobalImposParameters imposParameters)
         {
             if (!proof.Enable) return;
+
+            p.begin_layer(imposParameters.PdfDrawParameters.LayerProof);
+
             (double x, double y, double w, double h) = ScreenDrawCommons.GetPageDrawBack(sheet,templatePage, side);
             DrawStrokeRect(p, MarkColor.ProofColor,
                new RectangleD
@@ -42,6 +49,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                    X2 = x + w,
                    Y2 = y + h
                });
+
+            p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
         }
 
         static void DrawStrokeRect(PDFlib p, MarkColor color, RectangleD rect)
@@ -59,10 +68,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
             p.restore();
         }
 
-        public static void DrawSheet(PDFlib p, TemplateSheet sheet, ProofParameters proof)
+        public static void DrawSheet(PDFlib p, TemplateSheet sheet, ProofParameters proof, GlobalImposParameters imposParameters)
         {
 
             if (!proof.Enable) return;
+
+            p.begin_layer(imposParameters.PdfDrawParameters.LayerProof);
 
             DrawStrokeRect(p, MarkColor.ProofColor,
                new RectangleD
@@ -72,6 +83,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                    X2 = sheet.W,
                    Y2 = sheet.H
                });
+
+            p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
         }
 
        

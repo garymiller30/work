@@ -17,7 +17,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
 {
     public static partial class DrawTextMarks
     {
-        public static void Front(PDFlib p, MarksContainer marksContainer, bool foreground)
+        public static void Front(PDFlib p, MarksContainer marksContainer, bool foreground, GlobalImposParameters imposParameters)
         {
             foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsFront && x.Enable == true && x.IsForeground == foreground))
             {
@@ -39,6 +39,16 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                     }
 
                     MarkColor color = token.Color;
+
+                    if (color.IsProofColor())
+                    {
+                        p.begin_layer(imposParameters.PdfDrawParameters.LayerProof);
+                    }
+                    else
+                    {
+                        p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
+                    }
+
                     string fillColor = color.IsSpot ? $"fillcolor={{spotname {{{color.Name}}} {color.Opasity / 100} {{cmyk {color.C / 100} {color.M / 100} {color.Y / 100} {color.K / 100}}}}}" :
                                                       $"fillcolor={{cmyk {color.C / 100} {color.M / 100} {color.Y / 100} {color.K / 100}}}";
                     p.fit_textline(token.Text, x, y, $"{fillColor} orientate={Commons.Orientate[mark.Angle]}");
@@ -65,7 +75,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                 }
             }
 
-            marksContainer.Containers.ForEach(x => DrawTextMarks.Front(p, x,foreground));
+            marksContainer.Containers.ForEach(x => DrawTextMarks.Front(p, x,foreground,imposParameters));
+
+            p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
         }
     }
 }
