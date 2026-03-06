@@ -199,6 +199,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\_Components\PDFLIB\11.0.0\crack\PDFlib_dotnet.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.7.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.7.0\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="SharpCompress, Version=0.36.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.36.0\lib\net462\SharpCompress.dll</HintPath>
     </Reference>
@@ -323,6 +328,7 @@
     <Reference Include="Testably.Abstractions.FileSystem.Interface, Version=9.0.0.0, Culture=neutral, PublicKeyToken=f24346c8579fcb48, processorArchitecture=MSIL">
       <HintPath>..\packages\Testably.Abstractions.FileSystem.Interface.9.0.0\lib\netstandard2.0\Testably.Abstractions.FileSystem.Interface.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
     <Reference Include="ZstdSharp, Version=0.7.6.0, Culture=neutral, PublicKeyToken=8d151af33a4ad5cf, processorArchitecture=MSIL">
       <HintPath>..\packages\ZstdSharp.Port.0.7.6\lib\net462\ZstdSharp.dll</HintPath>
     </Reference>
@@ -561,6 +567,12 @@
     </Compile>
     <Compile Include="UserForms\FormEnterTirag.Designer.cs">
       <DependentUpon>FormEnterTirag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfCreateQRCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfCreateQRCode.Designer.cs">
+      <DependentUpon>FormPdfCreateQRCode.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\Visual\FormCreateBigovkaMarks.cs">
       <SubType>Form</SubType>
@@ -1213,6 +1225,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\FormEnterTirag.resx">
       <DependentUpon>FormEnterTirag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormPdfCreateQRCode.resx">
+      <DependentUpon>FormPdfCreateQRCode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\Marks\FormColorControlBar.resx">
       <DependentUpon>FormColorControlBar.cs</DependentUpon>

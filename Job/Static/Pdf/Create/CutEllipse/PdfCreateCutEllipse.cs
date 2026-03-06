@@ -48,7 +48,7 @@ namespace JobSpace.Static.Pdf.Create.CutEllipse
                     p.begin_page_ext(0, 0, "");
                     p.begin_layer(layer_print);
                     p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
-                    p.end_layer();
+                   
                     p.begin_layer(layer_cut);
                     int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
                     p.set_gstate(gstate);

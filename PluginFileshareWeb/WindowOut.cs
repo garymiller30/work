@@ -24,7 +24,7 @@ namespace PluginFileshareWeb
         CoreWebView2EnvironmentOptions options;
         WebView2 curwebView2 = null;
         List<ToolStripButton> toolStripButtons = new List<ToolStripButton>();
-
+        TabControl _tab_control;
         double zoomFactor = 80;
         public IUserProfile UserProfile { get; set; }
 
@@ -35,7 +35,53 @@ namespace PluginFileshareWeb
         public WindowOut()
         {
             InitializeComponent();
+            _tab_control = tabControl1;
+            _tab_control.SelectedIndexChanged += tControl_SelectedIndexChanged;
+            _tab_control.MouseDoubleClick += tControl_MouseDoubleClick;
             _ = InitializeAsync();
+        }
+
+        private void tControl_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                // Check if the user double-clicked on a tab
+                for (int i = 0; i < _tab_control.TabCount; i++)
+                {
+                    Rectangle tabRect = _tab_control.GetTabRect(i);
+                    if (tabRect.Contains(e.Location))
+                    {
+                        var tabPage = _tab_control.TabPages[i];
+                        if (tabPage.Tag is WebView2 webView2)
+                        {
+                            LinkInfo link = (LinkInfo)webView2.Tag;
+                            _settings.OpenOnStart.Remove(link);
+                            UserProfile.Plugins.SaveSettings(_settings);
+                            // Dispose the WebView2 control
+                            webView2.Dispose();
+                        }
+                        // Remove the tab
+                        _tab_control.TabPages.RemoveAt(i);
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void tControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_tab_control.SelectedTab == null) return;
+
+            if (_tab_control.SelectedTab.Tag is WebView2 webView2)
+            {
+                curwebView2 = webView2;
+                if (_curJob != null)
+                {
+                    curwebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
+                }
+
+            }
         }
 
         private async Task InitializeAsync()
@@ -53,10 +99,10 @@ namespace PluginFileshareWeb
             LinkInfo link = (LinkInfo)((ToolStripButton)sender).Tag;
 
             await AddTabAsync();
-            WebView2 webView = (WebView2)tabControl1.SelectedTab.Tag;
+            WebView2 webView = (WebView2)_tab_control.SelectedTab.Tag;
             //збережемо посилання в тег вкладки
             webView.Tag = link;
-            tabControl1.SelectedTab.Text = link.Name;
+            _tab_control.SelectedTab.Text = link.Name;
 
 
 
@@ -92,10 +138,10 @@ namespace PluginFileshareWeb
             foreach (var link in _settings.OpenOnStart)
             {
                 await AddTabAsync();
-                WebView2 webView = (WebView2)tabControl1.SelectedTab.Tag;
+                WebView2 webView = (WebView2)_tab_control.SelectedTab.Tag;
                 //збережемо посилання в тег вкладки
                 webView.Tag = link;
-                tabControl1.SelectedTab.Text = link.Name;
+                _tab_control.SelectedTab.Text = link.Name;
 
                 curwebView2.Source = new Uri("about:blank");
                 curwebView2.Source = new Uri(link.Url);
@@ -283,51 +329,28 @@ namespace PluginFileshareWeb
             tabPage.Tag = curwebView2;
             curwebView2.Dock = DockStyle.Fill;
             tabPage.Controls.Add(curwebView2);
-            tabControl1.TabPages.Add(tabPage);
-            tabControl1.SelectedTab = tabPage;
+            _tab_control.TabPages.Add(tabPage);
+            _tab_control.SelectedTab = tabPage;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedTab == null) return;
-
-            if (tabControl1.SelectedTab.Tag is WebView2 webView2)
-            {
-                curwebView2 = webView2;
-                if (_curJob != null)
-                {
-                    curwebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
-                }
-                
-            }
+            
         }
 
         private void tabControl1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                // Check if the user double-clicked on a tab
-                for (int i = 0; i < tabControl1.TabCount; i++)
-                {
-                    Rectangle tabRect = tabControl1.GetTabRect(i);
-                    if (tabRect.Contains(e.Location))
-                    {
-                        var tabPage = tabControl1.TabPages[i];
-                        if (tabPage.Tag is WebView2 webView2)
-                        {
-                            LinkInfo link = (LinkInfo)webView2.Tag;
-                            _settings.OpenOnStart.Remove(link);
-                            UserProfile.Plugins.SaveSettings(_settings);
-                            // Dispose the WebView2 control
-                            webView2.Dispose();
-                        }
-                        // Remove the tab
-                        tabControl1.TabPages.RemoveAt(i);
+            
+        }
 
-                        break;
-                    }
-                }
-            }
+        private void roundedTabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void roundedTabControl1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }

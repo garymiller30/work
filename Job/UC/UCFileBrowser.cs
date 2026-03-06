@@ -1391,5 +1391,10 @@ namespace JobSpace.UC
                 FileBrowserSevices.Clipboard_PasteWithSpecificName(_fileManager, f);
             }
         }
+
+        private void створитиQRCodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileBrowserSevices.PDF_CreateQRCode(_fileManager.Settings.CurFolder);
+        }
     }
 }
