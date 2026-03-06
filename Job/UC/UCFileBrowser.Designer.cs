@@ -121,7 +121,6 @@ namespace JobSpace.UC
             this.додатиТираж000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.отправитьВToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             this.toolStripLeft = new System.Windows.Forms.ToolStrip();
             this.toolStripPDF = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonCreatePdf = new System.Windows.Forms.ToolStripButton();
@@ -150,6 +149,7 @@ namespace JobSpace.UC
             this.toolStripButtonCut = new System.Windows.Forms.ToolStripButton();
             this.tsddb_paste = new System.Windows.Forms.ToolStripDropDownButton();
             this.вставитиЯкКопіюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSplitButtonTrash = new System.Windows.Forms.ToolStripSplitButton();
             this.openTrashToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
@@ -176,7 +176,8 @@ namespace JobSpace.UC
             this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
+            this.створитиQRCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -233,7 +234,7 @@ namespace JobSpace.UC
             // toolStripScriptPanel
             // 
             this.toolStripScriptPanel.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStripScriptPanel.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripScriptPanel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.toolStripScriptPanel.Location = new System.Drawing.Point(3, 0);
             this.toolStripScriptPanel.Name = "toolStripScriptPanel";
             this.toolStripScriptPanel.Size = new System.Drawing.Size(111, 25);
@@ -399,7 +400,7 @@ namespace JobSpace.UC
             // 
             // contextMenuStrip1
             // 
-            this.contextMenuStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.contextMenuStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.предварительныйПросмотрToolStripMenuItem,
             this.отриматиДодатковуІнформаціюToolStripMenuItem,
@@ -428,7 +429,7 @@ namespace JobSpace.UC
             this.додатиТираж000ToolStripMenuItem,
             this.отправитьВToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(309, 464);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(309, 486);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
             // 
             // предварительныйПросмотрToolStripMenuItem
@@ -482,6 +483,7 @@ namespace JobSpace.UC
             this.додатиКонтурВисічкиКолоToolStripMenuItem,
             this.створитипустишкиЗТиражамиToolStripMenuItem,
             this.створитиМіткиДляПідборуToolStripMenuItem,
+            this.створитиQRCodeToolStripMenuItem,
             this.toolStripSeparator18,
             this.спускПолосToolStripMenuItem,
             this.toolStripSeparator16,
@@ -959,19 +961,10 @@ namespace JobSpace.UC
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // uc_PreviewBrowserFile1
-            // 
-            this.uc_PreviewBrowserFile1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(0, 0);
-            this.uc_PreviewBrowserFile1.Margin = new System.Windows.Forms.Padding(0);
-            this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
-            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(96, 100);
-            this.uc_PreviewBrowserFile1.TabIndex = 0;
-            // 
             // toolStripLeft
             // 
             this.toolStripLeft.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStripLeft.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripLeft.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.toolStripLeft.Location = new System.Drawing.Point(0, 3);
             this.toolStripLeft.Name = "toolStripLeft";
             this.toolStripLeft.Size = new System.Drawing.Size(26, 111);
@@ -980,7 +973,7 @@ namespace JobSpace.UC
             // toolStripPDF
             // 
             this.toolStripPDF.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStripPDF.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripPDF.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.toolStripPDF.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonCreatePdf,
             this.tsb_set_trims,
@@ -1079,14 +1072,14 @@ namespace JobSpace.UC
             this.tsb_NumericFiles.Image = ((System.Drawing.Image)(resources.GetObject("tsb_NumericFiles.Image")));
             this.tsb_NumericFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_NumericFiles.Name = "tsb_NumericFiles";
-            this.tsb_NumericFiles.Size = new System.Drawing.Size(30, 20);
+            this.tsb_NumericFiles.Size = new System.Drawing.Size(23, 22);
             this.tsb_NumericFiles.Text = "Пронумерувати файли";
             this.tsb_NumericFiles.Click += new System.EventHandler(this.toolStripButtonNumericFiles_Click);
             // 
             // toolStrip1
             // 
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton_Up,
             this.toolStripSeparator4,
@@ -1113,7 +1106,7 @@ namespace JobSpace.UC
             this.toolStripSeparator19});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(546, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(515, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -1258,6 +1251,13 @@ namespace JobSpace.UC
             this.вставитиЯкКопіюToolStripMenuItem.Text = "вставити як копію";
             this.вставитиЯкКопіюToolStripMenuItem.Click += new System.EventHandler(this.вставитиЯкКопіюToolStripMenuItem_Click);
             // 
+            // вставитиЗІменемФайлаПідКурсоромToolStripMenuItem
+            // 
+            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Name = "вставитиЗІменемФайлаПідКурсоромToolStripMenuItem";
+            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Size = new System.Drawing.Size(288, 22);
+            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Text = "вставити з іменем файла під курсором";
+            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Click += new System.EventHandler(this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem_Click);
+            // 
             // toolStripSplitButtonTrash
             // 
             this.toolStripSplitButtonTrash.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -1383,7 +1383,7 @@ namespace JobSpace.UC
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabelCountFiles,
@@ -1446,12 +1446,21 @@ namespace JobSpace.UC
             // 
             this.kryptonContextMenuHeading1.ExtraText = "";
             // 
-            // вставитиЗІменемФайлаПідКурсоромToolStripMenuItem
+            // uc_PreviewBrowserFile1
             // 
-            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Name = "вставитиЗІменемФайлаПідКурсоромToolStripMenuItem";
-            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Size = new System.Drawing.Size(288, 22);
-            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Text = "вставити з іменем файла під курсором";
-            this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem.Click += new System.EventHandler(this.вставитиЗІменемФайлаПідКурсоромToolStripMenuItem_Click);
+            this.uc_PreviewBrowserFile1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(0, 0);
+            this.uc_PreviewBrowserFile1.Margin = new System.Windows.Forms.Padding(0);
+            this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
+            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(96, 100);
+            this.uc_PreviewBrowserFile1.TabIndex = 0;
+            // 
+            // створитиQRCodeToolStripMenuItem
+            // 
+            this.створитиQRCodeToolStripMenuItem.Name = "створитиQRCodeToolStripMenuItem";
+            this.створитиQRCodeToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.створитиQRCodeToolStripMenuItem.Text = "Створити QR Code";
+            this.створитиQRCodeToolStripMenuItem.Click += new System.EventHandler(this.створитиQRCodeToolStripMenuItem_Click);
             // 
             // UCFileBrowser
             // 
@@ -1642,5 +1651,6 @@ namespace JobSpace.UC
         private BrightIdeasSoftware.OLVColumn olvColumnCreatorApp;
         private System.Windows.Forms.ToolStripMenuItem мякаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem вставитиЗІменемФайлаПідКурсоромToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem створитиQRCodeToolStripMenuItem;
     }
 }

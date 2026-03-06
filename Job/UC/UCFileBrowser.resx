@@ -131,7 +131,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADU
-        CwAAAk1TRnQBSQFMAgEBCQEAAeQBBQHkAQUBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CwAAAk1TRnQBSQFMAgEBCQEAAVQBBgFUAQYBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAATADAAEBAQABCAYAAQwYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -292,11 +292,11 @@
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEoSURBVDhPY/jw8P7H+/Pn/yYHv7x/9yfD6x2Lf9yRZfhP
-        Dj7Y2fAPrwEPvU3+31HlxCoHwngNuG8s+f9xcsD/F30NGHIwTNiAOK//L+ZOwpCDYYJeeLV09v+n9QVY
+        Dt5cX/8PrwEPvU3+31HlxCoHwngNuG8s+f9xcsD/F30NGHIwTNiAOK//L+ZOwpCDYYJeeLV09v+n9QVY
         5UCYoAGvN638/yjIBqscCOM14K62wP93l8//f1qZiSEHw3gNeFqR/v95Z/X/hz6m/x9Fu4PF7mrw/r+r
         yAJXg9MAkKJ3Vy/+f1IY//9xou//p1VZ/18umv7/YbDt/+ftlf8fp4fgNgAU969WLfj/rLXs/x15Jrj4
         PTOZ/0/L0/6/6G/8/9DPArsBT/Jj/z+K8fj/evv6/3cUmOGacWEUA+7bqQGdnPD/1bqlQNtksWpAxxgu
-        uO+s/f8unqSLjnEGIrEYbABl2fnuTwDMKlo+r1KsCAAAAABJRU5ErkJggg==
+        uO+s/f8unqSLjnEGIrEYbABl2fnuTwAsu1jg2JcQAwAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="tsb_set_trims.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -419,18 +419,18 @@
   <data name="toolStripButton_Up.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKCSURBVDhPlZLdT1JxGMfxbSloW3ZhL1hd9B+4tmxtrKsu
-        qq2ozdaF5UW2cRVjjQvbjlnhjCWQYOIbAikMQQ008PUgoodzJFRIqAki5PJly3HrLJ5+Pz35cpP23T77
-        nfO8fM9znnM4/9LS+tLpQGT0Cnv7f1pIfrloGquz93rVajZ0dM3GyKu2ccW0L2aHYb/xPRs+XACQ5Z6z
-        PrBOyRNMsg8Cyy6wTiiCrmmd0sXoVX8ZQtipJtnij/nzbCuHs5Je4dkpTZV+4nlqNKoFT9wAvmQPMEkH
-        UPG+A9AJO1jp+g0m4trZzzpaVudYdZuaLN9s9JVBC1MB5jkpOL81wOSSBXyJXqD2QX9HBgxrEF+ZudDs
-        fDZItNxPv/EIQO65BqrJ29DMPALjjAT6I0o0jRm8ccsuUwnbnsHqaqyoi3zV2kCWbda6L4PMXQpK7w3Q
-        0uVgCDyF7mANfPraCO7YBxhf7NzGEzftGWDh9/9IaaT1Q8KNeu91NMEtZPAQGYihO/QS+ubfIhMNjCy0
-        w1i0A9yLxoMGWPgLeOZs9zSDT6ItdAW0TT9Ge6iCHlL+W+ev29rms3xLF1BsOWaJX4YRYp0OD5ey7XsK
-        xSYvdYxKPYRRmraFXoOJlLmmgo47VNgppML9QiqEiAzcpUMDN1OpxAm27aCWfy4Um8drDTV6Iu3ytx/9
-        R9qvNVjLd1BNL3q972Rs6HChPWQgMjEEQWTqSF1ua1fDGYvFkoVhcxls+Y5wQCAQZPP5/LzCwsLjBQUF
-        J3k8XhFKnUWcy+XkFqOTz+VyT+EcrsG1JSUlObtm+AI/EZGtUqmOicXivMrKSq5EIuGJRKJ8fOIYzmm1
-        2hx2GtTM4fwBx0iyrnXCe3AAAAAASUVORK5CYII=
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKBSURBVDhPlZLdT1JxGMfxbSlIW3ZhL1hd9B+4tmxtrKsu
+        qq2ozdaF5UW0eRVjjQvbjr3hjCkQYOIbivkyBDHQxNeDCB7O0VAgpYaIkMuXLceto3j6/fSkcpP23T77
+        nfO8fM9znnM4/9LK5sppX2j8Cnv7fwrHv1zsnqixWd1aLRs6uuYj5FXLpHLGG7HB6GzHezZ8uAAgy+k3
+        PzBPK2JMvB98qw4wTykDjhmDysG0q/8ygrBRDfLlHwvn2VYOZy21xrNRusr2qeeJ8SU9uKJG8Mb7gInb
+        gYr2p0HHbGCm67aYkGN3P5toWZ0TVS1asmy73lsKTUw59PhlMPRNA54VE3hjVqAOQH9HBgxrEF2bu9A4
+        9GyYqL2feusSgsJ1DdSe29DIPIKOOSkMhFRomh5wR017TMcs+wbr65HCLvJ1s4Ys3a52Xga5swRU7hug
+        p8vA6HsKvYGX8OlrPTgjH2ByuXMHV7R73wALv/9HSierGxFt1bmvowluIYOHyEACvcFX0L9Qi0x0MBZu
+        hYmlNnAud6QbYOEv4PJb7umGnyw10eXQMvMY7aES+kjFb8NsTXKHz4qkwadM2ueJX8YxYpNeHC1h2/cV
+        jHgutY3LXIROlrIE30A3KXdMB+x3qMUhEbU4IKKCiNDgXTo4eDORiJ1g29K1+jNc1DNZbSQ0RMox23r0
+        H+mgNmAj3041vLC638nZ0OFCe8hAZGIIgsg0kIbc5i7NGZPJlIVhcxls+a5wQCgUZgsEgryCgoLjfD7/
+        JI/HK0Sps4hzuZzcInQKuFzuKZzDNbi2uLg4Z88MX+AnIrLVavUxiUSSJxaLuVKplFdRUZGPTxzDOb1e
+        n8NOg5o5nD98xrKBJMuFKwAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="toolStripButton_Refresh.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

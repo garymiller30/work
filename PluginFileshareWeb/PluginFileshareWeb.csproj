@@ -84,6 +84,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RoundedTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WindowOut.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QRCoder;
+using System;
 using System.Windows.Forms;
 
 namespace ActiveWorks
@@ -11,6 +12,7 @@ namespace ActiveWorks
         [STAThread]
         static void Main()
         {
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

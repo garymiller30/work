@@ -172,7 +172,7 @@ namespace JobSpace.Static
             var form = new FormCreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().ToList());
 
             form.Show();
-            
+
         }
         public static void PDF_ExtractPages(IList files)
         {
@@ -817,7 +817,7 @@ namespace JobSpace.Static
             string ext = f.FileInfo.Extension.ToLowerInvariant();
             if (ext == ".pdf" || ext == ".ai")
             {
-                return PdfHelper.RenderByTrimBox(f.FileInfo.FullName,pageIdx);
+                return PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx);
             }
             else if (ext == ".tif" || ext == ".tiff" || ext == ".png" || ext == ".bmp" || ext == ".jpg" || ext == ".jpeg")
             {
@@ -867,7 +867,7 @@ namespace JobSpace.Static
         /// <exception cref="NotImplementedException"></exception>
         public static Size GetImageSize(string fullName)
         {
-            
+
             string ext = Path.GetExtension(fullName).ToLowerInvariant();
 
             if (ext == ".tif" || ext == ".tiff" || ext == ".png" || ext == ".bmp" || ext == ".jpg" || ext == ".jpeg")
@@ -885,11 +885,18 @@ namespace JobSpace.Static
                     return new Size((int)(psd.Width * 25.4 / psd.Density.X), (int)(psd.Height * 25.4 / psd.Density.Y));
                 }
             }
-            
+
             return new Size(100, 100);
         }
 
+        public static void PDF_CreateQRCode(string curFolder)
+        {
+            var form = new FormPdfCreateQRCode();
 
+            form.SetTargetFolder(curFolder);
+            form.Show();
+
+        }
         #endregion
     }
 }
