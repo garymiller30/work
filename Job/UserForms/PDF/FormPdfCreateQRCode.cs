@@ -1,4 +1,9 @@
-﻿using QRCoder;
+﻿using iText.Barcodes;
+using iText.Kernel.Colors;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas;
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,19 +58,11 @@ namespace JobSpace.UserForms.PDF
                 MessageBox.Show("Please enter the text to encode in the QR code.");
                 return;
             }
-            CreatePdfWithQRCode(textBox1.Text);
+            CreateQRCodeIText(textBox1.Text);
         }
 
-        private void CreatePdfWithQRCode(string text)
+        private void CreateQRCodeIText(string text)
         {
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
-            PdfByteQRCode qrCode = new PdfByteQRCode(qrCodeData);
-            byte[] qrCodeAsPdfByteArr = qrCode.GetGraphic(20);
-            string pdfText = System.Text.Encoding.ASCII.GetString(qrCodeAsPdfByteArr);
-            pdfText = pdfText.Replace("1 1 1 rg", "0 0 0 0 k");
-            pdfText = pdfText.Replace("0 0 0 rg", "0 0 0 1 k");
-
-            // Зберегаємо PDF-файл у вказаній папці. Якщо такий файл вже існує, додаємо суфікс до імені файлу.
             string filePath = System.IO.Path.Combine(_target_folder, "qrcode.pdf");
             int fileIndex = 1;
             while (System.IO.File.Exists(filePath))
@@ -73,7 +70,24 @@ namespace JobSpace.UserForms.PDF
                 filePath = System.IO.Path.Combine(_target_folder, $"qrcode_{fileIndex}.pdf");
                 fileIndex++;
             }
-            File.WriteAllText(filePath, pdfText);
+
+            PdfWriter writer = new PdfWriter(filePath);
+            PdfDocument pdf = new PdfDocument(writer);
+
+            BarcodeQRCode qr = new BarcodeQRCode(text);
+            var form = qr.CreateFormXObject(
+               new DeviceCmyk(0, 0, 0, 100),  // QR колір (100% K)
+               pdf
+           );
+
+            float width = form.GetWidth();
+            float height = form.GetHeight();
+
+            var page = pdf.AddNewPage(new PageSize(width, height));
+            PdfCanvas canvas = new PdfCanvas(page);
+            canvas.AddXObjectAt(form, 0, 0);
+            pdf.Close();
+
         }
     }
 }

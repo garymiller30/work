@@ -45,11 +45,14 @@ namespace CSScriptEngine
         {
             Cursor.Current = Cursors.WaitCursor;
             
+            //var script = _settings.Engine.GetScript(parameters.ScriptPath);
+
             dynamic script = CSScript.Evaluator.LoadFile(parameters.ScriptPath);
 
             if (script != null) {
                 try
                 {
+                    
                     script.Run(parameters.Values);
                 }
                 catch (Exception)
