@@ -111,6 +111,7 @@
     <Compile Include="IPdfConverterSettings.cs" />
     <Compile Include="IPlateFormat.cs" />
     <Compile Include="IScreenPrimitive.cs" />
+    <Compile Include="Script\IScript.cs" />
     <Compile Include="ISearchManager.cs" />
     <Compile Include="IServicesStateManager.cs" />
     <Compile Include="IServiceState.cs" />

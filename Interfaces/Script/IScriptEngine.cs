@@ -11,7 +11,7 @@ namespace Interfaces.Script
         IScriptController Ftp {get;set;}
         IScriptController JobList {get;set;}
         IScriptController FileBrowser{get;set;}
-
+        //IScript GetScript(string path);
         bool IsScriptFile(string path);
     }
 }
