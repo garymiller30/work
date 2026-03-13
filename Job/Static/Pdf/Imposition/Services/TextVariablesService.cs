@@ -9,11 +9,11 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 {
     public class TextVariablesService
     {
-        public static Dictionary<string, string> Values { get;set;} = new Dictionary<string, string>();
+        public Dictionary<string, string> Values { get;set;} = new Dictionary<string, string>();
 
-        static TextVariableAbstract textVariables;
+        TextVariableAbstract textVariables;
 
-        public static TextVariableAbstract TextVariableCommand
+        public TextVariableAbstract TextVariableCommand
         {
             get
             {
@@ -22,7 +22,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             }
         }
 
-        private static void InitTextCommand()
+        private void InitTextCommand()
         {
             var c_simple = new TextVariableSimpleText(null);
             var c_fromService = new TextVariableFromService(c_simple);
@@ -34,7 +34,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         }
 
-        public static void SetValue(string key, object value)
+        public void SetValue(string key, object value)
         {
             if (Values.ContainsKey(key))
             {
@@ -47,7 +47,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         }
 
 
-        public static string ReplaceToRealValues(string str)
+        public string ReplaceToRealValues(string str)
         {
             string output = str;
 

@@ -19,7 +19,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
         {
             foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack && x.Enable && x.IsForeground == foreground))
             {
-                StringToken stringToken = new StringToken(mark);
+                StringToken stringToken = new StringToken(mark,imposParameters.TextVariables);
                 int font = p.load_font(mark.FontName, "auto", "");
                 p.setfont(font, mark.FontSize);
 

@@ -14,9 +14,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
             Keyword = ValueList.CurDate;
         }
 
-        protected override List<TextToken> GetTextTokens(TextMark mark)
+        protected override List<TextToken> GetTextTokens(TextMark mark, TextVariablesService textVariablesService)
         {
-            return new List<TextToken>(){TextToken.Create(mark, DateTime.Now.ToString()) };
+            return new List<TextToken>(){TextToken.Create(mark, DateTime.Now.ToString(), textVariablesService) };
         }
     }
 }

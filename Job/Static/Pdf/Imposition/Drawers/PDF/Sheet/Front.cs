@@ -26,7 +26,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
             p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
 
-            RecalcFrontMarks(sheet);
+            RecalcFrontMarks(sheet, imposParameters.TextVariables);
 
             // draw background marks
             DrawFrontMarks(p, impos, sheet, foreground: false, imposParameters);
@@ -88,10 +88,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             Proof.DrawSheet(p, sheet, impos.Proof, imposParameters);
         }
 
-        private static void RecalcFrontMarks(PrintSheet sheet)
+        private static void RecalcFrontMarks(PrintSheet sheet, TextVariablesService textVariablesService)
         {
             PdfMarksService.RecalcMarkCoordFront(sheet);
-            TextMarksService.RecalcMarkCoordFront(sheet);
+            TextMarksService.RecalcMarkCoordFront(sheet, textVariablesService);
         }
 
         private static (double c_llx, double c_lly) GetClippingCoordinatesFront(PdfFile pdfFile, PdfFilePage pdfPage, TemplatePage templatePage)

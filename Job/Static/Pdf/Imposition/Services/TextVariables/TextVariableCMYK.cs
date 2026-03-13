@@ -14,20 +14,20 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
             Keyword = ValueList.Cmyk;
         }
 
-        protected override List<TextToken> GetTextTokens(TextMark mark)
+        protected override List<TextToken> GetTextTokens(TextMark mark, TextVariablesService textVariablesService)
         {
             List<TextToken> list = new List<TextToken>();
 
-            var c = TextToken.Create("C");
+            var c = TextToken.Create("C", textVariablesService);
             c.Color = new Models.MarkColor() { C = 100, M = 0, Y = 0, K = 0 };
             list.Add(c);
-            var m = TextToken.Create("M");
+            var m = TextToken.Create("M", textVariablesService);
             m.Color = new Models.MarkColor() { C = 0, M = 100, Y = 0, K = 0 };
             list.Add(m);
-            var y = TextToken.Create("Y");
+            var y = TextToken.Create("Y", textVariablesService);
             y.Color = new Models.MarkColor() { C = 0, M = 0, Y = 100, K = 0 };
             list.Add(y);
-            var k = TextToken.Create("K");
+            var k = TextToken.Create("K", textVariablesService);
             k.Color = new Models.MarkColor() { C = 0, M = 0, Y = 0, K = 100 };
             list.Add(k);
             return list;

@@ -14,12 +14,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
             
         }
 
-        public override List<TextToken> HandleKeyword(TextMark mark, string keyword)
+        public override List<TextToken> HandleKeyword(TextMark mark, string keyword, TextVariablesService textVariablesService)
         {
-            return new List<TextToken>(){TextToken.Create(mark,keyword) };
+            return new List<TextToken>(){TextToken.Create(mark,keyword, textVariablesService) };
         }
 
-        protected override List<TextToken> GetTextTokens(TextMark mark)
+        protected override List<TextToken> GetTextTokens(TextMark mark, TextVariablesService textVariablesService)
         {
             return new List<TextToken>();
         }

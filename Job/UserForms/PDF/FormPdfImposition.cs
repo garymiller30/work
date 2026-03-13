@@ -269,9 +269,12 @@ namespace JobSpace.UserForms.PDF
 
             if (param.Job != null)
             {
-                TextVariablesService.SetValue(ValueList.OrderNo, param.Job.Number);
-                TextVariablesService.SetValue(ValueList.Customer, param.Job.Customer);
-                TextVariablesService.SetValue(ValueList.OrderDesc, param.Job.Description);
+                _imposParam.TextVariables.SetValue(ValueList.OrderNo, param.Job.Number);
+                _imposParam.TextVariables.SetValue(ValueList.Customer, param.Job.Customer);
+                _imposParam.TextVariables.SetValue(ValueList.OrderDesc, param.Job.Description);
+                //TextVariablesService.SetValue(ValueList.OrderNo, param.Job.Number);
+                //TextVariablesService.SetValue(ValueList.Customer, param.Job.Customer);
+                //TextVariablesService.SetValue(ValueList.OrderDesc, param.Job.Description);
             }
 
             int id = 1;

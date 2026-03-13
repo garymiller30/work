@@ -11,49 +11,49 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 {
     public static class TextMarksService
     {
-        public static void RecalcMarkCoordFront(TemplateSheet sheet)
+        public static void RecalcMarkCoordFront(TemplateSheet sheet, TextVariablesService textVariablesService)
         {
             RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
             RectangleD subjectRect = ProcessSubject.GetSubjectRect(sheet, sheet.TemplatePageContainer);
-            TextMarksService.RecalcMarkCoordFront(sheet.Marks, sheetRect, subjectRect);
+            TextMarksService.RecalcMarkCoordFront(sheet.Marks, sheetRect, subjectRect, textVariablesService);
         }
 
-        static void RecalcMarkCoordFront(MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect)
+        static void RecalcMarkCoordFront(MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect, TextVariablesService textVariablesService)
         {
             foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsFront))
             {
                 if (mark.Parent == MarkParentEnum.Sheet)
                 {
-                    PositioningService.AnchorToAbsoluteCoordFront(sheetRect, mark);
+                    PositioningService.AnchorToAbsoluteCoordFront(sheetRect, mark, textVariablesService);
                 }
                 else
                 {
-                    PositioningService.AnchorToAbsoluteCoordFront(subjectRect, mark);
+                    PositioningService.AnchorToAbsoluteCoordFront(subjectRect, mark, textVariablesService);
                 }
             }
-            marksContainer.Containers.ForEach(y => TextMarksService.RecalcMarkCoordFront(y, sheetRect, subjectRect));
+            marksContainer.Containers.ForEach(y => TextMarksService.RecalcMarkCoordFront(y, sheetRect, subjectRect, textVariablesService));
         }
-        public static void RecalcMarkCoordBack(TemplateSheet sheet)
+        public static void RecalcMarkCoordBack(TemplateSheet sheet, TextVariablesService textVariablesService)
         {
             RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
             RectangleD subjectRect = sheet.TemplatePageContainer.GetSubjectRectBack(sheet);
-            TextMarksService.RecalcMarkCoordBack(sheet.Marks, sheetRect, subjectRect);
+            TextMarksService.RecalcMarkCoordBack(sheet.Marks, sheetRect, subjectRect, textVariablesService);
         }
 
-        static void RecalcMarkCoordBack(MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect)
+        static void RecalcMarkCoordBack(MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect, TextVariablesService textVariablesService)
         {
             foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack && x.Enable))
             {
                 if (mark.Parent == MarkParentEnum.Sheet)
                 {
-                    PositioningService.AnchorToAbsoluteCoordBack(sheetRect, mark);
+                    PositioningService.AnchorToAbsoluteCoordBack(sheetRect, mark, textVariablesService);
                 }
                 else
                 {
-                    PositioningService.AnchorToAbsoluteCoordBack(subjectRect, mark);
+                    PositioningService.AnchorToAbsoluteCoordBack(subjectRect, mark, textVariablesService);
                 }
             }
-            marksContainer.Containers.ForEach(y => TextMarksService.RecalcMarkCoordBack(y, sheetRect, subjectRect));
+            marksContainer.Containers.ForEach(y => TextMarksService.RecalcMarkCoordBack(y, sheetRect, subjectRect, textVariablesService));
         }
 
     }

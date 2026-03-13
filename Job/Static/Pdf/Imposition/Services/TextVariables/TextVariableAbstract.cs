@@ -17,28 +17,28 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
             Command = command;
         }
 
-        public virtual List<TextToken> HandleKeyword(TextMark mark, string keyword)
+        public virtual List<TextToken> HandleKeyword(TextMark mark, string keyword, TextVariablesService textVariablesService)
         {
             if (Keyword.Equals(keyword, StringComparison.InvariantCulture))
             {
-                return GetTextTokens(mark);
+                return GetTextTokens(mark, textVariablesService);
             }
             else if (Command != null)
             {
-                return Command.HandleKeyword(mark, keyword);
+                return Command.HandleKeyword(mark, keyword, textVariablesService);
             }
             else
             {
-                return new List<TextToken>() { TextToken.Create(mark, keyword) };
+                return new List<TextToken>() { TextToken.Create(mark, keyword, textVariablesService) };
             }
 
         }
 
-        protected abstract List<TextToken> GetTextTokens(TextMark mark);
+        protected abstract List<TextToken> GetTextTokens(TextMark mark, TextVariablesService textVariablesService);
 
-        protected List<TextToken> GetFromTextVariableService(TextMark mark,string keyword)
+        protected List<TextToken> GetFromTextVariableService(TextMark mark,string keyword, TextVariablesService textVariablesService)
         {
-            return new List<TextToken> { TextToken.Create(mark, TextVariablesService.ReplaceToRealValues(keyword)) };
+            return new List<TextToken> { TextToken.Create(mark, textVariablesService.ReplaceToRealValues(keyword), textVariablesService) };
         }
     }
 }

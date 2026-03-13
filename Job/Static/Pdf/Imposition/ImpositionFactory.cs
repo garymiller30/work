@@ -1,8 +1,11 @@
 ﻿using Interfaces.Pdf.Imposition;
 using JobSpace.Profiles;
+using JobSpace.Static.Pdf.Imposition.Drawers.PDF;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,43 +15,37 @@ namespace JobSpace.Static.Pdf.Imposition
     public class ImpositionFactory : IImpositionFactory
     {
         Profile _profile;
-        List<ProductPart> _productParts = new List<ProductPart>();
-        int curProductPartIdx = -1;
-        int curPrintSheetIdx = -1;
 
         public ImpositionFactory(Profile userProfile)
         {
             _profile = userProfile;
         }
 
-        public IImpositionFactory AddMasterPage(double w, double h, double bleed)
+        public IImposResult CreateImpos(string templateName, string filePath)
         {
-            if (curProductPartIdx < 0) throw new Exception("Add Product Part first.");
-            if (curPrintSheetIdx < 0) throw new Exception("Add Print Sheet first.");
-            var s = new TemplatePage() { W = w, H = h, Bleeds = new ClipBox() { Default = bleed } };
-            _productParts[curProductPartIdx].PrintSheets[curPrintSheetIdx].MasterPage = s;
-            return this;
+            var imposResult = new ImposResult();
+
+            string templatePath = Path.Combine( _profile.ImposService.PrintSheetsPath,templateName);
+
+            var sheets= _profile.ImposService.LoadPrintSheets(templatePath);
+            var productPart = new ProductPart();
+            productPart.ExportParameters.SaveToSourceFileFolder(filePath) ;
+            productPart.ExportParameters.SavePrintSheetToOrderFolder = false;
+            productPart.PrintSheets = sheets;
+            var pdfFile = productPart.AddPdfFile(filePath);
+            productPart.RunList.AddFile(pdfFile);
+            GlobalImposParameters imposParam = new GlobalImposParameters() { Profile = _profile, ProductPart = productPart };
+            var drawer = new PdfDrawer(imposParam);
+            //TextVariablesService.SetValue(ValueList.OrderNo, param.Job.Number);
+            //TextVariablesService.SetValue(ValueList.Customer, param.Job.Customer);
+            //TextVariablesService.SetValue(ValueList.OrderDesc, param.Job.Description);
+            drawer.Draw(productPart);
+            return imposResult;
         }
 
-        public IImpositionFactory AddPrintSheet(double w, double h, TemplateSheetPlaceType sheetPlaceType)
+        public IProductPart CreateProductPart()
         {
-            if (curProductPartIdx < 0) throw new Exception("Add Product Part first.");
-
-            var s = new PrintSheet() { W = w, H = h,SheetPlaceType = sheetPlaceType };
-            _productParts[curProductPartIdx].PrintSheets.Add(s);
-
-
-            return this;
-        }
-
-        public IImpositionFactory AddProductPart()
-        {
-            var pp = new ProductPart();
-            _productParts.Add(pp);
-
-            curProductPartIdx++;
-
-            return this;
+            return new ProductPart();
         }
     }
 }

@@ -61,12 +61,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             H = height;
         }
 
-        //public TemplatePage(double width, double height, double bleeds) : this(width, height)
-        //{
-        //    Bleeds.SetDefault(bleeds);
-        //    Margins.Set(bleeds);
-        //}
-
         public TemplatePage(double x, double y, double width, double height, double angle)
         {
             Front.X = x;
@@ -75,8 +69,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             H = height;
             Front.Angle = angle;
         }
-
-
 
         public double GetClippedWByRotate()
         {
@@ -121,9 +113,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             return JsonSerializer.Deserialize<TemplatePage>(str);
         }
 
-
-
-
         public void SwitchWH(TemplateSheetPlaceType sheetPlaceType)
         {
             // switch W and H
@@ -144,11 +133,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sheetPlaceType), sheetPlaceType, null);
-
-
             }
-
-
         }
 
         public double GetPageDrawBackX()
@@ -183,7 +168,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                 default:
                     throw new NotImplementedException();
             }
-
         }
 
         public double GetPageDrawBackH()

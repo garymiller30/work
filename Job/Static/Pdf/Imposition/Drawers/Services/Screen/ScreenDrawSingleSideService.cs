@@ -22,7 +22,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
     public static class ScreenDrawSingleSideService
     {
-        public static Bitmap Draw(TemplateSheet sheet)
+        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService)
         {
             var zoom = ScreenDrawer.ZoomFactor;
 
@@ -42,9 +42,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             //draw background marks
             PdfMarksService.RecalcMarkCoordFront(sheet);
-            TextMarksService.RecalcMarkCoordFront(sheet);
+            TextMarksService.RecalcMarkCoordFront(sheet, textVariablesService);
 
-            DrawSheetMarksFront(g, sheet, foreground: false, (int)sheet.H);
+            DrawSheetMarksFront(g, sheet, foreground: false, (int)sheet.H, textVariablesService);
 
             // draw pages
             foreach (var page in templateContainer.TemplatePages)
@@ -53,21 +53,21 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             }
 
             //draw foreground marks
-            DrawSheetMarksFront(g, sheet, foreground: true, (int)sheet.H);
+            DrawSheetMarksFront(g, sheet, foreground: true, (int)sheet.H, textVariablesService);
 
             g.Dispose();
 
             return bitmap;
         }
 
-        private static void DrawContainerMarksFront(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)
+        private static void DrawContainerMarksFront(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h, TextVariablesService textVariablesService)
         {
             DrawPdfMarksFront(g,sheet, container, foreground, h);
-            DrawTextMarksFront(g, container, foreground, h);
+            DrawTextMarksFront(g, container, foreground, h, textVariablesService);
 
         }
 
-        private static void DrawTextMarksFront(Graphics g, MarksContainer container, bool foreground, int h)
+        private static void DrawTextMarksFront(Graphics g, MarksContainer container, bool foreground, int h, TextVariablesService textVariablesService)
         {
             Brush brush = new SolidBrush(Color.MidnightBlue);
             foreach (var mark in container.Text.Where(x => x.Parameters.IsFront && x.Enable && x.IsForeground == foreground))
@@ -78,7 +78,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 var state = g.Save();
                 g.TranslateTransform(
                     (float)(mark.Front.X*ScreenDrawer.ZoomFactor), 
-                    (float)((h - mark.Front.Y - mark.GetH())* ScreenDrawer.ZoomFactor));
+                    (float)((h - mark.Front.Y - mark.GetH(textVariablesService))* ScreenDrawer.ZoomFactor));
 
                 float angle = mark.Angle == 90 || mark.Angle == 270 ? (float)(mark.Angle + 180) : (float)mark.Angle;
 
@@ -90,7 +90,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             brush.Dispose();
 
-            container.Containers.ForEach(x => DrawTextMarksFront(g, x, foreground, h));
+            container.Containers.ForEach(x => DrawTextMarksFront(g, x, foreground, h, textVariablesService));
         }
 
         private static void DrawPdfMarksFront(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)
@@ -178,10 +178,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
         }
 
 
-        public static void DrawSheetMarksFront(Graphics g, TemplateSheet sheet, bool foreground, int h)
+        public static void DrawSheetMarksFront(Graphics g, TemplateSheet sheet, bool foreground, int h, TextVariablesService textVariablesService)
         {
             DrawPdfMarksFront(g, sheet, sheet.Marks, foreground, h);
-            DrawTextMarksFront(g, sheet.Marks, foreground, h);
+            DrawTextMarksFront(g, sheet.Marks, foreground, h, textVariablesService);
         }
 
         private static void DrawSheetSafeField(Graphics g, TemplateSheet sheet)

@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Imposition.Services.TextVariables;
+﻿using JobSpace.Static.Pdf.Imposition.Services;
+using JobSpace.Static.Pdf.Imposition.Services.TextVariables;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,23 +19,23 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
         public TextMarkParameters Parameters { get; set; } = new TextMarkParameters();
 
-        public override double GetH()
+        public override double GetH(TextVariablesService textVariablesService)
         {
-            return (double)GetSize().Height;
+            return (double)GetSize(textVariablesService).Height;
         }
 
-        public override double GetW()
+        public override double GetW(TextVariablesService textVariablesService)
         {
-            return (double)GetSize().Width;
+            return (double)GetSize(textVariablesService).Width;
         }
 
-        SizeF GetSize()
+        SizeF GetSize(TextVariablesService textVariablesService)
         {
             using (var graphics = System.Drawing.Graphics.FromImage(new System.Drawing.Bitmap(1, 1)))
             {
                 graphics.PageUnit = System.Drawing.GraphicsUnit.Millimeter;
                 var font = new System.Drawing.Font(FontName, (float)FontSize);
-                var txt = new StringToken(this).GetRawString();
+                var txt = new StringToken(this, textVariablesService).GetRawString();
                 var size = graphics.MeasureString(txt, font);
                 return size; 
             }

@@ -1,4 +1,5 @@
 ﻿using Interfaces.Pdf.Imposition;
+using JobSpace.Static.Pdf.Imposition.Services;
 using MongoDB.Bson.IO;
 using Org.BouncyCastle.Crypto;
 using System;
@@ -36,19 +37,19 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
             File = new PdfFile(filePath);
         }
 
-        public override double GetW()
+        public override double GetW(TextVariablesService textVariablesService)
         {
             return File?.Pages[0].Media.W ?? 0;
         }
 
-        public override double GetH()
+        public override double GetH(TextVariablesService textVariablesService)
         {
             return File?.Pages[0].Media.H ?? 0;
         }
 
         public double GetClippedW()
         {
-            double w = GetW();
+            double w = GetW(null);
             if (w == 0) return 0;
 
             return w - Parameters.ClipBox.Left - Parameters.ClipBox.Right;
@@ -56,7 +57,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
         public double GetClippedH()
         {
-            double h = GetH();
+            double h = GetH(null);
             if (h == 0) return 0;
             return h - Parameters.ClipBox.Top - Parameters.ClipBox.Bottom;
         }

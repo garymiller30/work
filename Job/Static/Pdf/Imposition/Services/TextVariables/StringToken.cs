@@ -14,13 +14,13 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
 
 
 
-        public StringToken(TextMark mark)
+        public StringToken(TextMark mark, TextVariablesService textVariablesService)
         {
             Mark = mark;
-            ParseSting(mark.Text);
+            ParseSting(mark.Text, textVariablesService);
         }
 
-        public void ParseSting(string str)
+        public void ParseSting(string str, TextVariablesService textVariablesService)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -30,7 +30,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
                 {
                     if (sb.Length > 0)
                     {
-                        Tokens.AddRange(ProcessStr(sb));
+                        Tokens.AddRange(ProcessStr(sb, textVariablesService));
                         sb.Clear();
                     }
                     //початок ключючового слова
@@ -41,7 +41,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
                     }
                     sb.Append(str[i]);
 
-                    Tokens.AddRange(ProcessStr(sb));
+                    Tokens.AddRange(ProcessStr(sb, textVariablesService));
                     sb.Clear();
                 }
                 else
@@ -50,12 +50,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
                 }
             }
 
-            if (sb.Length > 0) Tokens.AddRange(ProcessStr(sb));
+            if (sb.Length > 0) Tokens.AddRange(ProcessStr(sb, textVariablesService));
         }
 
-        List<TextToken> ProcessStr(StringBuilder sb)
+        List<TextToken> ProcessStr(StringBuilder sb, TextVariablesService textVariablesService)
         {
-            return TextVariablesService.TextVariableCommand.HandleKeyword(Mark, sb.ToString());
+            return textVariablesService.TextVariableCommand.HandleKeyword(Mark, sb.ToString(), textVariablesService);
         }
 
         public string GetRawString()

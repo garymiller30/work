@@ -15,7 +15,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
             Keyword = ValueList.UsedColor;
         }
 
-        protected override List<TextToken> GetTextTokens(TextMark mark)
+        protected override List<TextToken> GetTextTokens(TextMark mark, TextVariablesService textVariablesService)
         {
             List<TextToken> list = new List<TextToken>();
 
@@ -24,7 +24,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
             {
                 foreach (var item in DrawerStatic.CurProductPart.UsedColors.Colors.Where(x => DrawerStatic.CurSide == DrawerSideEnum.Front ? x.IsFront == true : x.IsBack == true))
                 {
-                    var token = new TextToken(item.Name)
+                    var token = new TextToken(item.Name, textVariablesService)
                     {
                         Color = item.MarkColor
                     };
