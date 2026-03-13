@@ -24,15 +24,15 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
                 });
         }
 
-        public override List<TextToken> HandleKeyword(TextMark mark, string keyword)
+        public override List<TextToken> HandleKeyword(TextMark mark, string keyword, TextVariablesService textVariablesService)
         {
             if (Keywords.Contains(keyword))
             {
-                return GetFromTextVariableService(mark,keyword);
+                return GetFromTextVariableService(mark,keyword,textVariablesService);
             }
             else if (Command != null)
             {
-                return Command.HandleKeyword(mark, keyword);
+                return Command.HandleKeyword(mark, keyword, textVariablesService);
             }
             else
             {
@@ -40,7 +40,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
             }
         }
 
-        protected override List<TextToken> GetTextTokens(TextMark mark)
+        protected override List<TextToken> GetTextTokens(TextMark mark, TextVariablesService textVariablesService)
         {
             throw new NotImplementedException();
         }

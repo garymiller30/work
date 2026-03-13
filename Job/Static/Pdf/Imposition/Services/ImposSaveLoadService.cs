@@ -20,12 +20,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services
     {
 
         public MarksService Marks { get; set; }
-        string RootPath;
-        string SheetPath;
-        string MarksPath;
-        string SheetTemplatesPath;
-        string PrintSheetsPath;
-        string TemplatePlatesPath;
+        public string RootPath { get;private set; }
+        public string SheetPath { get; private set; }
+        public string MarksPath { get; private set; }
+        public string SheetTemplatesPath { get; private set; }
+        public string PrintSheetsPath { get; private set; }
+        public string TemplatePlatesPath { get; private set; }
         Profile _profile;
 
         public ImposSaveLoadService( Profile profile)
@@ -226,17 +226,18 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         public  List<PrintSheet> LoadPrintSheets(string fileName, bool checkFileExists = true)
         {
+            if (checkFileExists && !File.Exists(fileName))
+                return new List<PrintSheet>();
 
-            if (checkFileExists)
+            try
             {
-                if (!File.Exists(fileName))
-                {
-                    return new List<PrintSheet> { };
-                }
+                var json = File.ReadAllText(fileName);
+                return JsonSerializer.Deserialize<List<PrintSheet>>(json) ?? new List<PrintSheet>();
             }
-            string str = File.ReadAllText(fileName);
-            List<PrintSheet> sheets = JsonSerializer.Deserialize<List<PrintSheet>>(str);
-            return sheets;
+            catch
+            {
+                return new List<PrintSheet>();
+            }
         }
 
         public  List<TemplatePlate> LoadTemplatePates()

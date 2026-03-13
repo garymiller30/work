@@ -70,8 +70,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             double xMark = 0;
             double yMark = 0;
 
-            double w = mark.GetW();
-            double h = mark.GetH();
+            double w = mark.GetW(null);
+            double h = mark.GetH(null);
 
             switch (mark.Parameters.MarkAnchorPoint)
             {
@@ -123,7 +123,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         }
 
-        public static void AnchorToAbsoluteCoordFront(RectangleD subject, TextMark mark)
+        public static void AnchorToAbsoluteCoordFront(RectangleD subject, TextMark mark, TextVariablesService textVariablesService)
         {
             double x = 0;
             double y = 0;
@@ -183,8 +183,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             double xMark = 0;
             double yMark = 0;
 
-            double w = mark.GetW();
-            double h = mark.GetH();
+            double w = mark.GetW(textVariablesService);
+            double h = mark.GetH(textVariablesService);
 
             switch (mark.Parameters.MarkAnchorPoint)
             {
@@ -241,12 +241,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             AnchorToToAbsoluteCoordBackPdfMark(subject, mark);
         }
 
-        public static void AnchorToAbsoluteCoordBack(RectangleD subject, TextMark mark)
+        public static void AnchorToAbsoluteCoordBack(RectangleD subject, TextMark mark, TextVariablesService textVariablesService)
         {
-            AnchorToToAbsoluteCoordBackTextMark(subject, mark);
+            AnchorToToAbsoluteCoordBackTextMark(subject, mark, textVariablesService);
         }
 
-        static void AnchorToToAbsoluteCoordBackTextMark(RectangleD subject, TextMark mark)
+        static void AnchorToToAbsoluteCoordBackTextMark(RectangleD subject, TextMark mark,TextVariablesService textVariablesService)
         {
             double x = 0;
             double y = 0;
@@ -311,8 +311,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             double xMark = 0;
             double yMark = 0;
 
-            double w = mark.GetW();
-            double h = mark.GetH();
+            double w = mark.GetW(textVariablesService);
+            double h = mark.GetH(textVariablesService);
 
             switch (mark.Parameters.MarkAnchorPoint)
             {
@@ -416,8 +416,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             double xMark = 0;
             double yMark = 0;
 
-            double w = mark.GetW();
-            double h = mark.GetH();
+            double w = mark.GetW(null);
+            double h = mark.GetH(null);
 
             switch (mark.Parameters.MarkAnchorPoint)
             {
@@ -489,7 +489,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 }
                 else if (param.AutoClipRelativeX == AutoClipMarkEnum.Subject)
                 {
-                    double mark_w = mark.GetW();
+                    double mark_w = mark.GetW(null);
 
                     if (mark_w > subjectRect.W)
                     {
@@ -553,7 +553,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 }
                 else if (param.AutoClipRelativeX == AutoClipMarkEnum.Subject)
                 {
-                    double mark_w = mark.GetW();
+                    double mark_w = mark.GetW(null);
 
                     if (mark_w > subjectRect.W)
                     {

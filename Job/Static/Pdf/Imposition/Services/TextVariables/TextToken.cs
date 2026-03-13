@@ -16,13 +16,13 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
         public int Length { get; set; }
         public MarkColor Color { get; set; }
 
-        public TextToken(string txt)
+        public TextToken(string txt, TextVariablesService textVariablesService)
         {
             if (txt.StartsWith("$["))
             {
                 IsKeyWord = true;
                 Keyword = txt;
-                Text = TextVariablesService.ReplaceToRealValues(txt);
+                Text = textVariablesService.ReplaceToRealValues(txt);
             }
             else
             {
@@ -31,9 +31,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
             Length = Text.Length;
 
         }
-        public static TextToken Create(string txt)
+        public static TextToken Create(string txt, TextVariablesService textVariablesService)
         {
-            return new TextToken(txt);
+            return new TextToken(txt, textVariablesService);
         }
 
         public override string ToString()
@@ -41,9 +41,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
             return Text;
         }
 
-        public static TextToken Create(TextMark mark, string txt)
+        public static TextToken Create(TextMark mark, string txt, TextVariablesService textVariablesService)
         {
-            TextToken token = Create(txt);
+            TextToken token = Create(txt, textVariablesService);
             token.Color = mark.Color;
             return token;
         }

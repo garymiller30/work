@@ -23,7 +23,14 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public string   CustomOutputFolder { get; set; } = "";
         public string   OutputFilePath { get; private set; } = "";
 
-        public void CreateOutputFileName()
+        public void SaveToSourceFileFolder(string sourceFilePath)
+        {
+            OutputFolder = Path.GetDirectoryName(sourceFilePath);
+            OutputFileName = Path.GetFileNameWithoutExtension(sourceFilePath) + "_imposed.pdf";
+
+        }
+
+        public void CreateOutputFileName(TextVariablesService textVariablesService)
         {
             string fileName = Path.GetFileNameWithoutExtension(OutputFileName);
             string folder = OutputFolder;
@@ -34,7 +41,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
             if (UseTemplate)
             {
-                fileName = TextVariablesService.ReplaceToRealValues(TemplateString).Transliteration();
+                fileName = textVariablesService.ReplaceToRealValues(TemplateString).Transliteration();
             }
 
             if (UseCustomOutputFolder)

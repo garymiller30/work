@@ -17,7 +17,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
     {
         public static double ZoomFactor = 1.0;
 
-        public static Bitmap Draw(TemplateSheet sheet)
+        public static Bitmap Draw(TemplateSheet sheet,TextVariablesService textVariablesService)
         {
 
             //CropMarksService.FixCropMarks(sheet);
@@ -26,13 +26,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
             {
                 case TemplateSheetPlaceType.SingleSide:
                 case TemplateSheetPlaceType.Sheetwise:
-                    return ScreenDrawSingleSideService.Draw(sheet);
+                    return ScreenDrawSingleSideService.Draw(sheet, textVariablesService);
 
                 case TemplateSheetPlaceType.WorkAndTurn:
-                    return ScreenDrawWorkAndTurnService.Draw(sheet);
+                    return ScreenDrawWorkAndTurnService.Draw(sheet, textVariablesService);
 
                 case TemplateSheetPlaceType.WorkAndTumble:
-                    return ScreenDrawWorkAndTumbleService.Draw(sheet);
+                    return ScreenDrawWorkAndTumbleService.Draw(sheet, textVariablesService);
                 default:
                     throw new NotImplementedException();
             }

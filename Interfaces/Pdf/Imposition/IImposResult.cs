@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace Interfaces.Pdf.Imposition
 {
-    public interface IImpositionFactory
+    public interface IImposResult
     {
-        IProductPart CreateProductPart();
-
-        IImposResult CreateImpos(string templateName,string filePath);
     }
 }

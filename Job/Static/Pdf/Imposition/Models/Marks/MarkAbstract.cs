@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobSpace.Static.Pdf.Imposition.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         public MarkAbstract()
         {
         }
-        public abstract double GetW();
-        public abstract double GetH();
+        public abstract double GetW(TextVariablesService textVariablesService);
+        public abstract double GetH(TextVariablesService textVariablesService);
     }
 }

@@ -141,7 +141,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             pb_preview.Width = (int)((_imposParam.ControlsBind.Sheet.W + 1) * ScreenDrawer.ZoomFactor);
             pb_preview.Height = (int)((_imposParam.ControlsBind.Sheet.H + 1) * ScreenDrawer.ZoomFactor);
 
-            pb_preview.Image = ScreenDrawer.Draw(_imposParam.ControlsBind.Sheet);
+            pb_preview.Image = ScreenDrawer.Draw(_imposParam.ControlsBind.Sheet,_imposParam.TextVariables);
         }
 
         private void OnCropMarksChanged(object sender, EventArgs e)

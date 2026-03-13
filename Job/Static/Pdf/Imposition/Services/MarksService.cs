@@ -225,8 +225,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             {
                 Bitmap img = new Bitmap(png_path);
                 Bitmap scaledBitmap = new Bitmap(
-                    (int)(mark.GetW()*ScreenDrawer.ZoomFactor),
-                    (int)(mark.GetH()*ScreenDrawer.ZoomFactor));
+                    (int)(mark.GetW(null)*ScreenDrawer.ZoomFactor),
+                    (int)(mark.GetH(null)*ScreenDrawer.ZoomFactor));
               
                 using (Graphics g = Graphics.FromImage(scaledBitmap))
                 {
@@ -235,8 +235,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
                     // Draw the scaled image
                     g.DrawImage(img, 0, 0, 
-                        (int)(mark.GetW()*ScreenDrawer.ZoomFactor), 
-                        (int)(mark.GetH()*ScreenDrawer.ZoomFactor));
+                        (int)(mark.GetW(null)*ScreenDrawer.ZoomFactor), 
+                        (int)(mark.GetH(null)*ScreenDrawer.ZoomFactor));
                 }
                 img.Dispose();
                 return scaledBitmap;

@@ -28,7 +28,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
             p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
 
-            RecalcBackMarks(sheet);
+            RecalcBackMarks(sheet,imposParameters.TextVariables);
             // draw background marks
             DrawBackMarks(p, impos, sheet, foreground: false, imposParameters);
 
@@ -111,10 +111,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             Proof.DrawSheet(p, sheet, impos.Proof,imposParameters);
         }
 
-        private static void RecalcBackMarks(PrintSheet sheet)
+        private static void RecalcBackMarks(PrintSheet sheet, TextVariablesService textVariablesService)
         {
             PdfMarksService.RecalcMarkCoordBack(sheet);
-            TextMarksService.RecalcMarkCoordBack(sheet);
+            TextMarksService.RecalcMarkCoordBack(sheet, textVariablesService);
         }
     }
 }

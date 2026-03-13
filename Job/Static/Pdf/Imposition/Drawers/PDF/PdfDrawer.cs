@@ -37,7 +37,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
             try
             {
-                impos.ExportParameters.CreateOutputFileName();
+                impos.ExportParameters.CreateOutputFileName(_imposParam.TextVariables);
                 var targetFile = impos.ExportParameters.OutputFilePath;
 
                 int[] range;
@@ -71,36 +71,36 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
                     var sheet = impos.PrintSheets[i];
 
-                    TextVariablesService.SetValue(ValueList.SheetIdx, i + 1);
-                    TextVariablesService.SetValue(ValueList.SheetFormat, $"{sheet.W}x{sheet.H}");
-                    TextVariablesService.SetValue(ValueList.SheetDesc, sheet.Description);
-                    TextVariablesService.SetValue(ValueList.CurDate, DateTime.Now.ToString());
-                    TextVariablesService.SetValue(ValueList.SheetCount, sheet.Count);
+                    _imposParam.TextVariables.SetValue(ValueList.SheetIdx, i + 1);
+                    _imposParam.TextVariables.SetValue(ValueList.SheetFormat, $"{sheet.W}x{sheet.H}");
+                    _imposParam.TextVariables.SetValue(ValueList.SheetDesc, sheet.Description);
+                    _imposParam.TextVariables.SetValue(ValueList.CurDate, DateTime.Now.ToString());
+                    _imposParam.TextVariables.SetValue(ValueList.SheetCount, sheet.Count);
 
-                    CropMarksService.FixCropMarks(sheet, _imposParam);
+                    //CropMarksService.FixCropMarks(sheet, _imposParam);
 
                     switch (sheet.SheetPlaceType)
                     {
                         case TemplateSheetPlaceType.SingleSide:
-                            TextVariablesService.SetValue(ValueList.SheetSide, "Без звороту");
+                            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Без звороту");
                             DrawSheet.Front(p, impos, sheet,_imposParam);
                             break;
 
                         case TemplateSheetPlaceType.Sheetwise:
 
-                            TextVariablesService.SetValue(ValueList.SheetSide, "Лице");
+                            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Лице");
                             DrawSheet.Front(p, impos, sheet,_imposParam);
-                            TextVariablesService.SetValue(ValueList.SheetSide, "Зворот");
+                            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Зворот");
                             DrawSheet.Back(p, impos, sheet,_imposParam);
                             break;
 
                         case TemplateSheetPlaceType.WorkAndTurn:
-                            TextVariablesService.SetValue(ValueList.SheetSide, "Свій зворот");
+                            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Свій зворот");
                             DrawSheet.WorkAndTurn(p, impos, sheet, _imposParam);
                             break;
 
                         case TemplateSheetPlaceType.WorkAndTumble:
-                            TextVariablesService.SetValue(ValueList.SheetSide, "Клапан-хвіст");
+                            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Клапан-хвіст");
                             DrawSheet.WorkAndTumble(p, impos, sheet, _imposParam);
                             break;
                         default:

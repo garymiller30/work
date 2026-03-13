@@ -21,8 +21,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
 
 
-            RecalcFrontMarks(sheet);
-            RecalcBackMarks(sheet);
+            RecalcFrontMarks(sheet, imposParameters.TextVariables);
+            RecalcBackMarks(sheet, imposParameters.TextVariables);
             // draw background marks
             DrawFrontMarks(p, impos, sheet, foreground: false, imposParameters);
             DrawBackMarks(p, impos, sheet, foreground: false, imposParameters);
