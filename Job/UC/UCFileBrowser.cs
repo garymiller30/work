@@ -90,11 +90,15 @@ namespace JobSpace.UC
 
             var settings = _fileManager.LoadToolbarSettings();
             var allTools = _fileManager.LoadPdfTools();
+
+            int idx = 1;
+
             foreach (var tool in allTools.OrderBy(o=>o.Meta.Order).ThenBy(t => t.ToolType.Name))
             {
-                var item = new ToolStripMenuItem($"{tool.Meta.MenuPath} {tool.Meta.Name}");
+                var item = new ToolStripMenuItem($"{idx++}. {tool.Meta.MenuPath} {tool.Meta.Name}");
 
                 item.Checked = settings.Tools.Contains(tool.ToolType.Name);
+                if (item.Checked) item.Font = new Font(item.Font, FontStyle.Bold);
                 if (!string.IsNullOrEmpty(tool.Meta.Icon))
                     item.Image = GetToolIcon(tool);
                 item.Tag = tool;
