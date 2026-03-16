@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
+using Interfaces;
 
 namespace JobSpace.UserForms.PDF
 {
     public partial class FormList : Form
     {
-        public string[] ConvertFiles;
+        public IEnumerable<IFileSystemInfoExt> ConvertFiles;
 
         public FormList()
         {
@@ -21,15 +23,15 @@ namespace JobSpace.UserForms.PDF
 
         }
 
-        public FormList(string[] files): this()
+        public FormList(IEnumerable<IFileSystemInfoExt> files): this()
         {
             AddFiles(files);
         }
 
-        private void AddFiles(string[] files)
+        private void AddFiles(IEnumerable<IFileSystemInfoExt> files)
         {
-            var f = files.Select(x => new { Name = Path.GetFileName(x), FullPath = x });
-            objectListView1.AddObjects(f.ToArray());
+            
+            objectListView1.AddObjects(files.ToArray());
         }
 
         private void objectListView1_CanDrop(object sender, OlvDropEventArgs e)
@@ -48,9 +50,7 @@ namespace JobSpace.UserForms.PDF
         {
             if (objectListView1.Objects != null)
             {
-                ConvertFiles = (from object o in objectListView1.Objects 
-                    select (string) o.GetType().GetProperty("FullPath")?.GetValue(o)).ToArray();
-                //ConvertFiles = objectListView1.Objects.Cast<string>().ToArray();
+                ConvertFiles = objectListView1.Objects.Cast<IFileSystemInfoExt>().ToArray();
             }
 
             DialogResult = DialogResult.OK;

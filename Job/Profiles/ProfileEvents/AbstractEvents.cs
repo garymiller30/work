@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using Interfaces.Profile;
 
 namespace JobSpace.Profiles.ProfileEvents
 {

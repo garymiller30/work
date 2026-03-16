@@ -3,7 +3,9 @@
 
 using ExtensionMethods;
 using Interfaces;
+using Interfaces.FileBrowser;
 using Interfaces.Plugins;
+using Interfaces.Profile;
 using Logger;
 using Newtonsoft.Json;
 using System;

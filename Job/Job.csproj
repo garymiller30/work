@@ -137,13 +137,13 @@
       <HintPath>..\packages\Krypton.Toolkit.80.24.3.64\lib\net48\Krypton.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="Magick.NET-Q16-AnyCPU, Version=14.10.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
-      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.14.10.3\lib\netstandard20\Magick.NET-Q16-AnyCPU.dll</HintPath>
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.14.10.4\lib\netstandard20\Magick.NET-Q16-AnyCPU.dll</HintPath>
     </Reference>
     <Reference Include="Magick.NET.Core, Version=14.10.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
-      <HintPath>..\packages\Magick.NET.Core.14.10.3\lib\netstandard20\Magick.NET.Core.dll</HintPath>
+      <HintPath>..\packages\Magick.NET.Core.14.10.4\lib\netstandard20\Magick.NET.Core.dll</HintPath>
     </Reference>
     <Reference Include="Magick.NET.SystemDrawing, Version=8.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
-      <HintPath>..\packages\Magick.NET.SystemDrawing.8.0.16\lib\net462\Magick.NET.SystemDrawing.dll</HintPath>
+      <HintPath>..\packages\Magick.NET.SystemDrawing.8.0.17\lib\net462\Magick.NET.SystemDrawing.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.9, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.9\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -349,6 +349,7 @@
     <Compile Include="Data\MongoRepository.cs" />
     <Compile Include="Fasades\SearchManager.cs" />
     <Compile Include="Fasades\ServicesStateManager.cs" />
+    <Compile Include="Models\FileBrowser\ToolbarSettings.cs" />
     <Compile Include="Models\JobListFilter.cs" />
     <Compile Include="Models\PantoneTable.cs" />
     <Compile Include="Models\PdfColorResult.cs" />
@@ -366,17 +367,25 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Static\FileBrowserSevices.cs" />
+    <Compile Include="Static\Pdf\Add\PdfAddTrimBox.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\ColorExtractionListener.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\PdfColorExtractor.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\SignaColorExtractor.cs" />
     <Compile Include="Static\Pdf\Common\DirectionEnum.cs" />
     <Compile Include="Static\Pdf\Common\PaperFormat.cs" />
-    <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarks.cs" />
-    <Compile Include="Static\Pdf\Create\BigovkaMarks\CreateBigovkaMarksParams.cs" />
+    <Compile Include="Static\Pdf\Add\PdfAddFormatToFileName.cs" />
+    <Compile Include="Static\Pdf\Add\PdfAddTirag.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateBarcodeCode128.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateBarcodeEan13.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateQRCode.cs" />
+    <Compile Include="Static\Pdf\Create\PdfNumericFiles.cs" />
+    <Compile Include="Static\Pdf\Imposition\PdfImposition.cs" />
+    <Compile Include="Static\Pdf\Visual\BigovkaMarks\CreateBigovkaMarks.cs" />
+    <Compile Include="Static\Pdf\Visual\BigovkaMarks\CreateBigovkaMarksParams.cs" />
     <Compile Include="Static\Pdf\Create\CollatingPageMark\CreateCollatingPageMark.cs" />
     <Compile Include="Static\Pdf\Create\CollatingPageMark\CreateCollatingPageMarkParams.cs" />
     <Compile Include="Static\Pdf\Create\CollatingPageMark\PageCollatingMarkPositionEnum.cs" />
-    <Compile Include="Static\Pdf\Create\CutEllipse\PdfCreateCutEllipse.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateCutEllipse.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\DrawParameters.cs" />
     <Compile Include="Static\Pdf\Imposition\GlobalImposParameters.cs" />
     <Compile Include="Static\Pdf\Imposition\ImpositionExtension.cs" />
@@ -385,9 +394,9 @@
     <Compile Include="Static\Pdf\Visual\Commons\Screen\DrawSpiral.cs" />
     <Compile Include="Static\Pdf\Visual\Falc\FalcSchema.cs" />
     <Compile Include="Static\Pdf\Visual\Falc\FalcSchemaParams.cs" />
-    <Compile Include="Static\Pdf\Create\FillRectangle\PdfCreateFillRectangle.cs" />
-    <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateCutRectangle.cs" />
-    <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateFillRectangleParams.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateFillRectangle.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateCutRectangle.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateFillRectangleParams.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\DrawerSideEnum.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\DrawerStatic.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Commons.cs" />
@@ -514,6 +523,7 @@
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\VisualBlocknoteSpiral.cs" />
     <Compile Include="Static\Pdf\Visual\HardCover\HardCover.cs" />
     <Compile Include="Static\Pdf\Visual\HardCover\HardCoverParams.cs" />
+    <Compile Include="Static\Pdf\Visual\PDF_VisualTableCalendar.cs" />
     <Compile Include="Static\Pdf\Visual\SoftCover\SoftCover.cs" />
     <Compile Include="Static\Pdf\Visual\SoftCover\SoftCoverParams.cs" />
     <Compile Include="UC\PDF\Marks\ColorControlBar\Uc_ColorControlPalette.cs">
@@ -557,6 +567,18 @@
     </Compile>
     <Compile Include="UserForms\FormRegexRenameFiles.Designer.cs">
       <DependentUpon>FormRegexRenameFiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateBarcodeCode128.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateBarcodeCode128.Designer.cs">
+      <DependentUpon>FormCreateBarcodeCode128.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateBarcodeEan13.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateBarcodeEan13.Designer.cs">
+      <DependentUpon>FormCreateBarcodeEan13.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\FormCreateCollatingPageMark.cs">
       <SubType>Form</SubType>
@@ -669,10 +691,10 @@
     <Compile Include="Static\Pdf\Common\PdfPageInfo.cs" />
     <Compile Include="Static\Pdf\Convert\PdfConvert.cs" />
     <Compile Include="Static\Pdf\Convert\PdfConvertParams.cs" />
-    <Compile Include="Static\Pdf\Create\Ellipse\PdfCreateEllipse.cs" />
-    <Compile Include="Static\Pdf\Create\EmptyPdfTemplateWithCount\PdfCreateEmptyPdfTemplateWithCount.cs" />
-    <Compile Include="Static\Pdf\Create\Rectangle\PdfCreateRectangle.cs" />
-    <Compile Include="Static\Pdf\Divide\PdfDividerParams.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateEllipse.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateEmptyPdfTemplateWithCount.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateRectangle.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitPagesParams.cs" />
     <Compile Include="Static\Pdf\ExtractPages\PdfExtractPages.cs" />
     <Compile Include="Static\Pdf\ExtractPages\PdfExtractPagesParams.cs" />
     <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBack.cs" />
@@ -701,12 +723,12 @@
     <Compile Include="Static\Pdf\SetTrimBox\BySpread\PdfSetTrimBoxBySpread.cs" />
     <Compile Include="Static\Pdf\SetTrimBox\BySpread\PdfSetTrimBoxBySpreadParams.cs" />
     <Compile Include="Static\Pdf\SetTrimBox\SetTrimBoxBase.cs" />
-    <Compile Include="Static\Pdf\SplitCoverAndBlock\PdfSplitCoverAndBlock.cs" />
-    <Compile Include="Static\Pdf\SplitOddAndEven\PdfSplitOddAndEven.cs" />
-    <Compile Include="Static\Pdf\SplitSpread\PdfSpliter.cs" />
-    <Compile Include="Static\Pdf\SplitSpread\PdfSplitterParams.cs" />
-    <Compile Include="Static\Pdf\Divide\PdfDivider.cs" />
-    <Compile Include="Static\Pdf\SplitTemporary\PdfSplitTemporary.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitCoverAndBlock.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitOddAndEven.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSpliter.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitterParams.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitPages.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitTemporary.cs" />
     <Compile Include="Static\Pdf\ToJpg\PdfToJpg.cs" />
     <Compile Include="Static\Pdf\ToJpg\PdfToJpgParams.cs" />
     <Compile Include="Static\SysImageListHelper.cs" />
@@ -750,7 +772,6 @@
     <Compile Include="UC\FileCache.cs" />
     <Compile Include="UC\FileWatcher.cs" />
     <Compile Include="UC\ICache.cs" />
-    <Compile Include="UC\IFileManager.cs" />
     <Compile Include="UC\IWatcher.cs" />
     <Compile Include="UC\NoCache.cs" />
     <Compile Include="UC\NoWatcher.cs" />
@@ -897,7 +918,6 @@
     <Compile Include="Settings.JobStatus.cs" />
     <Compile Include="SignaJobEnum.cs" />
     <Compile Include="SignaJobShablon.cs" />
-    <Compile Include="UC\FileBrowserSettings.cs" />
     <Compile Include="UC\FileManager.cs" />
     <Compile Include="Static\PdfUtils.cs" />
     <Compile Include="Models\FileSystemInfoExt.cs" />
@@ -1221,6 +1241,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\FormRegexRenameFiles.resx">
       <DependentUpon>FormRegexRenameFiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateBarcodeCode128.resx">
+      <DependentUpon>FormCreateBarcodeCode128.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateBarcodeEan13.resx">
+      <DependentUpon>FormCreateBarcodeEan13.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormCreateCollatingPageMark.resx">
       <DependentUpon>FormCreateCollatingPageMark.cs</DependentUpon>
@@ -1605,12 +1631,12 @@
     <Error Condition="!Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets'))" />
     <Error Condition="!Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets'))" />
     <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
-    <Error Condition="!Exists('..\packages\Magick.NET-Q16-AnyCPU.14.10.3\build\netstandard20\Magick.NET-Q16-AnyCPU.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Magick.NET-Q16-AnyCPU.14.10.3\build\netstandard20\Magick.NET-Q16-AnyCPU.targets'))" />
+    <Error Condition="!Exists('..\packages\Magick.NET-Q16-AnyCPU.14.10.4\build\netstandard20\Magick.NET-Q16-AnyCPU.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Magick.NET-Q16-AnyCPU.14.10.4\build\netstandard20\Magick.NET-Q16-AnyCPU.targets'))" />
   </Target>
   <Import Project="..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" />
   <Import Project="..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets" Condition="Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" />
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
-  <Import Project="..\packages\Magick.NET-Q16-AnyCPU.14.10.3\build\netstandard20\Magick.NET-Q16-AnyCPU.targets" Condition="Exists('..\packages\Magick.NET-Q16-AnyCPU.14.10.3\build\netstandard20\Magick.NET-Q16-AnyCPU.targets')" />
+  <Import Project="..\packages\Magick.NET-Q16-AnyCPU.14.10.4\build\netstandard20\Magick.NET-Q16-AnyCPU.targets" Condition="Exists('..\packages\Magick.NET-Q16-AnyCPU.14.10.4\build\netstandard20\Magick.NET-Q16-AnyCPU.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

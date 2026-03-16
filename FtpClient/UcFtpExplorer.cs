@@ -3,6 +3,7 @@ using ExtensionMethods;
 using Interfaces;
 using Interfaces.Ftp;
 using Interfaces.Plugins;
+using Interfaces.Profile;
 using Logger;
 using PythonEngine;
 using System;

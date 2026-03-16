@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
+using Interfaces.Profile;
 
 namespace PluginWorkProcessPlates.Forms
 {

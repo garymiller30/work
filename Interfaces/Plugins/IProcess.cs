@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Interfaces.Profile;
+using System.Collections.Generic;
 
 
 namespace Interfaces

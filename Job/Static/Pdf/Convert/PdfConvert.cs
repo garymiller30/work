@@ -1,4 +1,6 @@
 ﻿using ImageMagick;
+using Interfaces.FileBrowser;
+using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
 using System;
@@ -11,16 +13,32 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Convert
 {
-    public sealed class PdfConvert
+    [PdfTool("","Конвертувати в PDF",Order = 0,Icon ="convert",Description = "Конвертувати в PDF файли з розширенням jpg, png, jpeg, tif, tiff, svg, psd, ai",SeparatorAfter = true)]
+    public sealed class PdfConvert : IPdfTool
     {
         PdfConvertParams _params = new PdfConvertParams();
 
-        public PdfConvert(PdfConvertParams param)
+        public bool Configure(PdfJobContext context)
+        {
+            return true;
+        }
+
+        public void Configure(PdfConvertParams param)
         {
             _params = param;
         }
 
-        public void Run(string filePath)
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                Convert(file.FullName);
+            }
+        }
+
+       
+
+        public void Convert(string filePath)
         {
             string ext = Path.GetExtension(filePath).ToLower(System.Globalization.CultureInfo.InvariantCulture);
 
@@ -162,5 +180,7 @@ namespace JobSpace.Static.Pdf.Convert
             }
             return target;
         }
+
+       
     }
 }

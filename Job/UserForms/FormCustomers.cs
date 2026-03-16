@@ -7,6 +7,7 @@ using Interfaces;
 using JobSpace.ModelView;
 using JobSpace.Fasades;
 using System.Diagnostics;
+using Interfaces.Profile;
 
 namespace JobSpace.UserForms
 {

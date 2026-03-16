@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System;
+using Interfaces.Profile;
 
 namespace Interfaces.Plugins
 {

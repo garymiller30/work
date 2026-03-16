@@ -1,6 +1,7 @@
 ﻿using System;
 using Interfaces;
 using Interfaces.Ftp;
+using Interfaces.Profile;
 
 namespace JobSpace.Profiles.ProfileEvents
 {

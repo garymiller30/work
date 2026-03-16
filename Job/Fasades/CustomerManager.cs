@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.MQ;
+using Interfaces.Profile;
 
 namespace JobSpace.Fasades
 {

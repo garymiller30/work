@@ -8,6 +8,7 @@ using Krypton.Toolkit;
 using Interfaces;
 using JobSpace.CustomerNotify;
 using JobSpace.Statuses;
+using Interfaces.Profile;
 
 namespace JobSpace.UserForms
 {

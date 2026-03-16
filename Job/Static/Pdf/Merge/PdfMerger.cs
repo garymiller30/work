@@ -1,21 +1,34 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Static.Pdf.Common;
+using JobSpace.UserForms.PDF;
 using PDFlib_dotnet;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Merge
 {
-    public class PdfMerger
+    [PdfTool("З'єднати", "вибрані файли в один",Description ="З'єднати вибрані файли в один PDF",Icon ="merge")]
+    public class PdfMerger : IPdfTool
     {
         List<string> files = new List<string>();
 
-        public PdfMerger(IEnumerable<string> filesPath)
+        public bool Configure(PdfJobContext context)
         {
-            files.AddRange(filesPath);
+            using (var form = new FormList(context.InputFiles))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    files = form.ConvertFiles.Select(x=>x.FullName).ToList();
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public void Run()
+        public void Execute(PdfJobContext context)
         {
             string fileName = Path.Combine(Path.GetDirectoryName(files[0]), $"{Path.GetFileNameWithoutExtension(files[0])}_merged.pdf");
 
@@ -62,6 +75,9 @@ namespace JobSpace.Static.Pdf.Merge
                 PdfHelper.LogException(e, "PdfMerger");
             }
             finally { p?.Dispose(); }
+
+
+            
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Interfaces.FileBrowser;
 using Interfaces.Plugins;
 
 namespace Interfaces

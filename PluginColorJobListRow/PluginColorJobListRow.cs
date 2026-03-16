@@ -1,6 +1,7 @@
 ﻿using ExtensionMethods;
 using Interfaces;
 using Interfaces.Plugins;
+using Interfaces.Profile;
 using JobSpace.Static;
 using System.Drawing;
 using System.Windows.Forms;

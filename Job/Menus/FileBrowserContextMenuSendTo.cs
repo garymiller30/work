@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Interfaces;
+using Interfaces.Profile;
 
 namespace JobSpace.Menus
 {

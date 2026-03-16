@@ -1,5 +1,6 @@
 ﻿using ExtensionMethods;
 using Interfaces;
+using Interfaces.Profile;
 using JobSpace.Controllers;
 using MongoDB.Bson;
 using System;

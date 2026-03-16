@@ -1,17 +1,29 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Merge
 {
-    public sealed class MergeBlockBy3Months
+    [PdfTool("Квартальний календар","З'єднати блок по 3 місяці",Order = 40)]
+    public sealed class MergeBlockBy3Months : IPdfTool
     {
-        public void Run(string file)
+        public bool Configure(PdfJobContext context)
+        {
+            return true;
+        }
+
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                Merge(file.FullName);
+            }
+        }
+
+        public void Merge(string file)
         {
             string targetfile = Path.Combine(
                 Path.GetDirectoryName(file),

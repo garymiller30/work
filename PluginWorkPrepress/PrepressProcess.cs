@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Interfaces;
 using Interfaces.Plugins;
+using Interfaces.Profile;
 using PluginWorkPrepress.Forms;
 
 namespace PluginWorkPrepress

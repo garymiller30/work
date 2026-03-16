@@ -1,4 +1,6 @@
-﻿namespace Interfaces
+﻿using Interfaces.FileBrowser;
+
+namespace Interfaces
 {
     public interface IProfileEvents
     {

@@ -1,4 +1,4 @@
-﻿using JobSpace.Static.Pdf.SplitSpread;
+﻿using JobSpace.Static.Pdf.Split;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

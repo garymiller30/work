@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static JobSpace.Static.Pdf.Visual.SoftCover.SoftCoverParams;
 
 namespace JobSpace.Static.Pdf.Visual.HardCover
 {
@@ -14,6 +15,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
         public double Rastav { get; set; }
         public double Root { get; set; }
         public string FolderOutput { get; set; }
+        public CreateCommand Command { get; set; } = CreateCommand.CreateSchema;
 
         public double TotalWidth
         {
@@ -28,6 +30,12 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
             {
                 return Height + (Zagyn * 2);
             }
+        }
+
+        public enum CreateCommand
+        {
+            CreateSchema,
+            CreateCover
         }
     }
 }

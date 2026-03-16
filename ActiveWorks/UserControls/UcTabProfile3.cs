@@ -1,5 +1,7 @@
 ﻿
 using Interfaces;
+using Interfaces.FileBrowser;
+using Interfaces.Profile;
 using Krypton.Docking;
 using Krypton.Navigator;
 using Krypton.Workspace;

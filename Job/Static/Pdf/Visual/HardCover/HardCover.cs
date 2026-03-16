@@ -1,29 +1,49 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.UserForms.PDF.Visual;
 using PDFlib_dotnet;
-using SharpCompress.Common;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Visual.HardCover
 {
-    public class HardCover
+    [PdfTool("Візуалізація","Тверда обкладинка",Icon = "visual_hard_cover",Order = 20)]
+    public class HardCover : IPdfTool
     {
         HardCoverParams _coverParams;
-        public HardCover(HardCoverParams coverParams)
+
+        public bool Configure(PdfJobContext context)
         {
-            _coverParams = coverParams;
+            var file = context.InputFiles.FirstOrDefault();
+            if (file != null)
+            {
+                using (var form = new FormVisualHardCover(file))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        _coverParams = form.CoverParams;
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
-        public void Run(string file = null)
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                CreateHardCover(file.FullName);
+            }
+        }
+
+        public void CreateHardCover(string file)
         {
             string output_file = null;
 
-            if (string.IsNullOrEmpty(file))
+            if (_coverParams.Command == HardCoverParams.CreateCommand.CreateSchema)
             {
                 output_file = System.IO.Path.Combine(_coverParams.FolderOutput, "HardCover_schema.pdf");
             }
@@ -44,12 +64,12 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
                 int l_print = p.define_layer("print", "");
                 int v_layer = p.define_layer("visual", "");
 
-                if (!string.IsNullOrEmpty(file))
+                if (_coverParams.Command == HardCoverParams.CreateCommand.CreateCover)
                 {
                     p.begin_layer(l_print);
                     var doc = p.open_pdi_document(file, "");
                     var page_handle = p.open_pdi_page(doc, 1, "");
-                    p.fit_pdi_page(page_handle, (_coverParams.TotalWidth /2) * PdfHelper.mn, (_coverParams.TotalHeight /2) * PdfHelper.mn, "position={center center}");
+                    p.fit_pdi_page(page_handle, (_coverParams.TotalWidth / 2) * PdfHelper.mn, (_coverParams.TotalHeight / 2) * PdfHelper.mn, "position={center center}");
                     p.close_pdi_page(page_handle);
                     p.end_layer();
                 }
@@ -59,7 +79,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
                 p.set_gstate(gstate);
 
                 MarkColor c = MarkColor.ProofColor;
-                p.setcolor("fillstroke", "cmyk", c.C/100, c.M/100, c.Y/100, c.K/100);
+                p.setcolor("fillstroke", "cmyk", c.C / 100, c.M / 100, c.Y / 100, c.K / 100);
                 int spot = p.makespotcolor(c.Name);
                 // p.setdash(4, 2);
                 p.set_graphics_option("dasharray={4 2}");
@@ -71,7 +91,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
                 // ліва сторінка
                 p.rect(_coverParams.Zagyn * PdfHelper.mn, _coverParams.Zagyn * PdfHelper.mn, _coverParams.Width * PdfHelper.mn, _coverParams.Height * PdfHelper.mn);
                 // корінець
-                p.rect((_coverParams.Zagyn + _coverParams.Width + _coverParams.Rastav) * PdfHelper.mn, 
+                p.rect((_coverParams.Zagyn + _coverParams.Width + _coverParams.Rastav) * PdfHelper.mn,
                     _coverParams.Zagyn * PdfHelper.mn,
                     _coverParams.Root * PdfHelper.mn,
                     _coverParams.Height * PdfHelper.mn);
@@ -82,7 +102,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
                     _coverParams.Height * PdfHelper.mn);
                 p.stroke();
 
-                DrawDimensions(p,spot);
+                DrawDimensions(p, spot);
 
                 p.end_page_ext("");
                 p.end_document("");
@@ -97,7 +117,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
             }
         }
 
-        private void DrawDimensions(PDFlib p,int spot)
+        private void DrawDimensions(PDFlib p, int spot)
         {
             p.setlinewidth(0.1);
             p.set_graphics_option("dasharray=none");
@@ -110,7 +130,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
 
             for (int i = 0; i < widths.Count(); i++)
             {
-                PdfHelper.DrawDimensionsX(p,spot,x, y, widths[i]);
+                PdfHelper.DrawDimensionsX(p, spot, x, y, widths[i]);
                 x += widths[i];
             }
 
@@ -119,7 +139,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
 
             for (int i = 0; i < heigts.Count(); i++)
             {
-                PdfHelper.DrawDimensionsY(p,spot, x, y, heigts[i]);
+                PdfHelper.DrawDimensionsY(p, spot, x, y, heigts[i]);
                 y += heigts[i];
             }
         }

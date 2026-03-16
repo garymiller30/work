@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Krypton.Toolkit;
 using Interfaces;
+using Interfaces.Profile;
 
 namespace PluginAddWorkFromPolymix
 {

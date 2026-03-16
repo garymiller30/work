@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Interfaces;
+using Interfaces.Profile;
 using JobSpace.Statuses;
 
 namespace CasheViewer

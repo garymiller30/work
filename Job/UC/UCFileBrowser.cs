@@ -3,8 +3,10 @@ using BrightIdeasSoftware;
 using ExtensionMethods;
 using FtpClient;
 using Interfaces;
+using Interfaces.FileBrowser;
 using Interfaces.PdfUtils;
-using JobSpace.Ext;
+using Interfaces.Plugins;
+using Interfaces.Profile;
 using JobSpace.Menus;
 using JobSpace.Models;
 using JobSpace.Static;
@@ -20,6 +22,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -31,7 +34,7 @@ namespace JobSpace.UC
     public sealed partial class UCFileBrowser : UserControl, IFileBrowser
     {
         private const string LOADING = "завантаження...";
-
+        Dictionary<string, ToolStripMenuItem> menuCache = new Dictionary<string, ToolStripMenuItem>(StringComparer.InvariantCultureIgnoreCase);
         private IUserProfile UserProfile { get; set; }
 
         private IFileManager _fileManager;
@@ -61,23 +64,219 @@ namespace JobSpace.UC
             InitListView();
 
             ApplySettings();
-            ClonePdfMenu();
+        }
+        ContextMenuStrip toolbarMenu = new ContextMenuStrip();
+        private void AddRightContextMenuToPdfTools()
+        {
+            toolStripPDF.ContextMenuStrip = toolbarMenu;
+            toolStripPDF.MouseUp += toolStripPDF_MouseUp;
+
+            toolStripPDF.Parent.ContextMenuStrip = toolbarMenu;
+            toolStripPDF.Parent.MouseUp += toolStripPDF_MouseUp;
         }
 
-        private void ClonePdfMenu()
+        private void toolStripPDF_MouseUp(object sender, MouseEventArgs e)
         {
-            foreach (var item in утилітиДляPDFToolStripMenuItem.DropDownItems)
+            if (e.Button == MouseButtons.Right)
             {
-                if (item is ToolStripMenuItem ttmi)
-                {
-                    toolStripDropDownButtonSplitPdfMenu.DropDownItems.Add(ttmi.Clone());
-                }
-                else if (item is ToolStripSeparator)
-                {
-                    toolStripDropDownButtonSplitPdfMenu.DropDownItems.Add(new ToolStripSeparator());
-                }
+                BuildToolbarMenu();
+                toolbarMenu.Show(toolStripPDF, e.Location);
             }
         }
+
+        private void BuildToolbarMenu()
+        {
+            toolbarMenu.Items.Clear();
+
+            var settings = _fileManager.LoadToolbarSettings();
+            var allTools = _fileManager.LoadPdfTools();
+            foreach (var tool in allTools.OrderBy(o=>o.Meta.Order).ThenBy(t => t.ToolType.Name))
+            {
+                var item = new ToolStripMenuItem($"{tool.Meta.MenuPath} {tool.Meta.Name}");
+
+                item.Checked = settings.Tools.Contains(tool.ToolType.Name);
+                if (!string.IsNullOrEmpty(tool.Meta.Icon))
+                    item.Image = GetToolIcon(tool);
+                item.Tag = tool;
+
+                item.Click += ToolbarMenu_Click;
+
+                toolbarMenu.Items.Add(item);
+            }
+        }
+        
+        void BuildToolbar(List<ToolInfo> tools, IToolbarSettings settings)
+        {
+            var panel = toolStripPDF.Parent;
+            toolStripPDF.SuspendLayout();
+            panel.SuspendLayout();
+
+            toolStripPDF.Items.Clear();
+
+            foreach (var toolName in settings.Tools)
+            {
+                var tool = tools.FirstOrDefault(t => t.ToolType.Name == toolName);
+
+                if (tool == null)
+                    continue;
+
+                var button = new ToolStripButton();
+
+                button.Tag = tool;
+                button.Image = GetToolIcon(tool);
+                button.Text = tool.Meta.Name;
+                button.DisplayStyle = ToolStripItemDisplayStyle.Image;
+                button.ToolTipText = tool.Meta.Description;
+
+                button.Click += Tool_Click;
+
+                toolStripPDF.Items.Add(button);
+            }
+
+            toolStripPDF.ResumeLayout(true);
+            panel.ResumeLayout(true);
+        }
+
+
+        void ToolbarMenu_Click(object sender, EventArgs e)
+        {
+            var item = (ToolStripMenuItem)sender;
+            var tool = (ToolInfo)item.Tag;
+
+            var settings = _fileManager.LoadToolbarSettings();
+
+            if (item.Checked)
+                settings.Tools.Remove(tool.ToolType.Name);
+            else
+                settings.Tools.Add(tool.ToolType.Name);
+
+            _fileManager.SaveToolbarSettings(settings);
+
+            BuildToolbar(_fileManager.LoadPdfTools(), settings);
+        }
+        ToolStripMenuItem GetOrCreateMenu(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return утилітиДляPDFToolStripMenuItem;
+
+            if (menuCache.ContainsKey(path))
+                return menuCache[path];
+
+            var parts = path.Split('/');
+            ToolStripMenuItem parent = null;
+            string currentPath = "";
+
+            foreach (var part in parts)
+            {
+                if (currentPath == "")
+                    currentPath = part;
+                else
+                    currentPath += "/" + part;
+
+                if (!menuCache.TryGetValue(currentPath, out var item))
+                {
+                    item = new ToolStripMenuItem(part);
+                    menuCache[currentPath] = item;
+
+                    if (parent == null)
+                        утилітиДляPDFToolStripMenuItem.DropDownItems.Add(item);
+                    else
+                        parent.DropDownItems.Add(item);
+                }
+
+                parent = item;
+            }
+
+            return parent;
+        }
+
+        void BuildUI(List<ToolInfo> tools)
+        {
+            foreach (var tool in tools)
+            {
+                var parent = GetOrCreateMenu(tool.Meta.MenuPath);
+
+                if (tool.Meta.SeparatorBefore)
+                    parent.DropDownItems.Add(new ToolStripSeparator());
+
+                var item = new ToolStripMenuItem(tool.Meta.Name);
+                item.Tag = tool;
+                if (!string.IsNullOrEmpty(tool.Meta.Icon))
+                {
+                    item.Image = GetToolIcon(tool);
+                }
+                item.Click += Tool_Click;
+
+                parent.DropDownItems.Add(item);
+
+                if (tool.Meta.SeparatorAfter)
+                    parent.DropDownItems.Add(new ToolStripSeparator());
+
+            }
+            BuildToolbar(tools, _fileManager.LoadToolbarSettings());
+        }
+        string iconsPath = Path.Combine(Application.StartupPath, "db", "resources", "pdftool_icons");
+        Dictionary<string, Image> iconCache = new Dictionary<string, Image>();
+        Image GetToolIcon(ToolInfo tool)
+        {
+            string iconName = tool.Meta.Icon;
+
+            if (string.IsNullOrEmpty(iconName))
+                iconName = tool.ToolType.Name;
+
+            if (iconCache.TryGetValue(iconName, out var img))
+                return img;
+
+            string file = Path.Combine(iconsPath, iconName + ".png");
+
+            if (File.Exists(file))
+            {
+                img = Image.FromFile(file);
+            }
+            else
+            {
+                img = Image.FromFile(Path.Combine(iconsPath, "default.png"));
+            }
+
+            iconCache[iconName] = img;
+
+            return img;
+        }
+
+
+        void Tool_Click(object sender, EventArgs e)
+        {
+            var toolInfo = (ToolInfo)((ToolStripItem)sender).Tag;
+
+            var tool = toolInfo.Create();
+
+            var context = CreateContext();
+            if (!tool.Configure(context))
+                return;
+
+            if (toolInfo.Meta.IsBackgroundTask)
+            {
+                BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask(toolInfo.Meta.MenuPath, new Action(() =>
+                {
+                    tool.Execute(context);
+                })));
+            }
+            else
+            {
+                tool.Execute(context);
+            }
+        }
+        public PdfJobContext CreateContext()
+        {
+            return new PdfJobContext
+            {
+                InputFiles = objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList(),
+                FileManager = _fileManager,
+                UserProfile = UserProfile
+            };
+        }
+
+
 
         private void InitListView()
         {
@@ -471,7 +670,7 @@ namespace JobSpace.UC
                 e.Effect = DragDropEffects.None;
             }
         }
-        
+
         private void DeleteFilesAndDirectories()
         {
             FileBrowserSevices.File_DeleteFilesAndDirectories(objectListView1.SelectedObjects, _fileManager);
@@ -570,7 +769,6 @@ namespace JobSpace.UC
 
             bool visible = !nonPdfFiles.Any();
             утилітиДляPDFToolStripMenuItem.Visible = visible;
-            setTrimBoxToolStripMenuItem.Visible = visible;
 
             SetToMoveFolders();
         }
@@ -868,7 +1066,6 @@ namespace JobSpace.UC
                     e.InfoMessage = "папка";
                 }
                 else
-
                 {
                     Debug.WriteLine($"{fi.FileInfo.FullName} - file");
                     e.Effect = DragDropEffects.None;
@@ -899,6 +1096,9 @@ namespace JobSpace.UC
 
                 SetObjectListViewFont();
                 SetObjectListViewRowHeight();
+
+                AddRightContextMenuToPdfTools();
+                BuildUI(_fileManager.LoadPdfTools());
             }
         }
         public IFileBrowserControlSettings GetSettings()
@@ -996,7 +1196,7 @@ namespace JobSpace.UC
         }
         private void SetTrimBoxToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileFormatsUtil.SetTrimBox(objectListView1.SelectedObjects);
+            
         }
         private void ObjectListView1_SelectionChanged(object sender, EventArgs e)
         {
@@ -1017,7 +1217,7 @@ namespace JobSpace.UC
         }
         private void ConvertToPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileBrowserSevices.PDF_ConvertToPdf(objectListView1.SelectedObjects, CreateMoveToTrashAction(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList()));
+            
         }
         private Action CreateMoveToTrashAction(List<IFileSystemInfoExt> files)
         {
@@ -1032,32 +1232,21 @@ namespace JobSpace.UC
         }
         private void SplitPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileBrowserSevices.PDF_SplitFile(objectListView1.SelectedObjects);
+            var context = CreateContext();
+            var spliter = new Static.Pdf.Divide.PdfSplitPages();
+            if (spliter.Configure(context))
+            {
+                BackgroundTaskService.AddTask(new BackgroundTaskItem()
+                {
+                    Name = "split pdf",
+                    BackgroundAction = () =>
+                    {
+                        spliter.Execute(context);
+                    }
+                });
+            }
         }
-        private void RepeatPagesPDFToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_RepeatPages(objectListView1.SelectedObjects);
-        }
-        private void CombineFrontsBackToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_MergeFrontsAndBacks(objectListView1.SelectedObjects);
-        }
-        private void ReversePagesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_ReversePages(objectListView1.SelectedObjects);
-        }
-        private void RepeatDocumentToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_RepeatDocument(objectListView1.SelectedObjects);
-        }
-        private void СтворитиПрямокутникToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_CreateRectangle(objectListView1.SelectedObjects);
-        }
-        private void СтворитиЕліпсToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_CreateEllipse(objectListView1.SelectedObjects);
-        }
+
         private void CreateNewOrderFromFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (IFileSystemInfoExt ext in objectListView1.SelectedObjects)
@@ -1091,12 +1280,9 @@ namespace JobSpace.UC
         private void objectListView1_Click(object sender, EventArgs e)
         {
             if (objectListView1.SelectedObject is IFileSystemInfoExt file)
-                UserProfile.Plugins.FileBrowserSelectObject(this,file);
+                UserProfile.Plugins.FileBrowserSelectObject(this, file);
         }
-        private void витягтиСторінкиToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_ExtractPages(objectListView1.SelectedObjects);
-        }
+
         private void toolStripButtonSettings_Click(object sender, EventArgs e)
         {
             using (var form = new FormFileBrowserSettings(_fileManager.Settings))
@@ -1158,35 +1344,9 @@ namespace JobSpace.UC
         private void toolStripButtonCopyToClipboard_Click(object sender, EventArgs e) => FileBrowserSevices.Clipboard_CopyFiles(objectListView1.SelectedObjects);
         private void toolStripButtonCut_Click(object sender, EventArgs e) => FileBrowserSevices.Clipboard_CutFiles(objectListView1.SelectedObjects);
         private void toolStripButtonPaste_Click(object sender, EventArgs e) => FileBrowserSevices.Clipboard_PasteFiles(_fileManager);
-        private void додатиТираж000ToolStripMenuItem_Click(object sender, EventArgs e) => AddTirag();
-        private void AddTirag()
-        {
-            FileBrowserSevices.File_AddTirag(_fileManager, objectListView1.SelectedObjects);
-        }
-        private void розділитиОбкладинкуІБлокToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_SplitCoverAndBlock(objectListView1.SelectedObjects);
-        }
-        private void створитипустишкиЗТиражамиToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileFormatsUtil.CreateEmptiesWithCount(_fileManager.Settings.CurFolder);
-        }
-        private void розвернутиСторінкиНа90ДзеркальноToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_Rotate90MirrorPages(objectListView1.SelectedObjects);
-        }
-        private void зєднатиПарніІНепарніСторінкиToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_MergeOddAndEven(objectListView1.SelectedObjects);
-        }
-        private void розділитиНаПарніІНепарніСторінкиToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_SplitToOddAndEven(objectListView1.SelectedObjects);
-        }
-        private void зберегтиЯкJpgToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_SaveToJpeg(objectListView1.SelectedObjects);
-        }
+
+
+
         private void toolStripButton_NewFolder_DropDownOpening(object sender, EventArgs e)
         {
             // get from settings folder's names
@@ -1220,42 +1380,6 @@ namespace JobSpace.UC
         {
             FileBrowserSevices.Clipboard_CopyFileNames(objectListView1.SelectedObjects);
         }
-        private void змінитиРозмірToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_ScaleFiles(objectListView1.SelectedObjects);
-        }
-        private void розділитиРозворотиToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_SplitSpread(objectListView1.SelectedObjects);
-        }
-        private void toolStripButtonCreatePdf_Click(object sender, EventArgs e)
-        {
-            ConvertToPDFToolStripMenuItem_Click(null, null);
-        }
-        private void зєднатиФайлиВОдинToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_MergeFiles(objectListView1.SelectedObjects, CreateMoveToTrashAction(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList()));
-        }
-        private void зєднатиФайлиВОдинтимчасовоToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_MergeToTemporaryFile(objectListView1.SelectedObjects, CreateMoveToTrashAction(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>().ToList()));
-        }
-        private void розділитиТимчасовоЗібранийФайлToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_SplitTemporaryFile(objectListView1.SelectedObjects);
-        }
-        private void створитиМіткиДляБіговкиToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_CreateBigovkaMarks(objectListView1.SelectedObjects);
-        }
-        private void toolStripButton4_Click(object sender, EventArgs e)
-        {
-            AddTirag();
-        }
-        private void створитиПлашкуToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_CreateFillRectangle(_fileManager.Settings.CurFolder);
-        }
         private void спускПолосToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.PDF_ShowImposDialog(objectListView1.SelectedObjects, new ImposInputParam
@@ -1265,34 +1389,13 @@ namespace JobSpace.UC
                 UserProfile = UserProfile,
             });
         }
-        private void toolStripButtonNumericFiles_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.File_NumericFiles(objectListView1.SelectedObjects);
-        }
-        private void tsb_ExtractPages_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_ExtractPages(objectListView1.SelectedObjects);
-        }
+
+
         private void коміюватиІмяФайлуБезРозширенняToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.Clipboard_CopyFileNamesWithoutExtension(objectListView1.SelectedObjects);
         }
-        private void додатиФорматСторінкиДоІменіФайлуToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_AddFormatToFileName(objectListView1.SelectedObjects);
-        }
-        private void додатиКонтурВисічкиКолоToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_AddCutCircle(objectListView1.SelectedObjects);
-        }
-        private void контурВисічкиПрямокутникToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_AddCutRectangle(objectListView1.SelectedObjects);
-        }
-        private void пружинаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_VisualBlocknoteSpiral(objectListView1.SelectedObjects);
-        }
+
         private void перенестиВмістПапкиСюдипапкафайлToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.File_MoveFolderContentsToHere(objectListView1.SelectedObjects, _fileManager);
@@ -1303,28 +1406,15 @@ namespace JobSpace.UC
         }
         private void створитиМіткиДляПідборуToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FileBrowserSevices.PDF_CreateCollatingPageMark(objectListView1.SelectedObjects);
+
         }
-        private void зєднатиБлокПо3МісяціToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_MergeBlockBy3Months(objectListView1.SelectedObject);
-        }
-        private void фальцовкаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_VisualFalc(objectListView1.SelectedObject);
-        }
-        private void видалитиICCПрофіліToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_RemoveICCProfiles(objectListView1.SelectedObjects);
-        }
+
+
         private void вставитиЯкКопіюToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileBrowserSevices.Clipboard_PasteLikeCopyFiles(_fileManager);
         }
-        private void підготуватиБлокДляДToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FileBrowserSevices.PDF_RearangePagesForQuartalCalendar(objectListView1.SelectedObjects);
-        }
+
         private void tsb_preview_Click(object sender, EventArgs e)
         {
             sc_list.Panel2Collapsed = !sc_list.Panel2Collapsed;
@@ -1358,30 +1448,6 @@ namespace JobSpace.UC
         {
             if (objectListView1.SelectedObjects.Count == 0) return;
             FileBrowserSevices.File_FindReplaceTirag(objectListView1.SelectedObjects);
-        }
-
-        private void твердаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (objectListView1.SelectedObject is IFileSystemInfoExt f)
-            {
-                FileBrowserSevices.PDF_VisualHardCover(f);
-            }
-        }
-
-        private void настільнийToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (objectListView1.SelectedObject is IFileSystemInfoExt f)
-            {
-                FileBrowserSevices.PDF_VisualTableCalendar(f);
-            }
-        }
-
-        private void мякаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (objectListView1.SelectedObject is IFileSystemInfoExt f)
-            {
-                FileBrowserSevices.PDF_VisualSoftCover(f);
-            }
         }
 
         private void вставитиЗІменемФайлаПідКурсоромToolStripMenuItem_Click(object sender, EventArgs e)

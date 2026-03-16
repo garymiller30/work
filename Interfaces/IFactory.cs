@@ -1,4 +1,4 @@
-﻿namespace Interfaces
+﻿namespace Interfaces.FileBrowser
 {
     public interface IFactory
     {

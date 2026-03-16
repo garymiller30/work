@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using Interfaces.Profile;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 using System;

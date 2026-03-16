@@ -1,25 +1,48 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.UserForms.PDF.Visual;
 using PDFlib_dotnet;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Visual.SoftCover
 {
-    public class SoftCover
+    [PdfTool("Візуалізація","М'яка обкладинка",Icon = "visual_soft_cover", Order = 20)]
+    public class SoftCover : IPdfTool
     {
         SoftCoverParams _coverParams;
-        public SoftCover(SoftCoverParams param)
+
+        public bool Configure(PdfJobContext context)
         {
-            _coverParams = param;
+            var file = context.InputFiles.FirstOrDefault();
+            if (file != null)
+            {
+                using (var form = new FormVisualSoftCover(file))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        _coverParams = form.CoverParams;
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
-        public void Run(string file = null)
+
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                CreateSoftCover(file.FullName);
+            }
+        }
+
+        public void CreateSoftCover(string file)
         {
             string output_file = null;
-            if (string.IsNullOrEmpty(file))
+            if (_coverParams.Command == SoftCoverParams.CreateCommand.CreateSoftCover)
             {
                 output_file = System.IO.Path.Combine(_coverParams.FolderOutput, "SoftCover_schema.pdf");
             }
@@ -36,7 +59,7 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
                 int l_print = p.define_layer("print", "");
                 int v_layer = p.define_layer("visual", "");
 
-                if (!string.IsNullOrEmpty(file))
+                if (_coverParams.Command == SoftCoverParams.CreateCommand.CreateSoftCoverWithFile)
                 {
                     p.begin_layer(l_print);
                     var doc = p.open_pdi_document(file, "");

@@ -1,22 +1,48 @@
-﻿using PDFlib_dotnet;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Dlg;
+using PDFlib_dotnet;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.MergeFrontsAndBack
 {
-    public sealed class PdfMergeFrontsAndBack
+    [PdfTool("З'єднати", "Лице + Зворот",Description ="З'єднати файли де лице - різні сторінки, а зворот - один для всіх",Icon = "merge_front_and_back")]
+    public sealed class PdfMergeFrontsAndBack : IPdfTool
     {
         PdfMergeFrontsAndBackParams _params;
-        public PdfMergeFrontsAndBack(PdfMergeFrontsAndBackParams param)
+
+        public bool Configure(PdfJobContext context)
         {
-            _params = param;
+
+            if (context.InputFiles == null || context.InputFiles.Count <2)
+            {
+                return false;
+            }
+
+            using (var form = new FormSelectBackFile(context.InputFiles))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    _params = new PdfMergeFrontsAndBackParams
+                    {
+                        BackFile = form.Back,
+                    };
+                    _params.FrontsFiles = context.InputFiles.Select(x=>x.FullName).Except(new[] { _params.BackFile, }, StringComparer.OrdinalIgnoreCase).ToArray();
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public void Run()
+        public void Execute(PdfJobContext context)
+        {
+            MergeFrontsAndBack();
+        }
+
+        public void MergeFrontsAndBack()
         {
             foreach (string file in _params.FrontsFiles)
             {

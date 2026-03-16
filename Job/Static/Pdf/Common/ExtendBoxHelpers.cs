@@ -11,19 +11,19 @@ namespace JobSpace.Static.Pdf.Common
         /// </summary>
         /// <param name="box"></param>
         /// <returns></returns>
-        public static double xMM(this Box box) => Math.Round(box.left / PdfScaler.mn, 1);
+        public static double xMM(this Box box) => Math.Round(box.left / PdfHelper.mn, 1);
         /// <summary>
         /// у координата в мм
         /// </summary>
         /// <param name="box"></param>
         /// <returns></returns>
-        public static double yMM(this Box box) => Math.Round(box.bottom / PdfScaler.mn, 1);
+        public static double yMM(this Box box) => Math.Round(box.bottom / PdfHelper.mn, 1);
         /// <summary>
         /// Ширина в мм
         /// </summary>
         /// <param name="box"></param>
         /// <returns></returns>
-        public static double wMM(this Box box) => Math.Round(box.width / PdfScaler.mn, 1);
+        public static double wMM(this Box box) => Math.Round(box.width / PdfHelper.mn, 1);
         public static double wMM(this Box box, double angle)
         {
             if (angle == 90 || angle == 270)
@@ -36,7 +36,7 @@ namespace JobSpace.Static.Pdf.Common
         /// </summary>
         /// <param name="box"></param>
         /// <returns></returns>
-        public static double hMM(this Box box) => Math.Round(box.height / PdfScaler.mn, 1);
+        public static double hMM(this Box box) => Math.Round(box.height / PdfHelper.mn, 1);
         public static double hMM(this Box box, double angle)
         {
             if (angle == 90 || angle == 270)
@@ -44,19 +44,19 @@ namespace JobSpace.Static.Pdf.Common
             else
                 return box.hMM();
         }
-        public static double leftMM(this Box box) => Math.Round(box.left / PdfScaler.mn, 1);
-        public static double rightMM(this Box box) => Math.Round(box.right / PdfScaler.mn, 1);
-        public static double bottomMM(this Box box) => Math.Round(box.bottom / PdfScaler.mn, 1);
-        public static double topMM(this Box box) => Math.Round(box.top / PdfScaler.mn, 1);
+        public static double leftMM(this Box box) => Math.Round(box.left / PdfHelper.mn, 1);
+        public static double rightMM(this Box box) => Math.Round(box.right / PdfHelper.mn, 1);
+        public static double bottomMM(this Box box) => Math.Round(box.bottom / PdfHelper.mn, 1);
+        public static double topMM(this Box box) => Math.Round(box.top / PdfHelper.mn, 1);
         public static double x(this Box box, double scaleFactor) => box.left * scaleFactor;
         public static double y(this Box box, double scaleFactor) => box.bottom * scaleFactor;
         public static double w(this Box box, double scaleFactor) => box.width * scaleFactor;
         public static double h(this Box box, double scaleFactor) => box.height * scaleFactor;
 
-        public static double xMn(this Box box) => box.left * PdfScaler.mn;
-        public static double yMn(this Box box) => box.bottom * PdfScaler.mn;
-        public static double wMn(this Box box) => box.width * PdfScaler.mn;
-        public static double hMn(this Box box) => box.height * PdfScaler.mn;
+        public static double xMn(this Box box) => box.left * PdfHelper.mn;
+        public static double yMn(this Box box) => box.bottom * PdfHelper.mn;
+        public static double wMn(this Box box) => box.width * PdfHelper.mn;
+        public static double hMn(this Box box) => box.height * PdfHelper.mn;
 
         public static bool IsEmpty(this Box box) => box.width == 0 || box.height == 0;
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Interfaces;
+using Interfaces.Profile;
 
 namespace JobSpace.Profiles.ProfileEvents
 {

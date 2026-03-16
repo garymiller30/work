@@ -17,6 +17,7 @@ namespace JobSpace.UserForms.PDF
         string _targetDir;
 
         public Models.PdfColorResult PdfColorResult { get; set; } = new Models.PdfColorResult();
+        public Static.Pdf.Create.PdfCreateFillRectangleParams FillRectangleParams { get; set; } = new Static.Pdf.Create.PdfCreateFillRectangleParams();
         public decimal PdfWidth { get; set; }
         public decimal PdfHeight { get; set; }
 
@@ -24,14 +25,8 @@ namespace JobSpace.UserForms.PDF
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
-            
-        }
-        public FormCreateFillRectangle(string targetDir):this()
-        {
-            _targetDir = targetDir;
             LoadPantones();
         }
-
         void LoadPantones()
         {
             var files = Directory.EnumerateFiles(PANTONE_PATH, "*.json");
@@ -84,7 +79,6 @@ namespace JobSpace.UserForms.PDF
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             PdfColorResult.IsSpot = radioButtonSpot.Checked;
 
             if (radioButtonCMYK.Checked)
@@ -106,8 +100,7 @@ namespace JobSpace.UserForms.PDF
             }
 
             var color = PdfColorResult;
-
-            FileFormatsUtil.CreateFillRectangle(new Static.Pdf.Create.Rectangle.PdfCreateFillRectangleParams
+            FillRectangleParams = new Static.Pdf.Create.PdfCreateFillRectangleParams
             {
                 Width = (double)numericUpDown1.Value,
                 Height = (double)numericUpDown2.Value,
@@ -122,9 +115,7 @@ namespace JobSpace.UserForms.PDF
                     K = (double)color.K,
                     Name = color.Name,
                 },
-
-
-            }, _targetDir);
+            };
 
             DialogResult = DialogResult.OK;
             Close();

@@ -1,25 +1,45 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Models;
-using Org.BouncyCastle.Utilities;
+using JobSpace.UserForms.PDF.Visual;
 using PDFlib_dotnet;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Create.Falc
 {
-    public class FalcSchema
+    [PdfTool("Візуалізація","Фальцовка в намотку",Icon = "visual_falc",Order = 20)]
+    public class FalcSchema : IPdfTool
     {
         FalcSchemaParams _param;
 
-        public FalcSchema(FalcSchemaParams param)
+        public bool Configure(PdfJobContext context)
         {
-            _param = param;
+            var file = context.InputFiles.FirstOrDefault();
+            if (file == null) { return false; }
+
+            using (var form = new FormVisualFalc(file))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    _param = form.schemaParams;
+                    return true;
+                }
+               
+            }
+            return false;
         }
 
-        public void Run(string filePath)
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                CreateFalcSchema(file.FullName);
+            }
+        }
+
+        public void CreateFalcSchema(string filePath)
         {
             var boxes = PdfHelper.GetPagesInfo(filePath);
 

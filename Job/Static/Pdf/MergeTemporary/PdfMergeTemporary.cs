@@ -1,4 +1,6 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
 using System.Collections.Generic;
 using System.IO;
@@ -6,22 +8,22 @@ using System.Text.Json;
 
 namespace JobSpace.Static.Pdf.MergeTemporary
 {
-    public sealed class PdfMergeTemporary
+    [PdfTool("","• З'єднати файли в один (тимчасово)",Icon = "merge_in_temporary_file")]
+    public sealed class PdfMergeTemporary : IPdfTool
     {
-        PdfMergeTemporaryParams _params;
 
-        public PdfMergeTemporary(PdfMergeTemporaryParams param)
+        public bool Configure(PdfJobContext context)
         {
-            _params = param;
+            return true;
         }
 
-
-        public bool Run()
+        public void Execute(PdfJobContext context)
         {
+            bool success = false;
 
-            bool success =false;
+            var files = context.InputFiles;
 
-            string fileName = Path.Combine(Path.GetDirectoryName(_params.Files[0]), $"{Path.GetFileNameWithoutExtension(_params.Files[0])}_merged.pdf");
+            string fileName = Path.Combine(Path.GetDirectoryName(files[0].FullName), $"{Path.GetFileNameWithoutExtension(files[0].FullName)}_merged.pdf");
             PDFlib p = new PDFlib();
 
             List<PdfMergeFile> mergedList = new List<PdfMergeFile>();
@@ -32,9 +34,9 @@ namespace JobSpace.Static.Pdf.MergeTemporary
             {
                 p.begin_document(fileName, "optimize=true");
 
-                foreach (string file in _params.Files)
+                foreach (var file in files)
                 {
-                    var indoc = p.open_pdi_document(file, "");
+                    var indoc = p.open_pdi_document(file.FullName, "");
                     var pagecount = p.pcos_get_number(indoc, "length:pages");
 
                     PdfMergeFile mergeFile = new PdfMergeFile();
@@ -43,7 +45,7 @@ namespace JobSpace.Static.Pdf.MergeTemporary
                     idxPage = idxPage + (int)pagecount - 1;
                     mergeFile.To = idxPage;
                     idxPage++;
-                    mergeFile.Name = Path.GetFileName(file);
+                    mergeFile.Name = Path.GetFileName(file.FullName);
                     mergedList.Add(mergeFile);
 
                     for (int i = 1; i <= pagecount; i++)
@@ -63,16 +65,6 @@ namespace JobSpace.Static.Pdf.MergeTemporary
 
                 File.WriteAllText(mergeFilePath, str);
 
-                //using (var textWriter =  new StringWriter())
-                //{
-                //    var serializer = new JsonSerializer();
-                //    serializer.Serialize(textWriter, mergedList);
-
-                //    string mergeFilePath = Path.ChangeExtension(fileName,".json");
-
-                //    File.WriteAllText(mergeFilePath, textWriter.ToString());
-                //}
-
                 success = true;
             }
             catch (PDFlibException e)
@@ -81,8 +73,9 @@ namespace JobSpace.Static.Pdf.MergeTemporary
             }
             finally { p?.Dispose(); }
 
-            return success;
+           
         }
+
     }
 }
 

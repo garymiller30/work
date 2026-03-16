@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Interfaces;
+using Interfaces.Profile;
 
 namespace PluginColorJobListRow
 {

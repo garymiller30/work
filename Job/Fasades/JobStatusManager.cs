@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
+using Interfaces.Profile;
 using JobSpace.Static;
 using JobSpace.Statuses;
 using Logger;

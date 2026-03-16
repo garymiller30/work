@@ -1,4 +1,9 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using ExtensionMethods;
+using Interfaces;
+using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Static.Pdf.Common;
+using JobSpace.UserForms;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
@@ -6,18 +11,38 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Create.CollatingPageMark
 {
-    public class CreateCollatingPageMark
+    [PdfTool("Створити","мітки для підбору",Icon = "create_page_mark",Order =10)]
+    public class CreateCollatingPageMark : IPdfTool
     {
         CreateCollatingPageMarkParams _param;
-        public CreateCollatingPageMark(CreateCollatingPageMarkParams param)
+       
+
+        public bool Configure(PdfJobContext context)
         {
-            _param = param;
+            using (var form = new FormCreateCollatingPageMark())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    _param = form.CreatePageCollationMarksParam;
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public void Run(string filePath)
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                CollatingPageMark(file.FileInfo.FullName);
+            }
+        }
+
+        public void CollatingPageMark(string filePath)
         {
             PDFlib p = null;
             try
@@ -90,12 +115,12 @@ namespace JobSpace.Static.Pdf.Create.CollatingPageMark
             }
             catch (PDFlibException e)
             {
-                Logger.Log.Error(null, "FormCreateCollatingPageMark", "PDFlib exception occurred in FormCreateCollatingPageMark.Run():\n" +
+                Logger.Log.Error(null, "FormCreateCollatingPageMark", "PDFlib exception occurred in FormCreateCollatingPageMark.CreateSoftCover():\n" +
                     "[" + e.get_errnum() + "] " + e.get_apiname() + ": " + e.get_errmsg());
             }
             catch (Exception e)
             {
-                Logger.Log.Error(null, "FormCreateCollatingPageMark", "Exception occurred in FormCreateCollatingPageMark.Run():\n" + e.Message);
+                Logger.Log.Error(null, "FormCreateCollatingPageMark", "Exception occurred in FormCreateCollatingPageMark.CreateSoftCover():\n" + e.Message);
             }
             finally
             {

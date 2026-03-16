@@ -22,6 +22,11 @@ namespace JobSpace.UserForms.PDF
         QRCodeGenerator qrGenerator;
 
         string _target_folder;
+        public string CodeValue
+        {
+            get { return textBox1.Text; }
+            set { textBox1.Text = value; }
+        }
 
         public FormPdfCreateQRCode()
         {

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
+using Interfaces.Profile;
 using JobSpace.Profiles;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -15,8 +16,7 @@ namespace OrderInfo
         private IJob _curjob;
         private bool _isSubscribed;
         JobInfo _jobInfo;
-        // private Profile _profile;
-
+      
         public IUserProfile UserProfile { get; set; }
 
         public WindowOut()
@@ -25,14 +25,6 @@ namespace OrderInfo
             ucNote1.OnNoteTextChanged += RichTextBox1_Leave;
            
         }
-
-        /*
-                public void SetUserProfile(object profile)
-                {
-                    _profile = profile as Profile;
-                }
-        */
-
         public UserControl GetUserControl()
         {
             return this;
@@ -40,7 +32,6 @@ namespace OrderInfo
 
         public void Start()
         {
-            //throw new NotImplementedException();
         }
 
         public string GetPluginName()
@@ -50,12 +41,10 @@ namespace OrderInfo
 
         public void SetCurJobCallBack(object curJob)
         {
-            //throw new NotImplementedException();
         }
 
         public void SetCurJobPathCallBack(object curJobPath)
         {
-            //throw new NotImplementedException();
         }
 
         public void SetCurJob(IJob curJob)
@@ -222,12 +211,10 @@ namespace OrderInfo
 
         public void BeforeJobChange(IJob job)
         {
-            //throw new NotImplementedException();
         }
 
         public void AfterJobChange(IJob job)
         {
-            //throw new NotImplementedException();
         }
 
 
@@ -272,6 +259,8 @@ namespace OrderInfo
 
         public string PluginName => GetPluginName();
         public string PluginDescription => "інформація про замовлення";
+
+        
 
         public void ShowSettingsDlg()
         {

@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using Interfaces.Profile;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;

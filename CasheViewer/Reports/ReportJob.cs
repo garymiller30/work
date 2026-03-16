@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Interfaces;
+using Interfaces.Profile;
 using JobSpace.Profiles;
 using MongoDB.Bson;
 

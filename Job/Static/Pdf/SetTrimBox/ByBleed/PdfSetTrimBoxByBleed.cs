@@ -66,20 +66,22 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
             }
             else
             {
-                double bleed = _params.Bleed * PdfScaler.mn;
-                var convert = new PdfConvert(
-                    new PdfConvertParams { 
-                        TrimBox = {
+                double bleed = _params.Bleed * PdfHelper.mn;
+
+                var param = new PdfConvertParams
+                {
+                    TrimBox = {
                             bottom = bleed,
                             top = bleed,
                             left = bleed,
                             right = bleed
-                        }});
-                convert.Run(filePath);
+                        }
+                };
+
+                var convert = new PdfConvert();
+                convert.Configure(param);
+                convert.Convert(filePath);
             }
-
-
-            
         }
 
         void SetTrimToPdf(PDFlib p,string filePath)
@@ -94,7 +96,7 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
                 Box media = new Box();
                 media.GetMediabox(p, indoc, pageno-1);
 
-                double bleed = _params.Bleed * PdfScaler.mn;
+                double bleed = _params.Bleed * PdfHelper.mn;
 
                 double x = bleed;
                 double y = bleed;

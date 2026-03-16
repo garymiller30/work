@@ -21,6 +21,7 @@ namespace JobSpace.UserForms.PDF.Visual
     public partial class FormVisualHardCover : Form
     {
         IFileSystemInfoExt _fileInfo;
+        public HardCoverParams CoverParams { get; set; }
         public FormVisualHardCover(IFileSystemInfoExt f)
         {
             InitializeComponent();
@@ -100,28 +101,35 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void btn_create_schema_Click(object sender, EventArgs e)
         {
-            new HardCover(new HardCoverParams
+            CoverParams =
+            new HardCoverParams
             {
+                Command = HardCoverParams.CreateCommand.CreateSchema,
                 Height = (double)nud_height.Value,
                 Width = (double)nud_width.Value,
                 Zagyn = (double)nud_zagyn.Value,
                 Rastav = (double)nud_rastav.Value,
                 Root = (double)nud_root.Value,
                 FolderOutput = Path.GetDirectoryName(_fileInfo.FileInfo.FullName)
-            }).Run();
+            };
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void btn_apply_schema_Click(object sender, EventArgs e)
         {
-            new HardCover(new HardCoverParams
+            CoverParams = new HardCoverParams
             {
+                Command = HardCoverParams.CreateCommand.CreateCover,
                 Height = (double)nud_height.Value,
                 Width = (double)nud_width.Value,
                 Zagyn = (double)nud_zagyn.Value,
                 Rastav = (double)nud_rastav.Value,
                 Root = (double)nud_root.Value,
                 FolderOutput = Path.GetDirectoryName(_fileInfo.FileInfo.FullName)
-            }).Run(_fileInfo.FileInfo.FullName);
+            }; 
+            DialogResult = DialogResult.OK; 
+            Close();
 
         }
 
