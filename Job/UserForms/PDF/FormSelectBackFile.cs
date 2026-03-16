@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,7 +16,7 @@ namespace JobSpace.Dlg
     {
         public string Back { get; set; }
 
-        public FormSelectBackFile(IEnumerable<string> files)
+        public FormSelectBackFile(IEnumerable<IFileSystemInfoExt> files)
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
@@ -37,10 +38,10 @@ namespace JobSpace.Dlg
             public string Name { get; set; }
             public string FullName { get; set; }
 
-            public DisplayFile(string file)
+            public DisplayFile(IFileSystemInfoExt file)
             {
-                FullName = file;
-                Name = Path.GetFileName(file);
+                FullName = file.FullName;
+                Name = file.Name;
             }
         }
     }

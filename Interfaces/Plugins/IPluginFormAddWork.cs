@@ -1,4 +1,5 @@
 ﻿
+using Interfaces.Profile;
 using System.Collections.Generic;
 using System.ComponentModel;
 

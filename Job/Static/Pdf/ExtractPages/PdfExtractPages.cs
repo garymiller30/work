@@ -1,23 +1,45 @@
-﻿using PDFlib_dotnet;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using PDFlib_dotnet;
+using PDFManipulate.Forms;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.ExtractPages
 {
-    public sealed class PdfExtractPages
+    [PdfTool("","Витягти сторінки",Icon = "extract_page",Description = "Витягти сторінки з PDF документа")]
+    public sealed class PdfExtractPages : IPdfTool
     {
         PdfExtractPagesParams _params;
-
-        public PdfExtractPages(PdfExtractPagesParams param)
+      
+        public bool Configure(PdfJobContext context)
         {
-            _params = param;
+            using (var form = new FormSelectCountPages())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+
+                    _params = new PdfExtractPagesParams
+                    {
+                        Pages = form.Pages,
+                    };
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public void Run(string filePath)
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                ExtractPages(file.FullName);
+            }
+        }
+
+        public void ExtractPages(string filePath)
         {
             PDFlib p = null;
 

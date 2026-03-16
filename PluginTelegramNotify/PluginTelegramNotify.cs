@@ -1,6 +1,7 @@
 ﻿using Interfaces;
 using Interfaces.MQ;
 using Interfaces.Plugins;
+using Interfaces.Profile;
 using JobSpace;
 using System;
 using System.Collections.Generic;

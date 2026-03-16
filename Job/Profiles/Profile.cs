@@ -2,6 +2,8 @@
 using CSScriptEngine;
 using ExtensionMethods;
 using Interfaces;
+using Interfaces.FileBrowser;
+using Interfaces.Profile;
 using Interfaces.Script;
 using JobSpace.CustomerNotify;
 using JobSpace.Data;

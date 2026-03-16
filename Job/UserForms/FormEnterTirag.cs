@@ -14,23 +14,22 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static JobSpace.UserForms.FormEnterTirag;
 
 namespace JobSpace.UserForms
 {
     public partial class FormEnterTirag : Form
     {
-        UC.IFileManager _fileManager;
-        Action<IFileManager,int, IFileSystemInfoExt> _renameAction;
+        public List<FileTirag> fileTirags { get;set;} = new List<FileTirag>();
 
         public FormEnterTirag()
         {
             InitializeComponent();
         }
 
-        public FormEnterTirag(UC.IFileManager fileManager, IEnumerable<IFileSystemInfoExt> files,Action<IFileManager, int, IFileSystemInfoExt> renameAction) : this()
+        public FormEnterTirag(IEnumerable<IFileSystemInfoExt> files) : this()
         {
-            _fileManager = fileManager;
-            _renameAction = renameAction;
+          
             AddToList(files);
 
             //вибрати всі елементи
@@ -70,7 +69,7 @@ namespace JobSpace.UserForms
             SetTotalLabel();
         }
 
-        class FileTirag
+        public class FileTirag
         {
             public IFileSystemInfoExt FileInfo { get; set; }
             public int Tirag { get; set; }
@@ -104,31 +103,22 @@ namespace JobSpace.UserForms
 
         private void btn_ok_Click(object sender, EventArgs e)
         {
-
-            BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Міняємо тиражі на файлах", new Action(
-               () =>
-               {
-                   foreach (FileTirag ft in objectListView1.Objects)
-                   {
-                       _renameAction(_fileManager,ft.Tirag, ft.FileInfo);
-                       //var reg = new Regex(@"#(\d+)\.");
-                       //var match = reg.Match(ft.FileInfo.FileInfo.Name);
-                       //string targetFile;
-                       //if (match.Success)
-                       //{
-                       //    targetFile =
-                       //        $"{Path.GetFileNameWithoutExtension(ft.FileInfo.FileInfo.Name).Substring(0, match.Index)}#{ft.Tirag}{ft.FileInfo.FileInfo.Extension}";
-                       //}
-                       //else
-                       //{
-                       //    targetFile = $"{Path.GetFileNameWithoutExtension(ft.FileInfo.FileInfo.Name)}#{ft.Tirag}{ft.FileInfo.FileInfo.Extension}";
-                       //}
-                       //_fileManager.MoveFileOrDirectoryToCurrentFolder(ft.FileInfo, targetFile);
-                   }
-               }
-               )));
+            fileTirags = objectListView1.Objects.Cast<FileTirag>().ToList();
             DialogResult = DialogResult.OK;
             Close();
+
+            //BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Міняємо тиражі на файлах", new Action(
+            //   () =>
+            //   {
+            //       foreach (FileTirag ft in objectListView1.Objects)
+            //       {
+            //           _renameAction(_fileManager,ft.Tirag, ft.FileInfo);
+                       
+            //       }
+            //   }
+            //   )));
+            //DialogResult = DialogResult.OK;
+            //Close();
         }
 
         private void btn_paste_Click(object sender, EventArgs e)

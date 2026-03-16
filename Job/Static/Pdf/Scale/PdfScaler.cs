@@ -1,28 +1,48 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.PdfScale;
+using JobSpace.UserForms;
 using PDFlib_dotnet;
 using System;
 using System.IO;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Scale
 {
-    public class PdfScaler
+    [PdfTool("","Масштабувати PDF",Icon ="scale")]
+    public class PdfScaler : IPdfTool
     {
-        public static readonly double mn = 2.83465;
+
         private PdfScaleParams _params;
 
-        public PdfScaler()
+        public bool Configure(PdfJobContext context)
         {
-            _params = new PdfScaleParams();
+            var file = context.InputFiles.FirstOrDefault();
+            if (file != null)
+            {
+                using (var form = new FormSelectPdfNewSize(file))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        _params = form.Params;
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
-        public PdfScaler(PdfScaleParams param)
+        public void Execute(PdfJobContext context)
         {
-            _params = param ?? new PdfScaleParams();
+            foreach (var file in context.InputFiles)
+            {
+                Scaler(file.FullName);
+            }
         }
 
-        public void Run(string filePath)
+        public void Scaler(string filePath)
         {
             PDFlib p = null;
 

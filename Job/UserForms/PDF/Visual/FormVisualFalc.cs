@@ -26,6 +26,7 @@ namespace JobSpace.UserForms.PDF.Visual
 {
     public partial class FormVisualFalc : Form
     {
+        public FalcSchemaParams schemaParams { get; private set; } 
         Control[] _parts;
         NumericUpDown[] _deltas;
         Label[] _labels;
@@ -187,13 +188,14 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void btn_create_schema_Click(object sender, EventArgs e)
         {
-            FalcSchemaParams param = new FalcSchemaParams()
+            schemaParams = new FalcSchemaParams()
             {
                 Mirrored = cb_mirrored_parts.Checked,
                 PartsWidth = partsDelta
             };
+            DialogResult = DialogResult.OK;
+            Close();
 
-            new FalcSchema(param).Run(_fsi.FullName);
         }
 
         private void nud_width_ValueChanged(object sender, EventArgs e)
@@ -203,16 +205,18 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void btn_mark_file_Click(object sender, EventArgs e)
         {
-            FalcSchemaParams param = new FalcSchemaParams()
+            schemaParams = new FalcSchemaParams()
             {
                 IsMarkFile = true,
                 Mirrored = cb_mirrored_parts.Checked,
                 
             };
 
-            param.PartsWidth = partsDelta;
+            schemaParams.PartsWidth = partsDelta;
 
-            new FalcSchema(param).Run(_fsi.FullName);
+           DialogResult = DialogResult.OK;
+            Close();
+
         }
 
         private void btn_load_schema_Click(object sender, EventArgs e)

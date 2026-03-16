@@ -3,6 +3,8 @@ using System.Globalization;
 using System.IO;
 using ExtensionMethods;
 using Interfaces;
+using Interfaces.FileBrowser;
+using Interfaces.Profile;
 using JobSpace.Static;
 using JobSpace.UC;
 using Microsoft.VisualBasic.FileIO;

@@ -1,20 +1,39 @@
-﻿using PDFlib_dotnet;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Dlg;
+using PDFlib_dotnet;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Repeat.Document
 {
-    public class PdfRepeatDocument
+    [PdfTool("","Повторити документ (123-123-123)",Icon = "duplicate_document")]
+    public class PdfRepeatDocument : IPdfTool
     {
         PdfRepeatDocumentParams _params;
-        public PdfRepeatDocument(PdfRepeatDocumentParams param)
+
+        public bool Configure(PdfJobContext context)
         {
-            _params = param;
+            using (var form = new FormInputCountPages())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    _params = new PdfRepeatDocumentParams { Count = form.CountPages };
+                    return true;
+                }
+            }
+            return false;
         }
+
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                Run(file.FullName);
+            }
+        }
+
         public void Run(string filePath)
         {
             PDFlib p = null;

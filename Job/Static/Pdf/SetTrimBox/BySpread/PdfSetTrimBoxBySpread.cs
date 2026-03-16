@@ -47,17 +47,17 @@ namespace JobSpace.Static.Pdf.SetTrimBox.BySpread
 
                     if (pageno % 2  == 0) // парна
                     {
-                        x = _params.Outside * PdfScaler.mn;
-                        w = media.width - _params.Inside * PdfScaler.mn;
+                        x = _params.Outside * PdfHelper.mn;
+                        w = media.width - _params.Inside * PdfHelper.mn;
                     }
                     else //непарна
                     {
-                        x = _params.Inside * PdfScaler.mn;
-                        w = media.width - _params.Outside * PdfScaler.mn;
+                        x = _params.Inside * PdfHelper.mn;
+                        w = media.width - _params.Outside * PdfHelper.mn;
                     }
 
-                    y = _params.Bottom * PdfScaler.mn;
-                    h = media.height - _params.Top * PdfScaler.mn;
+                    y = _params.Bottom * PdfHelper.mn;
+                    h = media.height - _params.Top * PdfHelper.mn;
 
                     p.begin_page_ext(0, 0, "");
                     p.fit_pdi_page(page, 0, 0, "adjustpage");

@@ -1,19 +1,15 @@
-﻿using Interfaces;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.Static.Pdf.Rearange
 {
-    public class RearangePagesForQuartalCalendar
+    [PdfTool("Квартальний календар","14 -> 36",Order = 40)]
+    public class RearangePagesForQuartalCalendar : IPdfTool
     {
-        int _cntMonthinBlock;
+        int _cntMonthinBlock = 3;
 
         int[] _3monthsInBlock = new int[36]
         {   1,2,3,
@@ -30,13 +26,20 @@ namespace JobSpace.Static.Pdf.Rearange
             12,13,14
         };
 
-
-        public RearangePagesForQuartalCalendar(int cntMonthinBlock = 3)
+        public bool Configure(PdfJobContext context)
         {
-            _cntMonthinBlock = cntMonthinBlock;
+            return true;
         }
 
-        public void Run(string file)
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                 RearangePages(file.FullName);
+            }
+        }
+
+        public void  RearangePages(string file)
         {
             string targetfile = Path.Combine(
                 Path.GetDirectoryName(file),

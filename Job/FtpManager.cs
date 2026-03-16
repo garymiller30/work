@@ -10,6 +10,7 @@ using FtpClient;
 using FtpClient.Controllers;
 using Interfaces;
 using Interfaces.Ftp;
+using Interfaces.Profile;
 using JobSpace;
 using JobSpace.UC;
 
@@ -17,7 +18,6 @@ namespace ActiveWorks
 {
     public sealed class FtpManager : IFtpManager
     {
-        //public Profile UserProfile { get; set; }
         private readonly IUserProfile _profile;
 
         public IFtpScriptController FtpScriptController { get; set; }

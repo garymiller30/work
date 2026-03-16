@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Interfaces;
+using Interfaces.FileBrowser;
+using Interfaces.Profile;
 using JobSpace.UC;
 
 namespace JobSpace.Profiles

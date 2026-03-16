@@ -1,6 +1,7 @@
 ﻿using BackgroundTaskServiceLib;
 using ImageMagick;
 using Interfaces;
+using Interfaces.Profile;
 using JobSpace.Dlg;
 using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Common;
@@ -10,7 +11,6 @@ using JobSpace.Static.Pdf.MergeTemporary;
 using JobSpace.UC;
 using JobSpace.UserForms;
 using JobSpace.UserForms.PDF;
-using JobSpace.UserForms.PDF.Visual;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
 using PDFManipulate.Forms;
@@ -34,226 +34,7 @@ namespace JobSpace.Static
     public static class FileBrowserSevices
     {
         #region PDF
-        public static void PDF_RemoveICCProfiles(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.RemoveICCProfiles(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-
-        public static void PDF_RearangePagesForQuartalCalendar(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.RearangePagesForQuartalCalendar(files.Cast<IFileSystemInfoExt>().ToList());
-
-        }
-        public static void PDF_VisualFalc(object selectedObject)
-        {
-            if (selectedObject != null && selectedObject is IFileSystemInfoExt fsi)
-            {
-                var form = new FormVisualFalc(fsi);
-                form.Show();
-            }
-        }
-        public static void PDF_ConvertToPdf(IList files, Action action)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.ConvertToPDF(files.Cast<IFileSystemInfoExt>().ToList(), action);
-        }
-        public static void PDF_CreateCollatingPageMark(IList files)
-        {
-            if (files.Count == 0) return;
-            using (var form = new FormCreateCollatingPageMark())
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    FileFormatsUtil.CreateCollatingPageMark(files.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), form.CreatePageCollationMarksParam);
-                }
-            }
-        }
-        public static void PDF_RepeatDocument(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.RepeatDocument(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_MergeFrontsAndBacks(IList files)
-        {
-            if (files.Count < 2) return;
-            FileFormatsUtil.MergeFrontsAndBack(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_RepeatPages(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.RepeatPages(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_ReversePages(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.ReversePages(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_CreateRectangle(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.CreateRectangle(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_CreateEllipse(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.CreateEllipse(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_SplitSpread(IList files)
-        {
-            if (files.Count == 0) return;
-            using (var form = new FormPdfSplitterParams())
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    FileFormatsUtil.SplitPdf(files.Cast<IFileSystemInfoExt>().ToList(), form.Params);
-                }
-            }
-        }
-        public static void PDF_SplitFile(IList files)
-        {
-            if (files.Count == 0) return;
-            using (var form = new FormDividerParams())
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    FileFormatsUtil.SplitPDF(files.Cast<IFileSystemInfoExt>().ToList(), form.Params);
-                }
-            }
-        }
-        public static void PDF_AddCutRectangle(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.AddCutRectangle(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_MergeFiles(IList files, Action action)
-        {
-            if (files.Count == 0) return;
-
-            var _files = files.Cast<IFileSystemInfoExt>().ToList();
-
-            using (var form = new UserForms.PDF.FormList(_files.Select(x => x.FileInfo.FullName).ToArray()))
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    FileFormatsUtil.MergePdf(form.ConvertFiles, action);
-                }
-            }
-        }
-        public static void PDF_AddCutCircle(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.AddCutCircle(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_MergeToTemporaryFile(IList files, Action action)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.PdfMergeTemporary(
-                new PdfMergeTemporaryParams
-                {
-                    Files = files.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToList()
-                }, action);
-        }
-        public static void PDF_SplitTemporaryFile(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.SplitTemporary(files.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName).ToList());
-        }
-        public static void PDF_AddFormatToFileName(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.AddFormatToFileName(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_CreateBigovkaMarks(IList files)
-        {
-            if (files.Count == 0) return;
-
-            var form = new FormCreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().ToList());
-
-            form.Show();
-
-        }
-        public static void PDF_ExtractPages(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.ExtractPages(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_CreateFillRectangle(string targetDir)
-        {
-
-            var form = new FormCreateFillRectangle(targetDir);
-            form.Show();
-        }
-        public static void PDF_ScaleFiles(IList files)
-        {
-            if (files.Count == 0) return;
-            using (var form = new FormSelectPdfNewSize((IFileSystemInfoExt)files[0]))
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    FileFormatsUtil.ScalePdf(files.Cast<IFileSystemInfoExt>().ToList(), form.Params);
-                }
-            }
-        }
-        public static void PDF_SaveToJpeg(IList files)
-        {
-            if (files.Count == 0) return;
-
-            using (var form = new FormSelectDpi())
-            {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    FileFormatsUtil.PdfToJpg(
-                        files.Cast<IFileSystemInfoExt>().ToList(),
-                        new Static.Pdf.ToJpg.PdfToJpgParams { Dpi = form.Dpi, Quality = form.Quality });
-                }
-            }
-        }
-        public static void PDF_SplitToOddAndEven(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.SplitOddAndEven(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_MergeOddAndEven(IList files)
-        {
-            if (files.Count == 2)
-            {
-                PdfMergeOddAndEvenParams param = new PdfMergeOddAndEvenParams();
-
-                var _files = files.Cast<IFileSystemInfoExt>().ToList();
-                if (_files[0].FileInfo.Name.ToLower(CultureInfo.InvariantCulture).Contains("_even"))
-                {
-                    param.EvenFile = _files[0].FileInfo.FullName;
-                    param.OddFile = _files[1].FileInfo.FullName;
-                }
-                else
-                {
-                    param.EvenFile = _files[1].FileInfo.FullName;
-                    param.OddFile = _files[0].FileInfo.FullName;
-                }
-                FileFormatsUtil.MergeOddAndEven(param);
-            }
-            else
-            {
-                MessageBox.Show("Файлів має бути два! В одному непарні сторінки, а в іншому - парні", "Альо!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-        public static void PDF_Rotate90MirrorPages(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.RotatePagesMirror(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_SplitCoverAndBlock(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.SplitCoverAndBlock(files.Cast<IFileSystemInfoExt>().ToList());
-        }
-        public static void PDF_VisualBlocknoteSpiral(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.VisualBlocknoteSpiral(files.Cast<IFileSystemInfoExt>().ToList());
-        }
+       
         public static void PDF_ShowImposDialog(IList files, ImposInputParam param)
         {
             if (files.Count == 0) return;
@@ -265,22 +46,10 @@ namespace JobSpace.Static
 
         }
 
-        public static void PDF_MergeBlockBy3Months(object file)
-        {
-            if (file is IFileSystemInfoExt fsi)
-            {
-                FileFormatsUtil.MergeBlockBy3Months(fsi.FileInfo.FullName);
-            }
-        }
-
         #endregion
 
         #region FILE
-        public static void File_NumericFiles(IList files)
-        {
-            if (files.Count == 0) return;
-            FileFormatsUtil.NumericFiles(files.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName));
-        }
+        
         public static void File_MoveFolderContentsToHere(IList files, IFileManager fileManager)
         {
             if (files.Count == 0) return;
@@ -412,45 +181,7 @@ namespace JobSpace.Static
                 }
             }
         }
-        public static void File_AddTirag(IFileManager manager, IList files)
-        {
-            if (files.Count == 0) return;
-            if (files.Count > 1)
-            {
-                var form = new FormEnterTirag(manager, files.Cast<IFileSystemInfoExt>(), RenameFileByTirag);
-                form.Show();
-            }
-            else
-            {
-                using (var form = new FormTirag())
-                {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        foreach (IFileSystemInfoExt file in files)
-                        {
-                            RenameFileByTirag(manager, form.Tirag, file);
-                        }
-                    }
-                }
-            }
-        }
-        private static void RenameFileByTirag(IFileManager manager, int tirag, IFileSystemInfoExt file)
-        {
-            var reg = new Regex(@"#(\d+)\.");
-            var match = reg.Match(file.FileInfo.Name);
-            string targetFile;
-            if (match.Success)
-            {
-                targetFile =
-                    $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name).Substring(0, match.Index)}#{tirag}{file.FileInfo.Extension}";
-            }
-            else
-            {
-                targetFile = $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name)}#{tirag}{file.FileInfo.Extension}";
-            }
 
-            manager.MoveFileOrDirectoryToCurrentFolder(file, targetFile);
-        }
         #endregion
 
         #region PROCESS
@@ -841,23 +572,9 @@ namespace JobSpace.Static
             }
         }
 
-        public static void PDF_VisualHardCover(IFileSystemInfoExt f)
-        {
-            var form = new FormVisualHardCover(f);
-            form.Show();
-        }
 
-        public static void PDF_VisualTableCalendar(IFileSystemInfoExt f)
-        {
-            var form = new FormVisualTableCalendar(f);
-            form.Show();
-        }
+     
 
-        public static void PDF_VisualSoftCover(IFileSystemInfoExt f)
-        {
-            var form = new FormVisualSoftCover(f);
-            form.Show();
-        }
 
         /// <summary>
         /// отримати розмір зображення в міліметрах. 

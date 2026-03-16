@@ -1,16 +1,28 @@
-﻿using iText.Kernel.Pdf;
-using iText.Kernel.Pdf.Colorspace; // КЛЮЧОВЕ: Додаємо для роботи з PdfName.ICCBased
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using iText.Kernel.Pdf;
 
 namespace JobSpace.Static.Pdf.Remove
 {
-    public class PdfRemoveICCProfiles
+    [PdfTool("","Видалити ICC-профілі з PDF")]
+    public class PdfRemoveICCProfiles : IPdfTool
     {
-        public void Run(string filePath)
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+
+                RemoveICCProfiles(file.FullName);
+            }
+        }
+
+        public bool Configure(PdfJobContext context)
+        {
+            return true;
+        }
+
+
+        public void RemoveICCProfiles(string filePath)
         {
             string outputPath = System.IO.Path.Combine(
                 System.IO.Path.GetDirectoryName(filePath),
@@ -223,5 +235,7 @@ namespace JobSpace.Static.Pdf.Remove
 
             return csObj;
         }
+
+
     }
 }

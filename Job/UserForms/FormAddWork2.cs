@@ -11,6 +11,7 @@ using JobSpace.Profiles;
 using MongoDB.Bson;
 using JobSpace.Fasades;
 using BrightIdeasSoftware;
+using Interfaces.Profile;
 
 namespace JobSpace.UserForms
 {

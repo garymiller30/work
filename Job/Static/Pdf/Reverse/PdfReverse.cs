@@ -1,16 +1,28 @@
-﻿using PDFlib_dotnet;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using PDFlib_dotnet;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Reverse
 {
-    public sealed class PdfReverse
+    [PdfTool("","Сторінки в зворотньому напрямку",Icon = "reverse_pages")]
+    public sealed class PdfReverse : IPdfTool
     {
-        public void Run(string filePath)
+        public bool Configure(PdfJobContext context)
+        {
+            return true;
+        }
+
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                Reverse(file.FullName);
+            }
+        }
+
+        public void Reverse(string filePath)
         {
             PDFlib p = null;
 

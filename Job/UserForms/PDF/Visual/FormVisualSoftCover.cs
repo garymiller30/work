@@ -19,6 +19,7 @@ namespace JobSpace.UserForms.PDF.Visual
     public partial class FormVisualSoftCover : Form
     {
         IFileSystemInfoExt _fileInfo;
+        public SoftCoverParams CoverParams { get;set; }
         public FormVisualSoftCover(IFileSystemInfoExt f)
         {
             InitializeComponent();
@@ -109,7 +110,7 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void btn_create_schema_Click(object sender, EventArgs e)
         {
-            new SoftCover(new SoftCoverParams
+            CoverParams = new SoftCoverParams
             {
                 Bleed = (double)nud_bleed.Value,
                 Width = (double)nud_width.Value,
@@ -118,13 +119,16 @@ namespace JobSpace.UserForms.PDF.Visual
                 RightKlapan = (double)nud_right_klapan.Value,
                 Root = (double)nud_root.Value,
                 FolderOutput = Path.GetDirectoryName(_fileInfo.FullName),
-                
-            }).Run();
+                Command = SoftCoverParams.CreateCommand.CreateSoftCover
+
+            };
+             DialogResult = DialogResult.OK;
+             Close();
         }
 
         private void btn_apply_schema_Click(object sender, EventArgs e)
         {
-            new SoftCover(new SoftCoverParams
+            CoverParams = new SoftCoverParams
             {
                 Bleed = (double)nud_bleed.Value,
                 Width = (double)nud_width.Value,
@@ -133,8 +137,11 @@ namespace JobSpace.UserForms.PDF.Visual
                 RightKlapan = (double)nud_right_klapan.Value,
                 Root = (double)nud_root.Value,
                 FolderOutput = Path.GetDirectoryName(_fileInfo.FullName),
+                Command = SoftCoverParams.CreateCommand.CreateSoftCoverWithFile
 
-            }).Run(_fileInfo.FullName);
+            };
+             DialogResult = DialogResult.OK;
+             Close();
         }
 
         private void nud_Enter(object sender, EventArgs e)

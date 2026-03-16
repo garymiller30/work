@@ -32,24 +32,21 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByFormat
             {
                 SetTrimToImage(filePath);
             }
-
-
-
-
         }
 
         private void SetTrimToImage(string filePath)
         {
-            
-            var convert = new PdfConvert(
-                new PdfConvertParams
-                {
-                    TrimBox = {
-                            width = _params.Width  * PdfScaler.mn,
-                            height = _params.Height *  PdfScaler.mn
+
+            var cnvrt = new PdfConvert();
+            var param = new PdfConvertParams
+            {
+                TrimBox = {
+                            width = _params.Width  * PdfHelper.mn,
+                            height = _params.Height *  PdfHelper.mn
                     }
-                });
-            convert.Run(filePath);
+            };
+            cnvrt.Configure(param);
+            cnvrt.Convert(filePath);
         }
 
         void SetTrimToPdf(string filePath)
@@ -73,8 +70,8 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByFormat
 
                     var box = PdfHelper.GetBoxes(p, indoc, pageh);
 
-                    double paramW = _params.Width * PdfScaler.mn;
-                    double paramH = _params.Height * PdfScaler.mn;
+                    double paramW = _params.Width * PdfHelper.mn;
+                    double paramH = _params.Height * PdfHelper.mn;
 
                     double bleedX = (box.Media.width - paramW) / 2;
                     double bleedY = (box.Media.height - paramH) / 2;

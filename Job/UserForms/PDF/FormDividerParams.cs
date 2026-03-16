@@ -9,7 +9,7 @@ namespace PDFManipulate.Forms
 {
     public partial class FormDividerParams : Form
     {
-        public PdfDividerParams Params { get; set; } = new PdfDividerParams();
+        public PdfSplitPagesParams Params { get; set; } = new PdfSplitPagesParams();
         //public int CountPages { get; set; } = 1;
         public FormDividerParams()
         {

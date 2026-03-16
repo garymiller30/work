@@ -1,6 +1,7 @@
 ﻿using ExtensionMethods;
 using Interfaces;
 using Interfaces.Plugins;
+using Interfaces.Profile;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
 using Interfaces;
+using Interfaces.Profile;
 using iTextSharp.text.pdf.codec;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 

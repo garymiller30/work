@@ -3,6 +3,7 @@ using BrightIdeasSoftware;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.MQ;
+using Interfaces.Profile;
 using JobSpace.Ext;
 using JobSpace.Menus;
 using JobSpace.Models;

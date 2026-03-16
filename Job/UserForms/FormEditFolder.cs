@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using Interfaces.Profile;
 using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;

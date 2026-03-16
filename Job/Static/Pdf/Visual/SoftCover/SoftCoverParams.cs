@@ -15,6 +15,7 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
         public double RightKlapan { get; set; }
         public double Root { get; set; }
         public string FolderOutput { get; set; }
+        public CreateCommand Command { get; set; } = CreateCommand.CreateSoftCover;
         public double TotalWidth
         {
             get
@@ -28,6 +29,11 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
             {
                 return Height + (Bleed * 2);
             }
+        }
+        public enum CreateCommand
+        {
+            CreateSoftCover,
+            CreateSoftCoverWithFile
         }
     }
 }

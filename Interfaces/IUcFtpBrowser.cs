@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Interfaces.Ftp;
+using Interfaces.Profile;
 
 namespace Interfaces
 {

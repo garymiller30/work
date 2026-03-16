@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Interfaces;
+using Interfaces.FileBrowser;
+using Interfaces.Profile;
 
 namespace PluginColorJobListRow
 {

@@ -8,6 +8,7 @@ using Google.Apis.Services;
 using Google.Apis.Upload;
 using Google.Apis.Util.Store;
 using Interfaces;
+using Interfaces.Profile;
 using MailNotifier.Shablons;
 using MimeKit;
 using System;

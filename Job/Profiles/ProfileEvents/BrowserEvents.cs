@@ -3,6 +3,8 @@
 
 using System;
 using Interfaces;
+using Interfaces.FileBrowser;
+using Interfaces.Profile;
 
 namespace JobSpace.Profiles.ProfileEvents
 {

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using CasheViewer.Reports;
 using CasheViewer.UC;
 using Interfaces;
+using Interfaces.Profile;
 using JobSpace.Dlg;
 using JobSpace.Profiles;
 using JobSpace.UserForms;

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
+using Interfaces.Profile;
 using JobSpace;
 using JobSpace.Profiles;
 using JobSpace.UC;

@@ -1,4 +1,6 @@
-﻿namespace Interfaces
+﻿using Interfaces.Profile;
+
+namespace Interfaces
 {
     public interface IProfileTab
     {

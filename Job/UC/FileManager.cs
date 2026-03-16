@@ -1,4 +1,7 @@
 ﻿using Interfaces;
+using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Models.FileBrowser;
 using JobSpace.Static;
 using Microsoft.VisualBasic.FileIO;
 using System;
@@ -6,6 +9,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FileSystem = Microsoft.VisualBasic.FileIO.FileSystem;
@@ -16,7 +21,8 @@ namespace JobSpace.UC
     {
         public const string TEMP_FOLDER = "temp";
         public FileBrowserSettings Settings { get; set; } = new FileBrowserSettings();
-
+        string _settings_dir;
+        List<ToolInfo> _pdfTools;
 
         public event EventHandler<IFileSystemInfoExt> OnAddFile = delegate { };
         public event EventHandler<IFileSystemInfoExt> OnDeleteFile = delegate { };
@@ -272,16 +278,38 @@ namespace JobSpace.UC
                 {
                     MessageBox.Show(e.Message, "помилка");
                 }
-
             }
-
         }
+
+        public IToolbarSettings LoadToolbarSettings()
+        {
+            string file = Path.Combine(_settings_dir, "toolbar.json");
+
+            if (!File.Exists(file))
+                return new ToolbarSettings();
+
+            return JsonSerializer.Deserialize<ToolbarSettings>(File.ReadAllText(file));
+        }
+
+        public void SaveToolbarSettings(IToolbarSettings settings)
+        {
+            string file = Path.Combine(_settings_dir, "toolbar.json");
+
+            File.WriteAllText(file,
+                JsonSerializer.Serialize((ToolbarSettings)settings, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                }));
+        }
+
 
         /// <summary>
         /// завантажити налаштування провідника
         /// </summary>
         public void LoadSettings(string settingFile)
         {
+            _settings_dir = Path.GetDirectoryName(settingFile);
+
             var setting = SaveAndLoad.Load<FileBrowserSettings>(settingFile);
             if (setting != null)
             {
@@ -554,6 +582,59 @@ namespace JobSpace.UC
             {
                 MessageBox.Show(e.Message, "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public List<ToolInfo> LoadPdfTools()
+        {
+            if (_pdfTools != null) return _pdfTools;
+
+            _pdfTools = new List<ToolInfo>();
+
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            foreach (var assembly in assemblies)
+            {
+                Type[] types;
+
+                try
+                {
+                    types = assembly.GetTypes();
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    types = ex.Types.Where(t => t != null).ToArray();
+
+                    // дуже корисно для діагностики
+                    foreach (var loaderException in ex.LoaderExceptions)
+                    {
+                        Debug.WriteLine(loaderException.Message);
+                    }
+                }
+
+                foreach (var type in types)
+                {
+                    if (!typeof(IPdfTool).IsAssignableFrom(type) || type.IsInterface || type.IsAbstract)
+                        continue;
+
+                    var attr = type.GetCustomAttribute<PdfToolAttribute>();
+                    if (attr == null)
+                        continue;
+
+                    var tool = (IPdfTool)Activator.CreateInstance(type);
+
+                    _pdfTools.Add(new ToolInfo
+                    {
+                        ToolType = type,
+                        Meta = attr
+                    });
+                }
+
+                _pdfTools = _pdfTools.OrderBy(t => t.Meta.Order).ThenBy(t => t.Meta.Name).ToList();
+            }
+
+            return _pdfTools;
+
+
         }
     }
 }

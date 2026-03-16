@@ -1,25 +1,39 @@
-﻿using iTextSharp.text.pdf;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Dlg;
 using PDFlib_dotnet;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.RepeatPages
 {
-    public sealed class PdfRepeatPages
+    [PdfTool("","Повторити сторінки (11-22-33)",Icon = "duplicate_pages")]
+    public sealed class PdfRepeatPages : IPdfTool
     {
         PdfRepeatPagesParams _params;
-        public PdfRepeatPages(PdfRepeatPagesParams param)
+
+        public bool Configure(PdfJobContext context)
         {
-
-            _params = param;
-
+            using (var form = new FormInputCountPages())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    _params = new PdfRepeatPagesParams { Count = form.CountPages };
+                }
+            }
+            return false;
         }
 
-        public void Run(string filePath)
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                RepeatPages(file.FullName);
+            }
+        }
+
+        public void RepeatPages(string filePath)
         {
             PDFlib p = null;
 

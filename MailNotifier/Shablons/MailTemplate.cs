@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using Interfaces.Profile;
 using System;
 
 namespace MailNotifier.Shablons

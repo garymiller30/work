@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Krypton.Toolkit;
 using PluginAddWorkFromPolymix.Model;
+using Interfaces.Profile;
 
 namespace PluginAddWorkFromPolymix
 {

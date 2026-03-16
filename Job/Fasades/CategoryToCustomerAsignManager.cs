@@ -1,5 +1,6 @@
 ﻿using BrightIdeasSoftware;
 using Interfaces;
+using Interfaces.Profile;
 using JobSpace.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;

@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using Interfaces.Profile;
 using JobSpace;
 using Krypton.Toolkit;
 using Microsoft.Scripting.Utils;

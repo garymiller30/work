@@ -1,5 +1,6 @@
 ﻿using CasheViewer.Reports;
 using Interfaces;
+using Interfaces.Profile;
 using JobSpace.Profiles;
 using System;
 using System.Linq;

@@ -3,6 +3,8 @@
 
 using BrightIdeasSoftware;
 using Interfaces;
+using Interfaces.FileBrowser;
+using Interfaces.Profile;
 using JobSpace.Models;
 using Logger;
 using RulesService;
@@ -138,9 +140,15 @@ namespace PdfSpreader
         public string PluginName => "PdfSpreader";
         public string PluginDescription => "виділяє кольором файли, які можна пропустити через PrepressSpreader";
 
+        IUserProfile IPluginFileBrowser.UserProfile { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public void ShowSettingsDlg()
         {
             MessageBox.Show("Наразі налаштування зберігаються у файлі PdfSpreader.exe.config");
+        }
+
+        public void FileBrowserSelectObject(IFileBrowser fileBrowser, IFileSystemInfoExt file)
+        {
         }
     }
 }

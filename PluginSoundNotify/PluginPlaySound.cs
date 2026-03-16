@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Interfaces;
 using Interfaces.Plugins;
+using Interfaces.Profile;
 
 namespace PluginSoundNotify
 {

@@ -1,4 +1,5 @@
 ﻿using Interfaces.Ftp;
+using Interfaces.Profile;
 using System;
 
 namespace Interfaces

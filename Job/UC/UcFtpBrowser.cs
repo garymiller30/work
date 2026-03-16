@@ -10,6 +10,7 @@ using FtpClient;
 using Interfaces;
 using Interfaces.Ftp;
 using JobSpace.Static;
+using Interfaces.Profile;
 
 namespace JobSpace.UC
 {

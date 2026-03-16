@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Interfaces;
+using Interfaces.Profile;
 using MongoDB.Bson;
 
 namespace CasheViewer.Reports

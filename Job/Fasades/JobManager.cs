@@ -14,6 +14,7 @@ using FtpClient;
 using Interfaces;
 using Interfaces.MQ;
 using Interfaces.Plugins;
+using Interfaces.Profile;
 using JobSpace.Controllers;
 using JobSpace.Ext;
 using JobSpace.Models;

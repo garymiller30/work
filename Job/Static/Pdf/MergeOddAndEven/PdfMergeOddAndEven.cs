@@ -1,25 +1,63 @@
-﻿using PDFlib_dotnet;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using PDFlib_dotnet;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.MergeOddAndEven
 {
-    public sealed class PdfMergeOddAndEven
+    [PdfTool("З'єднати", "парні і непарні сторінки",Description ="З'єднати парні і непарні сторінки в один документ. Має бути вибрано два файли і один з них мати в імені 'odd' чи 'even'",Icon = "merge_odd_even")]
+    public sealed class PdfMergeOddAndEven : IPdfTool
     {
         PdfMergeOddAndEvenParams _params;
 
-        public PdfMergeOddAndEven(PdfMergeOddAndEvenParams param)
+        public bool Configure(PdfJobContext context)
         {
+            if (context.InputFiles.Count != 2)
+            {
+                MessageBox.Show(
+                    "Файлів має бути два! В одному непарні сторінки, а в іншому - парні",
+                    "Альо!",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
 
-            _params = param;
+            var files = context.InputFiles.Select(f => f.FileInfo).ToArray();
+
+            var even = files.FirstOrDefault(f =>
+                f.Name.ToLowerInvariant().Contains("even"));
+
+            var odd = files.FirstOrDefault(f =>
+                f.Name.ToLowerInvariant().Contains("odd"));
+
+            if (even == null)
+            {
+                even = odd == files[0] ? files[1] : files[0];
+            }
+
+            if (odd == null)
+            {
+                odd = even == files[0] ? files[1] : files[0];
+            }
+
+            _params = new PdfMergeOddAndEvenParams
+            {
+                EvenFile = even.FullName,
+                OddFile = odd.FullName
+            };
+
+            return true;
         }
 
-        public void Run()
+        public void Execute(PdfJobContext context)
+        {
+            MergeOddAndEven();
+        }
+
+        public void MergeOddAndEven()
         {
             PDFlib p = null;
 

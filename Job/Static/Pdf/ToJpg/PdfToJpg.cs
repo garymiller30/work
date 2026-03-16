@@ -1,24 +1,39 @@
 ﻿using Ghostscript.NET.Rasterizer;
+using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Dlg;
 using System;
-using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.ToJpg
 {
-    public sealed class PdfToJpg
+    [PdfTool("","Конвертувати PDF в JPG",Icon = "convert_to_jpg")]
+    public sealed class PdfToJpg : IPdfTool
     {
         PdfToJpgParams _params;
-
-        public PdfToJpg(PdfToJpgParams param)
+        public bool Configure(PdfJobContext context)
         {
-            _params = param;
+            using (var form = new FormSelectDpi())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    _params = new PdfToJpgParams { Dpi = form.Dpi, Quality = form.Quality };
+                    return true;
+                }
+            }
+            return false;
+        }
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+                ToJpg(file.FullName);
         }
 
-        public void Run(string filePath)
+      
+
+        public void ToJpg(string filePath)
         {
             try
             {
@@ -63,5 +78,7 @@ namespace JobSpace.Static.Pdf.ToJpg
 
             return null;
         }
+
+       
     }
 }

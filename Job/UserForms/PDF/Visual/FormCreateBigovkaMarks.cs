@@ -39,13 +39,6 @@ namespace JobSpace.UserForms.PDF
             DialogResult = DialogResult.Cancel;
         }
 
-        public FormCreateBigovkaMarks(IFileSystemInfoExt fsi) : this()
-        {
-            files = new List<IFileSystemInfoExt>() { fsi };
-            cb_files.Items.Add(fsi);
-            cb_files.SelectedIndex = 0;
-        }
-
         public FormCreateBigovkaMarks(List<IFileSystemInfoExt> infoExts) : this()
         {
             files = infoExts;
@@ -69,7 +62,7 @@ namespace JobSpace.UserForms.PDF
             if (CreateParameters())
             {
                 DialogResult = DialogResult.OK;
-                FileFormatsUtil.CreateBigovkaMarks(files.Cast<IFileSystemInfoExt>().Select(x => x.FileInfo.FullName), BigovkaMarksParams);
+                
                 Close();
             }
             else { MessageBox.Show("Перевір біговки"); return; }
