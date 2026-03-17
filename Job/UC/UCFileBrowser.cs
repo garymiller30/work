@@ -65,6 +65,10 @@ namespace JobSpace.UC
 
             ApplySettings();
         }
+
+        #region [PDFTool menu]
+
+        
         ContextMenuStrip toolbarMenu = new ContextMenuStrip();
         private void AddRightContextMenuToPdfTools()
         {
@@ -280,7 +284,7 @@ namespace JobSpace.UC
             };
         }
 
-
+        #endregion
 
         private void InitListView()
         {
