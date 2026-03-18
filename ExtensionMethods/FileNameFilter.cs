@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Logger;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -184,7 +185,9 @@ namespace ExtensionMethods
             {'.',"." },
             {',',"," },
             {'-',"-" },
-            {'_',"_" }
+            {'_',"_" },
+            {'"',"\"" },
+            {'\'',"\'" },
 
             };
 
@@ -215,7 +218,9 @@ namespace ExtensionMethods
                 }
                 else
                 {
-                    throw new KeyNotFoundException($"Key '{_char}' not found in transliteration dictionary.");
+                    sb_char.Append(_char);
+                    Log.Error(null,"transliteration",$"Key '{_char}' {(int)_char} not found in transliteration dictionary. Added as is.");
+                    //throw new KeyNotFoundException($"Key '{_char}' {(int)_char} not found in transliteration dictionary.");
                 }
             }
             return CleanFileName(sb_char.ToString());

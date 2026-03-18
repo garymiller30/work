@@ -41,8 +41,6 @@ namespace JobSpace.UC
             this.olvColumn_Size = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn_DateTime = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnColorSpaces = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.flagRenderer1 = new BrightIdeasSoftware.FlagRenderer();
-            this.imageListColorspaces = new System.Windows.Forms.ImageList(this.components);
             this.olvColumnWidth = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnHeight = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnBleeds = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -107,6 +105,7 @@ namespace JobSpace.UC
             this.tsb_preview = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonSettings = new System.Windows.Forms.ToolStripButton();
+            this.imageListColorspaces = new System.Windows.Forms.ImageList(this.components);
             this.створитиПрямокутникToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -288,28 +287,8 @@ namespace JobSpace.UC
             // 
             // olvColumnColorSpaces
             // 
-            this.olvColumnColorSpaces.AspectName = "UsedColorSpace";
-            this.olvColumnColorSpaces.Renderer = this.flagRenderer1;
-            this.olvColumnColorSpaces.Text = "Colorspaces";
-            // 
-            // flagRenderer1
-            // 
-            this.flagRenderer1.ImageList = this.imageListColorspaces;
-            this.flagRenderer1.Spacing = 4;
-            // 
-            // imageListColorspaces
-            // 
-            this.imageListColorspaces.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListColorspaces.ImageStream")));
-            this.imageListColorspaces.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListColorspaces.Images.SetKeyName(0, "CMYK");
-            this.imageListColorspaces.Images.SetKeyName(1, "gray");
-            this.imageListColorspaces.Images.SetKeyName(2, "RGB");
-            this.imageListColorspaces.Images.SetKeyName(3, "LAB");
-            this.imageListColorspaces.Images.SetKeyName(4, "spot");
-            this.imageListColorspaces.Images.SetKeyName(5, "pattern");
-            this.imageListColorspaces.Images.SetKeyName(6, "unknown");
-            this.imageListColorspaces.Images.SetKeyName(7, "icc");
-            this.imageListColorspaces.Images.SetKeyName(8, "all");
+            this.olvColumnColorSpaces.AspectName = "";
+            this.olvColumnColorSpaces.Text = "Кольори";
             // 
             // olvColumnWidth
             // 
@@ -794,7 +773,6 @@ namespace JobSpace.UC
             // 
             // toolStripTextBox_Filter
             // 
-            this.toolStripTextBox_Filter.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBox_Filter.Name = "toolStripTextBox_Filter";
             this.toolStripTextBox_Filter.Size = new System.Drawing.Size(80, 25);
             this.toolStripTextBox_Filter.ToolTipText = "Filter";
@@ -843,6 +821,20 @@ namespace JobSpace.UC
             this.toolStripButtonSettings.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonSettings.Text = "Налаштування";
             this.toolStripButtonSettings.Click += new System.EventHandler(this.toolStripButtonSettings_Click);
+            // 
+            // imageListColorspaces
+            // 
+            this.imageListColorspaces.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListColorspaces.ImageStream")));
+            this.imageListColorspaces.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListColorspaces.Images.SetKeyName(0, "CMYK");
+            this.imageListColorspaces.Images.SetKeyName(1, "gray");
+            this.imageListColorspaces.Images.SetKeyName(2, "RGB");
+            this.imageListColorspaces.Images.SetKeyName(3, "LAB");
+            this.imageListColorspaces.Images.SetKeyName(4, "spot");
+            this.imageListColorspaces.Images.SetKeyName(5, "pattern");
+            this.imageListColorspaces.Images.SetKeyName(6, "unknown");
+            this.imageListColorspaces.Images.SetKeyName(7, "icc");
+            this.imageListColorspaces.Images.SetKeyName(8, "all");
             // 
             // створитиПрямокутникToolStripMenuItem
             // 
@@ -997,7 +989,6 @@ namespace JobSpace.UC
         private System.Windows.Forms.ToolStrip toolStripLeft;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private BrightIdeasSoftware.OLVColumn olvColumnColorSpaces;
-        private BrightIdeasSoftware.FlagRenderer flagRenderer1;
         private System.Windows.Forms.ImageList imageListColorspaces;
         private System.Windows.Forms.ImageList imageList2;
         private BrightIdeasSoftware.OLVColumn olvColumnWidth;

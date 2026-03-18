@@ -368,6 +368,7 @@
     </Compile>
     <Compile Include="Static\FileBrowserSevices.cs" />
     <Compile Include="Static\Pdf\Add\PdfAddTrimBox.cs" />
+    <Compile Include="Static\Pdf\Change\PdfSpotColorRenamer.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\ColorExtractionListener.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\PdfColorExtractor.cs" />
     <Compile Include="Static\Pdf\ColorSpaces\SignaColorExtractor.cs" />
@@ -597,6 +598,12 @@
     </Compile>
     <Compile Include="UserForms\PDF\FormPdfCreateQRCode.Designer.cs">
       <DependentUpon>FormPdfCreateQRCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSpotColorRenamer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSpotColorRenamer.Designer.cs">
+      <DependentUpon>FormSpotColorRenamer.cs</DependentUpon>
     </Compile>
     <Compile Include="UserForms\PDF\Visual\FormCreateBigovkaMarks.cs">
       <SubType>Form</SubType>
@@ -1256,6 +1263,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormPdfCreateQRCode.resx">
       <DependentUpon>FormPdfCreateQRCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormSpotColorRenamer.resx">
+      <DependentUpon>FormSpotColorRenamer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\ImposItems\Marks\FormColorControlBar.resx">
       <DependentUpon>FormColorControlBar.cs</DependentUpon>

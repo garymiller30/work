@@ -41,36 +41,36 @@ namespace JobSpace.UC
                 BoundsPadding = new Size(0, -1),
                 CornerRounding = 3.0F,
             };
-            UseTheme();
-            SetTheme();
+            //UseTheme();
+            //SetTheme();
 
             objectListView_NewWorks.SelectedRowDecoration = rbd;
         }
 
-        private void UseTheme()
-        {
-            ThemeController.ThemeChanged += ThemeController_ThemeChanged;
-        }
+        //private void UseTheme()
+        //{
+        //    ThemeController.ThemeChanged += ThemeController_ThemeChanged;
+        //}
 
-        private void ThemeController_ThemeChanged(object sender, EventArgs e)
-        {
-            SetTheme();
+        //private void ThemeController_ThemeChanged(object sender, EventArgs e)
+        //{
+        //    SetTheme();
 
-            var objects = (ICollection)objectListView_NewWorks.Objects;
-            objectListView_NewWorks.ClearObjects();
-            objectListView_NewWorks.AddObjects(objects);
-        }
+        //    var objects = (ICollection)objectListView_NewWorks.Objects;
+        //    objectListView_NewWorks.ClearObjects();
+        //    objectListView_NewWorks.AddObjects(objects);
+        //}
 
-        private void SetTheme()
-        {
-            objectListView_NewWorks.BackColor = ThemeController.Back;
-            objectListView_NewWorks.ForeColor = ThemeController.Fore;
+        //private void SetTheme()
+        //{
+        //    objectListView_NewWorks.BackColor = ThemeController.Back;
+        //    objectListView_NewWorks.ForeColor = ThemeController.Fore;
 
-            objectListView_NewWorks.HeaderUsesThemes = false;
-            objectListView_NewWorks.HeaderFormatStyle = new HeaderFormatStyle();
-            objectListView_NewWorks.HeaderFormatStyle.SetForeColor(ThemeController.HeaderFore);
-            objectListView_NewWorks.HeaderFormatStyle.SetBackColor(ThemeController.HeaderBack);
-        }
+        //    objectListView_NewWorks.HeaderUsesThemes = false;
+        //    objectListView_NewWorks.HeaderFormatStyle = new HeaderFormatStyle();
+        //    objectListView_NewWorks.HeaderFormatStyle.SetForeColor(ThemeController.HeaderFore);
+        //    objectListView_NewWorks.HeaderFormatStyle.SetBackColor(ThemeController.HeaderBack);
+        //}
 
         public UcJobList(IUserProfile userProfile) : this()
         {
@@ -801,13 +801,9 @@ namespace JobSpace.UC
             {
                 objectListView_NewWorks.ModelFilter = TextMatchFilter.Regex(objectListView_NewWorks, text);
             }
-            //_profile.Jobs.ApplyViewListFilterText(text);
+            
         }
 
-        public void ApplyViewFilter()
-        {
-            throw new NotImplementedException();
-        }
 
         private void фільтрПоЗамовникуToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -825,6 +821,14 @@ namespace JobSpace.UC
         public IEnumerable GetJobList()
         {
             return objectListView_NewWorks.FilteredObjects;
+        }
+
+        private void копіюватиЗамовленняПідНовимНомеромToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(objectListView_NewWorks.SelectedObject is IJob job)
+            {
+                _profile.Jobs.DublicateWithNewNumber(job);
+            }
         }
     }
 }

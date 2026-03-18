@@ -41,7 +41,7 @@ namespace JobSpace.Fasades
 
         public EventHandler<IJob> OnJobAdd { get; set; } = delegate { };
         public EventHandler<IJob> OnSetCurrentJob { get; set; } = delegate { };
-        public EventHandler<ICollection> OnJobsAdd { get;set;} = delegate { };
+        public EventHandler<ICollection> OnJobsAdd { get; set; } = delegate { };
 
         public EventHandler<IJob> OnJobChange { get; set; } = delegate { };
         public EventHandler<IJob> OnJobBeginEdit { get; set; } = delegate { };
@@ -91,7 +91,7 @@ namespace JobSpace.Fasades
             _profile.Jobs.JobListControl.RepeatSelectedJob();
         }
 
-        private List<IJob> _jobList { get;set;} = new List<IJob>();
+        private List<IJob> _jobList { get; set; } = new List<IJob>();
 
         public JobManager(IUserProfile profile, IJobSettings settings)
         {
@@ -99,7 +99,6 @@ namespace JobSpace.Fasades
             _profile = profile;
 
             JobListControl = new UcJobList(_profile) { Dock = DockStyle.Fill };
-            //Connect(false);
         }
 
         public string GetFullPathToWorkFolder(IJob job)
@@ -309,9 +308,11 @@ namespace JobSpace.Fasades
             try
             {
                 _profile.Base.Update(CollectionString, (Job)job.GetJob());
-                if (getEvent){
+                if (getEvent)
+                {
                     _profile.Plugins.MqController.PublishChanges(MessageEnum.JobChanged, job.Id);
-                    OnJobChange(this, (Job)job.GetJob()); }
+                    OnJobChange(this, (Job)job.GetJob());
+                }
             }
             catch (Exception e)
             {
@@ -476,7 +477,7 @@ namespace JobSpace.Fasades
             return Extensions.GetSignaFilePath(job, _profile);
         }
 
-        public string GetSignaJobFilePath(IJob job,string oldNumber)
+        public string GetSignaJobFilePath(IJob job, string oldNumber)
         {
             return Extensions.GetSignaFilePath(job, _profile, oldNumber);
         }
@@ -514,7 +515,7 @@ namespace JobSpace.Fasades
             if (RenameJobDirectory(oldPath, job))
             {
                 _profile.Jobs.UpdateJob(job, true);
-                
+
                 return true;
             }
             job.Description = save;
@@ -606,7 +607,7 @@ namespace JobSpace.Fasades
             newJob.Number = number;
 
             _profile.Plugins.AfterJobChange(newJob);
-        
+
 
 
             SignaChangeOrderNumberParams signaChangeOrderNumberParams = new SignaChangeOrderNumberParams
@@ -620,7 +621,7 @@ namespace JobSpace.Fasades
             if (RenameJobDirectory(signaChangeOrderNumberParams))
             {
                 RenameSignaJob(signaChangeOrderNumberParams);
-                
+
                 job.Number = newJob.Number;
                 _profile.Jobs.UpdateJob(job, getEvent: true);
 
@@ -641,7 +642,7 @@ namespace JobSpace.Fasades
 
             if (param.Profile.Settings.GetJobSettings().UseJobFolder)
             {
-                oldPath = GetSignaJobFilePath(newJob,param.OldNumber);
+                oldPath = GetSignaJobFilePath(newJob, param.OldNumber);
             }
             else
             {
@@ -753,6 +754,75 @@ namespace JobSpace.Fasades
             var orders = _profile.Base.ApplyViewFilterText(text);
             _jobList = orders.ToList();
             OnJobsAdd(this, orders);
+        }
+
+
+        void CopyDirectory(string sourceDir, string targetDir)
+        {
+            var dir = new DirectoryInfo(sourceDir);
+
+            // створюємо target, якщо не існує
+            if (!Directory.Exists(targetDir))
+                Directory.CreateDirectory(targetDir);
+
+            // копіюємо файли
+            foreach (var file in dir.GetFiles())
+            {
+                string targetFilePath = Path.Combine(targetDir, file.Name);
+                file.CopyTo(targetFilePath, true); // overwrite = true
+            }
+
+            // копіюємо підпапки
+            foreach (var subDir in dir.GetDirectories())
+            {
+                // пропускаємо непотрібні папки
+                if (subDir.Name.Equals("temp", StringComparison.OrdinalIgnoreCase) ||
+                    subDir.Name.Equals(".signa", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                string newTargetDir = Path.Combine(targetDir, subDir.Name);
+
+                // рекурсія
+                CopyDirectory(subDir.FullName, newTargetDir);
+            }
+        }
+
+        public void DublicateWithNewNumber(IJob job)
+        {
+            using (var form = new FormEditText())
+            {
+                form.Text = "новий номер замовлення";
+                form.EditText = $"{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day}";
+
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    var nj = job.Duplicate();
+                    nj.Date = DateTime.Now;
+                    nj.PreviousOrder = nj.Number;
+                    nj.Number = form.EditText;
+                    if (nj.PreviousOrder.Equals(nj.Number))
+                    {
+                        nj.Description += "_(COPY)";
+                    }
+                    if (AddJob(nj))
+                    {
+
+                        // копіюємо все що є в папці старого замовлення в папку нового замовлення
+
+                        var sourceDir = _profile.Jobs.GetFullPathToWorkFolder(job);
+                        var targetDir = _profile.Jobs.GetFullPathToWorkFolder(nj);
+
+                        if (Directory.Exists(sourceDir) && Directory.Exists(targetDir))
+                        {
+                            // копіюємо всі файли і папки з sourceDir в targetDir, крім папки 'temp' і '.signa'
+                            CopyDirectory(sourceDir, targetDir);
+                        }
+                        DuplicateSignaJob(job, nj);
+                    }
+                }
+            }
         }
     }
 }
