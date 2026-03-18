@@ -73,6 +73,8 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void Recalc()
         {
+            if (_deltas == null) return;
+
             int cntPart = cb_cnt_falc.SelectedIndex + 2;
             decimal width = nud_width.Value;
 
@@ -201,6 +203,7 @@ namespace JobSpace.UserForms.PDF.Visual
         private void nud_width_ValueChanged(object sender, EventArgs e)
         {
             page_w = nud_width.Value;
+            Recalc();
         }
 
         private void btn_mark_file_Click(object sender, EventArgs e)
