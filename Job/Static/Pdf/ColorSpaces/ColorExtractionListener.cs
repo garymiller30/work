@@ -104,7 +104,7 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                 case "Gray":
                 case nameof(iText.Kernel.Colors.CalGray):
                 case nameof(DeviceGray):
-                    sb.Append("Grayscale");
+                    sb.Append("K");
                     //sb.Append($"Grayscale({components[0]:F3})"); // :F3 для форматування з 3 знаками після коми
                     break;
                 case "Rgb":
@@ -123,7 +123,7 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                     var separationCs = (PdfSpecialCs.Separation)cs;
                     // Replace the line causing the error with the correct method call
                     string colorantName = separationCs.GetName().GetValue(); // Отримуємо ім'я Spot кольору
-                    sb.Append("Spot");                                                         // Компонент [0] - це зазвичай tint (відтінок) для Spot кольору (0.0 = alternate, 1.0 = full colorant)
+                    sb.Append(colorantName);                                                         // Компонент [0] - це зазвичай tint (відтінок) для Spot кольору (0.0 = alternate, 1.0 = full colorant)
                                                                                                //sb.Append($"Spot(Name: '{colorantName}', Tint: {components[0]:F3})");
                                                                                                // Можна також додати інформацію про альтернативний простір: separationCs.GetAlternateColorSpace().GetType().Name
                     break;

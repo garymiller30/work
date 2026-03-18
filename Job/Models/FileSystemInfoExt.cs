@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -79,6 +80,9 @@ namespace JobSpace.Models
 
         public string FullName => _fileInfo?.FullName;
         public string Name => _fileInfo?.Name;
+
+        public HashSet<string> UsedColors { get; set; } = new HashSet<string>();
+
         public void RefreshParam(string fullPath)
         {
             var fsie = new FileSystemInfoExt(fullPath);

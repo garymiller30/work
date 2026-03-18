@@ -47,5 +47,6 @@ namespace Interfaces
         void ApplyViewListFilterStatuses(int[] statuses);
         void ApplyViewListFilterDate(DateTime date);
         void ApplyViewListFilterText(string text);
+        void DublicateWithNewNumber(IJob job);
     }
 }

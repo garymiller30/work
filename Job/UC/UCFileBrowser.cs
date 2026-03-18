@@ -297,8 +297,6 @@ namespace JobSpace.UC
             objectListView1.CopySelectionOnControlC = false;
             objectListView1.SelectedRowDecoration = rbd;
 
-            CreateColorSpacesFlag();
-
             olvColumn_FileName.AspectGetter +=
                 r => ((IFileSystemInfoExt)r).IsDir ? ((IFileSystemInfoExt)r).FileInfo.Name : Path.GetFileNameWithoutExtension(((IFileSystemInfoExt)r).FileInfo.Name);
             olvColumnType.AspectGetter += r => ((IFileSystemInfoExt)r).IsDir ? string.Empty : ((IFileSystemInfoExt)r).FileInfo.Extension;
@@ -326,19 +324,15 @@ namespace JobSpace.UC
             };
 
             olvColumnCreatorApp.AspectGetter += r => ((IFileSystemInfoExt)r).CreatorApp;
-        }
 
-        private void CreateColorSpacesFlag()
-        {
-            flagRenderer1.Add(ColorSpaces.Cmyk, "CMYK");
-            flagRenderer1.Add(ColorSpaces.Gray, "gray");
-            flagRenderer1.Add(ColorSpaces.Rgb, "RGB");
-            flagRenderer1.Add(ColorSpaces.Lab, "LAB");
-            flagRenderer1.Add(ColorSpaces.Spot, "spot");
-            flagRenderer1.Add(ColorSpaces.Pattern, "pattern");
-            flagRenderer1.Add(ColorSpaces.Unknown, "unknown");
-            flagRenderer1.Add(ColorSpaces.ICCBased, "icc");
-            flagRenderer1.Add(ColorSpaces.All, "all");
+            olvColumnColorSpaces.AspectGetter += r =>
+            {
+                var spaces = ((IFileSystemInfoExt)r).UsedColors;
+                if (spaces == null || spaces.Count == 0) return string.Empty;
+
+                return string.Join(", ", spaces);
+            };
+
         }
 
         #region [FILE MANAGER]

@@ -50,6 +50,7 @@
             this.виглядToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.показатисховатиГрупиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.фільтрПоЗамовникуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копироватьВБуферНомерЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копіюватиЗамавникаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,7 +65,7 @@
             this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItems3 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.фільтрПоЗамовникуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.копіюватиЗамовленняПідНовимНомеромToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -222,6 +223,7 @@
             this.создатьSignaJobToolStripMenuItem,
             this.toolStripSeparator3,
             this.повторитьЗаказToolStripMenuItem,
+            this.копіюватиЗамовленняПідНовимНомеромToolStripMenuItem,
             this.обєднатиВОднеЗамовленняToolStripMenuItem,
             this.toolStripSeparator19,
             this.виглядToolStripMenuItem,
@@ -232,47 +234,47 @@
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem,
             this.копіюватиКатегоріюToolStripMenuItem});
             this.contextMenuStrip_NewJob.Name = "contextMenuStrip_NewJob";
-            this.contextMenuStrip_NewJob.Size = new System.Drawing.Size(251, 242);
+            this.contextMenuStrip_NewJob.Size = new System.Drawing.Size(314, 264);
             this.contextMenuStrip_NewJob.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_NewJob_Opening);
             // 
             // создатьSignaJobToolStripMenuItem
             // 
             this.создатьSignaJobToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("создатьSignaJobToolStripMenuItem.Image")));
             this.создатьSignaJobToolStripMenuItem.Name = "создатьSignaJobToolStripMenuItem";
-            this.создатьSignaJobToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.создатьSignaJobToolStripMenuItem.Size = new System.Drawing.Size(313, 22);
             this.создатьSignaJobToolStripMenuItem.Text = "створити файл для Prinect Signa";
             this.создатьSignaJobToolStripMenuItem.Click += new System.EventHandler(this.СоздатьSignaJobToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(247, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(310, 6);
             // 
             // повторитьЗаказToolStripMenuItem
             // 
             this.повторитьЗаказToolStripMenuItem.Name = "повторитьЗаказToolStripMenuItem";
-            this.повторитьЗаказToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.повторитьЗаказToolStripMenuItem.Size = new System.Drawing.Size(313, 22);
             this.повторитьЗаказToolStripMenuItem.Text = "повторити замовлення";
             this.повторитьЗаказToolStripMenuItem.Click += new System.EventHandler(this.ПовторитьЗаказToolStripMenuItem_Click);
             // 
             // обєднатиВОднеЗамовленняToolStripMenuItem
             // 
             this.обєднатиВОднеЗамовленняToolStripMenuItem.Name = "обєднатиВОднеЗамовленняToolStripMenuItem";
-            this.обєднатиВОднеЗамовленняToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.обєднатиВОднеЗамовленняToolStripMenuItem.Size = new System.Drawing.Size(313, 22);
             this.обєднатиВОднеЗамовленняToolStripMenuItem.Text = "об\'єднати в одне замовлення";
             this.обєднатиВОднеЗамовленняToolStripMenuItem.Click += new System.EventHandler(this.ОбєднатиВОднеЗамовленняToolStripMenuItem_Click);
             // 
             // toolStripSeparator19
             // 
             this.toolStripSeparator19.Name = "toolStripSeparator19";
-            this.toolStripSeparator19.Size = new System.Drawing.Size(247, 6);
+            this.toolStripSeparator19.Size = new System.Drawing.Size(310, 6);
             // 
             // виглядToolStripMenuItem
             // 
             this.виглядToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.показатисховатиГрупиToolStripMenuItem});
             this.виглядToolStripMenuItem.Name = "виглядToolStripMenuItem";
-            this.виглядToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.виглядToolStripMenuItem.Size = new System.Drawing.Size(313, 22);
             this.виглядToolStripMenuItem.Text = "вигляд";
             // 
             // показатисховатиГрупиToolStripMenuItem
@@ -285,13 +287,20 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(247, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(310, 6);
+            // 
+            // фільтрПоЗамовникуToolStripMenuItem
+            // 
+            this.фільтрПоЗамовникуToolStripMenuItem.Name = "фільтрПоЗамовникуToolStripMenuItem";
+            this.фільтрПоЗамовникуToolStripMenuItem.Size = new System.Drawing.Size(313, 22);
+            this.фільтрПоЗамовникуToolStripMenuItem.Text = "фільтр по замовнику";
+            this.фільтрПоЗамовникуToolStripMenuItem.Click += new System.EventHandler(this.фільтрПоЗамовникуToolStripMenuItem_Click);
             // 
             // копироватьВБуферНомерЗаказаToolStripMenuItem
             // 
             this.копироватьВБуферНомерЗаказаToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копироватьВБуферНомерЗаказаToolStripMenuItem.Image")));
             this.копироватьВБуферНомерЗаказаToolStripMenuItem.Name = "копироватьВБуферНомерЗаказаToolStripMenuItem";
-            this.копироватьВБуферНомерЗаказаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.копироватьВБуферНомерЗаказаToolStripMenuItem.Size = new System.Drawing.Size(313, 22);
             this.копироватьВБуферНомерЗаказаToolStripMenuItem.Text = "копіювати номер замовлення";
             this.копироватьВБуферНомерЗаказаToolStripMenuItem.Click += new System.EventHandler(this.КопироватьВБуферНомерЗаказаToolStripMenuItem_Click);
             // 
@@ -299,7 +308,7 @@
             // 
             this.копіюватиЗамавникаToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копіюватиЗамавникаToolStripMenuItem.Image")));
             this.копіюватиЗамавникаToolStripMenuItem.Name = "копіюватиЗамавникаToolStripMenuItem";
-            this.копіюватиЗамавникаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.копіюватиЗамавникаToolStripMenuItem.Size = new System.Drawing.Size(313, 22);
             this.копіюватиЗамавникаToolStripMenuItem.Text = "копіювати замовника";
             this.копіюватиЗамавникаToolStripMenuItem.Click += new System.EventHandler(this.копіюватиЗамавникаToolStripMenuItem_Click);
             // 
@@ -307,7 +316,7 @@
             // 
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копироватьВБуферОписаниеЗаказаToolStripMenuItem.Image")));
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Name = "копироватьВБуферОписаниеЗаказаToolStripMenuItem";
-            this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Size = new System.Drawing.Size(313, 22);
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Text = "копіювати опис замовлення";
             this.копироватьВБуферОписаниеЗаказаToolStripMenuItem.Click += new System.EventHandler(this.КопіюватиВБуферОписЗамовленняToolStripMenuItem_Click);
             // 
@@ -315,7 +324,7 @@
             // 
             this.копіюватиКатегоріюToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("копіюватиКатегоріюToolStripMenuItem.Image")));
             this.копіюватиКатегоріюToolStripMenuItem.Name = "копіюватиКатегоріюToolStripMenuItem";
-            this.копіюватиКатегоріюToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.копіюватиКатегоріюToolStripMenuItem.Size = new System.Drawing.Size(313, 22);
             this.копіюватиКатегоріюToolStripMenuItem.Text = "копіювати категорію";
             this.копіюватиКатегоріюToolStripMenuItem.Click += new System.EventHandler(this.копіюватиКатегоріюToolStripMenuItem_Click);
             // 
@@ -363,12 +372,12 @@
             // 
             this.kryptonContextMenuItem3.Text = "Дублювати";
             // 
-            // фільтрПоЗамовникуToolStripMenuItem
+            // копіюватиЗамовленняПідНовимНомеромToolStripMenuItem
             // 
-            this.фільтрПоЗамовникуToolStripMenuItem.Name = "фільтрПоЗамовникуToolStripMenuItem";
-            this.фільтрПоЗамовникуToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.фільтрПоЗамовникуToolStripMenuItem.Text = "фільтр по замовнику";
-            this.фільтрПоЗамовникуToolStripMenuItem.Click += new System.EventHandler(this.фільтрПоЗамовникуToolStripMenuItem_Click);
+            this.копіюватиЗамовленняПідНовимНомеромToolStripMenuItem.Name = "копіюватиЗамовленняПідНовимНомеромToolStripMenuItem";
+            this.копіюватиЗамовленняПідНовимНомеромToolStripMenuItem.Size = new System.Drawing.Size(313, 22);
+            this.копіюватиЗамовленняПідНовимНомеромToolStripMenuItem.Text = "копіювати замовлення під новим номером";
+            this.копіюватиЗамовленняПідНовимНомеромToolStripMenuItem.Click += new System.EventHandler(this.копіюватиЗамовленняПідНовимНомеромToolStripMenuItem_Click);
             // 
             // UcJobList
             // 
@@ -427,5 +436,6 @@
         private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems1;
         private Krypton.Toolkit.KryptonContextMenuItems kryptonContextMenuItems3;
         private System.Windows.Forms.ToolStripMenuItem фільтрПоЗамовникуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem копіюватиЗамовленняПідНовимНомеромToolStripMenuItem;
     }
 }

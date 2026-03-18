@@ -40,7 +40,10 @@ namespace JobSpace.Static
 
         private static void GetColorspaceImage(IFileSystemInfoExt sfi)
         {
-            sfi.UsedColorSpace = 0;
+
+            var uc = sfi.UsedColors;
+
+            uc.Clear();
 
             try
             {
@@ -50,23 +53,23 @@ namespace JobSpace.Static
                 {
                     case ColorSpace.CMY:
                     case ColorSpace.CMYK:
-                        sfi.UsedColorSpace |= ColorSpaces.Cmyk;
+                        uc.Add("CMYK");
                         break;
                     case ColorSpace.sRGB:
                     case ColorSpace.scRGB:
                     case ColorSpace.RGB:
-                        sfi.UsedColorSpace |= ColorSpaces.Rgb;
+                        uc.Add("RGB");
                         break;
                     case ColorSpace.Lab:
-                        sfi.UsedColorSpace |= ColorSpaces.Lab;
+                        uc.Add("Lab");
                         break;
                     case ColorSpace.LinearGray:
                     case ColorSpace.Gray:
-                        sfi.UsedColorSpace |= ColorSpaces.Gray;
+                        uc.Add("Gray");
                         break;
 
                     default:
-                        sfi.UsedColorSpace |= ColorSpaces.Unknown;
+                        uc.Add("Unknown");
                         break;
                 }
             }
@@ -112,53 +115,15 @@ namespace JobSpace.Static
 
             if (colorList.Any())
             {
-                sfi.UsedColorSpace = 0;
+                var uc = sfi.UsedColors;
+                uc.Clear();
 
-                var remDup = colorList.Distinct().ToList();
+
+                var remDup = colorList.Distinct().OrderBy(s => s).ToList();
 
                 foreach (var colorspace in remDup)
                 {
-
-                    if (colorspace.StartsWith("pantone", StringComparison.OrdinalIgnoreCase))
-                    {
-                        sfi.UsedColorSpace |= ColorSpaces.Spot;
-                        continue;
-                    }
-
-                    switch (colorspace)
-                    {
-                        case "Black":
-                        case "Yellow":
-                        case "Magenta":
-                        case "Cyan":
-                        case "DeviceCMYK":
-                            sfi.UsedColorSpace |= ColorSpaces.Cmyk;
-                            break;
-
-                        case "DeviceRGB":
-                            sfi.UsedColorSpace |= ColorSpaces.Rgb;
-                            break;
-                        case "DeviceGray":
-                            sfi.UsedColorSpace |= ColorSpaces.Gray;
-                            break;
-                        case "Indexed":
-                            sfi.UsedColorSpace |= ColorSpaces.Pattern;
-                            break;
-                        case "ICCBased":
-                            sfi.UsedColorSpace |= ColorSpaces.ICCBased;
-                            break;
-                        case "All":
-                            sfi.UsedColorSpace |= ColorSpaces.All;
-                            break;
-
-                        case "ProofColor":
-                            sfi.UsedColorSpace |= ColorSpaces.Spot;
-                            break;
-
-                        default:
-                            sfi.UsedColorSpace |= ColorSpaces.Unknown;
-                            break;
-                    }
+                    uc.Add(colorspace);
                 }
 
             }
@@ -218,54 +183,43 @@ namespace JobSpace.Static
                 Debug.WriteLine($"Кількість сторінок: {numberOfPages}");
             }
 
+            var uc = new HashSet<string>();
+            //uc.Clear();
+
             for (int i = 1; i <= numberOfPages; i++)
             {
                 List<string> pageColors = PdfColorExtractor.ExtractColorsFromPage(sfi.FileInfo.FullName, i);
 
-                Debug.WriteLine($"Знайдені унікальні кольори на сторінці {i}:");
-                sfi.UsedColorSpace = 0;
-                if (pageColors.Count > 0)
+                //Debug.WriteLine($"Знайдені унікальні кольори на сторінці {i}:");
+                foreach (string color in pageColors.OrderBy(s => s))
                 {
-
-                    foreach (string color in pageColors)
-                    {
-                        var c = color.ToLower();
-
-                        switch (c)
-                        {
-                            case "cmyk":
-                                sfi.UsedColorSpace |= ColorSpaces.Cmyk;
-                                break;
-                            case "lab":
-                                sfi.UsedColorSpace |= ColorSpaces.Lab;
-                                break;
-                            case "rgb":
-                                sfi.UsedColorSpace |= ColorSpaces.Rgb;
-                                break;
-                            case "grayscale":
-                                sfi.UsedColorSpace |= ColorSpaces.Gray;
-                                break;
-                            case "indexed":
-                                sfi.UsedColorSpace |= ColorSpaces.Pattern;
-                                break;
-                            case "iccbased":
-                                sfi.UsedColorSpace |= ColorSpaces.ICCBased;
-                                break;
-                            case "spot":
-                                sfi.UsedColorSpace |= ColorSpaces.Spot;
-                                break;
-                            default:
-                                sfi.UsedColorSpace |= ColorSpaces.Unknown;
-                                break;
-                        }
-                    }
+                    uc.Add(color);
                 }
-                else
-                {
-                    Debug.WriteLine("Кольорів не знайдено або сталася помилка.");
-                }
-
             }
+            // якщо в uc є CMYK і K то видаляємо K, бо це вже вказано в CMYK
+            if (uc.Contains("CMYK") && uc.Contains("K"))
+            {
+                uc.Remove("K");
+            }
+            if (uc.Contains("CMYK") && uc.Contains("Black"))
+            {
+                uc.Remove("Black");
+            }
+            // якщо в uc є Cyan і є CMYK то видаляємо, бо це вже вказано в CMYK
+            if (uc.Contains("CMYK") && uc.Contains("Cyan"))
+            {
+                uc.Remove("Cyan");
+            }
+            if (uc.Contains("CMYK") && uc.Contains("Magenta"))
+            {
+                uc.Remove("Magenta");
+            }
+            if (uc.Contains("CMYK") && uc.Contains("Yellow"))
+            {
+                uc.Remove("Yellow");
+            }
+
+            sfi.UsedColors = uc;
         }
 
         public static void GetFileCreator(IFileSystemInfoExt file)
