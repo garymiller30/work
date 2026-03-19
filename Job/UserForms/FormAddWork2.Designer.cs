@@ -40,19 +40,21 @@
             this.olvColumn_category_name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label_language = new System.Windows.Forms.Label();
+            this.btn_fix_wrong_keyboard = new System.Windows.Forms.Button();
             this.checkBoxCloseAfterPaste = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
-            this.textBox_Description = new JobSpace.UC.UcTexBox(this.components);
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.btn_select_custom_folder = new System.Windows.Forms.Button();
             this.kryptonPanel3 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonSplitContainer1 = new Krypton.Toolkit.KryptonSplitContainer();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
-            this.ucNote1 = new JobSpace.UC.UcNote();
             this.kryptonGroupBox2 = new Krypton.Toolkit.KryptonGroupBox();
-            this.ucAddWorkPluginsContainer1 = new JobSpace.UC.UcAddWorkPluginsContainer();
             this.kryptonButton_OK = new Krypton.Toolkit.KryptonButton();
-            this.btn_fix_wrong_keyboard = new System.Windows.Forms.Button();
+            this.ucNote1 = new JobSpace.UC.UcNote();
+            this.ucAddWorkPluginsContainer1 = new JobSpace.UC.UcAddWorkPluginsContainer();
+            this.textBox_Description = new JobSpace.UC.UcTexBox(this.components);
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
             this.kryptonPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox_Customers)).BeginInit();
@@ -188,6 +190,8 @@
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.Transparent;
+            this.panel4.Controls.Add(this.label1);
+            this.panel4.Controls.Add(this.label_language);
             this.panel4.Controls.Add(this.btn_fix_wrong_keyboard);
             this.panel4.Controls.Add(this.checkBoxCloseAfterPaste);
             this.panel4.Controls.Add(this.kryptonLabel4);
@@ -196,6 +200,25 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(437, 78);
             this.panel4.TabIndex = 3;
+            // 
+            // label_language
+            // 
+            this.label_language.AutoSize = true;
+            this.label_language.Location = new System.Drawing.Point(88, 8);
+            this.label_language.Name = "label_language";
+            this.label_language.Size = new System.Drawing.Size(13, 13);
+            this.label_language.TabIndex = 53;
+            this.label_language.Text = "--";
+            // 
+            // btn_fix_wrong_keyboard
+            // 
+            this.btn_fix_wrong_keyboard.Location = new System.Drawing.Point(301, 3);
+            this.btn_fix_wrong_keyboard.Name = "btn_fix_wrong_keyboard";
+            this.btn_fix_wrong_keyboard.Size = new System.Drawing.Size(133, 23);
+            this.btn_fix_wrong_keyboard.TabIndex = 52;
+            this.btn_fix_wrong_keyboard.Text = "виправити розкладку";
+            this.btn_fix_wrong_keyboard.UseVisualStyleBackColor = true;
+            this.btn_fix_wrong_keyboard.Click += new System.EventHandler(this.btn_fix_wrong_keyboard_Click);
             // 
             // checkBoxCloseAfterPaste
             // 
@@ -215,15 +238,6 @@
             this.kryptonLabel4.Size = new System.Drawing.Size(40, 20);
             this.kryptonLabel4.TabIndex = 51;
             this.kryptonLabel4.Values.Text = "Опис";
-            // 
-            // textBox_Description
-            // 
-            this.textBox_Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Description.Location = new System.Drawing.Point(49, 32);
-            this.textBox_Description.Name = "textBox_Description";
-            this.textBox_Description.Size = new System.Drawing.Size(385, 20);
-            this.textBox_Description.TabIndex = 0;
             // 
             // kryptonPanel1
             // 
@@ -294,14 +308,6 @@
             this.kryptonGroupBox1.TabIndex = 0;
             this.kryptonGroupBox1.Values.Heading = "Примітка";
             // 
-            // ucNote1
-            // 
-            this.ucNote1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucNote1.Location = new System.Drawing.Point(0, 0);
-            this.ucNote1.Name = "ucNote1";
-            this.ucNote1.Size = new System.Drawing.Size(435, 157);
-            this.ucNote1.TabIndex = 0;
-            // 
             // kryptonGroupBox2
             // 
             this.kryptonGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -315,14 +321,6 @@
             this.kryptonGroupBox2.TabIndex = 0;
             this.kryptonGroupBox2.Values.Heading = "Додатково";
             // 
-            // ucAddWorkPluginsContainer1
-            // 
-            this.ucAddWorkPluginsContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ucAddWorkPluginsContainer1.Location = new System.Drawing.Point(0, 0);
-            this.ucAddWorkPluginsContainer1.Name = "ucAddWorkPluginsContainer1";
-            this.ucAddWorkPluginsContainer1.Size = new System.Drawing.Size(435, 100);
-            this.ucAddWorkPluginsContainer1.TabIndex = 0;
-            // 
             // kryptonButton_OK
             // 
             this.kryptonButton_OK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -334,15 +332,40 @@
             this.kryptonButton_OK.Values.Text = "OK";
             this.kryptonButton_OK.Click += new System.EventHandler(this.Button_Ok_Click);
             // 
-            // btn_fix_wrong_keyboard
+            // ucNote1
             // 
-            this.btn_fix_wrong_keyboard.Location = new System.Drawing.Point(301, 3);
-            this.btn_fix_wrong_keyboard.Name = "btn_fix_wrong_keyboard";
-            this.btn_fix_wrong_keyboard.Size = new System.Drawing.Size(133, 23);
-            this.btn_fix_wrong_keyboard.TabIndex = 52;
-            this.btn_fix_wrong_keyboard.Text = "виправити розкладку";
-            this.btn_fix_wrong_keyboard.UseVisualStyleBackColor = true;
-            this.btn_fix_wrong_keyboard.Click += new System.EventHandler(this.btn_fix_wrong_keyboard_Click);
+            this.ucNote1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucNote1.Location = new System.Drawing.Point(0, 0);
+            this.ucNote1.Name = "ucNote1";
+            this.ucNote1.Size = new System.Drawing.Size(435, 157);
+            this.ucNote1.TabIndex = 0;
+            // 
+            // ucAddWorkPluginsContainer1
+            // 
+            this.ucAddWorkPluginsContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucAddWorkPluginsContainer1.Location = new System.Drawing.Point(0, 0);
+            this.ucAddWorkPluginsContainer1.Name = "ucAddWorkPluginsContainer1";
+            this.ucAddWorkPluginsContainer1.Size = new System.Drawing.Size(435, 100);
+            this.ucAddWorkPluginsContainer1.TabIndex = 0;
+            // 
+            // textBox_Description
+            // 
+            this.textBox_Description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_Description.Location = new System.Drawing.Point(49, 32);
+            this.textBox_Description.Name = "textBox_Description";
+            this.textBox_Description.Size = new System.Drawing.Size(385, 20);
+            this.textBox_Description.TabIndex = 0;
+            this.textBox_Description.Enter += new System.EventHandler(this.textBox_Description_Enter);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.TabIndex = 54;
+            this.label1.Text = "поточна мова:";
             // 
             // FormAddWork2
             // 
@@ -359,6 +382,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Замовлення";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAddWork2_FormClosing);
+            this.Load += new System.EventHandler(this.FormAddWork2_Load);
             this.Shown += new System.EventHandler(this.FormAddWork2_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
             this.kryptonPanel2.ResumeLayout(false);
@@ -418,5 +442,7 @@
         private System.Windows.Forms.TextBox tb_category;
         private System.Windows.Forms.Button btn_select_custom_folder;
         private System.Windows.Forms.Button btn_fix_wrong_keyboard;
+        private System.Windows.Forms.Label label_language;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -12,6 +12,7 @@ using MongoDB.Bson;
 using JobSpace.Fasades;
 using BrightIdeasSoftware;
 using Interfaces.Profile;
+using System.Drawing;
 
 namespace JobSpace.UserForms
 {
@@ -38,6 +39,8 @@ namespace JobSpace.UserForms
         private readonly IJob _job;
         private readonly INoteControl _noteControl;
 
+      
+
         public FormAddWork2(IUserProfile userProfile, IJob job, bool isNewJob)
         {
             UserProfile = userProfile;
@@ -55,7 +58,53 @@ namespace JobSpace.UserForms
             AddPlugins(isNewJob);
 
             Bind(isNewJob);
+
+            UpdateLanguageLabel();
         }
+
+        private void UpdateLanguageLabel()
+        {
+            label_language.Text = GetCurrentLang();
+            label_language.BackColor = GetColorFromLang(label_language.Text);
+        }
+
+        public static Color GetColorFromLang(string lang)
+        {
+            int hash = lang.GetHashCode();
+
+            double hue = (hash % 360 + 360) % 360; // 0..360
+
+            return ColorFromHSV(hue, 0.3, 0.97);
+        }
+
+        public static Color ColorFromHSV(double hue, double saturation, double value)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = hue / 60 - Math.Floor(hue / 60);
+
+            value = value * 255;
+            int v = (int)value;
+            int p = (int)(value * (1 - saturation));
+            int q = (int)(value * (1 - f * saturation));
+            int t = (int)(value * (1 - (1 - f) * saturation));
+
+            switch (hi)
+            {
+                case 0:
+                    return Color.FromArgb(255, v, t, p);
+                case 1:
+                    return Color.FromArgb(255, q, v, p);
+                case 2:
+                    return Color.FromArgb(255, p, v, t);
+                case 3:
+                    return Color.FromArgb(255, p, q, v);
+                case 4:
+                    return Color.FromArgb(255, t, p, v);
+                default:
+                    return Color.FromArgb(255, v, p, q);
+            }
+        }
+
 
         private void Bind(bool isNewJob)
         {
@@ -191,6 +240,9 @@ namespace JobSpace.UserForms
 
             ProfilesController.Save(UserProfile);
         }
+        #region [ЛОВИМО ЗМІНУ РОЗКЛАДКИ КЛАВІАТУРИ]
+        
+        #endregion
 
         protected override void WndProc(ref Message m)
         {
@@ -210,7 +262,6 @@ namespace JobSpace.UserForms
                     else
                         SendMessage(_nextClipboardViewer, m.Msg, m.WParam, m.LParam);
                     break;
-
                 default:
 
                     base.WndProc(ref m);
@@ -282,7 +333,7 @@ namespace JobSpace.UserForms
 
         private void kryptonComboBox_Customers_Enter(object sender, EventArgs e)
         {
-            // kryptonComboBox_Customers.DroppedDown = true;
+            UpdateLanguageLabel();
         }
 
 
@@ -351,6 +402,35 @@ namespace JobSpace.UserForms
                 textBox_Description.SelectionStart = selStart;
                 textBox_Description.SelectionLength = fixedStr.Length;
             }
+        }
+
+        private string GetCurrentLang()
+        {
+            var culture = InputLanguage.CurrentInputLanguage.Culture;
+            return culture.TwoLetterISOLanguageName.ToUpper(); // EN / UK / RU
+        }
+
+        private void textBox_Description_Enter(object sender, EventArgs e)
+        {
+            UpdateLanguageLabel();
+        }
+        private string _lastLang;
+        private void FormAddWork2_Load(object sender, EventArgs e)
+        {
+            _lastLang = GetCurrentLang();
+
+            var timer = new Timer();
+            timer.Interval = 200; // 0.2 сек
+            timer.Tick += (s, ev) =>
+            {
+                var current = GetCurrentLang();
+                if (current != _lastLang)
+                {
+                    _lastLang = current;
+                    UpdateLanguageLabel();
+                }
+            };
+            timer.Start();
         }
     }
 }
