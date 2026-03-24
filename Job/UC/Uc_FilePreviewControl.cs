@@ -190,5 +190,10 @@ namespace JobSpace.UC
         {
             return _currentPage - 1;
         }
+
+        public int GetTotalPages()
+        {
+            return _totalPage;
+        }
     }
 }
