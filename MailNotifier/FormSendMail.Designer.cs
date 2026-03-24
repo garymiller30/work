@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSendMail));
             this.groupBoxTo = new System.Windows.Forms.GroupBox();
             this.comboBoxTo = new System.Windows.Forms.ComboBox();
@@ -44,10 +45,12 @@
             this.saveAsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonButtonSend = new Krypton.Toolkit.KryptonButton();
             this.groupBoxTotal = new System.Windows.Forms.GroupBox();
-            this.labelTotal = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.labelTotal = new System.Windows.Forms.Label();
+            this.kryptonButtonSend = new Krypton.Toolkit.KryptonButton();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.імяФайлуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxTo.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -56,6 +59,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.groupBoxTotal.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxTo
@@ -162,6 +166,7 @@
             this.listBoxAttach.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxAttach.ContextMenuStrip = this.contextMenuStrip1;
             this.listBoxAttach.DisplayMember = "Name";
             this.listBoxAttach.FormattingEnabled = true;
             this.listBoxAttach.Location = new System.Drawing.Point(35, 16);
@@ -215,16 +220,6 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(429, 383);
             this.kryptonPanel1.TabIndex = 6;
             // 
-            // kryptonButtonSend
-            // 
-            this.kryptonButtonSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonButtonSend.Location = new System.Drawing.Point(345, 327);
-            this.kryptonButtonSend.Name = "kryptonButtonSend";
-            this.kryptonButtonSend.Size = new System.Drawing.Size(81, 53);
-            this.kryptonButtonSend.TabIndex = 0;
-            this.kryptonButtonSend.Values.Text = "Відправити";
-            this.kryptonButtonSend.Click += new System.EventHandler(this.ButtonSend_Click);
-            // 
             // groupBoxTotal
             // 
             this.groupBoxTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -237,6 +232,15 @@
             this.groupBoxTotal.TabStop = false;
             this.groupBoxTotal.Text = "Всього";
             // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(9, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(63, 20);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Мб";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // labelTotal
             // 
             this.labelTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -247,14 +251,30 @@
             this.labelTotal.Text = "0";
             this.labelTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // kryptonButtonSend
             // 
-            this.label2.Location = new System.Drawing.Point(9, 48);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 20);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Мб";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.kryptonButtonSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonButtonSend.Location = new System.Drawing.Point(345, 327);
+            this.kryptonButtonSend.Name = "kryptonButtonSend";
+            this.kryptonButtonSend.Size = new System.Drawing.Size(81, 53);
+            this.kryptonButtonSend.TabIndex = 0;
+            this.kryptonButtonSend.Values.Text = "Відправити";
+            this.kryptonButtonSend.Click += new System.EventHandler(this.ButtonSend_Click);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.імяФайлуToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(246, 48);
+            // 
+            // імяФайлуToolStripMenuItem
+            // 
+            this.імяФайлуToolStripMenuItem.Name = "імяФайлуToolStripMenuItem";
+            this.імяФайлуToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+            this.імяФайлуToolStripMenuItem.Text = "ім\'я файлу => заголовок листа";
+            this.імяФайлуToolStripMenuItem.Click += new System.EventHandler(this.імяФайлуToolStripMenuItem_Click);
             // 
             // FormSendMail
             // 
@@ -281,6 +301,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.groupBoxTotal.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -307,5 +328,7 @@
         private System.Windows.Forms.GroupBox groupBoxTotal;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label labelTotal;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem імяФайлуToolStripMenuItem;
     }
 }

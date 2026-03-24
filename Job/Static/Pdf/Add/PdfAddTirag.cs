@@ -18,7 +18,7 @@ using static JobSpace.UserForms.FormEnterTirag;
 namespace JobSpace.Static.Pdf.Create
 {
     [PdfTool("", "Додати тираж", Order = 2, Icon = "add_tirag", Description = "Додати тираж до імені файлу")]
-    public class PdfAddTirag : IPdfTool
+    public class PdfAddTirag : IPdfTool,IPdfToolAsync
     {
         List<FileTirag> fileTirags;
 
@@ -26,6 +26,7 @@ namespace JobSpace.Static.Pdf.Create
         {
             if (context.InputFiles.Count > 1)
             {
+ 
                 using (var form = new FormEnterTirag(context.InputFiles))
                 {
                     if (form.ShowDialog() == DialogResult.OK)
@@ -35,6 +36,32 @@ namespace JobSpace.Static.Pdf.Create
                     }
                 }
 
+            }
+            else
+            {
+                using (var form = new FormTirag())
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        fileTirags = new List<FileTirag>();
+                        fileTirags.Add(new FileTirag { FileInfo = context.InputFiles[0], Tirag = form.Tirag });
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> ConfigureAsync(PdfJobContext context)
+        {
+            if (context.InputFiles.Count > 1)
+            {
+                var form = new FormEnterTirag(context.InputFiles);
+                if (await form.ShowDialogAsync() == DialogResult.OK)
+                {
+                    fileTirags = form.fileTirags;
+                    return true;
+                }
             }
             else
             {

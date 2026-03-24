@@ -118,6 +118,7 @@
     <Compile Include="IScreenPrimitive.cs" />
     <Compile Include="Pdf\Imposition\IImposResult.cs" />
     <Compile Include="Plugins\IPdfTool.cs" />
+    <Compile Include="Plugins\IPdfToolAsync.cs" />
     <Compile Include="Plugins\PdfJobContext.cs" />
     <Compile Include="Script\IScript.cs" />
     <Compile Include="ISearchManager.cs" />

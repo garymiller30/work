@@ -50,6 +50,7 @@
     <Compile Include="Controls.cs" />
     <Compile Include="FileNameFilter.cs" />
     <Compile Include="Files.cs" />
+    <Compile Include="FormExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
