@@ -81,9 +81,5 @@ namespace JobSpace
             }
             return false;
         }
-
-        internal class Fasades
-        {
-        }
     }
 }

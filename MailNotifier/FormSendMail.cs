@@ -334,5 +334,14 @@ namespace MailNotifier
         {
             Process.Start(e.LinkText);
         }
+
+        private void імяФайлуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // ім'я файлу під курсором => заголовок листа
+            if (listBoxAttach.SelectedItem is Attach attach)
+            {
+                textBoxHeader.Text = attach.Name;
+            }
+        }
     }
 }

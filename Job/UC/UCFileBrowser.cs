@@ -252,13 +252,23 @@ namespace JobSpace.UC
         }
 
 
-        void Tool_Click(object sender, EventArgs e)
+        async void Tool_Click(object sender, EventArgs e)
         {
             var toolInfo = (ToolInfo)((ToolStripItem)sender).Tag;
 
             var tool = toolInfo.Create();
 
             var context = CreateContext();
+
+            if (tool is IPdfToolAsync toolAsync)
+            {
+                if (!await toolAsync.ConfigureAsync(context))
+                {
+                    return;
+                }
+            }
+            else
+            
             if (!tool.Configure(context))
                 return;
 
