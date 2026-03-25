@@ -67,6 +67,13 @@ namespace JobSpace.Models.PdfDrawer
 
                 // права сторінка
                 g.DrawImage(right, left.Width, 0, right.Width, right.Height);
+
+                using (var pen = new Pen(System.Drawing.Color.Blue,1))
+                {
+                    pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                    g.DrawLine(pen,left.Width,0, left.Width,left.Height);
+                }
+                
             }
 
             return result;

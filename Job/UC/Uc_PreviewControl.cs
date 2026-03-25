@@ -18,8 +18,7 @@ namespace JobSpace.UC
     public partial class Uc_PreviewControl : UserControl
     {
         private Image image;
-        private List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
-
+        
         private bool _dragging = false;
         private Point _dragStartPoint;
         private Point _scrollStartPoint;
@@ -35,25 +34,6 @@ namespace JobSpace.UC
             {
                 _previewParameters.FitToWindow = value;
                 UpdatePreviewLayout();
-            }
-        }
-
-        public List<IScreenPrimitive> Primitives
-        {
-            get => _primitives; set
-            {
-                if (_primitives != null)
-                {
-                    foreach (var prim in _primitives)
-                    {
-                        if (prim is IDisposable disp)
-                        {
-                            disp.Dispose();
-                        }
-                    }
-                }
-                _primitives = value;
-                pb_preview.Invalidate();
             }
         }
 
@@ -110,23 +90,7 @@ namespace JobSpace.UC
             g.ScaleTransform(_previewParameters.ZoomFactor, _previewParameters.ZoomFactor);
             
             g.DrawImage(image, 0, 0, size.Width, size.Height);
-            
-            //using (var pen = new Pen(System.Drawing.Color.Magenta, 0.2f))
-            //{
-            //    pen.Alignment = System.Drawing.Drawing2D.PenAlignment.Inset;
-            //    g.DrawRectangle(pen, 0, 0, size.Width, size.Height);
-            //}
-            //DrawPrimitives(g);
         }
-
-        private void DrawPrimitives(Graphics g)
-        {
-            foreach (var primitive in Primitives)
-            {
-                primitive.Draw(g);
-            }
-        }
-
         private void UpdatePreviewLayout()
         {
             if (image == null) return;

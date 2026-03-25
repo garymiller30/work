@@ -35,9 +35,34 @@ namespace JobSpace.UserForms.PDF
             cb_mirrorEven.DataBindings.Add("Enabled", radioButtonHor, "Checked");
 
             InitUi();
-            uc_PreviewBrowserFile1.OnPageChanged += (s, e) => { Draw(); };
+            uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
+
             DialogResult = DialogResult.Cancel;
         }
+
+        List<IScreenPrimitive> GetPrimitives(int pageNo)
+        {
+            _primitives.Clear();
+
+            if (CreateParameters() == false) return _primitives;
+
+            switch (BigovkaMarksParams.Direction)
+            {
+                case Static.Pdf.Common.DirectionEnum.Horizontal:
+                    DrawHorizontalBigovki(pageNo);
+                    break;
+                case Static.Pdf.Common.DirectionEnum.Vertical:
+                    DrawVerticalBigovki(pageNo);
+                    break;
+                default:
+                    break;
+            }
+
+
+            return _primitives;
+        }
+
+        void Redraw()=>uc_PreviewBrowserFile1.Redraw();
 
         public FormCreateBigovkaMarks(List<IFileSystemInfoExt> infoExts) : this()
         {
@@ -124,38 +149,12 @@ namespace JobSpace.UserForms.PDF
             ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
         }
 
-        void Draw()
+      
+
+        private void DrawVerticalBigovki(int pageNo)
         {
 
-            DrawBigovki();
-        }
-
-
-        private void DrawBigovki()
-        {
-            _primitives.Clear();
-
-            if (CreateParameters() == false) return;
-
-            switch (BigovkaMarksParams.Direction)
-            {
-                case Static.Pdf.Common.DirectionEnum.Horizontal:
-                    DrawHorizontalBigovki();
-                    break;
-                case Static.Pdf.Common.DirectionEnum.Vertical:
-                    DrawVerticalBigovki();
-                    break;
-                default:
-                    break;
-            }
-
-            uc_PreviewBrowserFile1.SetPrimitives(_primitives);
-        }
-
-        private void DrawVerticalBigovki()
-        {
-
-            var box = uc_PreviewBrowserFile1.GetCurrentPageInfo();
+            var box = uc_PreviewBrowserFile1.GetPageInfo(pageNo);
 
             float x_start = 0;
             float x_end = (float)box.Trimbox.wMM();
@@ -169,10 +168,10 @@ namespace JobSpace.UserForms.PDF
             }
         }
 
-        private void DrawHorizontalBigovki()
+        private void DrawHorizontalBigovki(int pageNo)
         {
-            var page_idx = uc_PreviewBrowserFile1.GetCurrentPageIdx();
-            var box = uc_PreviewBrowserFile1.GetCurrentPageInfo();
+            var page_idx = pageNo-1;
+            var box = uc_PreviewBrowserFile1.GetPageInfo(pageNo);
 
             bool isEven = (page_idx + 1) % 2 == 0;
             float x = 0;
@@ -202,17 +201,17 @@ namespace JobSpace.UserForms.PDF
 
         private void textBoxBigovky_TextChanged(object sender, EventArgs e)
         {
-            if (CreateParameters() == true) Draw();
+            if (CreateParameters() == true) Redraw();
         }
 
         private void radioButtonHor_Click(object sender, EventArgs e)
         {
-            Draw();
+            Redraw();
         }
 
         private void cb_mirrorEven_CheckedChanged(object sender, EventArgs e)
         {
-            Draw();
+            Redraw();
         }
 
         private void cb_files_SelectedIndexChanged(object sender, EventArgs e)
@@ -220,7 +219,7 @@ namespace JobSpace.UserForms.PDF
             if (cb_files.SelectedItem is IFileSystemInfoExt fsi)
             {
                 uc_PreviewBrowserFile1.Show(fsi);
-                Draw();
+                Redraw();
             }
         }
 

@@ -18,14 +18,11 @@ namespace JobSpace.UC
         int _currentPage = 1;
 
         PdfDrawerPageCache pdfDrawerPageCache;
-       
+
         PdfPreviewParameters previewParameters;
 
-        public Func<int,List<IScreenPrimitive>> GetScreenPrimitives {get;set;}
 
-        #region [ EVENTS ]
-        public event EventHandler<int> OnPageChanged = delegate { };
-        #endregion
+
 
         public Uc_FilePreviewControl()
         {
@@ -42,18 +39,18 @@ namespace JobSpace.UC
             _currentPage = 1;
             tst_cur_page.Text = _currentPage.ToString();
             tsl_count_pages.Text = $"/{pdfDrawerPageCache.TotalPages}";
-      
+
             GetPreview();
         }
 
-      
+
 
         private async void GetPreview()
         {
             uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
 
-            var res = await PdfDrawerService.GetImageAsync(previewParameters,pdfDrawerPageCache,_currentPage);
-            
+            var res = await PdfDrawerService.GetImageAsync(previewParameters, pdfDrawerPageCache, _currentPage);
+
             uc_PreviewControl1.StopWait();
 
             if (res != null)
@@ -69,19 +66,19 @@ namespace JobSpace.UC
                 _currentPage--;
                 tst_cur_page.Text = _currentPage.ToString();
                 GetPreview();
-                //OnPageChanged(this, _currentPage);
             }
         }
 
         private void tsb_next_page_Click(object sender, EventArgs e)
         {
-            if (_currentPage < pdfDrawerPageCache.TotalPages)
+            _currentPage++;
+            if (previewParameters.Display == PdfPreviewDisplay.Spread)
             {
                 _currentPage++;
-                tst_cur_page.Text = _currentPage.ToString();
-                GetPreview();
-                //OnPageChanged(this, _currentPage);
             }
+            _currentPage = _currentPage % pdfDrawerPageCache.TotalPages;
+            tst_cur_page.Text = _currentPage.ToString();
+            GetPreview();
         }
 
         private void tst_cur_page_TextChanged(object sender, EventArgs e)
@@ -92,7 +89,7 @@ namespace JobSpace.UC
                 {
                     _currentPage = page;
                     GetPreview();
-                    //OnPageChanged(this, _currentPage);
+
                 }
                 else
                 {
@@ -111,14 +108,14 @@ namespace JobSpace.UC
             uc_PreviewControl1.SetFitAndResetZoom(tsb_fit_to_window.Checked);
         }
 
-        public void SetPrimitives(List<IScreenPrimitive> primitives)
-        {
-            uc_PreviewControl1.Primitives = primitives;
-        }
-
         public PdfPageInfo GetCurrentPageInfo()
         {
             return pdfDrawerPageCache?.GetPageInfo(_currentPage);
+        }
+
+        public PdfPageInfo GetPageInfo(int pageNo)
+        {
+            return pdfDrawerPageCache?.GetPageInfo(pageNo);
         }
 
         public int GetCurrentPageIdx()
