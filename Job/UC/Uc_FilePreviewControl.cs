@@ -1,4 +1,6 @@
 ﻿using Interfaces;
+using JobSpace.Models;
+using JobSpace.Models.PdfDrawer;
 using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
 using System;
@@ -7,16 +9,19 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace JobSpace.UC
 {
     public partial class Uc_FilePreviewControl : UserControl
     {
         int _currentPage = 1;
-        int _totalPage = 1;
-        IFileSystemInfoExt _fileInfo;
-        PdfPageInfo[] boxes_pages;
-        Image[] images;
+
+        PdfDrawerPageCache pdfDrawerPageCache;
+       
+        PdfPreviewParameters previewParameters;
+
+        public Func<int,List<IScreenPrimitive>> GetScreenPrimitives {get;set;}
 
         #region [ EVENTS ]
         public event EventHandler<int> OnPageChanged = delegate { };
@@ -25,105 +30,35 @@ namespace JobSpace.UC
         public Uc_FilePreviewControl()
         {
             InitializeComponent();
+            previewParameters = new PdfPreviewParameters();
+
+            uc_PreviewControl1.SetPreviewParameters(previewParameters);
         }
 
         public void Show(IFileSystemInfoExt filePath)
         {
-            _fileInfo = filePath;
-            GetFileInfo();
+            pdfDrawerPageCache = new PdfDrawerPageCache(filePath);
+
+            _currentPage = 1;
+            tst_cur_page.Text = _currentPage.ToString();
+            tsl_count_pages.Text = $"/{pdfDrawerPageCache.TotalPages}";
+      
             GetPreview();
         }
 
-        private void GetFileInfo()
-        {
-            _currentPage = 1;
-            _totalPage = 1;
-            tst_cur_page.Text = _currentPage.ToString();
-            tsl_count_pages.Text = $"/{_totalPage}";
-
-            string ext = _fileInfo.FileInfo.Extension.ToLower();
-            // якщо це pdf файл, то отримуємо кількість сторінок
-            if (ext == ".pdf" || ext == ".ai")
-            {
-                _totalPage = PdfHelper.GetPageCount(_fileInfo.FileInfo.FullName);
-                tsl_count_pages.Text = $"/{_totalPage}";
-
-            }
-
-            boxes_pages = new PdfPageInfo[_totalPage];
-            // очистити старі зображення
-            if (images != null)
-            {
-                for (int i = 0; i < images.Length; i++)
-                {
-                    if (images[i] != null)
-                    {
-                        images[i].Dispose();
-                    }
-                }
-            }
-            // підготувати кеш зображень
-            images = new Image[_totalPage];
-        }
+      
 
         private async void GetPreview()
         {
-            double wMM = 100;
-            double hMM = 100;
+            uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
 
-            Image preview = null;
-            int pageIdx = _currentPage - 1;
+            var res = await PdfDrawerService.GetImageAsync(previewParameters,pdfDrawerPageCache,_currentPage);
+            
+            uc_PreviewControl1.StopWait();
 
-            if (pageIdx >=0 && pageIdx < _totalPage)
-
-                // перевірити чи є кешоване зображення
-                if (images != null && images[pageIdx] != null)
+            if (res != null)
             {
-                preview = images[pageIdx];
-            }
-            else
-            {
-                string ext = _fileInfo.FileInfo.Extension.ToLower();
-                // якщо це pdf файл, то отримуємо кількість сторінок
-                if (ext == ".pdf" || ext == ".ai")
-                {
-                    PdfPageInfo pageInfo = PdfHelper.GetPageInfo(_fileInfo.FileInfo.FullName, pageIdx);
-                    boxes_pages[pageIdx] = pageInfo;
-                }
-                else {
-                    // для інших типів файлів можна отримати розміри, але не обертати
-                    //Отримати розміри зображення без завантаження повного зображення
-                    Size size = FileBrowserSevices.GetImageSize(_fileInfo.FileInfo.FullName);
-
-                    boxes_pages[pageIdx] = new PdfPageInfo
-                    {
-                        Trimbox = new Box { width = size.Width * PdfHelper.mn, height = size.Height * PdfHelper.mn },
-                        Rotate = 0
-                    };
-                }
-
-                uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
-                // Асинхронно завантажуємо фінальне зображення
-                preview = await Task.Run(() => FileBrowserSevices.File_GetPreview(_fileInfo, pageIdx));
-                uc_PreviewControl1.StopWait();
-            }
-
-            if (preview != null)
-            {
-                // створити копію зображення, щоб уникнути проблем з потоками
-                var temp = new System.Drawing.Bitmap(preview);
-                preview.Dispose();
-                preview = temp;
-                // кешувати зображення
-                if (images != null)
-                {
-                    images[pageIdx] = preview;
-                }
-                double angle = boxes_pages[pageIdx].Rotate;
-                wMM = boxes_pages[pageIdx].Trimbox.wMM(angle);
-                hMM = boxes_pages[pageIdx].Trimbox.hMM(angle);
-
-                uc_PreviewControl1.SetImage(preview, wMM, hMM);
+                uc_PreviewControl1.SetImage(res.Item1, res.Item2, res.Item3);
             }
         }
 
@@ -134,18 +69,18 @@ namespace JobSpace.UC
                 _currentPage--;
                 tst_cur_page.Text = _currentPage.ToString();
                 GetPreview();
-                OnPageChanged(this, _currentPage);
+                //OnPageChanged(this, _currentPage);
             }
         }
 
         private void tsb_next_page_Click(object sender, EventArgs e)
         {
-            if (_currentPage < _totalPage)
+            if (_currentPage < pdfDrawerPageCache.TotalPages)
             {
                 _currentPage++;
                 tst_cur_page.Text = _currentPage.ToString();
                 GetPreview();
-                OnPageChanged(this, _currentPage);
+                //OnPageChanged(this, _currentPage);
             }
         }
 
@@ -153,11 +88,11 @@ namespace JobSpace.UC
         {
             if (int.TryParse(tst_cur_page.Text, out int page))
             {
-                if (page >= 1 && page <= _totalPage)
+                if (page >= 1 && page <= pdfDrawerPageCache.TotalPages)
                 {
                     _currentPage = page;
                     GetPreview();
-                    OnPageChanged(this, _currentPage);
+                    //OnPageChanged(this, _currentPage);
                 }
                 else
                 {
@@ -183,7 +118,7 @@ namespace JobSpace.UC
 
         public PdfPageInfo GetCurrentPageInfo()
         {
-            return boxes_pages != null ? boxes_pages[_currentPage - 1] : null;
+            return pdfDrawerPageCache?.GetPageInfo(_currentPage);
         }
 
         public int GetCurrentPageIdx()
@@ -193,7 +128,25 @@ namespace JobSpace.UC
 
         public int GetTotalPages()
         {
-            return _totalPage;
+            return pdfDrawerPageCache.TotalPages;
+        }
+
+
+        private void tsb_show_spread_CheckedChanged(object sender, EventArgs e)
+        {
+            previewParameters.Display = tsb_show_spread.Checked ? PdfPreviewDisplay.Spread : PdfPreviewDisplay.Single;
+            GetPreview();
+        }
+
+        public void Redraw()
+        {
+            GetPreview();
+            //uc_PreviewControl1.Redraw();
+        }
+
+        public void SetFunc_GetScreenPrimitives(Func<int, List<IScreenPrimitive>> getPrimitives)
+        {
+            previewParameters.GetScreenPrimitives = getPrimitives;
         }
     }
 }

@@ -49,8 +49,8 @@
             // pb_preview
             // 
             this.pb_preview.BackColor = System.Drawing.Color.White;
-            this.pb_preview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pb_preview.Location = new System.Drawing.Point(0, 0);
+            this.pb_preview.Margin = new System.Windows.Forms.Padding(0);
             this.pb_preview.Name = "pb_preview";
             this.pb_preview.Size = new System.Drawing.Size(192, 133);
             this.pb_preview.TabIndex = 0;
