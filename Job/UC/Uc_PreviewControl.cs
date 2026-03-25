@@ -1,5 +1,6 @@
 ﻿using Amazon.Runtime.Internal.Util;
 using Interfaces;
+using JobSpace.Models;
 using JobSpace.Static.Pdf.Common;
 using System;
 using System.Collections.Generic;
@@ -18,32 +19,23 @@ namespace JobSpace.UC
     {
         private Image image;
         private List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
-        private bool _fitToScreen = true;
-        private float _zoomFactor = 1.0f;
 
         private bool _dragging = false;
         private Point _dragStartPoint;
         private Point _scrollStartPoint;
 
+        PdfPreviewParameters _previewParameters = new PdfPreviewParameters();
 
-        public float ZoomFactor
-        {
-            get => _zoomFactor;
-        }
         public bool FitToScreen
         {
-            get => _fitToScreen; set
+            get => _previewParameters.FitToWindow; 
+            
+            
+            set
             {
-                _fitToScreen = value;
+                _previewParameters.FitToWindow = value;
                 UpdatePreviewLayout();
             }
-        }
-
-        public void SetZoomFactor(float zoom)
-        {
-            _zoomFactor = zoom;
-            _fitToScreen = false;
-            UpdatePreviewLayout();
         }
 
         public List<IScreenPrimitive> Primitives
@@ -86,7 +78,12 @@ namespace JobSpace.UC
                 }
             }
         }
-
+        /// <summary>
+        /// Sets the image and updates its display size.
+        /// </summary>
+        /// <param name="img">The image to display.</param>
+        /// <param name="w">The width of the image in device-independent units.</param>
+        /// <param name="h">The height of the image in device-independent units.</param>
         public void SetImage(Image img, double w, double h)
         {
             Image = img;
@@ -110,16 +107,16 @@ namespace JobSpace.UC
 
             Graphics g = e.Graphics;
             g.PageUnit = GraphicsUnit.Millimeter;
-            g.ScaleTransform(_zoomFactor, _zoomFactor);
-
+            g.ScaleTransform(_previewParameters.ZoomFactor, _previewParameters.ZoomFactor);
+            
             g.DrawImage(image, 0, 0, size.Width, size.Height);
-
-            using (var pen = new Pen(Color.Magenta, 0.2f))
-            {
-                g.DrawRectangle(pen, 0, 0, size.Width, size.Height);
-            }
-
-            DrawPrimitives(g);
+            
+            //using (var pen = new Pen(System.Drawing.Color.Magenta, 0.2f))
+            //{
+            //    pen.Alignment = System.Drawing.Drawing2D.PenAlignment.Inset;
+            //    g.DrawRectangle(pen, 0, 0, size.Width, size.Height);
+            //}
+            //DrawPrimitives(g);
         }
 
         private void DrawPrimitives(Graphics g)
@@ -137,27 +134,27 @@ namespace JobSpace.UC
             float dpi = pb_preview.DeviceDpi;
 
             // розмір сторінки у пікселях
-            float pageWpx = (int)Math.Ceiling(size.Width * dpi / 25.4f);
-            float pageHpx = (int)Math.Ceiling(size.Height * dpi / 25.4f);
+            float pageWpx = size.Width * dpi / 25.4f;
+            float pageHpx = size.Height * dpi / 25.4f;
 
-            if (_fitToScreen)
+            if (_previewParameters.FitToWindow)
             {
-                float availW = pb_preview.Parent.Width;
-                float availH = pb_preview.Parent.Height;
+                int availW = pb_preview.Parent.Width;
+                int availH = pb_preview.Parent.Height;
 
                 // масштаб
                 float scaleX = availW / pageWpx;
                 float scaleY = availH / pageHpx;
 
-                _zoomFactor = Math.Min(scaleX, scaleY);
+                 _previewParameters.ZoomFactor = Math.Min(scaleX, scaleY);
             }
             // при діленні перевірити чи є залишок. Якщо є - округлити в більшу сторону
 
-            int newW = (int)Math.Ceiling(pageWpx * _zoomFactor);
-            int newH = (int)Math.Ceiling(pageHpx * _zoomFactor);
+            var newW = pageWpx * _previewParameters.ZoomFactor;
+            var newH = pageHpx * _previewParameters.ZoomFactor;
 
-            pb_preview.Width = newW;
-            pb_preview.Height = newH;
+            pb_preview.Width = (int)Math.Ceiling(newW);
+            pb_preview.Height = (int)Math.Ceiling(newH); 
 
             pb_preview.Invalidate();
         }
@@ -186,13 +183,19 @@ namespace JobSpace.UC
         {
             if (fit)
             {
-                _fitToScreen = true;
+                _previewParameters.FitToWindow = true;
             }
             else
             {
-                _fitToScreen = false;
-                _zoomFactor = 1.0f;
+                _previewParameters.FitToWindow = false;
+                _previewParameters.ZoomFactor = 1.0f;
             }
+            UpdatePreviewLayout();
+        }
+
+        public void SetPreviewParameters(PdfPreviewParameters param)
+        {
+            _previewParameters = param;
             UpdatePreviewLayout();
         }
 

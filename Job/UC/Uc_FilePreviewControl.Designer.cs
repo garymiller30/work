@@ -36,9 +36,10 @@
             this.tsl_count_pages = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_next_page = new System.Windows.Forms.ToolStripButton();
-            this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_fit_to_window = new System.Windows.Forms.ToolStripButton();
+            this.tsb_show_spread = new System.Windows.Forms.ToolStripButton();
+            this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +54,8 @@
             this.toolStripSeparator2,
             this.tsb_next_page,
             this.toolStripSeparator3,
-            this.tsb_fit_to_window});
+            this.tsb_fit_to_window,
+            this.tsb_show_spread});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(233, 25);
@@ -105,19 +107,6 @@
             this.tsb_next_page.Text = "наступна сторінка";
             this.tsb_next_page.Click += new System.EventHandler(this.tsb_next_page_Click);
             // 
-            // uc_PreviewControl1
-            // 
-            this.uc_PreviewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.uc_PreviewControl1.FitToScreen = true;
-            this.uc_PreviewControl1.Location = new System.Drawing.Point(0, 25);
-            this.uc_PreviewControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.uc_PreviewControl1.Name = "uc_PreviewControl1";
-            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
-            this.uc_PreviewControl1.Size = new System.Drawing.Size(233, 202);
-            this.uc_PreviewControl1.TabIndex = 1;
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -136,7 +125,32 @@
             this.tsb_fit_to_window.Text = "Зображення в розмір вікна";
             this.tsb_fit_to_window.CheckStateChanged += new System.EventHandler(this.tsb_fit_to_window_CheckStateChanged);
             // 
-            // Uc_PreviewBrowserFile
+            // tsb_show_spread
+            // 
+            this.tsb_show_spread.CheckOnClick = true;
+            this.tsb_show_spread.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsb_show_spread.Image = ((System.Drawing.Image)(resources.GetObject("tsb_show_spread.Image")));
+            this.tsb_show_spread.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_show_spread.Name = "tsb_show_spread";
+            this.tsb_show_spread.Size = new System.Drawing.Size(23, 22);
+            this.tsb_show_spread.Text = "Розвороти";
+            this.tsb_show_spread.ToolTipText = "Показати розворотами";
+            this.tsb_show_spread.CheckedChanged += new System.EventHandler(this.tsb_show_spread_CheckedChanged);
+            // 
+            // uc_PreviewControl1
+            // 
+            this.uc_PreviewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.uc_PreviewControl1.FitToScreen = true;
+            this.uc_PreviewControl1.Location = new System.Drawing.Point(0, 25);
+            this.uc_PreviewControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.uc_PreviewControl1.Name = "uc_PreviewControl1";
+            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
+            this.uc_PreviewControl1.Size = new System.Drawing.Size(233, 202);
+            this.uc_PreviewControl1.TabIndex = 1;
+            // 
+            // Uc_FilePreviewControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -163,5 +177,6 @@
         private Uc_PreviewControl uc_PreviewControl1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton tsb_fit_to_window;
+        private System.Windows.Forms.ToolStripButton tsb_show_spread;
     }
 }

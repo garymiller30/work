@@ -353,6 +353,13 @@
     <Compile Include="Models\JobListFilter.cs" />
     <Compile Include="Models\PantoneTable.cs" />
     <Compile Include="Models\PdfColorResult.cs" />
+    <Compile Include="Models\PdfDrawer\IPdfDrawer.cs" />
+    <Compile Include="Models\PdfDrawer\PdfDrawerPageCache.cs" />
+    <Compile Include="Models\PdfDrawer\PdfDrawerService.cs" />
+    <Compile Include="Models\PdfDrawer\PdfDrawerSingle.cs" />
+    <Compile Include="Models\PdfDrawer\PdfDrawerSpread.cs" />
+    <Compile Include="Models\PdfPreviewDisplay.cs" />
+    <Compile Include="Models\PdfPreviewParameters.cs" />
     <Compile Include="Models\ScreenPrimitives\ScreenFillRectangle.cs" />
     <Compile Include="Models\ScreenPrimitives\ScreenImage.cs" />
     <Compile Include="Models\ScreenPrimitives\ScreenLine.cs" />
