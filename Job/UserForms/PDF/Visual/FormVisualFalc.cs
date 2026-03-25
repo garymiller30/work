@@ -34,7 +34,7 @@ namespace JobSpace.UserForms.PDF.Visual
         private Pen _greenLinePen = new Pen(Color.Green, 0.6f);
         private Pen _whiteLinePen = new Pen(Color.White, 1f);
         decimal[] partsDelta;
-        List<IScreenPrimitive> _primitives;
+        List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
         int currentPageIdx = 1;
         decimal page_w = 0;
         decimal page_h = 0;
@@ -43,11 +43,14 @@ namespace JobSpace.UserForms.PDF.Visual
         {
             _fsi = new FileInfo(fsi.FileInfo.FullName);
             InitializeComponent();
-            uc_PreviewBrowserFile1.OnPageChanged += (s, pageIdx) =>
-            {
-                currentPageIdx = pageIdx;
-                Draw();
-            };
+            //uc_PreviewBrowserFile1.OnPageChanged += (s, pageIdx) =>
+            //{
+            //    currentPageIdx = pageIdx;
+            //    Draw();
+            //};
+
+            uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
+
             nud_width.Value = fsi.Format.Width;
             page_h = fsi.Format.Height;
 
@@ -61,6 +64,13 @@ namespace JobSpace.UserForms.PDF.Visual
 
         }
 
+        private List<IScreenPrimitive> GetPrimitives(int arg)
+        {
+            _primitives.Clear();
+            Recalc();
+            return _primitives;
+        }
+
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -68,8 +78,14 @@ namespace JobSpace.UserForms.PDF.Visual
             {
                 _parts[i].Enabled = (i <= cb_cnt_falc.SelectedIndex + 1);
             }
-            Recalc();
+            Redraw();
         }
+
+        void Redraw()
+        {
+            uc_PreviewBrowserFile1.Redraw();
+        }
+
 
         private void Recalc()
         {
@@ -99,7 +115,7 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            Recalc();
+            Redraw();
         }
 
         private void FormVisualFalc_Load(object sender, EventArgs e)
@@ -138,7 +154,7 @@ namespace JobSpace.UserForms.PDF.Visual
 
             DrawDimensions();
 
-            uc_PreviewBrowserFile1.SetPrimitives(_primitives);
+            //uc_PreviewBrowserFile1.SetPrimitives(_primitives);
         }
 
         private void DrawDimensions()
@@ -185,7 +201,7 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            Recalc();
+            Redraw();
         }
 
         private void btn_create_schema_Click(object sender, EventArgs e)
@@ -203,7 +219,7 @@ namespace JobSpace.UserForms.PDF.Visual
         private void nud_width_ValueChanged(object sender, EventArgs e)
         {
             page_w = nud_width.Value;
-            Recalc();
+            Redraw();
         }
 
         private void btn_mark_file_Click(object sender, EventArgs e)
@@ -244,7 +260,7 @@ namespace JobSpace.UserForms.PDF.Visual
                         decimal partWidth = param.PartsWidth[i];
                         _deltas[i].Value = partWidth;
                     }
-                    Recalc();
+                    Redraw();
                 }
             }
         }

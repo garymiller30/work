@@ -146,7 +146,7 @@
             this.uc_PreviewControl1.Location = new System.Drawing.Point(0, 25);
             this.uc_PreviewControl1.Margin = new System.Windows.Forms.Padding(0);
             this.uc_PreviewControl1.Name = "uc_PreviewControl1";
-            this.uc_PreviewControl1.Primitives = ((System.Collections.Generic.List<Interfaces.IScreenPrimitive>)(resources.GetObject("uc_PreviewControl1.Primitives")));
+            
             this.uc_PreviewControl1.Size = new System.Drawing.Size(233, 202);
             this.uc_PreviewControl1.TabIndex = 1;
             // 

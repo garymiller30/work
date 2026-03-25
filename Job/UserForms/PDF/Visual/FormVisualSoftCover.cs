@@ -20,6 +20,9 @@ namespace JobSpace.UserForms.PDF.Visual
     {
         IFileSystemInfoExt _fileInfo;
         public SoftCoverParams CoverParams { get;set; }
+
+        List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
+
         public FormVisualSoftCover(IFileSystemInfoExt f)
         {
             InitializeComponent();
@@ -30,20 +33,31 @@ namespace JobSpace.UserForms.PDF.Visual
         {
             if (_fileInfo != null)
             {
+                uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
                 uc_PreviewBrowserFile1.Show(_fileInfo);
 
                 ShowTotalCoverSize();
             }
         }
 
+        private List<IScreenPrimitive> GetPrimitives(int pageNo)
+        {
+            _primitives.Clear();
+            DrawSchema(pageNo);
+
+            return _primitives;
+        }
+
         private void ShowTotalCoverSize()
         {
             nud_total_width.Value = nud_root.Value + nud_left_klapan.Value + nud_right_klapan.Value + (nud_width.Value + nud_bleed.Value) * 2;
             nud_total_height.Value = nud_height.Value + (nud_bleed.Value * 2);
-            DrawSchema();
+            Redraw();
         }
 
-        private void DrawSchema()
+        void Redraw() => uc_PreviewBrowserFile1.Redraw();
+
+        private void DrawSchema(int pageNo)
         {
             float bleed = (float)nud_bleed.Value;
             float width = (float)nud_width.Value;
@@ -54,12 +68,10 @@ namespace JobSpace.UserForms.PDF.Visual
             float totalW = (float)nud_total_width.Value;
             float totalH = (float)nud_total_height.Value;
 
-            var pdfPageInfo = uc_PreviewBrowserFile1.GetCurrentPageInfo();
+            var pdfPageInfo = uc_PreviewBrowserFile1.GetPageInfo(pageNo);
 
             float x = ((float)pdfPageInfo.Trimbox.wMM() - totalW) / 2;
             float y = ((float)pdfPageInfo.Trimbox.hMM() - totalH) / 2;
-
-            List<IScreenPrimitive> primitives = new List<IScreenPrimitive>();
 
             using (Pen pen = new Pen(Color.Red, 0.5f))
             {
@@ -67,40 +79,37 @@ namespace JobSpace.UserForms.PDF.Visual
                 y += bleed;
 
                 // обрізний розмір
-                primitives.Add(new ScreenRectangle(pen, x, y, left_klapan + right_klapan + width * 2 + root, height));
+                _primitives.Add(new ScreenRectangle(pen, x, y, left_klapan + right_klapan + width * 2 + root, height));
 
                 if (left_klapan > 0)
                 {
                     x += left_klapan;
                     // лівий клапан
-                    primitives.Add(new ScreenLine(pen, x, y, x, y + height));
+                    _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
 
                 }
                 x += width;
                 // ліва сторінка
-                primitives.Add(new ScreenLine(pen, x, y, x, y + height));
+                _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
 
                 x += root;
                 //корінець
-                primitives.Add(new ScreenLine(pen, x, y, x, y + height));
+                _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
 
 
                 x += width;
 
                 // права сторінка
-                primitives.Add(new ScreenLine(pen, x, y, x, y + height));
+                _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
 
                 if (right_klapan > 0)
                 {
                     x += right_klapan;
                     // правий клапан
-                    primitives.Add(new ScreenLine(pen, x, y, x, y + height));
+                    _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
 
                 }
-
             }
-
-            uc_PreviewBrowserFile1.SetPrimitives(primitives);
         }
 
         private void nud_ValueChanged(object sender, EventArgs e)

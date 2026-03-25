@@ -19,7 +19,7 @@ namespace JobSpace.UserForms.PDF.Visual
     public partial class FormVisualTableCalendar : Form
     {
         IFileSystemInfoExt _file;
-        List<IScreenPrimitive> _primitives;
+        List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
 
         public FormVisualTableCalendar(IFileSystemInfoExt f)
         {
@@ -29,7 +29,19 @@ namespace JobSpace.UserForms.PDF.Visual
 
             uc_VisualRectangleControl_top.DisableRows(1,2);
             uc_VisualRectangleControl_bottom.DisableRows(0,1);
+
+            uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
         }
+
+        private List<IScreenPrimitive> GetPrimitives(int pageNo)
+        {
+            _primitives.Clear();
+
+            Draw(pageNo);
+            return _primitives;
+        }
+
+        void Redraw()=>uc_PreviewBrowserFile1.Redraw();
 
         private void FormVisualTableCalendar_Load(object sender, EventArgs e)
         {
@@ -40,30 +52,28 @@ namespace JobSpace.UserForms.PDF.Visual
                 uc_VisualRectangleControl_top.SetPdfPageInfo(uc_PreviewBrowserFile1.GetCurrentPageInfo());
                 uc_VisualRectangleControl_bottom.SetPdfPageInfo(uc_PreviewBrowserFile1.GetCurrentPageInfo());
 
-                uc_SelectSpiralControl1.OnSpiralChanged += (s, ee) => Draw();
-                uc_VisualRectangleControl_top.OnRectPositionChanged += (s, ee) => Draw();
-                uc_VisualRectangleControl_top.OnRectSizeChanged += (s, ee) => Draw();
+                uc_SelectSpiralControl1.OnSpiralChanged += (s, ee) => Redraw();
+                uc_VisualRectangleControl_top.OnRectPositionChanged += (s, ee) => Redraw();
+                uc_VisualRectangleControl_top.OnRectSizeChanged += (s, ee) => Redraw();
 
-                uc_VisualRectangleControl_bottom.OnRectEnabledChanged += (s, ee) => Draw();
-                uc_VisualRectangleControl_bottom.OnRectPositionChanged += (s, ee) => Draw();
-                uc_VisualRectangleControl_bottom.OnRectSizeChanged += (s, ee) => Draw();
+                uc_VisualRectangleControl_bottom.OnRectEnabledChanged += (s, ee) => Redraw();
+                uc_VisualRectangleControl_bottom.OnRectPositionChanged += (s, ee) => Redraw();
+                uc_VisualRectangleControl_bottom.OnRectSizeChanged += (s, ee) => Redraw();
 
-                Draw();
+                Redraw();
             }
         }
 
         private void nud_osnova_ValueChanged(object sender, EventArgs e)
         {
-            Draw();
+            Redraw();
         }
 
-        private void Draw()
+        private void Draw(int pageNo)
         {
-            _primitives = new List<IScreenPrimitive>();
             DrawRectangles();
             DrawSpiral();
             DrawOsnova();
-            uc_PreviewBrowserFile1.SetPrimitives( _primitives);
         }
 
         private void DrawRectangles()

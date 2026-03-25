@@ -26,14 +26,22 @@ namespace JobSpace.UserForms.PDF.Visual
             SetDefaults();
             cb_files.DisplayMember = "Name";
 
-            uc_PreviewBrowserFile1.OnPageChanged += (s, pageIdx) =>
-            {
-                Redraw();
-            };
-
+            uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
             uc_SelectSpiralControl1.OnSpiralChanged += OnSpiralChanged;
             DialogResult = DialogResult.Cancel;
         }
+
+        private List<IScreenPrimitive> GetPrimitives(int pageNo)
+        {
+            _primitives.Clear();
+
+            DrawSpirales(pageNo);
+
+            return _primitives;
+
+        }
+
+        void Redraw() => uc_PreviewBrowserFile1.Redraw();
 
         private void OnSpiralChanged(object sender, EventArgs e)
         {
@@ -42,16 +50,16 @@ namespace JobSpace.UserForms.PDF.Visual
 
         public FormVisualBlocknoteSpiral(IFileSystemInfoExt fsi) : this()
         {
-            _fsi = new FileInfo( fsi.FileInfo.FullName);
+            _fsi = new FileInfo(fsi.FileInfo.FullName);
             cb_files.Items.Add(_fsi);
             cb_files.SelectedIndex = 0;
         }
 
-        public FormVisualBlocknoteSpiral(List<IFileSystemInfoExt> fsis):this()
+        public FormVisualBlocknoteSpiral(List<IFileSystemInfoExt> fsis) : this()
         {
             foreach (var fsi in fsis)
             {
-                FileInfo fi = new FileInfo( fsi.FileInfo.FullName);
+                FileInfo fi = new FileInfo(fsi.FileInfo.FullName);
                 cb_files.Items.Add(fi);
             }
             if (cb_files.Items.Count > 0)
@@ -60,7 +68,7 @@ namespace JobSpace.UserForms.PDF.Visual
             }
         }
 
-       
+
 
         private void SetDefaults()
         {
@@ -76,7 +84,7 @@ namespace JobSpace.UserForms.PDF.Visual
             }
             cb_place.SelectedIndex = 0;
 
-            
+
         }
 
         private void btn_ok_Click(object sender, EventArgs e)
@@ -95,34 +103,30 @@ namespace JobSpace.UserForms.PDF.Visual
             float rectW = (float)nud_rect_w.Value;
             float rectH = (float)nud_rect_h.Value;
 
-            _primitives.Add( new ScreenFillRectangle( new SolidBrush( System.Drawing.Color.FromArgb(64,255,0,0)), rectX, rectY, rectW, rectH));
+            _primitives.Add(new ScreenFillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(64, 255, 0, 0)), rectX, rectY, rectW, rectH));
 
         }
 
-        private void DrawSpiral()
+        private void DrawSpiral(int pageNo)
         {
 
             var spiralPreview = uc_SelectSpiralControl1.GetSpiralBitmap();
             if (spiralPreview == null) return;
 
-            PdfPageInfo pageInfo = uc_PreviewBrowserFile1.GetCurrentPageInfo();
+            PdfPageInfo pageInfo = uc_PreviewBrowserFile1.GetPageInfo(pageNo);
             if (pageInfo == null) return;
 
             var spiralPdfInfo = uc_SelectSpiralControl1.GetSpiralPdfInfo();
 
             SpiralPlaceEnum place = (SpiralPlaceEnum)cb_place.SelectedIndex;
-            int curPageIdx = uc_PreviewBrowserFile1.GetCurrentPageIdx();
 
-            _primitives.AddRange(Static.Pdf.Visual.Commons.Screen.DrawSpiral.Draw(spiralPreview, spiralPdfInfo, place,pageInfo,curPageIdx));
+            _primitives.AddRange(Static.Pdf.Visual.Commons.Screen.DrawSpiral.Draw(spiralPreview, spiralPdfInfo, place, pageInfo, pageNo-1));
         }
 
-        void Redraw()
+        void DrawSpirales(int pageNo)
         {
-            
-            _primitives = new List<IScreenPrimitive>();
-            DrawSpiral();
+            DrawSpiral(pageNo);
             DrawRectangle();
-            uc_PreviewBrowserFile1.SetPrimitives(_primitives);
         }
 
         private void cb_place_SelectedIndexChanged(object sender, EventArgs e)
@@ -142,8 +146,8 @@ namespace JobSpace.UserForms.PDF.Visual
             if (cb_files.SelectedItem is FileInfo fsi)
             {
                 _fsi = fsi;
-               uc_PreviewBrowserFile1.Show(fsi.ToFileSystemInfoExt());
-               Redraw();
+                uc_PreviewBrowserFile1.Show(fsi.ToFileSystemInfoExt());
+                Redraw();
             }
         }
 
@@ -156,7 +160,7 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void btn_top_center_Click(object sender, EventArgs e)
         {
-            nud_rect_x.Value = (decimal)(((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.wMM() - nud_rect_w.Value)/2);
+            nud_rect_x.Value = (decimal)(((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.wMM() - nud_rect_w.Value) / 2);
             nud_rect_y.Value = 0;
             Redraw();
         }
