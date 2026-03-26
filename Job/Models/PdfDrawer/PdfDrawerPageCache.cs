@@ -11,13 +11,22 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Models.PdfDrawer
 {
-    public class PdfDrawerPageCache
+    public class PdfDrawerPageCache : IDisposable
     {
         public int TotalPages { get; private set; }
 
         IFileSystemInfoExt _file;
         PdfPageInfo[] boxes_pages;
         Image[] images;
+        public void Dispose()
+        {
+            if (images != null)
+                foreach (var image in images)
+                {
+                    image.Dispose();
+                }
+        }
+
 
         public PdfDrawerPageCache(IFileSystemInfoExt file)
         {
@@ -80,7 +89,7 @@ namespace JobSpace.Models.PdfDrawer
                             Rotate = 0
                         };
                     }
-                    
+
                     // Асинхронно завантажуємо фінальне зображення
                     preview = await Task.Run(() => FileBrowserSevices.File_GetPreview(_file, pageIdx));
                 }
@@ -100,7 +109,7 @@ namespace JobSpace.Models.PdfDrawer
                 wMM = boxes_pages[pageIdx].Trimbox.wMM(angle);
                 hMM = boxes_pages[pageIdx].Trimbox.hMM(angle);
 
-                return new Tuple<Image, double, double>( preview, wMM, hMM);
+                return new Tuple<Image, double, double>(preview, wMM, hMM);
             }
 
             return null;
@@ -110,5 +119,7 @@ namespace JobSpace.Models.PdfDrawer
         {
             return boxes_pages != null ? boxes_pages[pageNo - 1] : null;
         }
+
+
     }
 }
