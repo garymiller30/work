@@ -389,6 +389,7 @@
     <Compile Include="Static\Pdf\Create\PdfCreateQRCode.cs" />
     <Compile Include="Static\Pdf\Create\PdfNumericFiles.cs" />
     <Compile Include="Static\Pdf\Imposition\PdfImposition.cs" />
+    <Compile Include="Static\Pdf\Merge\PdfMergeCutAndDocument.cs" />
     <Compile Include="Static\Pdf\Visual\BigovkaMarks\CreateBigovkaMarks.cs" />
     <Compile Include="Static\Pdf\Visual\BigovkaMarks\CreateBigovkaMarksParams.cs" />
     <Compile Include="Static\Pdf\Create\CollatingPageMark\CreateCollatingPageMark.cs" />
