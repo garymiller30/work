@@ -4,12 +4,13 @@ using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.UserForms.PDF.Visual;
 using PDFlib_dotnet;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Visual.HardCover
 {
-    [PdfTool("Візуалізація","Тверда обкладинка",Icon = "visual_hard_cover",Order = 20)]
+    [PdfTool("Візуалізація", "Тверда обкладинка", Icon = "visual_hard_cover", Order = 20)]
     public class HardCover : IPdfTool
     {
         HardCoverParams _coverParams;
@@ -35,7 +36,9 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
         {
             foreach (var file in context.InputFiles)
             {
-                CreateHardCover(file.FullName);
+                if (_coverParams.Command == HardCoverParams.CreateCommand.Back) { CreateHardCoverBack(file.FullName); }
+                else { CreateHardCover(file.FullName); }
+
             }
         }
 
@@ -45,12 +48,11 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
 
             if (_coverParams.Command == HardCoverParams.CreateCommand.CreateSchema)
             {
-                output_file = System.IO.Path.Combine(_coverParams.FolderOutput, "HardCover_schema.pdf");
+                output_file = Path.Combine(_coverParams.FolderOutput, $"{Path.GetFileNameWithoutExtension(file)}_schema.pdf");
             }
             else
             {
-                var fi = new System.IO.FileInfo(file);
-                output_file = System.IO.Path.Combine(_coverParams.FolderOutput, $"{fi.Name}_+_schema.pdf");
+                output_file = Path.Combine(_coverParams.FolderOutput, $"{Path.GetFileNameWithoutExtension(file)}_+_schema.pdf");
             }
 
             var p = new PDFlib();
@@ -71,7 +73,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
                     var page_handle = p.open_pdi_page(doc, 1, "");
                     p.fit_pdi_page(page_handle, (_coverParams.TotalWidth / 2) * PdfHelper.mn, (_coverParams.TotalHeight / 2) * PdfHelper.mn, "position={center center}");
                     p.close_pdi_page(page_handle);
-                    p.end_layer();
+
                 }
                 p.begin_layer(v_layer);
                 // Draw cover schema here
@@ -141,6 +143,58 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
             {
                 PdfHelper.DrawDimensionsY(p, spot, x, y, heigts[i]);
                 y += heigts[i];
+            }
+        }
+
+        void CreateHardCoverBack(string file)
+        {
+            string target = Path.Combine(Path.GetDirectoryName(file), $"{Path.GetFileNameWithoutExtension(file)}_back.pdf");
+            var p = new PDFlib();
+
+            try
+            {
+                p.begin_document(target, "optimize=true");
+
+                p.begin_page_ext(_coverParams.TotalWidth * PdfHelper.mn, _coverParams.TotalHeight * PdfHelper.mn, "");
+
+                // Draw cover schema here
+                int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
+                p.set_gstate(gstate);
+
+                MarkColor c = MarkColor.Black;
+                p.setcolor("fillstroke", "cmyk", c.C / 100, c.M / 100, c.Y / 100, c.K / 100);
+                //int spot = p.makespotcolor(c.Name);
+                // p.setdash(4, 2);
+                //p.set_graphics_option("dasharray={4 2}");
+                p.setlinewidth(0.2);
+                //p.setcolor("fillstroke", "spot", spot, 1.0, 0, 0);
+
+                // розмір документу
+                p.rect(0, 0, _coverParams.TotalWidth * PdfHelper.mn, _coverParams.TotalHeight * PdfHelper.mn);
+                // ліва сторінка
+                p.rect(_coverParams.Zagyn * PdfHelper.mn, _coverParams.Zagyn * PdfHelper.mn, _coverParams.Width * PdfHelper.mn, _coverParams.Height * PdfHelper.mn);
+                // корінець
+                p.rect((_coverParams.Zagyn + _coverParams.Width + _coverParams.Rastav) * PdfHelper.mn,
+                    _coverParams.Zagyn * PdfHelper.mn,
+                    _coverParams.Root * PdfHelper.mn,
+                    _coverParams.Height * PdfHelper.mn);
+                // права сторінка
+                p.rect((_coverParams.Zagyn + _coverParams.Width + _coverParams.Rastav * 2 + _coverParams.Root) * PdfHelper.mn,
+                    _coverParams.Zagyn * PdfHelper.mn,
+                    _coverParams.Width * PdfHelper.mn,
+                    _coverParams.Height * PdfHelper.mn);
+                p.stroke();
+
+                p.end_page_ext("");
+                p.end_document("");
+            }
+            catch (PDFlibException e)
+            {
+                Logger.Log.Error(null, "PdfSpliter", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+            }
+            finally
+            {
+                p?.Dispose();
             }
         }
     }

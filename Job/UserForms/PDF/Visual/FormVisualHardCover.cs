@@ -114,10 +114,17 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void btn_create_schema_Click(object sender, EventArgs e)
         {
-            CoverParams =
-            new HardCoverParams
+            CoverParams = CreateParameters(HardCoverParams.CreateCommand.CreateSchema);
+            SaveSchema(CoverParams);
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        HardCoverParams CreateParameters(HardCoverParams.CreateCommand command)
+        {
+           return new HardCoverParams
             {
-                Command = HardCoverParams.CreateCommand.CreateSchema,
+                Command = command,
                 Height = (double)nud_height.Value,
                 Width = (double)nud_width.Value,
                 Zagyn = (double)nud_zagyn.Value,
@@ -125,25 +132,24 @@ namespace JobSpace.UserForms.PDF.Visual
                 Root = (double)nud_root.Value,
                 FolderOutput = Path.GetDirectoryName(_fileInfo.FileInfo.FullName)
             };
-            DialogResult = DialogResult.OK;
-            Close();
         }
+
 
         private void btn_apply_schema_Click(object sender, EventArgs e)
         {
-            CoverParams = new HardCoverParams
-            {
-                Command = HardCoverParams.CreateCommand.CreateCover,
-                Height = (double)nud_height.Value,
-                Width = (double)nud_width.Value,
-                Zagyn = (double)nud_zagyn.Value,
-                Rastav = (double)nud_rastav.Value,
-                Root = (double)nud_root.Value,
-                FolderOutput = Path.GetDirectoryName(_fileInfo.FileInfo.FullName)
-            }; 
+            CoverParams = CreateParameters(HardCoverParams.CreateCommand.CreateCover);
+
+            SaveSchema(CoverParams);
             DialogResult = DialogResult.OK; 
             Close();
 
+        }
+
+        void SaveSchema(HardCoverParams coverParams)
+        {
+            var targetFile = Path.Combine(Path.GetDirectoryName(_fileInfo.FullName),$"{Path.GetFileNameWithoutExtension(_fileInfo.FullName)}.hcschema");
+            var strJson = System.Text.Json.JsonSerializer.Serialize<HardCoverParams>(coverParams, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(targetFile, strJson);
         }
 
         private void btn_save_schema_Click(object sender, EventArgs e)
@@ -160,14 +166,8 @@ namespace JobSpace.UserForms.PDF.Visual
                 {
                     try
                     {
-                        HardCoverParams hcp = new HardCoverParams
-                        {
-                            Height = (double)nud_height.Value,
-                            Width = (double)nud_width.Value,
-                            Zagyn = (double)nud_zagyn.Value,
-                            Rastav = (double)nud_rastav.Value,
-                            Root = (double)nud_root.Value
-                        };
+
+                        HardCoverParams hcp = CreateParameters(HardCoverParams.CreateCommand.CreateSchema);
                         var strJson = System.Text.Json.JsonSerializer.Serialize<HardCoverParams>(hcp, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
                         File.WriteAllText(sfd.FileName, strJson);
                     }
@@ -215,6 +215,15 @@ namespace JobSpace.UserForms.PDF.Visual
             // віділиняємо все в NumericUpDown при фокусі
             NumericUpDown nud = sender as NumericUpDown;
             nud.Select(0, nud.Text.Length);
+
+        }
+
+        private void btn_create_back_Click(object sender, EventArgs e)
+        {
+            CoverParams = CreateParameters(HardCoverParams.CreateCommand.Back);
+            SaveSchema(CoverParams);
+            DialogResult = DialogResult.OK;
+            Close();
 
         }
     }
