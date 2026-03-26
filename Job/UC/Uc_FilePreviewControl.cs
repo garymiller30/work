@@ -34,6 +34,8 @@ namespace JobSpace.UC
 
         public void Show(IFileSystemInfoExt filePath)
         {
+            pdfDrawerPageCache?.Dispose();
+
             pdfDrawerPageCache = new PdfDrawerPageCache(filePath);
 
             _currentPage = 1;
@@ -76,7 +78,10 @@ namespace JobSpace.UC
             {
                 _currentPage++;
             }
-            _currentPage = _currentPage % pdfDrawerPageCache.TotalPages;
+            
+            if (_currentPage > pdfDrawerPageCache.TotalPages)
+            { _currentPage = 1; }
+
             tst_cur_page.Text = _currentPage.ToString();
             GetPreview();
         }
