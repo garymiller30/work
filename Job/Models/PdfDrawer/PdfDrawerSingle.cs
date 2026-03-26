@@ -18,6 +18,8 @@ namespace JobSpace.Models.PdfDrawer
 
             Tuple<Image, double, double> res = await pdfDrawerPageCache.GetPreviewAsync(pageNo);
 
+            if (res == null) return null;
+
             var with_primitives = PdfDrawerService.DrawImagePrimitives(parameters, pageNo, res.Item1, res.Item2, res.Item3);
 
             return with_primitives;
