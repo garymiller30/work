@@ -23,7 +23,7 @@ namespace JobSpace.Models.PdfDrawer
             if (images != null)
                 foreach (var image in images)
                 {
-                    image.Dispose();
+                    image?.Dispose();
                 }
         }
 
