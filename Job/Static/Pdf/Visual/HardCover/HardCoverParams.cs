@@ -35,7 +35,8 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
         public enum CreateCommand
         {
             CreateSchema,
-            CreateCover
+            CreateCover,
+            Back
         }
     }
 }

@@ -48,6 +48,7 @@
             this.btn_save_schema = new System.Windows.Forms.Button();
             this.btn_load_schema = new System.Windows.Forms.Button();
             this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
+            this.btn_create_back = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_width)).BeginInit();
@@ -331,7 +332,7 @@
             // 
             // btn_apply_schema
             // 
-            this.btn_apply_schema.Location = new System.Drawing.Point(125, 307);
+            this.btn_apply_schema.Location = new System.Drawing.Point(125, 354);
             this.btn_apply_schema.Name = "btn_apply_schema";
             this.btn_apply_schema.Size = new System.Drawing.Size(93, 37);
             this.btn_apply_schema.TabIndex = 1;
@@ -369,11 +370,22 @@
             this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(564, 426);
             this.uc_PreviewBrowserFile1.TabIndex = 1;
             // 
+            // btn_create_back
+            // 
+            this.btn_create_back.Location = new System.Drawing.Point(125, 307);
+            this.btn_create_back.Name = "btn_create_back";
+            this.btn_create_back.Size = new System.Drawing.Size(93, 37);
+            this.btn_create_back.TabIndex = 4;
+            this.btn_create_back.Text = "створити зворот";
+            this.btn_create_back.UseVisualStyleBackColor = true;
+            this.btn_create_back.Click += new System.EventHandler(this.btn_create_back_Click);
+            // 
             // FormVisualHardCover
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btn_create_back);
             this.Controls.Add(this.btn_load_schema);
             this.Controls.Add(this.btn_save_schema);
             this.Controls.Add(this.btn_apply_schema);
@@ -419,5 +431,6 @@
         private System.Windows.Forms.Button btn_apply_schema;
         private System.Windows.Forms.Button btn_save_schema;
         private System.Windows.Forms.Button btn_load_schema;
+        private System.Windows.Forms.Button btn_create_back;
     }
 }
