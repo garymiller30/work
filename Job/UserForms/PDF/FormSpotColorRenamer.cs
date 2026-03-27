@@ -13,6 +13,7 @@ namespace JobSpace.UserForms.PDF
 {
     public partial class FormSpotColorRenamer : Form
     {
+        Interfaces.IFileSystemInfoExt _file;
         public string SelectedColor { get => cb_names.Text; }
         public string NewColorName { get => tb_newName.Text.Trim(); }
 
@@ -21,12 +22,31 @@ namespace JobSpace.UserForms.PDF
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
+            _file = file;
 
-            PdfUtils.GetColorspaces(file);
-            if (file.UsedColors != null && file.UsedColors.Count > 0)
+
+
+        }
+
+        private void btn_rename_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(cb_names.Text) || string.IsNullOrWhiteSpace(tb_newName.Text))
+            {
+                MessageBox.Show("Будь ласка, заповніть обидва поля для перейменування.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void FormSpotColorRenamer_Shown(object sender, EventArgs e)
+        {
+            PdfUtils.GetColorspaces(_file);
+            if (_file.UsedColors != null && _file.UsedColors.Count > 0)
             {
                 // Потрібно видалити CMYK, Indexed та інші загальні кольори, залишивши лише Spot кольори
-                var colors = file.UsedColors.Where(c => !c.Equals("CMYK", StringComparison.OrdinalIgnoreCase) &&
+                var colors = _file.UsedColors.Where(c => !c.Equals("CMYK", StringComparison.OrdinalIgnoreCase) &&
                                               !c.Equals("Indexed", StringComparison.OrdinalIgnoreCase) &&
                                               !c.Equals("RGB", StringComparison.OrdinalIgnoreCase) &&
                                               !c.Equals("Lab", StringComparison.OrdinalIgnoreCase) &&
@@ -43,19 +63,6 @@ namespace JobSpace.UserForms.PDF
             }
 
             MessageBox.Show("У цьому PDF не знайдено Spot кольорів для перейменування.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Close();
-
-        }
-
-        private void btn_rename_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(cb_names.Text) || string.IsNullOrWhiteSpace(tb_newName.Text))
-            {
-                MessageBox.Show("Будь ласка, заповніть обидва поля для перейменування.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            DialogResult = DialogResult.OK;
             Close();
         }
     }

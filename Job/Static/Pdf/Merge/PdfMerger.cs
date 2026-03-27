@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Merge
 {
-    [PdfTool("З'єднати", "вибрані файли в один",Description ="З'єднати вибрані файли в один PDF",Icon ="merge")]
+    [PdfTool("З'єднати", "вибрані файли в один",Description ="З'єднати вибрані файли в один PDF",Icon ="merge",IsBackgroundTask = true)]
     public class PdfMerger : IPdfTool
     {
         List<string> files = new List<string>();

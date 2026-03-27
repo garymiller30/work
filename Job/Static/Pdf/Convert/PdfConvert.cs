@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Convert
 {
-    [PdfTool("","Конвертувати в PDF",Order = 0,Icon ="convert",Description = "Конвертувати в PDF файли з розширенням jpg, png, jpeg, tif, tiff, svg, psd, ai",SeparatorAfter = true)]
+    [PdfTool("","Конвертувати в PDF",Order = 0,Icon ="convert",Description = "Конвертувати в PDF файли з розширенням jpg, png, jpeg, tif, tiff, svg, psd, ai",SeparatorAfter = true,IsBackgroundTask =true)]
     public sealed class PdfConvert : IPdfTool
     {
         PdfConvertParams _params = new PdfConvertParams();

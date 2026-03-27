@@ -17,7 +17,7 @@ using static JobSpace.UserForms.FormEnterTirag;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("", "Додати тираж", Order = 2, Icon = "add_tirag", Description = "Додати тираж до імені файлу")]
+    [PdfTool("", "Додати тираж", Order = 2, Icon = "add_tirag", Description = "Додати тираж до імені файлу",IsBackgroundTask =true)]
     public class PdfAddTirag : IPdfTool,IPdfToolAsync
     {
         List<FileTirag> fileTirags;
@@ -35,7 +35,6 @@ namespace JobSpace.Static.Pdf.Create
                         return true;
                     }
                 }
-
             }
             else
             {
