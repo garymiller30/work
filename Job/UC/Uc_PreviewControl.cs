@@ -1,4 +1,5 @@
-﻿using Amazon.Runtime.Internal.Util;
+﻿using Amazon.Auth.AccessControlPolicy;
+using Amazon.Runtime.Internal.Util;
 using Interfaces;
 using JobSpace.Models;
 using JobSpace.Static.Pdf.Common;
@@ -7,9 +8,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -200,6 +203,39 @@ namespace JobSpace.UC
             {
                 _dragging = false;
                 pb_preview.Cursor = Cursors.Default;
+            }
+        }
+
+        private void tsmi_copy_image_Click(object sender, EventArgs e)
+        {
+            CopyImageToClipboard();
+        }
+
+        private void CopyImageToClipboard()
+        {
+            if (image != null)
+            {
+                using (var bmp = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb))
+                {
+                    using (var g = Graphics.FromImage(bmp))
+                    {
+                        g.Clear(System.Drawing.Color.White); // фон (щоб прибрати transparency)
+                        g.DrawImage(image, 0, 0, image.Width, image.Height);
+                    }
+
+                    // Обов'язково STA
+                    if (Thread.CurrentThread.GetApartmentState() == ApartmentState.STA)
+                    {
+                        Clipboard.SetImage(bmp);
+                    }
+                    else
+                    {
+                        var thread = new Thread(() => Clipboard.SetImage(bmp));
+                        thread.SetApartmentState(ApartmentState.STA);
+                        thread.Start();
+                        thread.Join();
+                    }
+                }
             }
         }
     }

@@ -51,7 +51,7 @@ namespace JobSpace.Static.Pdf.RepeatPages
                 int page_count = (int)p.pcos_get_number(indoc, "length:pages");
                 int outdoc_count = page_count * _params.Count;
 
-                String outfile = filePath + ".tmp";
+                String outfile = Path.Combine(Path.GetDirectoryName(filePath),$"{Path.GetFileNameWithoutExtension(filePath)}_page_dup.pdf");// filePath + ".tmp";
                 if (p.begin_document(outfile, "optimize=true") == -1)
                     throw new Exception("Error: " + p.get_errmsg());
 
@@ -69,12 +69,7 @@ namespace JobSpace.Static.Pdf.RepeatPages
                 }
 
                 p.end_document("");
-
-                /* Close the input document */
                 p.close_pdi_document(indoc);
-
-                File.Delete(filePath);
-                File.Move(outfile, filePath);
             }
             catch (PDFlibException e)
             {
