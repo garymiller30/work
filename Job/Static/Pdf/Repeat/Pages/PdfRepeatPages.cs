@@ -20,6 +20,7 @@ namespace JobSpace.Static.Pdf.RepeatPages
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     _params = new PdfRepeatPagesParams { Count = form.CountPages };
+                    return true;
                 }
             }
             return false;
