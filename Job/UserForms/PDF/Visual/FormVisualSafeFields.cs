@@ -47,21 +47,30 @@ namespace JobSpace.UserForms.PDF.Visual
                    (float)nud_bottom.Value));
             }
 
-            if (nud_left.Value != 0)
+            var left = nud_left.Value;
+            var right = nud_right.Value;
+
+            if (cb_spread.Checked && pageNo % 2 == 0)
+            {
+                (left,right) = (right, left);
+            }
+
+
+            if (left != 0)
             {
                 _primitives.Add(new ScreenFillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(64, 255, 0, 0)),
                    x: 0,
                    y: 0,
-                    (float)nud_left.Value,
+                    (float)left,
                    (float)box.Trimbox.hMM()
                   ));
             }
-            if (nud_right.Value != 0)
+            if (right != 0)
             {
                 _primitives.Add(new ScreenFillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(64, 255, 0, 0)),
-                   x: (float)(box.Trimbox.wMM() - (double)nud_right.Value),
+                   x: (float)(box.Trimbox.wMM() - (double)right),
                    y: 0,
-                    (float)nud_right.Value,
+                    (float)right,
                    (float)box.Trimbox.hMM()
                   ));
             }
@@ -80,6 +89,11 @@ namespace JobSpace.UserForms.PDF.Visual
             {
                 uc_FilePreviewControl1.Show(_file);
             }
+        }
+
+        private void cb_spread_CheckedChanged(object sender, EventArgs e)
+        {
+            uc_FilePreviewControl1.Redraw();
         }
     }
 }
