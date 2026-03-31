@@ -785,6 +785,9 @@
     <Content Include="db\resources\pdftool_icons\visual_saddle_stitch_creep.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="db\resources\pdftool_icons\visual_safe_fields.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="db\resources\pdftool_icons\visual_soft_cover.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
