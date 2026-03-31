@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Visual
 {
-    [PdfTool("Візуалізація","безпечні поля", Description = "показує безпечні поля документа", Icon = "visual_safe_fields")]
+    [PdfTool("Візуалізація","безпечні поля", Description = "показує безпечні поля документа", Icon = "visual_safe_fields",Order = 20)]
     public class PDF_VisualSafeFields : IPdfTool
     {
         public bool Configure(PdfJobContext context)

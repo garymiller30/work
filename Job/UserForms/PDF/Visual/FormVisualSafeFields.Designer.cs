@@ -30,15 +30,16 @@
         {
             this.uc_FilePreviewControl1 = new JobSpace.UC.Uc_FilePreviewControl();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.nud_top = new System.Windows.Forms.NumericUpDown();
-            this.nud_left = new System.Windows.Forms.NumericUpDown();
-            this.nud_right = new System.Windows.Forms.NumericUpDown();
             this.nud_bottom = new System.Windows.Forms.NumericUpDown();
+            this.nud_right = new System.Windows.Forms.NumericUpDown();
+            this.nud_left = new System.Windows.Forms.NumericUpDown();
+            this.nud_top = new System.Windows.Forms.NumericUpDown();
+            this.cb_spread = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_top)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_left)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_right)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_bottom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_right)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_left)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_top)).BeginInit();
             this.SuspendLayout();
             // 
             // uc_FilePreviewControl1
@@ -59,55 +60,10 @@
             this.groupBox1.Controls.Add(this.nud_top);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(207, 151);
+            this.groupBox1.Size = new System.Drawing.Size(207, 152);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "поля";
-            // 
-            // nud_top
-            // 
-            this.nud_top.DecimalPlaces = 1;
-            this.nud_top.Location = new System.Drawing.Point(68, 19);
-            this.nud_top.Maximum = new decimal(new int[] {
-            100000000,
-            0,
-            0,
-            0});
-            this.nud_top.Name = "nud_top";
-            this.nud_top.Size = new System.Drawing.Size(70, 20);
-            this.nud_top.TabIndex = 0;
-            this.nud_top.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_top.ValueChanged += new System.EventHandler(this.nud_ValueChanged);
-            // 
-            // nud_left
-            // 
-            this.nud_left.DecimalPlaces = 1;
-            this.nud_left.Location = new System.Drawing.Point(6, 68);
-            this.nud_left.Maximum = new decimal(new int[] {
-            100000000,
-            0,
-            0,
-            0});
-            this.nud_left.Name = "nud_left";
-            this.nud_left.Size = new System.Drawing.Size(70, 20);
-            this.nud_left.TabIndex = 1;
-            this.nud_left.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_left.ValueChanged += new System.EventHandler(this.nud_ValueChanged);
-            // 
-            // nud_right
-            // 
-            this.nud_right.DecimalPlaces = 1;
-            this.nud_right.Location = new System.Drawing.Point(131, 68);
-            this.nud_right.Maximum = new decimal(new int[] {
-            100000000,
-            0,
-            0,
-            0});
-            this.nud_right.Name = "nud_right";
-            this.nud_right.Size = new System.Drawing.Size(70, 20);
-            this.nud_right.TabIndex = 2;
-            this.nud_right.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nud_right.ValueChanged += new System.EventHandler(this.nud_ValueChanged);
             // 
             // nud_bottom
             // 
@@ -124,11 +80,68 @@
             this.nud_bottom.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.nud_bottom.ValueChanged += new System.EventHandler(this.nud_ValueChanged);
             // 
+            // nud_right
+            // 
+            this.nud_right.DecimalPlaces = 1;
+            this.nud_right.Location = new System.Drawing.Point(131, 68);
+            this.nud_right.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.nud_right.Name = "nud_right";
+            this.nud_right.Size = new System.Drawing.Size(70, 20);
+            this.nud_right.TabIndex = 2;
+            this.nud_right.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_right.ValueChanged += new System.EventHandler(this.nud_ValueChanged);
+            // 
+            // nud_left
+            // 
+            this.nud_left.DecimalPlaces = 1;
+            this.nud_left.Location = new System.Drawing.Point(6, 68);
+            this.nud_left.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.nud_left.Name = "nud_left";
+            this.nud_left.Size = new System.Drawing.Size(70, 20);
+            this.nud_left.TabIndex = 1;
+            this.nud_left.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_left.ValueChanged += new System.EventHandler(this.nud_ValueChanged);
+            // 
+            // nud_top
+            // 
+            this.nud_top.DecimalPlaces = 1;
+            this.nud_top.Location = new System.Drawing.Point(68, 19);
+            this.nud_top.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.nud_top.Name = "nud_top";
+            this.nud_top.Size = new System.Drawing.Size(70, 20);
+            this.nud_top.TabIndex = 0;
+            this.nud_top.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nud_top.ValueChanged += new System.EventHandler(this.nud_ValueChanged);
+            // 
+            // cb_spread
+            // 
+            this.cb_spread.AutoSize = true;
+            this.cb_spread.Location = new System.Drawing.Point(18, 170);
+            this.cb_spread.Name = "cb_spread";
+            this.cb_spread.Size = new System.Drawing.Size(79, 17);
+            this.cb_spread.TabIndex = 2;
+            this.cb_spread.Text = "розвороти";
+            this.cb_spread.UseVisualStyleBackColor = true;
+            this.cb_spread.CheckedChanged += new System.EventHandler(this.cb_spread_CheckedChanged);
+            // 
             // FormVisualSafeFields
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(960, 610);
+            this.Controls.Add(this.cb_spread);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.uc_FilePreviewControl1);
             this.Name = "FormVisualSafeFields";
@@ -137,11 +150,12 @@
             this.Text = "Безпечні поля";
             this.Shown += new System.EventHandler(this.FormVisualSafeFields_Shown);
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.nud_top)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_left)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_right)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_bottom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_right)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_left)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_top)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -153,5 +167,6 @@
         private System.Windows.Forms.NumericUpDown nud_right;
         private System.Windows.Forms.NumericUpDown nud_left;
         private System.Windows.Forms.NumericUpDown nud_top;
+        private System.Windows.Forms.CheckBox cb_spread;
     }
 }
