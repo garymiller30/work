@@ -534,6 +534,7 @@
     <Compile Include="Static\Pdf\Visual\HardCover\HardCover.cs" />
     <Compile Include="Static\Pdf\Visual\HardCover\HardCoverParams.cs" />
     <Compile Include="Static\Pdf\Visual\PDF_VisualSaddleStitchCreep.cs" />
+    <Compile Include="Static\Pdf\Visual\PDF_VisualSafeFields.cs" />
     <Compile Include="Static\Pdf\Visual\PDF_VisualTableCalendar.cs" />
     <Compile Include="Static\Pdf\Visual\SoftCover\SoftCover.cs" />
     <Compile Include="Static\Pdf\Visual\SoftCover\SoftCoverParams.cs" />
@@ -1149,6 +1150,12 @@
     <Compile Include="UserForms\PDF\Visual\FormVisualSaddleStitchCreep.Designer.cs">
       <DependentUpon>FormVisualSaddleStitchCreep.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualSafeFields.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualSafeFields.Designer.cs">
+      <DependentUpon>FormVisualSafeFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\Visual\FormVisualSoftCover.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1486,6 +1493,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualSaddleStitchCreep.resx">
       <DependentUpon>FormVisualSaddleStitchCreep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualSafeFields.resx">
+      <DependentUpon>FormVisualSafeFields.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualSoftCover.resx">
       <DependentUpon>FormVisualSoftCover.cs</DependentUpon>
