@@ -1,5 +1,6 @@
 ﻿using CSScriptLibrary;
 using Interfaces;
+using Interfaces.Profile;
 using Interfaces.Script;
 using System;
 using System.Collections.Concurrent;
