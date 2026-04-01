@@ -5,6 +5,7 @@ using iText.Kernel.Colors;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
 using JobSpace.UserForms.PDF;
+using iText.Kernel.Geom;
 using System.IO;
 
 namespace JobSpace.Static.Pdf.Create
@@ -29,23 +30,26 @@ namespace JobSpace.Static.Pdf.Create
 
         public void Execute(PdfJobContext context)
         {
-            string filename = Path.Combine(context.FileManager.Settings.CurFolder,$"{_code}.pdf");
+            string filename = System.IO.Path.Combine(context.FileManager.Settings.CurFolder,$"{_code}.pdf");
 
             PdfWriter writer = new PdfWriter(filename);
             PdfDocument pdf = new PdfDocument(writer);
-            var page = pdf.AddNewPage();
 
-            PdfCanvas canvas = new PdfCanvas(page);
-
-            // CMYK чорний (100% K)
-            DeviceCmyk black = new DeviceCmyk(0f, 0f, 0f, 1f);
 
             BarcodeEAN barcode = new BarcodeEAN(pdf);
             barcode.SetCode(_code);
             barcode.SetCodeType(BarcodeEAN.EAN13);
+            DeviceCmyk black = new DeviceCmyk(0f, 0f, 0f, 1f);
 
-            // генеруємо штрихкод
-            barcode.PlaceBarcode(canvas, black, black);
+            var form = barcode.CreateFormXObject(pdf);
+
+            float width = form.GetWidth();
+            float height = form.GetHeight();
+
+            var page = pdf.AddNewPage(new PageSize(width, height));
+
+            PdfCanvas canvas = new PdfCanvas(page);
+            canvas.AddXObjectAt(form, 0, 0);
 
             pdf.Close();
         }

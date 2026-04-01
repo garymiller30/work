@@ -57,9 +57,6 @@ namespace JobSpace.Static.Pdf.Create
             PdfCanvas canvas = new PdfCanvas(page);
             canvas.AddXObjectAt(form, 0, 0);
 
-            //// генеруємо штрихкод
-            //barcode.PlaceBarcode(canvas, black, black);
-
             pdf.Close();
         }
     }
