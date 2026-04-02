@@ -20,89 +20,103 @@ namespace JobSpace.Static.Pdf.Common
     {
         public static double mn = 2.83465;
 
-
-        public static Boxes GetBoxes(PDFlib p, int doc, int pageIdx)
+        private static (double left, double bottom, double right, double top) ReadNormalizedBox(
+    PDFlib p,
+    int doc,
+    int pageIdx,
+    string boxName,
+    double[] fallbackRaw = null)
         {
-            Boxes boxes = new Boxes();
+            var raw = new double[4];
 
-            var trims = new double[] { 0, 0, 0, 0 };
-            var media = new double[] { 0, 0, 0, 0 };
+            bool hasBox = string.Equals(
+                p.pcos_get_string(doc, $"type:pages[{pageIdx}]/{boxName}"),
+                "array",
+                StringComparison.OrdinalIgnoreCase);
 
-            for (int i = 0; i < 4; i++)
-            {
-                media[i] = p.pcos_get_number(doc, $"pages[{pageIdx}]/MediaBox[{i}]");
-            }
-
-            string trimtype = p.pcos_get_string(doc, $"type:pages[{pageIdx}]/TrimBox");
-
-            if (string.Equals(trimtype, "array", System.StringComparison.OrdinalIgnoreCase))
+            if (hasBox)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    trims[i] = p.pcos_get_number(doc, $"pages[{pageIdx}]/TrimBox[{i}]");
+                    raw[i] = p.pcos_get_number(doc, $"pages[{pageIdx}]/{boxName}[{i}]");
                 }
+            }
+            else if (fallbackRaw != null)
+            {
+                Array.Copy(fallbackRaw, raw, 4);
             }
             else
             {
-                for (int i = 0; i < 4; i++)
-                {
-                    trims[i] = media[i];
-                }
+                throw new InvalidOperationException($"{boxName} is missing and no fallback was provided.");
             }
 
-            boxes.Media.left = media[0];
-            boxes.Media.bottom = media[1];
-            boxes.Media.width = media[2] - media[0];
-            boxes.Media.height = media[3] - media[1];
+            return NormalizeBox(raw);
+        }
 
-            boxes.Trim.left = trims[0] - media[0];
-            boxes.Trim.bottom = trims[1] - media[1];
-            boxes.Trim.width = trims[2] - trims[0];
-            boxes.Trim.height = trims[3] - trims[1];
-            boxes.Trim.top = media[3] - trims[3];
-            boxes.Trim.right = media[2] - trims[2];
+        private static (double left, double bottom, double right, double top) NormalizeBox(double[] raw)
+        {
+            return (
+                left: Math.Min(raw[0], raw[2]),
+                bottom: Math.Min(raw[1], raw[3]),
+                right: Math.Max(raw[0], raw[2]),
+                top: Math.Max(raw[1], raw[3])
+            );
+        }
+
+        public static Boxes GetBoxes(PDFlib p, int doc, int pageIdx)
+        {
+            var boxes = new Boxes();
+
+            var mediaRaw = new double[4];
+            for (int i = 0; i < 4; i++)
+            {
+                mediaRaw[i] = p.pcos_get_number(doc, $"pages[{pageIdx}]/MediaBox[{i}]");
+            }
+
+            var media = NormalizeBox(mediaRaw);
+            var trim = ReadNormalizedBox(p, doc, pageIdx, "TrimBox", mediaRaw);
+
+            boxes.Media.left = media.left;
+            boxes.Media.bottom = media.bottom;
+            boxes.Media.width = media.right - media.left;
+            boxes.Media.height = media.top - media.bottom;
+            boxes.Media.right = 0;
+            boxes.Media.top = 0;
+
+            boxes.Trim.left = trim.left - media.left;
+            boxes.Trim.bottom = trim.bottom - media.bottom;
+            boxes.Trim.width = trim.right - trim.left;
+            boxes.Trim.height = trim.top - trim.bottom;
+            boxes.Trim.right = media.right - trim.right;
+            boxes.Trim.top = media.top - trim.top;
 
             return boxes;
         }
 
 
+
         public static Box GetTrimbox(PDFlib p, int doc, int page)
         {
-            var trims = new double[] { 0, 0, 0, 0 };
-            var media = new double[] { 0, 0, 0, 0 };
-
+            var mediaRaw = new double[4];
             for (int i = 0; i < 4; i++)
             {
-                media[i] = p.pcos_get_number(doc, $"pages[{page}]/MediaBox[{i}]");
+                mediaRaw[i] = p.pcos_get_number(doc, $"pages[{page}]/MediaBox[{i}]");
             }
 
-            string trimtype = p.pcos_get_string(doc, $"type:pages[{page}]/TrimBox");
+            var media = NormalizeBox(mediaRaw);
+            var trim = ReadNormalizedBox(p, doc, page, "TrimBox", mediaRaw);
 
-            if (string.Equals(trimtype, "array", System.StringComparison.OrdinalIgnoreCase))
+            return new Box
             {
-                for (int i = 0; i < 4; i++)
-                {
-                    trims[i] = p.pcos_get_number(doc, $"pages[{page}]/TrimBox[{i}]");
-                }
-            }
-            else
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    trims[i] = media[i];
-                }
-            }
-
-            return new Box()
-            {
-                left = trims[0] - media[0],
-                bottom = trims[1] - media[1],
-                width = trims[2] - trims[0],
-                height = trims[3] - trims[1],
-                top = media[3] - trims[3],
-                right = media[2] - trims[2],
+                left = trim.left - media.left,
+                bottom = trim.bottom - media.bottom,
+                width = trim.right - trim.left,
+                height = trim.top - trim.bottom,
+                right = media.right - trim.right,
+                top = media.top - trim.top
             };
         }
+
 
 
         public static List<PdfPageInfo> GetPagesInfo(string filePath)
@@ -170,7 +184,7 @@ namespace JobSpace.Static.Pdf.Common
                 int pageCnt = (int)p.pcos_get_number(indoc, "length:pages");
 
                 int i = pageIdx;
-                var info = new PdfPageInfo();
+                //var info = new PdfPageInfo();
 
                 int page = p.open_pdi_page(indoc, i + 1, "");
 
@@ -178,14 +192,12 @@ namespace JobSpace.Static.Pdf.Common
 
                 if (string.Equals(rotated, "number", System.StringComparison.OrdinalIgnoreCase))
                 {
-                    info.Rotate = p.pcos_get_number(indoc, $"pages[{i}]/Rotate");
+                    pdfPageInfo.Rotate = p.pcos_get_number(indoc, $"pages[{i}]/Rotate");
                 }
 
                 Boxes boxes = GetBoxes(p, indoc, pageIdx);
-                info.Mediabox = boxes.Media;
-                info.Trimbox = boxes.Trim;
-
-                pdfPageInfo = info;
+                pdfPageInfo.Mediabox = boxes.Media;
+                pdfPageInfo.Trimbox = boxes.Trim;
 
                 p.close_pdi_page(page);
 
