@@ -12,6 +12,7 @@ using JobSpace.Models;
 using JobSpace.Static;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.UserForms;
+using JobSpace.UserForms.PDF;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace JobSpace.UC
     public sealed partial class UCFileBrowser : UserControl, IFileBrowser
     {
         private const string LOADING = "завантаження...";
+        private const string PdfToolUsageMenuItemName = "pdfToolUsageStatsToolStripMenuItem";
         private static readonly object PdfToolUsageSync = new object();
         Dictionary<string, ToolStripMenuItem> menuCache = new Dictionary<string, ToolStripMenuItem>(StringComparer.InvariantCultureIgnoreCase);
         private IUserProfile UserProfile { get; set; }
@@ -112,6 +114,14 @@ namespace JobSpace.UC
 
                 toolbarMenu.Items.Add(item);
             }
+
+            if (toolbarMenu.Items.Count > 0)
+                toolbarMenu.Items.Add(new ToolStripSeparator());
+
+            var usageItem = new ToolStripMenuItem("Статистика використання PDF-утиліт...");
+            usageItem.Name = PdfToolUsageMenuItemName;
+            usageItem.Click += PdfToolUsageMenuItem_Click;
+            toolbarMenu.Items.Add(usageItem);
         }
         
         void BuildToolbar(List<ToolInfo> tools, IToolbarSettings settings)
@@ -222,7 +232,26 @@ namespace JobSpace.UC
                     parent.DropDownItems.Add(new ToolStripSeparator());
 
             }
+            EnsurePdfToolUsageMenuItem();
             BuildToolbar(tools, _fileManager.LoadToolbarSettings());
+        }
+
+        private void EnsurePdfToolUsageMenuItem()
+        {
+            if (утилітиДляPDFToolStripMenuItem.DropDownItems
+                .OfType<ToolStripItem>()
+                .Any(x => x.Name == PdfToolUsageMenuItemName))
+            {
+                return;
+            }
+
+            if (утилітиДляPDFToolStripMenuItem.DropDownItems.Count > 0)
+                утилітиДляPDFToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
+
+            var item = new ToolStripMenuItem("Статистика використання PDF-утиліт...");
+            item.Name = PdfToolUsageMenuItemName;
+            item.Click += PdfToolUsageMenuItem_Click;
+            утилітиДляPDFToolStripMenuItem.DropDownItems.Add(item);
         }
         string iconsPath = Path.Combine(Application.StartupPath, "db", "resources", "pdftool_icons");
         Dictionary<string, Image> iconCache = new Dictionary<string, Image>();
@@ -317,6 +346,27 @@ namespace JobSpace.UC
             catch (Exception ex)
             {
                 Debug.WriteLine($"Pdf tool usage tracking failed: {ex}");
+            }
+        }
+
+        private PdfToolUsageStats LoadPdfToolUsageStats()
+        {
+            try
+            {
+                return UserProfile.LoadSettings<PdfToolUsageStats>() ?? new PdfToolUsageStats();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Pdf tool usage stats loading failed: {ex}");
+                return new PdfToolUsageStats();
+            }
+        }
+
+        private void PdfToolUsageMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var form = new FormPdfToolUsageStats(_fileManager.LoadPdfTools(), LoadPdfToolUsageStats(), GetToolIcon))
+            {
+                form.ShowDialog(this);
             }
         }
 

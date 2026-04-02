@@ -619,6 +619,9 @@
     <Compile Include="UserForms\PDF\FormSpotColorRenamer.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UserForms\PDF\FormPdfToolUsageStats.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UserForms\PDF\FormSpotColorRenamer.Designer.cs">
       <DependentUpon>FormSpotColorRenamer.cs</DependentUpon>
     </Compile>
