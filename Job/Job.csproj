@@ -604,6 +604,12 @@
     <Compile Include="UserForms\FormEnterTirag.Designer.cs">
       <DependentUpon>FormEnterTirag.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForms\PDF\FormCreateNumericFiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateNumericFiles.Designer.cs">
+      <DependentUpon>FormCreateNumericFiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserForms\PDF\FormPdfCreateQRCode.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1284,6 +1290,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\FormEnterTirag.resx">
       <DependentUpon>FormEnterTirag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateNumericFiles.resx">
+      <DependentUpon>FormCreateNumericFiles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserForms\PDF\FormPdfCreateQRCode.resx">
       <DependentUpon>FormPdfCreateQRCode.cs</DependentUpon>
