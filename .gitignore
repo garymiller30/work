@@ -263,3 +263,4 @@ __pycache__/
 !needForWork/
 /!needForWork/rabbitmq.txt
 /!needForWork
+/tmp

@@ -34,6 +34,7 @@ namespace JobSpace.UC
     public sealed partial class UCFileBrowser : UserControl, IFileBrowser
     {
         private const string LOADING = "завантаження...";
+        private static readonly object PdfToolUsageSync = new object();
         Dictionary<string, ToolStripMenuItem> menuCache = new Dictionary<string, ToolStripMenuItem>(StringComparer.InvariantCultureIgnoreCase);
         private IUserProfile UserProfile { get; set; }
 
@@ -276,14 +277,49 @@ namespace JobSpace.UC
             {
                 BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask(toolInfo.Meta.MenuPath, new Action(() =>
                 {
+                    TrackPdfToolUsage(toolInfo);
                     tool.Execute(context);
                 })));
             }
             else
             {
+                TrackPdfToolUsage(toolInfo);
                 tool.Execute(context);
             }
         }
+
+        private void TrackPdfToolUsage(ToolInfo toolInfo)
+        {
+            try
+            {
+                lock (PdfToolUsageSync)
+                {
+                    var settings = UserProfile.LoadSettings<PdfToolUsageStats>() ?? new PdfToolUsageStats();
+                    var toolKey = toolInfo.ToolType.FullName ?? toolInfo.ToolType.Name;
+
+                    if (!settings.Tools.TryGetValue(toolKey, out var item) || item == null)
+                    {
+                        item = new PdfToolUsageItem
+                        {
+                            ToolType = toolKey
+                        };
+                    }
+
+                    item.Name = toolInfo.Meta?.Name ?? toolInfo.ToolType.Name;
+                    item.MenuPath = toolInfo.Meta?.MenuPath;
+                    item.LaunchCount++;
+                    item.LastStartedUtc = DateTime.UtcNow;
+
+                    settings.Tools[toolKey] = item;
+                    UserProfile.SaveSettings(settings);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Pdf tool usage tracking failed: {ex}");
+            }
+        }
+
         public PdfJobContext CreateContext()
         {
             return new PdfJobContext

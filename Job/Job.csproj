@@ -695,6 +695,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\CategoryToCustomer.cs" />
     <Compile Include="Models\PdfEmptyTemplate.cs" />
+    <Compile Include="Models\PdfToolUsageStats.cs" />
     <Compile Include="ModelView\CategoryToCustomerView.cs" />
     <Compile Include="Plugins\AbstractPluginAddWork.cs" />
     <Compile Include="Plugins\AbstractProcess.cs" />

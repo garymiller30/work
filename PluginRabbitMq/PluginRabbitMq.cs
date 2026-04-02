@@ -3,6 +3,7 @@ using EasyNetQ.Consumer;
 using EasyNetQ.SystemMessages;
 using EasyNetQ.Topology;
 using Interfaces;
+using Interfaces.Profile;
 using Interfaces.MQ;
 using Interfaces.Plugins;
 using Logger;
