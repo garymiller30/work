@@ -292,83 +292,48 @@ namespace ActiveWorks
             {
                 TextLine1 = @"Основні",
                 ImageLarge = Resources.Apps_preferences_icon,
-                ImageSmall = Resources.Apps_preferences_icon
-
+                ImageSmall = Resources.Apps_preferences_icon,
+                ButtonType = GroupButtonType.DropDown
             };
-            button.Click += (sender, args) =>
+
+            var settingsMenu = new KryptonContextMenu();
+            settingsMenu.Items.Add(new KryptonContextMenuItems(new KryptonContextMenuItemBase[]
             {
-                using (var s = new FormSettings((JobSpace.Profiles.Profile)(_activeProfileTab)?.Tag))
+                new KryptonContextMenuItem(@"Основні", Resources.Apps_preferences_icon, (sender, args) =>
                 {
-                    s.ShowDialog();
-                    ApplySettings();
-                }
-            };
-            groupTriple.Items.Add(button);
-
-            // -----------------------------------------------
-            button = new KryptonRibbonGroupButton
-            {
-                TextLine1 = @"Замовники",
-                ImageLarge = Resources.user_settings_icon_big,
-                ImageSmall = Resources.user_settings_icon_small
-            };
-            button.Click += (sender, args) =>
-            {
-                using (var c = new FormCustomers(profile))
+                    using (var s = new FormSettings((JobSpace.Profiles.Profile)(_activeProfileTab)?.Tag))
+                    {
+                        s.ShowDialog();
+                        ApplySettings();
+                    }
+                }),
+                new KryptonContextMenuItem(@"Замовники", Resources.user_settings_icon_small, (sender, args) =>
                 {
-                    c.ShowDialog();
-                }
-            };
-            groupTriple.Items.Add(button);
+                    using (var c = new FormCustomers(profile))
+                    {
+                        c.ShowDialog();
+                    }
+                }),
+                new KryptonContextMenuItem(@"Логи", Resources.file_extension_log_icon, (sender, args) =>
+                {
+                    Log.ShowWindow();
+                }),
+                new KryptonContextMenuSeparator(),
+                new KryptonContextMenuItem(@"Save Layout", Resources.window_layout_icon_small, (sender, args) =>
+                {
+                    formProfile.SaveLayout();
+                }),
+                new KryptonContextMenuItem(@"Reset Layout", Resources.layout_reset_window_icon, (sender, args) =>
+                {
+                    formProfile.ResetLayout();
+                    _profileTabs.Remove((FormProfile)formProfile);
+                    kryptonRibbon1.RibbonTabs.Remove(tab);
+                    CreateProfileTab((JobSpace.Profiles.Profile)((FormProfile)formProfile).Tag);
+                })
+            }));
 
-            // -----------------------------------------------
-            button = new KryptonRibbonGroupButton
-            {
-                TextLine1 = @"Логи",
-                ImageLarge = Resources.file_extension_log_icon,
-                ImageSmall = Resources.file_extension_log_icon
-            };
-            button.Click += (sender, args) =>
-            {
-                Log.ShowWindow();
-            };
+            button.KryptonContextMenu = settingsMenu;
             groupTriple.Items.Add(button);
-
-
-            group.Items.Add(groupTriple);
-            // -----------------------------------------------
-            groupTriple = new KryptonRibbonGroupTriple();
-
-            button = new KryptonRibbonGroupButton
-            {
-                TextLine1 = @"Save Layout",
-                ImageLarge = Resources.window_layout_icon,
-                ImageSmall = Resources.window_layout_icon_small
-            };
-            button.Click += (sender, args) =>
-            {
-                
-                formProfile.SaveLayout();
-            };
-            groupTriple.Items.Add(button);
-            button = new KryptonRibbonGroupButton
-            {
-                TextLine1 = @"Reset Layout",
-                ImageLarge = Resources.layout_reset_window_icon,
-                ImageSmall = Resources.layout_reset_window_icon
-            };
-            button.Click += (sender, args) =>
-            {
-                formProfile.ResetLayout();
-                _profileTabs.Remove((FormProfile)formProfile);
-                kryptonRibbon1.RibbonTabs.Remove(tab);
-                CreateProfileTab((JobSpace.Profiles.Profile)((FormProfile)formProfile).Tag);
-            };
-            groupTriple.Items.Add(button);
-            //// --- Theme switcher button ---
-            //button = new KryptonRibbonGroupButton { TextLine1 = @"Змінити тему"};
-            //button.Click += (sender, args) => ThemeController.SwitchTheme();
-            //groupTriple.Items.Add(button);
             group.Items.Add(groupTriple);
 
         }
