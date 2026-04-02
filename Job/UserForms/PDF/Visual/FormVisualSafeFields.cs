@@ -7,9 +7,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace JobSpace.UserForms.PDF.Visual
@@ -52,18 +54,35 @@ namespace JobSpace.UserForms.PDF.Visual
 
             if (cb_spread.Checked && pageNo % 2 == 0)
             {
-                (left,right) = (right, left);
+                (left, right) = (right, left);
             }
 
 
             if (left != 0)
             {
+                float w = (float)left;
+                float h = (float)box.Trimbox.hMM();
+
+                //using (var bmp = new Bitmap((int)w, (int)h))
+                //{
+                //    using (var g = Graphics.FromImage(bmp))
+                //    {
+                //        RectangleF rect = new RectangleF(0, 0, w, h);
+                //        using (LinearGradientBrush brush = new LinearGradientBrush(
+                //            rect,
+                //            Color.FromArgb(60, 0, 0, 0), // Solid Blue
+                //            Color.FromArgb(0, 0, 0, 0),   // Transparent Blue
+                //            LinearGradientMode.Horizontal))
+                //        {
+                //            g.FillRectangle(brush, rect);
+                //        }
+
+                //    }
+                //    _primitives.Add(new ScreenImage(new Bitmap(bmp), 0, 0, w, h));
+                //}
+
                 _primitives.Add(new ScreenFillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(64, 255, 0, 0)),
-                   x: 0,
-                   y: 0,
-                    (float)left,
-                   (float)box.Trimbox.hMM()
-                  ));
+                   x: 0,y: 0,w,h));
             }
             if (right != 0)
             {
