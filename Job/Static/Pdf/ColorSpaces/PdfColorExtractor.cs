@@ -11,6 +11,30 @@ namespace JobSpace.Static.Pdf.ColorSpaces
 {
     public class PdfColorExtractor
     {
+        public static List<string> ExtractColorsFromPage(PdfPage page)
+        {
+            List<string> colors = new List<string>();
+
+            if (page == null)
+            {
+                return colors;
+            }
+
+            try
+            {
+                ColorExtractionListener listener = new ColorExtractionListener();
+                PdfCanvasProcessor processor = new PdfCanvasProcessor(listener);
+                processor.ProcessPageContent(page);
+                colors.AddRange(listener.GetUniqueColors());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Сталася помилка під час обробки сторінки PDF: {ex.Message}");
+            }
+
+            return colors;
+        }
+
         public static List<string> ExtractColorsFromPage(string pdfPath, int pageNumber)
         {
             List<string> colors = new List<string>();
@@ -27,18 +51,7 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                 }
 
                 PdfPage page = pdfDoc.GetPage(pageNumber);
-
-                // Створюємо наш слухач
-                ColorExtractionListener listener = new ColorExtractionListener();
-
-                // Створюємо процесор для аналізу сторінки
-                PdfCanvasProcessor processor = new PdfCanvasProcessor(listener);
-
-                // Обробляємо вміст сторінки
-                processor.ProcessPageContent(page);
-
-                // Отримуємо унікальні кольори, знайдені слухачем
-                colors.AddRange(listener.GetUniqueColors());
+                colors.AddRange(ExtractColorsFromPage(page));
             }
             catch (IOException ioEx)
             {
