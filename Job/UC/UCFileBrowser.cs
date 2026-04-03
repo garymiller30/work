@@ -4,7 +4,6 @@ using ExtensionMethods;
 using FtpClient;
 using Interfaces;
 using Interfaces.FileBrowser;
-using Interfaces.PdfUtils;
 using Interfaces.Plugins;
 using Interfaces.Profile;
 using JobSpace.Menus;
@@ -23,7 +22,6 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -426,9 +424,51 @@ namespace JobSpace.UC
                 var spaces = ((IFileSystemInfoExt)r).UsedColors;
                 if (spaces == null || spaces.Count == 0) return string.Empty;
 
-                return string.Join(", ", spaces);
+                var colors = spaces.ToList();
+                return $"({GetTotalColorCount(colors)}) {string.Join(", ", colors)}";
             };
 
+        }
+
+        private static int GetTotalColorCount(IEnumerable<string> colors)
+        {
+            if (colors == null)
+            {
+                return 0;
+            }
+
+            int count = 0;
+
+            foreach (var color in colors.Where(c => !string.IsNullOrWhiteSpace(c)))
+            {
+                if (IsCompactProcessColor(color))
+                {
+                    count += color.Count(ch => ch == 'C' || ch == 'M' || ch == 'Y' || ch == 'K');
+                    continue;
+                }
+
+                count++;
+            }
+
+            return count;
+        }
+
+        private static bool IsCompactProcessColor(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return false;
+            }
+
+            foreach (var ch in value)
+            {
+                if (ch != 'C' && ch != 'M' && ch != 'Y' && ch != 'K')
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         #region [FILE MANAGER]

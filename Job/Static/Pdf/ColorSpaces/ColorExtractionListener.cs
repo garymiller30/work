@@ -48,13 +48,94 @@ namespace JobSpace.Static.Pdf.ColorSpaces
 
                 if (imageObject == null) return;
 
+                var colorSpace = imageObject.GetPdfObject().Get(PdfName.ColorSpace);
+                ProcessColorSpaceObject(colorSpace, "Image");
+            }
+        }
 
-                // With the following code:
-                var colorSpace = imageObject.GetPdfObject().GetAsName(PdfName.ColorSpace);
-                if (colorSpace != null)
-                {
-                    ProcessColorSpace(colorSpace, "Image");
-                }
+        private void ProcessColorSpaceObject(PdfObject colorSpace, string usageType)
+        {
+            if (colorSpace == null) return;
+
+            if (colorSpace.IsIndirectReference())
+            {
+                ProcessColorSpaceObject(((PdfIndirectReference)colorSpace).GetRefersTo(), usageType);
+                return;
+            }
+
+            if (colorSpace.IsName())
+            {
+                ProcessColorSpace((PdfName)colorSpace, usageType);
+                return;
+            }
+
+            if (!colorSpace.IsArray())
+            {
+                return;
+            }
+
+            var array = (PdfArray)colorSpace;
+            if (array.Size() == 0)
+            {
+                return;
+            }
+
+            var first = array.Get(0);
+            if (first == null)
+            {
+                return;
+            }
+
+            if (first.IsIndirectReference())
+            {
+                first = ((PdfIndirectReference)first).GetRefersTo();
+            }
+
+            if (!(first is PdfName firstName))
+            {
+                return;
+            }
+
+            var colorSpaceName = firstName.GetValue();
+            switch (colorSpaceName)
+            {
+                case "Separation":
+                    var separationName = array.GetAsName(1)?.GetValue();
+                    if (!string.IsNullOrWhiteSpace(separationName))
+                    {
+                        _uniqueColors.Add(separationName.TrimStart('/'));
+                    }
+                    break;
+                case "DeviceN":
+                    var names = array.GetAsArray(1);
+                    if (names != null)
+                    {
+                        for (int i = 0; i < names.Size(); i++)
+                        {
+                            var colorName = names.GetAsName(i)?.GetValue();
+                            if (!string.IsNullOrWhiteSpace(colorName))
+                            {
+                                _uniqueColors.Add(colorName.TrimStart('/'));
+                            }
+                        }
+                    }
+                    break;
+                case "ICCBased":
+                    var profile = array.GetAsStream(1);
+                    var components = profile?.GetAsNumber(PdfName.N)?.IntValue();
+                    var iccProfileLabel = GetIccProfileLabel(components);
+                    if (!string.IsNullOrWhiteSpace(iccProfileLabel))
+                    {
+                        _uniqueColors.Add(iccProfileLabel);
+                    }
+                    if (components == 1)
+                    {
+                        _uniqueColors.Add("K");
+                    }
+                    break;
+                default:
+                    ProcessColorSpace(firstName, usageType);
+                    break;
             }
         }
 
@@ -68,14 +149,15 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                 switch (colorSpaceRepresentation)
                 {
                     case "/DeviceRGB":
-                        _uniqueColors.Add("RGB");
+                        if (string.Equals(usageType, "Image", StringComparison.OrdinalIgnoreCase))
+                        {
+                            _uniqueColors.Add("RGB");
+                        }
                         break;
-                    case "/DeviceCMYK":
-                        _uniqueColors.Add("CMYK");
+                    case "/DeviceGray":
+                        _uniqueColors.Add("K");
                         break;
                     default:
-                        // Можна додати інші колірні простори, якщо потрібно
-                        _uniqueColors.Add(colorSpaceRepresentation);
                         break;
                 }
 
@@ -86,12 +168,48 @@ namespace JobSpace.Static.Pdf.ColorSpaces
         {
             if (color == null) return; // Колір може бути не встановлений
 
+            if (TryAddProcessColorComponents(color))
+            {
+                return;
+            }
+
             string colorRepresentation = GetColorRepresentation(color);
             if (colorRepresentation != null)
             {
                 _uniqueColors.Add(colorRepresentation);
             }
         }
+
+        private bool TryAddProcessColorComponents(iText.Kernel.Colors.Color color)
+        {
+            var cs = color.GetColorSpace();
+            var components = color.GetColorValue();
+
+            switch (cs.GetType().Name)
+            {
+                case "Gray":
+                case nameof(iText.Kernel.Colors.CalGray):
+                case nameof(DeviceGray):
+                    _uniqueColors.Add("K");
+                    return true;
+                case "Rgb":
+                case nameof(iText.Kernel.Colors.CalRgb):
+                case nameof(DeviceRgb):
+                    _uniqueColors.Add("RGB");
+                    return true;
+                case "Cmyk":
+                case nameof(DeviceCmyk):
+                    const float epsilon = 0.0001f;
+                    if (components.Length > 0 && components[0] > epsilon) _uniqueColors.Add("Cyan");
+                    if (components.Length > 1 && components[1] > epsilon) _uniqueColors.Add("Magenta");
+                    if (components.Length > 2 && components[2] > epsilon) _uniqueColors.Add("Yellow");
+                    if (components.Length > 3 && components[3] > epsilon) _uniqueColors.Add("K");
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         private string GetColorRepresentation(iText.Kernel.Colors.Color color)
         {
 
@@ -110,13 +228,9 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                 case "Rgb":
                 case nameof(iText.Kernel.Colors.CalRgb):
                 case nameof(DeviceRgb):
-                    sb.Append("RGB");
-                    //sb.Append($"RGB({components[0]:F3}, {components[1]:F3}, {components[2]:F3})");
                     break;
                 case "Cmyk":
                 case nameof(DeviceCmyk):
-                    sb.Append("CMYK");
-                    //sb.Append($"CMYK({components[0]:F3}, {components[1]:F3}, {components[2]:F3}, {components[3]:F3})");
                     break;
 
                 case nameof(PdfSpecialCs.Separation):
@@ -129,11 +243,6 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                     break;
 
                 case nameof(PdfSpecialCs.Indexed):
-                    // Indexed кольори посилаються на палітру. Отримати конкретний колір з палітри складніше.
-                    // Можна просто записати індекс.
-                    sb.Append("Indexed");
-                    //sb.Append($"Indexed(Index: {(int)components[0]})");
-                    // Для повного аналізу потрібно було б знайти PdfArray палітри і отримати звідти базовий колір.
                     break;
 
                 case nameof(PdfSpecialCs.Pattern):
@@ -169,23 +278,25 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                     //sb.Append($"Lab({components[0]:F3}, {components[1]:F3}, {components[2]:F3})");
                     break;
                 case nameof(iText.Kernel.Pdf.Colorspace.PdfCieBasedCs.IccBased):
-                    //var (iccProfileInfo, profileExists) = CheckICCBasedProfile(cs);
+                    var iccProfileColorLabel = GetIccProfileLabel(components.Length);
+                    if (!string.IsNullOrWhiteSpace(iccProfileColorLabel))
+                    {
+                        sb.Append(iccProfileColorLabel);
+                    }
 
-                    //Console.WriteLine($"iccProfileInfo: {iccProfileInfo}, Exist: {profileExists}");
-                    sb.Append("ICCBased");
-                    //sb.Append($"ICCBased(");
-                    //for (int i = 0; i < components.Length; ++i)
-                    //{
-                    //    sb.Append($"{components[i]:F3}");
-                    //    if (i < components.Length - 1) sb.Append(", ");
-                    //}
-                    //sb.Append(")");
+                    if (components.Length == 1)
+                    {
+                        if (sb.Length > 0)
+                        {
+                            _uniqueColors.Add(sb.ToString());
+                            sb.Clear();
+                        }
+
+                        sb.Append("K");
+                    }
                     break;
                 case nameof(PdfSpecialCs.DeviceN):
                 default:
-                    sb.Append("Unknown");
-                    // Невідомий або непідтримуваний колірний простір
-                    //sb.Append($"Unknown({cs.GetType().Name}, Components: {string.Join(", ", components.Select(c => c.ToString("F3")))})");
                     break;
             }
 
@@ -194,6 +305,22 @@ namespace JobSpace.Static.Pdf.ColorSpaces
 
             return sb.Length > 0 ? sb.ToString() : null;
         }
+
+        private static string GetIccProfileLabel(int? components)
+        {
+            switch (components)
+            {
+                case 4:
+                    return "ICC Profile (CMYK)";
+                case 3:
+                    return "ICC Profile (RGB)";
+                case 1:
+                    return "ICC Profile (Gray)";
+                default:
+                    return null;
+            }
+        }
+
         public ICollection<EventType> GetSupportedEvents()
         {
             // Повертаємо null, щоб отримувати всі типи подій, або вказуємо конкретні:
