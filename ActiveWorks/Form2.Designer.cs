@@ -40,12 +40,11 @@
             // 
             // kryptonRibbon1
             // 
-            this.kryptonRibbon1.AllowFormIntegrate = true;
             this.kryptonRibbon1.InDesignHelperMode = true;
             this.kryptonRibbon1.Name = "kryptonRibbon1";
             this.kryptonRibbon1.QATUserChange = false;
-            this.kryptonRibbon1.RibbonAppButton.AppButtonShowRecentDocs = false;
-            this.kryptonRibbon1.RibbonAppButton.AppButtonVisible = false;
+            this.kryptonRibbon1.RibbonFileAppButton.AppButtonShowRecentDocs = false;
+            this.kryptonRibbon1.RibbonFileAppButton.AppButtonVisible = false;
             this.kryptonRibbon1.SelectedTab = null;
             this.kryptonRibbon1.Size = new System.Drawing.Size(800, 112);
             this.kryptonRibbon1.TabIndex = 0;
@@ -82,7 +81,6 @@
             this.ButtonSpecs.Add(this.buttonSpecBackgroundTasks);
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.kryptonRibbon1);
-            this.CornerRoundingRadius = 0F;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "Form2";

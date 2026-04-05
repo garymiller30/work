@@ -76,7 +76,6 @@
             // 
             // kryptonButtonOk
             // 
-            this.kryptonButtonOk.CornerRoundingRadius = -1F;
             this.kryptonButtonOk.Location = new System.Drawing.Point(429, 340);
             this.kryptonButtonOk.Name = "kryptonButtonOk";
             this.kryptonButtonOk.Size = new System.Drawing.Size(170, 46);

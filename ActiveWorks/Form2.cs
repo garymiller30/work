@@ -35,8 +35,6 @@ namespace ActiveWorks
         public Form2()
         {
             InitializeComponent();
-            kryptonRibbon1.AllowFormIntegrate = false;
-
             string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             Text = $"{Localize.FormTitle} {assemblyVersion}";
