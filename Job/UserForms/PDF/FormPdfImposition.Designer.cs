@@ -183,21 +183,12 @@
             // pg_Parameters2
             // 
             this.pg_Parameters2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.pg_Parameters2.CategoryForeColor = System.Drawing.Color.White;
-            this.pg_Parameters2.CommandsBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.pg_Parameters2.CommandsForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.pg_Parameters2.DisabledItemForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             this.pg_Parameters2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pg_Parameters2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.pg_Parameters2.HelpBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.pg_Parameters2.HelpForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.pg_Parameters2.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(196)))), ((int)(((byte)(216)))));
             this.pg_Parameters2.Location = new System.Drawing.Point(3, 16);
             this.pg_Parameters2.Name = "pg_Parameters2";
             this.pg_Parameters2.Size = new System.Drawing.Size(196, 188);
             this.pg_Parameters2.TabIndex = 1;
-            this.pg_Parameters2.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.pg_Parameters2.ViewForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             this.pg_Parameters2.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pg_Parameters_PropertyValueChanged);
             // 
             // panel2

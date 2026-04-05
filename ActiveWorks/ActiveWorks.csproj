@@ -180,20 +180,20 @@
     <Reference Include="IronPython.Wpf, Version=2.7.12.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\packages\IronPython.2.7.12\lib\net45\IronPython.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="Krypton.Docking, Version=80.24.3.64, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Docking.80.24.3.64\lib\net48\Krypton.Docking.dll</HintPath>
+    <Reference Include="Krypton.Docking, Version=100.26.1.19, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Krypton.Docking.100.26.1.19\lib\net48\Krypton.Docking.dll</HintPath>
     </Reference>
-    <Reference Include="Krypton.Navigator, Version=80.24.3.64, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Navigator.80.24.3.64\lib\net48\Krypton.Navigator.dll</HintPath>
+    <Reference Include="Krypton.Navigator, Version=100.26.1.19, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Krypton.Navigator.100.26.1.19\lib\net48\Krypton.Navigator.dll</HintPath>
     </Reference>
-    <Reference Include="Krypton.Ribbon, Version=80.24.3.64, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Ribbon.80.24.3.64\lib\net48\Krypton.Ribbon.dll</HintPath>
+    <Reference Include="Krypton.Ribbon, Version=100.26.1.19, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Krypton.Ribbon.100.26.1.19\lib\net48\Krypton.Ribbon.dll</HintPath>
     </Reference>
-    <Reference Include="Krypton.Toolkit, Version=80.24.3.64, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Toolkit.80.24.3.64\lib\net48\Krypton.Toolkit.dll</HintPath>
+    <Reference Include="Krypton.Toolkit, Version=100.26.1.19, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Krypton.Toolkit.100.26.1.19\lib\net48\Krypton.Toolkit.dll</HintPath>
     </Reference>
-    <Reference Include="Krypton.Workspace, Version=80.24.3.64, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Krypton.Workspace.80.24.3.64\lib\net48\Krypton.Workspace.dll</HintPath>
+    <Reference Include="Krypton.Workspace, Version=100.26.1.19, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Krypton.Workspace.100.26.1.19\lib\net48\Krypton.Workspace.dll</HintPath>
     </Reference>
     <Reference Include="Magick.NET-Q16-AnyCPU, Version=14.10.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
       <HintPath>..\packages\Magick.NET-Q16-AnyCPU.14.10.4\lib\netstandard20\Magick.NET-Q16-AnyCPU.dll</HintPath>

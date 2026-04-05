@@ -83,7 +83,6 @@
             // 
             // kryptonButton1
             // 
-            this.kryptonButton1.CornerRoundingRadius = 5F;
             this.kryptonButton1.Location = new System.Drawing.Point(322, 444);
             this.kryptonButton1.Name = "kryptonButton1";
             this.kryptonButton1.Size = new System.Drawing.Size(162, 39);
@@ -154,7 +153,6 @@
             // 
             // kryptonButtonFind
             // 
-            this.kryptonButtonFind.CornerRoundingRadius = 5F;
             this.kryptonButtonFind.Location = new System.Drawing.Point(13, 113);
             this.kryptonButtonFind.Name = "kryptonButtonFind";
             this.kryptonButtonFind.Size = new System.Drawing.Size(162, 39);
@@ -168,7 +166,6 @@
             // 
             // kryptonButtonCheckTemplate
             // 
-            this.kryptonButtonCheckTemplate.CornerRoundingRadius = 5F;
             this.kryptonButtonCheckTemplate.Location = new System.Drawing.Point(322, 113);
             this.kryptonButtonCheckTemplate.Name = "kryptonButtonCheckTemplate";
             this.kryptonButtonCheckTemplate.Size = new System.Drawing.Size(162, 39);

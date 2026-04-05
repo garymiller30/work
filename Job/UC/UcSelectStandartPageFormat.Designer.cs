@@ -38,7 +38,6 @@
             // 
             // kryptonComboBoxNumber
             // 
-            this.kryptonComboBoxNumber.CornerRoundingRadius = -1F;
             this.kryptonComboBoxNumber.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.kryptonComboBoxNumber.DropDownWidth = 30;
             this.kryptonComboBoxNumber.IntegralHeight = false;
@@ -50,7 +49,6 @@
             // 
             // kryptonComboBox_Serial
             // 
-            this.kryptonComboBox_Serial.CornerRoundingRadius = -1F;
             this.kryptonComboBox_Serial.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.kryptonComboBox_Serial.DropDownWidth = 30;
             this.kryptonComboBox_Serial.IntegralHeight = false;
