@@ -45,6 +45,7 @@
             this.kryptonRibbon1.QATUserChange = false;
             this.kryptonRibbon1.RibbonFileAppButton.AppButtonShowRecentDocs = false;
             this.kryptonRibbon1.RibbonFileAppButton.AppButtonVisible = false;
+            this.kryptonRibbon1.RibbonFileAppButton.FormCloseBoxVisible = true;
             this.kryptonRibbon1.SelectedTab = null;
             this.kryptonRibbon1.Size = new System.Drawing.Size(800, 112);
             this.kryptonRibbon1.TabIndex = 0;
