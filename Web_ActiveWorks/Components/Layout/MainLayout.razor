@@ -1,0 +1,26 @@
+@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row">
+            <div>
+                <div class="top-row-title">Web ActiveWorks</div>
+                <div class="top-row-subtitle">Blazor-портал для перегляду замовлень по профілях</div>
+            </div>
+        </div>
+
+        <article class="content">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    Виникла помилка під час роботи сторінки.
+    <a href="." class="reload">Оновити</a>
+    <span class="dismiss">🗙</span>
+</div>

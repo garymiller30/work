@@ -1,0 +1,204 @@
+@page "/admin"
+@attribute [Authorize(Roles = Roles.Admin)]
+@rendermode InteractiveServer
+@inject WebAccessSettingsStore SettingsStore
+@inject MongoProfileDataService MongoProfileDataService
+
+<PageTitle>Адміністрування</PageTitle>
+
+<div class="page-header">
+    <div>
+        <h1>Адміністрування доступів</h1>
+        <p class="page-subtitle">Тут задаються користувачі, які бачать сторінку робіт, і статуси, доступні кожному окремо.</p>
+    </div>
+    <button class="primary-action" @onclick="SaveAsync" disabled="@_isSaving">Зберегти</button>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(_message))
+{
+    <div class="alert-panel success-panel">@_message</div>
+}
+
+@if (!string.IsNullOrWhiteSpace(_error))
+{
+    <div class="alert-panel error-panel">@_error</div>
+}
+
+@if (_isLoading)
+{
+    <div class="empty-state">
+        <h2>Завантаження налаштувань</h2>
+        <p>Зчитую конфігурацію користувачів і доступні статуси з профілів…</p>
+    </div>
+}
+else
+{
+    <div class="admin-grid">
+        @foreach (var user in _users)
+        {
+            <section class="admin-card">
+                <div class="admin-card-header">
+                    <div>
+                        <h2>@user.DisplayName</h2>
+                        <div class="admin-meta">@user.Username • @user.ProfileName</div>
+                    </div>
+                    @if (user.IsAdmin)
+                    {
+                        <span class="status-pill">Адміністратор</span>
+                    }
+                </div>
+
+                <label class="checkbox-row">
+                    <input type="checkbox" @bind="user.CanAccessJobsPage" />
+                    Дозволити доступ до сторінки робіт
+                </label>
+
+                @if (!string.IsNullOrWhiteSpace(user.StatusLoadError))
+                {
+                    <div class="alert-panel error-panel small-alert">@user.StatusLoadError</div>
+                }
+                else if (user.AvailableStatuses.Count == 0)
+                {
+                    <div class="helper-note">У профілі не знайдено жодного статусу.</div>
+                }
+                else
+                {
+                    <div class="status-picker-title">Статуси, які бачить користувач</div>
+                    <div class="status-grid">
+                        @foreach (var status in user.AvailableStatuses)
+                        {
+                            <label class="status-check">
+                                <input
+                                    type="checkbox"
+                                    checked="@user.SelectedStatusCodes.Contains(status.Code)"
+                                    @onchange="args => ToggleStatus(user, status.Code, args.Value as bool? == true)" />
+                                <span>@status.Name</span>
+                                <span class="status-code">#@status.Code</span>
+                            </label>
+                        }
+                    </div>
+                }
+            </section>
+        }
+    </div>
+}
+
+@code {
+    private bool _isLoading = true;
+    private bool _isSaving;
+    private string? _message;
+    private string? _error;
+    private WebAccessSettings _settings = new();
+    private List<AdminUserEditorModel> _users = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        _isLoading = true;
+        _message = null;
+        _error = null;
+
+        try
+        {
+            _settings = await SettingsStore.GetAsync();
+            _users = new List<AdminUserEditorModel>();
+
+            foreach (var user in _settings.Users.OrderBy(x => x.Username))
+            {
+                var editor = new AdminUserEditorModel
+                {
+                    Username = user.Username,
+                    DisplayName = string.IsNullOrWhiteSpace(user.DisplayName) ? user.Username : user.DisplayName,
+                    ProfileName = user.ProfileKey,
+                    IsAdmin = user.IsAdmin,
+                    CanAccessJobsPage = user.CanAccessJobsPage,
+                    SelectedStatusCodes = user.VisibleStatusCodes.Distinct().OrderBy(x => x).ToList()
+                };
+
+                var profile = _settings.Profiles.FirstOrDefault(x =>
+                    string.Equals(x.Key, user.ProfileKey, StringComparison.OrdinalIgnoreCase));
+
+                if (profile is null)
+                {
+                    editor.StatusLoadError = $"Профіль '{user.ProfileKey}' не знайдено в конфігурації.";
+                }
+                else
+                {
+                    editor.ProfileName = profile.Name;
+                    try
+                    {
+                        editor.AvailableStatuses = (await MongoProfileDataService.GetStatusesAsync(profile))
+                            .ToList();
+                    }
+                    catch (Exception ex)
+                    {
+                        editor.StatusLoadError = $"Не вдалося завантажити статуси: {ex.Message}";
+                    }
+                }
+
+                _users.Add(editor);
+            }
+        }
+        catch (Exception ex)
+        {
+            _error = $"Не вдалося відкрити налаштування: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void ToggleStatus(AdminUserEditorModel user, int statusCode, bool isChecked)
+    {
+        if (isChecked)
+        {
+            if (!user.SelectedStatusCodes.Contains(statusCode))
+            {
+                user.SelectedStatusCodes.Add(statusCode);
+            }
+        }
+        else
+        {
+            user.SelectedStatusCodes.Remove(statusCode);
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        _isSaving = true;
+        _message = null;
+        _error = null;
+
+        try
+        {
+            foreach (var editor in _users)
+            {
+                var user = _settings.Users.First(x =>
+                    string.Equals(x.Username, editor.Username, StringComparison.OrdinalIgnoreCase));
+
+                user.CanAccessJobsPage = editor.CanAccessJobsPage;
+                user.VisibleStatusCodes = editor.SelectedStatusCodes
+                    .Distinct()
+                    .OrderBy(x => x)
+                    .ToList();
+            }
+
+            await SettingsStore.SaveAsync(_settings);
+            _message = "Налаштування збережено.";
+        }
+        catch (Exception ex)
+        {
+            _error = $"Помилка під час збереження: {ex.Message}";
+        }
+        finally
+        {
+            _isSaving = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

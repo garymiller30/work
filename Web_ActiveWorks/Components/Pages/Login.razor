@@ -1,0 +1,57 @@
+@page "/login"
+@attribute [AllowAnonymous]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<PageTitle>Вхід</PageTitle>
+
+<div class="login-screen">
+    <div class="login-panel">
+        <div class="login-badge">Web ActiveWorks</div>
+        <h1>Вхід у портал</h1>
+
+        @if (IsError)
+        {
+            <div class="alert-panel error-panel">
+                Невірний логін або пароль.
+            </div>
+        }
+
+        <form method="post" action="/account/login" class="login-form">
+            <input type="hidden" name="returnUrl" value="@NormalizedReturnUrl" />
+
+            <label class="field-label">
+                Логін
+                <input class="text-field" type="text" name="username" autocomplete="username" required />
+            </label>
+
+            <label class="field-label">
+                Пароль
+                <input class="text-field" type="password" name="password" autocomplete="current-password" required />
+            </label>
+
+            <button type="submit" class="primary-action wide-button">Увійти</button>
+        </form>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromQuery(Name = "returnUrl")]
+    public string? ReturnUrl { get; set; }
+
+    [SupplyParameterFromQuery(Name = "error")]
+    public string? Error { get; set; }
+
+    private bool IsError => Error == "1";
+
+    private string NormalizedReturnUrl => LoginRequest.NormalizeReturnUrl(ReturnUrl);
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated == true)
+        {
+            NavigationManager.NavigateTo(NormalizedReturnUrl, true);
+        }
+    }
+}

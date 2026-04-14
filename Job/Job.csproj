@@ -1,0 +1,1735 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{20640AA0-AB38-4499-8B96-99143A3B033E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JobSpace</RootNamespace>
+    <AssemblyName>Job</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\Debug\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Optimize>false</Optimize>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.7.303.29\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.SecurityToken, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.SecurityToken.3.7.300.90\lib\net45\AWSSDK.SecurityToken.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.6.2\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Crc32C.NET, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Crc32C.NET.1.0.5.0\lib\net20\Crc32C.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="DnsClient, Version=1.8.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnsClient.1.8.0\lib\net472\DnsClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Ghostscript.NET, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ghostscript.NET.1.3.3\lib\netstandard2.0\Ghostscript.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.barcodes, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.9.6.0\lib\net461\itext.barcodes.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.bouncy-castle-adapter, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.bouncy-castle-adapter.9.6.0\lib\net461\itext.bouncy-castle-adapter.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.bouncy-castle-connector, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.9.6.0\lib\net461\itext.bouncy-castle-connector.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.commons, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.commons.9.6.0\lib\net461\itext.commons.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.forms, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.9.6.0\lib\net461\itext.forms.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.io, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.9.6.0\lib\net461\itext.io.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.kernel, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.9.6.0\lib\net461\itext.kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.layout, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.9.6.0\lib\net461\itext.layout.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.pdfa, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.9.6.0\lib\net461\itext.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.pdfua, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.9.6.0\lib\net461\itext.pdfua.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.sign, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.9.6.0\lib\net461\itext.sign.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.styledxmlparser, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.9.6.0\lib\net461\itext.styledxmlparser.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.svg, Version=9.6.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext.9.6.0\lib\net461\itext.svg.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.5, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.5\lib\net461\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton.Toolkit, Version=100.26.1.19, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Krypton.Toolkit.100.26.1.19\lib\net48\Krypton.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Magick.NET-Q16-AnyCPU, Version=14.11.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.14.11.1\lib\netstandard20\Magick.NET-Q16-AnyCPU.dll</HintPath>
+    </Reference>
+    <Reference Include="Magick.NET.Core, Version=14.11.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET.Core.14.11.1\lib\netstandard20\Magick.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Magick.NET.SystemDrawing, Version=8.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET.SystemDrawing.8.0.19\lib\net462\Magick.NET.SystemDrawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=10.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.10.0.5\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.6.0.0\lib\net462\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.5.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.5, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.5\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.5.0.0\lib\net461\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.8.0.1\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=9.0.0.5, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.9.0.5\lib\net462\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=9.0.0.5, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.9.0.5\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.30.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.30.0\lib\net472\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.29.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.29.0\lib\net472\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.30.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.30.0\lib\net472\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Libmongocrypt, Version=1.12.0.0, Culture=neutral, PublicKeyToken=94992a530f44e321, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Libmongocrypt.1.12.0\lib\net472\MongoDB.Libmongocrypt.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
+      <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
+    </Reference>
+    <Reference Include="Ookii.Dialogs.WinForms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ookii.Dialogs.WinForms.4.0.0\lib\net462\Ookii.Dialogs.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="PDFiumSharp, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFiumSharpV2.1.1.4\lib\netstandard2.0\PDFiumSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PDFlib_dotnet, Version=4.2.0.0, Culture=neutral, PublicKeyToken=af0805f2b25bb299, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_Components\PDFLIB\11.0.0\crack\PDFlib_dotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.7.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.7.0\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress, Version=0.36.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.36.0\lib\net462\SharpCompress.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp, Version=3.119.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\SkiaSharp.3.119.1\lib\net462\SkiaSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Snappier, Version=1.1.6.0, Culture=neutral, PublicKeyToken=a1b25124e6e13a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Snappier.1.1.6\lib\netstandard2.0\Snappier.dll</HintPath>
+    </Reference>
+    <Reference Include="Snappy.NET, Version=1.1.1.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Snappy.NET.1.1.1.8\lib\net45\Snappy.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=10.0.0.5, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.10.0.5\lib\net462\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.8.0.8\lib\net462\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Formats.Nrbf, Version=10.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Formats.Nrbf.10.0.5\lib\net462\System.Formats.Nrbf.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Abstractions, Version=22.0.12.0, Culture=neutral, PublicKeyToken=96bf224d23c43e59, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Abstractions.22.0.12\lib\net472\System.IO.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Pipelines, Version=10.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Pipelines.10.0.5\lib\net462\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata, Version=10.0.0.5, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.Metadata.10.0.5\lib\net462\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.Extensions, Version=10.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Resources.Extensions.10.0.5\lib\net462\System.Resources.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.6.0.1\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Xml, Version=6.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Xml.6.0.2\lib\net461\System.Security.Cryptography.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=9.0.0.6, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.9.0.6\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=10.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.10.0.5\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=10.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.10.0.5\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Channels, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Channels.8.0.0\lib\net462\System.Threading.Channels.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.6.2\lib\net47\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TestableIO.System.IO.Abstractions, Version=22.0.12.0, Culture=neutral, PublicKeyToken=96bf224d23c43e59, processorArchitecture=MSIL">
+      <HintPath>..\packages\TestableIO.System.IO.Abstractions.22.0.12\lib\net472\TestableIO.System.IO.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="TestableIO.System.IO.Abstractions.Wrappers, Version=22.0.12.0, Culture=neutral, PublicKeyToken=96bf224d23c43e59, processorArchitecture=MSIL">
+      <HintPath>..\packages\TestableIO.System.IO.Abstractions.Wrappers.22.0.12\lib\net472\TestableIO.System.IO.Abstractions.Wrappers.dll</HintPath>
+    </Reference>
+    <Reference Include="Testably.Abstractions.FileSystem.Interface, Version=9.0.0.0, Culture=neutral, PublicKeyToken=f24346c8579fcb48, processorArchitecture=MSIL">
+      <HintPath>..\packages\Testably.Abstractions.FileSystem.Interface.9.0.0\lib\netstandard2.0\Testably.Abstractions.FileSystem.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="ZstdSharp, Version=0.7.6.0, Culture=neutral, PublicKeyToken=8d151af33a4ad5cf, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZstdSharp.Port.0.7.6\lib\net462\ZstdSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CachePay.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="Controllers\ISignaController.cs" />
+    <Compile Include="Controllers\SignaChangeOrderNumberParams.cs" />
+    <Compile Include="Controllers\SignaController.cs" />
+    <Compile Include="CustomerCustomFolderPath.cs" />
+    <Compile Include="CustomForms\FormEditStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomForms\FormEditStatus.Designer.cs">
+      <DependentUpon>FormEditStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\MongoRepository.cs" />
+    <Compile Include="Fasades\SearchManager.cs" />
+    <Compile Include="Fasades\ServicesStateManager.cs" />
+    <Compile Include="Models\FileBrowser\ToolbarSettings.cs" />
+    <Compile Include="Models\JobListFilter.cs" />
+    <Compile Include="Models\PantoneTable.cs" />
+    <Compile Include="Models\PdfColorResult.cs" />
+    <Compile Include="Models\PdfDrawer\IPdfDrawer.cs" />
+    <Compile Include="Models\PdfDrawer\PdfDrawerPageCache.cs" />
+    <Compile Include="Models\PdfDrawer\PdfDrawerService.cs" />
+    <Compile Include="Models\PdfDrawer\PdfDrawerSingle.cs" />
+    <Compile Include="Models\PdfDrawer\PdfDrawerSpread.cs" />
+    <Compile Include="Models\PdfPreviewDisplay.cs" />
+    <Compile Include="Models\PdfPreviewParameters.cs" />
+    <Compile Include="Models\ScreenPrimitives\ScreenFillRectangle.cs" />
+    <Compile Include="Models\ScreenPrimitives\ScreenImage.cs" />
+    <Compile Include="Models\ScreenPrimitives\ScreenLine.cs" />
+    <Compile Include="Models\ScreenPrimitives\ScreenRectangle.cs" />
+    <Compile Include="Models\ScreenPrimitives\ScreenText.cs" />
+    <Compile Include="Models\ServiceState.cs" />
+    <Compile Include="Profiles\JobListSettings.cs" />
+    <Compile Include="Profiles\ProfileEvents\ServicesStateEvents.cs" />
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Static\FileBrowserSevices.cs" />
+    <Compile Include="Static\Pdf\Add\PdfAddTrimBox.cs" />
+    <Compile Include="Static\Pdf\Change\PdfSpotColorRenamer.cs" />
+    <Compile Include="Static\Pdf\ColorSpaces\ColorExtractionListener.cs" />
+    <Compile Include="Static\Pdf\ColorSpaces\PdfColorExtractor.cs" />
+    <Compile Include="Static\Pdf\ColorSpaces\SignaColorExtractor.cs" />
+    <Compile Include="Static\Pdf\Common\CreepCalculator.cs" />
+    <Compile Include="Static\Pdf\Common\DirectionEnum.cs" />
+    <Compile Include="Static\Pdf\Common\PaperFormat.cs" />
+    <Compile Include="Static\Pdf\Add\PdfAddFormatToFileName.cs" />
+    <Compile Include="Static\Pdf\Add\PdfAddTirag.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateBarcodeCode128.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateBarcodeEan13.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateQRCode.cs" />
+    <Compile Include="Static\Pdf\Create\PdfNumericFiles.cs" />
+    <Compile Include="Static\Pdf\Imposition\PdfImposition.cs" />
+    <Compile Include="Static\Pdf\Merge\PdfMergeCutAndDocument.cs" />
+    <Compile Include="Static\Pdf\Visual\BigovkaMarks\CreateBigovkaMarks.cs" />
+    <Compile Include="Static\Pdf\Visual\BigovkaMarks\CreateBigovkaMarksParams.cs" />
+    <Compile Include="Static\Pdf\Create\CollatingPageMark\CreateCollatingPageMark.cs" />
+    <Compile Include="Static\Pdf\Create\CollatingPageMark\CreateCollatingPageMarkParams.cs" />
+    <Compile Include="Static\Pdf\Create\CollatingPageMark\PageCollatingMarkPositionEnum.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateCutEllipse.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\DrawParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\GlobalImposParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\ImpositionExtension.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\AutoImpos\AutoImposItem.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposResult.cs" />
+    <Compile Include="Static\Pdf\Visual\Commons\Screen\DrawSpiral.cs" />
+    <Compile Include="Static\Pdf\Visual\Falc\FalcSchema.cs" />
+    <Compile Include="Static\Pdf\Visual\Falc\FalcSchemaParams.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateFillRectangle.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateCutRectangle.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateFillRectangleParams.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\DrawerSideEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\DrawerStatic.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Commons.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Crop\Back.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Crop\Front.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Pdf\Back.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Pdf\Front.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Text\Back.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Marks\Text\Front.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Models\PdfPage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Models\PdfPagePlacer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\PdfDrawer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Proof.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\Back.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\Front.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\WorkAndTumble.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\WorkAndTurn.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Screen\ScreenDrawer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawCommons.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawSingleSideService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawWorkAndTumbleService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawWorkAndTurnService.cs" />
+    <Compile Include="Static\Pdf\Imposition\ImposInputParam.cs" />
+    <Compile Include="Static\Pdf\Imposition\ImpositionFactory.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\AnchorOfset.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\AnchorPoint.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\AutoClipMarkEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ClipBox.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ControlBindParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\CropDirection.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ExportParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposColor.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposColors.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposRunList.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposRunPage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposToolEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ImposToolsParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\MarkColor.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControlBar.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControl\Primitives\Circle.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControl\Primitives\Figure.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControl\Primitives\IPrimitive.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControl\Primitives\Line.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControl\Primitives\PrimitiveAbstract.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControl\Primitives\Rectangle.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControl\Primitives\Triangle.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorPalette.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\ColorControl\Primitives\Group.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\CropMark.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\CropMarksParam.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\DrawerTextMarkPart.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\MarkAbstract.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\MarkParentEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\MarksContainer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\MarkSide.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\PdfMark.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\PdfMarkParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\TextMark.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\Marks\TextMarkParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PageGroup.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PageSide.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PdfBox.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PdfFile.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PdfFilePage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PDFLIBDocument.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PointD.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\PrintSheet.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ProductPart.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\ProofParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\RectangleD.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\TemplatePage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\TemplatePageContainer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\TemplatePlate.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\TemplateSchema.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\TemplateSheet.cs" />
+    <Compile Include="Static\Pdf\Imposition\Models\View\PageFormatView.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\CropMarkCreator.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\CropMarksController.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\CropMarksService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\PDF\PdfLineDrawer.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingPlaceEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\BindingTypeEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingWorkAndTumble.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingSheetwise.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingSingleSide.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Loose\LooseBindingWorkAndTurn.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Spread\SpreadBindingParameters.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Binding\Spread\SpreadTypeEnum.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\AbstractPlaceVariant.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantNonRotated.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantRotated.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantWorkAndTurnNonRotated.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Models\PlaceVariantWorkAndTurnRotated.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessFixBleeds.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessFixPageBackPosition.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessMoveSubject.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessRotatePage.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\Impos\Processes\ProcessSubject.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\MarksService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\PageGroupsService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\PdfFileService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\PdfMarksService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\PositioningService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\ImposSaveLoadService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextMarksService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariablesService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\StringToken.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextToken.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableAbstract.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableCMYK.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableDatetime.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableFromService.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableSimpleText.cs" />
+    <Compile Include="Static\Pdf\Imposition\Services\TextVariables\TextVariableUsedColor.cs" />
+    <Compile Include="Static\Pdf\Merge\MergeBlockBy3Months.cs" />
+    <Compile Include="Static\Pdf\Rearange\RearangePagesForQuartalCalendar.cs" />
+    <Compile Include="Static\Pdf\Remove\PdfRemoveICCProfiles.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralDrawer.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralSettings.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralPlaceEnum.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralTypeEnum.cs" />
+    <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\VisualBlocknoteSpiral.cs" />
+    <Compile Include="Static\Pdf\Visual\HardCover\HardCover.cs" />
+    <Compile Include="Static\Pdf\Visual\HardCover\HardCoverParams.cs" />
+    <Compile Include="Static\Pdf\Visual\PDF_Cover_CalcRoot.cs" />
+    <Compile Include="Static\Pdf\Visual\PDF_VisualSaddleStitchCreep.cs" />
+    <Compile Include="Static\Pdf\Visual\PDF_VisualSafeFields.cs" />
+    <Compile Include="Static\Pdf\Visual\PDF_VisualTableCalendar.cs" />
+    <Compile Include="Static\Pdf\Visual\SoftCover\SoftCover.cs" />
+    <Compile Include="Static\Pdf\Visual\SoftCover\SoftCoverParams.cs" />
+    <Compile Include="UC\PDF\Marks\ColorControlBar\Uc_ColorControlPalette.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\PDF\Marks\ColorControlBar\Uc_ColorControlPalette.Designer.cs">
+      <DependentUpon>Uc_ColorControlPalette.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\PDF\Visual\Uc_SelectSpiralControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\PDF\Visual\Uc_SelectSpiralControl.Designer.cs">
+      <DependentUpon>Uc_SelectSpiralControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\PDF\Visual\Uc_VisualRectangleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\PDF\Visual\Uc_VisualRectangleControl.Designer.cs">
+      <DependentUpon>Uc_VisualRectangleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UcSelectStandartPageFormat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UcSelectStandartPageFormat.Designer.cs">
+      <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Uc_FilePreviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\Uc_FilePreviewControl.Designer.cs">
+      <DependentUpon>Uc_FilePreviewControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\Uc_PreviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\Uc_PreviewControl.Designer.cs">
+      <DependentUpon>Uc_PreviewControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormAddWorkMany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormAddWorkMany.Designer.cs">
+      <DependentUpon>FormAddWorkMany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormRegexRenameFiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormRegexRenameFiles.Designer.cs">
+      <DependentUpon>FormRegexRenameFiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateBarcodeCode128.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateBarcodeCode128.Designer.cs">
+      <DependentUpon>FormCreateBarcodeCode128.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateBarcodeEan13.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateBarcodeEan13.Designer.cs">
+      <DependentUpon>FormCreateBarcodeEan13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateCollatingPageMark.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateCollatingPageMark.Designer.cs">
+      <DependentUpon>FormCreateCollatingPageMark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormEnterTirag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormEnterTirag.Designer.cs">
+      <DependentUpon>FormEnterTirag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateNumericFiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateNumericFiles.Designer.cs">
+      <DependentUpon>FormCreateNumericFiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfCreateQRCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfCreateQRCode.Designer.cs">
+      <DependentUpon>FormPdfCreateQRCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSpotColorRenamer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfToolUsageStats.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSpotColorRenamer.Designer.cs">
+      <DependentUpon>FormSpotColorRenamer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormCreateBigovkaMarks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormCreateBigovkaMarks.Designer.cs">
+      <DependentUpon>FormCreateBigovkaMarks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateFillRectangle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateFillRectangle.Designer.cs">
+      <DependentUpon>FormCreateFillRectangle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormInputCountPages.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormInputCountPages.Designer.cs">
+      <DependentUpon>FormInputCountPages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfImposition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfImposition.Designer.cs">
+      <DependentUpon>FormPdfImposition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectBackFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectBackFile.Designer.cs">
+      <DependentUpon>FormSelectBackFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectConvertToPdfMode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectConvertToPdfMode.Designer.cs">
+      <DependentUpon>FormSelectConvertToPdfMode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectCountPages.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectCountPages.designer.cs">
+      <DependentUpon>FormSelectCountPages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectDpi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectDpi.Designer.cs">
+      <DependentUpon>FormSelectDpi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectSpotColor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectSpotColor.Designer.cs">
+      <DependentUpon>FormSelectSpotColor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormTirag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormTirag.Designer.cs">
+      <DependentUpon>FormTirag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ext\Extensions.cs" />
+    <Compile Include="CustomForms\FormEnterText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomForms\FormEnterText.Designer.cs">
+      <DependentUpon>FormEnterText.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ext\ToolStripItemExtention.cs" />
+    <Compile Include="Fasades\CategoryToCustomerAsignManager.cs" />
+    <Compile Include="FormEventStatus.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Models\CategoryToCustomer.cs" />
+    <Compile Include="Models\PdfEmptyTemplate.cs" />
+    <Compile Include="Models\PdfToolUsageStats.cs" />
+    <Compile Include="ModelView\CategoryToCustomerView.cs" />
+    <Compile Include="Plugins\AbstractPluginAddWork.cs" />
+    <Compile Include="Plugins\AbstractProcess.cs" />
+    <Compile Include="Profiles\ExtendedSettings.cs" />
+    <Compile Include="Profiles\PdfConverterSettings.cs" />
+    <Compile Include="Profiles\SearchHistorySettings.cs" />
+    <Compile Include="Properties\CanBeNullAttribute.cs" />
+    <Compile Include="Static\FileUtil.cs" />
+    <Compile Include="Static\Pdf\Common\Box.cs" />
+    <Compile Include="Static\Pdf\Common\Boxes.cs" />
+    <Compile Include="Static\Pdf\Common\ConvertModeEnum.cs" />
+    <Compile Include="Static\Pdf\Common\DivideModeEnum.cs" />
+    <Compile Include="Static\Pdf\Common\EmptyTemplate.cs" />
+    <Compile Include="Static\Pdf\Common\PdfHelper.cs" />
+    <Compile Include="Static\Pdf\Common\ExtendBoxHelpers.cs" />
+    <Compile Include="Static\Pdf\Common\ExtendTargetSizeHelpers.cs" />
+    <Compile Include="Static\Pdf\Common\PdfMergeFile.cs" />
+    <Compile Include="Static\Pdf\Common\PdfPageInfo.cs" />
+    <Compile Include="Static\Pdf\Convert\PdfConvert.cs" />
+    <Compile Include="Static\Pdf\Convert\PdfConvertParams.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateEllipse.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateEmptyPdfTemplateWithCount.cs" />
+    <Compile Include="Static\Pdf\Create\PdfCreateRectangle.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitPagesParams.cs" />
+    <Compile Include="Static\Pdf\ExtractPages\PdfExtractPages.cs" />
+    <Compile Include="Static\Pdf\ExtractPages\PdfExtractPagesParams.cs" />
+    <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBack.cs" />
+    <Compile Include="Static\Pdf\MergeFrontsAndBack\PdfMergeFrontsAndBackParams.cs" />
+    <Compile Include="Static\Pdf\MergeOddAndEven\PdfMergeOddAndEven.cs" />
+    <Compile Include="Static\Pdf\MergeOddAndEven\PdfMergeOddAndEvenParams.cs" />
+    <Compile Include="Static\Pdf\MergeTemporary\PdfMergeTemporary.cs" />
+    <Compile Include="Static\Pdf\MergeTemporary\PdfMergeTemporaryParams.cs" />
+    <Compile Include="Static\Pdf\Merge\PdfMerger.cs" />
+    <Compile Include="Static\Pdf\Repeat\Document\PdfRepeatDocument.cs" />
+    <Compile Include="Static\Pdf\Repeat\Document\PdfRepeatDocumentParams.cs" />
+    <Compile Include="Static\Pdf\Repeat\Pages\PdfRepeatPages.cs" />
+    <Compile Include="Static\Pdf\Repeat\Pages\PdfRepeatPagesParams.cs" />
+    <Compile Include="Static\Pdf\Repeat\PdfRepeatParamsBase.cs" />
+    <Compile Include="Static\Pdf\Reverse\PdfReverse.cs" />
+    <Compile Include="Static\Pdf\RotateMirrorFrontAndBack\PdfRotateMirrorFrontAndBack.cs" />
+    <Compile Include="Static\Pdf\Scale\PdfScaleParams.cs" />
+    <Compile Include="Static\Pdf\Scale\PdfScaler.cs" />
+    <Compile Include="Static\Pdf\Common\ScaleByEnum.cs" />
+    <Compile Include="Static\Pdf\Common\ScaleVariantEnum.cs" />
+    <Compile Include="Static\Pdf\Common\TargetSize.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByBleed\PdfSetTrimBoxByBleed.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByBleed\PdfSetTrimBoxByBleedParams.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByFormat\PdfSetTrimBoxByFormat.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\ByFormat\PdfSetTrimBoxByFormatParams.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\BySpread\PdfSetTrimBoxBySpread.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\BySpread\PdfSetTrimBoxBySpreadParams.cs" />
+    <Compile Include="Static\Pdf\SetTrimBox\SetTrimBoxBase.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitCoverAndBlock.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitOddAndEven.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSpliter.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitterParams.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitPages.cs" />
+    <Compile Include="Static\Pdf\Split\PdfSplitTemporary.cs" />
+    <Compile Include="Static\Pdf\ToJpg\PdfToJpg.cs" />
+    <Compile Include="Static\Pdf\ToJpg\PdfToJpgParams.cs" />
+    <Compile Include="Static\SysImageListHelper.cs" />
+    <Compile Include="Static\ThemeController.cs" />
+    <Compile Include="Statuses\StatusesParams.cs" />
+    <Compile Include="UC\UcAddWorkPluginsContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UcAddWorkPluginsContainer.Designer.cs">
+      <DependentUpon>UcAddWorkPluginsContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UcNote.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UcNote.Designer.cs">
+      <DependentUpon>UcNote.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormAddWork2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormAddWork2.Designer.cs">
+      <DependentUpon>FormAddWork2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Localize.uk-UA.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localize.uk-UA.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobParameters.cs" />
+    <Compile Include="Models\JobSettings.cs" />
+    <Compile Include="Profiles\ProfileEvents\AbstractEvents.cs" />
+    <Compile Include="Profiles\ProfileEvents\BrowserEvents.cs" />
+    <Compile Include="Profiles\ProfileEvents\FtpEvents.cs" />
+    <Compile Include="Profiles\SearchHistory.cs" />
+    <Compile Include="Static\FtpState.cs" />
+    <Compile Include="Static\FtpStateItem.cs" />
+    <Compile Include="Static\SaveAndLoad.cs" />
+    <Compile Include="Statuses\JobStatus.cs" />
+    <Compile Include="Fasades\JobStatusManager.cs" />
+    <Compile Include="Statuses\StatusChangeParam.cs" />
+    <Compile Include="UC\FileCache.cs" />
+    <Compile Include="UC\FileWatcher.cs" />
+    <Compile Include="UC\ICache.cs" />
+    <Compile Include="UC\IWatcher.cs" />
+    <Compile Include="UC\NoCache.cs" />
+    <Compile Include="UC\NoWatcher.cs" />
+    <Compile Include="UC\RoundedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UC\RoundedButton.Designer.cs">
+      <DependentUpon>RoundedButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UcFtpBrowser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UcFtpBrowser.Designer.cs">
+      <DependentUpon>UcFtpBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UcJobList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UcJobList.Designer.cs">
+      <DependentUpon>UcJobList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UcTexBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UC\UcTexBox.Designer.cs">
+      <DependentUpon>UcTexBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormCombineOrders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormCombineOrders.Designer.cs">
+      <DependentUpon>FormCombineOrders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateEmptiesWithCount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormCreateEmptiesWithCount.Designer.cs">
+      <DependentUpon>FormCreateEmptiesWithCount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormCustomers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormCustomers.Designer.cs">
+      <DependentUpon>FormCustomers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormEditFolder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormEditFolder.Designer.cs">
+      <DependentUpon>FormEditFolder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormFileBrowserSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormFileBrowserSettings.Designer.cs">
+      <DependentUpon>FormFileBrowserSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormFtpDirectoryList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormFtpDirectoryList.Designer.cs">
+      <DependentUpon>FormFtpDirectoryList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormGetTrimBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormGetTrimBox.Designer.cs">
+      <DependentUpon>FormGetTrimBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\FormMailInformerSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormMailInformerSettings.Designer.cs">
+      <DependentUpon>FormMailInformerSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormList.designer.cs">
+      <DependentUpon>FormList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Static\Converter.cs" />
+    <Compile Include="Static\FileFormatsUtil.cs" />
+    <Compile Include="Static\NaturalSorting.cs" />
+    <Compile Include="Static\ShellUtilities.cs" />
+    <Compile Include="UC\UCFileBrowser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UCFileBrowser.Designer.cs">
+      <DependentUpon>UCFileBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factory.cs" />
+    <Compile Include="Fasades\BaseManager.cs" />
+    <Compile Include="Fasades\CategoryManager.cs" />
+    <Compile Include="Commons.cs" />
+    <Compile Include="Customer.cs" />
+    <Compile Include="Fasades\CustomerManager.cs" />
+    <Compile Include="CustomerNotify\CustomerMailNotify.cs" />
+    <Compile Include="CustomerNotify\CustomerMailNotifyManager.cs" />
+    <Compile Include="CustomerReport.cs" />
+    <Compile Include="FormEvent.cs" />
+    <Compile Include="FormEventManager.cs" />
+    <Compile Include="Forms.cs" />
+    <Compile Include="FtpManager.cs" />
+    <Compile Include="FtpSettings.cs" />
+    <Compile Include="Job.cs" />
+    <Compile Include="Fasades\JobManager.cs" />
+    <Compile Include="Localize.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localize.resx</DependentUpon>
+    </Compile>
+    <Compile Include="JobLogger.cs" />
+    <Compile Include="Fasades\PlateOwnersManager.cs" />
+    <Compile Include="Menus\FileBrowserContextMenuSendTo.cs" />
+    <Compile Include="Menus\FileBrowserContextMenuUtils.cs" />
+    <Compile Include="Menus\MenuManager.cs" />
+    <Compile Include="Menus\MenuSendTo.cs" />
+    <Compile Include="Part.cs" />
+    <Compile Include="PayedDate.cs" />
+    <Compile Include="PlateFormat.cs" />
+    <Compile Include="PlateOwner.cs" />
+    <Compile Include="Profiles\FileBrowsers.cs" />
+    <Compile Include="Profiles\FileBrowserSettings.cs" />
+    <Compile Include="Profiles\MailSettings.cs" />
+    <Compile Include="Profiles\MongoDbSettings.cs" />
+    <Compile Include="Profiles\Profile.cs" />
+    <Compile Include="Profiles\ProfileEvents\JobEvents.cs" />
+    <Compile Include="Profiles\ProfileEvents\ProfileEvents.cs" />
+    <Compile Include="Profiles\ProfilesController.cs" />
+    <Compile Include="Profiles\ProfileSettings.cs" />
+    <Compile Include="Profiles\RabbitMqSettings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportCustomerTree.cs" />
+    <Compile Include="ReportJobsTree.cs" />
+    <Compile Include="ReportPlateFormatTree.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Settings.JobStatus.cs" />
+    <Compile Include="SignaJobEnum.cs" />
+    <Compile Include="SignaJobShablon.cs" />
+    <Compile Include="UC\FileManager.cs" />
+    <Compile Include="Static\PdfUtils.cs" />
+    <Compile Include="Models\FileSystemInfoExt.cs" />
+    <Compile Include="UserForms\FormFtpSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\FormFtpSettings.Designer.cs">
+      <DependentUpon>FormFtpSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfSplitterParams.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormPdfSplitterParams.Designer.cs">
+      <DependentUpon>FormPdfSplitterParams.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormDividerParams.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormDividerParams.designer.cs">
+      <DependentUpon>FormDividerParams.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectPdfNewSize.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\FormSelectPdfNewSize.Designer.cs">
+      <DependentUpon>FormSelectPdfNewSize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\AddTemplateSheetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\AddTemplateSheetControl.Designer.cs">
+      <DependentUpon>AddTemplateSheetControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\AnchorPointControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\AnchorPointControl.Designer.cs">
+      <DependentUpon>AnchorPointControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleControl.Designer.cs">
+      <DependentUpon>BindingSimpleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleCutAndStackControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleCutAndStackControl.Designer.cs">
+      <DependentUpon>BindingSimpleCutAndStackControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleOneFormatDifferentCount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleOneFormatDifferentCount.Designer.cs">
+      <DependentUpon>BindingSimpleOneFormatDifferentCount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleSpreadControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\BindingSimpleSpreadControl.Designer.cs">
+      <DependentUpon>BindingSimpleSpreadControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormAddPdfMark.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormAddPdfMark.Designer.cs">
+      <DependentUpon>FormAddPdfMark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormAddSheet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormAddSheet.Designer.cs">
+      <DependentUpon>FormAddSheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormAddTemplatePlate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormAddTemplatePlate.Designer.cs">
+      <DependentUpon>FormAddTemplatePlate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormAddTextMark.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormAddTextMark.Designer.cs">
+      <DependentUpon>FormAddTextMark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormCalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormCalc.Designer.cs">
+      <DependentUpon>FormCalc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormSameFormatResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormSameFormatResult.Designer.cs">
+      <DependentUpon>FormSameFormatResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.Designer.cs">
+      <DependentUpon>Form_AddTemplateSheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormChangePageMargins.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\FormChangePageMargins.Designer.cs">
+      <DependentUpon>FormChangePageMargins.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\IBindControl.cs" />
+    <Compile Include="UserForms\PDF\ImposItems\ImposBindingControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\ImposBindingControl.Designer.cs">
+      <DependentUpon>ImposBindingControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\ImposColorsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\ImposColorsControl.Designer.cs">
+      <DependentUpon>ImposColorsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\ImposToolsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\ImposToolsControl.Designer.cs">
+      <DependentUpon>ImposToolsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MarkColorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MarkColorControl.Designer.cs">
+      <DependentUpon>MarkColorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MarksControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MarksControl.Designer.cs">
+      <DependentUpon>MarksControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormColorControlBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\Marks\FormColorControlBar.Designer.cs">
+      <DependentUpon>FormColorControlBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MasterPageSelectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\MasterPageSelectControl.Designer.cs">
+      <DependentUpon>MasterPageSelectControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PdfFileListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PdfFileListControl.Designer.cs">
+      <DependentUpon>PdfFileListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PressSheetSelectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PressSheetSelectControl.Designer.cs">
+      <DependentUpon>PressSheetSelectControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PreviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PreviewControl.Designer.cs">
+      <DependentUpon>PreviewControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PrintSheetsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\PrintSheetsControl.Designer.cs">
+      <DependentUpon>PrintSheetsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\RunListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\RunListControl.Designer.cs">
+      <DependentUpon>RunListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\SelectMarkSideControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\ImposItems\SelectMarkSideControl.Designer.cs">
+      <DependentUpon>SelectMarkSideControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualBlocknoteSpiral.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualBlocknoteSpiral.Designer.cs">
+      <DependentUpon>FormVisualBlocknoteSpiral.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualCoverRootCalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualCoverRootCalc.Designer.cs">
+      <DependentUpon>FormVisualCoverRootCalc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualFalc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualFalc.Designer.cs">
+      <DependentUpon>FormVisualFalc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualHardCover.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualHardCover.Designer.cs">
+      <DependentUpon>FormVisualHardCover.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualSaddleStitchCreep.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualSaddleStitchCreep.Designer.cs">
+      <DependentUpon>FormVisualSaddleStitchCreep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualSafeFields.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualSafeFields.Designer.cs">
+      <DependentUpon>FormVisualSafeFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualSoftCover.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualSoftCover.Designer.cs">
+      <DependentUpon>FormVisualSoftCover.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualTableCalendar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForms\PDF\Visual\FormVisualTableCalendar.Designer.cs">
+      <DependentUpon>FormVisualTableCalendar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserForms\SpreadBox.cs" />
+    <Compile Include="UserForms\TrimBoxResult.cs" />
+    <Compile Include="UserForms\TrimBoxResultEnum.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\DependencyValidation1\DependencyValidation1.layerdiagram">
+      <Link>DependencyValidation1.layerdiagram</Link>
+      <Visible>False</Visible>
+    </AdditionalFiles>
+    <None Include=".editorconfig" />
+    <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ColorTables\PANTONE PLUS solid coated-V3.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ColorTables\PANTONE PLUS solid uncoated-V3.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ColorTables\PANTONE Solid Coated-V4.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ColorTables\PANTONE Solid Uncoated-V4.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graph1.dgml" />
+    <None Include="libmongocrypt.dylib" />
+    <None Include="libmongocrypt.so" />
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\Job.UserForms.PDF.FormCreateFillRectangle.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BackgroundTaskServiceLib\BackgroundTaskServiceLib.csproj">
+      <Project>{0ACD233F-DC92-4456-818C-F6841ADDD9CB}</Project>
+      <Name>BackgroundTaskServiceLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CSScriptEngine\CSScriptEngine.csproj">
+      <Project>{72F33FD9-02A5-4372-A617-2E882E88A976}</Project>
+      <Name>CSScriptEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj">
+      <Project>{EFE36109-BE2C-49CE-82DF-5649F61898C0}</Project>
+      <Name>ExtensionMethods</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FtpClient\FtpClient.csproj">
+      <Project>{CD75770A-E81D-49E6-9E9C-CF104172C48F}</Project>
+      <Name>FtpClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{bb0fe1fa-8c37-4e59-a548-669f97109e64}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.csproj">
+      <Project>{ac6cfed7-8e64-469f-a97d-c25b644cd8a3}</Project>
+      <Name>Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MailNotifier\MailNotifier.csproj">
+      <Project>{32ff055b-5267-4802-bdc7-94d965cd730c}</Project>
+      <Name>MailNotifier</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginFileshareWeb\PluginFileshareWeb.csproj">
+      <Project>{53325F7D-91FF-4C79-A0C8-91ED3AE7DC90}</Project>
+      <Name>PluginFileshareWeb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugins\Plugins.csproj">
+      <Project>{348b842c-d367-46bc-9c46-4e5114ee9b56}</Project>
+      <Name>Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PythonEngine\PythonEngine.csproj">
+      <Project>{e1774431-c670-49ce-a879-63d3d1599f1a}</Project>
+      <Name>PythonEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShowProgress\ShowProgress.csproj">
+      <Project>{75c06626-64c3-4683-90de-bd87adf64c29}</Project>
+      <Name>ShowProgress</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CustomForms\FormEditStatus.resx">
+      <DependentUpon>FormEditStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomForms\FormEnterText.resx">
+      <DependentUpon>FormEnterText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\PDF\Marks\ColorControlBar\Uc_ColorControlPalette.resx">
+      <DependentUpon>Uc_ColorControlPalette.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\PDF\Visual\Uc_SelectSpiralControl.resx">
+      <DependentUpon>Uc_SelectSpiralControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\PDF\Visual\Uc_VisualRectangleControl.resx">
+      <DependentUpon>Uc_VisualRectangleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UcSelectStandartPageFormat.resx">
+      <DependentUpon>UcSelectStandartPageFormat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\Uc_FilePreviewControl.resx">
+      <DependentUpon>Uc_FilePreviewControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\Uc_PreviewControl.resx">
+      <DependentUpon>Uc_PreviewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormAddWorkMany.resx">
+      <DependentUpon>FormAddWorkMany.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormRegexRenameFiles.resx">
+      <DependentUpon>FormRegexRenameFiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateBarcodeCode128.resx">
+      <DependentUpon>FormCreateBarcodeCode128.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateBarcodeEan13.resx">
+      <DependentUpon>FormCreateBarcodeEan13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateCollatingPageMark.resx">
+      <DependentUpon>FormCreateCollatingPageMark.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormEnterTirag.resx">
+      <DependentUpon>FormEnterTirag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateNumericFiles.resx">
+      <DependentUpon>FormCreateNumericFiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormPdfCreateQRCode.resx">
+      <DependentUpon>FormPdfCreateQRCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormSpotColorRenamer.resx">
+      <DependentUpon>FormSpotColorRenamer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\Marks\FormColorControlBar.resx">
+      <DependentUpon>FormColorControlBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormCreateBigovkaMarks.resx">
+      <DependentUpon>FormCreateBigovkaMarks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateFillRectangle.resx">
+      <DependentUpon>FormCreateFillRectangle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormInputCountPages.resx">
+      <DependentUpon>FormInputCountPages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormPdfImposition.resx">
+      <DependentUpon>FormPdfImposition.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormSelectBackFile.resx">
+      <DependentUpon>FormSelectBackFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormSelectConvertToPdfMode.resx">
+      <DependentUpon>FormSelectConvertToPdfMode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormSelectCountPages.resx">
+      <DependentUpon>FormSelectCountPages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormSelectDpi.resx">
+      <DependentUpon>FormSelectDpi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormSelectSpotColor.resx">
+      <DependentUpon>FormSelectSpotColor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormTirag.resx">
+      <DependentUpon>FormTirag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UcAddWorkPluginsContainer.resx">
+      <DependentUpon>UcAddWorkPluginsContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UcNote.resx">
+      <DependentUpon>UcNote.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormAddWork2.resx">
+      <DependentUpon>FormAddWork2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UcFtpBrowser.resx">
+      <DependentUpon>UcFtpBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UcJobList.resx">
+      <DependentUpon>UcJobList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormCombineOrders.resx">
+      <DependentUpon>FormCombineOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormCreateEmptiesWithCount.resx">
+      <DependentUpon>FormCreateEmptiesWithCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormCustomers.resx">
+      <DependentUpon>FormCustomers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormCustomers.uk-UA.resx">
+      <DependentUpon>FormCustomers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormEditFolder.resx">
+      <DependentUpon>FormEditFolder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormFileBrowserSettings.resx">
+      <DependentUpon>FormFileBrowserSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormFtpDirectoryList.resx">
+      <DependentUpon>FormFtpDirectoryList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormFtpSettings.resx">
+      <DependentUpon>FormFtpSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormGetTrimBox.resx">
+      <DependentUpon>FormGetTrimBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormMailInformerSettings.resx">
+      <DependentUpon>FormMailInformerSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\FormMailInformerSettings.uk-UA.resx">
+      <DependentUpon>FormMailInformerSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormList.resx">
+      <DependentUpon>FormList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UCFileBrowser.resx">
+      <DependentUpon>UCFileBrowser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UCFileBrowser.uk-UA.resx">
+      <DependentUpon>UCFileBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localize.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localize.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localize.uk-UA.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localize.uk-UA.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormPdfSplitterParams.resx">
+      <DependentUpon>FormPdfSplitterParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormDividerParams.resx">
+      <DependentUpon>FormDividerParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\FormSelectPdfNewSize.resx">
+      <DependentUpon>FormSelectPdfNewSize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\AddTemplateSheetControl.resx">
+      <DependentUpon>AddTemplateSheetControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\AnchorPointControl.resx">
+      <DependentUpon>AnchorPointControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\BindingSimpleControl.resx">
+      <DependentUpon>BindingSimpleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\BindingSimpleSpreadControl.resx">
+      <DependentUpon>BindingSimpleSpreadControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\Marks\FormAddPdfMark.resx">
+      <DependentUpon>FormAddPdfMark.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddSheet.resx">
+      <DependentUpon>FormAddSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormAddTemplatePlate.resx">
+      <DependentUpon>FormAddTemplatePlate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\Marks\FormAddTextMark.resx">
+      <DependentUpon>FormAddTextMark.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormCalc.resx">
+      <DependentUpon>FormCalc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormSameFormatResult.resx">
+      <DependentUpon>FormSameFormatResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\Form_AddTemplateSheet.resx">
+      <DependentUpon>Form_AddTemplateSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\FormChangePageMargins.resx">
+      <DependentUpon>FormChangePageMargins.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\ImposBindingControl.resx">
+      <DependentUpon>ImposBindingControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\ImposColorsControl.resx">
+      <DependentUpon>ImposColorsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\ImposToolsControl.resx">
+      <DependentUpon>ImposToolsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\MarkColorControl.resx">
+      <DependentUpon>MarkColorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\MarksControl.resx">
+      <DependentUpon>MarksControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\MasterPageSelectControl.resx">
+      <DependentUpon>MasterPageSelectControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\PdfFileListControl.resx">
+      <DependentUpon>PdfFileListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\PressSheetSelectControl.resx">
+      <DependentUpon>PressSheetSelectControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\PreviewControl.resx">
+      <DependentUpon>PreviewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\PrintSheetsControl.resx">
+      <DependentUpon>PrintSheetsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\RunListControl.resx">
+      <DependentUpon>RunListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\ImposItems\SelectMarkSideControl.resx">
+      <DependentUpon>SelectMarkSideControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualBlocknoteSpiral.resx">
+      <DependentUpon>FormVisualBlocknoteSpiral.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualCoverRootCalc.resx">
+      <DependentUpon>FormVisualCoverRootCalc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualFalc.resx">
+      <DependentUpon>FormVisualFalc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualHardCover.resx">
+      <DependentUpon>FormVisualHardCover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualSaddleStitchCreep.resx">
+      <DependentUpon>FormVisualSaddleStitchCreep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualSafeFields.resx">
+      <DependentUpon>FormVisualSafeFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualSoftCover.resx">
+      <DependentUpon>FormVisualSoftCover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForms\PDF\Visual\FormVisualTableCalendar.resx">
+      <DependentUpon>FormVisualTableCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\DataSources\Job.UserForms.FormGetTrimBox.datasource" />
+    <None Include="Properties\DataSources\Job.UserForms.PDF.ImposItems.FormImposTools.datasource" />
+    <None Include="Resources\emotion_misdoubt.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\preview_results1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sign-info-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editing-cut-filled-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\duplicate-layer-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-merge-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page-refresh-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document-margins-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash-full-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\key_j.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\upload_for_cloud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mail_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repair.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_turn_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder-new-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rename-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blackboard_drawing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\explorer-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sort_alphabel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button_navigation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clipboard_sign.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_clear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Editing-Rectangle-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Editing-Ellipse-Stroked-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editing-Align-Center-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editing-Align-Left-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editing-Align-Right-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="preferences-color-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Actions-format-text-bold-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Actions-format-text-italic-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Actions-format-text-strikethrough-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Actions-format-text-underline-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Clear-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Settings-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Single_100x100.png" />
+    <None Include="Resources\multiple_100x100.png" />
+    <None Include="0-Hash-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hardware-floppy-icon.png" />
+    <None Include="Resources\filter.png" />
+    <None Include="Resources\mail_green1.png" />
+    <None Include="Resources\Create.png" />
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\Compression\Snappy\lib\" />
+    <Folder Include="Core\Compression\Zstandard\lib\" />
+    <Folder Include="Static\Pdf\Imposition\Drawers\Services\PDF\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\users-2-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Hopstarter-Soft-Scraps-Button-Blank-Gray.16.png" />
+    <None Include="Hopstarter-Soft-Scraps-Button-Blank-Green.16.png" />
+    <None Include="Hopstarter-Soft-Scraps-Button-Blank-Red.16.png" />
+    <Content Include="mongocrypt.dll" />
+    <Content Include="PDFlib_dotnet_native.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\add-1-icon.png" />
+    <None Include="Resources\control_play_blue1.png" />
+    <None Include="Resources\folder_add.png" />
+    <None Include="Resources\control_play_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.SecurityToken.3.7.300.90\analyzers\dotnet\cs\AWSSDK.SecurityToken.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\AWSSDK.SecurityToken.3.7.300.90\analyzers\dotnet\cs\SharedAnalysisCode.dll" />
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />
+    <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets'))" />
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
+    <Error Condition="!Exists('..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets'))" />
+    <Error Condition="!Exists('..\packages\Magick.NET-Q16-AnyCPU.14.11.1\build\netstandard20\Magick.NET-Q16-AnyCPU.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Magick.NET-Q16-AnyCPU.14.11.1\build\netstandard20\Magick.NET-Q16-AnyCPU.targets'))" />
+    <Error Condition="!Exists('..\packages\SkiaSharp.NativeAssets.Linux.3.119.1\build\net462\SkiaSharp.NativeAssets.Linux.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SkiaSharp.NativeAssets.Linux.3.119.1\build\net462\SkiaSharp.NativeAssets.Linux.targets'))" />
+    <Error Condition="!Exists('..\packages\SkiaSharp.NativeAssets.macOS.3.119.1\build\net462\SkiaSharp.NativeAssets.macOS.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SkiaSharp.NativeAssets.macOS.3.119.1\build\net462\SkiaSharp.NativeAssets.macOS.targets'))" />
+    <Error Condition="!Exists('..\packages\SkiaSharp.NativeAssets.Win32.3.119.1\build\net462\SkiaSharp.NativeAssets.Win32.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SkiaSharp.NativeAssets.Win32.3.119.1\build\net462\SkiaSharp.NativeAssets.Win32.targets'))" />
+  </Target>
+  <Import Project="..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.12.0\build\MongoDB.Libmongocrypt.targets')" />
+  <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Import Project="..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets" Condition="Exists('..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')" />
+  <Import Project="..\packages\Magick.NET-Q16-AnyCPU.14.11.1\build\netstandard20\Magick.NET-Q16-AnyCPU.targets" Condition="Exists('..\packages\Magick.NET-Q16-AnyCPU.14.11.1\build\netstandard20\Magick.NET-Q16-AnyCPU.targets')" />
+  <Import Project="..\packages\SkiaSharp.NativeAssets.Linux.3.119.1\build\net462\SkiaSharp.NativeAssets.Linux.targets" Condition="Exists('..\packages\SkiaSharp.NativeAssets.Linux.3.119.1\build\net462\SkiaSharp.NativeAssets.Linux.targets')" />
+  <Import Project="..\packages\SkiaSharp.NativeAssets.macOS.3.119.1\build\net462\SkiaSharp.NativeAssets.macOS.targets" Condition="Exists('..\packages\SkiaSharp.NativeAssets.macOS.3.119.1\build\net462\SkiaSharp.NativeAssets.macOS.targets')" />
+  <Import Project="..\packages\SkiaSharp.NativeAssets.Win32.3.119.1\build\net462\SkiaSharp.NativeAssets.Win32.targets" Condition="Exists('..\packages\SkiaSharp.NativeAssets.Win32.3.119.1\build\net462\SkiaSharp.NativeAssets.Win32.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

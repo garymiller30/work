@@ -1,0 +1,585 @@
+﻿using Interfaces;
+using iText.Kernel.Pdf;
+using iTextSharp.text;
+using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using JobSpace.Static.Pdf.Imposition.Models.Marks.ColorControl.Primitives;
+using PDFiumSharp;
+using PDFlib_dotnet;
+using SharpCompress.Common;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
+namespace JobSpace.Static.Pdf.Common
+{
+    public static class PdfHelper
+    {
+        public static double mn = 2.83465;
+
+        private static (double left, double bottom, double right, double top) ReadNormalizedBox(
+    PDFlib p,
+    int doc,
+    int pageIdx,
+    string boxName,
+    double[] fallbackRaw = null)
+        {
+            var raw = new double[4];
+
+            bool hasBox = string.Equals(
+                p.pcos_get_string(doc, $"type:pages[{pageIdx}]/{boxName}"),
+                "array",
+                StringComparison.OrdinalIgnoreCase);
+
+            if (hasBox)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    raw[i] = p.pcos_get_number(doc, $"pages[{pageIdx}]/{boxName}[{i}]");
+                }
+            }
+            else if (fallbackRaw != null)
+            {
+                Array.Copy(fallbackRaw, raw, 4);
+            }
+            else
+            {
+                throw new InvalidOperationException($"{boxName} is missing and no fallback was provided.");
+            }
+
+            return NormalizeBox(raw);
+        }
+
+        private static (double left, double bottom, double right, double top) NormalizeBox(double[] raw)
+        {
+            return (
+                left: Math.Min(raw[0], raw[2]),
+                bottom: Math.Min(raw[1], raw[3]),
+                right: Math.Max(raw[0], raw[2]),
+                top: Math.Max(raw[1], raw[3])
+            );
+        }
+
+        public static Boxes GetBoxes(PDFlib p, int doc, int pageIdx)
+        {
+            var boxes = new Boxes();
+
+            var mediaRaw = new double[4];
+            for (int i = 0; i < 4; i++)
+            {
+                mediaRaw[i] = p.pcos_get_number(doc, $"pages[{pageIdx}]/MediaBox[{i}]");
+            }
+
+            var media = NormalizeBox(mediaRaw);
+            var trim = ReadNormalizedBox(p, doc, pageIdx, "TrimBox", mediaRaw);
+
+            boxes.Media.left = media.left;
+            boxes.Media.bottom = media.bottom;
+            boxes.Media.width = media.right - media.left;
+            boxes.Media.height = media.top - media.bottom;
+            boxes.Media.right = 0;
+            boxes.Media.top = 0;
+
+            boxes.Trim.left = trim.left - media.left;
+            boxes.Trim.bottom = trim.bottom - media.bottom;
+            boxes.Trim.width = trim.right - trim.left;
+            boxes.Trim.height = trim.top - trim.bottom;
+            boxes.Trim.right = media.right - trim.right;
+            boxes.Trim.top = media.top - trim.top;
+
+            return boxes;
+        }
+
+
+
+        public static Box GetTrimbox(PDFlib p, int doc, int page)
+        {
+            var mediaRaw = new double[4];
+            for (int i = 0; i < 4; i++)
+            {
+                mediaRaw[i] = p.pcos_get_number(doc, $"pages[{page}]/MediaBox[{i}]");
+            }
+
+            var media = NormalizeBox(mediaRaw);
+            var trim = ReadNormalizedBox(p, doc, page, "TrimBox", mediaRaw);
+
+            return new Box
+            {
+                left = trim.left - media.left,
+                bottom = trim.bottom - media.bottom,
+                width = trim.right - trim.left,
+                height = trim.top - trim.bottom,
+                right = media.right - trim.right,
+                top = media.top - trim.top
+            };
+        }
+
+
+
+        public static List<PdfPageInfo> GetPagesInfo(string filePath)
+        {
+            List<PdfPageInfo> list = new List<PdfPageInfo>();
+
+            PDFlib p = null;
+
+            try
+            {
+                p = new PDFlib();
+                p.begin_document("", "");
+                int indoc = p.open_pdi_document(filePath, "");
+                int pageCnt = (int)p.pcos_get_number(indoc, "length:pages");
+
+                for (int i = 0; i < pageCnt; i++)
+                {
+                    var info = new PdfPageInfo();
+
+                    int page = p.open_pdi_page(indoc, i + 1, "");
+
+                    string rotated = p.pcos_get_string(indoc, $"type:pages[{i}]/Rotate");
+
+                    if (string.Equals(rotated, "number", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        info.Rotate = p.pcos_get_number(indoc, $"pages[{i}]/Rotate");
+                    }
+
+                    Boxes boxes = GetBoxes(p, indoc, i);
+                    info.Mediabox = boxes.Media;
+                    info.Trimbox = boxes.Trim;
+
+                    list.Add(info);
+
+                    p.close_pdi_page(page);
+
+                }
+
+                p.close_pdi_document(indoc);
+
+            }
+            catch (PDFlibException e)
+            {
+
+                LogException(e, "GetPagesInfo");
+            }
+            finally
+            {
+                p?.Dispose();
+            }
+
+            return list;
+        }
+
+        public static PdfPageInfo GetPageInfo(string path, int pageIdx = 0)
+        {
+            PdfPageInfo pdfPageInfo = new PdfPageInfo();
+            PDFlib p = null;
+
+            try
+            {
+                p = new PDFlib();
+                p.begin_document("", "");
+                int indoc = p.open_pdi_document(path, "");
+                int pageCnt = (int)p.pcos_get_number(indoc, "length:pages");
+
+                int i = pageIdx;
+                //var info = new PdfPageInfo();
+
+                int page = p.open_pdi_page(indoc, i + 1, "");
+
+                string rotated = p.pcos_get_string(indoc, $"type:pages[{i}]/Rotate");
+
+                if (string.Equals(rotated, "number", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    pdfPageInfo.Rotate = p.pcos_get_number(indoc, $"pages[{i}]/Rotate");
+                }
+
+                Boxes boxes = GetBoxes(p, indoc, pageIdx);
+                pdfPageInfo.Mediabox = boxes.Media;
+                pdfPageInfo.Trimbox = boxes.Trim;
+
+                p.close_pdi_page(page);
+
+                p.close_pdi_document(indoc);
+
+            }
+            catch (PDFlibException e)
+            {
+
+                LogException(e, "GetPagesInfo");
+            }
+            finally
+            {
+                p?.Dispose();
+
+            }
+            return pdfPageInfo;
+        }
+
+        public static void SetFillStroke(PDFlib p, ColorPalette palette, PrimitiveAbstract primitive)
+        {
+            var t = (primitive.Tint / 100);
+
+            var fill = palette.GetBaseColorById(primitive.FillId);
+            var stroke = palette.GetBaseColorById(primitive.StrokeId);
+
+            if (fill != null)
+            {
+                if (fill.IsSpot)
+                {
+                    SetColor(p, "fill", fill, 1);
+                    int spot = p.makespotcolor(fill.Name);
+                    p.setcolor("fill", "spot", spot, t, 0.0, 0.0);
+                }
+                else
+                {
+                    SetColor(p, "fill", fill, t);
+                }
+            }
+
+            if (stroke != null)
+            {
+                if (stroke.IsSpot)
+                {
+                    SetColor(p, "stroke", stroke, 1);
+                    int spot = p.makespotcolor(stroke.Name);
+                    p.setcolor("stroke", "spot", spot, t, 0.0, 0.0);
+                }
+                else
+                {
+                    SetColor(p, "stroke", stroke, t);
+                }
+            }
+        }
+
+        public static void CloseFillStroke(PDFlib p, PrimitiveAbstract primitive)
+        {
+            bool fill = primitive.FillId != null;
+            bool stroke = primitive.StrokeId != null;
+
+            if (fill && stroke)
+            {
+                p.fill_stroke();
+            }
+            else if (stroke)
+            {
+                p.stroke();
+            }
+            else
+            {
+                p.fill();
+            }
+
+        }
+
+        static void SetColor(PDFlib p, string fill_stroke, MarkColor color, double tint)
+        {
+            p.setcolor(fill_stroke, "cmyk",
+                                color.C * tint / 100,
+                                color.M * tint / 100,
+                                color.Y * tint / 100,
+                                color.K * tint / 100);
+        }
+
+
+
+
+        public static void LogException(PDFlibException e, string title)
+        {
+            Logger.Log.Error(null, title, $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+        }
+
+        public static Bitmap RenderByTrimBox(string file, int pageIndex, int dpi = 150)
+        {
+            FileInfo fsi = new FileInfo(file);
+            return RenderByTrimBox(fsi, pageIndex, dpi);
+        }
+        public static Bitmap RenderByTrimBox(FileInfo fsi, int pageIndex, int dpi = 150)
+        {
+            var box = GetPageInfo(fsi.FullName, pageIndex);
+
+            using (var fs = File.Open(fsi.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                if (fs.Length > int.MaxValue)
+                    throw new NotSupportedException("PDF too large");
+
+                int length = (int)fs.Length;
+                var fr = CreateFileReadStruct(fs);
+
+                using (var document = new PDFiumSharp.PdfDocument(fs, fr, length, null))
+                using (var page = document.Pages[pageIndex])
+                {
+                    double scale = dpi / 72.0;
+
+                    int pagePxW = (int)Math.Ceiling(page.Width * scale);
+                    int pagePxH = (int)Math.Ceiling(page.Height * scale);
+
+                    using (var pdfiumBmp = new PDFiumBitmap(pagePxW, pagePxH, true))
+                    {
+                        page.Render(
+                            pdfiumBmp,
+                            (0, 0, pagePxW, pagePxH),
+                            PDFiumSharp.Enums.PageOrientations.Normal,
+                            PDFiumSharp.Enums.RenderingFlags.Annotations |
+                            PDFiumSharp.Enums.RenderingFlags.LcdText |
+                            PDFiumSharp.Enums.RenderingFlags.Printing
+                        );
+
+                        using (var bmpStream = pdfiumBmp.AsBmpStream(dpi, dpi))
+                        using (var fullBmp = new Bitmap(bmpStream))
+                        {
+                            // TrimBox у PDF координатах (bottom-left)
+                            double l = box.Trimbox.left * scale;
+                            double b = box.Trimbox.bottom * scale;
+                            double w = box.Trimbox.width * scale;
+                            double h = box.Trimbox.height * scale;
+
+                            int rotation = 0;
+                            rotation = ((int)box.Rotate) % 360;
+
+                            System.Drawing.Rectangle crop;
+
+                            switch (rotation)
+                            {
+                                case 0:
+                                    crop = new System.Drawing.Rectangle(
+                                        (int)Math.Round(l),
+                                        (int)Math.Round(pagePxH - b - h),
+                                        (int)Math.Round(w),
+                                        (int)Math.Round(h)
+                                    );
+                                    break;
+
+                                case 90:
+                                    crop = new System.Drawing.Rectangle(
+                                        (int)Math.Round(b),
+                                        (int)Math.Round(l),
+                                        (int)Math.Round(h),
+                                        (int)Math.Round(w)
+                                    );
+                                    break;
+
+                                case 180:
+                                    crop = new System.Drawing.Rectangle(
+                                        (int)Math.Round(pagePxW - l - w),
+                                        (int)Math.Round(b),
+                                        (int)Math.Round(w),
+                                        (int)Math.Round(h)
+                                    );
+                                    break;
+
+                                case 270:
+                                    crop = new System.Drawing.Rectangle(
+                                        (int)Math.Round(pagePxW - b - h),
+                                        (int)Math.Round(pagePxH - l - w),
+                                        (int)Math.Round(h),
+                                        (int)Math.Round(w)
+                                    );
+                                    break;
+
+                                default:
+                                    crop = new System.Drawing.Rectangle(0, 0, pagePxW, pagePxH);
+                                    break;
+                            }
+
+                            System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(0, 0, pagePxW, pagePxH);
+                            crop = System.Drawing.Rectangle.Intersect(crop, bounds);
+
+                            if (crop.Width <= 0 || crop.Height <= 0)
+                                return new Bitmap(fullBmp);
+
+                            return fullBmp.Clone(crop, fullBmp.PixelFormat);
+                        }
+                    }
+                }
+            }
+        }
+
+        private static PDFiumSharp.Types.FPDF_FILEREAD CreateFileReadStruct(System.IO.FileStream fs)
+        {
+            // Delegate signature: bool Handler(IntPtr fileAccess, int position, IntPtr buffer, int size)
+            PDFiumSharp.Types.FileReadBlockHandler handler = (IntPtr fileAccess, int position, IntPtr buffer, int size) =>
+            {
+                try
+                {
+                    if (size <= 0) return true;
+                    var temp = new byte[size];
+                    lock (fs) // ensure concurrent calls are serialized
+                    {
+                        if (fs.Position != position) fs.Position = position;
+                        int read = 0;
+                        while (read < size)
+                        {
+                            int r = fs.Read(temp, read, size - read);
+                            if (r <= 0) break;
+                            read += r;
+                        }
+                        if (read > 0)
+                            System.Runtime.InteropServices.Marshal.Copy(temp, 0, buffer, read);
+                        return read == size;
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
+            };
+
+            var fr = new PDFiumSharp.Types.FPDF_FILEREAD((int)fs.Length, handler);
+            var t = typeof(PDFiumSharp.Types.FPDF_FILEREAD);
+            var fields = t.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+
+            // try to find the delegate field and assign it
+            var delField = fields.FirstOrDefault(f => f.FieldType == typeof(PDFiumSharp.Types.FileReadBlockHandler));
+            if (delField != null)
+                delField.SetValue(fr, handler);
+            else
+            {
+                // best-effort: try fields with likely names
+                var p = fields.FirstOrDefault(f => f.Name.ToLower().Contains("getblock") || f.Name.ToLower().Contains("read"));
+                if (p != null && p.FieldType.IsAssignableFrom(typeof(PDFiumSharp.Types.FileReadBlockHandler)))
+                    p.SetValue(fr, handler);
+            }
+
+            // try to set file length field if present
+            var lenField = fields.FirstOrDefault(f => f.FieldType == typeof(long) || f.FieldType == typeof(int)
+                                                 || f.Name.ToLower().Contains("filelen") || f.Name.ToLower().Contains("filesize"));
+            if (lenField != null)
+            {
+                if (lenField.FieldType == typeof(long))
+                    lenField.SetValue(fr, fs.Length);
+                else if (lenField.FieldType == typeof(int))
+                    lenField.SetValue(fr, (int)fs.Length);
+            }
+
+            return fr;
+        }
+
+        public static int GetPageCount(string fullName)
+        {
+            // отримати кількість сторінок в pdf файлі
+            int pageCount = 0;
+            PDFlib p = null;
+            try
+            {
+                p = new PDFlib();
+                p.begin_document("", "");
+                int indoc = p.open_pdi_document(fullName, "");
+                pageCount = (int)p.pcos_get_number(indoc, "length:pages");
+                p.close_pdi_document(indoc);
+            }
+            catch (PDFlibException e)
+            {
+                LogException(e, "GetPageCount");
+            }
+            finally
+            {
+                p?.Dispose();
+            }
+            return pageCount;
+        }
+
+        public static void GetPdfCreatorApp(IFileSystemInfoExt file)
+        {
+            #region [Use iText]
+            try
+            {
+                using (var pdfReader = new PdfReader(file.FileInfo.FullName))
+                {
+                    using (var pdfDocument = new iText.Kernel.Pdf.PdfDocument(pdfReader))
+                    {
+                        PdfDocumentInfo documentInfo = pdfDocument.GetDocumentInfo();
+
+                        // Get the standard metadata properties
+                        //string author = documentInfo.GetAuthor();
+                        //string title = documentInfo.GetTitle();
+                        file.CreatorApp = documentInfo.GetCreator();
+                        //string producer = documentInfo.GetProducer();
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            #endregion
+
+
+
+            #region [Use PDFLIB (evaluation mode)]
+
+            //PDFlib p = null;
+            //try
+            //{
+            //    p = new PDFlib();
+            //    p.set_option("errorpolicy=return");
+            //    int doc = p.open_pdi_document(file.FileInfo.FullName, "infomode=true");
+            //    string objType = p.pcos_get_string(doc, "type:/Info/Creator");
+
+
+            //    if (p.begin_document("hello.pdf", "") == -1)
+            //    {
+            //        Console.WriteLine("Error: {0}\n", p.get_errmsg());
+
+            //    }
+            //    if (objType == "string")
+            //    {
+            //        file.CreatorApp = p.pcos_get_string(doc, "/Info/Creator");
+            //    }
+            //    else
+            //    {
+            //        file.CreatorApp = string.Empty;
+            //    }
+            //    p.close_pdi_document(doc);
+            //}
+            //catch (PDFlibException ex)
+            //{
+            //    LogException(ex, "GetPdfCreatorApp");
+            //}
+            //finally
+            //{
+            //    p?.Dispose();
+            //}
+            #endregion
+        }
+
+        #region [Draw dimensions in pdf]
+        public static void DrawDimensionsY(PDFlib p, int spot, double x, double y, double value)
+        {
+            if (value == 0) return;
+            p.moveto(x * PdfHelper.mn, y * PdfHelper.mn);        // переместить курсор
+            p.lineto(x * PdfHelper.mn, (y + value) * PdfHelper.mn); // нарисовать
+            p.stroke();
+
+            String txt = value.ToString();
+
+            String cr_optlist = "fontname=Calibri fontsize=12 fillcolor={spot " + spot + " 1} encoding=unicode " +
+            "leading=100% alignment=center";
+
+            int tf = p.create_textflow(txt, cr_optlist);
+            p.fit_textflow(tf, x * PdfHelper.mn, y * PdfHelper.mn, (x - 5) * PdfHelper.mn, (y + value) * PdfHelper.mn, "orientate=west");
+            p.delete_textflow(tf);
+        }
+
+        public static void DrawDimensionsX(PDFlib p, int spot, double x, double y, double value)
+        {
+            if (value == 0) return;
+            p.moveto(x * PdfHelper.mn, y * PdfHelper.mn);
+            p.lineto((x + value) * PdfHelper.mn, y * PdfHelper.mn);
+            p.stroke();
+
+            String txt = value.ToString();
+            String cr_optlist = "fontname=Calibri fontsize=12 fillcolor={spot " + spot + " 1} encoding=unicode " +
+            "leading=100% alignment=center";
+            int tf = p.create_textflow(txt, cr_optlist);
+            p.fit_textflow(tf, x * PdfHelper.mn, y * PdfHelper.mn, (x + value) * PdfHelper.mn, (y + 5) * PdfHelper.mn, "");
+            p.delete_textflow(tf);
+        }
+        #endregion
+    }
+}

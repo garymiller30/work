@@ -1,0 +1,85 @@
+﻿using Interfaces.FileBrowser;
+using Interfaces.Plugins;
+using JobSpace.Dlg;
+using PDFlib_dotnet;
+using System;
+using System.IO;
+using System.Windows.Forms;
+
+namespace JobSpace.Static.Pdf.RepeatPages
+{
+    [PdfTool("","Повторити сторінки (11-22-33)",Icon = "duplicate_pages")]
+    public sealed class PdfRepeatPages : IPdfTool
+    {
+        PdfRepeatPagesParams _params;
+
+        public bool Configure(PdfJobContext context)
+        {
+            using (var form = new FormInputCountPages())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    _params = new PdfRepeatPagesParams { Count = form.CountPages };
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void Execute(PdfJobContext context)
+        {
+            foreach (var file in context.InputFiles)
+            {
+                RepeatPages(file.FullName);
+            }
+        }
+
+        public void RepeatPages(string filePath)
+        {
+            PDFlib p = null;
+
+            try
+            {
+                p = new PDFlib();
+
+                p.set_option("errorpolicy=return");
+
+                int indoc = p.open_pdi_document(filePath, "");
+
+                if (indoc == -1)
+                    throw new Exception("Error: " + p.get_errmsg());
+
+                int page_count = (int)p.pcos_get_number(indoc, "length:pages");
+                int outdoc_count = page_count * _params.Count;
+
+                String outfile = Path.Combine(Path.GetDirectoryName(filePath),$"{Path.GetFileNameWithoutExtension(filePath)}_page_dup.pdf");// filePath + ".tmp";
+                if (p.begin_document(outfile, "optimize=true") == -1)
+                    throw new Exception("Error: " + p.get_errmsg());
+
+                for (int i = 0; i < page_count; i++)
+                {
+                    int pagehdl = p.open_pdi_page(indoc, i + 1, "cloneboxes");
+                    for (int j = 0; j < _params.Count; j++)
+                    {
+                        p.begin_page_ext(0, 0, "");
+                        if (pagehdl == -1) throw new Exception("Error: " + p.get_errmsg());
+                        p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
+                        p.end_page_ext("");
+                    }
+                    p.close_pdi_page(pagehdl);
+                }
+
+                p.end_document("");
+                p.close_pdi_document(indoc);
+            }
+            catch (PDFlibException e)
+            {
+                Logger.Log.Error(null, "PdfRepeatPages", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+            }
+            finally
+            {
+                p?.Dispose();
+            }
+        }
+    }
+}

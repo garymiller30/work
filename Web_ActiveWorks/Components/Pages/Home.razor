@@ -1,0 +1,146 @@
+@page "/"
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject WebAccessSettingsStore SettingsStore
+@inject MongoProfileDataService MongoProfileDataService
+
+<PageTitle>Роботи</PageTitle>
+
+<div class="page-header">
+    <div>
+        <h1>Список робіт</h1>
+    </div>
+    <button class="primary-action" @onclick="LoadAsync" disabled="@_isLoading">Оновити</button>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(_loadError))
+{
+    <div class="alert-panel error-panel">@_loadError</div>
+}
+else if (_currentUser is not null && !_currentUser.CanAccessJobsPage)
+{
+    <div class="empty-state">
+        <h2>Доступ вимкнено</h2>
+        <p>Адміністратор ще не надав цьому користувачу доступ до сторінки робіт.</p>
+    </div>
+}
+else if (_isLoading)
+{
+    <div class="empty-state">
+        <h2>Завантаження</h2>
+        <p>Отримую список замовлень і тексти статусів…</p>
+    </div>
+}
+else
+{
+    <div class="stats-strip">
+        <div class="stat-card">
+            <div class="stat-label">Профіль</div>
+            <div class="stat-value">@(_profile?.Name ?? "-")</div>
+        </div>
+       
+        <div class="stat-card">
+            <div class="stat-label">Знайдено робіт</div>
+            <div class="stat-value">@_jobs.Count</div>
+        </div>
+    </div>
+
+    @if (_jobs.Count == 0)
+    {
+        <div class="empty-state">
+            <h2>Немає робіт для показу</h2>
+            <p>Перевірте список статусів у налаштуваннях адміністратора або параметри Mongo-профілю.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-shell">
+            <table class="jobs-table">
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th>Номер</th>
+                        <th>Замовник</th>
+                        <th>Опис</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var job in _jobs)
+                    {
+                        <tr>
+                            <td>@job.Date.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>
+                                <span class="status-pill">@job.StatusText</span>
+                            </td>
+                            <td class="mono">@job.Number</td>
+                            <td>@job.Customer</td>
+                            <td>@job.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}
+
+@code {
+    private bool _isLoading = true;
+    private string? _loadError;
+    private WebUserDefinition? _currentUser;
+    private WebProfileDefinition? _profile;
+    private List<JobListItemViewModel> _jobs = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        _isLoading = true;
+        _loadError = null;
+
+        try
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var username = authState.User.Identity?.Name;
+            _currentUser = await SettingsStore.FindUserAsync(username);
+
+            if (_currentUser is null)
+            {
+                _loadError = "Користувач не знайдений у конфігурації веб-порталу.";
+                _jobs.Clear();
+                return;
+            }
+
+            if (!_currentUser.CanAccessJobsPage)
+            {
+                _jobs.Clear();
+                return;
+            }
+
+            _profile = await SettingsStore.FindProfileAsync(_currentUser.ProfileKey);
+            if (_profile is null)
+            {
+                _loadError = $"Для користувача '{_currentUser.Username}' не знайдено профіль '{_currentUser.ProfileKey}'.";
+                _jobs.Clear();
+                return;
+            }
+
+            _jobs = (await MongoProfileDataService.GetJobsAsync(_profile, _currentUser.VisibleStatusCodes))
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            _jobs.Clear();
+            _loadError = $"Не вдалося завантажити роботи: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

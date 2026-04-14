@@ -1,0 +1,326 @@
+﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+using JobSpace.Static.Pdf.Imposition.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
+using Interfaces.Pdf.Imposition;
+
+namespace JobSpace.Static.Pdf.Imposition.Services
+{
+    public static class CropMarksService
+    {
+        public static double delta = 0.3;
+
+        public static void FixCropMarks(TemplateSheet sheet,GlobalImposParameters imposParam)
+        {
+            if (sheet == null) return;
+
+            switch (sheet.SheetPlaceType)
+            {
+                case TemplateSheetPlaceType.SingleSide:
+                    FixCropMarksFront(sheet.TemplatePageContainer, imposParam);
+                    break;
+                case TemplateSheetPlaceType.Sheetwise:
+                    FixCropMarksFront(sheet.TemplatePageContainer, imposParam);
+                    FixCropMarksBack(sheet, imposParam);
+                    break;
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    FixCropMarksWorkAndTurn(sheet, imposParam);
+                    break;
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    FixCropMarksWorkAndTumble(sheet, imposParam);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        static void FixCropMarksFront(TemplatePageContainer templateContainer, GlobalImposParameters imposParam)
+        {
+            RecalcCropsFront(templateContainer, imposParam);
+            RemoveCropsFront(templateContainer);
+        }
+
+        static void FixCropMarksBack(TemplateSheet sheet, GlobalImposParameters imposParam)
+        {
+
+            RecalcCropsBack(sheet, imposParam);
+            RemoveCropsBack(sheet);
+        }
+
+        static void FixCropMarksWorkAndTurn(TemplateSheet sheet, GlobalImposParameters imposParam)
+        {
+
+            RecalcCropsFront(sheet.TemplatePageContainer, imposParam);
+            RecalcCropsBack(sheet, imposParam);
+            RemoveCropsWorkAndTurn(sheet);
+        }
+
+        static void FixCropMarksWorkAndTumble(TemplateSheet sheet, GlobalImposParameters imposParam)
+        {
+            if (sheet == null) return;
+            RecalcCropsFront(sheet.TemplatePageContainer, imposParam);
+            RecalcCropsWorkandTumbleBack(sheet);
+            RemoveCropsWorkAndTurn(sheet);
+        }
+
+        private static void RemoveCropsBack(TemplateSheet sheet)
+        {
+            foreach (TemplatePage page in sheet.TemplatePageContainer.TemplatePages)
+            {
+                CropMarksController crops = page.CropMarksController;
+
+                foreach (TemplatePage pageToCompare in sheet.TemplatePageContainer.TemplatePages)
+                {
+                    if (page != pageToCompare)
+                    {
+
+                        var rect = ScreenDrawCommons.GetPageDraw(pageToCompare, pageToCompare.Back);
+
+                        RectangleD pageRect = new RectangleD
+                        {
+                            X1 = rect.page_x - delta,
+                            Y1 = rect.page_y - delta,
+                            X2 = rect.page_x + rect.page_w + delta,
+                            Y2 = rect.page_y + rect.page_h + delta
+                        };
+
+                        List<CropMark> forDeleteCrops = new List<CropMark>();
+
+                        foreach (var cropMark in page.CropMarksController.CropMarks.Where(x => x.IsBack))
+                        {
+                            if (pageRect.IsInsideMe(cropMark)) forDeleteCrops.Add(cropMark);
+                        }
+
+                        page.CropMarksController.CropMarks = page.CropMarksController.CropMarks.Except(forDeleteCrops).ToList();
+                    }
+                }
+            }
+        }
+
+        static void RemoveCropsFront(TemplatePageContainer templateContainer)
+        {
+
+            foreach (TemplatePage page in templateContainer.TemplatePages)
+            {
+                CropMarksController crops = page.CropMarksController;
+
+                foreach (TemplatePage pageToCompare in templateContainer.TemplatePages)
+                {
+                    if (page != pageToCompare)
+                    {
+                        var rect = ScreenDrawCommons.GetPageDraw(pageToCompare, pageToCompare.Front);
+
+                        var d = pageToCompare.CropMarksController.Parameters.Distance;
+
+                        RectangleD pageRect = new RectangleD
+                        {
+                            X1 = rect.page_x - delta,
+                            Y1 = rect.page_y - delta,
+                            X2 = rect.page_x + rect.page_w + delta,
+                            Y2 = rect.page_y + rect.page_h + delta
+                        };
+
+                        List<CropMark> forDeleteCrops = new List<CropMark>();
+
+                        foreach (var cropMark in page.CropMarksController.CropMarks.Where(x => x.IsFront))
+                        {
+                            if (pageRect.IsInsideMe(cropMark)) forDeleteCrops.Add(cropMark);
+                        }
+
+                        page.CropMarksController.CropMarks = page.CropMarksController.CropMarks.Except(forDeleteCrops).ToList();
+                    }
+                }
+            }
+        }
+
+        static void RecalcCropsFront(TemplatePageContainer templateContainer, GlobalImposParameters imposParam)
+        {
+            foreach (var page in templateContainer.TemplatePages)
+            {
+
+                CropMarksController crops = page.CropMarksController;
+
+                var delList = crops.CropMarks.Where(c => c.IsFront).ToList();
+
+                crops.CropMarks = crops.CropMarks.Except(delList).ToList();
+
+                double len = imposParam.ImposTools.CropMarksParameters.Len;
+                double dist = imposParam.ImposTools.CropMarksParameters.Distance;
+
+                if (len == 0) continue;
+                
+                CropDirection[] direction = crops.GetDrawDirectionFront(page.Front.Angle);
+                AnchorOfset[] ofsets = crops.GetAnchorOfsetsFront(page, page.Front.Angle);
+
+                double x = 0;
+                double y = 0;
+
+                for (int i = 0; i < ofsets.Length; i++)
+                {
+                    x += ofsets[i].X;
+                    y += ofsets[i].Y;
+
+                    for (int j = 0; j < 2; j++)
+                    {
+                        int idx = i * 2 + j;
+
+                        CropMark cropMark = new CropMarkCreator(x, y).From(direction[idx].X * dist, direction[idx].Y * dist).To(direction[idx].X * len, direction[idx].Y * len);
+                        crops.CropMarks.Add(cropMark);
+
+                    }
+                }
+            }
+        }
+
+        static void RecalcCropsBack(TemplateSheet sheet, GlobalImposParameters imposParam)
+        {
+
+            foreach (var page in sheet.TemplatePageContainer.TemplatePages)
+            {
+
+                CropMarksController crops = page.CropMarksController;
+
+                var delList = crops.CropMarks.Where(c => c.IsBack).ToList();
+
+                crops.CropMarks = crops.CropMarks.Except(delList).ToList();
+
+                double len = imposParam.ImposTools.CropMarksParameters.Len;
+                double dist = imposParam.ImposTools.CropMarksParameters.Distance;
+
+                if (len == 0) continue;
+
+                CropDirection[] direction = crops.GetDrawDirectionBack(page.Front.Angle);
+                AnchorOfset[] ofsets = crops.GetAnchorOfsetsBack(page, sheet, page.Back.Angle);
+
+                double x = 0;
+                double y = 0;
+
+                for (int i = 0; i < ofsets.Length; i++)
+                {
+                    x += ofsets[i].X;
+                    y += ofsets[i].Y;
+
+                    for (int j = 0; j < 2; j++)
+                    {
+                        int idx = i * 2 + j;
+
+                        var cropMark = new CropMarkCreator(x, y).From(direction[idx].X * dist, direction[idx].Y * dist).To(direction[idx].X * len, direction[idx].Y * len);
+                        cropMark.IsFront = false;
+                        cropMark.IsBack = true;
+                        crops.CropMarks.Add(cropMark);
+                    }
+                }
+            }
+        }
+
+        static void RecalcCropsWorkandTumbleBack(TemplateSheet sheet)
+        {
+            foreach (var page in sheet.TemplatePageContainer.TemplatePages)
+            {
+                CropMarksController crops = page.CropMarksController;
+
+                var delList = crops.CropMarks.Where(c => c.IsBack).ToList();
+
+                crops.CropMarks = crops.CropMarks.Except(delList).ToList();
+
+                double len = crops.Parameters.Len;
+                double dist = crops.Parameters.Distance;
+
+                if (len == 0) continue;
+
+                CropDirection[] direction = crops.GetDrawDirectionWorkandTumbleBack(page.Back.Angle);
+                AnchorOfset[] ofsets = crops.GetAnchorOfsetsWorkandTumbleBack(page, sheet, page.Back.Angle);
+
+                double x = 0;
+                double y = 0;
+
+                for (int i = 0; i < ofsets.Length; i++)
+                {
+                    x += ofsets[i].X;
+                    y += ofsets[i].Y;
+                    for (int j = 0; j < 2; j++)
+                    {
+                        int idx = i * 2 + j;
+                        var cropMark = new CropMarkCreator(x, y).From(direction[idx].X * dist, direction[idx].Y * dist).To(direction[idx].X * len, direction[idx].Y * len);
+                        cropMark.IsFront = false;
+                        cropMark.IsBack = true;
+                        crops.CropMarks.Add(cropMark);
+                    }
+                }
+            }
+        }
+
+        private static void RemoveCropsWorkAndTurn(TemplateSheet sheet)
+        {
+            foreach (TemplatePage page in sheet.TemplatePageContainer.TemplatePages)
+            {
+                CropMarksController crops = page.CropMarksController;
+
+                foreach (TemplatePage pageToCompare in sheet.TemplatePageContainer.TemplatePages)
+                {
+
+                    var r_front = ScreenDrawCommons.GetPageDraw(pageToCompare, pageToCompare.Front);
+                    var r_back = ScreenDrawCommons.GetPageDraw(pageToCompare, pageToCompare.Back);
+
+                    RectangleD pageRectFront = new RectangleD
+                    {
+                        X1 = r_front.page_x,
+                        Y1 = r_front.page_y,
+                        X2 = r_front.page_x + r_front.page_w,
+                        Y2 = r_front.page_y + r_front.page_h
+                    };
+
+                    RectangleD pageRectBack = new RectangleD
+                    {
+                        X1 = r_back.page_x,
+                        Y1 = r_back.page_y,
+                        X2 = r_back.page_x + r_back.page_w,
+                        Y2 = r_back.page_y + r_back.page_h
+                    };
+
+                    HashSet<CropMark> forDeleteCrops = new HashSet<CropMark>();
+
+                    foreach (var cropMark in crops.CropMarks)
+                    {
+                        if (page == pageToCompare)
+                        {
+                            if (cropMark.IsFront)
+                            {
+                                if (pageRectBack.IsInsideMe(cropMark))
+                                {
+                                    forDeleteCrops.Add(cropMark);
+                                }
+                            }
+                            else
+                            {
+                                if (pageRectFront.IsInsideMe(cropMark))
+                                {
+                                    forDeleteCrops.Add(cropMark);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (pageRectFront.IsInsideMe(cropMark))
+                            {
+                                forDeleteCrops.Add(cropMark);
+                            }
+                            if (pageRectBack.IsInsideMe(cropMark))
+                            {
+                                forDeleteCrops.Add(cropMark);
+                            }
+
+                        }
+                    }
+
+                    crops.CropMarks = crops.CropMarks.Except(forDeleteCrops).ToList();
+                }
+            }
+        }
+
+
+    }
+}

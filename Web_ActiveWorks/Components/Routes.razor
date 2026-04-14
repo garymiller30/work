@@ -1,0 +1,22 @@
+<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData">
+        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
+            <NotAuthorized>
+                <AuthorizeView>
+                    <Authorized Context="authorizedState">
+                        <LayoutView Layout="typeof(Layout.MainLayout)">
+                            <div class="empty-state">
+                                <h1>Доступ заборонено</h1>
+                                <p>Для цієї сторінки у вашого облікового запису немає прав.</p>
+                            </div>
+                        </LayoutView>
+                    </Authorized>
+                    <NotAuthorized Context="anonymousState">
+                        <RedirectToLogin />
+                    </NotAuthorized>
+                </AuthorizeView>
+            </NotAuthorized>
+        </AuthorizeRouteView>
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+</Router>
