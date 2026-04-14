@@ -9,7 +9,7 @@
 
 <div class="page-header">
     <div>
-        <h1>Список робіт</h1>
+        <h1>Список робіт (@_jobs.Count)</h1>
     </div>
     <button class="primary-action" @onclick="LoadAsync" disabled="@_isLoading">Оновити</button>
 </div>
@@ -34,17 +34,7 @@ else if (_isLoading)
 }
 else
 {
-    <div class="stats-strip">
-        <div class="stat-card">
-            <div class="stat-label">Профіль</div>
-            <div class="stat-value">@(_profile?.Name ?? "-")</div>
-        </div>
-       
-        <div class="stat-card">
-            <div class="stat-label">Знайдено робіт</div>
-            <div class="stat-value">@_jobs.Count</div>
-        </div>
-    </div>
+    
 
     @if (_jobs.Count == 0)
     {
@@ -70,7 +60,7 @@ else
                     @foreach (var job in _jobs)
                     {
                         <tr>
-                            <td>@job.Date.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>@job.Date.ToLocalTime().ToString("dd.MM.yyyy")</td>
                             <td>
                                 <span class="status-pill">@job.StatusText</span>
                             </td>
