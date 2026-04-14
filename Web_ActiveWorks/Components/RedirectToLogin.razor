@@ -1,0 +1,22 @@
+@inject NavigationManager NavigationManager
+
+<LayoutView Layout="typeof(Layout.MainLayout)">
+    <div class="empty-state">
+        <h1>Потрібно увійти</h1>
+        <p>Переходимо на сторінку авторизації…</p>
+    </div>
+</LayoutView>
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        var relativeUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        var target = string.IsNullOrWhiteSpace(relativeUrl) ? "/" : $"/{relativeUrl}";
+        NavigationManager.NavigateTo($"/login?returnUrl={Uri.EscapeDataString(target)}", true);
+    }
+}

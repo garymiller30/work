@@ -1,0 +1,160 @@
+.navbar-toggler {
+    appearance: none;
+    cursor: pointer;
+    width: 3.2rem;
+    height: 2.6rem;
+    color: white;
+    position: absolute;
+    top: 0.85rem;
+    right: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0.8rem;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.82%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E")
+        no-repeat center/1.55rem rgba(255, 255, 255, 0.08);
+}
+
+.navbar-toggler:checked {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.top-row {
+    min-height: 4.5rem;
+    background-color: transparent;
+}
+
+.nav-shell {
+    align-items: flex-start;
+}
+
+.navbar-brand {
+    display: inline-block;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.navbar-caption {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.bi {
+    display: inline-block;
+    position: relative;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-right: 0.75rem;
+    top: -1px;
+    background-size: cover;
+}
+
+.bi-house-door-fill-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3Cpath fill='white' d='M575.8 255.5c0 18-15 32.1-32 32.1H512v128c0 35.3-28.7 64-64 64H128c-35.3 0-64-28.7-64-64V287.6H32c-17 0-32-14-32-32.1 0-9 4-17.5 10-23.7L266.4 8.5c12-11.3 31.2-11.3 43.2 0l256.4 223.3c6 6.2 10 14.7 10 23.7z'/%3E%3C/svg%3E");
+}
+
+.bi-list-nested-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='white' d='M64 392h384v-32H64v32zm0-96h384v-32H64v32zm0-96h384v-32H64v32zm0-96h384V72H64v32z'/%3E%3C/svg%3E");
+}
+
+.nav-item {
+    font-size: 0.96rem;
+    padding-bottom: 0.45rem;
+}
+
+.nav-item:first-of-type {
+    padding-top: 0.8rem;
+}
+
+.nav-item ::deep .nav-link {
+    color: rgba(255, 255, 255, 0.88);
+    background: none;
+    border: none;
+    border-radius: 0.95rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    line-height: 3rem;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.nav-item ::deep a.active {
+    background: rgba(255, 255, 255, 0.18);
+    color: white;
+}
+
+.nav-item ::deep .nav-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+}
+
+.nav-section {
+    margin-top: 1.25rem;
+}
+
+.user-box {
+    padding: 1rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    margin-bottom: 0.85rem;
+}
+
+.user-box-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.user-box-name {
+    font-weight: 700;
+    margin-top: 0.35rem;
+}
+
+.user-box-login {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.76);
+}
+
+.logout-button,
+.login-link {
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.logout-button:hover,
+.login-link:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.nav-scrollable {
+    display: none;
+    padding-bottom: 1rem;
+}
+
+.navbar-toggler:checked ~ .nav-scrollable {
+    display: block;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler {
+        display: none;
+    }
+
+    .nav-scrollable {
+        display: block;
+        height: calc(100vh - 4.5rem);
+        overflow-y: auto;
+    }
+}
