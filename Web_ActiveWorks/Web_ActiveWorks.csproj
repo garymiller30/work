@@ -25,4 +25,10 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Data\web-access-settings.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

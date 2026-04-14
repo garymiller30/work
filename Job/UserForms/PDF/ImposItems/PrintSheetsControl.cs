@@ -70,9 +70,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 objectListView1.ClearObjects();
             }
-            else if (objectListView1.SelectedObject is PrintSheet sheet)
+            else if (objectListView1.SelectedObjects.Count > 0)
             {
-                objectListView1.RemoveObject(sheet);
+                objectListView1.RemoveObjects(objectListView1.SelectedObjects);
             }
             else
             {
