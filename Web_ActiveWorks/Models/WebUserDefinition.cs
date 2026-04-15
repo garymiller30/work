@@ -9,4 +9,5 @@ public sealed class WebUserDefinition
     public bool CanAccessJobsPage { get; set; } = true;
     public string ProfileKey { get; set; } = string.Empty;
     public List<int> VisibleStatusCodes { get; set; } = new();
+    public List<string> PayProcesses { get; set; } = new();
 }
