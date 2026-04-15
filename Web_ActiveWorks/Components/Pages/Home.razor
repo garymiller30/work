@@ -65,16 +65,16 @@ else
                     @foreach (var job in _jobs)
                     {
                         <tr>
-                            <td>@job.Date.ToLocalTime().ToString("dd.MM.yyyy")</td>
-                            <td>
+                            <td data-label="Дата">@job.Date.ToLocalTime().ToString("dd.MM.yyyy")</td>
+                            <td data-label="Статус">
                                 <span class="status-pill">@job.StatusText</span>
                             </td>
-                            <td class="mono">@job.Number</td>
-                            <td>@job.Customer</td>
-                            <td>@job.Description</td>
+                            <td data-label="Номер" class="mono">@job.Number</td>
+                            <td data-label="Замовник">@job.Customer</td>
+                            <td data-label="Опис" class="job-description">@job.Description</td>
                             @if (_currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any())
                             {
-                                <td class="mono price">@job.Price</td>
+                                <td data-label="Вартість, грн" class="mono price">@job.Price</td>
                             }
                             
                         </tr>
@@ -82,7 +82,7 @@ else
                     @if(_currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any())
                     {
                          <tr>
-                             <td colspan="6" class=" mono price">
+                             <td data-label="Всього" colspan="6" class=" mono price">
                                 <strong>@_totalPrice</strong>
                             </td>
                          </tr>
