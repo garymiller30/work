@@ -54,7 +54,11 @@ else
                         <th>Номер</th>
                         <th>Замовник</th>
                         <th>Опис</th>
-                        <th class="price">Вартість, грн</th>
+                        @if (_currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any())
+                        {
+                            <th class="price">Вартість, грн</th>
+                        }
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -68,7 +72,11 @@ else
                             <td class="mono">@job.Number</td>
                             <td>@job.Customer</td>
                             <td>@job.Description</td>
-                            <td class="mono price">@job.Price</td>
+                            @if (_currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any())
+                            {
+                                <td class="mono price">@job.Price</td>
+                            }
+                            
                         </tr>
                     }
                     @if(_currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any())
