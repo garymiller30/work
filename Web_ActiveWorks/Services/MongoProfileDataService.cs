@@ -1,5 +1,6 @@
-using System.Collections.Concurrent;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Collections.Concurrent;
 using Web_ActiveWorks.Models;
 
 namespace Web_ActiveWorks.Services;
@@ -27,6 +28,7 @@ public sealed class MongoProfileDataService
     public async Task<IReadOnlyList<JobListItemViewModel>> GetJobsAsync(
         WebProfileDefinition profile,
         IReadOnlyCollection<int> visibleStatusCodes,
+        List<string> payProcesses,
         CancellationToken cancellationToken = default)
     {
         var database = GetDatabase(profile);
@@ -43,7 +45,45 @@ public sealed class MongoProfileDataService
             .Limit(500)
             .ToListAsync(cancellationToken);
 
-        return jobs.Select(job => new JobListItemViewModel
+        var jobIds = jobs.Select(x => x.Id).ToList();
+
+        // ===== Збір оплат з усіх процесів =====
+
+        var paymentMap = new Dictionary<ObjectId, decimal>();
+
+        foreach (var processName in payProcesses)
+        {
+            var payCollection = database.GetCollection<MongoJobPayDocument>(processName);
+
+            var payDocs = await payCollection
+                .Find(x => jobIds.Contains(x.ParentId))
+                .ToListAsync(cancellationToken);
+
+            foreach (var doc in payDocs)
+            {
+                if (!decimal.TryParse(doc.Price, out var price))
+                    continue;
+
+                var paidSum = doc.Pays
+                    .Select(p => decimal.TryParse(p.Sum, out var s) ? s : 0m)
+                    .Sum();
+
+                var remaining = price - paidSum;
+
+                if (paymentMap.ContainsKey(doc.ParentId))
+                    paymentMap[doc.ParentId] += remaining;
+                else
+                    paymentMap[doc.ParentId] = remaining;
+            }
+        }
+
+
+
+        return jobs.Select(job =>
+        {
+            paymentMap.TryGetValue(job.Id, out var remaining);
+
+            return new JobListItemViewModel
             {
                 Date = job.Date,
                 StatusCode = job.StatusCode,
@@ -52,8 +92,10 @@ public sealed class MongoProfileDataService
                     : $"Status #{job.StatusCode}",
                 Number = job.Number,
                 Customer = job.Customer,
-                Description = job.Description
-            })
+                Description = job.Description,
+                Price = remaining
+            };
+        })
             .ToList();
     }
 

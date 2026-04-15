@@ -54,6 +54,7 @@ else
                         <th>Номер</th>
                         <th>Замовник</th>
                         <th>Опис</th>
+                        <th class="price">Вартість, грн</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,7 +68,16 @@ else
                             <td class="mono">@job.Number</td>
                             <td>@job.Customer</td>
                             <td>@job.Description</td>
+                            <td class="mono price">@job.Price</td>
                         </tr>
+                    }
+                    @if(_currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any())
+                    {
+                         <tr>
+                             <td colspan="6" class=" mono price">
+                                <strong>@_totalPrice</strong>
+                            </td>
+                         </tr>
                     }
                 </tbody>
             </table>
@@ -81,6 +91,7 @@ else
     private WebUserDefinition? _currentUser;
     private WebProfileDefinition? _profile;
     private List<JobListItemViewModel> _jobs = new();
+    private decimal _totalPrice = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -119,8 +130,11 @@ else
                 return;
             }
 
-            _jobs = (await MongoProfileDataService.GetJobsAsync(_profile, _currentUser.VisibleStatusCodes))
+            _jobs = (await MongoProfileDataService.GetJobsAsync(_profile, _currentUser.VisibleStatusCodes,_currentUser.PayProcesses))
                 .ToList();
+            _totalPrice = 0;
+            if (_jobs.Count > 0)
+                _totalPrice = _jobs.Sum(j => j.Price);
         }
         catch (Exception ex)
         {

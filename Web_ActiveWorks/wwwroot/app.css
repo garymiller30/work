@@ -34,6 +34,10 @@ code,
     font-size: 1rem;
 }
 
+.price{
+    text-align:right;
+}
+
 .page-header {
     display: flex;
     justify-content: space-between;
@@ -117,7 +121,7 @@ code,
 .jobs-table td {
     padding: 5px;
     border-bottom: 1px solid rgba(24, 50, 77, 0.08);
-    text-align: left;
+    
     vertical-align: top;
 }
 
