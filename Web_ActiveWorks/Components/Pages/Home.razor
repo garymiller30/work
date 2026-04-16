@@ -11,7 +11,23 @@
     <div>
         <h1>Список робіт (@_jobs.Count)</h1>
     </div>
-    <button class="primary-action" @onclick="LoadAsync" disabled="@_isLoading">Оновити</button>
+    <div class="header-actions">
+        @if (CanShowPriceColumn)
+        {
+            <div class="cart-summary">
+                <button class="cart-button" @onclick="OpenCart" title="Відкрити кошик">
+                    <span class="cart-icon" aria-hidden="true">🛒</span>
+                    <span>Кошик</span>
+                    @if (CartCount > 0)
+                    {
+                        <span class="cart-count">@CartCount</span>
+                    }
+                </button>
+                <span class="cart-total">Сума: @CartTotalPrice грн</span>
+            </div>
+        }
+        <button class="primary-action" @onclick="LoadAsync" disabled="@_isLoading">Оновити</button>
+    </div>
 </div>
 
 @if (!string.IsNullOrWhiteSpace(_loadError))
@@ -54,9 +70,10 @@ else
                         <th>Номер</th>
                         <th>Замовник</th>
                         <th>Опис</th>
-                        @if (_currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any())
+                        @if (CanShowPriceColumn)
                         {
                             <th class="price">Вартість, грн</th>
+                            <th class="cart-column">Кошик</th>
                         }
                         
                     </tr>
@@ -72,17 +89,25 @@ else
                             <td data-label="Номер" class="mono">@job.Number</td>
                             <td data-label="Замовник">@job.Customer</td>
                             <td data-label="Опис" class="job-description">@job.Description</td>
-                            @if (_currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any())
+                            @if (CanShowPriceColumn)
                             {
                                 <td data-label="Вартість, грн" class="mono price">@job.Price</td>
+                                <td data-label="Кошик" class="cart-column">
+                                    @if (job.Price > 0)
+                                    {
+                                        <button class="cart-toggle @(IsInCart(job) ? "selected" : null)" @onclick="() => ToggleCart(job)">
+                                            @(IsInCart(job) ? "Прибрати" : "Додати")
+                                        </button>
+                                    }
+                                </td>
                             }
                             
                         </tr>
                     }
-                    @if(_currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any())
+                    @if(CanShowPriceColumn)
                     {
                          <tr>
-                             <td data-label="Всього" colspan="6" class=" mono price">
+                             <td data-label="Всього" colspan="7" class=" mono price">
                                 <strong>@_totalPrice</strong>
                             </td>
                          </tr>
@@ -93,13 +118,72 @@ else
     }
 }
 
+@if (_isCartOpen)
+{
+    <div class="cart-modal-overlay" @onclick="CloseCart">
+        <div class="cart-modal" @onclick:stopPropagation="true" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+            <div class="cart-modal-header">
+                <div>
+                    <h2 id="cart-title">Кошик</h2>
+                    <p>Додано робіт: @CartCount</p>
+                </div>
+                <button class="modal-close" @onclick="CloseCart" aria-label="Закрити">×</button>
+            </div>
+
+            @if (_cartItems.Count == 0)
+            {
+                <div class="empty-state compact">
+                    <h2>Кошик порожній</h2>
+                    <p>Додайте роботи зі списку, щоб побачити їх тут.</p>
+                </div>
+            }
+            else
+            {
+                <div class="cart-modal-body">
+                    <table class="jobs-table cart-table">
+                        <thead>
+                            <tr>
+                                <th>Номер</th>
+                                <th>Замовник</th>
+                                <th>Опис</th>
+                                <th class="price">Вартість, грн</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var job in _cartItems)
+                            {
+                                <tr>
+                                    <td data-label="Номер" class="mono">@job.Number</td>
+                                    <td data-label="Замовник">@job.Customer</td>
+                                    <td data-label="Опис" class="job-description">@job.Description</td>
+                                    <td data-label="Вартість, грн" class="mono price">@job.Price</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            <div class="cart-modal-footer">
+                <strong>Загальна вартість: @CartTotalPrice грн</strong>
+            </div>
+        </div>
+    </div>
+}
+
 @code {
     private bool _isLoading = true;
     private string? _loadError;
+    private bool _isCartOpen;
     private WebUserDefinition? _currentUser;
     private WebProfileDefinition? _profile;
     private List<JobListItemViewModel> _jobs = new();
+    private List<JobListItemViewModel> _cartItems = new();
+    private HashSet<string> _cartItemKeys = new(StringComparer.Ordinal);
     private decimal _totalPrice = 0;
+    private bool CanShowPriceColumn => _currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any();
+    private int CartCount => _cartItems.Count;
+    private decimal CartTotalPrice => _cartItems.Sum(job => job.Price);
 
     protected override async Task OnInitializedAsync()
     {
@@ -143,10 +227,13 @@ else
             _totalPrice = 0;
             if (_jobs.Count > 0)
                 _totalPrice = _jobs.Sum(j => j.Price);
+            SyncCartWithJobs();
         }
         catch (Exception ex)
         {
             _jobs.Clear();
+            _cartItems.Clear();
+            _cartItemKeys.Clear();
             _loadError = $"Не вдалося завантажити роботи: {ex.Message}";
         }
         finally
@@ -155,4 +242,218 @@ else
             await InvokeAsync(StateHasChanged);
         }
     }
+
+    private void ToggleCart(JobListItemViewModel job)
+    {
+        if (job.Price <= 0)
+        {
+            return;
+        }
+
+        var key = GetCartKey(job);
+        if (_cartItemKeys.Add(key))
+        {
+            _cartItems.Add(job);
+            return;
+        }
+
+        _cartItemKeys.Remove(key);
+        _cartItems.RemoveAll(item => GetCartKey(item) == key);
+    }
+
+    private bool IsInCart(JobListItemViewModel job) => _cartItemKeys.Contains(GetCartKey(job));
+
+    private void OpenCart() => _isCartOpen = true;
+
+    private void CloseCart() => _isCartOpen = false;
+
+    private void SyncCartWithJobs()
+    {
+        if (_cartItems.Count == 0)
+        {
+            return;
+        }
+
+        var jobsByKey = _jobs
+            .Where(job => job.Price > 0)
+            .GroupBy(GetCartKey)
+            .ToDictionary(group => group.Key, group => group.First(), StringComparer.Ordinal);
+
+        _cartItems = _cartItemKeys
+            .Where(jobsByKey.ContainsKey)
+            .Select(key => jobsByKey[key])
+            .ToList();
+
+        _cartItemKeys = _cartItems
+            .Select(GetCartKey)
+            .ToHashSet(StringComparer.Ordinal);
+
+        if (_cartItems.Count == 0)
+        {
+            _isCartOpen = false;
+        }
+    }
+
+    private static string GetCartKey(JobListItemViewModel job) =>
+        string.Join("|", job.Date.Ticks, job.StatusCode, job.Number, job.Customer, job.Description, job.Price);
 }
+
+<style>
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .cart-button {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.7rem 1rem;
+        border: 1px solid rgba(37, 99, 235, 0.2);
+        border-radius: 999px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-weight: 600;
+    }
+
+    .cart-summary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .cart-button:hover {
+        background: #dbeafe;
+    }
+
+    .cart-icon {
+        font-size: 1.1rem;
+    }
+
+    .cart-count {
+        min-width: 1.5rem;
+        height: 1.5rem;
+        padding: 0 0.35rem;
+        border-radius: 999px;
+        background: #1d4ed8;
+        color: #fff;
+        font-size: 0.85rem;
+        line-height: 1.5rem;
+        text-align: center;
+    }
+
+    .cart-total {
+        color: #0f172a;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .cart-column {
+        width: 8.5rem;
+        text-align: center;
+    }
+
+    .cart-toggle {
+        padding: 0.45rem 0.8rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 0.75rem;
+        background: #fff;
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .cart-toggle.selected {
+        border-color: #1d4ed8;
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .cart-modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: rgba(15, 23, 42, 0.55);
+    }
+
+    .cart-modal {
+        width: min(900px, 100%);
+        max-height: 90vh;
+        overflow: hidden;
+        border-radius: 1.25rem;
+        background: #fff;
+        box-shadow: 0 30px 60px rgba(15, 23, 42, 0.2);
+    }
+
+    .cart-modal-header,
+    .cart-modal-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .cart-modal-header p {
+        margin: 0.25rem 0 0;
+        color: #475569;
+    }
+
+    .cart-modal-footer {
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 0;
+    }
+
+    .cart-modal-body {
+        max-height: calc(90vh - 9rem);
+        overflow: auto;
+        padding: 0 1.5rem 1rem;
+    }
+
+    .cart-table {
+        margin-top: 1rem;
+    }
+
+    .modal-close {
+        width: 2.25rem;
+        height: 2.25rem;
+        border: 0;
+        border-radius: 999px;
+        background: #e2e8f0;
+        color: #0f172a;
+        font-size: 1.5rem;
+        line-height: 1;
+    }
+
+    .empty-state.compact {
+        margin: 1.5rem;
+    }
+
+    @@media (max-width: 900px) {
+        .header-actions {
+            width: 100%;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .cart-column {
+            width: auto;
+        }
+
+        .cart-summary {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .cart-modal {
+            width: 100%;
+        }
+    }
+</style>
