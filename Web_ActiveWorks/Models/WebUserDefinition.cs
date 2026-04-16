@@ -10,4 +10,5 @@ public sealed class WebUserDefinition
     public string ProfileKey { get; set; } = string.Empty;
     public List<int> VisibleStatusCodes { get; set; } = new();
     public List<string> PayProcesses { get; set; } = new();
+    public int? PayStatusCode { get; set; }
 }
