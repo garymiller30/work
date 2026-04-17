@@ -1,3 +1,8 @@
+@implements IDisposable
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject WebAccessSettingsStore SettingsStore
+@inject NavigationManager NavigationManager
+
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid nav-shell">
         <div>
@@ -24,6 +29,26 @@
                         <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Адміністрування
                     </NavLink>
                 </div>
+
+                <div class="nav-section px-3">
+                    <div class="nav-section-title">Роботи користувачів</div>
+                    @if (_managedUsers.Count == 0)
+                    {
+                        <div class="nav-helper-note">Немає користувачів для перегляду.</div>
+                    }
+                    else
+                    {
+                        @foreach (var user in _managedUsers)
+                        {
+                            <div class="nav-item nav-subitem">
+                                <a class="@GetUserLinkClass(user.Username)" href="@GetUserHref(user.Username)">
+                                    <span class="user-shortcut-name">@user.DisplayName</span>
+                                    <span class="user-shortcut-meta">@user.ProfileName</span>
+                                </a>
+                            </div>
+                        }
+                    }
+                </div>
             </Authorized>
         </AuthorizeView>
 
@@ -46,3 +71,87 @@
         </div>
     </nav>
 </div>
+
+@code {
+    private readonly List<ManagedUserNavItem> _managedUsers = new();
+    private string? _selectedUsername;
+
+    protected override async Task OnInitializedAsync()
+    {
+        NavigationManager.LocationChanged += HandleLocationChanged;
+        _selectedUsername = GetSelectedUsernameFromUri();
+        await LoadManagedUsersAsync();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= HandleLocationChanged;
+    }
+
+    private async Task LoadManagedUsersAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var signedInUser = await SettingsStore.FindUserAsync(authState.User.Identity?.Name);
+
+        _managedUsers.Clear();
+        if (signedInUser?.IsAdmin != true)
+        {
+            return;
+        }
+
+        var settings = await SettingsStore.GetAsync();
+        var profilesByKey = settings.Profiles.ToDictionary(x => x.Key, StringComparer.OrdinalIgnoreCase);
+
+        _managedUsers.AddRange(settings.Users
+            .Where(user => !user.IsAdmin)
+            .OrderBy(user => string.IsNullOrWhiteSpace(user.DisplayName) ? user.Username : user.DisplayName)
+            .Select(user =>
+            {
+                profilesByKey.TryGetValue(user.ProfileKey, out var profile);
+
+                return new ManagedUserNavItem(
+                    user.Username,
+                    string.IsNullOrWhiteSpace(user.DisplayName) ? user.Username : user.DisplayName,
+                    profile?.Name ?? user.ProfileKey);
+            }));
+    }
+
+    private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        _selectedUsername = GetSelectedUsernameFromUri();
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    private string GetUserHref(string username) => $"/?user={Uri.EscapeDataString(username)}";
+
+    private string GetUserLinkClass(string username)
+    {
+        var isActive = string.Equals(_selectedUsername, username, StringComparison.OrdinalIgnoreCase);
+        return isActive ? "user-shortcut-link active" : "user-shortcut-link";
+    }
+
+    private string? GetSelectedUsernameFromUri()
+    {
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+        if (string.IsNullOrWhiteSpace(uri.Query))
+        {
+            return null;
+        }
+
+        var segments = uri.Query.TrimStart('?')
+            .Split('&', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        foreach (var segment in segments)
+        {
+            var parts = segment.Split('=', 2);
+            if (parts.Length == 2 && string.Equals(parts[0], "user", StringComparison.OrdinalIgnoreCase))
+            {
+                return Uri.UnescapeDataString(parts[1]);
+            }
+        }
+
+        return null;
+    }
+
+    private sealed record ManagedUserNavItem(string Username, string DisplayName, string ProfileName);
+}
