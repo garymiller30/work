@@ -107,7 +107,7 @@ else
                     @if(CanShowPriceColumn)
                     {
                          <tr>
-                             <td data-label="Всього" colspan="7" class=" mono price">
+                             <td data-label="Всього" colspan="6" class=" mono price">
                                 <strong>@_totalPrice</strong>
                             </td>
                          </tr>
@@ -166,6 +166,12 @@ else
 
             <div class="cart-modal-footer">
                 <strong>Загальна вартість: @CartTotalPrice грн</strong>
+                @if (_currentUser?.PayStatusCode is not null)
+                {
+                    <button class="primary-action" @onclick="MarkAsPaidAsync" disabled="@(_isUpdatingStatuses || _cartItems.Count == 0)">
+                        @(_isUpdatingStatuses ? "Оновлення..." : "Відмітити як сплачене")
+                    </button>
+                }
             </div>
         </div>
     </div>
@@ -175,6 +181,7 @@ else
     private bool _isLoading = true;
     private string? _loadError;
     private bool _isCartOpen;
+    private bool _isUpdatingStatuses;
     private WebUserDefinition? _currentUser;
     private WebProfileDefinition? _profile;
     private List<JobListItemViewModel> _jobs = new();
@@ -267,6 +274,39 @@ else
 
     private void CloseCart() => _isCartOpen = false;
 
+    private async Task MarkAsPaidAsync()
+    {
+        if (_isUpdatingStatuses || _profile is null || _currentUser?.PayStatusCode is null || _cartItems.Count == 0)
+        {
+            return;
+        }
+
+        _isUpdatingStatuses = true;
+        _loadError = null;
+
+        try
+        {
+            await MongoProfileDataService.UpdateJobStatusesAsync(
+                _profile,
+                _cartItems.Select(job => job.Id).ToList(),
+                _currentUser.PayStatusCode.Value);
+
+            _cartItems.Clear();
+            _cartItemKeys.Clear();
+            _isCartOpen = false;
+
+            await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            _loadError = $"Не вдалося відмітити роботи як сплачені: {ex.Message}";
+        }
+        finally
+        {
+            _isUpdatingStatuses = false;
+        }
+    }
+
     private void SyncCartWithJobs()
     {
         if (_cartItems.Count == 0)
@@ -295,7 +335,9 @@ else
     }
 
     private static string GetCartKey(JobListItemViewModel job) =>
-        string.Join("|", job.Date.Ticks, job.StatusCode, job.Number, job.Customer, job.Description, job.Price);
+        !string.IsNullOrWhiteSpace(job.Id)
+            ? job.Id
+            : string.Join("|", job.Date.Ticks, job.StatusCode, job.Number, job.Customer, job.Description, job.Price);
 }
 
 <style>
@@ -371,6 +413,14 @@ else
         color: #1d4ed8;
     }
 
+    .jobs-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
+
+    .jobs-table tbody tr:hover {
+        background: #f8fafc;
+    }
+
     .cart-modal-overlay {
         position: fixed;
         inset: 0;
@@ -386,6 +436,8 @@ else
         width: min(900px, 100%);
         max-height: 90vh;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
         border-radius: 1.25rem;
         background: #fff;
         box-shadow: 0 30px 60px rgba(15, 23, 42, 0.2);
@@ -409,10 +461,13 @@ else
     .cart-modal-footer {
         border-top: 1px solid #e2e8f0;
         border-bottom: 0;
+        flex-shrink: 0;
+        background: #fff;
     }
 
     .cart-modal-body {
-        max-height: calc(90vh - 9rem);
+        flex: 1 1 auto;
+        min-height: 0;
         overflow: auto;
         padding: 0 1.5rem 1rem;
     }

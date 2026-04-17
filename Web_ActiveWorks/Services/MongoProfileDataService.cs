@@ -40,21 +40,17 @@ public sealed class MongoProfileDataService
             ? Builders<MongoJobDocument>.Filter.Empty
             : Builders<MongoJobDocument>.Filter.In(x => x.StatusCode, visibleStatusCodes);
 
-        List<MongoJobDocument>? jobs = await jobCollection.Find(filter)
+        List<MongoJobDocument> jobs = await jobCollection.Find(filter)
             .SortByDescending(x => x.Date)
             .Limit(500)
             .ToListAsync(cancellationToken);
 
         var jobIds = jobs.Select(x => x.Id).ToList();
-
-        // ===== Збір оплат з усіх процесів =====
-
         var paymentMap = new Dictionary<ObjectId, decimal>();
 
         foreach (var processName in payProcesses)
         {
             var payCollection = database.GetCollection<MongoJobPayDocument>(processName);
-
             var payDocs = await payCollection
                 .Find(x => jobIds.Contains(x.ParentId))
                 .ToListAsync(cancellationToken);
@@ -62,22 +58,26 @@ public sealed class MongoProfileDataService
             foreach (var doc in payDocs)
             {
                 if (!decimal.TryParse(doc.Price, out var price))
+                {
                     continue;
+                }
 
                 var paidSum = doc.Pays
-                    .Select(p => decimal.TryParse(p.Sum, out var s) ? s : 0m)
+                    .Select(p => decimal.TryParse(p.Sum, out var sum) ? sum : 0m)
                     .Sum();
 
                 var remaining = price - paidSum;
 
                 if (paymentMap.ContainsKey(doc.ParentId))
+                {
                     paymentMap[doc.ParentId] += remaining;
+                }
                 else
+                {
                     paymentMap[doc.ParentId] = remaining;
+                }
             }
         }
-
-
 
         return jobs.Select(job =>
         {
@@ -85,6 +85,7 @@ public sealed class MongoProfileDataService
 
             return new JobListItemViewModel
             {
+                Id = job.Id.ToString(),
                 Date = job.Date,
                 StatusCode = job.StatusCode,
                 StatusText = statusMap.TryGetValue(job.StatusCode, out var statusText)
@@ -95,8 +96,36 @@ public sealed class MongoProfileDataService
                 Description = job.Description,
                 Price = remaining
             };
-        })
+        }).ToList();
+    }
+
+    public async Task<int> UpdateJobStatusesAsync(
+        WebProfileDefinition profile,
+        IReadOnlyCollection<string> jobIds,
+        int statusCode,
+        CancellationToken cancellationToken = default)
+    {
+        var parsedIds = jobIds
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .Select(id => ObjectId.TryParse(id, out var objectId)
+                ? (IsValid: true, ObjectId: objectId)
+                : (IsValid: false, ObjectId: ObjectId.Empty))
+            .Where(x => x.IsValid)
+            .Select(x => x.ObjectId)
+            .Distinct()
             .ToList();
+
+        if (parsedIds.Count == 0)
+        {
+            return 0;
+        }
+
+        var collection = GetDatabase(profile).GetCollection<MongoJobDocument>("Jobs");
+        var filter = Builders<MongoJobDocument>.Filter.In(x => x.Id, parsedIds);
+        var update = Builders<MongoJobDocument>.Update.Set(x => x.StatusCode, statusCode);
+        var result = await collection.UpdateManyAsync(filter, update, cancellationToken: cancellationToken);
+
+        return (int)result.ModifiedCount;
     }
 
     private IMongoDatabase GetDatabase(WebProfileDefinition profile)
