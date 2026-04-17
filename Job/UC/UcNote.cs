@@ -20,11 +20,6 @@ namespace JobSpace.UC
         public UcNote()
         {
             InitializeComponent();
-            ThemeController.ThemeChanged += ThemeController_ThemeChanged;
-        }
-
-        private void ThemeController_ThemeChanged(object sender, EventArgs e)
-        {
             
         }
 

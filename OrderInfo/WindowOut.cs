@@ -16,14 +16,15 @@ namespace OrderInfo
         private IJob _curjob;
         private bool _isSubscribed;
         JobInfo _jobInfo;
-      
+        string _text;
+
         public IUserProfile UserProfile { get; set; }
 
         public WindowOut()
         {
             InitializeComponent();
             ucNote1.OnNoteTextChanged += RichTextBox1_Leave;
-           
+
         }
         public UserControl GetUserControl()
         {
@@ -75,7 +76,9 @@ namespace OrderInfo
 
                     AddCheckedEvents();
 
-                    ucNote1.SetText(job.Note ?? string.Empty);
+                    _text = job.Note ?? string.Empty;
+
+                    ucNote1.SetText(_text);
 
 
                     if (_isSubscribed) ucAddWorkPluginsContainer1.Unsubscribe(UserProfile);
@@ -221,8 +224,12 @@ namespace OrderInfo
 
         private void RichTextBox1_Leave(object sender, EventArgs e)
         {
-
-            SaveChanges();
+            var newText = ucNote1.GetRtf();
+            if (_text != newText)
+            {
+                _text = newText;
+                SaveChanges();
+            }
 
         }
 
@@ -260,7 +267,7 @@ namespace OrderInfo
         public string PluginName => GetPluginName();
         public string PluginDescription => "інформація про замовлення";
 
-        
+
 
         public void ShowSettingsDlg()
         {
