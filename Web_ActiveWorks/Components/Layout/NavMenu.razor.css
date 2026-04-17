@@ -93,6 +93,52 @@
     margin-top: 1.25rem;
 }
 
+.nav-section-title {
+    margin-bottom: 0.65rem;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.62);
+}
+
+.nav-helper-note {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.88rem;
+}
+
+.nav-subitem {
+    padding-bottom: 0.35rem;
+}
+
+.user-shortcut-link {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.8rem 1rem;
+    border-radius: 0.95rem;
+    color: rgba(255, 255, 255, 0.88);
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.user-shortcut-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+}
+
+.user-shortcut-link.active {
+    background: rgba(255, 255, 255, 0.18);
+    color: white;
+}
+
+.user-shortcut-name {
+    font-weight: 700;
+}
+
+.user-shortcut-meta {
+    font-size: 0.83rem;
+    color: rgba(255, 255, 255, 0.72);
+}
+
 .user-box {
     padding: 1rem;
     border-radius: 1rem;

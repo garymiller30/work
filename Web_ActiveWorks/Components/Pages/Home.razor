@@ -9,7 +9,11 @@
 
 <div class="page-header">
     <div>
-        <h1>Список робіт (@_jobs.Count)</h1>
+        <h1>@PageTitleText</h1>
+        @if (!string.IsNullOrWhiteSpace(PageSubtitleText))
+        {
+            <p class="page-subtitle">@PageSubtitleText</p>
+        }
     </div>
     <div class="header-actions">
         @if (CanShowPriceColumn)
@@ -34,11 +38,18 @@
 {
     <div class="alert-panel error-panel">@_loadError</div>
 }
-else if (_currentUser is not null && !_currentUser.CanAccessJobsPage)
+else if (!IsAdminViewer && _currentUser is not null && !_currentUser.CanAccessJobsPage)
 {
     <div class="empty-state">
         <h2>Доступ вимкнено</h2>
         <p>Адміністратор ще не надав цьому користувачу доступ до сторінки робіт.</p>
+    </div>
+}
+else if (IsAdminViewer && _currentUser is null)
+{
+    <div class="empty-state">
+        <h2>Виберіть користувача</h2>
+        <p>У лівій панелі доступний список користувачів. Натисніть на потрібного, щоб побачити його роботи.</p>
     </div>
 }
 else if (_isLoading)
@@ -178,21 +189,36 @@ else
 }
 
 @code {
+    [SupplyParameterFromQuery(Name = "user")]
+    public string? ViewedUsername { get; set; }
+
     private bool _isLoading = true;
     private string? _loadError;
     private bool _isCartOpen;
     private bool _isUpdatingStatuses;
+    private WebUserDefinition? _signedInUser;
     private WebUserDefinition? _currentUser;
     private WebProfileDefinition? _profile;
     private List<JobListItemViewModel> _jobs = new();
     private List<JobListItemViewModel> _cartItems = new();
     private HashSet<string> _cartItemKeys = new(StringComparer.Ordinal);
     private decimal _totalPrice = 0;
+    private bool IsAdminViewer => _signedInUser?.IsAdmin == true;
     private bool CanShowPriceColumn => _currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any();
     private int CartCount => _cartItems.Count;
     private decimal CartTotalPrice => _cartItems.Sum(job => job.Price);
+    private string PageTitleText => IsAdminViewer
+        ? _currentUser is null
+            ? "Роботи користувачів"
+            : $"Роботи користувача {GetUserDisplayName(_currentUser)} ({_jobs.Count})"
+        : $"Список робіт ({_jobs.Count})";
+    private string? PageSubtitleText => IsAdminViewer
+        ? _currentUser is null
+            ? "Адміністратор не має власного списку робіт і переглядає роботи інших користувачів."
+            : $"Показані роботи користувача {_currentUser.Username} за його профілем і статусами."
+        : null;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         await LoadAsync();
     }
@@ -206,26 +232,54 @@ else
         {
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var username = authState.User.Identity?.Name;
-            _currentUser = await SettingsStore.FindUserAsync(username);
+            _signedInUser = await SettingsStore.FindUserAsync(username);
 
-            if (_currentUser is null)
+            if (_signedInUser is null)
             {
                 _loadError = "Користувач не знайдений у конфігурації веб-порталу.";
-                _jobs.Clear();
+                ResetJobsState(clearSelectedUser: true);
                 return;
             }
 
-            if (!_currentUser.CanAccessJobsPage)
+            if (_signedInUser.IsAdmin)
             {
-                _jobs.Clear();
-                return;
+                if (string.IsNullOrWhiteSpace(ViewedUsername))
+                {
+                    ResetJobsState(clearSelectedUser: true);
+                    return;
+                }
+
+                _currentUser = await SettingsStore.FindUserAsync(ViewedUsername);
+                if (_currentUser is null)
+                {
+                    _loadError = $"Користувача '{ViewedUsername}' не знайдено.";
+                    ResetJobsState(clearSelectedUser: true);
+                    return;
+                }
+
+                if (_currentUser.IsAdmin)
+                {
+                    _loadError = "Адміністратор не має власного списку робіт.";
+                    ResetJobsState(clearSelectedUser: true);
+                    return;
+                }
+            }
+            else
+            {
+                _currentUser = _signedInUser;
+
+                if (!_currentUser.CanAccessJobsPage)
+                {
+                    ResetJobsState();
+                    return;
+                }
             }
 
             _profile = await SettingsStore.FindProfileAsync(_currentUser.ProfileKey);
             if (_profile is null)
             {
                 _loadError = $"Для користувача '{_currentUser.Username}' не знайдено профіль '{_currentUser.ProfileKey}'.";
-                _jobs.Clear();
+                ResetJobsState();
                 return;
             }
 
@@ -238,9 +292,7 @@ else
         }
         catch (Exception ex)
         {
-            _jobs.Clear();
-            _cartItems.Clear();
-            _cartItemKeys.Clear();
+            ResetJobsState();
             _loadError = $"Не вдалося завантажити роботи: {ex.Message}";
         }
         finally
@@ -338,6 +390,24 @@ else
         !string.IsNullOrWhiteSpace(job.Id)
             ? job.Id
             : string.Join("|", job.Date.Ticks, job.StatusCode, job.Number, job.Customer, job.Description, job.Price);
+
+    private void ResetJobsState(bool clearSelectedUser = false)
+    {
+        _jobs.Clear();
+        _cartItems.Clear();
+        _cartItemKeys.Clear();
+        _profile = null;
+        _totalPrice = 0;
+        _isCartOpen = false;
+
+        if (clearSelectedUser)
+        {
+            _currentUser = null;
+        }
+    }
+
+    private static string GetUserDisplayName(WebUserDefinition user) =>
+        string.IsNullOrWhiteSpace(user.DisplayName) ? user.Username : user.DisplayName;
 }
 
 <style>
