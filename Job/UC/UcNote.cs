@@ -13,21 +13,18 @@ namespace JobSpace.UC
 {
     public sealed partial class UcNote : UserControl, INoteControl
     {
-        
-        public event EventHandler OnNoteTextChanged = delegate { };
-        bool notify_event = false;
+        public EventHandler OnLeaveControl { get; set; } = delegate { };
 
         public UcNote()
         {
             InitializeComponent();
-            
         }
 
         public void SetText(string text)
         {
             if (text is null) return;
 
-            notify_event = false;
+
 
             if (text.TrimStart().StartsWith(@"{\rtf1", StringComparison.Ordinal))
             {
@@ -38,7 +35,7 @@ namespace JobSpace.UC
                 kryptonRichTextBox1.Text = text;
             }
 
-            notify_event = true;
+
         }
 
         public string GetText()
@@ -54,7 +51,7 @@ namespace JobSpace.UC
         private void ToolStripButtonBold_Click(object sender, EventArgs e)
         {
             if (kryptonRichTextBox1.SelectionFont != null)
-                kryptonRichTextBox1.SelectionFont = new Font(kryptonRichTextBox1.Font,kryptonRichTextBox1.SelectionFont.Style ^ FontStyle.Bold);
+                kryptonRichTextBox1.SelectionFont = new Font(kryptonRichTextBox1.Font, kryptonRichTextBox1.SelectionFont.Style ^ FontStyle.Bold);
         }
 
         private void ToolStripButtonItalic_Click(object sender, EventArgs e)
@@ -128,10 +125,9 @@ namespace JobSpace.UC
             System.Diagnostics.Process.Start(e.LinkText);
         }
 
-        private void kryptonRichTextBox1_TextChanged(object sender, EventArgs e)
+        private void kryptonRichTextBox1_Leave(object sender, EventArgs e)
         {
-            if (notify_event)
-                OnNoteTextChanged(this, EventArgs.Empty);
+            OnLeaveControl(this,EventArgs.Empty);
         }
     }
 }

@@ -23,9 +23,22 @@ namespace OrderInfo
         public WindowOut()
         {
             InitializeComponent();
-            ucNote1.OnNoteTextChanged += RichTextBox1_Leave;
-
+            ucNote1.OnLeaveControl += UcNote1_OnLeave;
         }
+
+        private void UcNote1_OnLeave(object sender, EventArgs e)
+        {
+            var text = ucNote1.GetRtf();
+            if (text != null)
+            {
+                if (text != _text)
+                {
+                    SaveChanges();
+                    _text = text;
+                }
+            }
+        }
+
         public UserControl GetUserControl()
         {
             return this;
@@ -96,6 +109,7 @@ namespace OrderInfo
                 {
                     _curjob = null;
                     _jobInfo = null;
+                    _text = string.Empty;
                 }
 
             }
@@ -103,9 +117,6 @@ namespace OrderInfo
             {
                 MessageBox.Show(e.Message);
             }
-
-
-
         }
 
         private void AddCheckedEvents()
@@ -220,19 +231,6 @@ namespace OrderInfo
         {
         }
 
-
-
-        private void RichTextBox1_Leave(object sender, EventArgs e)
-        {
-            var newText = ucNote1.GetRtf();
-            if (_text != newText)
-            {
-                _text = newText;
-                SaveChanges();
-            }
-
-        }
-
         void SaveChanges()
         {
             if (_curjob != null)
@@ -272,6 +270,11 @@ namespace OrderInfo
         public void ShowSettingsDlg()
         {
             MessageBox.Show("Налаштування відсутні");
+        }
+
+        private void btn_save_Click(object sender, EventArgs e)
+        {
+            SaveChanges();
         }
     }
 }
