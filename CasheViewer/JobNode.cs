@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using CasheViewer.Reports;
+using Interfaces;
 
 namespace CasheViewer
 {
@@ -12,7 +13,7 @@ namespace CasheViewer
         public string Description { get; set; }
         public string Category { get; set; }
 
-        public object Job { get; set; }
+        public IJob Job { get; set; }
         public Color ForegroundColor { get; set; }
         public ReportVersionEnum ReportVersion { get; set; }
         

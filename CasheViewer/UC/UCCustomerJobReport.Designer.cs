@@ -38,6 +38,7 @@
             this.olvColumn_Price = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn_ConsumerPrice = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn_PriceWithConsumerPrice = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn_status = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.treeListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,6 +46,7 @@
             // 
             this.treeListView1.AllColumns.Add(this.olvColumn_Customer);
             this.treeListView1.AllColumns.Add(this.olvColumnDate);
+            this.treeListView1.AllColumns.Add(this.olvColumn_status);
             this.treeListView1.AllColumns.Add(this.olvColumn_OrderNumber);
             this.treeListView1.AllColumns.Add(this.olvColumnCategory);
             this.treeListView1.AllColumns.Add(this.olvColumn_Description);
@@ -57,6 +59,7 @@
             this.treeListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumn_Customer,
             this.olvColumnDate,
+            this.olvColumn_status,
             this.olvColumn_OrderNumber,
             this.olvColumnCategory,
             this.olvColumn_Description,
@@ -122,6 +125,10 @@
             this.olvColumn_PriceWithConsumerPrice.Text = "Ціна з ІСЦ";
             this.olvColumn_PriceWithConsumerPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
+            // olvColumn_status
+            // 
+            this.olvColumn_status.Text = "статус";
+            // 
             // UCCustomerJobReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -145,5 +152,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumn_Price;
         private BrightIdeasSoftware.OLVColumn olvColumn_ConsumerPrice;
         private BrightIdeasSoftware.OLVColumn olvColumn_PriceWithConsumerPrice;
+        private BrightIdeasSoftware.OLVColumn olvColumn_status;
     }
 }

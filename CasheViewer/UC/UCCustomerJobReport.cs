@@ -28,6 +28,13 @@ namespace CasheViewer.UC
             olvColumn_Description.AspectGetter = x => x is INode job ? job.Description : string.Empty;
             olvColumn_OrderNumber.AspectGetter = x => x is INode job ? job.Number : string.Empty;
             olvColumnCategory.AspectGetter = x => x is INode job ? job.Category : string.Empty;
+            olvColumn_status.AspectGetter = x =>{ 
+                if (x is INode job && job.Job != null)
+                {
+                    return _profile.StatusManager.GetJobStatusDescriptionByCode(job.Job.StatusCode);
+                }
+                return string.Empty;
+            };
 
             olvColumn_Price.AspectGetter = x => (x as INode).Sum;
             olvColumnDate.AspectGetter = x => (x as INode).Children.Any() ? string.Empty : $"{((INode)x).Date.Year}.{((INode)x).Date.Month:D2}.{((INode)x).Date.Day:D2}";
