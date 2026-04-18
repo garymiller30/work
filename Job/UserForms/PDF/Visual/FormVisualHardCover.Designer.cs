@@ -159,11 +159,6 @@
             0,
             0,
             0});
-            this.nud_zagyn.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.nud_zagyn.Name = "nud_zagyn";
             this.nud_zagyn.Size = new System.Drawing.Size(74, 20);
             this.nud_zagyn.TabIndex = 4;
@@ -184,11 +179,6 @@
             0,
             0,
             0});
-            this.nud_rastav.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.nud_rastav.Name = "nud_rastav";
             this.nud_rastav.Size = new System.Drawing.Size(74, 20);
             this.nud_rastav.TabIndex = 3;
@@ -206,11 +196,6 @@
             this.nud_root.Location = new System.Drawing.Point(126, 80);
             this.nud_root.Maximum = new decimal(new int[] {
             1000,
-            0,
-            0,
-            0});
-            this.nud_root.Minimum = new decimal(new int[] {
-            1,
             0,
             0,
             0});

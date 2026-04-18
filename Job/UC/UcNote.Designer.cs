@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcNote));
-            this.kryptonRichTextBox1 = new Krypton.Toolkit.KryptonRichTextBox();
+            this.kryptonRichTextBox1 = new System.Windows.Forms.RichTextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonBold = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonItalic = new System.Windows.Forms.ToolStripButton();
@@ -58,7 +58,7 @@
             this.kryptonRichTextBox1.TabIndex = 0;
             this.kryptonRichTextBox1.Text = "";
             this.kryptonRichTextBox1.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.kryptonRichTextBox1_LinkClicked);
-            this.kryptonRichTextBox1.TextChanged += new System.EventHandler(this.kryptonRichTextBox1_TextChanged);
+            this.kryptonRichTextBox1.Leave += new System.EventHandler(this.kryptonRichTextBox1_Leave);
             // 
             // toolStrip1
             // 
@@ -209,7 +209,7 @@
 
         #endregion
 
-        private Krypton.Toolkit.KryptonRichTextBox kryptonRichTextBox1;
+        private System.Windows.Forms.RichTextBox kryptonRichTextBox1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButtonBold;
         private System.Windows.Forms.ToolStripButton toolStripButtonItalic;
