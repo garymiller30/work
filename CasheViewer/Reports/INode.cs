@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -17,7 +18,7 @@ namespace CasheViewer.Reports
         string Description { get; set; }
         string Category { get; set; }
 
-        object Job { get; set; }
+        IJob Job { get; set; }
 
         Color ForegroundColor { get; set; }
         ReportVersionEnum ReportVersion { get; set; }
