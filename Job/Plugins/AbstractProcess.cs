@@ -33,7 +33,7 @@ namespace Interfaces.Plugins
         {
             get
             {
-                if (Pays.Any())
+                if (Pays != null && Pays.Any())
                 {
                     return Pays.Sum(x => x.Sum);
                 }
@@ -43,10 +43,13 @@ namespace Interfaces.Plugins
 
         public void AddPay(decimal sum)
         {
+            if (Pays == null)
+            {
+                Pays = new List<T>();
+            }
             var pay = new T(){Sum = sum};
             Pays.Add(pay);
         }
-
         public abstract bool EditProcess();
         public abstract bool EditProcess(IUserProfile profile);
 

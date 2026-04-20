@@ -116,15 +116,12 @@ namespace CasheViewer.UC
                                 pluginFormAddWork.PayProcess(process, recursedTirag);
                                 recursedTirag = 0;
                             }
-
-                             ((JobSpace.Job)reportJob.Job).StatusCode = status.Code;
-                            _profile.Jobs.UpdateJob((JobSpace.Job)reportJob.Job, true);
-
                         }
                     }
                 }
             }
 
+            UpdateJobStatusIfFullyPaid(userProfile, reportJob, status);
             return recursedTirag;
         }
 
@@ -147,10 +144,13 @@ namespace CasheViewer.UC
                         else
                         {
                             ApplyPayPlugins(_profile, reportJob);
+                            UpdateJobStatusIfFullyPaid(_profile, reportJob, status);
                         }
-
-                        ((JobSpace.Job)reportJob.Job).StatusCode = status.Code;
-                        _profile.Jobs.UpdateJob((JobSpace.Job)reportJob.Job, true);
+                        if (reportJob.ReportVersion == ReportVersionEnum.Version1)
+                        {
+                            ((JobSpace.Job)reportJob.Job).StatusCode = status.Code;
+                            _profile.Jobs.UpdateJob((JobSpace.Job)reportJob.Job, true);
+                        }
                     }
                 }
             }
@@ -174,6 +174,23 @@ namespace CasheViewer.UC
                     }
                 }
             }
+        }
+
+        private void UpdateJobStatusIfFullyPaid(IUserProfile userProfile, INode reportJob, IJobStatus status)
+        {
+            if (!(reportJob.Job is JobSpace.Job job)) return;
+
+            foreach (var pluginFormAddWork in userProfile.Plugins.GetPluginFormAddWorks())
+            {
+                pluginFormAddWork.SetJob(userProfile, job);
+                if (pluginFormAddWork.Price - pluginFormAddWork.Pay > 0)
+                {
+                    return;
+                }
+            }
+
+            job.StatusCode = status.Code;
+            _profile.Jobs.UpdateJob(job, true);
         }
 
         private void treeListView1_FormatRow(object sender, BrightIdeasSoftware.FormatRowEventArgs e)
