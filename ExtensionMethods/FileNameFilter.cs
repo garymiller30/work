@@ -1,4 +1,5 @@
 ﻿using Logger;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -188,6 +189,7 @@ namespace ExtensionMethods
             {'_',"_" },
             {'"',"\"" },
             {'\'',"\'" },
+            {(char)(774),"_" },
 
             };
 
