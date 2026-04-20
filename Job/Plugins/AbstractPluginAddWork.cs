@@ -56,7 +56,7 @@ namespace Interfaces.Plugins
 
             if (allProcesses.Any())
             {
-                var processes = allProcesses.Where(x => x.ParentId.Equals(_job.Id));
+                var processes = allProcesses.Where(x => Equals(x.ParentId, _job?.Id));
 
                 foreach (IProcess process in processes)
                 {
