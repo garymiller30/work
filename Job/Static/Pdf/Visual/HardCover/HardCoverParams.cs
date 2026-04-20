@@ -15,7 +15,13 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
         public double Rastav { get; set; }
         public double Root { get; set; }
         public string FolderOutput { get; set; }
-        public CreateCommand Command { get; set; } = CreateCommand.CreateSchema;
+        public bool CreateSchema { get; set; }
+        public bool SaveSchema { get; set; }
+        public bool CreateFilePlusSchema { get; set; }
+        public bool CreateBack { get; set; }
+        public bool BackAnglesCut { get; set; }
+
+        //public CreateCommand Command { get; set; } = CreateCommand.CreateSchema;
 
         public double TotalWidth
         {
