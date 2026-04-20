@@ -63,10 +63,8 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
 
         private void CreateHardCoverBackAnglesCut(string file)
         {
-            double distance = 5.0;
 
-            double pointOffset =(_coverParams.Zagyn - distance/Math.Sqrt(2)) * 2;
-
+            double pointOffset =(_coverParams.Zagyn - _coverParams.DistanceAngleCut/Math.Sqrt(2)) * 2;
             string target = Path.Combine(Path.GetDirectoryName(file), $"{Path.GetFileNameWithoutExtension(file)}_back.pdf");
             var p = new PDFlib();
 
@@ -130,7 +128,6 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
             if (filePlusSchema)
             {
                 output_file = Path.Combine(_coverParams.FolderOutput, $"{Path.GetFileNameWithoutExtension(file)}_+_schema.pdf");
-                
             }
             else
             {
@@ -193,7 +190,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
             }
             catch (PDFlibException e)
             {
-                Logger.Log.Error(null, "PdfSpliter", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+                Logger.Log.Error(null, "CreateHardCover", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
             }
             finally
             {
