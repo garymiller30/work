@@ -4,6 +4,7 @@ using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.UserForms.PDF.Visual;
 using PDFlib_dotnet;
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -36,23 +37,104 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
         {
             foreach (var file in context.InputFiles)
             {
-                if (_coverParams.Command == HardCoverParams.CreateCommand.Back) { CreateHardCoverBack(file.FullName); }
-                else { CreateHardCover(file.FullName); }
+                if (_coverParams.CreateBack)
+                {
+                    if (_coverParams.BackAnglesCut)
+                    {
+                        CreateHardCoverBackAnglesCut(file.FullName);
+                    }
+                    else
+                    {
+                        CreateHardCoverBack(file.FullName);
+                    }
+                    
+                }
+                if (_coverParams.CreateFilePlusSchema)
+                {
+                    CreateHardCover(file.FullName,true);
+                }
+                if (_coverParams.CreateSchema)
+                {
+                    CreateHardCover(file.FullName,false);
+                }
 
             }
         }
 
-        public void CreateHardCover(string file)
+        private void CreateHardCoverBackAnglesCut(string file)
+        {
+            double distance = 5.0;
+
+            double pointOffset =(_coverParams.Zagyn - distance/Math.Sqrt(2)) * 2;
+
+            string target = Path.Combine(Path.GetDirectoryName(file), $"{Path.GetFileNameWithoutExtension(file)}_back.pdf");
+            var p = new PDFlib();
+
+            try
+            {
+                p.begin_document(target, "optimize=true");
+
+                p.begin_page_ext(_coverParams.TotalWidth * PdfHelper.mn, _coverParams.TotalHeight * PdfHelper.mn, "");
+
+                // Draw cover schema here
+                int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
+                p.set_gstate(gstate);
+
+                MarkColor c = MarkColor.Black;
+                p.setcolor("fillstroke", "cmyk", c.C / 100, c.M / 100, c.Y / 100, c.K / 100);
+                p.setlinewidth(0.2);
+
+                // тут малюємо прямокутник зі зрізаними кутами, відстань від сторінки = distance
+                p.moveto(pointOffset * PdfHelper.mn, 0);
+                p.lineto( (_coverParams.TotalWidth - pointOffset) * PdfHelper.mn, 0); // низ
+                p.lineto(_coverParams.TotalWidth * PdfHelper.mn, pointOffset * PdfHelper.mn);
+                p.lineto(_coverParams.TotalWidth * PdfHelper.mn, (_coverParams.TotalHeight - pointOffset) * PdfHelper.mn);
+                p.lineto((_coverParams.TotalWidth - pointOffset) * PdfHelper.mn, _coverParams.TotalHeight * PdfHelper.mn);
+                p.lineto(pointOffset * PdfHelper.mn, _coverParams.TotalHeight * PdfHelper.mn);
+                p.lineto(0, (_coverParams.TotalHeight - pointOffset) * PdfHelper.mn);
+                p.lineto(0, pointOffset * PdfHelper.mn);
+                p.lineto(pointOffset * PdfHelper.mn, 0);
+                p.stroke();
+
+                // ліва сторінка
+                p.rect(_coverParams.Zagyn * PdfHelper.mn, _coverParams.Zagyn * PdfHelper.mn, _coverParams.Width * PdfHelper.mn, _coverParams.Height * PdfHelper.mn);
+                // корінець
+                p.rect((_coverParams.Zagyn + _coverParams.Width + _coverParams.Rastav) * PdfHelper.mn,
+                    _coverParams.Zagyn * PdfHelper.mn,
+                    _coverParams.Root * PdfHelper.mn,
+                    _coverParams.Height * PdfHelper.mn);
+                // права сторінка
+                p.rect((_coverParams.Zagyn + _coverParams.Width + _coverParams.Rastav * 2 + _coverParams.Root) * PdfHelper.mn,
+                    _coverParams.Zagyn * PdfHelper.mn,
+                    _coverParams.Width * PdfHelper.mn,
+                    _coverParams.Height * PdfHelper.mn);
+                p.stroke();
+
+                p.end_page_ext("");
+                p.end_document("");
+            }
+            catch (PDFlibException e)
+            {
+                Logger.Log.Error(null, "CreateHardCoverBack", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+            }
+            finally
+            {
+                p?.Dispose();
+            }
+        }
+
+        public void CreateHardCover(string file, bool filePlusSchema)
         {
             string output_file = null;
 
-            if (_coverParams.Command == HardCoverParams.CreateCommand.CreateSchema)
+            if (filePlusSchema)
             {
-                output_file = Path.Combine(_coverParams.FolderOutput, $"{Path.GetFileNameWithoutExtension(file)}_schema.pdf");
+                output_file = Path.Combine(_coverParams.FolderOutput, $"{Path.GetFileNameWithoutExtension(file)}_+_schema.pdf");
+                
             }
             else
             {
-                output_file = Path.Combine(_coverParams.FolderOutput, $"{Path.GetFileNameWithoutExtension(file)}_+_schema.pdf");
+                output_file = Path.Combine(_coverParams.FolderOutput, $"{Path.GetFileNameWithoutExtension(file)}_schema.pdf");
             }
 
             var p = new PDFlib();
@@ -66,7 +148,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
                 int l_print = p.define_layer("print", "");
                 int v_layer = p.define_layer("visual", "");
 
-                if (_coverParams.Command == HardCoverParams.CreateCommand.CreateCover)
+                if (filePlusSchema)
                 {
                     p.begin_layer(l_print);
                     var doc = p.open_pdi_document(file, "");
@@ -163,11 +245,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
 
                 MarkColor c = MarkColor.Black;
                 p.setcolor("fillstroke", "cmyk", c.C / 100, c.M / 100, c.Y / 100, c.K / 100);
-                //int spot = p.makespotcolor(c.Name);
-                // p.setdash(4, 2);
-                //p.set_graphics_option("dasharray={4 2}");
                 p.setlinewidth(0.2);
-                //p.setcolor("fillstroke", "spot", spot, 1.0, 0, 0);
 
                 // розмір документу
                 p.rect(0, 0, _coverParams.TotalWidth * PdfHelper.mn, _coverParams.TotalHeight * PdfHelper.mn);
@@ -190,7 +268,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
             }
             catch (PDFlibException e)
             {
-                Logger.Log.Error(null, "PdfSpliter", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+                Logger.Log.Error(null, "CreateHardCoverBack", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
             }
             finally
             {

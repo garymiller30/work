@@ -42,7 +42,7 @@ namespace JobSpace.UserForms.PDF.Visual
             return _primitives;
         }
 
-        void Redraw()=>uc_PreviewBrowserFile1.Redraw();
+        void Redraw() => uc_PreviewBrowserFile1.Redraw();
 
         private void CalcSchemaAuto()
         {
@@ -80,7 +80,7 @@ namespace JobSpace.UserForms.PDF.Visual
             float x = ((float)pdfPageInfo.Trimbox.wMM() - totalW) / 2;
             float y = ((float)pdfPageInfo.Trimbox.hMM() - totalH) / 2;
 
-            
+
 
             using (Pen pen = new Pen(Color.Red, 0.5f))
             {
@@ -111,20 +111,15 @@ namespace JobSpace.UserForms.PDF.Visual
             CalcSchemaAuto();
             ShowTotalCoverSize();
         }
-
-        private void btn_create_schema_Click(object sender, EventArgs e)
+        HardCoverParams CreateParameters()
         {
-            CoverParams = CreateParameters(HardCoverParams.CreateCommand.CreateSchema);
-            SaveSchema(CoverParams);
-            DialogResult = DialogResult.OK;
-            Close();
-        }
-
-        HardCoverParams CreateParameters(HardCoverParams.CreateCommand command)
-        {
-           return new HardCoverParams
+            return new HardCoverParams
             {
-                Command = command,
+                CreateBack = cb_create_back.Checked,
+                BackAnglesCut = cb_angles_cut.Checked,
+                CreateFilePlusSchema = cb_create_file_plus_chema.Checked,
+                CreateSchema = cb_create_schema.Checked,
+                SaveSchema = cb_save_schema.Checked,
                 Height = (double)nud_height.Value,
                 Width = (double)nud_width.Value,
                 Zagyn = (double)nud_zagyn.Value,
@@ -133,52 +128,12 @@ namespace JobSpace.UserForms.PDF.Visual
                 FolderOutput = Path.GetDirectoryName(_fileInfo.FileInfo.FullName)
             };
         }
-
-
-        private void btn_apply_schema_Click(object sender, EventArgs e)
-        {
-            CoverParams = CreateParameters(HardCoverParams.CreateCommand.CreateCover);
-
-            SaveSchema(CoverParams);
-            DialogResult = DialogResult.OK; 
-            Close();
-
-        }
-
         void SaveSchema(HardCoverParams coverParams)
         {
-            var targetFile = Path.Combine(Path.GetDirectoryName(_fileInfo.FullName),$"{Path.GetFileNameWithoutExtension(_fileInfo.FullName)}.hcschema");
+            var targetFile = Path.Combine(Path.GetDirectoryName(_fileInfo.FullName), $"{Path.GetFileNameWithoutExtension(_fileInfo.FullName)}.hcschema");
             var strJson = System.Text.Json.JsonSerializer.Serialize<HardCoverParams>(coverParams, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(targetFile, strJson);
         }
-
-        private void btn_save_schema_Click(object sender, EventArgs e)
-        {
-            using (Ookii.Dialogs.WinForms.VistaSaveFileDialog sfd = new Ookii.Dialogs.WinForms.VistaSaveFileDialog())
-            {
-                sfd.Filter = "Hard Cover Schema|*.hcschema";
-                sfd.DefaultExt = ".hcschema";
-                sfd.AddExtension = true;
-                sfd.RestoreDirectory = false;
-                sfd.InitialDirectory = Path.GetDirectoryName(_fileInfo.FileInfo.FullName);
-                sfd.FileName = Path.Combine(Path.GetDirectoryName(_fileInfo.FullName), Path.GetFileNameWithoutExtension(_fileInfo.FileInfo.Name) + ".hcschema");
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    try
-                    {
-
-                        HardCoverParams hcp = CreateParameters(HardCoverParams.CreateCommand.CreateSchema);
-                        var strJson = System.Text.Json.JsonSerializer.Serialize<HardCoverParams>(hcp, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-                        File.WriteAllText(sfd.FileName, strJson);
-                    }
-                    catch (Exception error)
-                    {
-                        MessageBox.Show("Error save schema: " + error.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-
         private void btn_load_schema_Click(object sender, EventArgs e)
         {
             using (Ookii.Dialogs.WinForms.VistaOpenFileDialog ofd = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
@@ -218,13 +173,16 @@ namespace JobSpace.UserForms.PDF.Visual
 
         }
 
-        private void btn_create_back_Click(object sender, EventArgs e)
+        private void btn_ok_Click(object sender, EventArgs e)
         {
-            CoverParams = CreateParameters(HardCoverParams.CreateCommand.Back);
-            SaveSchema(CoverParams);
+            CoverParams = CreateParameters();
+            if (CoverParams.SaveSchema)
+            {
+                SaveSchema(CoverParams);
+            }
+
             DialogResult = DialogResult.OK;
             Close();
-
         }
     }
 }

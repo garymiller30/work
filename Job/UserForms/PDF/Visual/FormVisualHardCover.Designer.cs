@@ -43,12 +43,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btn_create_schema = new System.Windows.Forms.Button();
-            this.btn_apply_schema = new System.Windows.Forms.Button();
-            this.btn_save_schema = new System.Windows.Forms.Button();
             this.btn_load_schema = new System.Windows.Forms.Button();
             this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
-            this.btn_create_back = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cb_create_back = new System.Windows.Forms.CheckBox();
+            this.cb_create_schema = new System.Windows.Forms.CheckBox();
+            this.cb_create_file_plus_chema = new System.Windows.Forms.CheckBox();
+            this.cb_save_schema = new System.Windows.Forms.CheckBox();
+            this.btn_ok = new System.Windows.Forms.Button();
+            this.cb_angles_cut = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_width)).BeginInit();
@@ -57,6 +60,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -79,7 +83,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(206, 246);
+            this.groupBox1.Size = new System.Drawing.Size(206, 227);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "параметри";
@@ -87,7 +91,7 @@
             // nud_total_height
             // 
             this.nud_total_height.DecimalPlaces = 1;
-            this.nud_total_height.Location = new System.Drawing.Point(126, 213);
+            this.nud_total_height.Location = new System.Drawing.Point(126, 198);
             this.nud_total_height.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -111,7 +115,7 @@
             // nud_total_width
             // 
             this.nud_total_width.DecimalPlaces = 1;
-            this.nud_total_width.Location = new System.Drawing.Point(126, 191);
+            this.nud_total_width.Location = new System.Drawing.Point(126, 176);
             this.nud_total_width.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -135,7 +139,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 215);
+            this.label7.Location = new System.Drawing.Point(9, 200);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(114, 13);
             this.label7.TabIndex = 11;
@@ -144,7 +148,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 193);
+            this.label6.Location = new System.Drawing.Point(9, 178);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(117, 13);
             this.label6.TabIndex = 10;
@@ -305,41 +309,11 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "ширина сторінки, мм";
             // 
-            // btn_create_schema
-            // 
-            this.btn_create_schema.Location = new System.Drawing.Point(125, 264);
-            this.btn_create_schema.Name = "btn_create_schema";
-            this.btn_create_schema.Size = new System.Drawing.Size(93, 37);
-            this.btn_create_schema.TabIndex = 0;
-            this.btn_create_schema.Text = "створити схему";
-            this.btn_create_schema.UseVisualStyleBackColor = true;
-            this.btn_create_schema.Click += new System.EventHandler(this.btn_create_schema_Click);
-            // 
-            // btn_apply_schema
-            // 
-            this.btn_apply_schema.Location = new System.Drawing.Point(125, 354);
-            this.btn_apply_schema.Name = "btn_apply_schema";
-            this.btn_apply_schema.Size = new System.Drawing.Size(93, 37);
-            this.btn_apply_schema.TabIndex = 1;
-            this.btn_apply_schema.Text = "файл + схема";
-            this.btn_apply_schema.UseVisualStyleBackColor = true;
-            this.btn_apply_schema.Click += new System.EventHandler(this.btn_apply_schema_Click);
-            // 
-            // btn_save_schema
-            // 
-            this.btn_save_schema.Location = new System.Drawing.Point(12, 264);
-            this.btn_save_schema.Name = "btn_save_schema";
-            this.btn_save_schema.Size = new System.Drawing.Size(93, 37);
-            this.btn_save_schema.TabIndex = 2;
-            this.btn_save_schema.Text = "зберегти схему";
-            this.btn_save_schema.UseVisualStyleBackColor = true;
-            this.btn_save_schema.Click += new System.EventHandler(this.btn_save_schema_Click);
-            // 
             // btn_load_schema
             // 
-            this.btn_load_schema.Location = new System.Drawing.Point(12, 307);
+            this.btn_load_schema.Location = new System.Drawing.Point(12, 245);
             this.btn_load_schema.Name = "btn_load_schema";
-            this.btn_load_schema.Size = new System.Drawing.Size(93, 37);
+            this.btn_load_schema.Size = new System.Drawing.Size(206, 29);
             this.btn_load_schema.TabIndex = 3;
             this.btn_load_schema.Text = "завантажити схему";
             this.btn_load_schema.UseVisualStyleBackColor = true;
@@ -355,26 +329,91 @@
             this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(564, 426);
             this.uc_PreviewBrowserFile1.TabIndex = 1;
             // 
-            // btn_create_back
+            // groupBox2
             // 
-            this.btn_create_back.Location = new System.Drawing.Point(125, 307);
-            this.btn_create_back.Name = "btn_create_back";
-            this.btn_create_back.Size = new System.Drawing.Size(93, 37);
-            this.btn_create_back.TabIndex = 4;
-            this.btn_create_back.Text = "створити зворот";
-            this.btn_create_back.UseVisualStyleBackColor = true;
-            this.btn_create_back.Click += new System.EventHandler(this.btn_create_back_Click);
+            this.groupBox2.Controls.Add(this.cb_angles_cut);
+            this.groupBox2.Controls.Add(this.cb_save_schema);
+            this.groupBox2.Controls.Add(this.cb_create_file_plus_chema);
+            this.groupBox2.Controls.Add(this.cb_create_schema);
+            this.groupBox2.Controls.Add(this.cb_create_back);
+            this.groupBox2.Location = new System.Drawing.Point(12, 280);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(206, 131);
+            this.groupBox2.TabIndex = 5;
+            this.groupBox2.TabStop = false;
+            // 
+            // cb_create_back
+            // 
+            this.cb_create_back.AutoSize = true;
+            this.cb_create_back.Location = new System.Drawing.Point(10, 88);
+            this.cb_create_back.Name = "cb_create_back";
+            this.cb_create_back.Size = new System.Drawing.Size(110, 17);
+            this.cb_create_back.TabIndex = 0;
+            this.cb_create_back.Text = "створити зворот";
+            this.cb_create_back.UseVisualStyleBackColor = true;
+            // 
+            // cb_create_schema
+            // 
+            this.cb_create_schema.AutoSize = true;
+            this.cb_create_schema.Location = new System.Drawing.Point(10, 19);
+            this.cb_create_schema.Name = "cb_create_schema";
+            this.cb_create_schema.Size = new System.Drawing.Size(105, 17);
+            this.cb_create_schema.TabIndex = 1;
+            this.cb_create_schema.Text = "створити схему";
+            this.cb_create_schema.UseVisualStyleBackColor = true;
+            // 
+            // cb_create_file_plus_chema
+            // 
+            this.cb_create_file_plus_chema.AutoSize = true;
+            this.cb_create_file_plus_chema.Checked = true;
+            this.cb_create_file_plus_chema.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_create_file_plus_chema.Location = new System.Drawing.Point(10, 65);
+            this.cb_create_file_plus_chema.Name = "cb_create_file_plus_chema";
+            this.cb_create_file_plus_chema.Size = new System.Drawing.Size(143, 17);
+            this.cb_create_file_plus_chema.TabIndex = 2;
+            this.cb_create_file_plus_chema.Text = "створити файл + схему";
+            this.cb_create_file_plus_chema.UseVisualStyleBackColor = true;
+            // 
+            // cb_save_schema
+            // 
+            this.cb_save_schema.AutoSize = true;
+            this.cb_save_schema.Checked = true;
+            this.cb_save_schema.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_save_schema.Location = new System.Drawing.Point(10, 42);
+            this.cb_save_schema.Name = "cb_save_schema";
+            this.cb_save_schema.Size = new System.Drawing.Size(105, 17);
+            this.cb_save_schema.TabIndex = 3;
+            this.cb_save_schema.Text = "зберегти схему";
+            this.cb_save_schema.UseVisualStyleBackColor = true;
+            // 
+            // btn_ok
+            // 
+            this.btn_ok.Location = new System.Drawing.Point(12, 417);
+            this.btn_ok.Name = "btn_ok";
+            this.btn_ok.Size = new System.Drawing.Size(206, 29);
+            this.btn_ok.TabIndex = 6;
+            this.btn_ok.Text = "Ok";
+            this.btn_ok.UseVisualStyleBackColor = true;
+            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
+            // 
+            // cb_angles_cut
+            // 
+            this.cb_angles_cut.AutoSize = true;
+            this.cb_angles_cut.Location = new System.Drawing.Point(32, 108);
+            this.cb_angles_cut.Name = "cb_angles_cut";
+            this.cb_angles_cut.Size = new System.Drawing.Size(94, 17);
+            this.cb_angles_cut.TabIndex = 4;
+            this.cb_angles_cut.Text = "+ зрізані кути";
+            this.cb_angles_cut.UseVisualStyleBackColor = true;
             // 
             // FormVisualHardCover
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btn_create_back);
+            this.Controls.Add(this.btn_ok);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btn_load_schema);
-            this.Controls.Add(this.btn_save_schema);
-            this.Controls.Add(this.btn_apply_schema);
-            this.Controls.Add(this.btn_create_schema);
             this.Controls.Add(this.uc_PreviewBrowserFile1);
             this.Controls.Add(this.groupBox1);
             this.Name = "FormVisualHardCover";
@@ -390,6 +429,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nud_root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_height)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -412,10 +453,13 @@
         private System.Windows.Forms.NumericUpDown nud_root;
         private System.Windows.Forms.NumericUpDown nud_height;
         private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
-        private System.Windows.Forms.Button btn_create_schema;
-        private System.Windows.Forms.Button btn_apply_schema;
-        private System.Windows.Forms.Button btn_save_schema;
         private System.Windows.Forms.Button btn_load_schema;
-        private System.Windows.Forms.Button btn_create_back;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox cb_create_file_plus_chema;
+        private System.Windows.Forms.CheckBox cb_create_schema;
+        private System.Windows.Forms.CheckBox cb_create_back;
+        private System.Windows.Forms.CheckBox cb_save_schema;
+        private System.Windows.Forms.Button btn_ok;
+        private System.Windows.Forms.CheckBox cb_angles_cut;
     }
 }
