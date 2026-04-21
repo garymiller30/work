@@ -50,14 +50,25 @@ namespace JobSpace.UC
         private async void GetPreview()
         {
             uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
-
-            var res = await PdfDrawerService.GetImageAsync(previewParameters, pdfDrawerPageCache, _currentPage);
-
-            uc_PreviewControl1.StopWait();
-
-            if (res != null)
+            try
             {
-                uc_PreviewControl1.SetImage(res.Item1, res.Item2, res.Item3);
+                var res = await PdfDrawerService.GetImageAsync(previewParameters, pdfDrawerPageCache, _currentPage);
+
+                
+
+                if (res != null)
+                {
+                    uc_PreviewControl1.SetImage(res.Item1, res.Item2, res.Item3);
+                }
+
+            }
+            finally
+            {
+                uc_PreviewControl1.StopWait();
+                // 3. !!! КРИТИЧНИЙ ШТРИХ: Примусове оновлення інтерфейсу!
+                // Це змушує контейнер перемалюватися, витираючи будь-які "примарні" елементи, 
+                // які могли залишитися після StopWait().
+                this.Invoke(new Action(() => uc_PreviewControl1.Invalidate())); // Або Refresh()
             }
         }
 
