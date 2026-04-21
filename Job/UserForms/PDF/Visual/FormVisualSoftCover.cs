@@ -19,7 +19,7 @@ namespace JobSpace.UserForms.PDF.Visual
     public partial class FormVisualSoftCover : Form
     {
         IFileSystemInfoExt _fileInfo;
-        public SoftCoverParams CoverParams { get;set; }
+        public SoftCoverParams CoverParams { get; set; }
 
         List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
 
@@ -117,25 +117,14 @@ namespace JobSpace.UserForms.PDF.Visual
             ShowTotalCoverSize();
         }
 
-        private void btn_create_schema_Click(object sender, EventArgs e)
+        private void SaveSchema()
         {
-            CoverParams = new SoftCoverParams
-            {
-                Bleed = (double)nud_bleed.Value,
-                Width = (double)nud_width.Value,
-                Height = (double)nud_height.Value,
-                LeftKlapan = (double)nud_left_klapan.Value,
-                RightKlapan = (double)nud_right_klapan.Value,
-                Root = (double)nud_root.Value,
-                FolderOutput = Path.GetDirectoryName(_fileInfo.FullName),
-                Command = SoftCoverParams.CreateCommand.CreateSoftCover
-
-            };
-             DialogResult = DialogResult.OK;
-             Close();
+            string schemaFile = Path.Combine(Path.GetDirectoryName(_fileInfo.FullName), Path.GetFileNameWithoutExtension(_fileInfo.Name) + ".scschema");
+            var strJson = System.Text.Json.JsonSerializer.Serialize<SoftCoverParams>(CoverParams, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(schemaFile, strJson);
         }
 
-        private void btn_apply_schema_Click(object sender, EventArgs e)
+        void CreateSoftCoverParams()
         {
             CoverParams = new SoftCoverParams
             {
@@ -146,11 +135,9 @@ namespace JobSpace.UserForms.PDF.Visual
                 RightKlapan = (double)nud_right_klapan.Value,
                 Root = (double)nud_root.Value,
                 FolderOutput = Path.GetDirectoryName(_fileInfo.FullName),
-                Command = SoftCoverParams.CreateCommand.CreateSoftCoverWithFile
-
+                CreateSchema = cb_create_schema.Checked,
+                CreateFileAndSchema = cb_create_file_and_schema.Checked
             };
-             DialogResult = DialogResult.OK;
-             Close();
         }
 
         private void nud_Enter(object sender, EventArgs e)
@@ -158,34 +145,6 @@ namespace JobSpace.UserForms.PDF.Visual
             // Select all text when entering numeric up-down
             NumericUpDown nud = sender as NumericUpDown;
             nud.Select(0, nud.Text.Length);
-        }
-
-        private void btn_save_schema_Click(object sender, EventArgs e)
-        {
-            using (Ookii.Dialogs.WinForms.VistaSaveFileDialog sfd = new Ookii.Dialogs.WinForms.VistaSaveFileDialog())
-            {
-                sfd.Filter = "Soft Cover Schema|*.scschema";
-                sfd.DefaultExt = ".scschema";
-                sfd.AddExtension = true;
-                sfd.RestoreDirectory = false;
-                sfd.InitialDirectory = Path.GetDirectoryName(_fileInfo.FullName);
-                sfd.FileName = Path.Combine(Path.GetDirectoryName(_fileInfo.FullName), Path.GetFileNameWithoutExtension(_fileInfo.Name) + ".scschema");
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    SoftCoverParams schema = new SoftCoverParams
-                    {
-                        Bleed = (double)nud_bleed.Value,
-                        Width = (double)nud_width.Value,
-                        Height = (double)nud_height.Value,
-                        LeftKlapan = (double)nud_left_klapan.Value,
-                        RightKlapan = (double)nud_right_klapan.Value,
-                        Root = (double)nud_root.Value,
-                    };
-                    var strJson = System.Text.Json.JsonSerializer.Serialize<SoftCoverParams>(schema, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-                    File.WriteAllText(sfd.FileName, strJson);
-
-                }
-            }
         }
 
         private void btn_load_schema_Click(object sender, EventArgs e)
@@ -220,6 +179,17 @@ namespace JobSpace.UserForms.PDF.Visual
                 }
             }
 
+        }
+
+        private void btn_ok_Click(object sender, EventArgs e)
+        {
+            CreateSoftCoverParams();
+            if (cb_save_schema.Checked)
+            {
+                SaveSchema();
+            }
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }

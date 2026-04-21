@@ -15,7 +15,8 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
         public double RightKlapan { get; set; }
         public double Root { get; set; }
         public string FolderOutput { get; set; }
-        public CreateCommand Command { get; set; } = CreateCommand.CreateSoftCover;
+        public bool CreateSchema { get; set; }
+        public bool CreateFileAndSchema { get; set; }
         public double TotalWidth
         {
             get

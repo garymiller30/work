@@ -4,6 +4,7 @@ using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.UserForms.PDF.Visual;
 using PDFlib_dotnet;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -59,22 +60,22 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
         {
             foreach (var file in context.InputFiles)
             {
-                CreateSoftCover(file.FullName);
+                if (_coverParams.CreateSchema)
+                {
+                    CreateSoftCover(file.FullName,false);
+                }
+                if (_coverParams.CreateFileAndSchema)
+                {
+                    CreateSoftCover(file.FullName,true);
+                }
             }
         }
 
-        public void CreateSoftCover(string file)
+        public void CreateSoftCover(string file, bool placeFile = false)
         {
-            string output_file = null;
-            if (_coverParams.Command == SoftCoverParams.CreateCommand.CreateSoftCover)
-            {
-                output_file = System.IO.Path.Combine(_coverParams.FolderOutput, "SoftCover_schema.pdf");
-            }
-            else
-            {
-                var fi = new System.IO.FileInfo(file);
-                output_file = System.IO.Path.Combine(_coverParams.FolderOutput, $"{fi.Name}_+_schema.pdf");
-            }
+            string suffix = placeFile ? "_+_schema.pdf" : "_schema.pdf";
+            string output_file = Path.Combine(_coverParams.FolderOutput,$"{Path.GetFileNameWithoutExtension(file)}{suffix}");
+
             using (var p = new PDFlib())
             {
                 try
@@ -84,7 +85,7 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
                     int l_print = p.define_layer("print", "");
                     int v_layer = p.define_layer("visual", "");
 
-                    if (_coverParams.Command == SoftCoverParams.CreateCommand.CreateSoftCoverWithFile)
+                    if (placeFile)
                     {
                         p.begin_layer(l_print);
                         var doc = p.open_pdi_document(file, "");
