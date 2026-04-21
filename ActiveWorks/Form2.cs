@@ -677,7 +677,13 @@ namespace ActiveWorks
             var button = new KryptonRibbonGroupButton
             {
                 TextLine1 = @"нове",
-                ImageLarge = Resources.File_new_icon
+                ImageLarge = Resources.File_new_icon,
+                ToolTipValues = {
+                    Heading = @"Створити нове замовлення",
+                    Description = @"Натисніть, щоб створити нове замовлення. Утримуйте Shift для створення кількох замовлень поспіль.",
+                    EnableToolTips = true,
+                    Image = Resources.File_new_icon
+                }
             };
 
 

@@ -73,5 +73,26 @@ namespace JobSpace.UserForms
             var job = Factory.CreateJob(_profile);
             objectListView1.AddObject(job);
         }
+
+        private void btn_paste_Click(object sender, EventArgs e)
+        {
+            var strings = Clipboard.GetText();
+            if (string.IsNullOrEmpty(strings)) {
+                MessageBox.Show("Буфер обміну пустий");
+                return;
+            }
+            var lines = strings.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var line in lines)
+            {
+                string[] jobstr = line.Split(new[] { "\t" }, StringSplitOptions.None);
+                if (jobstr.Length >= 2)
+                {
+                    var job = Factory.CreateJob(_profile);
+                    job.Number = jobstr[0];
+                    job.Description = jobstr[1];
+                    objectListView1.AddObject(job);
+                }
+            }
+        }
     }
 }
