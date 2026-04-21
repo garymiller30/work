@@ -31,10 +31,11 @@
             this.cb_customers = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
-            this.btn_create = new Krypton.Toolkit.KryptonButton();
             this.olvColumn_number = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn_description = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.btn_create = new Krypton.Toolkit.KryptonButton();
             this.btn_add_order = new Krypton.Toolkit.KryptonButton();
+            this.btn_paste = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.cb_customers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
@@ -88,17 +89,6 @@
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
             // 
-            // btn_create
-            // 
-            this.btn_create.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_create.Location = new System.Drawing.Point(325, 397);
-            this.btn_create.Name = "btn_create";
-            this.btn_create.Size = new System.Drawing.Size(152, 41);
-            this.btn_create.TabIndex = 4;
-            this.btn_create.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.btn_create.Values.Text = "Створити";
-            this.btn_create.Click += new System.EventHandler(this.kryptonButton1_Click);
-            // 
             // olvColumn_number
             // 
             this.olvColumn_number.AspectName = "Number";
@@ -113,6 +103,17 @@
             this.olvColumn_description.Text = "Опис замовлення";
             this.olvColumn_description.Width = 394;
             // 
+            // btn_create
+            // 
+            this.btn_create.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_create.Location = new System.Drawing.Point(325, 397);
+            this.btn_create.Name = "btn_create";
+            this.btn_create.Size = new System.Drawing.Size(152, 41);
+            this.btn_create.TabIndex = 4;
+            this.btn_create.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.btn_create.Values.Text = "Створити";
+            this.btn_create.Click += new System.EventHandler(this.kryptonButton1_Click);
+            // 
             // btn_add_order
             // 
             this.btn_add_order.Location = new System.Drawing.Point(325, 31);
@@ -123,16 +124,30 @@
             this.btn_add_order.Values.Text = "додати замовлення";
             this.btn_add_order.Click += new System.EventHandler(this.btn_add_order_Click);
             // 
+            // btn_paste
+            // 
+            this.btn_paste.Location = new System.Drawing.Point(653, 31);
+            this.btn_paste.Name = "btn_paste";
+            this.btn_paste.Size = new System.Drawing.Size(135, 39);
+            this.btn_paste.TabIndex = 7;
+            this.btn_paste.ToolTipValues.Description = "формат такий:\r\n№зам. -> опис\r\n-> - табуляція";
+            this.btn_paste.ToolTipValues.EnableToolTips = true;
+            this.btn_paste.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.btn_paste.Values.Text = "вставити з буфера";
+            this.btn_paste.Click += new System.EventHandler(this.btn_paste_Click);
+            // 
             // FormAddWorkMany
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btn_paste);
             this.Controls.Add(this.btn_add_order);
             this.Controls.Add(this.btn_create);
             this.Controls.Add(this.objectListView1);
             this.Controls.Add(this.kryptonGroupBox1);
             this.Name = "FormAddWorkMany";
+            this.ShowIcon = false;
             this.Text = "Додати кілька замовлень";
             ((System.ComponentModel.ISupportInitialize)(this.cb_customers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
@@ -153,5 +168,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumn_number;
         private BrightIdeasSoftware.OLVColumn olvColumn_description;
         private Krypton.Toolkit.KryptonButton btn_add_order;
+        private Krypton.Toolkit.KryptonButton btn_paste;
     }
 }
