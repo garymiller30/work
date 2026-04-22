@@ -26,7 +26,7 @@ namespace JobSpace.UserForms.PDF.Visual
 {
     public partial class FormVisualFalc : Form
     {
-        public FalcSchemaParams schemaParams { get; private set; } 
+        public FalcSchemaParams SchemaParams { get; private set; }
         Control[] _parts;
         NumericUpDown[] _deltas;
         Label[] _labels;
@@ -43,11 +43,7 @@ namespace JobSpace.UserForms.PDF.Visual
         {
             _fsi = new FileInfo(fsi.FileInfo.FullName);
             InitializeComponent();
-            //uc_PreviewBrowserFile1.OnPageChanged += (s, pageIdx) =>
-            //{
-            //    currentPageIdx = pageIdx;
-            //    Draw();
-            //};
+
 
             uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
 
@@ -131,71 +127,41 @@ namespace JobSpace.UserForms.PDF.Visual
 
             float x = 0;
 
-            if (cb_mirrored_parts.Checked && uc_PreviewBrowserFile1.GetCurrentPageIdx() % 2 != 0)
-            {
-                for (int i = 0; i < partsDelta.Length - 1; i++)
-                {
-                    x += (float)((double)partsDelta[i]);
+            decimal[] widths = partsDelta;
 
-                    _primitives.Add(new ScreenLine(_whiteLinePen, x, 0, x, (float)page_h));
-                    _primitives.Add(new ScreenLine(_greenLinePen, x, 0, x, (float)page_h));
-                }
-            }
-            else
+            if (cb_mirrored_parts.Checked && uc_PreviewBrowserFile1.GetCurrentPageIdx() % 2 == 0)
             {
-                for (int i = partsDelta.Length - 1; i > 0; i--)
-                {
-                    x += (float)((double)partsDelta[i]);
-
-                    _primitives.Add(new ScreenLine(_whiteLinePen, x, 0, x, (float)page_h));
-                    _primitives.Add(new ScreenLine(_greenLinePen, x, 0, x, (float)page_h));
-                }
+                widths = partsDelta.Reverse().ToArray();
             }
 
-            DrawDimensions();
+            for (int i = 0; i < widths.Length - 1; i++)
+            {
+                x += (float)(widths[i]);
 
-            //uc_PreviewBrowserFile1.SetPrimitives(_primitives);
+                _primitives.Add(new ScreenLine(_whiteLinePen, x, 0, x, (float)page_h));
+                _primitives.Add(new ScreenLine(_greenLinePen, x, 0, x, (float)page_h));
+            }
+
+            DrawDimensions(widths);
         }
 
-        private void DrawDimensions()
+        private void DrawDimensions(decimal[] widths)
         {
             float x = 0;
             float y = 5;
-            if (cb_mirrored_parts.Checked && uc_PreviewBrowserFile1.GetCurrentPageIdx() % 2 != 0)
+
+            for (int i = 0; i <= widths.Length - 1; i++)
             {
-                for (int i = 0; i <= partsDelta.Length - 1; i++)
+                var x_ofs = x + (float)(widths[i] / 2);
+
+                ScreenText screenText = new ScreenText()
                 {
-                    var x_ofs = x+ (float)((double)partsDelta[i] / 2);
-                    
+                    Text = (widths[i]).ToString(),
+                    Location = new PointF(x_ofs, y)
+                };
 
-
-                    ScreenText screenText = new ScreenText()
-                    {
-                        Text = (partsDelta[i]).ToString(),
-                        Location = new PointF(x_ofs, y)
-                    };
-
-                    _primitives.Add(screenText);
-                    x += (float)((double)partsDelta[i]);
-                }
-            }
-            else
-            {
-                for (int i = partsDelta.Length - 1; i >= 0; i--)
-                {
-                    var x_ofs = x + (float)((double)partsDelta[i] / 2);
-                    
-
-
-                    ScreenText screenText = new ScreenText()
-                    {
-                        Text = (partsDelta[i]).ToString(),
-                        Location = new PointF(x_ofs, y)
-                    };
-
-                    _primitives.Add(screenText);
-                    x += (float)((double)partsDelta[i]);
-                }
+                _primitives.Add(screenText);
+                x += (float)(widths[i]);
             }
         }
 
@@ -204,17 +170,6 @@ namespace JobSpace.UserForms.PDF.Visual
             Redraw();
         }
 
-        private void btn_create_schema_Click(object sender, EventArgs e)
-        {
-            schemaParams = new FalcSchemaParams()
-            {
-                Mirrored = cb_mirrored_parts.Checked,
-                PartsWidth = partsDelta
-            };
-            DialogResult = DialogResult.OK;
-            Close();
-
-        }
 
         private void nud_width_ValueChanged(object sender, EventArgs e)
         {
@@ -222,21 +177,6 @@ namespace JobSpace.UserForms.PDF.Visual
             Redraw();
         }
 
-        private void btn_mark_file_Click(object sender, EventArgs e)
-        {
-            schemaParams = new FalcSchemaParams()
-            {
-                IsMarkFile = true,
-                Mirrored = cb_mirrored_parts.Checked,
-                
-            };
-
-            schemaParams.PartsWidth = partsDelta;
-
-           DialogResult = DialogResult.OK;
-            Close();
-
-        }
 
         private void btn_load_schema_Click(object sender, EventArgs e)
         {
@@ -254,7 +194,7 @@ namespace JobSpace.UserForms.PDF.Visual
                     cb_mirrored_parts.Checked = param.Mirrored;
                     int cntPart = param.PartsWidth.Length;
                     cb_cnt_falc.SelectedIndex = cntPart - 2;
-                    
+
                     for (int i = 0; i < cntPart; i++)
                     {
                         decimal partWidth = param.PartsWidth[i];
@@ -265,32 +205,30 @@ namespace JobSpace.UserForms.PDF.Visual
             }
         }
 
-        private void btn_save_schema_Click(object sender, EventArgs e)
+        private void btn_ok_Click(object sender, EventArgs e)
         {
-            using (Ookii.Dialogs.WinForms.VistaSaveFileDialog sfd = new Ookii.Dialogs.WinForms.VistaSaveFileDialog())
+            SchemaParams = new FalcSchemaParams()
             {
-                sfd.Filter = "Falc Schema|*.falcschema";
-                sfd.AddExtension = true;
-                sfd.DefaultExt = "falcschema";
-                sfd.RestoreDirectory = false;
-                sfd.InitialDirectory = Path.GetDirectoryName(_fsi.FullName);
-                sfd.FileName = Path.Combine(Path.GetDirectoryName(_fsi.FullName), Path.GetFileNameWithoutExtension(_fsi.FullName) + ".falcschema");
+                Mirrored = cb_mirrored_parts.Checked,
+                PartsWidth = partsDelta,
+                CreateFileAndSchema = cb_create_file_and_schema.Checked,
+                CreateSchema = cb_create_schema.Checked
+            };
 
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    FalcSchemaParams param = new FalcSchemaParams()
-                    {
-                        Mirrored = cb_mirrored_parts.Checked,
-                        
-                    };
-
-                    param.PartsWidth = _deltas.Select((d, idx) => d.Value).Take(partsDelta.Count()).ToArray();
-
-                    // зберегти в json файл 
-                    var strJson = System.Text.Json.JsonSerializer.Serialize<FalcSchemaParams>(param, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-                    File.WriteAllText(sfd.FileName, strJson);
-                }
+            if (cb_save_schema.Checked)
+            {
+                SaveSchema();
             }
+
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void SaveSchema()
+        {
+            string targetfile = Path.Combine(Path.GetDirectoryName(_fsi.FullName), $"{Path.GetFileNameWithoutExtension(_fsi.FullName)}.falcschema");
+            var strJson = System.Text.Json.JsonSerializer.Serialize<FalcSchemaParams>(SchemaParams, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(targetfile, strJson);
         }
     }
 }
