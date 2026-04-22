@@ -41,37 +41,9 @@ namespace JobSpace.UC
                 BoundsPadding = new Size(0, -1),
                 CornerRounding = 3.0F,
             };
-            //UseTheme();
-            //SetTheme();
 
             objectListView_NewWorks.SelectedRowDecoration = rbd;
         }
-
-        //private void UseTheme()
-        //{
-        //    ThemeController.ThemeChanged += ThemeController_ThemeChanged;
-        //}
-
-        //private void ThemeController_ThemeChanged(object sender, EventArgs e)
-        //{
-        //    SetTheme();
-
-        //    var objects = (ICollection)objectListView_NewWorks.Objects;
-        //    objectListView_NewWorks.ClearObjects();
-        //    objectListView_NewWorks.AddObjects(objects);
-        //}
-
-        //private void SetTheme()
-        //{
-        //    objectListView_NewWorks.BackColor = ThemeController.Back;
-        //    objectListView_NewWorks.ForeColor = ThemeController.Fore;
-
-        //    objectListView_NewWorks.HeaderUsesThemes = false;
-        //    objectListView_NewWorks.HeaderFormatStyle = new HeaderFormatStyle();
-        //    objectListView_NewWorks.HeaderFormatStyle.SetForeColor(ThemeController.HeaderFore);
-        //    objectListView_NewWorks.HeaderFormatStyle.SetBackColor(ThemeController.HeaderBack);
-        //}
-
         public UcJobList(IUserProfile userProfile) : this()
         {
             _profile = userProfile;
