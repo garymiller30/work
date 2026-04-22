@@ -64,11 +64,13 @@
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.nud_width = new System.Windows.Forms.NumericUpDown();
             this.cb_mirrored_parts = new System.Windows.Forms.CheckBox();
-            this.btn_create_schema = new System.Windows.Forms.Button();
-            this.btn_mark_file = new System.Windows.Forms.Button();
             this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             this.btn_load_schema = new System.Windows.Forms.Button();
-            this.btn_save_schema = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cb_create_schema = new System.Windows.Forms.CheckBox();
+            this.cb_create_file_and_schema = new System.Windows.Forms.CheckBox();
+            this.cb_save_schema = new System.Windows.Forms.CheckBox();
+            this.btn_ok = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.gb_p1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -93,6 +95,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
             this.groupBox12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -175,7 +178,7 @@
             this.panel1.Controls.Add(this.gb_p5);
             this.panel1.Controls.Add(this.gb_p6);
             this.panel1.Controls.Add(this.gb_p7);
-            this.panel1.Location = new System.Drawing.Point(12, 69);
+            this.panel1.Location = new System.Drawing.Point(242, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(739, 96);
             this.panel1.TabIndex = 2;
@@ -576,77 +579,102 @@
             // 
             // cb_mirrored_parts
             // 
+            this.cb_mirrored_parts.AutoSize = true;
             this.cb_mirrored_parts.Checked = true;
             this.cb_mirrored_parts.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_mirrored_parts.Location = new System.Drawing.Point(240, 18);
+            this.cb_mirrored_parts.Location = new System.Drawing.Point(6, 19);
             this.cb_mirrored_parts.Name = "cb_mirrored_parts";
-            this.cb_mirrored_parts.Size = new System.Drawing.Size(138, 45);
+            this.cb_mirrored_parts.Size = new System.Drawing.Size(190, 17);
             this.cb_mirrored_parts.TabIndex = 6;
-            this.cb_mirrored_parts.Text = "Дзеркально на парних сторінках";
+            this.cb_mirrored_parts.Text = "дзеркально на парних сторінках";
             this.cb_mirrored_parts.UseVisualStyleBackColor = true;
             this.cb_mirrored_parts.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // btn_create_schema
-            // 
-            this.btn_create_schema.Location = new System.Drawing.Point(413, 18);
-            this.btn_create_schema.Name = "btn_create_schema";
-            this.btn_create_schema.Size = new System.Drawing.Size(79, 42);
-            this.btn_create_schema.TabIndex = 9;
-            this.btn_create_schema.Text = "створити схему";
-            this.btn_create_schema.UseVisualStyleBackColor = true;
-            this.btn_create_schema.Click += new System.EventHandler(this.btn_create_schema_Click);
-            // 
-            // btn_mark_file
-            // 
-            this.btn_mark_file.Location = new System.Drawing.Point(498, 18);
-            this.btn_mark_file.Name = "btn_mark_file";
-            this.btn_mark_file.Size = new System.Drawing.Size(81, 42);
-            this.btn_mark_file.TabIndex = 10;
-            this.btn_mark_file.Text = "файл + схема";
-            this.btn_mark_file.UseVisualStyleBackColor = true;
-            this.btn_mark_file.Click += new System.EventHandler(this.btn_mark_file_Click);
             // 
             // uc_PreviewBrowserFile1
             // 
             this.uc_PreviewBrowserFile1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(12, 171);
+            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(242, 114);
             this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
-            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(739, 450);
+            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(740, 434);
             this.uc_PreviewBrowserFile1.TabIndex = 11;
             // 
             // btn_load_schema
             // 
-            this.btn_load_schema.Location = new System.Drawing.Point(670, 18);
+            this.btn_load_schema.Location = new System.Drawing.Point(12, 69);
             this.btn_load_schema.Name = "btn_load_schema";
-            this.btn_load_schema.Size = new System.Drawing.Size(81, 42);
+            this.btn_load_schema.Size = new System.Drawing.Size(224, 36);
             this.btn_load_schema.TabIndex = 13;
             this.btn_load_schema.Text = "заватажити схему";
             this.btn_load_schema.UseVisualStyleBackColor = true;
             this.btn_load_schema.Click += new System.EventHandler(this.btn_load_schema_Click);
             // 
-            // btn_save_schema
+            // groupBox2
             // 
-            this.btn_save_schema.Location = new System.Drawing.Point(585, 18);
-            this.btn_save_schema.Name = "btn_save_schema";
-            this.btn_save_schema.Size = new System.Drawing.Size(79, 42);
-            this.btn_save_schema.TabIndex = 12;
-            this.btn_save_schema.Text = "зберегти схему";
-            this.btn_save_schema.UseVisualStyleBackColor = true;
-            this.btn_save_schema.Click += new System.EventHandler(this.btn_save_schema_Click);
+            this.groupBox2.Controls.Add(this.cb_save_schema);
+            this.groupBox2.Controls.Add(this.cb_create_file_and_schema);
+            this.groupBox2.Controls.Add(this.cb_create_schema);
+            this.groupBox2.Controls.Add(this.cb_mirrored_parts);
+            this.groupBox2.Location = new System.Drawing.Point(12, 111);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(224, 127);
+            this.groupBox2.TabIndex = 14;
+            this.groupBox2.TabStop = false;
+            // 
+            // cb_create_schema
+            // 
+            this.cb_create_schema.AutoSize = true;
+            this.cb_create_schema.Location = new System.Drawing.Point(6, 43);
+            this.cb_create_schema.Name = "cb_create_schema";
+            this.cb_create_schema.Size = new System.Drawing.Size(105, 17);
+            this.cb_create_schema.TabIndex = 7;
+            this.cb_create_schema.Text = "створити схему";
+            this.cb_create_schema.UseVisualStyleBackColor = true;
+            // 
+            // cb_create_file_and_schema
+            // 
+            this.cb_create_file_and_schema.AutoSize = true;
+            this.cb_create_file_and_schema.Checked = true;
+            this.cb_create_file_and_schema.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_create_file_and_schema.Location = new System.Drawing.Point(6, 66);
+            this.cb_create_file_and_schema.Name = "cb_create_file_and_schema";
+            this.cb_create_file_and_schema.Size = new System.Drawing.Size(144, 17);
+            this.cb_create_file_and_schema.TabIndex = 8;
+            this.cb_create_file_and_schema.Text = "створити файл + схема";
+            this.cb_create_file_and_schema.UseVisualStyleBackColor = true;
+            // 
+            // cb_save_schema
+            // 
+            this.cb_save_schema.AutoSize = true;
+            this.cb_save_schema.Checked = true;
+            this.cb_save_schema.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_save_schema.Location = new System.Drawing.Point(6, 89);
+            this.cb_save_schema.Name = "cb_save_schema";
+            this.cb_save_schema.Size = new System.Drawing.Size(105, 17);
+            this.cb_save_schema.TabIndex = 9;
+            this.cb_save_schema.Text = "зберегти схему";
+            this.cb_save_schema.UseVisualStyleBackColor = true;
+            // 
+            // btn_ok
+            // 
+            this.btn_ok.Location = new System.Drawing.Point(12, 244);
+            this.btn_ok.Name = "btn_ok";
+            this.btn_ok.Size = new System.Drawing.Size(224, 36);
+            this.btn_ok.TabIndex = 15;
+            this.btn_ok.Text = "ОК";
+            this.btn_ok.UseVisualStyleBackColor = true;
+            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
             // FormVisualFalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(763, 633);
+            this.ClientSize = new System.Drawing.Size(994, 560);
+            this.Controls.Add(this.btn_ok);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btn_load_schema);
-            this.Controls.Add(this.btn_save_schema);
             this.Controls.Add(this.uc_PreviewBrowserFile1);
-            this.Controls.Add(this.btn_mark_file);
-            this.Controls.Add(this.btn_create_schema);
-            this.Controls.Add(this.cb_mirrored_parts);
             this.Controls.Add(this.groupBox12);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
@@ -679,6 +707,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
             this.groupBox12.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -721,10 +751,12 @@
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.NumericUpDown nud_width;
         private System.Windows.Forms.CheckBox cb_mirrored_parts;
-        private System.Windows.Forms.Button btn_create_schema;
-        private System.Windows.Forms.Button btn_mark_file;
         private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
         private System.Windows.Forms.Button btn_load_schema;
-        private System.Windows.Forms.Button btn_save_schema;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox cb_save_schema;
+        private System.Windows.Forms.CheckBox cb_create_file_and_schema;
+        private System.Windows.Forms.CheckBox cb_create_schema;
+        private System.Windows.Forms.Button btn_ok;
     }
 }
