@@ -369,3 +369,15 @@ code,
         text-align: right;
     }
 }
+/* Усі НЕ опис */
+.jobs-table th:not(.col-description),
+.jobs-table td:not(.col-description) {
+    white-space: nowrap;
+    width: 1%;
+}
+
+/* Опис */
+.col-description {
+    width: auto;
+    white-space: normal;
+}

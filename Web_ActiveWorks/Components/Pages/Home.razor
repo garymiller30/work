@@ -80,7 +80,7 @@ else
                         <th>Статус</th>
                         <th>Номер</th>
                         <th>Замовник</th>
-                        <th>Опис</th>
+                        <th class="col-description">Опис</th>
                         @if (CanShowPriceColumn)
                         {
                             <th class="price">Вартість, грн</th>
@@ -99,7 +99,7 @@ else
                             </td>
                             <td data-label="Номер" class="mono">@job.Number</td>
                             <td data-label="Замовник">@job.Customer</td>
-                            <td data-label="Опис" class="job-description">@job.Description</td>
+                            <td data-label="Опис" class="col-description job-description">@job.Description</td>
                             @if (CanShowPriceColumn)
                             {
                                 <td data-label="Вартість, грн" class="mono price">@job.Price</td>
