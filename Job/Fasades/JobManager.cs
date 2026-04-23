@@ -799,6 +799,7 @@ namespace JobSpace.Fasades
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     var nj = job.Duplicate();
+                    nj.StatusCode = _profile.StatusManager.GetDefaultStatus();
                     nj.Date = DateTime.Now;
                     nj.PreviousOrder = nj.Number;
                     nj.Number = form.EditText;
