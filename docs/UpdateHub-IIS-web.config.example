@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.webServer>
+    <staticContent>
+      <mimeMap fileExtension=".json" mimeType="application/json" />
+      <mimeMap fileExtension=".dll" mimeType="application/octet-stream" />
+      <mimeMap fileExtension=".exe" mimeType="application/octet-stream" />
+    </staticContent>
+  </system.webServer>
+</configuration>

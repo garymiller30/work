@@ -61,7 +61,7 @@ else if (_isLoading)
 }
 else
 {
-    
+
 
     @if (_jobs.Count == 0)
     {
@@ -86,7 +86,7 @@ else
                             <th class="price">Вартість, грн</th>
                             <th class="cart-column">Кошик</th>
                         }
-                        
+
                     </tr>
                 </thead>
                 <tbody>
@@ -102,7 +102,18 @@ else
                             <td data-label="Опис" class="col-description job-description">@job.Description</td>
                             @if (CanShowPriceColumn)
                             {
-                                <td data-label="Вартість, грн" class="mono price">@job.Price</td>
+                                <td data-label="Вартість, грн" class="mono price">
+                                    @if (job.IsPayed)
+                                    {
+                                        <span>СПЛАЧЕНО</span>
+                                    }
+                                    else if (job.Price > 0)
+                                    {
+
+                                        @job.Price
+                                    }
+
+                                </td>
                                 <td data-label="Кошик" class="cart-column">
                                     @if (job.Price > 0)
                                     {
@@ -110,18 +121,19 @@ else
                                             @(IsInCart(job) ? "Прибрати" : "Додати")
                                         </button>
                                     }
+
                                 </td>
                             }
-                            
+
                         </tr>
                     }
-                    @if(CanShowPriceColumn)
+                    @if (CanShowPriceColumn)
                     {
-                         <tr>
-                             <td data-label="Всього" colspan="6" class=" mono price">
+                        <tr>
+                            <td data-label="Всього" colspan="6" class=" mono price">
                                 <strong>@_totalPrice</strong>
                             </td>
-                         </tr>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -283,7 +295,7 @@ else
                 return;
             }
 
-            _jobs = (await MongoProfileDataService.GetJobsAsync(_profile, _currentUser.VisibleStatusCodes,_currentUser.PayProcesses))
+            _jobs = (await MongoProfileDataService.GetJobsAsync(_profile, _currentUser.VisibleStatusCodes, _currentUser.PayProcesses))
                 .ToList();
             _totalPrice = 0;
             if (_jobs.Count > 0)
@@ -477,19 +489,19 @@ else
         color: #0f172a;
     }
 
-    .cart-toggle.selected {
-        border-color: #1d4ed8;
-        background: #dbeafe;
-        color: #1d4ed8;
-    }
+        .cart-toggle.selected {
+            border-color: #1d4ed8;
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
 
     .jobs-table tbody tr {
         transition: background-color 0.15s ease;
     }
 
-    .jobs-table tbody tr:hover {
-        background: #f8fafc;
-    }
+        .jobs-table tbody tr:hover {
+            background: #f8fafc;
+        }
 
     .cart-modal-overlay {
         position: fixed;
@@ -523,10 +535,10 @@ else
         border-bottom: 1px solid #e2e8f0;
     }
 
-    .cart-modal-header p {
-        margin: 0.25rem 0 0;
-        color: #475569;
-    }
+        .cart-modal-header p {
+            margin: 0.25rem 0 0;
+            color: #475569;
+        }
 
     .cart-modal-footer {
         border-top: 1px solid #e2e8f0;

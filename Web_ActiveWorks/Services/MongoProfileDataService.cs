@@ -46,7 +46,8 @@ public sealed class MongoProfileDataService
             .ToListAsync(cancellationToken);
 
         var jobIds = jobs.Select(x => x.Id).ToList();
-        var paymentMap = new Dictionary<ObjectId, decimal>();
+        Dictionary<ObjectId, decimal>? paymentMap = new Dictionary<ObjectId, decimal>();
+        Dictionary<ObjectId, bool> isPayedMap = new Dictionary<ObjectId, bool>();
 
         foreach (var processName in payProcesses)
         {
@@ -76,12 +77,23 @@ public sealed class MongoProfileDataService
                 {
                     paymentMap[doc.ParentId] = remaining;
                 }
+
+                if (price == 0)
+                {
+                    isPayedMap[doc.ParentId] = false;
+                }
+                else
+                {
+                    isPayedMap[doc.ParentId] = paidSum >= price;
+                }
+
             }
         }
 
         return jobs.Select(job =>
         {
             paymentMap.TryGetValue(job.Id, out var remaining);
+            isPayedMap.TryGetValue(job.Id, out var isPayed);
 
             return new JobListItemViewModel
             {
@@ -94,7 +106,8 @@ public sealed class MongoProfileDataService
                 Number = job.Number,
                 Customer = job.Customer,
                 Description = job.Description,
-                Price = remaining
+                Price = remaining,
+                IsPayed = isPayed
             };
         }).ToList();
     }
