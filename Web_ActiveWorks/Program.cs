@@ -38,7 +38,7 @@ public class Program
         {
             app.UseExceptionHandler("/Error");
         }
-
+        app.UseStaticFiles();
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseAntiforgery();

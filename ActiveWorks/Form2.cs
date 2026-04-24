@@ -1,5 +1,6 @@
 ﻿using ActiveWorks.Forms;
 using ActiveWorks.Properties;
+using ActiveWorks.UpdateHub;
 using ActiveWorks.UserControls;
 using Amazon;
 using ExtensionMethods;
@@ -20,6 +21,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Profile = JobSpace.Profiles.Profile;
+using UpdateHubShared = global::UpdateHub;
 
 namespace ActiveWorks
 {
@@ -30,6 +32,10 @@ namespace ActiveWorks
 
         FormBackgroundTasks _formBackgroundTask;
         readonly Stopwatch _sw = new Stopwatch();
+        readonly UpdateClientService _updateClientService;
+        System.Windows.Forms.Timer _updateCheckTimer;
+        string _pendingUpdateFolder;
+        UpdateHubShared.UpdateType? _pendingUpdateType;
 
 
         public Form2()
@@ -53,6 +59,9 @@ namespace ActiveWorks
             SplashScreen.Splash.SetVersion(assemblyVersion, Color.Yellow, 12, 12);
             SplashScreen.Splash.SetHeader(string.Empty);
             SplashScreen.Splash.SetStatus(string.Empty);
+
+            _updateClientService = new UpdateClientService(Settings.Default.UpdateHubManifestUrl, AppDomain.CurrentDomain.BaseDirectory);
+            toolStripStatusLabelUpdate.Click += ToolStripStatusLabelUpdate_Click;
         }
 
         private void ButtonSpecAnyIssue_Click(object sender, EventArgs e)
@@ -765,6 +774,9 @@ namespace ActiveWorks
 
             _sw.Stop();
             Log.Info("App", "App", $"started by {_sw.ElapsedMilliseconds} ms");
+
+            BeginInvoke(new Action(async () => await CheckForUpdatesAsync()));
+            ConfigureUpdateTimer();
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
@@ -785,6 +797,155 @@ namespace ActiveWorks
 
             // Save settings
             Settings.Default.Save();
+        }
+
+        private async Task CheckForUpdatesAsync()
+        {
+            try
+            {
+                var result = await _updateClientService.CheckForUpdatesAsync();
+                if (result.IsDisabled || !result.IsUpdateAvailable)
+                {
+                    return;
+                }
+
+                if (!Enum.TryParse(result.Manifest.UpdateType, true, out UpdateHubShared.UpdateType updateType))
+                {
+                    updateType = UpdateHubShared.UpdateType.Recommended;
+                }
+
+                _pendingUpdateFolder = result.DownloadFolder;
+                _pendingUpdateType = updateType;
+
+                switch (updateType)
+                {
+                    case UpdateHubShared.UpdateType.Critical:
+                        ShowCriticalUpdate(result);
+                        break;
+                    case UpdateHubShared.UpdateType.Recommended:
+                        ShowRecommendedUpdate(result);
+                        break;
+                    default:
+                        ShowOptionalUpdate(result);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("UpdateHub", "CheckForUpdatesAsync", ex.ToString());
+            }
+        }
+
+        private void ShowCriticalUpdate(UpdateCheckResult result)
+        {
+            var message =
+                $"Доступне критичне оновлення {result.Manifest.Version}.{Environment.NewLine}{Environment.NewLine}" +
+                $"{BuildUpdateSummary(result)}{Environment.NewLine}{Environment.NewLine}" +
+                "Програму буде закрито для встановлення оновлення.";
+
+            MessageBox.Show(this, message, "Критичне оновлення", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            StartUpdateAndClose();
+        }
+
+        private void ShowRecommendedUpdate(UpdateCheckResult result)
+        {
+            if (string.Equals(Settings.Default.LastSkippedUpdateVersion, result.Manifest.Version, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            var message =
+                $"Доступне рекомендоване оновлення {result.Manifest.Version}.{Environment.NewLine}{Environment.NewLine}" +
+                $"{BuildUpdateSummary(result)}{Environment.NewLine}{Environment.NewLine}" +
+                "Оновити зараз?";
+
+            var answer = MessageBox.Show(this, message, "Оновлення доступне", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (answer == DialogResult.Yes)
+            {
+                StartUpdateAndClose();
+                return;
+            }
+
+            Settings.Default.LastSkippedUpdateVersion = result.Manifest.Version;
+            Settings.Default.Save();
+        }
+
+        private void ShowOptionalUpdate(UpdateCheckResult result)
+        {
+            toolStripStatusLabelUpdate.Text = $"Доступне необов'язкове оновлення {result.Manifest.Version}. Натисніть для встановлення.";
+            toolStripStatusLabelUpdate.ToolTipText = BuildUpdateSummary(result);
+        }
+
+        private string BuildUpdateSummary(UpdateCheckResult result)
+        {
+            var changelog = string.IsNullOrWhiteSpace(result.Manifest.Changelog)
+                ? "Опис змін не вказаний."
+                : result.Manifest.Changelog.Trim();
+
+            return $"Файлів до завантаження: {result.ChangedFilesCount}.{Environment.NewLine}{Environment.NewLine}{changelog}";
+        }
+
+        private void ConfigureUpdateTimer()
+        {
+            if (!_updateClientService.IsConfigured)
+            {
+                return;
+            }
+
+            var minutes = Settings.Default.UpdateHubCheckIntervalMinutes;
+            if (minutes <= 0)
+            {
+                return;
+            }
+
+            _updateCheckTimer = new System.Windows.Forms.Timer();
+            _updateCheckTimer.Interval = (int)Math.Min(TimeSpan.FromMinutes(minutes).TotalMilliseconds, int.MaxValue);
+            _updateCheckTimer.Tick += async (s, e) =>
+            {
+                _updateCheckTimer.Stop();
+                try
+                {
+                    await CheckForUpdatesAsync();
+                }
+                finally
+                {
+                    _updateCheckTimer.Start();
+                }
+            };
+            _updateCheckTimer.Start();
+        }
+
+        private void ToolStripStatusLabelUpdate_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(toolStripStatusLabelUpdate.Text) && _pendingUpdateType == UpdateHubShared.UpdateType.Optional)
+            {
+                var answer = MessageBox.Show(this, "Встановити необов'язкове оновлення зараз?", "Необов'язкове оновлення",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (answer == DialogResult.Yes)
+                {
+                    StartUpdateAndClose();
+                }
+            }
+        }
+
+        private void StartUpdateAndClose()
+        {
+            if (string.IsNullOrWhiteSpace(_pendingUpdateFolder))
+            {
+                return;
+            }
+
+            try
+            {
+                UpdateClientService.StartUpdaterAndExit(_pendingUpdateFolder);
+                Close();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("UpdateHub", "StartUpdateAndClose", ex.ToString());
+                MessageBox.Show(this, ex.Message, "Не вдалося запустити оновлення", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void kryptonRibbon1_SelectedTabChanged_1(object sender, EventArgs e)
