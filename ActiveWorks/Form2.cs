@@ -60,6 +60,8 @@ namespace ActiveWorks
             SplashScreen.Splash.SetHeader(string.Empty);
             SplashScreen.Splash.SetStatus(string.Empty);
 
+            string manifestUrl = Settings.Default.UpdateHubManifestUrl;
+            Logger.Log.Info("App", "Form2", $"UpdateHub manifest URL: {manifestUrl}");
             _updateClientService = new UpdateClientService(Settings.Default.UpdateHubManifestUrl, AppDomain.CurrentDomain.BaseDirectory);
             toolStripStatusLabelUpdate.Click += ToolStripStatusLabelUpdate_Click;
         }

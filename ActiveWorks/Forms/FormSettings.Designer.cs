@@ -51,6 +51,10 @@
             this.textBox_mongoDB = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.btn_joblist_select_font = new System.Windows.Forms.Button();
+            this.tb_joblist_font = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.checkBoxHideCategory = new System.Windows.Forms.CheckBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
@@ -207,10 +211,6 @@
             this.objectListViewProfiles = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.statusChangeParamBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.groupBox15 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tb_joblist_font = new System.Windows.Forms.TextBox();
-            this.btn_joblist_select_font = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.contextMenuStrip_FolderNames.SuspendLayout();
             this.tabControlMain.SuspendLayout();
@@ -218,6 +218,7 @@
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBaseTimeOut)).BeginInit();
             this.tabPage1.SuspendLayout();
+            this.groupBox15.SuspendLayout();
             this.groupBox16.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -267,7 +268,6 @@
             this.groupBox17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewProfiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusChangeParamBindingSource)).BeginInit();
-            this.groupBox15.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -507,6 +507,47 @@
             this.tabPage1.Text = "Основні";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.btn_joblist_select_font);
+            this.groupBox15.Controls.Add(this.tb_joblist_font);
+            this.groupBox15.Controls.Add(this.label3);
+            this.groupBox15.Location = new System.Drawing.Point(6, 168);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(273, 92);
+            this.groupBox15.TabIndex = 14;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "Список робіт";
+            // 
+            // btn_joblist_select_font
+            // 
+            this.btn_joblist_select_font.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_joblist_select_font.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btn_joblist_select_font.Location = new System.Drawing.Point(230, 11);
+            this.btn_joblist_select_font.Name = "btn_joblist_select_font";
+            this.btn_joblist_select_font.Size = new System.Drawing.Size(32, 23);
+            this.btn_joblist_select_font.TabIndex = 14;
+            this.btn_joblist_select_font.Text = " ...";
+            this.btn_joblist_select_font.UseVisualStyleBackColor = true;
+            this.btn_joblist_select_font.Click += new System.EventHandler(this.btn_joblist_select_font_Click);
+            // 
+            // tb_joblist_font
+            // 
+            this.tb_joblist_font.Location = new System.Drawing.Point(52, 13);
+            this.tb_joblist_font.Name = "tb_joblist_font";
+            this.tb_joblist_font.ReadOnly = true;
+            this.tb_joblist_font.Size = new System.Drawing.Size(172, 20);
+            this.tb_joblist_font.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "шрифт";
+            // 
             // groupBox16
             // 
             this.groupBox16.Controls.Add(this.checkBoxHideCategory);
@@ -554,6 +595,7 @@
             this.kryptonButton_MoveSignaFileToOrder.Name = "kryptonButton_MoveSignaFileToOrder";
             this.kryptonButton_MoveSignaFileToOrder.Size = new System.Drawing.Size(228, 25);
             this.kryptonButton_MoveSignaFileToOrder.TabIndex = 16;
+            this.kryptonButton_MoveSignaFileToOrder.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton_MoveSignaFileToOrder.Values.Text = "перенести файл signa до замовлення";
             this.kryptonButton_MoveSignaFileToOrder.Click += new System.EventHandler(this.kryptonButton_MoveSignaFileToOrder_Click);
             // 
@@ -2144,47 +2186,6 @@
             this.olvColumnName.Text = "Ім\'я профілю";
             this.olvColumnName.Width = 200;
             // 
-            // groupBox15
-            // 
-            this.groupBox15.Controls.Add(this.btn_joblist_select_font);
-            this.groupBox15.Controls.Add(this.tb_joblist_font);
-            this.groupBox15.Controls.Add(this.label3);
-            this.groupBox15.Location = new System.Drawing.Point(6, 168);
-            this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Size = new System.Drawing.Size(273, 92);
-            this.groupBox15.TabIndex = 14;
-            this.groupBox15.TabStop = false;
-            this.groupBox15.Text = "Список робіт";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "шрифт";
-            // 
-            // tb_joblist_font
-            // 
-            this.tb_joblist_font.Location = new System.Drawing.Point(52, 13);
-            this.tb_joblist_font.Name = "tb_joblist_font";
-            this.tb_joblist_font.ReadOnly = true;
-            this.tb_joblist_font.Size = new System.Drawing.Size(172, 20);
-            this.tb_joblist_font.TabIndex = 1;
-            // 
-            // btn_joblist_select_font
-            // 
-            this.btn_joblist_select_font.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_joblist_select_font.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btn_joblist_select_font.Location = new System.Drawing.Point(230, 11);
-            this.btn_joblist_select_font.Name = "btn_joblist_select_font";
-            this.btn_joblist_select_font.Size = new System.Drawing.Size(32, 23);
-            this.btn_joblist_select_font.TabIndex = 14;
-            this.btn_joblist_select_font.Text = " ...";
-            this.btn_joblist_select_font.UseVisualStyleBackColor = true;
-            this.btn_joblist_select_font.Click += new System.EventHandler(this.btn_joblist_select_font_Click);
-            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2207,6 +2208,8 @@
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBaseTimeOut)).EndInit();
             this.tabPage1.ResumeLayout(false);
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
             this.groupBox14.ResumeLayout(false);
@@ -2268,8 +2271,6 @@
             this.groupBox17.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectListViewProfiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.statusChangeParamBindingSource)).EndInit();
-            this.groupBox15.ResumeLayout(false);
-            this.groupBox15.PerformLayout();
             this.ResumeLayout(false);
 
         }

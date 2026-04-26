@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using UpdateHub;
@@ -34,6 +35,7 @@ namespace ActiveWorks.UpdateHub
             }
 
             UpdateManifest manifest;
+
             using (var client = new WebClient())
             {
                 client.Encoding = System.Text.Encoding.UTF8;
