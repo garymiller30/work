@@ -1,7 +1,8 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
+using System.Security.Claims;
 using Web_ActiveWorks.Components;
 using Web_ActiveWorks.Models;
 using Web_ActiveWorks.Services;
@@ -39,6 +40,14 @@ public class Program
             app.UseExceptionHandler("/Error");
         }
         app.UseStaticFiles();
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            RequestPath = "/aw",
+            FileProvider = new PhysicalFileProvider(
+                Path.Combine(app.Environment.WebRootPath, "aw")
+            ),
+            ServeUnknownFileTypes = true
+        });
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseAntiforgery();
@@ -88,7 +97,6 @@ public class Program
                     return Results.LocalRedirect("/login");
                 })
             .DisableAntiforgery();
-
         app.MapStaticAssets();
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode();
