@@ -44,47 +44,42 @@ namespace JobSpace.Static.Pdf.Scale
 
         public void Scaler(string filePath)
         {
-            PDFlib p = null;
-
-            try
+            using ( PDFlib p = new PDFlib())
             {
-                string targetFile = Path.Combine(Path.GetDirectoryName(filePath), $"{Path.GetFileNameWithoutExtension(filePath)}_{_params.TargetSize.Width.ToString("N01")}x{_params.TargetSize.Height.ToString("N01")}.pdf");
-
-                p = new PDFlib();
-
-                p.begin_document(targetFile, "optimize=true");
-
-                var indoc = p.open_pdi_document(filePath, "");
-                var endpage = (int)p.pcos_get_number(indoc, "length:pages");
-
-                for (var pageno = 1; pageno <= endpage; pageno++)
+                try
                 {
-                    var page = p.open_pdi_page(indoc, pageno, "");
+                    string targetFile = Path.Combine(Path.GetDirectoryName(filePath), $"{Path.GetFileNameWithoutExtension(filePath)}_{_params.TargetSize.Width.ToString("N01")}x{_params.TargetSize.Height.ToString("N01")}.pdf");
 
-                    if (page == -1)
-                        throw new Exception("Error: " + p.get_errmsg());
+                    p.begin_document(targetFile, "optimize=true");
 
-                    if (_params.ScaleBy == ScaleByEnum.TrimBox)
+                    var indoc = p.open_pdi_document(filePath, "");
+                    var endpage = (int)p.pcos_get_number(indoc, "length:pages");
+
+                    for (var pageno = 1; pageno <= endpage; pageno++)
                     {
-                        ScaleByTrimbox(p, indoc, page, pageno);
-                    }
-                    else if (_params.ScaleBy == ScaleByEnum.Mediabox)
-                    {
-                        ScaleByMediabox(p, indoc, page);
+                        var page = p.open_pdi_page(indoc, pageno, "");
 
+                        if (page == -1)
+                            throw new Exception("Error: " + p.get_errmsg());
+
+                        if (_params.ScaleBy == ScaleByEnum.TrimBox)
+                        {
+                            ScaleByTrimbox(p, indoc, page, pageno);
+                        }
+                        else if (_params.ScaleBy == ScaleByEnum.Mediabox)
+                        {
+                            ScaleByMediabox(p, indoc, page);
+
+                        }
+                        p.close_pdi_page(page);
                     }
-                    p.close_pdi_page(page);
+                    p.end_document("");
+
                 }
-                p.end_document("");
-
-            }
-            catch (PDFlibException e)
-            {
-                Logger.Log.Error(null, "ScalePdf", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
-            }
-            finally
-            {
-                p?.Dispose();
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "ScalePdf");
+                }
             }
         }
 
