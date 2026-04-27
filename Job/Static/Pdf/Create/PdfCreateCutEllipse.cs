@@ -30,70 +30,63 @@ namespace JobSpace.Static.Pdf.Create
 
         public void CreateCutEllipse(string filePath)
         {
-            PDFlib p = null;
-
-            try
+            using (PDFlib p = new PDFlib())
             {
-                p = new PDFlib();
-
-                int indoc = p.open_pdi_document(filePath, "");
-
-                if (indoc == -1)
-                    throw new Exception("Error: " + p.get_errmsg());
-
-                int page_count = (int)p.pcos_get_number(indoc, "length:pages");
-
-                var dir = Path.GetDirectoryName(filePath);
-                var filename = Path.GetFileNameWithoutExtension(filePath);
-                var outfile = Path.Combine(dir, filename + "+cut.pdf");
-
-                p.begin_document(outfile, "optimize=true");
-
-                var layer_print = p.define_layer("print", "");
-                var layer_cut = p.define_layer("cut", "");
-
-                for (int i = 1; i <= page_count; i++)
+                try
                 {
-                    int pagehdl = p.open_pdi_page(indoc, i, "cloneboxes");
+                    int indoc = p.open_pdi_document(filePath, "");
 
-                    var width = p.pcos_get_number(indoc, $"pages[{pagehdl}]/width");
-                    var height = p.pcos_get_number(indoc, $"pages[{pagehdl}]/height");
+                    if (indoc == -1)
+                        throw new Exception("Error: " + p.get_errmsg());
 
-                    Box trimbox = PdfHelper.GetTrimbox(p, indoc, 0);
+                    int page_count = (int)p.pcos_get_number(indoc, "length:pages");
 
-                    p.begin_page_ext(0, 0, "");
-                    p.begin_layer(layer_print);
-                    p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
-                   
-                    p.begin_layer(layer_cut);
-                    int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
-                    p.set_gstate(gstate);
+                    var dir = Path.GetDirectoryName(filePath);
+                    var filename = Path.GetFileNameWithoutExtension(filePath);
+                    var outfile = Path.Combine(dir, filename + "+cut.pdf");
 
-                    p.setcolor("fillstroke", "cmyk", 0, 1, 1, 0);
-                    int spot = p.makespotcolor("cut");
+                    p.begin_document(outfile, "optimize=true");
 
-                    p.setlinewidth(1.0);
+                    var layer_print = p.define_layer("print", "");
+                    var layer_cut = p.define_layer("cut", "");
 
-                    p.setcolor("stroke", "spot", spot, 1.0, 0.0, 0.0);
-                    p.ellipse(width / 2, height / 2, trimbox.width / 2, trimbox.height / 2);
-                    p.stroke();
+                    for (int i = 1; i <= page_count; i++)
+                    {
+                        int pagehdl = p.open_pdi_page(indoc, i, "cloneboxes");
 
-                    p.close_pdi_page(pagehdl);
-                    p.end_layer();
-                    p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
+                        var width = p.pcos_get_number(indoc, $"pages[{pagehdl}]/width");
+                        var height = p.pcos_get_number(indoc, $"pages[{pagehdl}]/height");
+
+                        Box trimbox = PdfHelper.GetTrimbox(p, indoc, 0);
+
+                        p.begin_page_ext(0, 0, "");
+                        p.begin_layer(layer_print);
+                        p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
+
+                        p.begin_layer(layer_cut);
+                        int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
+                        p.set_gstate(gstate);
+
+                        p.setcolor("fillstroke", "cmyk", 0, 1, 1, 0);
+                        int spot = p.makespotcolor("cut");
+
+                        p.setlinewidth(1.0);
+
+                        p.setcolor("stroke", "spot", spot, 1.0, 0.0, 0.0);
+                        p.ellipse(width / 2, height / 2, trimbox.width / 2, trimbox.height / 2);
+                        p.stroke();
+
+                        p.close_pdi_page(pagehdl);
+                        p.end_layer();
+                        p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
+                    }
+                    p.end_document("");
+                    p.close_pdi_document(indoc);
                 }
-
-               
-                p.end_document("");
-                p.close_pdi_document(indoc);
-            }
-            catch (PDFlibException e)
-            {
-                Logger.Log.Error(null, "PdfCreateEllipse", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
-            }
-            finally
-            {
-                p?.Dispose();
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "PdfCreateEllipse");
+                }
             }
         }
     }

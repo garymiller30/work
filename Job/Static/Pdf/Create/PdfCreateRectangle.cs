@@ -7,7 +7,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Створити","Прямокутник (ProofColor)",Icon = "create_rectangle",Order =10)]
+    [PdfTool("Створити", "Прямокутник (ProofColor)", Icon = "create_rectangle", Order = 10)]
     public sealed class PdfCreateRectangle : IPdfTool
     {
         public bool Configure(PdfJobContext context)
@@ -25,67 +25,62 @@ namespace JobSpace.Static.Pdf.Create
 
         private void CreateRectangle(string filePath)
         {
-            PDFlib p = null;
-
-            try
+            using (PDFlib p = new PDFlib())
             {
-                p = new PDFlib();
+                try
+                {
+                    int indoc = p.open_pdi_document(filePath, "");
 
-                int indoc = p.open_pdi_document(filePath, "");
+                    if (indoc == -1)
+                        throw new Exception("Error: " + p.get_errmsg());
 
-                if (indoc == -1)
-                    throw new Exception("Error: " + p.get_errmsg());
+                    int page_count = (int)p.pcos_get_number(indoc, "length:pages");
 
-                int page_count = (int)p.pcos_get_number(indoc, "length:pages");
-
-                var dir = Path.GetDirectoryName(filePath);
-                var filename = Path.GetFileNameWithoutExtension(filePath);
-                var outfile = Path.Combine(dir, filename + "_rect.pdf");
-                if (p.begin_document(outfile, "optimize=true") == -1)
-                    throw new Exception("Error: " + p.get_errmsg());
+                    var dir = Path.GetDirectoryName(filePath);
+                    var filename = Path.GetFileNameWithoutExtension(filePath);
+                    var outfile = Path.Combine(dir, filename + "_rect.pdf");
+                    if (p.begin_document(outfile, "optimize=true") == -1)
+                        throw new Exception("Error: " + p.get_errmsg());
 
 
-                int pagehdl = p.open_pdi_page(indoc, 1, "");
-                if (pagehdl == -1)
-                    throw new Exception("Error: " + p.get_errmsg());
+                    int pagehdl = p.open_pdi_page(indoc, 1, "");
+                    if (pagehdl == -1)
+                        throw new Exception("Error: " + p.get_errmsg());
 
-                //get page width
-                var width = p.pcos_get_number(indoc, $"pages[{pagehdl}]/width");
-                //get page height
-                var height = p.pcos_get_number(indoc, $"pages[{pagehdl}]/height");
+                    //get page width
+                    var width = p.pcos_get_number(indoc, $"pages[{pagehdl}]/width");
+                    //get page height
+                    var height = p.pcos_get_number(indoc, $"pages[{pagehdl}]/height");
 
-                Box trimbox = PdfHelper.GetTrimbox(p, indoc, 0);
+                    Box trimbox = PdfHelper.GetTrimbox(p, indoc, 0);
 
-                p.begin_page_ext(width, height, "");
+                    p.begin_page_ext(width, height, "");
 
-                int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
+                    int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
 
-                p.set_gstate(gstate);
-                p.setcolor("fillstroke", "cmyk", 0.79, 0, 0.44, 0.21);
+                    p.set_gstate(gstate);
+                    p.setcolor("fillstroke", "cmyk", 0.79, 0, 0.44, 0.21);
 
-                int spot = p.makespotcolor("ProofColor");
+                    int spot = p.makespotcolor("ProofColor");
 
-                p.setlinewidth(1.0);
+                    p.setlinewidth(1.0);
 
-                p.setcolor("stroke", "spot", spot, 1.0, 0.0, 0.0);
-                p.rect(trimbox.left, trimbox.bottom, trimbox.width, trimbox.height);
-                p.stroke();
+                    p.setcolor("stroke", "spot", spot, 1.0, 0.0, 0.0);
+                    p.rect(trimbox.left, trimbox.bottom, trimbox.width, trimbox.height);
+                    p.stroke();
 
-                p.close_pdi_page(pagehdl);
+                    p.close_pdi_page(pagehdl);
 
-                p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
+                    p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
 
-                p.end_document("");
+                    p.end_document("");
 
-                p.close_pdi_document(indoc);
-            }
-            catch (PDFlibException e)
-            {
-                Logger.Log.Error(null, "PdfCreateRectangle", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
-            }
-            finally
-            {
-                p?.Dispose();
+                    p.close_pdi_document(indoc);
+                }
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "PdfCreateRectangle");
+                }
             }
         }
     }

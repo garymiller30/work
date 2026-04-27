@@ -12,6 +12,7 @@ using JobSpace.UserForms;
 using Krypton.Ribbon;
 using Krypton.Toolkit;
 using Logger;
+using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -856,13 +857,31 @@ namespace ActiveWorks
                 return;
             }
 
-            var message =
-                $"Доступне рекомендоване оновлення {result.Manifest.Version}.{Environment.NewLine}{Environment.NewLine}" +
-                $"{BuildUpdateSummary(result)}{Environment.NewLine}{Environment.NewLine}" +
-                "Оновити зараз?";
+            var dialog = new TaskDialog
+            {
+                WindowTitle = "Оновлення доступне",
+                MainInstruction = $"Доступне рекомендоване оновлення {result.Manifest.Version}",
+                Content = "Доступна нова версія програми.",
+                ExpandedInformation = BuildUpdateSummary(result),
+                ExpandedControlText = "Приховати деталі",
+                CollapsedControlText = "Показати деталі",
+                MainIcon = TaskDialogIcon.Information,
+                AllowDialogCancellation = true
+            };
 
-            var answer = MessageBox.Show(this, message, "Оновлення доступне", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            if (answer == DialogResult.Yes)
+            var updateButton = new TaskDialogButton("Оновити зараз")
+            {
+                Default = true
+            };
+
+            var laterButton = new TaskDialogButton("Пізніше");
+
+            dialog.Buttons.Add(updateButton);
+            dialog.Buttons.Add(laterButton);
+
+            var resultButton = dialog.ShowDialog(this);
+
+            if (resultButton == updateButton)
             {
                 StartUpdateAndClose();
                 return;

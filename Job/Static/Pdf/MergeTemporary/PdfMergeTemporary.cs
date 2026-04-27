@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace JobSpace.Static.Pdf.MergeTemporary
 {
-    [PdfTool("","• З'єднати файли в один (тимчасово)",Icon = "merge_in_temporary_file")]
+    [PdfTool("", "• З'єднати файли в один (тимчасово)", Icon = "merge_in_temporary_file")]
     public sealed class PdfMergeTemporary : IPdfTool
     {
 
@@ -19,63 +19,55 @@ namespace JobSpace.Static.Pdf.MergeTemporary
 
         public void Execute(PdfJobContext context)
         {
-            bool success = false;
-
             var files = context.InputFiles;
 
             string fileName = Path.Combine(Path.GetDirectoryName(files[0].FullName), $"{Path.GetFileNameWithoutExtension(files[0].FullName)}_merged.pdf");
-            PDFlib p = new PDFlib();
-
             List<PdfMergeFile> mergedList = new List<PdfMergeFile>();
-
-            int idxPage = 1;
-
-            try
+            using (PDFlib p = new PDFlib())
             {
-                p.begin_document(fileName, "optimize=true");
+                int idxPage = 1;
 
-                foreach (var file in files)
+                try
                 {
-                    var indoc = p.open_pdi_document(file.FullName, "");
-                    var pagecount = p.pcos_get_number(indoc, "length:pages");
+                    p.begin_document(fileName, "optimize=true");
 
-                    PdfMergeFile mergeFile = new PdfMergeFile();
-                    mergeFile.From = idxPage;
-
-                    idxPage = idxPage + (int)pagecount - 1;
-                    mergeFile.To = idxPage;
-                    idxPage++;
-                    mergeFile.Name = Path.GetFileName(file.FullName);
-                    mergedList.Add(mergeFile);
-
-                    for (int i = 1; i <= pagecount; i++)
+                    foreach (var file in files)
                     {
-                        var page = p.open_pdi_page(indoc, i, "cloneboxes");
-                        p.begin_page_ext(0, 0, "");
-                        p.fit_pdi_page(page, 0, 0, "cloneboxes");
-                        p.close_pdi_page(page);
-                        p.end_page_ext("");
+                        var indoc = p.open_pdi_document(file.FullName, "");
+                        var pagecount = p.pcos_get_number(indoc, "length:pages");
+
+                        PdfMergeFile mergeFile = new PdfMergeFile();
+                        mergeFile.From = idxPage;
+
+                        idxPage = idxPage + (int)pagecount - 1;
+                        mergeFile.To = idxPage;
+                        idxPage++;
+                        mergeFile.Name = Path.GetFileName(file.FullName);
+                        mergedList.Add(mergeFile);
+
+                        for (int i = 1; i <= pagecount; i++)
+                        {
+                            var page = p.open_pdi_page(indoc, i, "cloneboxes");
+                            p.begin_page_ext(0, 0, "");
+                            p.fit_pdi_page(page, 0, 0, "cloneboxes");
+                            p.close_pdi_page(page);
+                            p.end_page_ext("");
+                        }
+                        p.close_pdi_document(indoc);
                     }
-                    p.close_pdi_document(indoc);
+                    p.end_document("");
+
+                    var str = JsonSerializer.Serialize(mergedList);
+                    string mergeFilePath = Path.ChangeExtension(fileName, ".json");
+
+                    File.WriteAllText(mergeFilePath, str);
                 }
-                p.end_document("");
-
-                var str = JsonSerializer.Serialize(mergedList);
-                string mergeFilePath = Path.ChangeExtension(fileName, ".json");
-
-                File.WriteAllText(mergeFilePath, str);
-
-                success = true;
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "PdfMerger");
+                }
             }
-            catch (PDFlibException e)
-            {
-                PdfHelper.LogException(e, "PdfMerger");
-            }
-            finally { p?.Dispose(); }
-
-           
         }
-
     }
 }
 

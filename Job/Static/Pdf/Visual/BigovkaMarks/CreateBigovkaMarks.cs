@@ -38,72 +38,67 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
         }
         public void CreateBigovkaMark(string filePath)
         {
-            PDFlib p = null;
-            try
+            using ( PDFlib p = new PDFlib())
             {
-                p = new PDFlib();
-
-                var filename = Path.GetFileName(filePath);
-
-                var reg = new Regex(@"#(\d+)\.");
-                var match = reg.Match(filename);
-                string targetFile;
-                if (match.Success)
+                try
                 {
-                    int len = match.Groups[1].Value.Length + 1;
-                    var filenameWithoutExt = Path.GetFileNameWithoutExtension(filename);
-                    filenameWithoutExt = filenameWithoutExt.Substring(0, filenameWithoutExt.Length - len);
+                    var filename = Path.GetFileName(filePath);
 
-                    targetFile = Path.Combine(
-                        Path.GetDirectoryName(filePath), filenameWithoutExt + "_big_" + CreateBigovkaName() + "_#" + match.Groups[1].Value + Path.GetExtension(filePath));
+                    var reg = new Regex(@"#(\d+)\.");
+                    var match = reg.Match(filename);
+                    string targetFile;
+                    if (match.Success)
+                    {
+                        int len = match.Groups[1].Value.Length + 1;
+                        var filenameWithoutExt = Path.GetFileNameWithoutExtension(filename);
+                        filenameWithoutExt = filenameWithoutExt.Substring(0, filenameWithoutExt.Length - len);
+
+                        targetFile = Path.Combine(
+                            Path.GetDirectoryName(filePath), filenameWithoutExt + "_big_" + CreateBigovkaName() + "_#" + match.Groups[1].Value + Path.GetExtension(filePath));
+                    }
+                    else
+                    {
+                        targetFile =
+                        Path.Combine(
+                            Path.GetDirectoryName(filePath),
+                            Path.GetFileNameWithoutExtension(filePath) +
+                            "_big_" + CreateBigovkaName() +
+                            Path.GetExtension(filePath));
+                    }
+
+                    p.begin_document(targetFile, "optimize=true");
+
+                    int doc = p.open_pdi_document(filePath, "");
+                    int page_count = (int)p.pcos_get_number(doc, "length:pages");
+
+                    for (int i = 1; i <= page_count; i++)
+                    {
+                        curPage = i;
+                        var page = p.open_pdi_page(doc, i, "cloneboxes");
+                        p.begin_page_ext(0, 0, "");
+
+                        int p_layer = p.define_layer("print", "");
+                        int v_layer = p.define_layer("visual", "");
+
+                        p.begin_layer(p_layer);
+                        p.fit_pdi_page(page, 0, 0, "cloneboxes");
+                        p.end_layer();
+                        Boxes trimbox = PdfHelper.GetBoxes(p, doc, i - 1);
+                        p.close_pdi_page(page);
+                        p.begin_layer(v_layer);
+                        CreateBigovki(p, trimbox);
+                        p.end_layer();
+                        p.end_page_ext("");
+                    }
+
+                    p.close_pdi_document(doc);
+                    p.end_document("");
                 }
-                else
+                catch (PDFlibException e)
                 {
-                    targetFile =
-                    Path.Combine(
-                        Path.GetDirectoryName(filePath),
-                        Path.GetFileNameWithoutExtension(filePath) +
-                        "_big_" + CreateBigovkaName() +
-                        Path.GetExtension(filePath));
+                    PdfHelper.LogException(e, "CreateBigovkaMarks");
                 }
-
-                p.begin_document(targetFile, "optimize=true");
-
-                int doc = p.open_pdi_document(filePath, "");
-                int page_count = (int)p.pcos_get_number(doc, "length:pages");
-
-                for (int i = 1; i <= page_count; i++)
-                {
-                    curPage = i;
-                    var page = p.open_pdi_page(doc, i, "cloneboxes");
-                    p.begin_page_ext(0, 0, "");
-
-                    int p_layer = p.define_layer("print", "");
-                    int v_layer = p.define_layer("visual", "");
-
-                    p.begin_layer(p_layer);
-                    p.fit_pdi_page(page, 0, 0, "cloneboxes");
-                    p.end_layer();
-                    Boxes trimbox = PdfHelper.GetBoxes(p, doc, i - 1);
-                    p.close_pdi_page(page);
-                    p.begin_layer(v_layer);
-                    CreateBigovki(p, trimbox);
-                    p.end_layer();
-                    p.end_page_ext("");
-                }
-
-                p.close_pdi_document(doc);
-                p.end_document("");
             }
-            catch (PDFlibException e)
-            {
-                Logger.Log.Error(null, "CreateBigovkaMarks", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
-            }
-            finally
-            {
-                p?.Dispose();
-            }
-
         }
 
         private void CreateBigovki(PDFlib p, Boxes boxes)

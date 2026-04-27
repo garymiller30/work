@@ -1,6 +1,7 @@
 ﻿using Interfaces.FileBrowser;
 using Interfaces.Plugins;
 using JobSpace.Dlg;
+using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
 using System;
 using System.IO;
@@ -52,65 +53,59 @@ namespace JobSpace.Static.Pdf.MergeFrontsAndBack
 
         void ProcessSingleFile(string frontFilePath)
         {
-            PDFlib p = null;
-
-            try
+            using (PDFlib p = new PDFlib())
             {
-                p = new PDFlib();
-
-                int frontfile = p.open_pdi_document(frontFilePath, "");
-
-                if (frontfile == -1)
-                    throw new Exception("Error: " + p.get_errmsg());
-
-                int backfile = p.open_pdi_document(_params.BackFile, "");
-                if (backfile == -1)
-                    throw new Exception("Error: " + p.get_errmsg());
-
-                int page_count = (int)p.pcos_get_number(frontfile, "length:pages");
-
-                string outfile = Path.Combine(Path.GetDirectoryName(frontFilePath),
-                    Path.GetFileNameWithoutExtension(frontFilePath) + "_merged.pdf");
-
-                if (p.begin_document(outfile, "optimize=true") == -1)
-                    throw new Exception("Error: " + p.get_errmsg());
-
-                for (int i = 0; i < page_count; i++)
+                try
                 {
-                    p.begin_page_ext(0, 0, "");
+                    int frontfile = p.open_pdi_document(frontFilePath, "");
 
-                    int pagehdl = p.open_pdi_page(frontfile, i + 1, "cloneboxes");
-                    if (pagehdl == -1)
+                    if (frontfile == -1)
                         throw new Exception("Error: " + p.get_errmsg());
 
-                    p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
-                    p.close_pdi_page(pagehdl);
-                    p.end_page_ext("");
+                    int backfile = p.open_pdi_document(_params.BackFile, "");
+                    if (backfile == -1)
+                        throw new Exception("Error: " + p.get_errmsg());
 
-                    p.begin_page_ext(0, 0, "");
+                    int page_count = (int)p.pcos_get_number(frontfile, "length:pages");
 
-                    int pageback = p.open_pdi_page(backfile, 1, "cloneboxes");
+                    string outfile = Path.Combine(Path.GetDirectoryName(frontFilePath),
+                        Path.GetFileNameWithoutExtension(frontFilePath) + "_merged.pdf");
 
-                    p.fit_pdi_page(pageback, 0, 0, "cloneboxes");
-                    p.close_pdi_page(pageback);
+                    if (p.begin_document(outfile, "optimize=true") == -1)
+                        throw new Exception("Error: " + p.get_errmsg());
 
-                    p.end_page_ext("");
+                    for (int i = 0; i < page_count; i++)
+                    {
+                        p.begin_page_ext(0, 0, "");
+
+                        int pagehdl = p.open_pdi_page(frontfile, i + 1, "cloneboxes");
+                        if (pagehdl == -1)
+                            throw new Exception("Error: " + p.get_errmsg());
+
+                        p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
+                        p.close_pdi_page(pagehdl);
+                        p.end_page_ext("");
+
+                        p.begin_page_ext(0, 0, "");
+
+                        int pageback = p.open_pdi_page(backfile, 1, "cloneboxes");
+
+                        p.fit_pdi_page(pageback, 0, 0, "cloneboxes");
+                        p.close_pdi_page(pageback);
+
+                        p.end_page_ext("");
+                    }
+
+                    p.end_document("");
+
+                    p.close_pdi_document(frontfile);
+                    p.close_pdi_document(backfile);
                 }
-
-                p.end_document("");
-               
-                p.close_pdi_document(frontfile);
-                p.close_pdi_document(backfile);
-            }
-            catch (PDFlibException e)
-            {
-                Logger.Log.Error(null, "PdfMergeFrontsAndBack", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
-            }
-            finally
-            {
-                p?.Dispose();
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "PdfMergeFrontsAndBack");
+                }
             }
         }
-
     }
 }
