@@ -340,20 +340,34 @@ else
 
     private async Task MarkAsPaidAsync()
     {
-        if (_isUpdatingStatuses || _profile is null || _currentUser?.PayStatusCode is null || _cartItems.Count == 0)
-        {
+        if (_isUpdatingStatuses)
             return;
-        }
+
+        if (_profile is null || _currentUser?.PayStatusCode is null || _cartItems.Count == 0)
+            return;
 
         _isUpdatingStatuses = true;
         _loadError = null;
 
+        await InvokeAsync(StateHasChanged);
+
         try
         {
+            var profile = _profile;
+            var payStatus = _currentUser.PayStatusCode.Value;
+
+            var jobIds = _cartItems
+                .Where(j => !string.IsNullOrWhiteSpace(j.Id))
+                .Select(j => j.Id!)
+                .ToList();
+
+            if (jobIds.Count == 0)
+                return;
+
             await MongoProfileDataService.UpdateJobStatusesAsync(
-                _profile,
-                _cartItems.Select(job => job.Id).ToList(),
-                _currentUser.PayStatusCode.Value);
+                profile,
+                jobIds,
+                payStatus);
 
             _cartItems.Clear();
             _cartItemKeys.Clear();
@@ -368,6 +382,7 @@ else
         finally
         {
             _isUpdatingStatuses = false;
+            await InvokeAsync(StateHasChanged);
         }
     }
 
