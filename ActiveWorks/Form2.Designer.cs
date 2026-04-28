@@ -35,7 +35,10 @@
             this.buttonSpecBackgroundTasks = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAnyIssue = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
+            this.statusStripMain = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabelUpdate = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
+            this.statusStripMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonRibbon1
@@ -74,6 +77,21 @@
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
             this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
             // 
+            // statusStripMain
+            // 
+            this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelUpdate});
+            this.statusStripMain.Location = new System.Drawing.Point(0, 428);
+            this.statusStripMain.Name = "statusStripMain";
+            this.statusStripMain.Size = new System.Drawing.Size(800, 22);
+            this.statusStripMain.TabIndex = 1;
+            // 
+            // toolStripStatusLabelUpdate
+            // 
+            this.toolStripStatusLabelUpdate.IsLink = true;
+            this.toolStripStatusLabelUpdate.Name = "toolStripStatusLabelUpdate";
+            this.toolStripStatusLabelUpdate.Size = new System.Drawing.Size(0, 17);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -82,6 +100,7 @@
             this.ButtonSpecs.Add(this.buttonSpecAnyWhatNew);
             this.ButtonSpecs.Add(this.buttonSpecBackgroundTasks);
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.kryptonRibbon1);
             this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Center;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -95,6 +114,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).EndInit();
+            this.statusStripMain.ResumeLayout(false);
+            this.statusStripMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -107,5 +128,7 @@
         private Krypton.Toolkit.ButtonSpecAny buttonSpecBackgroundTasks;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAnyIssue;
         private Krypton.Toolkit.KryptonManager kryptonManager1;
+        private System.Windows.Forms.StatusStrip statusStripMain;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelUpdate;
     }
 }

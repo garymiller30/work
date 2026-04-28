@@ -53,56 +53,56 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByFormat
         {
             var tmpFile = Path.GetTempFileName();
 
-            PDFlib p = null;
-
-            try
+            using (PDFlib p = new PDFlib())
             {
-                p = new PDFlib();
-
-                p.begin_document(tmpFile, "");
-
-                var indoc = p.open_pdi_document(filePath, "");
-                var endpage = (int)p.pcos_get_number(indoc, "length:pages");
-
-                for (var pageno = 1; pageno <= endpage; pageno++)
+                try
                 {
-                    var pageh = p.open_pdi_page(indoc, pageno, "");
+                    p.begin_document(tmpFile, "");
 
-                    var box = PdfHelper.GetBoxes(p, indoc, pageh);
+                    var indoc = p.open_pdi_document(filePath, "");
+                    var endpage = (int)p.pcos_get_number(indoc, "length:pages");
 
-                    double paramW = _params.Width * PdfHelper.mn;
-                    double paramH = _params.Height * PdfHelper.mn;
+                    for (var pageno = 1; pageno <= endpage; pageno++)
+                    {
+                        var pageh = p.open_pdi_page(indoc, pageno, "");
 
-                    double bleedX = (box.Media.width - paramW) / 2;
-                    double bleedY = (box.Media.height - paramH) / 2;
+                        var box = PdfHelper.GetBoxes(p, indoc, pageh);
 
-                    double x = bleedX;
-                    double y = bleedY;
-                    double w = box.Media.width - bleedX;
-                    double h = box.Media.height - bleedY;
+                        double paramW = _params.Width * PdfHelper.mn;
+                        double paramH = _params.Height * PdfHelper.mn;
 
-                    if (pageh == -1) throw new Exception("Error: " + p.get_errmsg());
+                        double bleedX = (box.Media.width - paramW) / 2;
+                        double bleedY = (box.Media.height - paramH) / 2;
 
-                    p.begin_page_ext(0, 0, "");
-                    p.fit_pdi_page(pageh, 0, 0, "adjustpage");
-                    p.end_page_ext($"trimbox {{{x} {y} {w} {h}}}");
+                        double x = bleedX;
+                        double y = bleedY;
+                        double w = box.Media.width - bleedX;
+                        double h = box.Media.height - bleedY;
 
-                    p.close_pdi_page(pageh);
+                        if (pageh == -1) throw new Exception("Error: " + p.get_errmsg());
+
+                        p.begin_page_ext(0, 0, "");
+                        p.fit_pdi_page(pageh, 0, 0, "adjustpage");
+                        p.end_page_ext($"trimbox {{{x} {y} {w} {h}}}");
+
+                        p.close_pdi_page(pageh);
+                    }
+                    p.close_pdi_document(indoc);
+                    p.end_document("");
+
+                    RewriteFile(tmpFile, filePath);
                 }
-                p.close_pdi_document(indoc);
-                p.end_document("");
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "PdfSetTrimBoxByBleed");
+                }
+                finally
+                {
+                    File.Delete(tmpFile);
+                }
+            }
 
-                RewriteFile(tmpFile, filePath);
-            }
-            catch (PDFlibException e)
-            {
-                Logger.Log.Error(null, "PdfSetTrimBoxByBleed", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
-            }
-            finally
-            {
-                p?.Dispose();
-                File.Delete(tmpFile);
-            }
+                
         }
     }
 
