@@ -191,7 +191,7 @@ else
                 <strong>Загальна вартість: @CartTotalPrice грн</strong>
                 @if (_currentUser?.PayStatusCode is not null)
                 {
-                    <button class="primary-action" @onclick="MarkAsPaidAsync" disabled="@(_isUpdatingStatuses || _cartItems.Count == 0)">
+                    <button class="primary-action" @onclick="MarkAsPaidAsync" disabled="@(_isUpdatingStatuses || _isLoading || _cartItems.Count == 0)">
                         @(_isUpdatingStatuses ? "Оновлення..." : "Відмітити як сплачене")
                     </button>
                 }
@@ -362,7 +362,10 @@ else
                 .ToList();
 
             if (jobIds.Count == 0)
+            {
+                _loadError = "Не вдалося визначити ідентифікатори робіт.";
                 return;
+            }
 
             await MongoProfileDataService.UpdateJobStatusesAsync(
                 profile,
