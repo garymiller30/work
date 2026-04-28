@@ -23,63 +23,63 @@ namespace JobSpace.Static.Pdf.SetTrimBox.BySpread
         {
             var tmpFile = Path.GetTempFileName();
 
-            PDFlib p = null;
-
-            try
+            using ( PDFlib p = new PDFlib())
             {
-                p = new PDFlib();
-
-                p.begin_document(tmpFile, "");
-
-                var indoc = p.open_pdi_document(filePath, "");
-                var endpage = (int)p.pcos_get_number(indoc, "length:pages");
-
-                for (var pageno = 1; pageno <= endpage; pageno++)
+                try
                 {
-                    var page = p.open_pdi_page(indoc, pageno, "");
-                    if (page == -1) throw new Exception("Error: " + p.get_errmsg());
+                    p.begin_document(tmpFile, "");
 
-                    Box media = new Box();
-                    
-                    media.GetMediabox(p, indoc, page);
+                    var indoc = p.open_pdi_document(filePath, "");
+                    var endpage = (int)p.pcos_get_number(indoc, "length:pages");
 
-                    double x,y,w,h;
-
-                    if (pageno % 2  == 0) // парна
+                    for (var pageno = 1; pageno <= endpage; pageno++)
                     {
-                        x = _params.Outside * PdfHelper.mn;
-                        w = media.width - _params.Inside * PdfHelper.mn;
+                        var page = p.open_pdi_page(indoc, pageno, "");
+                        if (page == -1) throw new Exception("Error: " + p.get_errmsg());
+
+                        Box media = new Box();
+
+                        media.GetMediabox(p, indoc, page);
+
+                        double x, y, w, h;
+
+                        if (pageno % 2 == 0) // парна
+                        {
+                            x = _params.Outside * PdfHelper.mn;
+                            w = media.width - _params.Inside * PdfHelper.mn;
+                        }
+                        else //непарна
+                        {
+                            x = _params.Inside * PdfHelper.mn;
+                            w = media.width - _params.Outside * PdfHelper.mn;
+                        }
+
+                        y = _params.Bottom * PdfHelper.mn;
+                        h = media.height - _params.Top * PdfHelper.mn;
+
+                        p.begin_page_ext(0, 0, "");
+                        p.fit_pdi_page(page, 0, 0, "adjustpage");
+                        p.end_page_ext($"trimbox {{{x} {y} {w} {h}}}");
+
+                        p.close_pdi_page(page);
                     }
-                    else //непарна
-                    {
-                        x = _params.Inside * PdfHelper.mn;
-                        w = media.width - _params.Outside * PdfHelper.mn;
-                    }
+                    p.close_pdi_document(indoc);
 
-                    y = _params.Bottom * PdfHelper.mn;
-                    h = media.height - _params.Top * PdfHelper.mn;
+                    p.end_document("");
 
-                    p.begin_page_ext(0, 0, "");
-                    p.fit_pdi_page(page, 0, 0, "adjustpage");
-                    p.end_page_ext($"trimbox {{{x} {y} {w} {h}}}");
-
-                    p.close_pdi_page(page);
+                    RewriteFile(tmpFile, filePath);
                 }
-                p.close_pdi_document(indoc);
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "PdfSetTrimBoxBySpread");
+                }
+                finally
+                {
+                    File.Delete(tmpFile);
+                }
+            }
 
-                p.end_document("");
-
-                RewriteFile(tmpFile, filePath);
-            }
-            catch (PDFlibException e)
-            {
-                Logger.Log.Error(null, "PdfSetTrimBoxBySpread", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
-            }
-            finally
-            {
-                p?.Dispose();
-                File.Delete(tmpFile);
-            }
+                
         }
     }
 }

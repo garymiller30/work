@@ -39,65 +39,60 @@ namespace JobSpace.Static.Pdf.Create
 
         public void CreateEmptyPdfTemplateWithCount(string pathTo,EmptyTemplate template)
         {
-            PDFlib p = null;
-
-            try
+            using ( PDFlib p = new PDFlib())
             {
-                p = new PDFlib();
-                var filename = $"{template.Width}x{template.Height}";
-
-                for (int i = 1; i <= template.Multiplier; i++)
+                try
                 {
-                    int fileCount = i;
+                    var filename = $"{template.Width}x{template.Height}";
 
-                    string outfile;
-                    // на початку імені файлу буде порядковий номер, який буде виглядати так: 001, 002, 003 і так далі, щоб уникнути перезапису файлів при повторному запуску програми
-
-                    string fileIdx = template.Idx.ToString("D3"); // Форматування числа з провідними нулями (D3 - 3 цифри) 
-                    do
+                    for (int i = 1; i <= template.Multiplier; i++)
                     {
-                        outfile = Path.Combine(pathTo, $"{fileIdx}_{filename}_{fileCount}#{template.Count}.pdf");
-                        fileCount++;
-                    } while (File.Exists(outfile));
+                        int fileCount = i;
 
-                    if (p.begin_document(outfile, "optimize=true") == -1)
-                        throw new Exception("Error: " + p.get_errmsg());
+                        string outfile;
+                        // на початку імені файлу буде порядковий номер, який буде виглядати так: 001, 002, 003 і так далі, щоб уникнути перезапису файлів при повторному запуску програми
 
-                    Box trimbox = new Box();
-                    trimbox.CreateCustomBox(template.Width, template.Height, 3);
+                        string fileIdx = template.Idx.ToString("D3"); // Форматування числа з провідними нулями (D3 - 3 цифри) 
+                        do
+                        {
+                            outfile = Path.Combine(pathTo, $"{fileIdx}_{filename}_{fileCount}#{template.Count}.pdf");
+                            fileCount++;
+                        } while (File.Exists(outfile));
 
-                    var (width, height) = trimbox.GetMediaBox();
+                        if (p.begin_document(outfile, "optimize=true") == -1)
+                            throw new Exception("Error: " + p.get_errmsg());
 
-                    p.begin_page_ext(width, height, "");
+                        Box trimbox = new Box();
+                        trimbox.CreateCustomBox(template.Width, template.Height, 3);
 
-                    int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
+                        var (width, height) = trimbox.GetMediaBox();
 
-                    p.set_gstate(gstate);
-                    p.setcolor("fillstroke", "cmyk", 0.79, 0, 0.44, 0.21);
+                        p.begin_page_ext(width, height, "");
 
-                    int spot = p.makespotcolor("ProofColor");
+                        int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
 
-                    p.setlinewidth(1.0);
+                        p.set_gstate(gstate);
+                        p.setcolor("fillstroke", "cmyk", 0.79, 0, 0.44, 0.21);
 
-                    /* Red rectangle */
-                    p.setcolor("stroke", "spot", spot, 1.0, 0.0, 0.0);
-                    p.rect(trimbox.left, trimbox.bottom, trimbox.width, trimbox.height);
-                    p.stroke();
+                        int spot = p.makespotcolor("ProofColor");
 
-                    p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
-                    p.end_document("");
+                        p.setlinewidth(1.0);
+
+                        /* Red rectangle */
+                        p.setcolor("stroke", "spot", spot, 1.0, 0.0, 0.0);
+                        p.rect(trimbox.left, trimbox.bottom, trimbox.width, trimbox.height);
+                        p.stroke();
+
+                        p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
+                        p.end_document("");
+                    }
+
                 }
-
-            }
-            catch (PDFlibException e)
-            {
-                PdfHelper.LogException(e, "PdfCreateEmptyPdfTemplateWithCount");
-            }
-            finally
-            {
-                p?.Dispose();
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "PdfCreateEmptyPdfTemplateWithCount");
+                }
             }
         }
-
     }
 }

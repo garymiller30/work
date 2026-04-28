@@ -26,6 +26,18 @@
     <Setting Name="VirtualScreenH" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="UpdateHubEnabled" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UpdateHubManifestUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://aworks.pp.ua/aw/version.json</Value>
+    </Setting>
+    <Setting Name="UpdateHubCheckIntervalMinutes" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">240</Value>
+    </Setting>
+    <Setting Name="LastSkippedUpdateVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
     <Setting Name="WhatNew" Type="System.String" Scope="Application">
       <Value Profile="(Default)">
 					8.6.1

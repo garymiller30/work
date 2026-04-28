@@ -1,5 +1,6 @@
 ﻿using Interfaces.FileBrowser;
 using Interfaces.Plugins;
+using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
 using System;
 using System.IO;
@@ -24,70 +25,66 @@ namespace JobSpace.Static.Pdf.Split
 
         public void SplitOddAndEven(string filePath)
         {
-            PDFlib p = null;
-
-            try
+            using (PDFlib p = new PDFlib())
             {
-                p = new PDFlib();
-
-                var outfile_basename = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath));
-
-                p.set_option("errorpolicy=return");
-
-                int indoc = p.open_pdi_document(filePath, "");
-
-                if (indoc == -1)
-                    throw new Exception("Error: " + p.get_errmsg());
-
-                int page_count = (int)p.pcos_get_number(indoc, "length:pages");
-
-                string outFile = $"{outfile_basename}_odd.pdf";
-                if (p.begin_document(outFile, "optimize=true") == -1) throw new Exception("Error: " + p.get_errmsg());
-
-                //odd
-                for (int i = 0; i < page_count; i += 2)
+                try
                 {
-                    p.begin_page_ext(0, 0, "");
-                    int pagehdl = p.open_pdi_page(indoc, i + 1, "cloneboxes");
-                    if (pagehdl == -1) throw new Exception("Error: " + p.get_errmsg());
+                    var outfile_basename = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath));
 
-                    p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
-                    p.close_pdi_page(pagehdl);
-                    p.end_page_ext("");
+                    p.set_option("errorpolicy=return");
 
-                }
-                p.end_document("");
+                    int indoc = p.open_pdi_document(filePath, "");
 
-                outFile = $"{outfile_basename}_even.pdf";
-                if (p.begin_document(outFile, "") == -1)
-                    throw new Exception("Error: " + p.get_errmsg());
-
-                //even
-                for (int i = 1; i <= page_count; i += 2)
-                {
-                    p.begin_page_ext(0, 0, "");
-
-                    int pagehdl = p.open_pdi_page(indoc, i + 1, "cloneboxes");
-                    if (pagehdl == -1)
+                    if (indoc == -1)
                         throw new Exception("Error: " + p.get_errmsg());
 
-                    p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
-                    p.close_pdi_page(pagehdl);
+                    int page_count = (int)p.pcos_get_number(indoc, "length:pages");
 
-                    p.end_page_ext("");
+                    string outFile = $"{outfile_basename}_odd.pdf";
+                    if (p.begin_document(outFile, "optimize=true") == -1) throw new Exception("Error: " + p.get_errmsg());
+
+                    //odd
+                    for (int i = 0; i < page_count; i += 2)
+                    {
+                        p.begin_page_ext(0, 0, "");
+                        int pagehdl = p.open_pdi_page(indoc, i + 1, "cloneboxes");
+                        if (pagehdl == -1) throw new Exception("Error: " + p.get_errmsg());
+
+                        p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
+                        p.close_pdi_page(pagehdl);
+                        p.end_page_ext("");
+
+                    }
+                    p.end_document("");
+
+                    outFile = $"{outfile_basename}_even.pdf";
+                    if (p.begin_document(outFile, "") == -1)
+                        throw new Exception("Error: " + p.get_errmsg());
+
+                    //even
+                    for (int i = 1; i <= page_count; i += 2)
+                    {
+                        p.begin_page_ext(0, 0, "");
+
+                        int pagehdl = p.open_pdi_page(indoc, i + 1, "cloneboxes");
+                        if (pagehdl == -1)
+                            throw new Exception("Error: " + p.get_errmsg());
+
+                        p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
+                        p.close_pdi_page(pagehdl);
+
+                        p.end_page_ext("");
+                    }
+                    p.end_document("");
+
+
+                    p.close_pdi_document(indoc);
                 }
-                p.end_document("");
-
-
-                p.close_pdi_document(indoc);
-            }
-            catch (PDFlibException e)
-            {
-                Logger.Log.Error(null, "PdfSplitOddAndEven", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
-            }
-            finally
-            {
-                p?.Dispose();
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "PdfSplitOddAndEven");
+                    
+                }
             }
         }
     }

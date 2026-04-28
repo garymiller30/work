@@ -31,37 +31,32 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
             if (string.Equals(fileExt, ".pdf", StringComparison.OrdinalIgnoreCase)){
                 var tmpFile = Path.GetTempFileName();
 
-                PDFlib p = null;
-
-                try
+                using (PDFlib p = new PDFlib())
                 {
-                    p = new PDFlib();
-
-                    p.begin_document(tmpFile, "");
-
-                    if (string.Equals(fileExt, ".pdf", StringComparison.OrdinalIgnoreCase))
+                    try
                     {
-                        SetTrimToPdf(p, filePath);
+                        p.begin_document(tmpFile, "");
+
+                        if (string.Equals(fileExt, ".pdf", StringComparison.OrdinalIgnoreCase))
+                        {
+                            SetTrimToPdf(p, filePath);
+                        }
+                        else
+                        {
+
+                        }
+                        p.end_document("");
+
+                        RewriteFile(tmpFile, filePath);
                     }
-                    else
+                    catch (PDFlibException e)
                     {
-
+                        PdfHelper.LogException(e, "PdfSetTrimBoxByBleed");
                     }
-
-
-
-                    p.end_document("");
-
-                    RewriteFile(tmpFile, filePath);
-                }
-                catch (PDFlibException e)
-                {
-                    Logger.Log.Error(null, "PdfSetTrimBoxByBleed", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
-                }
-                finally
-                {
-                    p?.Dispose();
-                    File.Delete(tmpFile);
+                    finally
+                    {
+                        File.Delete(tmpFile);
+                    }
                 }
             }
             else

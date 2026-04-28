@@ -6,7 +6,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Rearange
 {
-    [PdfTool("Квартальний календар","14 -> 36",Order = 40)]
+    [PdfTool("Квартальний календар", "14 -> 36", Order = 40)]
     public class RearangePagesForQuartalCalendar : IPdfTool
     {
         int _cntMonthinBlock = 3;
@@ -35,43 +35,44 @@ namespace JobSpace.Static.Pdf.Rearange
         {
             foreach (var file in context.InputFiles)
             {
-                 RearangePages(file.FullName);
+                RearangePages(file.FullName);
             }
         }
 
-        public void  RearangePages(string file)
+        public void RearangePages(string file)
         {
             string targetfile = Path.Combine(
                 Path.GetDirectoryName(file),
                 $"{Path.GetFileNameWithoutExtension(file)}_{_cntMonthinBlock}x12{Path.GetExtension(file)}");
 
-            PDFlib p = new PDFlib();
-            try
+            using (PDFlib p = new PDFlib())
             {
-                p.begin_document(targetfile, "optimize=true");
-                int indoc = p.open_pdi_document(file, "");
-                double pagecount = p.pcos_get_number(indoc, "length:pages");
-                if (pagecount != 14) throw new PDFlibException(-1, "RearangePagesForQuartalCalendar", "The document must contain 14 pages.");
-
-                for (int i = 0; i < _3monthsInBlock.Length; i++)
+                try
                 {
-                    p.begin_page_ext(0, 0, "");
+                    p.begin_document(targetfile, "optimize=true");
+                    int indoc = p.open_pdi_document(file, "");
+                    double pagecount = p.pcos_get_number(indoc, "length:pages");
+                    if (pagecount != 14) throw new PDFlibException(-1, "RearangePagesForQuartalCalendar", "The document must contain 14 pages.");
 
-                    int pagehdl = p.open_pdi_page(indoc, _3monthsInBlock[i], "cloneboxes");
-                    p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
-                    p.close_pdi_page(pagehdl);
+                    for (int i = 0; i < _3monthsInBlock.Length; i++)
+                    {
+                        p.begin_page_ext(0, 0, "");
 
-                    p.end_page_ext("");
+                        int pagehdl = p.open_pdi_page(indoc, _3monthsInBlock[i], "cloneboxes");
+                        p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
+                        p.close_pdi_page(pagehdl);
+
+                        p.end_page_ext("");
+                    }
+
+                    p.close_pdi_document(indoc);
+                    p.end_document("");
                 }
-
-                p.close_pdi_document(indoc);
-                p.end_document("");
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "RearangePagesForQuartalCalendar");
+                }
             }
-            catch (PDFlibException e)
-            {
-                PdfHelper.LogException(e, "RearangePagesForQuartalCalendar");
-            }
-            finally { p?.Dispose(); }
         }
     }
 }

@@ -111,7 +111,7 @@
     <ManifestKeyFile>ActiveWorks_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -500,6 +500,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="UpdateHub\UpdateClientService.cs" />
     <Compile Include="UserControls\FormProfile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -912,6 +914,14 @@
       <Project>{32FF055B-5267-4802-BDC7-94D965CD730C}</Project>
       <Name>MailNotifier</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UpdateHub\UpdateHub.csproj">
+      <Project>{1a71c8a1-9e22-4b2f-9b2e-8cf92a2b1a10}</Project>
+      <Name>UpdateHub</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UpdateHub.Updater\UpdateHub.Updater.csproj">
+      <Project>{3fa5c4b1-1d2f-45ec-9f2c-d6bb17d77490}</Project>
+      <Name>UpdateHub.Updater</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -923,7 +933,26 @@
     <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.11.0\analyzers\dotnet\Microsoft.DependencyValidation.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup />
+  <PropertyGroup>
+    <UpdateHubOutputDir>..\UpdateHub\bin\$(Configuration)\</UpdateHubOutputDir>
+    <UpdaterOutputDir>..\UpdateHub.Updater\bin\$(Configuration)\</UpdaterOutputDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' == 'x64'">
+    <UpdateHubOutputDir>..\UpdateHub\bin\x64\$(Configuration)\</UpdateHubOutputDir>
+    <UpdaterOutputDir>..\UpdateHub.Updater\bin\x64\$(Configuration)\</UpdaterOutputDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' == 'x86' and '$(Configuration)' == 'Release'">
+    <UpdateHubOutputDir>..\UpdateHub\bin\x86\Release\</UpdateHubOutputDir>
+    <UpdaterOutputDir>..\UpdateHub.Updater\bin\x86\Release\</UpdaterOutputDir>
+  </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(UpdateHubOutputDir)UpdateHub.dll" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" Condition="Exists('$(UpdateHubOutputDir)UpdateHub.dll')" />
+    <Copy SourceFiles="$(UpdateHubOutputDir)UpdateHub.pdb" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" Condition="Exists('$(UpdateHubOutputDir)UpdateHub.pdb')" />
+    <Copy SourceFiles="$(UpdaterOutputDir)Updater.exe" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" Condition="Exists('$(UpdaterOutputDir)Updater.exe')" />
+    <Copy SourceFiles="$(UpdaterOutputDir)Updater.pdb" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" Condition="Exists('$(UpdaterOutputDir)Updater.pdb')" />
+    <RemoveDir Directories="&#xA;      $(OutDir)arm;&#xA;      $(OutDir)arm64;&#xA;      $(OutDir)loongarch64;&#xA;      $(OutDir)musl-arm;&#xA;      $(OutDir)musl-arm64;&#xA;      $(OutDir)musl-loongarch64;&#xA;      $(OutDir)musl-riscv64;&#xA;      $(OutDir)musl-x64;&#xA;      $(OutDir)riscv64;&#xA;      $(OutDir)uk-UA;&#xA;      $(OutDir)x64;&#xA;      $(OutDir)x86" />
+  </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>

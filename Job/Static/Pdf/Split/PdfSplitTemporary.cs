@@ -33,44 +33,37 @@ namespace JobSpace.Static.Pdf.Split
 
             PdfMergeFile[] list = JsonSerializer.Deserialize<PdfMergeFile[]>(jsonStr);
 
-            PDFlib p = null;
-
-            try
+            using ( PDFlib p = new PDFlib())
             {
-                string rootDir = Path.GetDirectoryName(filePath);
-
-                p = new PDFlib();
-
-                int indoc = p.open_pdi_document(filePath, "");
-
-                foreach (PdfMergeFile item in list)
+                try
                 {
-                    string itemFile = Path.Combine(rootDir, item.Name);
+                    string rootDir = Path.GetDirectoryName(filePath);
+                    int indoc = p.open_pdi_document(filePath, "");
 
-                    p.begin_document(itemFile, "optimize=true");
-
-                    for (int i = item.From; i <= item.To; i++)
+                    foreach (PdfMergeFile item in list)
                     {
-                        p.begin_page_ext(0,0,"");
-                        int pagehdl = p.open_pdi_page(indoc, i, "cloneboxes");
-                        p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
-                        p.close_pdi_page(pagehdl);
-                        p.end_page_ext("");
+                        string itemFile = Path.Combine(rootDir, item.Name);
+
+                        p.begin_document(itemFile, "optimize=true");
+
+                        for (int i = item.From; i <= item.To; i++)
+                        {
+                            p.begin_page_ext(0, 0, "");
+                            int pagehdl = p.open_pdi_page(indoc, i, "cloneboxes");
+                            p.fit_pdi_page(pagehdl, 0, 0, "cloneboxes");
+                            p.close_pdi_page(pagehdl);
+                            p.end_page_ext("");
+                        }
+                        p.end_document("");
                     }
-                    p.end_document("");
+
+                    p.close_pdi_document(indoc);
                 }
-
-                p.close_pdi_document(indoc);
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "PdfSplitTemporary");
+                }
             }
-            catch (PDFlibException e)
-            {
-                PdfHelper.LogException(e, "PdfSplitTemporary");
-            }
-            finally
-            {
-                p?.Dispose();
-            }
-
         }
     }
 }

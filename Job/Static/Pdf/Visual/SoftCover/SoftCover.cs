@@ -150,7 +150,7 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
                 }
                 catch (PDFlibException e)
                 {
-                    Logger.Log.Error(null, "SoftCoverGenerator", $"[{e.get_errnum()}] {e.get_apiname()}: {e.get_errmsg()}");
+                    PdfHelper.LogException(e, "SoftCoverGenerator");
                 }
             }
         }
