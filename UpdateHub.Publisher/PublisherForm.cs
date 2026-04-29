@@ -11,6 +11,7 @@ namespace UpdateHubPublisher
     {
         private const string BlacklistFileName = "blacklist.txt";
         private const string StateFileName = "publisher-state.txt";
+        private const string ManifestFileName = "version.json";
 
         private readonly TextBox _sourceFolderTextBox;
         private readonly TextBox _publishFolderTextBox;
@@ -162,8 +163,9 @@ namespace UpdateHubPublisher
             {
                 SaveBlacklist();
                 SaveState();
-                var manifest = _currentManifest ?? BuildManifest();
                 var publishRoot = RequireDirectory(_publishFolderTextBox.Text, "IIS publish path");
+                var manifest = _currentManifest ?? BuildManifest();
+                ApplyChangelogHistory(manifest, publishRoot);
                 var releaseRoot = Path.Combine(publishRoot, "releases", manifest.Version);
 
                 if (Directory.Exists(releaseRoot))
@@ -181,8 +183,8 @@ namespace UpdateHubPublisher
                     File.Copy(sourceFile, targetFile, true);
                 }
 
-                UpdateManifestSerializer.SaveToFile(manifest, Path.Combine(releaseRoot, "version.json"));
-                UpdateManifestSerializer.SaveToFile(manifest, Path.Combine(publishRoot, "version.json"));
+                UpdateManifestSerializer.SaveToFile(manifest, Path.Combine(releaseRoot, ManifestFileName));
+                UpdateManifestSerializer.SaveToFile(manifest, Path.Combine(publishRoot, ManifestFileName));
 
                 _currentManifest = manifest;
                 _previewTextBox.Text = UpdateManifestSerializer.Serialize(manifest);
@@ -239,6 +241,71 @@ namespace UpdateHubPublisher
                 PublishedAtUtc = DateTime.UtcNow.ToString("O"),
                 Files = files.OrderBy(x => x.Path, StringComparer.OrdinalIgnoreCase).ToList()
             };
+        }
+
+        private static void ApplyChangelogHistory(UpdateManifest manifest, string publishRoot)
+        {
+            var history = LoadExistingChangelogHistory(publishRoot);
+            history.RemoveAll(x => string.Equals(x.Version, manifest.Version, StringComparison.OrdinalIgnoreCase));
+            history.Insert(0, new UpdateChangelogEntry
+            {
+                Version = manifest.Version,
+                UpdateType = manifest.UpdateType,
+                PublishedAtUtc = manifest.PublishedAtUtc,
+                Changelog = manifest.Changelog
+            });
+
+            manifest.ChangelogHistory = history
+                .OrderByDescending(x => TryParseVersion(x.Version))
+                .ThenByDescending(x => TryParseDateTime(x.PublishedAtUtc))
+                .ToList();
+        }
+
+        private static List<UpdateChangelogEntry> LoadExistingChangelogHistory(string publishRoot)
+        {
+            var manifestPath = Path.Combine(publishRoot, ManifestFileName);
+            if (!File.Exists(manifestPath))
+            {
+                return new List<UpdateChangelogEntry>();
+            }
+
+            try
+            {
+                var previousManifest = UpdateManifestSerializer.Deserialize(File.ReadAllText(manifestPath));
+                var history = previousManifest.ChangelogHistory ?? new List<UpdateChangelogEntry>();
+
+                if (!string.IsNullOrWhiteSpace(previousManifest.Changelog) &&
+                    !history.Any(x => string.Equals(x.Version, previousManifest.Version, StringComparison.OrdinalIgnoreCase)))
+                {
+                    history.Add(new UpdateChangelogEntry
+                    {
+                        Version = previousManifest.Version,
+                        UpdateType = previousManifest.UpdateType,
+                        PublishedAtUtc = previousManifest.PublishedAtUtc,
+                        Changelog = previousManifest.Changelog
+                    });
+                }
+
+                return history
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Version))
+                    .ToList();
+            }
+            catch
+            {
+                return new List<UpdateChangelogEntry>();
+            }
+        }
+
+        private static Version TryParseVersion(string version)
+        {
+            Version parsedVersion;
+            return Version.TryParse(version, out parsedVersion) ? parsedVersion : new Version(0, 0);
+        }
+
+        private static DateTime TryParseDateTime(string value)
+        {
+            DateTime parsedDateTime;
+            return DateTime.TryParse(value, out parsedDateTime) ? parsedDateTime : DateTime.MinValue;
         }
 
         private static string RequireDirectory(string path, string caption)

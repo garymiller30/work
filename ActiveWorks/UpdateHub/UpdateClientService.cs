@@ -34,14 +34,7 @@ namespace ActiveWorks.UpdateHub
                 return UpdateCheckResult.Disabled();
             }
 
-            UpdateManifest manifest;
-
-            using (var client = new WebClient())
-            {
-                client.Encoding = System.Text.Encoding.UTF8;
-                var json = await client.DownloadStringTaskAsync(new Uri(_manifestUrl)).ConfigureAwait(false);
-                manifest = UpdateManifestSerializer.Deserialize(json);
-            }
+            var manifest = await DownloadManifestAsync().ConfigureAwait(false);
 
             var localVersion = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0);
             if (!Version.TryParse(manifest.Version, out var serverVersion) || serverVersion <= localVersion)
@@ -95,6 +88,16 @@ namespace ActiveWorks.UpdateHub
             UpdateManifestSerializer.SaveToFile(manifest, Path.Combine(tempRoot, "_update_manifest.json"));
 
             return UpdateCheckResult.Available(manifest, tempRoot, filesToDownload.Count);
+        }
+
+        public async Task<UpdateManifest> DownloadManifestAsync()
+        {
+            using (var client = new WebClient())
+            {
+                client.Encoding = System.Text.Encoding.UTF8;
+                var json = await client.DownloadStringTaskAsync(new Uri(_manifestUrl)).ConfigureAwait(false);
+                return UpdateManifestSerializer.Deserialize(json);
+            }
         }
 
         public static void StartUpdaterAndExit(string updateFolder)
