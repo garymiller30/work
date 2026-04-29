@@ -1,0 +1,87 @@
+{
+  "formats": {
+    "A1": { "widthMm": 900, "heightMm": 640 },
+    "B1": { "widthMm": 1000, "heightMm": 700 },
+    "B2": { "widthMm": 700, "heightMm": 500 },
+    "A2": { "widthMm": 640, "heightMm": 450 },
+    "B3": { "widthMm": 500, "heightMm": 350 },
+    "A3": { "widthMm": 450, "heightMm": 320 }
+  },
+  "materialPrices": {
+    "BoardSheet": 70.0,
+    "FilmMeter": 1.39,
+    "PurGlueKg": 600.0,
+    "WaterGlueKg": 220.0,
+    "HeadbandMeter": 10.0,
+    "RibbonMeter": 10.0,
+    "EndpaperSheet": 7.5,
+    "BookClothSheet": 1.5
+  },
+  "operationNorms": [
+    { "name": "Ламинация А2/В2", "setupHours": 0.5, "hoursPerUnit": 0.004, "unitsPerShift": 1000, "hourRate": 75, "energyPerHour": 5 },
+    { "name": "Порезка", "setupHours": 0.25, "hoursPerUnit": 0.01, "unitsPerShift": 100, "hourRate": 75, "energyPerHour": 4 },
+    { "name": "Порезка карт., пласт.", "setupHours": 0.1, "hoursPerUnit": 0.01, "unitsPerShift": 100, "hourRate": 75, "energyPerHour": 4 },
+    { "name": "Листоподборка авто. (до 10л)", "setupHours": 0.5, "hoursPerUnit": 0.0016, "unitsPerShift": 5000, "hourRate": 75, "energyPerHour": 6.6 },
+    { "name": "Комплектовка", "setupHours": 0.25, "hoursPerUnit": 0.0032, "unitsPerShift": 1000, "hourRate": 75, "energyPerHour": 0.5 },
+    { "name": "Пур биндер (до 20мм)", "setupHours": 1.4, "hoursPerUnit": 0.01, "unitsPerShift": 500, "hourRate": 75, "energyPerHour": 0.5 },
+    { "name": "Зачистка до 25мм", "setupHours": 0.01, "hoursPerUnit": 0.0071, "unitsPerShift": 1000, "hourRate": 75, "energyPerHour": 4 },
+    { "name": "приклейка каптал", "setupHours": 0.05, "hoursPerUnit": 0.0167, "unitsPerShift": 1000, "hourRate": 75, "energyPerHour": 0.5 },
+    { "name": "Ляссэ", "setupHours": 0.1, "hoursPerUnit": 0.016, "unitsPerShift": 1000, "hourRate": 75, "energyPerHour": 0.5 },
+    { "name": "Составление крышки без форзаца", "setupHours": 0.5, "hoursPerUnit": 0.0286, "unitsPerShift": 1000, "hourRate": 75, "energyPerHour": 1 },
+    { "name": "Блоковставка", "setupHours": 0.5, "hoursPerUnit": 0.0267, "unitsPerShift": 1000, "hourRate": 75, "energyPerHour": 0.5 },
+    { "name": "штриховка", "setupHours": 0.25, "hoursPerUnit": 0.01, "unitsPerShift": 1000, "hourRate": 75, "energyPerHour": 0.75 },
+    { "name": "Упаковка в пачки", "setupHours": 0.1, "hoursPerUnit": 0.0258, "unitsPerShift": 100, "hourRate": 75, "energyPerHour": 0.5 },
+    { "name": "Биговка авт.", "setupHours": 0.5, "hoursPerUnit": 0.002, "unitsPerShift": 4000, "hourRate": 70, "energyPerHour": 1 },
+    { "name": "Фальцовка (ручная)", "setupHours": 0.1, "hoursPerUnit": 0.0032, "unitsPerShift": 1000, "hourRate": 75, "energyPerHour": 0.5 },
+    { "name": "Форзац обл.", "setupHours": 0.5, "hoursPerUnit": 0.008, "unitsPerShift": 1000, "hourRate": 75, "energyPerHour": 0.5 }
+  ],
+  "defaultOrder": {
+    "quantity": 280,
+    "booksPerPack": 20,
+    "markupPercent": 120,
+    "block": {
+      "name": "Блок",
+      "widthMm": 148,
+      "heightMm": 210,
+      "pages": 192,
+      "sheetFormat": "A2",
+      "paperName": "Офсет 90 г/м2, пухл. 0.118",
+      "grammage": 90,
+      "bulk": 0.118,
+      "grainAllowanceMm": 3,
+      "laminationSides": 0,
+      "headband": true
+    },
+    "cover": {
+      "sheetFormat": "B2",
+      "paperName": "Офсет 150 г/м2, пухл. 0.175",
+      "grammage": 150,
+      "bulk": 0.175,
+      "flapMm": 20,
+      "laminationSides": 1,
+      "ribbon": true
+    },
+    "endpaper": {
+      "sheetFormat": "B1",
+      "paperName": "Офсет 150 г/м2, пухл. 0.175",
+      "grammage": 150,
+      "bulk": 0.175,
+      "pages": 8,
+      "printEndpaper": false
+    },
+    "board": {
+      "sheetFormat": "B1",
+      "thicknessMm": 2,
+      "densityGramPerSquareMeter": 886,
+      "boardOffsetMm": 3,
+      "gapMm": 8,
+      "blockToSpineMm": 4,
+      "creaseThicknessMm": 4
+    },
+    "packaging": {
+      "packLengthMm": 333,
+      "packWidthMm": 270,
+      "packHeightMm": 200
+    }
+  }
+}

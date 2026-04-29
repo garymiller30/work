@@ -1,0 +1,195 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Калькулятор твердої палітурки";
+    var formats = Model.Data.Formats.Keys.OrderBy(x => x).ToList();
+    var result = Model.Result;
+}
+
+<section class="workbench-header">
+    <div>
+        <h1>Калькулятор твердої палітурки</h1>
+        <p>Розрахунок повторює логіку другого листа Excel: геометрія деталей, розкладка, матеріали, пакування, операції та підсумкова ціна.</p>
+    </div>
+    @if (result is not null)
+    {
+        <div class="price-tile">
+            <span>Ціна з націнкою</span>
+            <strong>@result.Summary.PricePerBookWithMarkup.ToString("n2") грн/книга</strong>
+            <small>Разом @result.Summary.PriceWithMarkup.ToString("n2") грн</small>
+        </div>
+    }
+</section>
+
+<form method="post" class="calculator-layout">
+    <aside class="input-panel">
+        <div class="panel-title">
+            <h2>Параметри замовлення</h2>
+            <button type="submit">Перерахувати</button>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="input-grid compact">
+            <label>
+                <span>Тираж</span>
+                <input asp-for="Order.Quantity" type="number" min="1" />
+            </label>
+            <label>
+                <span>Книг у пачці, 0 = авто</span>
+                <input asp-for="Order.BooksPerPack" type="number" min="0" />
+            </label>
+            <label>
+                <span>Націнка, %</span>
+                <input asp-for="Order.MarkupPercent" type="number" step="0.01" min="0" />
+            </label>
+        </div>
+
+        <details open>
+            <summary>Блок</summary>
+            <div class="input-grid">
+                <label><span>Ширина, мм</span><input asp-for="Order.Block.WidthMm" type="number" step="0.01" /></label>
+                <label><span>Висота, мм</span><input asp-for="Order.Block.HeightMm" type="number" step="0.01" /></label>
+                <label><span>Сторінок</span><input asp-for="Order.Block.Pages" type="number" /></label>
+                <label>
+                    <span>Формат аркуша</span>
+                    <select asp-for="Order.Block.SheetFormat">
+                        @foreach (var format in formats)
+                        {
+                            <option value="@format">@format</option>
+                        }
+                    </select>
+                </label>
+                <label><span>Граматура</span><input asp-for="Order.Block.Grammage" type="number" step="0.01" /></label>
+                <label><span>Пухлість</span><input asp-for="Order.Block.Bulk" type="number" step="0.001" /></label>
+                <label><span>Припуск</span><input asp-for="Order.Block.GrainAllowanceMm" type="number" step="0.01" /></label>
+                <label><span>Ламінація сторін</span><input asp-for="Order.Block.LaminationSides" type="number" min="0" max="2" /></label>
+                <label class="check-row"><input asp-for="Order.Block.Headband" type="checkbox" /> <span>Каптал</span></label>
+            </div>
+        </details>
+
+        <details>
+            <summary>Обкладинка</summary>
+            <div class="input-grid">
+                <label><span>Формат аркуша</span><select asp-for="Order.Cover.SheetFormat">@foreach (var format in formats) { <option value="@format">@format</option> }</select></label>
+                <label><span>Граматура</span><input asp-for="Order.Cover.Grammage" type="number" step="0.01" /></label>
+                <label><span>Пухлість</span><input asp-for="Order.Cover.Bulk" type="number" step="0.001" /></label>
+                <label><span>Клапан, мм</span><input asp-for="Order.Cover.FlapMm" type="number" step="0.01" /></label>
+                <label><span>Ламінація сторін</span><input asp-for="Order.Cover.LaminationSides" type="number" min="0" max="2" /></label>
+                <label class="check-row"><input asp-for="Order.Cover.Ribbon" type="checkbox" /> <span>Ляссе</span></label>
+            </div>
+        </details>
+
+        <details>
+            <summary>Форзац</summary>
+            <div class="input-grid">
+                <label><span>Формат аркуша</span><select asp-for="Order.Endpaper.SheetFormat">@foreach (var format in formats) { <option value="@format">@format</option> }</select></label>
+                <label><span>Сторінок</span><input asp-for="Order.Endpaper.Pages" type="number" /></label>
+                <label><span>Граматура</span><input asp-for="Order.Endpaper.Grammage" type="number" step="0.01" /></label>
+                <label><span>Пухлість</span><input asp-for="Order.Endpaper.Bulk" type="number" step="0.001" /></label>
+                <label class="check-row"><input asp-for="Order.Endpaper.PrintEndpaper" type="checkbox" /> <span>Форзац друкується</span></label>
+            </div>
+        </details>
+
+        <details>
+            <summary>Картон і пакування</summary>
+            <div class="input-grid">
+                <label><span>Формат картону</span><select asp-for="Order.Board.SheetFormat">@foreach (var format in formats) { <option value="@format">@format</option> }</select></label>
+                <label><span>Товщина картону</span><input asp-for="Order.Board.ThicknessMm" type="number" step="0.01" /></label>
+                <label><span>Щільність картону</span><input asp-for="Order.Board.DensityGramPerSquareMeter" type="number" step="0.01" /></label>
+                <label><span>Розстав, мм</span><input asp-for="Order.Board.GapMm" type="number" step="0.01" /></label>
+                <label><span>Відступ обкладинки, мм</span><input asp-for="Order.Board.BoardOffsetMm" type="number" step="0.01" /></label>
+                <label><span>Блок від корінця, мм</span><input asp-for="Order.Board.BlockToSpineMm" type="number" step="0.01" /></label>
+                <label><span>Пачка довжина</span><input asp-for="Order.Packaging.PackLengthMm" type="number" step="0.01" /></label>
+                <label><span>Пачка ширина</span><input asp-for="Order.Packaging.PackWidthMm" type="number" step="0.01" /></label>
+                <label><span>Пачка висота</span><input asp-for="Order.Packaging.PackHeightMm" type="number" step="0.01" /></label>
+            </div>
+        </details>
+    </aside>
+
+    <main class="result-panel">
+        @if (result is not null)
+        {
+            <section class="summary-grid">
+                <div><span>Собівартість</span><strong>@result.Summary.CostPerBook.ToString("n2") грн/книга</strong></div>
+                <div><span>Всього без націнки</span><strong>@result.Summary.TotalCost.ToString("n2") грн</strong></div>
+                <div><span>Матеріали</span><strong>@result.Summary.MaterialCost.ToString("n2") грн</strong></div>
+                <div><span>Роботи</span><strong>@result.Summary.WorkCost.ToString("n2") грн</strong></div>
+                <div><span>Час</span><strong>@result.Summary.TotalHours.ToString("n2") год</strong></div>
+                <div><span>Книга</span><strong>@result.Summary.FinishedWidthMm.ToString("0.#") x @result.Summary.FinishedHeightMm.ToString("0.#") x @result.Summary.FinishedThicknessMm.ToString("0.#") мм</strong></div>
+                <div><span>Вага книги</span><strong>@result.Summary.BookWeightGram.ToString("0.#") г</strong></div>
+                <div><span>Пакування</span><strong>@result.Summary.Packs пачок по @result.Summary.BooksPerPack шт.</strong></div>
+            </section>
+
+            <section class="section-block">
+                <h2>Покроковий розрахунок</h2>
+                <div class="steps-list">
+                    @foreach (var calcSection in result.Sections)
+                    {
+                        <article class="step-section">
+                            <h3>@calcSection.Title</h3>
+                            <p>@calcSection.Description</p>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Крок</th>
+                                    <th>Формула</th>
+                                    <th>Результат</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var step in calcSection.Steps)
+                                {
+                                    <tr>
+                                        <td>@step.Label</td>
+                                        <td><code>@step.Formula</code></td>
+                                        <td>@step.Value</td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </article>
+                    }
+                </div>
+            </section>
+
+            <section class="section-block two-columns">
+                <div>
+                    <h2>Матеріали</h2>
+                    <table>
+                        <thead><tr><th>Матеріал</th><th>К-сть</th><th>Ціна</th><th>Разом</th></tr></thead>
+                        <tbody>
+                        @foreach (var line in result.MaterialLines)
+                        {
+                            <tr>
+                                <td>@line.Name</td>
+                                <td>@line.Quantity.ToString("0.###") @line.Unit</td>
+                                <td>@line.UnitPrice.ToString("0.##")</td>
+                                <td>@line.Total.ToString("n2")</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h2>Операції</h2>
+                    <table>
+                        <thead><tr><th>Група</th><th>Операція</th><th>К-сть</th><th>Год</th><th>Вартість</th></tr></thead>
+                        <tbody>
+                        @foreach (var line in result.WorkLines.Where(x => x.Enabled))
+                        {
+                            <tr>
+                                <td>@line.Group</td>
+                                <td>@line.Operation</td>
+                                <td>@line.Quantity.ToString("0.##")</td>
+                                <td>@line.Hours.ToString("0.##")</td>
+                                <td>@((line.MaterialCost + line.WorkCost).ToString("n2"))</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        }
+    </main>
+</form>
