@@ -39,6 +39,7 @@ namespace ActiveWorks.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonRichTextBox1.Location = new System.Drawing.Point(12, 12);
             this.kryptonRichTextBox1.Name = "kryptonRichTextBox1";
+            this.kryptonRichTextBox1.ReadOnly = true;
             this.kryptonRichTextBox1.Size = new System.Drawing.Size(776, 426);
             this.kryptonRichTextBox1.TabIndex = 0;
             this.kryptonRichTextBox1.Text = "";

@@ -8,7 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
+using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using UpdateHubShared = global::UpdateHub;
 
@@ -86,14 +90,92 @@ namespace ActiveWorks
         }
 
 
-        private void ButtonSpecAnyWhatNew_Click(object sender, EventArgs e)
+        private async void ButtonSpecAnyWhatNew_Click(object sender, EventArgs e)
         {
-            using (var form = new FormWhatNew(Settings.Default.WhatNew))
+            using (var form = new FormWhatNew(await GetWhatNewTextAsync()))
             {
                 form.ShowDialog();
             }
         }
 
-     
+        private async Task<string> GetWhatNewTextAsync()
+        {
+            var fallbackText = Settings.Default.WhatNew;
+            if (_updateClientService == null || !_updateClientService.IsConfigured)
+            {
+                return fallbackText;
+            }
+
+            try
+            {
+                var manifest = await _updateClientService.DownloadManifestAsync();
+                var changelogHistoryText = BuildChangelogHistoryText(manifest);
+                if (!string.IsNullOrWhiteSpace(changelogHistoryText))
+                {
+                    if (!string.IsNullOrWhiteSpace(fallbackText))
+                    {
+                        return changelogHistoryText + Environment.NewLine + Environment.NewLine + fallbackText.Trim();
+                    }
+
+                    return changelogHistoryText;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Log.Error("UpdateHub", "GetWhatNewTextAsync", ex.ToString());
+            }
+
+            return fallbackText;
+        }
+
+        private static string BuildChangelogHistoryText(UpdateHubShared.UpdateManifest manifest)
+        {
+            if (manifest == null)
+            {
+                return string.Empty;
+            }
+
+            var entries = manifest.ChangelogHistory ?? new List<UpdateHubShared.UpdateChangelogEntry>();
+            if (entries.Count == 0 && (!string.IsNullOrWhiteSpace(manifest.Version) || !string.IsNullOrWhiteSpace(manifest.Changelog)))
+            {
+                entries = new List<UpdateHubShared.UpdateChangelogEntry>
+                {
+                    new UpdateHubShared.UpdateChangelogEntry
+                    {
+                        Version = manifest.Version,
+                        UpdateType = manifest.UpdateType,
+                        PublishedAtUtc = manifest.PublishedAtUtc,
+                        Changelog = manifest.Changelog
+                    }
+                };
+            }
+
+            var builder = new StringBuilder();
+            foreach (var entry in entries.Where(x => x != null && (!string.IsNullOrWhiteSpace(x.Version) || !string.IsNullOrWhiteSpace(x.Changelog))))
+            {
+                if (builder.Length > 0)
+                {
+                    builder.AppendLine();
+                }
+
+                builder.AppendLine(BuildChangelogHeader(entry));
+                builder.AppendLine("-----------------");
+                builder.AppendLine(string.IsNullOrWhiteSpace(entry.Changelog) ? "Опис змін не вказаний." : entry.Changelog.Trim());
+            }
+
+            return builder.ToString().Trim();
+        }
+
+        private static string BuildChangelogHeader(UpdateHubShared.UpdateChangelogEntry entry)
+        {
+            var version = string.IsNullOrWhiteSpace(entry.Version) ? "Версія не вказана" : entry.Version.Trim();
+            DateTime publishedAtUtc;
+            if (DateTime.TryParse(entry.PublishedAtUtc, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out publishedAtUtc))
+            {
+                return version + " (" + publishedAtUtc.ToLocalTime().ToString("dd.MM.yyyy") + ")";
+            }
+
+            return version;
+        }
     }
 }
