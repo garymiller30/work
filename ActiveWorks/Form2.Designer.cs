@@ -51,7 +51,7 @@
             this.kryptonRibbon1.SelectedTab = null;
             this.kryptonRibbon1.Size = new System.Drawing.Size(800, 112);
             this.kryptonRibbon1.TabIndex = 0;
-            this.kryptonRibbon1.SelectedTabChanged += new System.EventHandler(this.kryptonRibbon1_SelectedTabChanged_1);
+           
             // 
             // buttonSpecAnyWhatNew
             // 

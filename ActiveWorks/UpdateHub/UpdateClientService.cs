@@ -99,20 +99,53 @@ namespace ActiveWorks.UpdateHub
 
         public static void StartUpdaterAndExit(string updateFolder)
         {
-            var updaterPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Updater.exe");
+            var applicationDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var updaterPath = Path.Combine(applicationDirectory, "Updater.exe");
             if (!File.Exists(updaterPath))
             {
                 throw new FileNotFoundException("Updater.exe was not found next to the application.", updaterPath);
             }
 
+            DeleteOldUpdaterRunnerDirectories(applicationDirectory);
+
+            var updaterRunnerDirectory = Path.Combine(
+                applicationDirectory,
+                "temp_update",
+                "updater_runner_" + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(updaterRunnerDirectory);
+
+            var updaterRunnerPath = Path.Combine(updaterRunnerDirectory, "Updater.exe");
+            File.Copy(updaterPath, updaterRunnerPath, true);
+
             var currentProcess = Process.GetCurrentProcess();
             Process.Start(new ProcessStartInfo
             {
-                FileName = updaterPath,
+                FileName = updaterRunnerPath,
                 Arguments = currentProcess.Id + " \"" + updateFolder + "\"",
                 UseShellExecute = false,
-                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory
+                WorkingDirectory = applicationDirectory
             });
+        }
+
+        private static void DeleteOldUpdaterRunnerDirectories(string applicationDirectory)
+        {
+            var tempUpdateDirectory = Path.Combine(applicationDirectory, "temp_update");
+            if (!Directory.Exists(tempUpdateDirectory))
+            {
+                return;
+            }
+
+            foreach (var directory in Directory.GetDirectories(tempUpdateDirectory, "updater_runner_*", SearchOption.TopDirectoryOnly))
+            {
+                try
+                {
+                    Directory.Delete(directory, true);
+                }
+                catch
+                {
+                    // A runner can still be locked if an update is in progress; it will be cleaned up next time.
+                }
+            }
         }
     }
 
