@@ -89,6 +89,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateHub.Updater", "Update
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateHub.Publisher", "UpdateHub.Publisher\UpdateHub.Publisher.csproj", "{6B9ED96C-7A24-4E5B-9820-52C64EE4A5E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardcoverOrderCalculator", "HardcoverOrderCalculator\HardcoverOrderCalculator.csproj", "{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -926,6 +928,30 @@ Global
 		{6B9ED96C-7A24-4E5B-9820-52C64EE4A5E1}.SERVER|x64.ActiveCfg = Release|x64
 		{6B9ED96C-7A24-4E5B-9820-52C64EE4A5E1}.SERVER|x64.Build.0 = Release|x64
 		{6B9ED96C-7A24-4E5B-9820-52C64EE4A5E1}.SERVER|x86.ActiveCfg = Release|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Debug|x64.Build.0 = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Debug|x86.Build.0 = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Release|x64.ActiveCfg = Release|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Release|x64.Build.0 = Release|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Release|x86.ActiveCfg = Release|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.Release|x86.Build.0 = Release|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.SERVER|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.SERVER|Any CPU.Build.0 = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.SERVER|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.SERVER|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.SERVER|x64.ActiveCfg = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.SERVER|x64.Build.0 = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.SERVER|x86.ActiveCfg = Debug|Any CPU
+		{AD91C1C3-9AF1-6029-A9FD-CBDA8DDC8094}.SERVER|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
