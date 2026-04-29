@@ -13,6 +13,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
     public static class CropMarksService
     {
         public static double delta = 0.3;
+        private const double ClipEpsilon = 0.000001;
 
         public static void FixCropMarks(TemplateSheet sheet,GlobalImposParameters imposParam)
         {
@@ -77,24 +78,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                     if (page != pageToCompare)
                     {
 
-                        var rect = ScreenDrawCommons.GetPageDraw(pageToCompare, pageToCompare.Back);
-
-                        RectangleD pageRect = new RectangleD
-                        {
-                            X1 = rect.page_x - delta,
-                            Y1 = rect.page_y - delta,
-                            X2 = rect.page_x + rect.page_w + delta,
-                            Y2 = rect.page_y + rect.page_h + delta
-                        };
-
-                        List<CropMark> forDeleteCrops = new List<CropMark>();
-
-                        foreach (var cropMark in page.CropMarksController.CropMarks.Where(x => x.IsBack))
-                        {
-                            if (pageRect.IsInsideMe(cropMark)) forDeleteCrops.Add(cropMark);
-                        }
-
-                        page.CropMarksController.CropMarks = page.CropMarksController.CropMarks.Except(forDeleteCrops).ToList();
+                        RectangleD pageRect = GetPageRectWithBleedsBack(sheet, pageToCompare);
+                        ClipCrops(crops, cropMark => cropMark.IsBack, pageRect);
                     }
                 }
             }
@@ -111,26 +96,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 {
                     if (page != pageToCompare)
                     {
-                        var rect = ScreenDrawCommons.GetPageDraw(pageToCompare, pageToCompare.Front);
-
-                        var d = pageToCompare.CropMarksController.Parameters.Distance;
-
-                        RectangleD pageRect = new RectangleD
-                        {
-                            X1 = rect.page_x - delta,
-                            Y1 = rect.page_y - delta,
-                            X2 = rect.page_x + rect.page_w + delta,
-                            Y2 = rect.page_y + rect.page_h + delta
-                        };
-
-                        List<CropMark> forDeleteCrops = new List<CropMark>();
-
-                        foreach (var cropMark in page.CropMarksController.CropMarks.Where(x => x.IsFront))
-                        {
-                            if (pageRect.IsInsideMe(cropMark)) forDeleteCrops.Add(cropMark);
-                        }
-
-                        page.CropMarksController.CropMarks = page.CropMarksController.CropMarks.Except(forDeleteCrops).ToList();
+                        RectangleD pageRect = GetPageRectWithBleedsFront(pageToCompare);
+                        ClipCrops(crops, cropMark => cropMark.IsFront, pageRect);
                     }
                 }
             }
@@ -262,63 +229,174 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 foreach (TemplatePage pageToCompare in sheet.TemplatePageContainer.TemplatePages)
                 {
 
-                    var r_front = ScreenDrawCommons.GetPageDraw(pageToCompare, pageToCompare.Front);
-                    var r_back = ScreenDrawCommons.GetPageDraw(pageToCompare, pageToCompare.Back);
+                    RectangleD pageRectFront = GetPageRectWithBleedsFront(pageToCompare);
+                    RectangleD pageRectBack = GetPageRectWithBleedsBack(sheet, pageToCompare);
 
-                    RectangleD pageRectFront = new RectangleD
+                    if (page == pageToCompare)
                     {
-                        X1 = r_front.page_x,
-                        Y1 = r_front.page_y,
-                        X2 = r_front.page_x + r_front.page_w,
-                        Y2 = r_front.page_y + r_front.page_h
-                    };
-
-                    RectangleD pageRectBack = new RectangleD
-                    {
-                        X1 = r_back.page_x,
-                        Y1 = r_back.page_y,
-                        X2 = r_back.page_x + r_back.page_w,
-                        Y2 = r_back.page_y + r_back.page_h
-                    };
-
-                    HashSet<CropMark> forDeleteCrops = new HashSet<CropMark>();
-
-                    foreach (var cropMark in crops.CropMarks)
-                    {
-                        if (page == pageToCompare)
-                        {
-                            if (cropMark.IsFront)
-                            {
-                                if (pageRectBack.IsInsideMe(cropMark))
-                                {
-                                    forDeleteCrops.Add(cropMark);
-                                }
-                            }
-                            else
-                            {
-                                if (pageRectFront.IsInsideMe(cropMark))
-                                {
-                                    forDeleteCrops.Add(cropMark);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (pageRectFront.IsInsideMe(cropMark))
-                            {
-                                forDeleteCrops.Add(cropMark);
-                            }
-                            if (pageRectBack.IsInsideMe(cropMark))
-                            {
-                                forDeleteCrops.Add(cropMark);
-                            }
-
-                        }
+                        ClipCrops(crops, cropMark => cropMark.IsFront, pageRectBack);
+                        ClipCrops(crops, cropMark => cropMark.IsBack, pageRectFront);
                     }
-
-                    crops.CropMarks = crops.CropMarks.Except(forDeleteCrops).ToList();
+                    else
+                    {
+                        ClipCrops(crops, cropMark => true, pageRectFront);
+                        ClipCrops(crops, cropMark => true, pageRectBack);
+                    }
                 }
             }
+        }
+
+        private static RectangleD GetPageRectWithBleedsFront(TemplatePage page)
+        {
+            var rect = ScreenDrawCommons.GetPageDraw(page, page.Front);
+            double left = ScreenDrawCommons.GetLeftBleedByAngleFront(page, page.Front);
+            double bottom = ScreenDrawCommons.GetBottomBleedByAngleFront(page, page.Front);
+
+            double horizontalBleed = GetHorizontalBleed(page, page.Front);
+            double verticalBleed = GetVerticalBleed(page, page.Front);
+
+            return new RectangleD
+            {
+                X1 = rect.page_x - left - delta,
+                Y1 = rect.page_y - bottom - delta,
+                X2 = rect.page_x + rect.page_w + horizontalBleed - left + delta,
+                Y2 = rect.page_y + rect.page_h + verticalBleed - bottom + delta
+            };
+        }
+
+        private static RectangleD GetPageRectWithBleedsBack(TemplateSheet sheet, TemplatePage page)
+        {
+            var rect = ScreenDrawCommons.GetPageDrawBack(sheet, page, page.Back);
+            double left = ScreenDrawCommons.GetLeftBleedByAngleBack(sheet, page, page.Back);
+            double bottom = ScreenDrawCommons.GetBottomBleedByAngleBack(sheet, page, page.Back);
+
+            double horizontalBleed = GetHorizontalBleed(page, page.Back);
+            double verticalBleed = GetVerticalBleed(page, page.Back);
+
+            return new RectangleD
+            {
+                X1 = rect.page_x - left - delta,
+                Y1 = rect.page_y - bottom - delta,
+                X2 = rect.page_x + rect.page_w + horizontalBleed - left + delta,
+                Y2 = rect.page_y + rect.page_h + verticalBleed - bottom + delta
+            };
+        }
+
+        private static double GetHorizontalBleed(TemplatePage page, PageSide side)
+        {
+            if (side.Angle == 0 || side.Angle == 180)
+            {
+                return page.Bleeds.Left + page.Bleeds.Right;
+            }
+
+            return page.Bleeds.Top + page.Bleeds.Bottom;
+        }
+
+        private static double GetVerticalBleed(TemplatePage page, PageSide side)
+        {
+            if (side.Angle == 0 || side.Angle == 180)
+            {
+                return page.Bleeds.Top + page.Bleeds.Bottom;
+            }
+
+            return page.Bleeds.Left + page.Bleeds.Right;
+        }
+
+        private static void ClipCrops(CropMarksController crops, Func<CropMark, bool> cropSelector, RectangleD pageRect)
+        {
+            var result = new List<CropMark>();
+
+            foreach (CropMark cropMark in crops.CropMarks)
+            {
+                if (cropSelector(cropMark))
+                {
+                    result.AddRange(CutCropMarkByRectangle(cropMark, pageRect));
+                }
+                else
+                {
+                    result.Add(cropMark);
+                }
+            }
+
+            crops.CropMarks = result;
+        }
+
+        private static IEnumerable<CropMark> CutCropMarkByRectangle(CropMark cropMark, RectangleD rect)
+        {
+            if (!TryGetIntersectionInterval(cropMark, rect, out double tIn, out double tOut))
+            {
+                yield return cropMark;
+                yield break;
+            }
+
+            if (tIn > ClipEpsilon)
+            {
+                yield return CreateCropMarkSegment(cropMark, 0, tIn);
+            }
+
+            if (tOut < 1 - ClipEpsilon)
+            {
+                yield return CreateCropMarkSegment(cropMark, tOut, 1);
+            }
+        }
+
+        private static bool TryGetIntersectionInterval(CropMark cropMark, RectangleD rect, out double tIn, out double tOut)
+        {
+            tIn = 0;
+            tOut = 1;
+
+            double dx = cropMark.To.X - cropMark.From.X;
+            double dy = cropMark.To.Y - cropMark.From.Y;
+
+            return Clip(-dx, cropMark.From.X - rect.X1, ref tIn, ref tOut)
+                && Clip(dx, rect.X2 - cropMark.From.X, ref tIn, ref tOut)
+                && Clip(-dy, cropMark.From.Y - rect.Y1, ref tIn, ref tOut)
+                && Clip(dy, rect.Y2 - cropMark.From.Y, ref tIn, ref tOut)
+                && tIn <= tOut;
+        }
+
+        private static bool Clip(double p, double q, ref double tIn, ref double tOut)
+        {
+            if (Math.Abs(p) < ClipEpsilon)
+            {
+                return q >= 0;
+            }
+
+            double r = q / p;
+
+            if (p < 0)
+            {
+                if (r > tOut) return false;
+                if (r > tIn) tIn = r;
+            }
+            else
+            {
+                if (r < tIn) return false;
+                if (r < tOut) tOut = r;
+            }
+
+            return true;
+        }
+
+        private static CropMark CreateCropMarkSegment(CropMark source, double fromT, double toT)
+        {
+            return new CropMark
+            {
+                From = Interpolate(source.From, source.To, fromT),
+                To = Interpolate(source.From, source.To, toT),
+                Enable = source.Enable,
+                IsFront = source.IsFront,
+                IsBack = source.IsBack
+            };
+        }
+
+        private static PointD Interpolate(PointD from, PointD to, double t)
+        {
+            return new PointD
+            {
+                X = from.X + (to.X - from.X) * t,
+                Y = from.Y + (to.Y - from.Y) * t
+            };
         }
 
 
