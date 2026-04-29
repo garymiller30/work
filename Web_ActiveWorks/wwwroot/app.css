@@ -124,7 +124,7 @@ code,
     padding: 5px;
     border-bottom: 1px solid rgba(24, 50, 77, 0.08);
     
-    vertical-align: top;
+    vertical-align: middle;
 }
 
 .jobs-table th {
