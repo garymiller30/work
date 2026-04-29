@@ -34,6 +34,7 @@ namespace JobSpace.UC
     {
         private const string LOADING = "завантаження...";
         private const string PdfToolUsageMenuItemName = "pdfToolUsageStatsToolStripMenuItem";
+        private const string ObjectListViewDragSourceFormat = "JobSpace.UC.UCFileBrowser.ObjectListViewDragSource";
         private static readonly object PdfToolUsageSync = new object();
         Dictionary<string, ToolStripMenuItem> menuCache = new Dictionary<string, ToolStripMenuItem>(StringComparer.InvariantCultureIgnoreCase);
         private IUserProfile UserProfile { get; set; }
@@ -702,6 +703,12 @@ namespace JobSpace.UC
         }
         private void ObjectListView1_DragDrop(object sender, DragEventArgs e)
         {
+            if (IsDropFromThisObjectListView(e))
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+
             if (e.Data is OLVDataObject olvobj)
             {
                 var downloadParam = UserProfile.Ftp.FtpExplorer.GetDownloadFileParam(olvobj.ModelObjects);
@@ -793,12 +800,18 @@ namespace JobSpace.UC
             var dataObject = new DataObject();
 
             dataObject.SetFileDropList(filePath);
+            dataObject.SetData(ObjectListViewDragSourceFormat, objectListView1);
 
             objectListView1.DoDragDrop(dataObject, DragDropEffects.Copy);
         }
 
         private void ObjectListView1_DragOver(object sender, DragEventArgs e)
         {
+            if (IsDropFromThisObjectListView(e))
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -813,6 +826,16 @@ namespace JobSpace.UC
             {
                 e.Effect = DragDropEffects.None;
             }
+        }
+
+        private bool IsDropFromThisObjectListView(DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(ObjectListViewDragSourceFormat))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(e.Data.GetData(ObjectListViewDragSourceFormat), objectListView1);
         }
 
         private void DeleteFilesAndDirectories()
