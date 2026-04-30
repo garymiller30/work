@@ -554,7 +554,24 @@ namespace JobSpace.Static
             string ext = f.FileInfo.Extension.ToLowerInvariant();
             if (ext == ".pdf" || ext == ".ai")
             {
-                return PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx);
+                Exception lastException = null;
+
+                for (int attempt = 1; attempt <= 2; attempt++)
+                {
+                    try
+                    {
+                        return PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx);
+                    }
+                    catch (Exception e)
+                    {
+                        lastException = e;
+                        if (attempt == 1)
+                            System.Threading.Thread.Sleep(100);
+                    }
+                }
+
+                Log.Error(null, "File_GetPreview", $"Cannot render preview for {f.FileInfo.FullName}, page {pageIdx + 1}: {lastException?.Message}");
+                return null;
             }
             else if (ext == ".tif" || ext == ".tiff" || ext == ".png" || ext == ".bmp" || ext == ".jpg" || ext == ".jpeg")
             {

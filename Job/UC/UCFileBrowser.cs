@@ -37,6 +37,7 @@ namespace JobSpace.UC
         private const string ObjectListViewDragSourceFormat = "JobSpace.UC.UCFileBrowser.ObjectListViewDragSource";
         private static readonly object PdfToolUsageSync = new object();
         Dictionary<string, ToolStripMenuItem> menuCache = new Dictionary<string, ToolStripMenuItem>(StringComparer.InvariantCultureIgnoreCase);
+        private readonly System.Windows.Forms.Timer _previewTimer = new System.Windows.Forms.Timer { Interval = 150 };
         private IUserProfile UserProfile { get; set; }
 
         private IFileManager _fileManager;
@@ -62,6 +63,9 @@ namespace JobSpace.UC
             UserProfile = profile;
 
             InitializeComponent();
+            components?.Add(_previewTimer);
+            _previewTimer.Tick += PreviewTimer_Tick;
+
             InitFileManager();
             InitListView();
 
@@ -1373,6 +1377,7 @@ namespace JobSpace.UC
         private void ObjectListView1_SelectionChanged(object sender, EventArgs e)
         {
             toolStripStatusLabelSelected.Text = GetSelectedFilesSize();
+            QueueFilePreview();
         }
         private void ОтправитьEmailToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
@@ -1591,11 +1596,28 @@ namespace JobSpace.UC
         private void tsb_preview_Click(object sender, EventArgs e)
         {
             sc_list.Panel2Collapsed = !sc_list.Panel2Collapsed;
-            ShowFilePreview();
+            QueueFilePreview();
         }
         private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            QueueFilePreview();
+        }
+        private void PreviewTimer_Tick(object sender, EventArgs e)
+        {
+            _previewTimer.Stop();
             ShowFilePreview();
+        }
+        private void QueueFilePreview()
+        {
+            _previewTimer.Stop();
+
+            if (sc_list.Panel2Collapsed)
+            {
+                uc_PreviewBrowserFile1.ClearPreview();
+                return;
+            }
+
+            _previewTimer.Start();
         }
         private void ShowFilePreview()
         {
@@ -1605,6 +1627,10 @@ namespace JobSpace.UC
                 if (objectListView1.SelectedObject is IFileSystemInfoExt f)
                 {
                     ShowPreviewInControl(f);
+                }
+                else
+                {
+                    uc_PreviewBrowserFile1.ClearPreview();
                 }
             }
             else

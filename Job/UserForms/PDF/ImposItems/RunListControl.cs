@@ -94,9 +94,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             e.Effect = DragDropEffects.None;
 
-            if (e.TargetModel == null) return;
+            if (e.SourceModels == null) return;
 
-            if (e.TargetModel is PdfFile || e.TargetModel is PdfFilePage)
+            if (e.SourceModels is PdfFile || e.SourceModels is PdfFilePage)
             {
                 e.Effect = e.StandardDropActionFromKeys;
             }
