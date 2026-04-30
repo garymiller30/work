@@ -29,12 +29,26 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public BindingSimpleControl()
         {
             InitializeComponent();
+            Disposed += BindingSimpleControl_Disposed;
         }
 
         public void SetControlBindParameters(GlobalImposParameters imposParam)
         {
+            if (_imposParam != null)
+            {
+                _imposParam.ControlsBind.PropertyChanged -= Parameters_PropertyChanged;
+            }
+
             _imposParam = imposParam;
             _imposParam.ControlsBind.PropertyChanged += Parameters_PropertyChanged;
+        }
+
+        private void BindingSimpleControl_Disposed(object sender, EventArgs e)
+        {
+            if (_imposParam != null)
+            {
+                _imposParam.ControlsBind.PropertyChanged -= Parameters_PropertyChanged;
+            }
         }
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -85,7 +99,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             return bindParam;
         }
 
-        public void RearangePages(List<PrintSheet> sheets, List<ImposRunPage> pages)
+        public virtual void RearangePages(List<PrintSheet> sheets, List<ImposRunPage> pages)
         {
             // скинути 
             pages.ForEach(p => p.IsAssumed = false);

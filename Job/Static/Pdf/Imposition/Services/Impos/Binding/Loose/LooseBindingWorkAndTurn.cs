@@ -125,15 +125,113 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.WorkAndTur
         }
         public static TemplatePageContainer LooseBindingMaxNormal(LooseBindingParameters parameters)
         {
-            //TODO: реалізувати логіку розкидання на лист зі своїм зворотом 
-            TemplatePageContainer templatePageContainer = new TemplatePageContainer();
-            return templatePageContainer;
+            return CreateTemplatePageContainerWithExtraBlocks(parameters, 0);
         }
         public static TemplatePageContainer LooseBindingMaxRotated(LooseBindingParameters parameters)
         {
-            //TODO: реалізувати логіку розкидання на лист зі своїм зворотом 
+            return CreateTemplatePageContainerWithExtraBlocks(parameters, 270);
+        }
+
+        private static TemplatePageContainer CreateTemplatePageContainerWithExtraBlocks(LooseBindingParameters parameters, double angle)
+        {
             TemplatePageContainer templatePageContainer = new TemplatePageContainer();
+
+            (double W, double H) printFieldFormat = GetPrintFieldFormat(parameters);
+            TemplatePage masterPage = parameters.Sheet.MasterPage;
+
+            double pageW = angle == 0 ? masterPage.W + masterPage.Margins.Left + masterPage.Margins.Right : masterPage.H + masterPage.Margins.Bottom + masterPage.Margins.Top;
+            double pageH = angle == 0 ? masterPage.H + masterPage.Margins.Bottom + masterPage.Margins.Top : masterPage.W + masterPage.Margins.Left + masterPage.Margins.Right;
+            double rotatedPageW = pageH;
+            double rotatedPageH = pageW;
+
+            double frontSideWidth = printFieldFormat.W / 2;
+
+            int CntX = (int)(frontSideWidth / pageW);
+            int CntY = (int)(printFieldFormat.H / pageH);
+
+            if (CntX == 0 || CntY == 0) return templatePageContainer;
+
+            double blockWidth = CntX * pageW;
+            double blockHeight = CntY * pageH;
+
+            GetExtraBlocks(
+                frontSideWidth,
+                printFieldFormat.H,
+                blockWidth,
+                blockHeight,
+                rotatedPageW,
+                rotatedPageH,
+                out int extraCntRightX,
+                out int extraCntRightY,
+                out int extraCntBottomX,
+                out int extraCntBottomY);
+
+            double layoutSideWidth = Math.Max(blockWidth + extraCntRightX * rotatedPageW, extraCntBottomX * rotatedPageW);
+            double layoutHeight = Math.Max(blockHeight, Math.Max(extraCntRightY * rotatedPageH, blockHeight + extraCntBottomY * rotatedPageH));
+
+            GetStartCoord(parameters, parameters.Sheet, layoutSideWidth * 2, layoutHeight, out double x, out double y);
+
+            LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, CntX, CntY, x, y, angle, 1, 2);
+
+            double extraAngle = angle == 0 ? 270 : 0;
+            if (extraCntRightX > 0 && extraCntRightY > 0)
+            {
+                LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, extraCntRightX, extraCntRightY, x + blockWidth, y, extraAngle, 1, 2);
+            }
+
+            if (extraCntBottomX > 0 && extraCntBottomY > 0)
+            {
+                LooseBindingSingleSide.PlacePages(templatePageContainer, masterPage, extraCntBottomX, extraCntBottomY, x, y + blockHeight, extraAngle, 1, 2);
+            }
+
+            LooseBindingSheetwise.CalcBackCoord(parameters, templatePageContainer);
+            LooseBindingSingleSide.ApplyFixes(parameters, templatePageContainer);
+
             return templatePageContainer;
+        }
+
+        private static void GetExtraBlocks(
+            double frontSideWidth,
+            double printFieldHeight,
+            double blockWidth,
+            double blockHeight,
+            double rotatedPageW,
+            double rotatedPageH,
+            out int extraCntRightX,
+            out int extraCntRightY,
+            out int extraCntBottomX,
+            out int extraCntBottomY)
+        {
+            CalculateExtraBlocks(frontSideWidth - blockWidth, printFieldHeight, rotatedPageW, rotatedPageH, out int rightFullX, out int rightFullY);
+            CalculateExtraBlocks(blockWidth, printFieldHeight - blockHeight, rotatedPageW, rotatedPageH, out int bottomBaseX, out int bottomBaseY);
+
+            CalculateExtraBlocks(frontSideWidth - blockWidth, blockHeight, rotatedPageW, rotatedPageH, out int rightBaseX, out int rightBaseY);
+            CalculateExtraBlocks(frontSideWidth, printFieldHeight - blockHeight, rotatedPageW, rotatedPageH, out int bottomFullX, out int bottomFullY);
+
+            int rightFirstTotal = rightFullX * rightFullY + bottomBaseX * bottomBaseY;
+            int bottomFirstTotal = rightBaseX * rightBaseY + bottomFullX * bottomFullY;
+
+            if (rightFirstTotal >= bottomFirstTotal)
+            {
+                extraCntRightX = rightFullX;
+                extraCntRightY = rightFullY;
+                extraCntBottomX = bottomBaseX;
+                extraCntBottomY = bottomBaseY;
+            }
+            else
+            {
+                extraCntRightX = rightBaseX;
+                extraCntRightY = rightBaseY;
+                extraCntBottomX = bottomFullX;
+                extraCntBottomY = bottomFullY;
+            }
+        }
+
+        private static bool CalculateExtraBlocks(double extraWidth, double extraHeight, double pageW, double pageH, out int extraCntX, out int extraCntY)
+        {
+            extraCntX = (int)(extraWidth / pageW);
+            extraCntY = (int)(extraHeight / pageH);
+            return extraCntX > 0 && extraCntY > 0;
         }
 
     }

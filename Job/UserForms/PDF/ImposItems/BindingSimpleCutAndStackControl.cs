@@ -18,7 +18,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             InitializeComponent();
         }
-        new public void RearangePages(List<PrintSheet> sheets, List<ImposRunPage> pages)
+        public override void RearangePages(List<PrintSheet> sheets, List<ImposRunPage> pages)
         {
             // скинути 
             pages.ForEach(p => p.IsAssumed = false);
