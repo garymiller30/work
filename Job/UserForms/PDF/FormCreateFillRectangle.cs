@@ -14,7 +14,7 @@ namespace JobSpace.UserForms.PDF
     {
         const string PANTONE_PATH = "ColorTables";
         List<Models.ColorTable> pantone_tables = new List<Models.ColorTable>();
-        string _targetDir;
+        
 
         public Models.PdfColorResult PdfColorResult { get; set; } = new Models.PdfColorResult();
         public Static.Pdf.Create.PdfCreateFillRectangleParams FillRectangleParams { get; set; } = new Static.Pdf.Create.PdfCreateFillRectangleParams();
