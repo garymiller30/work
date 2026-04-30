@@ -446,6 +446,7 @@
     <Compile Include="Static\Pdf\Imposition\Drawers\PDF\Sheet\WorkAndTurn.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Screen\ScreenDrawer.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawCommons.cs" />
+    <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenPagePreviewRenderer.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawSingleSideService.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawWorkAndTumbleService.cs" />
     <Compile Include="Static\Pdf\Imposition\Drawers\Services\Screen\ScreenDrawWorkAndTurnService.cs" />
