@@ -26,12 +26,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         bool isDragMode { get; set; } = false;
 
-        double hover_x;
-        double hover_y;
-
         PointF clickPoint;
         PointF lastLocation;
-        double snapDistance = 7;
+        double dragStartX;
+        double dragStartY;
+        double snapDistance = 4;
 
         public PreviewControl()
         {
@@ -114,9 +113,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             if (_imposParam.ControlsBind.HoverPage == null) return;
 
-            hover_x = _imposParam.ControlsBind.HoverPage.Front.X;
-            hover_y = _imposParam.ControlsBind.HoverPage.Front.Y;
-
             if (_imposParam.ImposTools.CurTool == ImposToolEnum.Select)
             {
                 isDragMode = true;
@@ -129,6 +125,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     _imposParam.ControlsBind.Sheet.TemplatePageContainer.AddPage(clonePage);
                     _imposParam.ControlsBind.HoverPage = clonePage;
                 }
+
+                dragStartX = _imposParam.ControlsBind.HoverPage.Front.X;
+                dragStartY = _imposParam.ControlsBind.HoverPage.Front.Y;
             }
         }
 
@@ -233,12 +232,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (_imposParam.ControlsBind.Sheet == null) return;
             if (isDragMode == true && _imposParam.ControlsBind.HoverPage != null && _imposParam.ImposTools.CurTool == ImposToolEnum.Select)
             {
-                _imposParam.ControlsBind.HoverPage.Front.X += e.X - lastLocation.X;
-                _imposParam.ControlsBind.HoverPage.Front.Y -= e.Y - lastLocation.Y;
-                ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, _imposParam.ControlsBind.HoverPage);
-
                 lastLocation = e.Location;
+                _imposParam.ControlsBind.HoverPage.Front.X = dragStartX + (e.X - clickPoint.X) / ScreenDrawer.ZoomFactor;
+                _imposParam.ControlsBind.HoverPage.Front.Y = dragStartY - (e.Y - clickPoint.Y) / ScreenDrawer.ZoomFactor;
                 SnapPages();
+                ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, _imposParam.ControlsBind.HoverPage);
 
                 _imposParam.ControlsBind.UpdateSheet(false);
             }
@@ -255,86 +253,63 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void SnapPages()
         {
-            var x_ofs = lastLocation.X - clickPoint.X;
-            var y_ofs = lastLocation.Y - clickPoint.Y;
+            TemplatePage hoverPage = _imposParam.ControlsBind.HoverPage;
+            if (hoverPage == null) return;
 
-            //for x_snap
+            double snapDistanceOnSheet = snapDistance / ScreenDrawer.ZoomFactor;
+            (double x1, double y1, double x2, double y2) hoverBounds = GetPageBounds(hoverPage);
+            double? snapX = null;
+            double? snapY = null;
+
             foreach (var page in _imposParam.ControlsBind.Sheet.TemplatePageContainer.TemplatePages.AsEnumerable().Reverse())
             {
-                if (page == _imposParam.ControlsBind.HoverPage) continue;
+                if (page == hoverPage) continue;
 
-                var pageR = ScreenDrawCommons.GetDrawBleedRightFront(page);
-                var pageL = ScreenDrawCommons.GetDrawBleedLeftFront(page);
-
-                //// вибрана сторінка - права сторона <--> ліва сторона
-                if (Math.Abs(pageR.X2 - hover_x - x_ofs) < snapDistance)
-                {
-                    _imposParam.ControlsBind.HoverPage.Front.X = page.Front.X + page.GetClippedWByRotate();
-                    ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, _imposParam.ControlsBind.HoverPage);
-                    break;
-                }
-                //// вибрана сторінка - ліва сторона сторона <--> права сторона
-                else if (Math.Abs(hover_x + x_ofs + _imposParam.ControlsBind.HoverPage.GetClippedWByRotate() - pageL.X1) < snapDistance)
-                {
-
-                    _imposParam.ControlsBind.HoverPage.Front.X = page.Front.X - _imposParam.ControlsBind.HoverPage.GetClippedWByRotate();
-                    ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, _imposParam.ControlsBind.HoverPage);
-                    break;
-                }
-                // вибрана сторінка - ліва сторона <--> ліва сторона
-                else if (Math.Abs(pageL.X1 - hover_x - x_ofs) < snapDistance)
-                {
-                    _imposParam.ControlsBind.HoverPage.Front.X = page.Front.X;
-                    ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, _imposParam.ControlsBind.HoverPage);
-                    break;
-                }
-                // вибрана сторінка - ліва сторона сторона <--> ліва сторона
-                else if (Math.Abs(hover_x + x_ofs + _imposParam.ControlsBind.HoverPage.GetClippedWByRotate() - pageR.X2) < snapDistance)
-                {
-                    _imposParam.ControlsBind.HoverPage.Front.X = page.Front.X + page.GetClippedWByRotate() - _imposParam.ControlsBind.HoverPage.GetClippedWByRotate();
-                    ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, _imposParam.ControlsBind.HoverPage);
-                    break;
-                }
+                (double x1, double y1, double x2, double y2) pageBounds = GetPageBounds(page);
+                snapX = GetBestSnapOffset(snapX, pageBounds.x2 - hoverBounds.x1, snapDistanceOnSheet);
+                snapX = GetBestSnapOffset(snapX, pageBounds.x1 - hoverBounds.x2, snapDistanceOnSheet);
+                snapX = GetBestSnapOffset(snapX, pageBounds.x1 - hoverBounds.x1, snapDistanceOnSheet);
+                snapX = GetBestSnapOffset(snapX, pageBounds.x2 - hoverBounds.x2, snapDistanceOnSheet);
             }
 
+            if (snapX.HasValue)
+            {
+                hoverPage.Front.X += snapX.Value;
+                hoverBounds = GetPageBounds(hoverPage);
+            }
 
-            //for y_snap
             foreach (var page in _imposParam.ControlsBind.Sheet.TemplatePageContainer.TemplatePages.AsEnumerable().Reverse())
             {
-                if (page == _imposParam.ControlsBind.HoverPage) continue;
+                if (page == hoverPage) continue;
 
-                var pageT = ScreenDrawCommons.GetDrawBleedTopFront(page);
-                var pageB = ScreenDrawCommons.GetDrawBleedBottomFront(page);
-
-                // top -> bottom
-                if (Math.Abs(pageB.Y1 - hover_y + y_ofs - _imposParam.ControlsBind.HoverPage.GetClippedHByRotate()) < snapDistance)
-                {
-                    _imposParam.ControlsBind.HoverPage.Front.Y = page.Front.Y - _imposParam.ControlsBind.HoverPage.GetClippedHByRotate();
-                    ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, _imposParam.ControlsBind.HoverPage);
-                    break;
-                }
-                // bottom ->top
-                else if (Math.Abs(pageT.Y2 - hover_y + y_ofs) < snapDistance)
-                {
-                    _imposParam.ControlsBind.HoverPage.Front.Y = page.Front.Y + page.GetClippedHByRotate();
-                    ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, _imposParam.ControlsBind.HoverPage);
-                    break;
-                }
-                // top -> top
-                else if (Math.Abs(pageT.Y2 - hover_y + y_ofs - _imposParam.ControlsBind.HoverPage.GetClippedHByRotate()) < snapDistance)
-                {
-                    _imposParam.ControlsBind.HoverPage.Front.Y = (page.Front.Y + page.GetClippedHByRotate()) - _imposParam.ControlsBind.HoverPage.GetClippedHByRotate();
-                    ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, _imposParam.ControlsBind.HoverPage);
-                    break;
-                }
-                //bottom -> bottom
-                else if (Math.Abs(pageB.Y1 - hover_y + y_ofs) < snapDistance)
-                {
-                    _imposParam.ControlsBind.HoverPage.Front.Y = page.Front.Y;
-                    ProcessFixPageBackPosition.FixPosition(_imposParam.ControlsBind.Sheet, _imposParam.ControlsBind.HoverPage);
-                    break;
-                }
+                (double x1, double y1, double x2, double y2) pageBounds = GetPageBounds(page);
+                snapY = GetBestSnapOffset(snapY, pageBounds.y2 - hoverBounds.y1, snapDistanceOnSheet);
+                snapY = GetBestSnapOffset(snapY, pageBounds.y1 - hoverBounds.y2, snapDistanceOnSheet);
+                snapY = GetBestSnapOffset(snapY, pageBounds.y1 - hoverBounds.y1, snapDistanceOnSheet);
+                snapY = GetBestSnapOffset(snapY, pageBounds.y2 - hoverBounds.y2, snapDistanceOnSheet);
             }
+
+            if (snapY.HasValue)
+            {
+                hoverPage.Front.Y += snapY.Value;
+            }
+        }
+
+        private static (double x1, double y1, double x2, double y2) GetPageBounds(TemplatePage page)
+        {
+            return (
+                page.Front.X,
+                page.Front.Y,
+                page.Front.X + page.GetClippedWByRotate(),
+                page.Front.Y + page.GetClippedHByRotate()
+            );
+        }
+
+        private static double? GetBestSnapOffset(double? currentOffset, double candidateOffset, double snapDistance)
+        {
+            if (Math.Abs(candidateOffset) > snapDistance) return currentOffset;
+            if (!currentOffset.HasValue || Math.Abs(candidateOffset) < Math.Abs(currentOffset.Value)) return candidateOffset;
+            return currentOffset;
         }
 
         private void CheckHover(int x, int y)
