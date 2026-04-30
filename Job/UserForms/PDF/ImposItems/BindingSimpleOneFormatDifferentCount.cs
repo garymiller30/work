@@ -71,7 +71,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         }
 
 
-        new public void RearangePages(List<PrintSheet> sheets, List<ImposRunPage> pages)
+        public override void RearangePages(List<PrintSheet> sheets, List<ImposRunPage> pages)
         {
             if (sheets.Count ==0) return;
             _sheets = sheets;

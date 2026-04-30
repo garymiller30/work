@@ -4,11 +4,6 @@ using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JobSpace.UserForms.PDF.ImposItems
@@ -18,26 +13,49 @@ namespace JobSpace.UserForms.PDF.ImposItems
         GlobalImposParameters _imposParam;
         IBindControl curBindControl;
 
-        List<string> items = new List<string>(){
+        private static readonly string[] BindTypeNames = {
             "розкидати на лист",
             "наскрізна нумерація",
             "один формат, різні тиражі",
             "розкласти розворотами"
             };
 
+        private static readonly Func<IBindControl>[] BindControlFactories = {
+            () => new BindingSimpleControl(),
+            () => new BindingSimpleCutAndStackControl(),
+            () => new BindingSimpleOneFormatDifferentCount(),
+            () => new BindingSimpleSpreadControl()
+        };
+
         public ImposBindingControl()
         {
             InitializeComponent();
+            Disposed += ImposBindingControl_Disposed;
         }
 
         public void SetControlBindParameters(GlobalImposParameters imposParam)
         {
+            if (_imposParam != null)
+            {
+                _imposParam.ControlsBind.PropertyChanged -= Parameters_PropertyChanged;
+            }
+
             _imposParam = imposParam;
-            //parameters = controlBindParameters;
             _imposParam.ControlsBind.PropertyChanged += Parameters_PropertyChanged;
             
-            cb_SelectBindType.Items.AddRange(items.ToArray());
+            cb_SelectBindType.Items.Clear();
+            cb_SelectBindType.Items.AddRange(BindTypeNames);
             cb_SelectBindType.SelectedIndex = 0;
+        }
+
+        private void ImposBindingControl_Disposed(object sender, EventArgs e)
+        {
+            if (_imposParam != null)
+            {
+                _imposParam.ControlsBind.PropertyChanged -= Parameters_PropertyChanged;
+            }
+
+            DisposeCurrentBindControl();
         }
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -53,31 +71,26 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void cb_SelectBindType_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_imposParam.ControlsBind == null) return;
-            panelBindingControl.Controls.Clear();
             int idx = cb_SelectBindType.SelectedIndex;
+            if (idx < 0 || idx >= BindControlFactories.Length) return;
 
-            if (idx == 0)
-            {
-                //LooseBinding
-                curBindControl = new BindingSimpleControl();
-            }
-            else if (idx == 1)
-            {
-                // наскрізна нумерація
-                curBindControl = new BindingSimpleCutAndStackControl();
-            }
-            else if (idx == 2)
-            {
-                curBindControl = new BindingSimpleOneFormatDifferentCount();
-            }
-            else if (idx == 3)
-            {
-                curBindControl = new BindingSimpleSpreadControl();
-            }
+            DisposeCurrentBindControl();
+            curBindControl = BindControlFactories[idx]();
             curBindControl.SetControlBindParameters(_imposParam);
 
             ((UserControl)curBindControl).Dock = DockStyle.Fill;
             panelBindingControl.Controls.Add((UserControl)curBindControl);
+        }
+
+        private void DisposeCurrentBindControl()
+        {
+            var control = curBindControl as UserControl;
+            curBindControl = null;
+
+            if (control == null) return;
+
+            panelBindingControl.Controls.Remove(control);
+            control.Dispose();
         }
 
         public void RearangePages(List<PrintSheet> sheets, List<ImposRunPage> pages)
