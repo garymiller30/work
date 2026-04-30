@@ -35,7 +35,6 @@ namespace JobSpace.UserForms.PDF.Visual
         private Pen _whiteLinePen = new Pen(Color.White, 1f);
         decimal[] partsDelta;
         List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
-        int currentPageIdx = 1;
         decimal page_w = 0;
         decimal page_h = 0;
 

@@ -499,11 +499,11 @@ namespace JobSpace.Static.Pdf.Common
                     }
                 }
             }
-            catch (IOException ex)
+            catch (IOException)
             {
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
