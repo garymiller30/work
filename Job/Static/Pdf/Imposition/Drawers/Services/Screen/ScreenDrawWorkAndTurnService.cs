@@ -16,7 +16,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
     public static class ScreenDrawWorkAndTurnService
     {
-        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService)
+        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService, ProductPart productPart = null)
         {
             var templateContainer = sheet.TemplatePageContainer;
             Bitmap bitmap = new Bitmap(
@@ -42,8 +42,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             // draw pages
             foreach (var page in templateContainer.TemplatePages)
             {
-                DrawPageFront(g, sheet, page, (int)sheet.H);
-                DrawPageBack(g, sheet, page, (int)sheet.H);
+                DrawPageFront(g, sheet, page, (int)sheet.H, productPart);
+                DrawPageBack(g, sheet, page, (int)sheet.H, productPart);
             }
             DrawCropMarks(g, sheet);
             //draw foreground marks
@@ -150,7 +150,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             pen.Dispose();
         }
 
-        public static void DrawPageBack(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
+        public static void DrawPageBack(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart productPart = null)
         {
             DrawBleeds(g, page, page.Back, sH);
 
@@ -191,7 +191,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 Height = (float)h
             };
 
-            ScreenDrawer.DrawFillRectangle(g, rect, brush);
+            bool pagePreviewDrawn = false;
+            if (sheet is PrintSheet)
+            {
+                pagePreviewDrawn = ScreenPagePreviewRenderer.DrawBack(g, productPart, page, rect);
+            }
+
+            if (!pagePreviewDrawn)
+            {
+                ScreenDrawer.DrawFillRectangle(g, rect, brush);
+            }
+
             ScreenDrawer.DrawRectangle(g, rect, pen);
 
            
@@ -200,7 +210,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
 
             ScreenDrawCommons.DrawPageRotateMarker(g, page, page.Back, rect, sH);
-            DrawTextBack(g, sheet, page, sH);
+            if (!pagePreviewDrawn)
+            {
+                DrawTextBack(g, sheet, page, sH);
+            }
 
         }
 
@@ -342,7 +355,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             g.Restore(state);
         }
 
-        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
+        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart productPart = null)
         {
             PageSide side = page.Front;
 
@@ -387,7 +400,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 Height = (float)h
             };
 
-            ScreenDrawer.DrawFillRectangle(g, rect, brush);
+            bool pagePreviewDrawn = false;
+            if (sheet is PrintSheet)
+            {
+                pagePreviewDrawn = ScreenPagePreviewRenderer.DrawFront(g, productPart, page, rect);
+            }
+
+            if (!pagePreviewDrawn)
+            {
+                ScreenDrawer.DrawFillRectangle(g, rect, brush);
+            }
+
             ScreenDrawer.DrawRectangle(g, rect, pen);
            
             brush.Dispose();
@@ -395,7 +418,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
 
             ScreenDrawCommons.DrawPageRotateMarker(g, page, side, rect, sH);
-            DrawTextFront(g, sheet, page, sH);
+            if (!pagePreviewDrawn)
+            {
+                DrawTextFront(g, sheet, page, sH);
+            }
 
         }
 

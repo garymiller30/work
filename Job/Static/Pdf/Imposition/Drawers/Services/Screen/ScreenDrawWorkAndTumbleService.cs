@@ -13,7 +13,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
     public static class ScreenDrawWorkAndTumbleService
     {
-        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService)
+        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService, ProductPart productPart = null)
         {
             var templateContainer = sheet.TemplatePageContainer;
             Bitmap bitmap = new Bitmap(
@@ -39,8 +39,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             // draw pages
             foreach (var page in templateContainer.TemplatePages)
             {
-                ScreenDrawWorkAndTurnService.DrawPageFront(g, sheet, page, (int)sheet.H);
-                ScreenDrawWorkAndTurnService.DrawPageBack(g, sheet, page, (int)sheet.H);
+                ScreenDrawWorkAndTurnService.DrawPageFront(g, sheet, page, (int)sheet.H, productPart);
+                ScreenDrawWorkAndTurnService.DrawPageBack(g, sheet, page, (int)sheet.H, productPart);
             }
             ScreenDrawWorkAndTurnService.DrawCropMarks(g, sheet);
             //draw foreground marks

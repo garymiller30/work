@@ -22,7 +22,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
     public static class ScreenDrawSingleSideService
     {
-        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService)
+        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService, ProductPart productPart = null)
         {
             var zoom = ScreenDrawer.ZoomFactor;
 
@@ -49,7 +49,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             // draw pages
             foreach (var page in templateContainer.TemplatePages)
             {
-                DrawPageFront(g, sheet, page, (int)sheet.H);
+                DrawPageFront(g, sheet, page, (int)sheet.H, productPart);
             }
 
             //draw foreground marks
@@ -231,7 +231,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 }, Brushes.LightPink);
         }
 
-        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
+        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart productPart = null)
         {
             ScreenDrawWorkAndTurnService.DrawBleeds(g, page, page.Front, sH);
 
@@ -274,13 +274,26 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 Height = (float)(h)
             };
 
-            ScreenDrawer.DrawFillRectangle(g, rect, brush);
+            bool pagePreviewDrawn = false;
+            if (sheet is PrintSheet)
+            {
+                pagePreviewDrawn = ScreenPagePreviewRenderer.DrawFront(g, productPart, page, rect);
+            }
+
+            if (!pagePreviewDrawn)
+            {
+                ScreenDrawer.DrawFillRectangle(g, rect, brush);
+            }
+
             ScreenDrawer.DrawRectangle(g, rect, pen);
             brush.Dispose();
             pen.Dispose();
 
             ScreenDrawCommons.DrawPageRotateMarker(g, page, page.Front, rect, sH);
-            DrawTextFront(g, sheet, page, sH);
+            if (!pagePreviewDrawn)
+            {
+                DrawTextFront(g, sheet, page, sH);
+            }
             DrawCropsMark(g, page, sH);
         }
 
