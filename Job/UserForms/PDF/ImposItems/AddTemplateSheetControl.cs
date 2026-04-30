@@ -55,7 +55,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     objectListView1.AddObject(sheet.Copy());
                 };
-                tsb_QuickAccess.DropDownItems.Add(item);
             }
         }
 

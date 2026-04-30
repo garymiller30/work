@@ -21,6 +21,8 @@ namespace JobSpace.UC
 
         PdfPreviewParameters previewParameters;
 
+        int _previewRequestId;
+
 
 
 
@@ -34,6 +36,7 @@ namespace JobSpace.UC
 
         public void Show(IFileSystemInfoExt filePath)
         {
+            _previewRequestId++;
             pdfDrawerPageCache?.Dispose();
 
             pdfDrawerPageCache = new PdfDrawerPageCache(filePath);
@@ -49,22 +52,40 @@ namespace JobSpace.UC
 
         private async void GetPreview()
         {
+            int requestId = _previewRequestId;
+            var pageCache = pdfDrawerPageCache;
+            int page = _currentPage;
+
             uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
             try
             {
-                var res = await PdfDrawerService.GetImageAsync(previewParameters, pdfDrawerPageCache, _currentPage);
+                var res = await PdfDrawerService.GetImageAsync(previewParameters, pageCache, page);
 
-                
+                if (requestId != _previewRequestId || pageCache != pdfDrawerPageCache || page != _currentPage)
+                    return;
 
                 if (res != null)
                 {
                     uc_PreviewControl1.SetImage(res.Item1, res.Item2, res.Item3);
                 }
+                else
+                {
+                    uc_PreviewControl1.SetImage(null, 0, 0);
+                }
 
+            }
+            catch (Exception e)
+            {
+                if (requestId != _previewRequestId || pageCache != pdfDrawerPageCache || page != _currentPage)
+                    return;
+
+                Logger.Log.Error(null, "Uc_FilePreviewControl.GetPreview", e.Message);
+                uc_PreviewControl1.SetImage(null, 0, 0);
             }
             finally
             {
-                uc_PreviewControl1.StopWait();
+                if (requestId == _previewRequestId && pageCache == pdfDrawerPageCache && page == _currentPage)
+                    uc_PreviewControl1.StopWait();
                 // 3. !!! КРИТИЧНИЙ ШТРИХ: Примусове оновлення інтерфейсу!
                 // Це змушує контейнер перемалюватися, витираючи будь-які "примарні" елементи, 
                 // які могли залишитися після StopWait().
@@ -116,6 +137,7 @@ namespace JobSpace.UC
 
         public void ClearPreview()
         {
+            _previewRequestId++;
             uc_PreviewControl1.SetImage(null, 0, 0);
         }
 

@@ -20,7 +20,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         /// <summary>
         /// тираж
         /// </summary>
-        public int Count { get;set; }
+        public int Count { get; set; }
         public string ShortName { get; set; }
         public bool IsMediaboxCentered { get; set; } = false;
 
@@ -37,7 +37,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         {
             var reg = new Regex(@"#(\d+)\.");
             var match = reg.Match(FileName);
-            
+
             if (match.Success)
             {
                 try
@@ -46,7 +46,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models
                 }
                 catch (Exception)
                 {
+                    Count = 1;
                 }
+            }
+            else
+            {
+                Count = 1;
             }
         }
 
@@ -81,9 +86,9 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
                     var trims = new double[] { 0, 0, 0, 0 };
                     var media = new double[] { 0, 0, 0, 0 };
-                    var crops = new double[] {0, 0, 0, 0 };
+                    var crops = new double[] { 0, 0, 0, 0 };
 
-                    int pageIdx = i -1;
+                    int pageIdx = i - 1;
 
                     // get media box
                     for (int j = 0; j < 4; j++)

@@ -61,53 +61,57 @@ namespace JobSpace.Models.PdfDrawer
             Image preview = null;
             int pageIdx = pageNo - 1;
 
-            if (pageIdx >= 0 && pageIdx < TotalPages)
+            if (pageIdx < 0 || pageIdx >= TotalPages || boxes_pages == null || images == null)
+                return null;
 
-                // перевірити чи є кешоване зображення
-                if (images != null && images[pageIdx] != null)
+            // перевірити чи є кешоване зображення
+            if (images[pageIdx] != null)
+            {
+                preview = images[pageIdx];
+            }
+            else
+            {
+                string ext = _file.FileInfo.Extension.ToLower();
+                // якщо це pdf файл, то отримуємо кількість сторінок
+                if (ext == ".pdf" || ext == ".ai")
                 {
-                    preview = images[pageIdx];
+                    PdfPageInfo pageInfo = PdfHelper.GetPageInfo(_file.FileInfo.FullName, pageIdx);
+                    boxes_pages[pageIdx] = pageInfo;
                 }
                 else
                 {
-                    string ext = _file.FileInfo.Extension.ToLower();
-                    // якщо це pdf файл, то отримуємо кількість сторінок
-                    if (ext == ".pdf" || ext == ".ai")
-                    {
-                        PdfPageInfo pageInfo = PdfHelper.GetPageInfo(_file.FileInfo.FullName, pageIdx);
-                        boxes_pages[pageIdx] = pageInfo;
-                    }
-                    else
-                    {
-                        // для інших типів файлів можна отримати розміри, але не обертати
-                        //Отримати розміри зображення без завантаження повного зображення
-                        Size size = FileBrowserSevices.GetImageSize(_file.FileInfo.FullName);
+                    // для інших типів файлів можна отримати розміри, але не обертати
+                    //Отримати розміри зображення без завантаження повного зображення
+                    Size size = FileBrowserSevices.GetImageSize(_file.FileInfo.FullName);
 
-                        boxes_pages[pageIdx] = new PdfPageInfo
-                        {
-                            Trimbox = new Box { width = size.Width * PdfHelper.mn, height = size.Height * PdfHelper.mn },
-                            Rotate = 0
-                        };
-                    }
-
-                    // Асинхронно завантажуємо фінальне зображення
-                    preview = await Task.Run(() => FileBrowserSevices.File_GetPreview(_file, pageIdx));
+                    boxes_pages[pageIdx] = new PdfPageInfo
+                    {
+                        Trimbox = new Box { width = size.Width * PdfHelper.mn, height = size.Height * PdfHelper.mn },
+                        Rotate = 0
+                    };
                 }
+
+                // Асинхронно завантажуємо фінальне зображення
+                preview = await Task.Run(() => FileBrowserSevices.File_GetPreview(_file, pageIdx));
+            }
 
             if (preview != null)
             {
                 // створити копію зображення, щоб уникнути проблем з потоками
                 var temp = new System.Drawing.Bitmap(preview);
-                preview.Dispose();
+                if (!ReferenceEquals(preview, images[pageIdx]))
+                    preview.Dispose();
                 preview = temp;
                 // кешувати зображення
-                if (images != null)
+                images[pageIdx]?.Dispose();
+                images[pageIdx] = preview;
+
+                if (boxes_pages[pageIdx]?.Trimbox != null)
                 {
-                    images[pageIdx] = preview;
+                    double angle = boxes_pages[pageIdx].Rotate;
+                    wMM = boxes_pages[pageIdx].Trimbox.wMM(angle);
+                    hMM = boxes_pages[pageIdx].Trimbox.hMM(angle);
                 }
-                double angle = boxes_pages[pageIdx].Rotate;
-                wMM = boxes_pages[pageIdx].Trimbox.wMM(angle);
-                hMM = boxes_pages[pageIdx].Trimbox.hMM(angle);
 
                 return new Tuple<Image, double, double>(preview, wMM, hMM);
             }
