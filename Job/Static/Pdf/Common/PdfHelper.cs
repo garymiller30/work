@@ -311,99 +311,115 @@ namespace JobSpace.Static.Pdf.Common
             if (box?.Trimbox == null)
                 throw new InvalidOperationException($"Cannot read TrimBox for page {pageIndex + 1}.");
 
-            lock (PdfiumRenderLock)
+            string pdfiumPath = fsi.FullName;
+            string tempPdfiumPath = null;
+
+            if (!IsPdfiumSafePath(pdfiumPath))
             {
-                using (var document = new PDFiumSharp.PdfDocument(fsi.FullName, null))
-                using (var page = document.Pages[pageIndex])
+                tempPdfiumPath = CreatePdfiumPreviewTempFile(fsi);
+                pdfiumPath = tempPdfiumPath;
+            }
+
+            try
+            {
+                lock (PdfiumRenderLock)
                 {
-                    double scale = dpi / 72.0;
-                    scale = LimitPdfPreviewScale(page.Width, page.Height, scale);
-                    int renderDpi = Math.Max(1, (int)Math.Round(scale * 72.0));
-
-                    int pagePxW = (int)Math.Ceiling(page.Width * scale);
-                    int pagePxH = (int)Math.Ceiling(page.Height * scale);
-                    if (pagePxW <= 0 || pagePxH <= 0)
-                        throw new InvalidOperationException($"Cannot render page {pageIndex + 1}: invalid page size.");
-
-                    using (var pdfiumBmp = new PDFiumBitmap(pagePxW, pagePxH, true))
+                    using (var document = new PDFiumSharp.PdfDocument(pdfiumPath, null))
+                    using (var page = document.Pages[pageIndex])
                     {
-                        page.Render(
-                            pdfiumBmp,
-                            (0, 0, pagePxW, pagePxH),
-                            PDFiumSharp.Enums.PageOrientations.Normal,
-                            PDFiumSharp.Enums.RenderingFlags.Annotations |
-                            PDFiumSharp.Enums.RenderingFlags.LcdText |
-                            PDFiumSharp.Enums.RenderingFlags.Printing
-                        );
+                        double scale = dpi / 72.0;
+                        scale = LimitPdfPreviewScale(page.Width, page.Height, scale);
+                        int renderDpi = Math.Max(1, (int)Math.Round(scale * 72.0));
 
-                        using (var bmpStream = pdfiumBmp.AsBmpStream(renderDpi, renderDpi))
-                        using (var fullBmp = new Bitmap(bmpStream))
+                        int pagePxW = (int)Math.Ceiling(page.Width * scale);
+                        int pagePxH = (int)Math.Ceiling(page.Height * scale);
+                        if (pagePxW <= 0 || pagePxH <= 0)
+                            throw new InvalidOperationException($"Cannot render page {pageIndex + 1}: invalid page size.");
+
+                        using (var pdfiumBmp = new PDFiumBitmap(pagePxW, pagePxH, true))
                         {
-                            // TrimBox у PDF координатах (bottom-left)
-                            double l = box.Trimbox.left * scale;
-                            double b = box.Trimbox.bottom * scale;
-                            double w = box.Trimbox.width * scale;
-                            double h = box.Trimbox.height * scale;
+                            page.Render(
+                                pdfiumBmp,
+                                (0, 0, pagePxW, pagePxH),
+                                PDFiumSharp.Enums.PageOrientations.Normal,
+                                PDFiumSharp.Enums.RenderingFlags.Annotations |
+                                PDFiumSharp.Enums.RenderingFlags.LcdText |
+                                PDFiumSharp.Enums.RenderingFlags.Printing
+                            );
 
-                            int rotation = ((int)box.Rotate) % 360;
-                            if (rotation < 0)
-                                rotation += 360;
-
-                            System.Drawing.Rectangle crop;
-
-                            switch (rotation)
+                            using (var bmpStream = pdfiumBmp.AsBmpStream(renderDpi, renderDpi))
+                            using (var fullBmp = new Bitmap(bmpStream))
                             {
-                                case 0:
-                                    crop = new System.Drawing.Rectangle(
-                                        (int)Math.Round(l),
-                                        (int)Math.Round(pagePxH - b - h),
-                                        (int)Math.Round(w),
-                                        (int)Math.Round(h)
-                                    );
-                                    break;
+                                // TrimBox у PDF координатах (bottom-left)
+                                double l = box.Trimbox.left * scale;
+                                double b = box.Trimbox.bottom * scale;
+                                double w = box.Trimbox.width * scale;
+                                double h = box.Trimbox.height * scale;
 
-                                case 90:
-                                    crop = new System.Drawing.Rectangle(
-                                        (int)Math.Round(b),
-                                        (int)Math.Round(l),
-                                        (int)Math.Round(h),
-                                        (int)Math.Round(w)
-                                    );
-                                    break;
+                                int rotation = ((int)box.Rotate) % 360;
+                                if (rotation < 0)
+                                    rotation += 360;
 
-                                case 180:
-                                    crop = new System.Drawing.Rectangle(
-                                        (int)Math.Round(pagePxW - l - w),
-                                        (int)Math.Round(b),
-                                        (int)Math.Round(w),
-                                        (int)Math.Round(h)
-                                    );
-                                    break;
+                                System.Drawing.Rectangle crop;
 
-                                case 270:
-                                    crop = new System.Drawing.Rectangle(
-                                        (int)Math.Round(pagePxW - b - h),
-                                        (int)Math.Round(pagePxH - l - w),
-                                        (int)Math.Round(h),
-                                        (int)Math.Round(w)
-                                    );
-                                    break;
+                                switch (rotation)
+                                {
+                                    case 0:
+                                        crop = new System.Drawing.Rectangle(
+                                            (int)Math.Round(l),
+                                            (int)Math.Round(pagePxH - b - h),
+                                            (int)Math.Round(w),
+                                            (int)Math.Round(h)
+                                        );
+                                        break;
 
-                                default:
-                                    crop = new System.Drawing.Rectangle(0, 0, pagePxW, pagePxH);
-                                    break;
+                                    case 90:
+                                        crop = new System.Drawing.Rectangle(
+                                            (int)Math.Round(b),
+                                            (int)Math.Round(l),
+                                            (int)Math.Round(h),
+                                            (int)Math.Round(w)
+                                        );
+                                        break;
+
+                                    case 180:
+                                        crop = new System.Drawing.Rectangle(
+                                            (int)Math.Round(pagePxW - l - w),
+                                            (int)Math.Round(b),
+                                            (int)Math.Round(w),
+                                            (int)Math.Round(h)
+                                        );
+                                        break;
+
+                                    case 270:
+                                        crop = new System.Drawing.Rectangle(
+                                            (int)Math.Round(pagePxW - b - h),
+                                            (int)Math.Round(pagePxH - l - w),
+                                            (int)Math.Round(h),
+                                            (int)Math.Round(w)
+                                        );
+                                        break;
+
+                                    default:
+                                        crop = new System.Drawing.Rectangle(0, 0, pagePxW, pagePxH);
+                                        break;
+                                }
+
+                                System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(0, 0, pagePxW, pagePxH);
+                                crop = System.Drawing.Rectangle.Intersect(crop, bounds);
+
+                                if (crop.Width <= 0 || crop.Height <= 0)
+                                    return new Bitmap(fullBmp);
+
+                                return fullBmp.Clone(crop, fullBmp.PixelFormat);
                             }
-
-                            System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(0, 0, pagePxW, pagePxH);
-                            crop = System.Drawing.Rectangle.Intersect(crop, bounds);
-
-                            if (crop.Width <= 0 || crop.Height <= 0)
-                                return new Bitmap(fullBmp);
-
-                            return fullBmp.Clone(crop, fullBmp.PixelFormat);
                         }
                     }
                 }
+            }
+            finally
+            {
+                DeleteTempPreviewFile(tempPdfiumPath);
             }
         }
 
@@ -423,6 +439,46 @@ namespace JobSpace.Static.Pdf.Common
                 limitedScale = Math.Min(limitedScale, maxPixelScale);
 
             return Math.Max(limitedScale, 1.0 / 72.0);
+        }
+
+        private static bool IsPdfiumSafePath(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path) || path.Length > 240)
+                return false;
+
+            return path.All(c => c <= 127);
+        }
+
+        private static string CreatePdfiumPreviewTempFile(FileInfo source)
+        {
+            string previewTempDir = Path.Combine(Path.GetTempPath(), "ActiveWorksPdfPreview");
+            Directory.CreateDirectory(previewTempDir);
+
+            string extension = string.IsNullOrWhiteSpace(source.Extension) ? ".pdf" : source.Extension;
+            string tempPath = Path.Combine(previewTempDir, $"{Guid.NewGuid():N}{extension}");
+
+            using (var input = new FileStream(source.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var output = new FileStream(tempPath, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+            {
+                input.CopyTo(output);
+            }
+
+            return tempPath;
+        }
+
+        private static void DeleteTempPreviewFile(string tempPath)
+        {
+            if (string.IsNullOrWhiteSpace(tempPath))
+                return;
+
+            try
+            {
+                if (File.Exists(tempPath))
+                    File.Delete(tempPath);
+            }
+            catch
+            {
+            }
         }
 
         public static int GetPageCount(string fullName)
