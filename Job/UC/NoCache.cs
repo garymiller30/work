@@ -16,7 +16,7 @@ namespace JobSpace.UC
     public sealed class NoCache : ICache<IFileSystemInfoExt>
     {
         private readonly IWatcher _watcher;
-        private List<string> _ignoreFolders = new List<string>(){"temp",".signa" };
+        private List<string> _ignoreFolders = new List<string>(){"temp",".signa",".preview" };
 
         readonly List<IFileSystemInfoExt> _files = new List<IFileSystemInfoExt>();
 

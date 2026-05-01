@@ -13,6 +13,7 @@ using JobSpace.UserForms;
 using JobSpace.UserForms.PDF;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
+using Newtonsoft.Json;
 using PDFManipulate.Forms;
 using PythonEngine;
 using System;
@@ -24,6 +25,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -33,6 +35,10 @@ namespace JobSpace.Static
 {
     public static class FileBrowserSevices
     {
+        private const string PreviewCacheFolderName = ".preview";
+        private const string PreviewCacheIndexFileName = "preview-cache.json";
+        private static readonly object PreviewCacheLock = new object();
+
         #region PDF
        
         public static void PDF_ShowImposDialog(IList files, ImposInputParam param)
@@ -554,13 +560,25 @@ namespace JobSpace.Static
             string ext = f.FileInfo.Extension.ToLowerInvariant();
             if (ext == ".pdf" || ext == ".ai")
             {
+                FileInfo sourceFile = new FileInfo(f.FileInfo.FullName);
+                Image cachedPreview = TryGetCachedPreview(sourceFile, pageIdx);
+                if (cachedPreview != null)
+                    return cachedPreview;
+
                 Exception lastException = null;
 
                 for (int attempt = 1; attempt <= 2; attempt++)
                 {
                     try
                     {
-                        return PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx);
+                        using (Bitmap preview = PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx))
+                        {
+                            Image savedPreview = TrySaveCachedPreview(sourceFile, pageIdx, preview);
+                            if (savedPreview != null)
+                                return savedPreview;
+
+                            return new Bitmap(preview);
+                        }
                     }
                     catch (Exception e)
                     {
@@ -584,8 +602,204 @@ namespace JobSpace.Static
                     return psd.ToBitmap();
                 }
             }
-          
+
             return null;
+        }
+
+        private static Image TryGetCachedPreview(FileInfo sourceFile, int pageIdx)
+        {
+            try
+            {
+                if (sourceFile == null || pageIdx < 0 || !sourceFile.Exists)
+                    return null;
+
+                lock (PreviewCacheLock)
+                {
+                    PreviewCacheIndex index = LoadPreviewCacheIndex(sourceFile.DirectoryName);
+                    PreviewCacheEntry entry = index?.Files?.FirstOrDefault(x =>
+                        string.Equals(x.FileName, sourceFile.Name, StringComparison.InvariantCultureIgnoreCase) &&
+                        x.PageIndex == pageIdx);
+
+                    if (entry == null ||
+                        entry.Length != sourceFile.Length ||
+                        entry.LastWriteTimeUtcTicks != sourceFile.LastWriteTimeUtc.Ticks ||
+                        string.IsNullOrWhiteSpace(entry.PreviewFileName))
+                    {
+                        return null;
+                    }
+
+                    string previewPath = Path.Combine(GetPreviewCacheDirectory(sourceFile.DirectoryName, false), entry.PreviewFileName);
+                    if (!File.Exists(previewPath))
+                        return null;
+
+                    return LoadBitmapWithoutFileLock(previewPath);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(null, "TryGetCachedPreview", $"Cannot read cached preview for {sourceFile?.FullName}, page {pageIdx + 1}: {e.Message}");
+                return null;
+            }
+        }
+
+        private static Image TrySaveCachedPreview(FileInfo sourceFile, int pageIdx, Bitmap preview)
+        {
+            try
+            {
+                if (sourceFile == null || pageIdx < 0 || preview == null || !sourceFile.Exists)
+                    return null;
+
+                lock (PreviewCacheLock)
+                {
+                    string previewDir = GetPreviewCacheDirectory(sourceFile.DirectoryName, true);
+                    PreviewCacheIndex index = LoadPreviewCacheIndex(sourceFile.DirectoryName) ?? new PreviewCacheIndex();
+                    if (index.Files == null)
+                        index.Files = new List<PreviewCacheEntry>();
+
+                    PreviewCacheEntry entry = index.Files.FirstOrDefault(x =>
+                        string.Equals(x.FileName, sourceFile.Name, StringComparison.InvariantCultureIgnoreCase) &&
+                        x.PageIndex == pageIdx);
+
+                    string previewFileName = BuildPreviewFileName(sourceFile, pageIdx);
+                    string previewPath = Path.Combine(previewDir, previewFileName);
+                    string tempPreviewPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.tmp");
+
+                    preview.Save(tempPreviewPath, System.Drawing.Imaging.ImageFormat.Png);
+                    if (File.Exists(previewPath))
+                        File.Delete(previewPath);
+                    File.Move(tempPreviewPath, previewPath);
+
+                    if (entry == null)
+                    {
+                        entry = new PreviewCacheEntry();
+                        index.Files.Add(entry);
+                    }
+
+                    entry.FileName = sourceFile.Name;
+                    entry.FullName = sourceFile.FullName;
+                    entry.PageIndex = pageIdx;
+                    entry.Length = sourceFile.Length;
+                    entry.LastWriteTimeUtcTicks = sourceFile.LastWriteTimeUtc.Ticks;
+                    entry.PreviewFileName = previewFileName;
+                    entry.PreviewCreatedUtcTicks = DateTime.UtcNow.Ticks;
+
+                    SavePreviewCacheIndex(sourceFile.DirectoryName, index);
+
+                    return LoadBitmapWithoutFileLock(previewPath);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(null, "TrySaveCachedPreview", $"Cannot save cached preview for {sourceFile?.FullName}, page {pageIdx + 1}: {e.Message}");
+                return null;
+            }
+        }
+
+        private static string GetPreviewCacheDirectory(string sourceDirectory, bool create)
+        {
+            if (string.IsNullOrWhiteSpace(sourceDirectory))
+                return null;
+
+            string previewDir = Path.Combine(sourceDirectory, PreviewCacheFolderName);
+            if (create && !Directory.Exists(previewDir))
+            {
+                System.IO.Directory.CreateDirectory(previewDir);
+                try
+                {
+                    File.SetAttributes(previewDir, File.GetAttributes(previewDir) | FileAttributes.Hidden);
+                }
+                catch
+                {
+                }
+            }
+
+            return previewDir;
+        }
+
+        private static PreviewCacheIndex LoadPreviewCacheIndex(string sourceDirectory)
+        {
+            string previewDir = GetPreviewCacheDirectory(sourceDirectory, false);
+            if (string.IsNullOrWhiteSpace(previewDir))
+                return new PreviewCacheIndex();
+
+            string indexPath = Path.Combine(previewDir, PreviewCacheIndexFileName);
+            if (!File.Exists(indexPath))
+                return new PreviewCacheIndex();
+
+            string json = File.ReadAllText(indexPath, Encoding.UTF8);
+            return JsonConvert.DeserializeObject<PreviewCacheIndex>(json) ?? new PreviewCacheIndex();
+        }
+
+        private static void SavePreviewCacheIndex(string sourceDirectory, PreviewCacheIndex index)
+        {
+            string previewDir = GetPreviewCacheDirectory(sourceDirectory, true);
+            string indexPath = Path.Combine(previewDir, PreviewCacheIndexFileName);
+            string tempIndexPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.json.tmp");
+            string json = JsonConvert.SerializeObject(index, Formatting.Indented);
+
+            File.WriteAllText(tempIndexPath, json, Encoding.UTF8);
+            if (File.Exists(indexPath))
+                File.Delete(indexPath);
+            File.Move(tempIndexPath, indexPath);
+        }
+
+        private static Bitmap LoadBitmapWithoutFileLock(string imagePath)
+        {
+            using (var stream = new FileStream(imagePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var image = Image.FromStream(stream))
+            {
+                return new Bitmap(image);
+            }
+        }
+
+        private static string BuildPreviewFileName(FileInfo sourceFile, int pageIdx)
+        {
+            string safeName = SanitizePreviewFileName(Path.GetFileNameWithoutExtension(sourceFile.Name));
+            if (safeName.Length > 80)
+                safeName = safeName.Substring(0, 80);
+
+            return $"{safeName}_p{pageIdx + 1}_{GetStablePathHash(sourceFile.FullName)}.png";
+        }
+
+        private static string SanitizePreviewFileName(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return "preview";
+
+            char[] invalidChars = Path.GetInvalidFileNameChars();
+            var builder = new StringBuilder(value.Length);
+            foreach (char c in value)
+            {
+                builder.Append(invalidChars.Contains(c) ? '_' : c);
+            }
+
+            string result = builder.ToString().Trim();
+            return string.IsNullOrWhiteSpace(result) ? "preview" : result;
+        }
+
+        private static string GetStablePathHash(string value)
+        {
+            using (SHA1 sha1 = SHA1.Create())
+            {
+                byte[] bytes = sha1.ComputeHash(Encoding.UTF8.GetBytes(value ?? string.Empty));
+                return BitConverter.ToString(bytes, 0, 8).Replace("-", string.Empty).ToLowerInvariant();
+            }
+        }
+
+        private class PreviewCacheIndex
+        {
+            public List<PreviewCacheEntry> Files { get; set; } = new List<PreviewCacheEntry>();
+        }
+
+        private class PreviewCacheEntry
+        {
+            public string FileName { get; set; }
+            public string FullName { get; set; }
+            public int PageIndex { get; set; }
+            public long Length { get; set; }
+            public long LastWriteTimeUtcTicks { get; set; }
+            public string PreviewFileName { get; set; }
+            public long PreviewCreatedUtcTicks { get; set; }
         }
 
         public static void File_FindReplaceTirag(IList selectedObjects)
