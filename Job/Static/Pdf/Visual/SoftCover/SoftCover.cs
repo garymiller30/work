@@ -6,6 +6,7 @@ using JobSpace.UserForms.PDF.Visual;
 using PDFlib_dotnet;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Visual.SoftCover
@@ -25,6 +26,7 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
         double leftKlapan;
         double rightKlapan;
         double root;
+        double bigovka;
 
 
         public bool Configure(PdfJobContext context)
@@ -46,6 +48,7 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
                         leftKlapan = mn(_coverParams.LeftKlapan);
                         rightKlapan = mn(_coverParams.RightKlapan);
                         root = mn(_coverParams.Root);
+                        bigovka = mn(_coverParams.Bigovka);
 
                         return true;
                     }
@@ -125,8 +128,20 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
                     x += width;
                     DrawLine(p, x, y, h);
 
+                    if (bigovka > 0)
+                    {
+                        var tempX = x-bigovka;
+                        DrawLine(p, tempX, y, h);
+                    }
+
                     x += root;
                     DrawLine(p, x, y, h);
+
+                    if (bigovka > 0)
+                    {
+                        var tempX = x + bigovka;
+                        DrawLine(p, tempX, y, h);
+                    }
 
                     x += width;
                     DrawLine(p, x, y, h);

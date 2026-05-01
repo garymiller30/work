@@ -50,6 +50,32 @@ namespace JobSpace.UserForms.PDF.ImposItems
             olv_groups.IsSimpleDragSource = true;
             olv_groups.DropSink = new RearrangingDropSink(true);
 
+            CreateToolsTooltips();
+
+        }
+
+        private void CreateToolsTooltips()
+        {
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(rb_select, "Вибрати сторінки для подальших дій");
+            toolTip.SetToolTip(rb_centerH, "Вирівняти по горизонталі");
+            toolTip.SetToolTip(rb_centerV, "Вирівняти по вертикалі");
+            toolTip.SetToolTip(rb_rotate_180, "Повернути на 180 градусів. Якщо натиснути правою кнопкою миші - розвертає весь рядок або стовпчик");
+            toolTip.SetToolTip(rb_EnableNumering, "Включити нумерацію");
+            toolTip.SetToolTip(btn_rotateLeft,"Повернути на 90° вліво");
+            toolTip.SetToolTip(btn_rotateRight, "Повернути на 90° вправо");
+            toolTip.SetToolTip(rb_add_page_to_group,"Додати сторінку в поточну групу");
+            toolTip.SetToolTip(btn_left,"Посунути спуск на 1 мм вліво");
+            toolTip.SetToolTip(btn_right, "Посунути спуск на 1 мм вправо");
+            toolTip.SetToolTip(btn_up, "Посунути спуск на 1 мм вгору");
+            toolTip.SetToolTip(btn_down, "Посунути спуск на 1 мм вниз");
+            toolTip.SetToolTip(rb_deletePage, "Видалити сторінку");
+            toolTip.SetToolTip(nud_cropLen,"Довжина міток. Якщо = 0, мітка не ставиться");
+            toolTip.SetToolTip(btn_add_group,"Створити нову групу сторінок");
+            toolTip.SetToolTip(btn_delete_group, "Видалити вибрані групи сторінок");
+            toolTip.SetToolTip(btn_distribute_hor,"Рівномірно розподілити відстань між вибраними групами по горизонталі");
+            toolTip.SetToolTip(btn_distribute_ver, "Рівномірно розподілити відстань між вибраними групами по вертикалі");
+            toolTip.SetToolTip(cb_ignore_sheet_fields,"Ігнорувати поля друкарського листа при розподіленні відстані між групами");
         }
 
         private void Rb_add_page_to_group_CheckedChanged(object sender, EventArgs e)
@@ -101,7 +127,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public void InitParameters(GlobalImposParameters imposParam)
         {
             _imposParam = imposParam;
-            
+
             _imposParam.ImposTools.BackNumChanged += delegate (object sender, int num)
             {
                 tb_back.Text = num.ToString();
@@ -224,13 +250,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (olv_groups.GetItemCount() == 0)
             {
-                olv_groups.AddObject(PageGroupsService.CreateGroup( 1));
+                olv_groups.AddObject(PageGroupsService.CreateGroup(1));
             }
             else
             {
                 olv_groups.AddObject(PageGroupsService.CreateGroup(olv_groups.Objects.Cast<PageGroup>().Max(x => x.Id) + 1));
             }
-            
+
         }
 
         private void olv_groups_SelectedIndexChanged(object sender, EventArgs e)
@@ -249,7 +275,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (olv_groups.SelectedObjects.Count < 2) return;
 
-            _imposParam.ImposTools.OnPageGroupDistributeHor(this,olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
+            _imposParam.ImposTools.OnPageGroupDistributeHor(this, olv_groups.SelectedObjects.Cast<PageGroup>().ToList());
         }
 
         private void btn_delete_group_Click(object sender, EventArgs e)
@@ -262,7 +288,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 olv_groups.RemoveObjects(olv_groups.SelectedObjects);
             }
 
-            
+
         }
 
         private void cb_ignore_sheet_fields_CheckedChanged(object sender, EventArgs e)

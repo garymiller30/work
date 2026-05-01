@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Interfaces
 {
-    public interface IScreenPrimitive
+    public interface IScreenPrimitive: IDisposable
     {
         void Draw(Graphics g);
     }

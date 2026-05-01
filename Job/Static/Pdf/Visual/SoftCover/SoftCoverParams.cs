@@ -14,9 +14,11 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
         public double LeftKlapan { get; set; }
         public double RightKlapan { get; set; }
         public double Root { get; set; }
+        public double Bigovka { get; set; }
         public string FolderOutput { get; set; }
         public bool CreateSchema { get; set; }
         public bool CreateFileAndSchema { get; set; }
+        
         public double TotalWidth
         {
             get
@@ -30,11 +32,6 @@ namespace JobSpace.Static.Pdf.Visual.SoftCover
             {
                 return Height + (Bleed * 2);
             }
-        }
-        public enum CreateCommand
-        {
-            CreateSoftCover,
-            CreateSoftCoverWithFile
         }
     }
 }

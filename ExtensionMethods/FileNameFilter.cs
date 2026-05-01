@@ -179,20 +179,10 @@ namespace ExtensionMethods
             {'*', "x"},
             {'\\', ""},
             {' ', "_"},
-            {'–',"-"},
-            {'(',"(" },
-            {')',")" },
-            {'+',"+" },
-            {'.',"." },
-            {',',"," },
-            {'-',"-" },
-            {'_',"_" },
-            {'"',"\"" },
-            {'\'',"\'" },
-            {(char)(774),"_" },
-
+            {(char)(774),"_"},
+            {(char)(47),"_"},
+            {(char)(38),"_"},
             };
-
 
         static FileNameFilter()
         {
@@ -220,9 +210,9 @@ namespace ExtensionMethods
                 }
                 else
                 {
-                    sb_char.Append(_char);
-                    Log.Error(null,"transliteration",$"Key '{_char}' {(int)_char} not found in transliteration dictionary. Added as is.");
-                    //throw new KeyNotFoundException($"Key '{_char}' {(int)_char} not found in transliteration dictionary.");
+                    sb_char.Append("_");
+                    //sb_char.Append(_char);
+                    Log.Warning(null, "transliteration", $"Key '{_char}' {(int)_char} not found in transliteration dictionary. Added as '_'.");
                 }
             }
             return CleanFileName(sb_char.ToString());
