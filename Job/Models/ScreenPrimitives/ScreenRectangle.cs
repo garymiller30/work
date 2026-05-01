@@ -10,8 +10,7 @@ namespace JobSpace.Models.ScreenPrimitives
 {
     public class ScreenRectangle : IScreenPrimitive
     {
-        System.Drawing.Color _color;
-        float _pen_width;
+        Pen _pen;
         float _x;
         float _y;
         float _w;
@@ -19,19 +18,28 @@ namespace JobSpace.Models.ScreenPrimitives
 
         public ScreenRectangle(Pen pen, float x, float y, float w, float h)
         {
-            _color = pen.Color;
-            _pen_width = pen.Width;
+            if (pen == null) throw new ArgumentNullException(nameof(pen));
+            _pen = (Pen)pen.Clone();
             _x = x;
             _y = y;
             _w = w;
             _h = h;
         }
+
+        public void Dispose()
+        {
+            if (_pen != null)
+            {
+                _pen.Dispose();
+                _pen = null;
+            }
+        }
+
         public void Draw(Graphics g)
         {
-            using (Pen pen = new Pen(_color, _pen_width))
-            {
-                g.DrawRectangle(pen, _x, _y, _w, _h);
-            }
+            if (_pen == null)
+                throw new ObjectDisposedException(nameof(ScreenLine));
+            g.DrawRectangle(_pen, _x, _y, _w, _h);
         }
     }
 }

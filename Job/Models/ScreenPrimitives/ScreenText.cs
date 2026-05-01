@@ -1,11 +1,6 @@
 ﻿using Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobSpace.Models.ScreenPrimitives
 {
@@ -18,16 +13,27 @@ namespace JobSpace.Models.ScreenPrimitives
         public string Text { get; set; } = string.Empty;
         public PointF Location { get; set; }
 
+        public void Dispose()
+        {
+
+        }
+
         public void Draw(Graphics g)
         {
             g.SmoothingMode = SmoothingMode.AntiAlias;
             using (var path = new GraphicsPath())
+
+            using (Font font = new Font(FontName, FontSize, FontStyle))
             {
-                using (Font font = new Font(FontName, FontSize, FontStyle))
+                using (SolidBrush brush = new SolidBrush(FontColor))
                 {
-                    using (SolidBrush brush = new SolidBrush(FontColor))
+                    using (Pen stroke = new Pen(System.Drawing.Color.White, 1))
                     {
-                        using (Pen stroke = new Pen(System.Drawing.Color.White, 1))
+                        using (StringFormat format = new StringFormat
+                        {
+                            Alignment = StringAlignment.Center,
+                            LineAlignment = StringAlignment.Center
+                        })
                         {
                             stroke.LineJoin = LineJoin.Round;
                             path.AddString(
@@ -36,11 +42,7 @@ namespace JobSpace.Models.ScreenPrimitives
                                 (int)font.Style,
                                 g.DpiY * font.Size / 72f,   // коректний розмір
                                 Location,
-                                new StringFormat
-                                {
-                                    Alignment = StringAlignment.Center,
-                                    LineAlignment = StringAlignment.Center
-                                });
+                                format);
 
                             g.DrawPath(stroke, path);  // контур
                             g.FillPath(brush, path);   // заливка

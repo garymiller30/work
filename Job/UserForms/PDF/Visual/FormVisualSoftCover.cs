@@ -42,6 +42,18 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private List<IScreenPrimitive> GetPrimitives(int pageNo)
         {
+            if (_primitives.Count > 0)
+            {
+                // звільняємо ресурси примітивів
+                foreach (var primitive in _primitives)
+                {
+                    if (primitive is IDisposable disposable)
+                    {
+                        disposable.Dispose();
+                    }
+                }
+            }
+
             _primitives.Clear();
             DrawSchema(pageNo);
 
@@ -67,6 +79,7 @@ namespace JobSpace.UserForms.PDF.Visual
             float root = (float)nud_root.Value;
             float totalW = (float)nud_total_width.Value;
             float totalH = (float)nud_total_height.Value;
+            float bigovka = (float)nud_bigovka.Value;
 
             var pdfPageInfo = uc_PreviewBrowserFile1.GetPageInfo(pageNo);
 
@@ -75,39 +88,58 @@ namespace JobSpace.UserForms.PDF.Visual
 
             using (Pen pen = new Pen(Color.Red, 0.5f))
             {
-                x += bleed;
-                y += bleed;
-
-                // обрізний розмір
-                _primitives.Add(new ScreenRectangle(pen, x, y, left_klapan + right_klapan + width * 2 + root, height));
-
-                if (left_klapan > 0)
+                using (Pen dashDotPen = new Pen(Color.Blue, 0.5f) { DashPattern = new float[] { 4.0f, 2.0f } })
                 {
-                    x += left_klapan;
-                    // лівий клапан
+
+                    x += bleed;
+                    y += bleed;
+
+                    // обрізний розмір
+                    _primitives.Add(new ScreenRectangle(pen, x, y, left_klapan + right_klapan + width * 2 + root, height));
+
+                    if (left_klapan > 0)
+                    {
+                        x += left_klapan;
+                        // лівий клапан
+                        _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
+
+                    }
+                    x += width;
+                    // ліва сторінка
                     _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
 
-                }
-                x += width;
-                // ліва сторінка
-                _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
+                    if (bigovka > 0)
+                    {
+                        float tempX = x - bigovka;
 
-                x += root;
-                //корінець
-                _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
+                        // биговка
+                        _primitives.Add(new ScreenLine(dashDotPen, tempX, y, tempX, y + height));
+                    }
 
-
-                x += width;
-
-                // права сторінка
-                _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
-
-                if (right_klapan > 0)
-                {
-                    x += right_klapan;
-                    // правий клапан
+                    x += root;
+                    //корінець
                     _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
 
+                    if (bigovka > 0)
+                    {
+                        float tempX = x + bigovka;
+                        // биговка
+                        _primitives.Add(new ScreenLine(dashDotPen, tempX, y, tempX, y + height));
+                    }
+
+
+                    x += width;
+
+                    // права сторінка
+                    _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
+
+                    if (right_klapan > 0)
+                    {
+                        x += right_klapan;
+                        // правий клапан
+                        _primitives.Add(new ScreenLine(pen, x, y, x, y + height));
+
+                    }
                 }
             }
         }
@@ -134,6 +166,7 @@ namespace JobSpace.UserForms.PDF.Visual
                 LeftKlapan = (double)nud_left_klapan.Value,
                 RightKlapan = (double)nud_right_klapan.Value,
                 Root = (double)nud_root.Value,
+                Bigovka = (double)nud_bigovka.Value,
                 FolderOutput = Path.GetDirectoryName(_fileInfo.FullName),
                 CreateSchema = cb_create_schema.Checked,
                 CreateFileAndSchema = cb_create_file_and_schema.Checked
