@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,6 +16,7 @@ namespace JobSpace.UserForms.PDF
     public partial class FormSpotColorRenamer : KryptonForm
     {
         Interfaces.IFileSystemInfoExt _file;
+        readonly Dictionary<string, string> _savedRenames;
 
         public Dictionary<string,string> ColorRenames { get; private set; } = new Dictionary<string, string>();
 
@@ -23,6 +25,7 @@ namespace JobSpace.UserForms.PDF
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
             _file = file;
+            _savedRenames = LoadSavedRenames();
         }
 
         private void btn_rename_Click(object sender, EventArgs e)
@@ -61,13 +64,96 @@ namespace JobSpace.UserForms.PDF
 
                 if (colors.Any())
                 {
-                    objectListView1.AddObjects(colors.Select(x=> new ColorRename() { Source = x}).ToArray());
+                    objectListView1.AddObjects(colors.Select(x=> new ColorRename() { Source = x, Target = GetSavedTarget(x)}).ToArray());
                     return; // Виходимо з конструктора, якщо знайдено Spot кольори
                 }
             }
 
             MessageBox.Show("У цьому PDF не знайдено Spot кольорів для перейменування.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Close();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            SaveCurrentRenames();
+            base.OnFormClosing(e);
+        }
+
+        private string GetSavedTarget(string source)
+        {
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                return null;
+            }
+
+            return _savedRenames.TryGetValue(source, out var target) ? target : null;
+        }
+
+        private void SaveCurrentRenames()
+        {
+            var renames = objectListView1.Objects?.Cast<ColorRename>()
+                .Where(x => !string.IsNullOrWhiteSpace(x.Source))
+                .ToList();
+
+            if (renames == null || renames.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var rename in renames)
+            {
+                if (string.IsNullOrWhiteSpace(rename.Target))
+                {
+                    _savedRenames.Remove(rename.Source);
+                }
+                else
+                {
+                    _savedRenames[rename.Source] = rename.Target;
+                }
+            }
+
+            SaveSavedRenames(_savedRenames);
+        }
+
+        private static Dictionary<string, string> LoadSavedRenames()
+        {
+            try
+            {
+                var file = GetSavedRenamesFile();
+                if (!File.Exists(file))
+                {
+                    return new Dictionary<string, string>();
+                }
+
+                var json = File.ReadAllText(file);
+                return JsonSerializer.Deserialize<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
+            }
+            catch
+            {
+                return new Dictionary<string, string>();
+            }
+        }
+
+        private static void SaveSavedRenames(Dictionary<string, string> renames)
+        {
+            try
+            {
+                var file = GetSavedRenamesFile();
+                Directory.CreateDirectory(Path.GetDirectoryName(file));
+                var json = JsonSerializer.Serialize(renames);
+                File.WriteAllText(file, json);
+            }
+            catch
+            {
+            }
+        }
+
+        private static string GetSavedRenamesFile()
+        {
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "ActiveWorks",
+                "spot_color_renames.json");
         }
 
 
