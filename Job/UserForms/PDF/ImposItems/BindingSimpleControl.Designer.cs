@@ -289,10 +289,10 @@
         private System.Windows.Forms.Button b_0;
         private System.Windows.Forms.Button b_max_0;
         private System.Windows.Forms.Button b_max_90;
-        private System.Windows.Forms.Label label_max_90;
-        private System.Windows.Forms.Label label_max_0;
-        private System.Windows.Forms.Label label_90;
-        private System.Windows.Forms.Label label_0;
+        protected System.Windows.Forms.Label label_max_90;
+        protected System.Windows.Forms.Label label_max_0;
+        protected System.Windows.Forms.Label label_90;
+        protected System.Windows.Forms.Label label_0;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         protected System.Windows.Forms.Button btn_custom;

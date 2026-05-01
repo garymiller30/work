@@ -86,10 +86,7 @@ namespace JobSpace.UC
             {
                 if (requestId == _previewRequestId && pageCache == pdfDrawerPageCache && page == _currentPage)
                     uc_PreviewControl1.StopWait();
-                // 3. !!! КРИТИЧНИЙ ШТРИХ: Примусове оновлення інтерфейсу!
-                // Це змушує контейнер перемалюватися, витираючи будь-які "примарні" елементи, 
-                // які могли залишитися після StopWait().
-                //this.Invoke(new Action(() => uc_PreviewControl1.Invalidate())); // Або Refresh()
+               
             }
         }
 
