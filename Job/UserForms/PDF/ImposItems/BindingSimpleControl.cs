@@ -20,10 +20,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
     {
         protected GlobalImposParameters _imposParam;
 
-        TemplatePageContainer variantNormal;
-        TemplatePageContainer variantRotated;
-        TemplatePageContainer variantMaxNormal;
-        TemplatePageContainer variantMaxRotated;
+        protected TemplatePageContainer variantNormal;
+        protected TemplatePageContainer variantRotated;
+        protected TemplatePageContainer variantMaxNormal;
+        protected TemplatePageContainer variantMaxRotated;
 
 
         public BindingSimpleControl()
@@ -86,7 +86,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
         }
 
-        LooseBindingParameters CreateParameters()
+        protected LooseBindingParameters CreateParameters()
         {
             LooseBindingParameters bindParam = new LooseBindingParameters();
             bindParam.Sheet = _imposParam.ControlsBind.Sheet;
@@ -172,7 +172,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             return true;
         }
 
-        public void Calc()
+        public virtual void Calc()
         {
             if (_imposParam.ControlsBind.Sheet == null || _imposParam.ControlsBind.MasterPage == null) return;
 
