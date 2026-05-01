@@ -20,6 +20,8 @@ namespace JobSpace.Static.Pdf.Common
     {
         public static double mn = 2.83465;
         private static readonly object PdfiumRenderLock = new object();
+        private const int MaxPreviewBitmapSide = 6000;
+        private const long MaxPreviewBitmapPixels = 24000000;
 
         private static (double left, double bottom, double right, double top) ReadNormalizedBox(
     PDFlib p,
@@ -309,34 +311,14 @@ namespace JobSpace.Static.Pdf.Common
             if (box?.Trimbox == null)
                 throw new InvalidOperationException($"Cannot read TrimBox for page {pageIndex + 1}.");
 
-            byte[] pdfBytes;
-            using (var fs = File.Open(fsi.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                if (fs.Length > int.MaxValue)
-                    throw new NotSupportedException("PDF too large");
-                if (fs.Length == 0)
-                    throw new InvalidOperationException("PDF file is empty.");
-
-                pdfBytes = new byte[(int)fs.Length];
-                int read = 0;
-                while (read < pdfBytes.Length)
-                {
-                    int count = fs.Read(pdfBytes, read, pdfBytes.Length - read);
-                    if (count <= 0)
-                        throw new EndOfStreamException($"Cannot read PDF file. Expected {pdfBytes.Length} bytes, got {read} bytes.");
-
-                    read += count;
-                }
-            }
-            if (pdfBytes.Length == 0)
-                throw new InvalidOperationException("PDF file is empty.");
-
             lock (PdfiumRenderLock)
             {
-                using (var document = new PDFiumSharp.PdfDocument(pdfBytes, 0, pdfBytes.Length, null))
+                using (var document = new PDFiumSharp.PdfDocument(fsi.FullName, null))
                 using (var page = document.Pages[pageIndex])
                 {
                     double scale = dpi / 72.0;
+                    scale = LimitPdfPreviewScale(page.Width, page.Height, scale);
+                    int renderDpi = Math.Max(1, (int)Math.Round(scale * 72.0));
 
                     int pagePxW = (int)Math.Ceiling(page.Width * scale);
                     int pagePxH = (int)Math.Ceiling(page.Height * scale);
@@ -354,7 +336,7 @@ namespace JobSpace.Static.Pdf.Common
                             PDFiumSharp.Enums.RenderingFlags.Printing
                         );
 
-                        using (var bmpStream = pdfiumBmp.AsBmpStream(dpi, dpi))
+                        using (var bmpStream = pdfiumBmp.AsBmpStream(renderDpi, renderDpi))
                         using (var fullBmp = new Bitmap(bmpStream))
                         {
                             // TrimBox у PDF координатах (bottom-left)
@@ -423,6 +405,24 @@ namespace JobSpace.Static.Pdf.Common
                     }
                 }
             }
+        }
+
+        private static double LimitPdfPreviewScale(double pageWidth, double pageHeight, double scale)
+        {
+            if (pageWidth <= 0 || pageHeight <= 0 || scale <= 0)
+                return scale;
+
+            double limitedScale = scale;
+
+            double maxSideScale = Math.Min(MaxPreviewBitmapSide / pageWidth, MaxPreviewBitmapSide / pageHeight);
+            if (maxSideScale > 0)
+                limitedScale = Math.Min(limitedScale, maxSideScale);
+
+            double maxPixelScale = Math.Sqrt(MaxPreviewBitmapPixels / (pageWidth * pageHeight));
+            if (maxPixelScale > 0)
+                limitedScale = Math.Min(limitedScale, maxPixelScale);
+
+            return Math.Max(limitedScale, 1.0 / 72.0);
         }
 
         public static int GetPageCount(string fullName)
