@@ -103,6 +103,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         public void SetUsedColors(ImposColors colors)
         {
+            objectListView1.ClearObjects();
+            if (colors?.Colors == null) return;
+
             objectListView1.AddObjects(colors.Colors);
         }
     }

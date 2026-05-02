@@ -189,11 +189,24 @@ namespace JobSpace.UserForms.PDF.ImposItems
             if (objectListView1.SelectedObject is TemplateSheet sheet)
                 OnSheetAddManyToPrint(this, sheet);
         }
-        //public List<TemplateSheet> GetSheets()
-        //{
-        //    if (objectListView1.Objects == null) return new List<TemplateSheet>();
-        //    return objectListView1.Objects.Cast<TemplateSheet>().ToList();
-        //}
+        public List<TemplateSheet> GetSheets()
+        {
+            if (objectListView1.Objects == null) return new List<TemplateSheet>();
+            return objectListView1.Objects.Cast<TemplateSheet>().ToList();
+        }
+
+        public void SetSheets(List<TemplateSheet> sheets)
+        {
+            objectListView1.ClearObjects();
+            if (sheets == null) return;
+
+            objectListView1.AddObjects(sheets);
+
+            if (sheets.Count > 0)
+            {
+                objectListView1.SelectObject(sheets[0]);
+            }
+        }
 
         private void tbs_dublicate_Click(object sender, EventArgs e)
         {

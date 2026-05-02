@@ -21,46 +21,90 @@ namespace JobSpace.UserForms.PDF
 {
     public partial class FormPdfImposition : KryptonForm
     {
-        GlobalImposParameters _imposParam {get;set; }
-        PdfDrawer drawer;
+        private const string ImpositionFolderName = ".impos";
+        private const string ImpositionFileName = "imposition.json";
+
+        private readonly GlobalImposParameters _imposParam;
+        private PdfDrawer _drawer;
 
         public FormPdfImposition(Profile profile)
         {
             InitializeComponent();
-            _imposParam = new GlobalImposParameters();
-            _imposParam.Profile = profile;
-            
+
+            _imposParam = new GlobalImposParameters
+            {
+                Profile = profile
+            };
+
             InitBindParameters();
             InitImposTools();
+            SubscribeSheetEvents();
+            BindExportControls();
 
             LoadExportParameters();
+            LoadCustomOutputFolders();
+        }
 
+        private void SubscribeSheetEvents()
+        {
             addTemplateSheetControl1.OnSheetSelected += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetsChanged += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetDeleted += OnPrintSheetDeleted;
             printSheetsControl1.JustReassignPages += NeedCheckRunListPages;
 
-
             addTemplateSheetControl1.OnSheetAddToPrint += OnAddSheetToPrintEvent;
             addTemplateSheetControl1.OnSheetAddManyToPrint += OnSheetAddManyToPrintEvent;
             PrintSheet.ResetId();
+        }
 
+        private void BindExportControls()
+        {
             cb_CustomOutputPath.DataBindings.Add("Enabled", cb_useCustomOutputFolder, "Checked");
             btn_selectCustomFolder.DataBindings.Add("Enabled", cb_useCustomOutputFolder, "Checked");
             tb_useTemplate.DataBindings.Add("Enabled", cb_useTemplate, "Checked");
+        }
 
+        private void LoadCustomOutputFolders()
+        {
             cb_CustomOutputPath.Items.AddRange(_imposParam.Profile.ImposService.LoadCustomsPath().ToArray());
         }
 
         private void LoadExportParameters()
         {
             ExportParameters exportParameters = _imposParam.Profile.ImposService.LoadExportParameters();
+            ApplyExportParametersToUi(exportParameters);
+        }
 
+        private void ApplyExportParametersToUi(ExportParameters exportParameters)
+        {
             cb_savePrintSheetInOrder.Checked = exportParameters.SavePrintSheetToOrderFolder;
             cb_useTemplate.Checked = exportParameters.UseTemplate;
             tb_useTemplate.Text = exportParameters.TemplateString;
             cb_useCustomOutputFolder.Checked = exportParameters.UseCustomOutputFolder;
             cb_CustomOutputPath.Text = exportParameters.CustomOutputFolder;
+        }
+
+        private ExportParameters ReadExportParametersFromUi()
+        {
+            var exportParameters = new ExportParameters
+            {
+                SavePrintSheetToOrderFolder = cb_savePrintSheetInOrder.Checked,
+                OutputFolder = _imposParam.ImposInput.JobFolder,
+                UseTemplate = cb_useTemplate.Checked,
+                TemplateString = tb_useTemplate.Text,
+                UseCustomOutputFolder = cb_useCustomOutputFolder.Checked,
+                CustomOutputFolder = cb_CustomOutputPath.Text
+            };
+
+            if (_imposParam.ImposInput.Files.Count > 0)
+            {
+                string firstFile = _imposParam.ImposInput.Files[0];
+                exportParameters.OutputFileName = Path.Combine(
+                    Path.GetDirectoryName(firstFile),
+                    $"{Path.GetFileNameWithoutExtension(firstFile)}_impos{Path.GetExtension(firstFile)}");
+            }
+
+            return exportParameters;
         }
 
         private void OnPrintSheetDeleted(object sender, EventArgs e)
@@ -94,6 +138,8 @@ namespace JobSpace.UserForms.PDF
             // Отримати сторінки, що не задіяні
             int cnt = runListControl1.GetUnassignedPagesCount();
             int maxId = e.TemplatePageContainer.GetMaxIdx();
+            if (maxId == 0) return;
+
             int sheetCnt = cnt / maxId;
 
             PrintSheet sheet = PrintSheet.ConvertTemplateSheetToPrintSheet(e);
@@ -208,35 +254,27 @@ namespace JobSpace.UserForms.PDF
 
         private void OnSwitchWH(object sender, EventArgs e)
         {
-            if (_imposParam.ControlsBind.SelectedPreviewPage != null)
-            {
-                var sel_page = _imposParam.ControlsBind.SelectedPreviewPage;
-                sel_page.SwitchWH(_imposParam.ControlsBind.Sheet.SheetPlaceType);
-                _imposParam.ControlsBind.UpdateSheet();
-                _imposParam.ControlsBind.SelectedPreviewPage = sel_page;
-            }
+            UpdateSelectedPage(page => page.SwitchWH(_imposParam.ControlsBind.Sheet.SheetPlaceType));
         }
 
         private void OnRotateRight(object sender, EventArgs e)
         {
-            if (_imposParam.ControlsBind.SelectedPreviewPage != null)
-            {
-                var sel_page = _imposParam.ControlsBind.SelectedPreviewPage;
-                ProcessRotatePage.Right(_imposParam.ControlsBind.Sheet, sel_page);
-                _imposParam.ControlsBind.UpdateSheet();
-                _imposParam.ControlsBind.SelectedPreviewPage = sel_page;
-            }
+            UpdateSelectedPage(page => ProcessRotatePage.Right(_imposParam.ControlsBind.Sheet, page));
         }
 
         private void OnRotateLeft(object sender, EventArgs e)
         {
-            if (_imposParam.ControlsBind.SelectedPreviewPage != null)
-            {
-                var sel_page = _imposParam.ControlsBind.SelectedPreviewPage;
-                ProcessRotatePage.Left(_imposParam.ControlsBind.Sheet, sel_page);
-                _imposParam.ControlsBind.UpdateSheet();
-                _imposParam.ControlsBind.SelectedPreviewPage = sel_page;
-            }
+            UpdateSelectedPage(page => ProcessRotatePage.Left(_imposParam.ControlsBind.Sheet, page));
+        }
+
+        private void UpdateSelectedPage(Action<TemplatePage> update)
+        {
+            var selectedPage = _imposParam.ControlsBind.SelectedPreviewPage;
+            if (selectedPage == null) return;
+
+            update(selectedPage);
+            _imposParam.ControlsBind.UpdateSheet();
+            _imposParam.ControlsBind.SelectedPreviewPage = selectedPage;
         }
 
         private void OnMoveDownClick(object sender, double e)
@@ -292,7 +330,7 @@ namespace JobSpace.UserForms.PDF
             addTemplateSheetControl1.SetControlBindParameters(_imposParam);
             printSheetsControl1.SetControlBindParameters(_imposParam);
 
-            //LoadImposFromFile();
+            LoadImposFromFile();
 
         }
 
@@ -313,92 +351,194 @@ namespace JobSpace.UserForms.PDF
 
         private void LoadImposFromFile()
         {
-            string folderPath = Path.Combine(_imposParam.ImposInput.JobFolder, ".impos");
-            if (Directory.Exists(folderPath))
+            if (!TryGetImpositionFilePath(out string filePath) || !File.Exists(filePath))
             {
-                string filePath = Path.Combine(folderPath, "imposition.json");
+                return;
+            }
 
-                if (File.Exists(filePath))
-                {
-                    var str = File.ReadAllText(filePath);
-                    _imposParam.ProductPart = JsonSerializer.Deserialize<ProductPart>(str);
-                    imposColorsControl1.SetUsedColors(_imposParam.ProductPart.UsedColors);
-                    RedrawProductPart();
-                }
+            try
+            {
+                var str = File.ReadAllText(filePath);
+                var imposition = JsonSerializer.Deserialize<SavedImposition>(str);
+                if (imposition == null) return;
+
+                ApplyLoadedImposition(imposition);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не вдалося завантажити спуск полос:\n{ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        void RedrawProductPart()
+        private void ApplyLoadedImposition(SavedImposition imposition)
+        {
+            _imposParam.ProductPart.RunList = imposition.RunList ?? new ImposRunList();
+            _imposParam.ProductPart.TemplateSheets = imposition.TemplateSheets ?? new List<TemplateSheet>();
+            _imposParam.ProductPart.PrintSheets = imposition.PrintSheets ?? new List<PrintSheet>();
+            _imposParam.ProductPart.UsedColors = imposition.UsedColors ?? new ImposColors();
+            _imposParam.ProductPart.Proof = imposition.Proof ?? new ProofParameters();
+
+            if (imposition.ExportParameters != null)
+            {
+                _imposParam.ProductPart.ExportParameters = imposition.ExportParameters;
+                ApplyExportParametersToUi(imposition.ExportParameters);
+            }
+
+            cb_UseProofColor.Checked = _imposParam.ProductPart.Proof.Enable;
+
+            addTemplateSheetControl1.SetSheets(_imposParam.ProductPart.TemplateSheets);
+            printSheetsControl1.SetSheets(_imposParam.ProductPart.PrintSheets);
+            runListControl1.SetRunPages(_imposParam.ProductPart.RunList.RunPages);
+            imposColorsControl1.SetUsedColors(_imposParam.ProductPart.UsedColors);
+
+            ResetSheetIdsAfterLoad();
+            NeedCheckRunListPages(this, EventArgs.Empty);
+
+            if (_imposParam.ProductPart.PrintSheets.Count > 0)
+            {
+                _imposParam.ControlsBind.SetSheet(_imposParam.ProductPart.PrintSheets[0]);
+            }
+
+            RedrawProductPart();
+        }
+
+        private void ResetSheetIdsAfterLoad()
+        {
+            var sheetIds = _imposParam.ProductPart.TemplateSheets.Select(x => x.Id)
+                .Concat(_imposParam.ProductPart.PrintSheets.Select(x => x.Id))
+                .ToList();
+
+            if (sheetIds.Count > 0)
+            {
+                TemplateSheet.SheetId = Math.Max(TemplateSheet.SheetId, sheetIds.Max() + 1);
+            }
+
+            if (_imposParam.ProductPart.PrintSheets.Count > 0)
+            {
+                PrintSheet.printId = Math.Max(PrintSheet.printId, _imposParam.ProductPart.PrintSheets.Max(x => x.Id) + 1);
+            }
+        }
+
+        private void SaveImposToFile()
+        {
+            if (!TryGetImpositionFilePath(out string filePath)) return;
+
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                var imposition = CreateSavedImposition();
+                var str = JsonSerializer.Serialize(imposition);
+                File.WriteAllText(filePath, str);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не вдалося зберегти спуск полос:\n{ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private SavedImposition CreateSavedImposition()
+        {
+            BuildProductPartFromUi();
+
+            return new SavedImposition
+            {
+                RunList = _imposParam.ProductPart.RunList,
+                TemplateSheets = _imposParam.ProductPart.TemplateSheets,
+                PrintSheets = _imposParam.ProductPart.PrintSheets,
+                UsedColors = _imposParam.ProductPart.UsedColors,
+                Proof = _imposParam.ProductPart.Proof,
+                ExportParameters = _imposParam.ProductPart.ExportParameters
+            };
+        }
+
+        private bool TryGetImpositionFilePath(out string filePath)
+        {
+            filePath = null;
+
+            if (string.IsNullOrWhiteSpace(_imposParam.ImposInput.JobFolder))
+            {
+                return false;
+            }
+
+            filePath = Path.Combine(_imposParam.ImposInput.JobFolder, ImpositionFolderName, ImpositionFileName);
+            return true;
+        }
+
+        private void RedrawProductPart()
         {
             previewControl1.RedrawSheet();
         }
 
-        private void btn_SaveToPdf_Click(object sender, EventArgs e)
+        private async void btn_SaveToPdf_Click(object sender, EventArgs e)
         {
-            //_productPart.Proof.Enable = cb_DrawProofColor.Checked;
             if (printSheetsControl1.GetSheets().Count == 0)
             {
                 MessageBox.Show("Нема листів для друку");
             }
             else
             {
-                SaveToPdf();
+                await SaveToPdfAsync();
             }
 
         }
 
-        private async void SaveToPdf()
+        private async Task SaveToPdfAsync()
         {
-            _imposParam.ProductPart.Proof.Enable = cb_UseProofColor.Checked;
-            //_productPart.TemplateSheets = addTemplateSheetControl1.GetSheets();
-            _imposParam.ProductPart.PrintSheets = printSheetsControl1.GetSheets();
+            BuildProductPartFromUi();
+            SaveImposToFile();
 
-            _imposParam.ProductPart.RunList.RunPages = runListControl1.GetRunPages();
-            _imposParam.ProductPart.UsedColors = imposColorsControl1.GetUsedColors();
+            var pdfDrawer = new PdfDrawer(_imposParam);
+            _drawer = pdfDrawer;
 
-            _imposParam.ProductPart.ExportParameters.SavePrintSheetToOrderFolder = cb_savePrintSheetInOrder.Checked;
-            _imposParam.ProductPart.ExportParameters.OutputFolder = _imposParam.ImposInput.JobFolder;
-            _imposParam.ProductPart.ExportParameters.UseTemplate = cb_useTemplate.Checked;
-            _imposParam.ProductPart.ExportParameters.TemplateString = tb_useTemplate.Text;
-            _imposParam.ProductPart.ExportParameters.UseCustomOutputFolder = cb_useCustomOutputFolder.Checked;
-            _imposParam.ProductPart.ExportParameters.CustomOutputFolder = cb_CustomOutputPath.Text;
-            string firstFile = _imposParam.ImposInput.Files[0];
-            _imposParam.ProductPart.ExportParameters.OutputFileName = Path.Combine(Path.GetDirectoryName(firstFile),$"{Path.GetFileNameWithoutExtension(firstFile)}_impos{Path.GetExtension(firstFile)}");
-
-            //DrawerStatic.CurProductPart = _productPart;
-
-            drawer = new PdfDrawer(_imposParam);
-
-            drawer.StartEvent += startEvent;
-            drawer.ProcessingEvent += processingEvent;
-            drawer.FinishEvent += finishEvent;
-
-            // якщо не вибрано листи, то друкуємо всі
-            drawer.CustomSheets = printSheetsControl1.GetSheetsIdxForPrint();
-            await Task.Run(() => drawer.Draw(_imposParam.ProductPart)).ConfigureAwait(true);
-
-            drawer.StartEvent -= startEvent;
-            drawer.ProcessingEvent -= processingEvent;
-            drawer.FinishEvent -= finishEvent;
-
-            if (!drawer.IsCancelled)
+            try
             {
-                if (MessageBox.Show("Відкрити?", "Виконано!", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                pdfDrawer.StartEvent += startEvent;
+                pdfDrawer.ProcessingEvent += processingEvent;
+                pdfDrawer.FinishEvent += finishEvent;
+
+                // якщо не вибрано листи, то друкуємо всі
+                pdfDrawer.CustomSheets = printSheetsControl1.GetSheetsIdxForPrint();
+                await Task.Run(() => pdfDrawer.Draw(_imposParam.ProductPart)).ConfigureAwait(true);
+
+                if (!pdfDrawer.IsCancelled)
                 {
-                    Process.Start(_imposParam.ProductPart.ExportParameters.OutputFilePath);
+                    if (MessageBox.Show("Відкрити?", "Виконано!", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                    {
+                        Process.Start(_imposParam.ProductPart.ExportParameters.OutputFilePath);
+                    }
                 }
             }
-            drawer = null;
+            finally
+            {
+                pdfDrawer.StartEvent -= startEvent;
+                pdfDrawer.ProcessingEvent -= processingEvent;
+                pdfDrawer.FinishEvent -= finishEvent;
+
+                if (ReferenceEquals(_drawer, pdfDrawer))
+                {
+                    _drawer = null;
+                }
+            }
+        }
+
+        private void BuildProductPartFromUi()
+        {
+            _imposParam.ProductPart.Proof.Enable = cb_UseProofColor.Checked;
+            _imposParam.ProductPart.TemplateSheets = addTemplateSheetControl1.GetSheets();
+            _imposParam.ProductPart.PrintSheets = printSheetsControl1.GetSheets();
+            _imposParam.ProductPart.RunList.RunPages = runListControl1.GetRunPages();
+            _imposParam.ProductPart.UsedColors = imposColorsControl1.GetUsedColors();
+            _imposParam.ProductPart.ExportParameters = ReadExportParametersFromUi();
         }
 
         private void btn_cancel_export_Click(object sender, EventArgs e)
         {
-            if (drawer != null)
+            if (_drawer != null)
             {
                 var result = MessageBox.Show("Скасувати експорт?", "Підтвердження", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
-                    drawer?.Cancel();
+                    _drawer.Cancel();
                 }
             }
         }
@@ -420,20 +560,9 @@ namespace JobSpace.UserForms.PDF
 
         private void FormPdfImposition_FormClosing(object sender, FormClosingEventArgs e)
         {
-
-            //зберегти параметри експорту
-            if (_imposParam.ProductPart != null)
-                _imposParam.Profile.ImposService.SaveExportParameters(_imposParam.ProductPart.ExportParameters);
-
-            //if (_productPart != null)
-            //{
-            //    string pathImpos = Path.Combine(_curJobFolder, ".impos");
-            //    Directory.CreateDirectory(pathImpos);
-
-            //    string fileImpos = Path.Combine(pathImpos, "imposition.json");
-
-            //    _productPart.Save(fileImpos);
-            //}
+            BuildProductPartFromUi();
+            _imposParam.Profile.ImposService.SaveExportParameters(_imposParam.ProductPart.ExportParameters);
+            SaveImposToFile();
         }
 
         private void FormPdfImposition_Shown(object sender, EventArgs e)
@@ -479,6 +608,15 @@ namespace JobSpace.UserForms.PDF
             }
         }
 
+        private sealed class SavedImposition
+        {
+            public ImposRunList RunList { get; set; } = new ImposRunList();
+            public List<TemplateSheet> TemplateSheets { get; set; } = new List<TemplateSheet>();
+            public List<PrintSheet> PrintSheets { get; set; } = new List<PrintSheet>();
+            public ImposColors UsedColors { get; set; } = new ImposColors();
+            public ProofParameters Proof { get; set; } = new ProofParameters();
+            public ExportParameters ExportParameters { get; set; } = new ExportParameters();
+        }
 
     }
 }
