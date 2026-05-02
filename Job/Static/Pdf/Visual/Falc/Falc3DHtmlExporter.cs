@@ -140,13 +140,16 @@ const foldSettings = {{
   bendDirection: -1,
 
   // Радіус дуги фальця в одиницях моделі (тут це приблизно міліметри PDF). Більше значення = ширший округлий згин.
-  arcRadius: 0.5,
+  arcRadius: 0.08,
+
+  // Додаток до радіуса для кожного наступного фальця: 1-й = arcRadius, 2-й = arcRadius + arcRadiusStep, 3-й = arcRadius + arcRadiusStep * 2.
+  arcRadiusStep: 0.2,
 
   // Половина відстані між лицем і зворотом. Загальна візуальна товщина паперу = paperHalfThickness * 2.
   paperHalfThickness: 0.01,
 
   // Мінімальний проміжок між уже складеними шарами, щоб поверхні не перетинались і не мерехтіли.
-  foldedLayerGap: 0.45
+  foldedLayerGap: 0.02
 }};
 
 const canvas = document.getElementById('stage');
@@ -257,9 +260,10 @@ function buildXSamples() {{
   const set = new Set();
   for (let v = 0; v <= config.width + 0.01; v += step) set.add(round3(Math.min(config.width, v)));
   set.add(0); set.add(round3(config.width));
-  const r = foldRadius();
-  const maxArc = Math.PI * r;
-  for (const f of folds) {{
+  for (let foldIndex = 0; foldIndex < folds.length; foldIndex++) {{
+    const f = folds[foldIndex];
+    const r = foldRadius(foldIndex);
+    const maxArc = Math.PI * r;
     for (let i = -10; i <= 10; i++) set.add(round3(clamp(f + r * i / 10, 0, config.width)));
     for (let i = 0; i <= 28; i++) set.add(round3(clamp(f - maxArc * i / 28, 0, config.width)));
   }}
@@ -293,8 +297,8 @@ function buildUvs(back) {{
   return new Float32Array(arr);
 }}
 
-function foldRadius() {{
-  return foldSettings.arcRadius;
+function foldRadius(foldIndex) {{
+  return foldSettings.arcRadius + foldSettings.arcRadiusStep * foldIndex;
 }}
 
 function paperHalfThickness() {{
@@ -347,11 +351,11 @@ function updateSliderLimit() {{
 
 function transformPoint(source, foldAngles, folds, mode, sideZ) {{
   let p = {{ x: source.x, y: source.y, z: sideZ }};
-  const radius = foldRadius();
+  const radius = foldRadius(0);
 
   if (mode === 'roll') {{
     for (let i = 0; i < folds.length; i++) {{
-      p = applyRollArcFold(p, source.x, folds[i], foldAngles[i] || 0, radius);
+      p = applyRollArcFold(p, source.x, folds[i], foldAngles[i] || 0, foldRadius(i));
     }}
     p.z += rollLayerOffset(source.x, foldAngles, folds);
     return p;
