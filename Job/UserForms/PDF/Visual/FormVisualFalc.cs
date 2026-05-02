@@ -6,6 +6,7 @@ using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Create.Falc;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Visual.Falc;
 using JobSpace.Static.Pdf.Visual.SoftCover;
 using MongoDB.Bson.IO;
 using PDFiumSharp;
@@ -221,6 +222,37 @@ namespace JobSpace.UserForms.PDF.Visual
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void btn_3d_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+
+                Recalc();
+
+                if (partsDelta == null || partsDelta.Length < 2)
+                {
+                    MessageBox.Show("Не вдалося розрахувати частини для 3D.", "3D", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                Falc3DHtmlExporter.ExportAndOpen(
+                    _fsi.FullName,
+                    nud_width.Value,
+                    page_h,
+                    partsDelta.ToArray(),
+                    cb_mirrored_parts.Checked);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "3D", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
         private void SaveSchema()
