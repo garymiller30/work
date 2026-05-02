@@ -64,6 +64,19 @@ namespace JobSpace.UserForms.PDF.ImposItems
             return objectListView1.Objects.Cast<PrintSheet>().ToList();
         }
 
+        public void SetSheets(List<PrintSheet> sheets)
+        {
+            objectListView1.ClearObjects();
+            if (sheets == null) return;
+
+            objectListView1.AddObjects(sheets);
+
+            if (sheets.Count > 0)
+            {
+                objectListView1.SelectObject(sheets[0]);
+            }
+        }
+
         private void tsb_delete_Click(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Shift)

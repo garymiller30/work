@@ -90,6 +90,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
             return fastObjectListView1.Objects.Cast<ImposRunPage>().ToList();
         }
 
+        public void SetRunPages(List<ImposRunPage> pages)
+        {
+            fastObjectListView1.ClearObjects();
+            if (pages == null) return;
+
+            fastObjectListView1.AddObjects(pages);
+            UpdateRunList();
+        }
+
         private void ObjectListViewRunList_ModelCanDrop(object sender, BrightIdeasSoftware.ModelDropEventArgs e)
         {
             e.Effect = DragDropEffects.None;
