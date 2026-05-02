@@ -71,6 +71,7 @@
             this.cb_create_file_and_schema = new System.Windows.Forms.CheckBox();
             this.cb_save_schema = new System.Windows.Forms.CheckBox();
             this.btn_ok = new System.Windows.Forms.Button();
+            this.btn_3d = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.gb_p1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -666,11 +667,22 @@
             this.btn_ok.UseVisualStyleBackColor = true;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
+            // btn_3d
+            // 
+            this.btn_3d.Location = new System.Drawing.Point(12, 286);
+            this.btn_3d.Name = "btn_3d";
+            this.btn_3d.Size = new System.Drawing.Size(224, 36);
+            this.btn_3d.TabIndex = 16;
+            this.btn_3d.Text = "3D";
+            this.btn_3d.UseVisualStyleBackColor = true;
+            this.btn_3d.Click += new System.EventHandler(this.btn_3d_Click);
+            // 
             // FormVisualFalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(994, 560);
+            this.Controls.Add(this.btn_3d);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btn_load_schema);
@@ -758,5 +770,6 @@
         private System.Windows.Forms.CheckBox cb_create_file_and_schema;
         private System.Windows.Forms.CheckBox cb_create_schema;
         private System.Windows.Forms.Button btn_ok;
+        private System.Windows.Forms.Button btn_3d;
     }
 }
