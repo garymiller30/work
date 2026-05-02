@@ -127,7 +127,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             var templatePageContainer = new TemplatePageContainer();
             var printField = GetPrintFieldFormat(parameters);
             var masterPage = parameters.Sheet.MasterPage;
-            primaryAngle = GetSheetAngle(parameters.Sheet, primaryAngle);
+            
             var primarySpread = GetSpreadFit(printField.W, printField.H, masterPage, primaryAngle);
 
             int cntX = primarySpread.CntX;
@@ -141,7 +141,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             double layoutHeight = blockHeight;
 
             ExtraSpreadBlocks extraBlocks = new ExtraSpreadBlocks();
-            double extraAngle = IsHorizontalSpread(primaryAngle) ? GetSheetAngle(parameters.Sheet, 90) : 0;
+            double extraAngle = IsHorizontalSpread(primaryAngle) ? 90 : 0;
 
             if (allowExtraSpreads)
             {
@@ -457,16 +457,6 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private bool IsHorizontalSpread(double angle)
         {
             return angle == 0 || angle == 180;
-        }
-
-        private double GetSheetAngle(TemplateSheet sheet, double angle)
-        {
-            //if (angle == 90 && sheet.SheetPlaceType == TemplateSheetPlaceType.WorkAndTurn)
-            //{
-            //    return 270;
-            //}
-
-            return angle;
         }
 
         private OrientedPage GetOrientedPage(TemplatePage page, double angle)
