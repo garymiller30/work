@@ -644,6 +644,8 @@ namespace JobSpace.Static
 
         private static Image TrySaveCachedPreview(FileInfo sourceFile, int pageIdx, Bitmap preview)
         {
+            string tempPreviewPath = null;
+
             try
             {
                 if (sourceFile == null || pageIdx < 0 || preview == null || !sourceFile.Exists)
@@ -662,12 +664,13 @@ namespace JobSpace.Static
 
                     string previewFileName = BuildPreviewFileName(sourceFile, pageIdx);
                     string previewPath = Path.Combine(previewDir, previewFileName);
-                    string tempPreviewPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.tmp");
+                    tempPreviewPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.tmp");
 
                     preview.Save(tempPreviewPath, System.Drawing.Imaging.ImageFormat.Png);
                     if (File.Exists(previewPath))
                         File.Delete(previewPath);
                     File.Move(tempPreviewPath, previewPath);
+                    tempPreviewPath = null;
 
                     if (entry == null)
                     {
@@ -692,6 +695,10 @@ namespace JobSpace.Static
             {
                 Log.Error(null, "TrySaveCachedPreview", $"Cannot save cached preview for {sourceFile?.FullName}, page {pageIdx + 1}: {e.Message}");
                 return null;
+            }
+            finally
+            {
+                DeleteFileQuietly(tempPreviewPath);
             }
         }
 
@@ -737,10 +744,33 @@ namespace JobSpace.Static
             string tempIndexPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.json.tmp");
             string json = JsonConvert.SerializeObject(index, Formatting.Indented);
 
-            File.WriteAllText(tempIndexPath, json, Encoding.UTF8);
-            if (File.Exists(indexPath))
-                File.Delete(indexPath);
-            File.Move(tempIndexPath, indexPath);
+            try
+            {
+                File.WriteAllText(tempIndexPath, json, Encoding.UTF8);
+                if (File.Exists(indexPath))
+                    File.Delete(indexPath);
+                File.Move(tempIndexPath, indexPath);
+                tempIndexPath = null;
+            }
+            finally
+            {
+                DeleteFileQuietly(tempIndexPath);
+            }
+        }
+
+        private static void DeleteFileQuietly(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                return;
+
+            try
+            {
+                if (File.Exists(path))
+                    File.Delete(path);
+            }
+            catch
+            {
+            }
         }
 
         private static Bitmap LoadBitmapWithoutFileLock(string imagePath)
