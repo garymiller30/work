@@ -554,6 +554,7 @@
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\SpiralTypeEnum.cs" />
     <Compile Include="Static\Pdf\Visual\BlocknoteSpiral\VisualBlocknoteSpiral.cs" />
     <Compile Include="Static\Pdf\Visual\HardCover\HardCover.cs" />
+    <Compile Include="Static\Pdf\Visual\HardCover\HardCover3DHtmlExporter.cs" />
     <Compile Include="Static\Pdf\Visual\HardCover\HardCoverParams.cs" />
     <Compile Include="Static\Pdf\Visual\PDF_Cover_CalcRoot.cs" />
     <Compile Include="Static\Pdf\Visual\PDF_VisualSaddleStitchCreep.cs" />
