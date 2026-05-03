@@ -52,6 +52,7 @@
             this.cb_save_schema = new System.Windows.Forms.CheckBox();
             this.btn_ok = new System.Windows.Forms.Button();
             this.cb_angles_cut = new System.Windows.Forms.CheckBox();
+            this.btn_3d = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_width)).BeginInit();
@@ -388,9 +389,9 @@
             // 
             // btn_ok
             // 
-            this.btn_ok.Location = new System.Drawing.Point(12, 417);
+            this.btn_ok.Location = new System.Drawing.Point(119, 417);
             this.btn_ok.Name = "btn_ok";
-            this.btn_ok.Size = new System.Drawing.Size(206, 29);
+            this.btn_ok.Size = new System.Drawing.Size(99, 29);
             this.btn_ok.TabIndex = 6;
             this.btn_ok.Text = "Ok";
             this.btn_ok.UseVisualStyleBackColor = true;
@@ -406,11 +407,22 @@
             this.cb_angles_cut.Text = "+ зрізані кути";
             this.cb_angles_cut.UseVisualStyleBackColor = true;
             // 
+            // btn_3d
+            // 
+            this.btn_3d.Location = new System.Drawing.Point(12, 417);
+            this.btn_3d.Name = "btn_3d";
+            this.btn_3d.Size = new System.Drawing.Size(99, 29);
+            this.btn_3d.TabIndex = 7;
+            this.btn_3d.Text = "3D";
+            this.btn_3d.UseVisualStyleBackColor = true;
+            this.btn_3d.Click += new System.EventHandler(this.btn_3d_Click);
+            // 
             // FormVisualHardCover
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btn_3d);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btn_load_schema);
@@ -461,5 +473,6 @@
         private System.Windows.Forms.CheckBox cb_save_schema;
         private System.Windows.Forms.Button btn_ok;
         private System.Windows.Forms.CheckBox cb_angles_cut;
+        private System.Windows.Forms.Button btn_3d;
     }
 }

@@ -184,5 +184,26 @@ namespace JobSpace.UserForms.PDF.Visual
             DialogResult = DialogResult.OK;
             Close();
         }
+
+        private void btn_3d_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                ShowTotalCoverSize();
+
+                HardCover3DHtmlExporter.ExportAndOpen(
+                    _fileInfo.FileInfo.FullName,
+                    CreateParameters());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "3D", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
     }
 }
