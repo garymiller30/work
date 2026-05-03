@@ -110,6 +110,7 @@ html,body{{margin:0;height:100%;overflow:hidden;background:#202329;color:#f1f3f5
 #stage{{position:fixed;inset:0;width:100%;height:100%;display:block}}
 .panel{{position:fixed;left:14px;top:14px;display:flex;gap:12px;align-items:center;background:rgba(20,22,26,.82);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 12px;backdrop-filter:blur(8px);box-shadow:0 12px 30px rgba(0,0,0,.25)}}
 .panel label{{display:flex;gap:8px;align-items:center;font-size:13px;white-space:nowrap}}
+.panel input[type=checkbox]{{margin:0}}
 .panel input[type=range]{{width:220px}}
 .panel select{{background:#2c3038;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:5px;padding:4px 8px}}
 .value{{min-width:72px;text-align:right;font-variant-numeric:tabular-nums}}
@@ -122,6 +123,7 @@ html,body{{margin:0;height:100%;overflow:hidden;background:#202329;color:#f1f3f5
 <div class=""panel"">
   <label>Згин <input id=""fold"" type=""range"" min=""0"" max=""180"" value=""0"" step=""1""><span id=""foldValue"" class=""value"">0°</span></label>
   <label>Схема <select id=""mode""><option value=""roll"">намотка</option><option value=""accordion"">гармошка</option></select></label>
+  <label><input id=""showFoldLines"" type=""checkbox""> показати лінії фальцювання</label>
 </div>
 <div class=""hint"">Миша: обертати. Колесо: масштаб. Подвійний клік: скинути вигляд.</div>
 <script>
@@ -180,6 +182,18 @@ void main() {{
   if (uBack > 0.5) shade *= 0.94;
   gl_FragColor = vec4(c.rgb * shade, 1.0);
 }}`;
+const lineVs = `
+attribute vec3 aPosition;
+uniform mat4 uMatrix;
+void main() {{
+  gl_Position = uMatrix * vec4(aPosition, 1.0);
+}}`;
+const lineFs = `
+precision mediump float;
+uniform vec4 uColor;
+void main() {{
+  gl_FragColor = uColor;
+}}`;
 
 function compile(type, source) {{
   const shader = gl.createShader(type);
@@ -203,12 +217,26 @@ const loc = {{
   back: gl.getUniformLocation(program, 'uBack')
 }};
 
+const lineProgram = gl.createProgram();
+gl.attachShader(lineProgram, compile(gl.VERTEX_SHADER, lineVs));
+gl.attachShader(lineProgram, compile(gl.FRAGMENT_SHADER, lineFs));
+gl.linkProgram(lineProgram);
+if (!gl.getProgramParameter(lineProgram, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(lineProgram));
+
+const lineLoc = {{
+  position: gl.getAttribLocation(lineProgram, 'aPosition'),
+  matrix: gl.getUniformLocation(lineProgram, 'uMatrix'),
+  color: gl.getUniformLocation(lineProgram, 'uColor')
+}};
+
 const posBuffer = gl.createBuffer();
 const uvBuffer = gl.createBuffer();
 const indexBuffer = gl.createBuffer();
+const foldLineBuffer = gl.createBuffer();
 const foldSlider = document.getElementById('fold');
 const foldValue = document.getElementById('foldValue');
 const modeSelect = document.getElementById('mode');
+const showFoldLinesCheckbox = document.getElementById('showFoldLines');
 
 const state = {{
   rotX: -0.58,
@@ -459,23 +487,55 @@ function buildPositions(back) {{
   const ny = 20;
   const sideZ = back ? -paperHalfThickness() : paperHalfThickness();
   const raw = [];
-  const min = {{ x: Infinity, y: Infinity, z: Infinity }};
-  const max = {{ x: -Infinity, y: -Infinity, z: -Infinity }};
   for (let iy = 0; iy <= ny; iy++) {{
     const y = config.height * (0.5 - iy / ny);
     for (const x of xs) {{
       const p = transformPoint({{ x, y }}, foldAngles, folds, mode, sideZ);
-      const centerPoint = transformPoint({{ x, y }}, foldAngles, folds, mode, 0);
       raw.push(p);
-      min.x = Math.min(min.x, centerPoint.x); min.y = Math.min(min.y, centerPoint.y); min.z = Math.min(min.z, centerPoint.z);
-      max.x = Math.max(max.x, centerPoint.x); max.y = Math.max(max.y, centerPoint.y); max.z = Math.max(max.z, centerPoint.z);
     }}
   }}
-  const cx = (min.x + max.x) * 0.5;
-  const cy = (min.y + max.y) * 0.5;
-  const cz = (min.z + max.z) * 0.5;
+  const center = getModelCenter(foldAngles, folds, mode);
   const arr = [];
-  for (const p of raw) arr.push(p.x - cx, p.y - cy, p.z - cz);
+  for (const p of raw) arr.push(p.x - center.x, p.y - center.y, p.z - center.z);
+  return new Float32Array(arr);
+}}
+
+function getModelCenter(foldAngles, folds, mode) {{
+  const min = {{ x: Infinity, y: Infinity, z: Infinity }};
+  const max = {{ x: -Infinity, y: -Infinity, z: -Infinity }};
+  const ny = 20;
+  for (let iy = 0; iy <= ny; iy++) {{
+    const y = config.height * (0.5 - iy / ny);
+    for (const x of xs) {{
+      const p = transformPoint({{ x, y }}, foldAngles, folds, mode, 0);
+      min.x = Math.min(min.x, p.x); min.y = Math.min(min.y, p.y); min.z = Math.min(min.z, p.z);
+      max.x = Math.max(max.x, p.x); max.y = Math.max(max.y, p.y); max.z = Math.max(max.z, p.z);
+    }}
+  }}
+  return {{
+    x: (min.x + max.x) * 0.5,
+    y: (min.y + max.y) * 0.5,
+    z: (min.z + max.z) * 0.5
+  }};
+}}
+
+function buildFoldLinePositions() {{
+  const folds = foldPositions();
+  if (!folds.length) return new Float32Array(0);
+
+  const mode = modeSelect.value;
+  const foldAngles = foldAnglesForCurrent(folds, mode);
+  const center = getModelCenter(foldAngles, folds, mode);
+  const z = paperHalfThickness() + 0.03;
+  const arr = [];
+
+  for (const foldX of folds) {{
+    const p1 = transformPoint({{ x: foldX, y: -config.height * 0.5 }}, foldAngles, folds, mode, z);
+    const p2 = transformPoint({{ x: foldX, y: config.height * 0.5 }}, foldAngles, folds, mode, z);
+    arr.push(p1.x - center.x, p1.y - center.y, p1.z - center.z);
+    arr.push(p2.x - center.x, p2.y - center.y, p2.z - center.z);
+  }}
+
   return new Float32Array(arr);
 }}
 
@@ -508,6 +568,28 @@ function drawMesh(texture, back) {{
   gl.disable(gl.CULL_FACE);
 }}
 
+function drawFoldLines(matrix) {{
+  if (!showFoldLinesCheckbox.checked) return;
+
+  const positions = buildFoldLinePositions();
+  if (!positions.length) return;
+
+  gl.useProgram(lineProgram);
+  gl.bindBuffer(gl.ARRAY_BUFFER, foldLineBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, positions, gl.DYNAMIC_DRAW);
+  gl.enableVertexAttribArray(lineLoc.position);
+  gl.vertexAttribPointer(lineLoc.position, 3, gl.FLOAT, false, 0, 0);
+  gl.uniformMatrix4fv(lineLoc.matrix, false, matrix);
+  gl.uniform4f(lineLoc.color, 0.1, 0.95, 0.45, 1.0);
+  gl.disable(gl.CULL_FACE);
+  gl.enable(gl.DEPTH_TEST);
+  gl.depthMask(false);
+  gl.lineWidth(2);
+  gl.drawArrays(gl.LINES, 0, positions.length / 3);
+  gl.depthMask(true);
+  gl.useProgram(program);
+}}
+
 function draw() {{
   resize();
   foldValue.textContent = foldSlider.value + '° / ' + foldSlider.max + '°';
@@ -524,10 +606,12 @@ function draw() {{
   view = multiply(view, rotateX(state.rotX));
   view = multiply(view, rotateMatrixY(state.rotY));
   const matrix = multiply(projection, view);
+  gl.useProgram(program);
   gl.uniformMatrix4fv(loc.matrix, false, matrix);
 
   drawMesh(textures.back, true);
   drawMesh(textures.front, false);
+  drawFoldLines(matrix);
 }}
 
 function resize() {{
@@ -620,6 +704,7 @@ modeSelect.addEventListener('change', () => {{
   updateSliderLimit();
   requestAnimationFrame(draw);
 }});
+showFoldLinesCheckbox.addEventListener('change', () => requestAnimationFrame(draw));
 window.addEventListener('resize', () => requestAnimationFrame(draw));
 requestAnimationFrame(draw);
 </script>
