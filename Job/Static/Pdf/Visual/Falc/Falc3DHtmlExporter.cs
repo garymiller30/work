@@ -526,17 +526,23 @@ function buildFoldLinePositions() {{
   const mode = modeSelect.value;
   const foldAngles = foldAnglesForCurrent(folds, mode);
   const center = getModelCenter(foldAngles, folds, mode);
-  const z = paperHalfThickness() + 0.03;
+  const frontZ = paperHalfThickness() + 0.06;
+  const backZ = -paperHalfThickness() - 0.06;
   const arr = [];
 
   for (const foldX of folds) {{
-    const p1 = transformPoint({{ x: foldX, y: -config.height * 0.5 }}, foldAngles, folds, mode, z);
-    const p2 = transformPoint({{ x: foldX, y: config.height * 0.5 }}, foldAngles, folds, mode, z);
-    arr.push(p1.x - center.x, p1.y - center.y, p1.z - center.z);
-    arr.push(p2.x - center.x, p2.y - center.y, p2.z - center.z);
+    addFoldLineSegment(arr, foldX, frontZ, foldAngles, folds, mode, center);
+    addFoldLineSegment(arr, foldX, backZ, foldAngles, folds, mode, center);
   }}
 
   return new Float32Array(arr);
+}}
+
+function addFoldLineSegment(arr, foldX, z, foldAngles, folds, mode, center) {{
+  const p1 = transformPoint({{ x: foldX, y: -config.height * 0.5 }}, foldAngles, folds, mode, z);
+  const p2 = transformPoint({{ x: foldX, y: config.height * 0.5 }}, foldAngles, folds, mode, z);
+  arr.push(p1.x - center.x, p1.y - center.y, p1.z - center.z);
+  arr.push(p2.x - center.x, p2.y - center.y, p2.z - center.z);
 }}
 
 function drawMesh(texture, back) {{
