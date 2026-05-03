@@ -57,6 +57,7 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.cb_files = new System.Windows.Forms.ComboBox();
             this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
+            this.btn_3d = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLen)).BeginInit();
@@ -75,7 +76,7 @@
             // 
             // buttonCreate
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(107, 431);
+            this.buttonCreate.Location = new System.Drawing.Point(204, 431);
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.Size = new System.Drawing.Size(91, 35);
             this.buttonCreate.TabIndex = 0;
@@ -421,11 +422,22 @@
             this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(457, 460);
             this.uc_PreviewBrowserFile1.TabIndex = 10;
             // 
+            // btn_3d
+            // 
+            this.btn_3d.Location = new System.Drawing.Point(107, 431);
+            this.btn_3d.Name = "btn_3d";
+            this.btn_3d.Size = new System.Drawing.Size(91, 35);
+            this.btn_3d.TabIndex = 11;
+            this.btn_3d.Text = "3D";
+            this.btn_3d.UseVisualStyleBackColor = true;
+            this.btn_3d.Click += new System.EventHandler(this.btn_3d_Click);
+            // 
             // FormCreateBigovkaMarks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(786, 484);
+            this.Controls.Add(this.btn_3d);
             this.Controls.Add(this.uc_PreviewBrowserFile1);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
@@ -494,5 +506,6 @@
         private System.Windows.Forms.ComboBox cb_files;
         private System.Windows.Forms.Button btn_add_to_center;
         private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
+        private System.Windows.Forms.Button btn_3d;
     }
 }
