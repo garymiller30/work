@@ -46,12 +46,12 @@
             this.btn_load_schema = new System.Windows.Forms.Button();
             this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cb_create_back = new System.Windows.Forms.CheckBox();
-            this.cb_create_schema = new System.Windows.Forms.CheckBox();
-            this.cb_create_file_plus_chema = new System.Windows.Forms.CheckBox();
-            this.cb_save_schema = new System.Windows.Forms.CheckBox();
-            this.btn_ok = new System.Windows.Forms.Button();
             this.cb_angles_cut = new System.Windows.Forms.CheckBox();
+            this.cb_save_schema = new System.Windows.Forms.CheckBox();
+            this.cb_create_file_plus_chema = new System.Windows.Forms.CheckBox();
+            this.cb_create_schema = new System.Windows.Forms.CheckBox();
+            this.cb_create_back = new System.Windows.Forms.CheckBox();
+            this.btn_ok = new System.Windows.Forms.Button();
             this.btn_3d = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_total_height)).BeginInit();
@@ -343,37 +343,15 @@
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             // 
-            // cb_create_back
+            // cb_angles_cut
             // 
-            this.cb_create_back.AutoSize = true;
-            this.cb_create_back.Location = new System.Drawing.Point(10, 88);
-            this.cb_create_back.Name = "cb_create_back";
-            this.cb_create_back.Size = new System.Drawing.Size(110, 17);
-            this.cb_create_back.TabIndex = 0;
-            this.cb_create_back.Text = "створити зворот";
-            this.cb_create_back.UseVisualStyleBackColor = true;
-            // 
-            // cb_create_schema
-            // 
-            this.cb_create_schema.AutoSize = true;
-            this.cb_create_schema.Location = new System.Drawing.Point(10, 19);
-            this.cb_create_schema.Name = "cb_create_schema";
-            this.cb_create_schema.Size = new System.Drawing.Size(105, 17);
-            this.cb_create_schema.TabIndex = 1;
-            this.cb_create_schema.Text = "створити схему";
-            this.cb_create_schema.UseVisualStyleBackColor = true;
-            // 
-            // cb_create_file_plus_chema
-            // 
-            this.cb_create_file_plus_chema.AutoSize = true;
-            this.cb_create_file_plus_chema.Checked = true;
-            this.cb_create_file_plus_chema.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_create_file_plus_chema.Location = new System.Drawing.Point(10, 65);
-            this.cb_create_file_plus_chema.Name = "cb_create_file_plus_chema";
-            this.cb_create_file_plus_chema.Size = new System.Drawing.Size(143, 17);
-            this.cb_create_file_plus_chema.TabIndex = 2;
-            this.cb_create_file_plus_chema.Text = "створити файл + схему";
-            this.cb_create_file_plus_chema.UseVisualStyleBackColor = true;
+            this.cb_angles_cut.AutoSize = true;
+            this.cb_angles_cut.Location = new System.Drawing.Point(32, 108);
+            this.cb_angles_cut.Name = "cb_angles_cut";
+            this.cb_angles_cut.Size = new System.Drawing.Size(94, 17);
+            this.cb_angles_cut.TabIndex = 4;
+            this.cb_angles_cut.Text = "+ зрізані кути";
+            this.cb_angles_cut.UseVisualStyleBackColor = true;
             // 
             // cb_save_schema
             // 
@@ -387,6 +365,38 @@
             this.cb_save_schema.Text = "зберегти схему";
             this.cb_save_schema.UseVisualStyleBackColor = true;
             // 
+            // cb_create_file_plus_chema
+            // 
+            this.cb_create_file_plus_chema.AutoSize = true;
+            this.cb_create_file_plus_chema.Checked = true;
+            this.cb_create_file_plus_chema.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_create_file_plus_chema.Location = new System.Drawing.Point(10, 65);
+            this.cb_create_file_plus_chema.Name = "cb_create_file_plus_chema";
+            this.cb_create_file_plus_chema.Size = new System.Drawing.Size(143, 17);
+            this.cb_create_file_plus_chema.TabIndex = 2;
+            this.cb_create_file_plus_chema.Text = "створити файл + схему";
+            this.cb_create_file_plus_chema.UseVisualStyleBackColor = true;
+            // 
+            // cb_create_schema
+            // 
+            this.cb_create_schema.AutoSize = true;
+            this.cb_create_schema.Location = new System.Drawing.Point(10, 19);
+            this.cb_create_schema.Name = "cb_create_schema";
+            this.cb_create_schema.Size = new System.Drawing.Size(105, 17);
+            this.cb_create_schema.TabIndex = 1;
+            this.cb_create_schema.Text = "створити схему";
+            this.cb_create_schema.UseVisualStyleBackColor = true;
+            // 
+            // cb_create_back
+            // 
+            this.cb_create_back.AutoSize = true;
+            this.cb_create_back.Location = new System.Drawing.Point(10, 88);
+            this.cb_create_back.Name = "cb_create_back";
+            this.cb_create_back.Size = new System.Drawing.Size(110, 17);
+            this.cb_create_back.TabIndex = 0;
+            this.cb_create_back.Text = "створити зворот";
+            this.cb_create_back.UseVisualStyleBackColor = true;
+            // 
             // btn_ok
             // 
             this.btn_ok.Location = new System.Drawing.Point(119, 417);
@@ -396,16 +406,6 @@
             this.btn_ok.Text = "Ok";
             this.btn_ok.UseVisualStyleBackColor = true;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
-            // 
-            // cb_angles_cut
-            // 
-            this.cb_angles_cut.AutoSize = true;
-            this.cb_angles_cut.Location = new System.Drawing.Point(32, 108);
-            this.cb_angles_cut.Name = "cb_angles_cut";
-            this.cb_angles_cut.Size = new System.Drawing.Size(94, 17);
-            this.cb_angles_cut.TabIndex = 4;
-            this.cb_angles_cut.Text = "+ зрізані кути";
-            this.cb_angles_cut.UseVisualStyleBackColor = true;
             // 
             // btn_3d
             // 
@@ -430,6 +430,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "FormVisualHardCover";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "тверда палітурка";
             this.Shown += new System.EventHandler(this.FormVisualHardCover_Shown);
             this.groupBox1.ResumeLayout(false);
