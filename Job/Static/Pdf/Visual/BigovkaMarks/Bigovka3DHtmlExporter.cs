@@ -76,9 +76,6 @@ namespace JobSpace.Static.Pdf.Visual.BigovkaMarks
                     creases.Add(current);
             }
 
-            if (parameters.Direction == DirectionEnum.Horizontal && parameters.MirrorEven)
-                creases = creases.Select(x => limit - x).OrderBy(x => x).ToList();
-
             return creases.Distinct().OrderBy(x => x).ToArray();
         }
 
@@ -353,47 +350,49 @@ function foldAnglesForCurrent() {
 function transformPoint(source, foldAngles, sideZ) {
   let p = { x: source.x, y: source.y, z: sideZ };
 
-  for (let i = 0; i < config.creases.length; i++) {
-    const f = config.creases[i];
-    const r = foldRadius(i);
-    const value = creaseCoordinate(source);
-    if (value <= f - r) continue;
-
-    const angle = foldAngles[i] || 0;
-    if (Math.abs(angle) < 0.0001) continue;
-
-    const factor = value >= f + r ? 1 : smoothstep((value - (f - r)) / (2 * r));
-    const axis = transformAxis(f, i, foldAngles);
-    p = config.direction === 'horizontal'
-      ? rotatePointY(p, axis, angle * factor)
-      : rotatePointX(p, axis, -angle * factor);
+  for (let i = config.creases.length - 1; i >= 0; i--) {
+    p = applyCreaseArcFold(p, source, config.creases[i], foldAngles[i] || 0, foldRadius(i));
   }
 
   p.z += layerOffset(source, foldAngles);
   return p;
 }
 
-function transformAxis(value, foldIndex, foldAngles) {
-  let p = config.direction === 'horizontal'
-    ? { x: value, y: 0, z: 0 }
-    : { x: 0, y: value - config.height * 0.5, z: 0 };
+function applyCreaseArcFold(p, source, crease, angle, radius) {
+  if (Math.abs(angle) < 0.0001) return p;
 
-  for (let i = 0; i < foldIndex; i++) {
-    const f = config.creases[i];
-    const r = foldRadius(i);
-    if (value <= f - r) continue;
+  const sourceValue = creaseCoordinate(source);
+  const angleSign = angle < 0 ? -1 : 1;
+  const absAngle = Math.abs(angle);
+  const arcDirection = rollArcDirection() * angleSign;
+  const arcLength = radius * absAngle;
+  const leftBoundary = crease - arcLength * 0.5;
+  const rightBoundary = crease + arcLength * 0.5;
 
-    const angle = foldAngles[i] || 0;
-    if (Math.abs(angle) < 0.0001) continue;
+  if (sourceValue <= leftBoundary) return p;
 
-    const factor = value >= f + r ? 1 : smoothstep((value - (f - r)) / (2 * r));
-    const axis = transformAxis(f, i, foldAngles);
-    p = config.direction === 'horizontal'
-      ? rotatePointY(p, axis, angle * factor)
-      : rotatePointX(p, axis, -angle * factor);
+  if (sourceValue < rightBoundary) {
+    const a = clamp((sourceValue - leftBoundary) / radius, 0, absAngle);
+    const signedA = angleSign * a;
+    const centerValue = leftBoundary + radius * Math.sin(a);
+    const centerZ = arcDirection * radius * (1 - Math.cos(a));
+    return setCreaseCoordinate(p, centerValue, centerZ, signedA);
   }
 
-  return p;
+  const arcEnd = {
+    value: leftBoundary + radius * Math.sin(absAngle),
+    z: arcDirection * radius * (1 - Math.cos(absAngle))
+  };
+  const boundary = creaseAxisPoint(rightBoundary);
+  const rotated = config.direction === 'horizontal'
+    ? rotatePointY(p, boundary, angle)
+    : rotatePointX(p, boundary, -angle);
+
+  return translateAlongCreaseCoordinate(rotated, arcEnd.value - rightBoundary, arcEnd.z);
+}
+
+function rollArcDirection() {
+  return foldSettings.bendDirection;
 }
 
 function layerOffset(source, foldAngles) {
@@ -402,11 +401,49 @@ function layerOffset(source, foldAngles) {
   for (let i = 0; i < config.creases.length; i++) {
     if (value > config.creases[i]) offset += foldSettings.foldedLayerGap * clamp(Math.abs(foldAngles[i] || 0) / Math.PI, 0, 1);
   }
-  return offset * foldSettings.bendDirection;
+  return offset;
 }
 
 function creaseCoordinate(source) {
   return config.direction === 'horizontal' ? source.x : source.y + config.height * 0.5;
+}
+
+function creaseAxisPoint(value) {
+  return config.direction === 'horizontal'
+    ? { x: value, y: 0, z: 0 }
+    : { x: 0, y: value - config.height * 0.5, z: 0 };
+}
+
+function setCreaseCoordinate(p, value, z, angle) {
+  if (config.direction === 'horizontal') {
+    return {
+      x: value + p.z * Math.sin(angle),
+      y: p.y,
+      z: z + p.z * Math.cos(angle)
+    };
+  }
+
+  return {
+    x: p.x,
+    y: value - config.height * 0.5 - p.z * Math.sin(angle),
+    z: z + p.z * Math.cos(angle)
+  };
+}
+
+function translateAlongCreaseCoordinate(p, valueOffset, zOffset) {
+  if (config.direction === 'horizontal') {
+    return {
+      x: p.x + valueOffset,
+      y: p.y,
+      z: p.z + zOffset
+    };
+  }
+
+  return {
+    x: p.x,
+    y: p.y + valueOffset,
+    z: p.z + zOffset
+  };
 }
 
 function rotatePointY(p, axis, angle) {
