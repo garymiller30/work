@@ -264,8 +264,10 @@ function buildXSamples() {{
     const f = folds[foldIndex];
     const r = foldRadius(foldIndex);
     const maxArc = Math.PI * r;
-    for (let i = -10; i <= 10; i++) set.add(round3(clamp(f + r * i / 10, 0, config.width)));
-    for (let i = 0; i <= 28; i++) set.add(round3(clamp(f - maxArc * i / 28, 0, config.width)));
+    for (let i = 0; i <= 28; i++) {{
+      set.add(round3(clamp(f - maxArc * 0.5 * i / 28, 0, config.width)));
+      set.add(round3(clamp(f + maxArc * 0.5 * i / 28, 0, config.width)));
+    }}
   }}
   return Array.from(set).sort((a,b) => a-b);
 }}
@@ -390,15 +392,18 @@ function transformAxis(x, foldIndex, foldAngles, folds, mode, radius) {{
 }}
 
 function applyRollArcFold(p, sourceX, foldX, angle, radius) {{
-  if (Math.abs(angle) < 0.0001 || sourceX >= foldX) return p;
+  if (Math.abs(angle) < 0.0001) return p;
 
   const arcDirection = rollArcDirection();
   const arcLength = radius * angle;
-  const axis = {{ x: foldX, y: 0, z: 0 }};
+  const leftBoundary = foldX - arcLength * 0.5;
+  const rightBoundary = foldX + arcLength * 0.5;
 
-  if (sourceX > foldX - arcLength) {{
-    const a = clamp((foldX - sourceX) / radius, 0, angle);
-    const centerX = foldX - radius * Math.sin(a);
+  if (sourceX >= rightBoundary) return p;
+
+  if (sourceX > leftBoundary) {{
+    const a = clamp((rightBoundary - sourceX) / radius, 0, angle);
+    const centerX = rightBoundary - radius * Math.sin(a);
     const centerZ = arcDirection * radius * (1 - Math.cos(a));
     return {{
       x: centerX + p.z * Math.sin(a),
@@ -408,18 +413,17 @@ function applyRollArcFold(p, sourceX, foldX, angle, radius) {{
   }}
 
   const arcEnd = {{
-    x: foldX - radius * Math.sin(angle),
+    x: rightBoundary - radius * Math.sin(angle),
     y: 0,
     z: arcDirection * radius * (1 - Math.cos(angle))
   }};
-  const sourceBoundary = {{ x: foldX - arcLength, y: 0, z: 0 }};
-  const rotatedBoundary = rotatePointY(sourceBoundary, axis, -angle);
-  const rotated = rotatePointY(p, axis, -angle);
+  const sourceBoundary = {{ x: leftBoundary, y: 0, z: 0 }};
+  const rotated = rotatePointY(p, sourceBoundary, -angle);
 
   return {{
-    x: rotated.x + arcEnd.x - rotatedBoundary.x,
+    x: rotated.x + arcEnd.x - sourceBoundary.x,
     y: rotated.y,
-    z: rotated.z + arcEnd.z - rotatedBoundary.z
+    z: rotated.z + arcEnd.z - sourceBoundary.z
   }};
 }}
 
