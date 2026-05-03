@@ -4,6 +4,7 @@ using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Create.BigovkaMarks;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Visual.BigovkaMarks;
 using JobSpace.UC;
 using System;
 using System.Collections.Generic;
@@ -238,6 +239,42 @@ namespace JobSpace.UserForms.PDF
                 half = box.Trimbox.hMM() / 2.0;
             }
             textBoxBigovky.Text = half.ToString("F1", CultureInfo.InvariantCulture);
+        }
+
+        private void btn_3d_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (CreateParameters() == false)
+                {
+                    MessageBox.Show("Перевір біговки", "3D", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!(cb_files.SelectedItem is IFileSystemInfoExt fsi))
+                {
+                    MessageBox.Show("Не вибрано PDF файл.", "3D", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                Cursor = Cursors.WaitCursor;
+
+                var box = uc_PreviewBrowserFile1.GetCurrentPageInfo();
+
+                Bigovka3DHtmlExporter.ExportAndOpen(
+                    fsi.FileInfo.FullName,
+                    box.Trimbox.wMM(),
+                    box.Trimbox.hMM(),
+                    BigovkaMarksParams);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "3D", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
     }
 }
