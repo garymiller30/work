@@ -170,7 +170,6 @@ namespace JobSpace.UserForms.PDF.Visual
             // віділиняємо все в NumericUpDown при фокусі
             NumericUpDown nud = sender as NumericUpDown;
             nud.Select(0, nud.Text.Length);
-
         }
 
         private void btn_ok_Click(object sender, EventArgs e)
