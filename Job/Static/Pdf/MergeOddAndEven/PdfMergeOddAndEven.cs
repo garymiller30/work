@@ -1,4 +1,5 @@
 ﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
@@ -10,6 +11,7 @@ using System.Windows.Forms;
 namespace JobSpace.Static.Pdf.MergeOddAndEven
 {
     [PdfTool("З'єднати", "парні і непарні сторінки", Description = "З'єднати парні і непарні сторінки в один документ. Має бути вибрано два файли і один з них мати в імені 'odd' чи 'even'", Icon = "merge_odd_even")]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfMergeOddAndEven : IPdfTool
     {
         PdfMergeOddAndEvenParams _params;

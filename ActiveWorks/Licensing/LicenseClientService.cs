@@ -23,16 +23,24 @@ namespace ActiveWorks.Licensing
         }
 
         public bool IsConfigured =>
+#if DEBUG
             Settings.Default.LicenseServerEnabled &&
+#endif
             !string.IsNullOrWhiteSpace(Settings.Default.LicenseServerUrl);
 
         public LicenseTokenState CurrentToken => _validator.Validate(_storage.Load().LicenseToken);
+
+        public string StoredLicenseKey => _storage.Load().LicenseKey;
 
         public bool IsFeatureEnabled(LicenseFeature feature)
         {
             if (!IsConfigured)
             {
+#if DEBUG
                 return true;
+#else
+                return false;
+#endif
             }
 
             var state = CurrentToken;
@@ -57,6 +65,8 @@ namespace ActiveWorks.Licensing
                     return features.AdvancedReports;
                 case LicenseFeature.Sync:
                     return features.Sync;
+                case LicenseFeature.ThreeDPreview:
+                    return features.ThreeDPreview;
                 default:
                     return false;
             }
@@ -70,7 +80,7 @@ namespace ActiveWorks.Licensing
                 {
                     MachineId = _machineId,
                     Status = "active",
-                    Features = new LicenseFeatureSet { Updates = true, ExportPdf = true, AdvancedReports = true, Sync = true, MaxProjects = int.MaxValue }
+                    Features = new LicenseFeatureSet { Updates = true, ExportPdf = true, AdvancedReports = true, Sync = true, ThreeDPreview = true, MaxProjects = int.MaxValue }
                 }, null, string.Empty);
             }
 
@@ -134,8 +144,13 @@ namespace ActiveWorks.Licensing
                 using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
                     var response = await client.PostAsync(uri, content).ConfigureAwait(false);
-                    response.EnsureSuccessStatusCode();
                     var responseJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        throw new InvalidOperationException(
+                            $"License server returned {(int)response.StatusCode} ({response.ReasonPhrase}). {responseJson}");
+                    }
+
                     var tokenResponse = LicenseJsonSerializer.Deserialize<LicenseTokenResponse>(responseJson);
                     var state = _validator.Validate(tokenResponse.Token);
                     if (state.IsValid)

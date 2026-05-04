@@ -454,6 +454,9 @@
     <Compile Include="Forms\FormExtBrowserSettings.Designer.cs">
       <DependentUpon>FormExtBrowserSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormLicenseKey.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\FormMoveSignaFileToOrder.cs">
       <SubType>Form</SubType>
     </Compile>

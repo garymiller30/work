@@ -1,4 +1,5 @@
 ﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
@@ -8,6 +9,7 @@ using System.IO;
 namespace JobSpace.Static.Pdf.Merge
 {
     [PdfTool("Квартальний календар","З'єднати блок по 3 місяці",Order = 40)]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class MergeBlockBy3Months : IPdfTool
     {
         public bool Configure(PdfJobContext context)

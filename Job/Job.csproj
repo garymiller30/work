@@ -368,6 +368,7 @@
     <Compile Include="Data\MongoRepository.cs" />
     <Compile Include="Fasades\SearchManager.cs" />
     <Compile Include="Fasades\ServicesStateManager.cs" />
+    <Compile Include="Licensing\LicenseUiGate.cs" />
     <Compile Include="Models\FileBrowser\ToolbarSettings.cs" />
     <Compile Include="Models\JobListFilter.cs" />
     <Compile Include="Models\PantoneTable.cs" />

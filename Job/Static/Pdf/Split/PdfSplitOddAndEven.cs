@@ -1,4 +1,5 @@
 ﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
@@ -8,6 +9,7 @@ using System.IO;
 namespace JobSpace.Static.Pdf.Split
 {
     [PdfTool("Розділити", "парні і непарні сторінки",Icon = "split_odd_even",Order =30)]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfSplitOddAndEven : IPdfTool
     {
         public bool Configure(PdfJobContext context)

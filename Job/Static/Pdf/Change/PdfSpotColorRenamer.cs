@@ -1,4 +1,5 @@
 ﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
@@ -17,6 +18,7 @@ using System.Text;
 namespace JobSpace.Static.Pdf.Change
 {
     [PdfTool("", "Перейменувати Spot колір", Icon = "spot_color_change")]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfSpotColorRenamer : IPdfTool
     {
 

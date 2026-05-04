@@ -1,4 +1,5 @@
 ﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.Models;
 using JobSpace.Static.Pdf.SetTrimBox.ByBleed;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 namespace JobSpace.Static.Pdf.Add
 {
     [PdfTool("", "Додати TrimBox до PDF",Icon = "add_trimbox",Order = 1)]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfAddTrimBox : IPdfTool
     {
         TrimBoxResult _result;

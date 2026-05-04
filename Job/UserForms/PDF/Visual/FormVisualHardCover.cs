@@ -1,4 +1,6 @@
 ﻿using Interfaces;
+using Interfaces.Licensing;
+using JobSpace.Licensing;
 using JobSpace.Models.ScreenPrimitives;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Visual.HardCover;
@@ -172,8 +174,14 @@ namespace JobSpace.UserForms.PDF.Visual
             nud.Select(0, nud.Text.Length);
         }
 
+        [RequiresFeature(LicenseFeature.ExportPdf)]
         private void btn_ok_Click(object sender, EventArgs e)
         {
+            if (!LicenseUiGate.RequireFor(this, GetType(), nameof(btn_ok_Click)))
+            {
+                return;
+            }
+
             CoverParams = CreateParameters();
             if (CoverParams.SaveSchema)
             {
@@ -184,8 +192,15 @@ namespace JobSpace.UserForms.PDF.Visual
             Close();
         }
 
+        [RequiresFeature(LicenseFeature.ThreeDPreview)]
         private void btn_3d_Click(object sender, EventArgs e)
         {
+            if (!LicenseUiGate.RequireFor(this, GetType(), nameof(btn_3d_Click)))
+            {
+                return;
+            }
+
+
             try
             {
                 Cursor = Cursors.WaitCursor;

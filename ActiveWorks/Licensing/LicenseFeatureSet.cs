@@ -17,6 +17,9 @@ namespace ActiveWorks.Licensing
         [DataMember(Name = "sync", EmitDefaultValue = false)]
         public bool Sync { get; set; }
 
+        [DataMember(Name = "threeDPreview", EmitDefaultValue = false)]
+        public bool ThreeDPreview { get; set; }
+
         [DataMember(Name = "maxProjects", EmitDefaultValue = false)]
         public int MaxProjects { get; set; }
     }

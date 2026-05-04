@@ -1,5 +1,6 @@
 ﻿using Interfaces;
 using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Visual.BlocknoteSpiral;
@@ -14,7 +15,8 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Merge
 {
-    [PdfTool("З'єднати", "контур ножа і документ", Description = "файл з назвою `cut` накладається на кожну сторінку документа", Icon = "merge_cut_to_doc")]
+    [PdfTool("З'єднати", "контур ножа і документ", Description = "вибраний файл накладається на кожну сторінку документа", Icon = "merge_cut_to_doc")]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfMergeCutAndDocument : IPdfTool
     {
         IFileSystemInfoExt cutFile;

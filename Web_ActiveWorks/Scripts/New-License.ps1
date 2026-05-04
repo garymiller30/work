@@ -20,6 +20,8 @@ param(
 
     [bool] $Sync = $true,
 
+    [bool] $ThreeDPreview = $true,
+
     [string] $StorePath = ""
 )
 
@@ -75,6 +77,7 @@ $license = [pscustomobject]@{
         exportPdf = $ExportPdf
         advancedReports = $AdvancedReports
         sync = $Sync
+        threeDPreview = $ThreeDPreview
         maxProjects = $MaxProjects
     }
 }

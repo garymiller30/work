@@ -89,6 +89,7 @@
     <Compile Include="IBaseManager.cs" />
     <Compile Include="Licensing\LicenseFeature.cs" />
     <Compile Include="Licensing\LicenseFeatureGate.cs" />
+    <Compile Include="Licensing\LicenseFeatureMessages.cs" />
     <Compile Include="Licensing\RequiresFeatureAttribute.cs" />
     <Compile Include="IBaseSettings.cs" />
     <Compile Include="FileBrowser\IBrowserEvents.cs" />

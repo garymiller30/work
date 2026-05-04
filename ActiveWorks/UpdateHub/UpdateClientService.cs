@@ -29,7 +29,7 @@ namespace ActiveWorks.UpdateHub
         public bool IsConfigured =>
             Settings.Default.UpdateHubEnabled &&
             (!string.IsNullOrWhiteSpace(_manifestUrl) ||
-             Settings.Default.LicenseServerEnabled && !string.IsNullOrWhiteSpace(Settings.Default.LicenseServerUrl));
+             IsLicenseServerEnabled() && !string.IsNullOrWhiteSpace(Settings.Default.LicenseServerUrl));
 
         public async Task<UpdateCheckResult> CheckForUpdatesAsync()
         {
@@ -123,7 +123,7 @@ namespace ActiveWorks.UpdateHub
 
         private Uri GetManifestUri()
         {
-            if (Settings.Default.LicenseServerEnabled && !string.IsNullOrWhiteSpace(Settings.Default.LicenseServerUrl))
+            if (IsLicenseServerEnabled() && !string.IsNullOrWhiteSpace(Settings.Default.LicenseServerUrl))
             {
                 return new Uri(new Uri(PathUtility.EnsureTrailingSlash(Settings.Default.LicenseServerUrl)), "api/updates/manifest");
             }
@@ -133,7 +133,7 @@ namespace ActiveWorks.UpdateHub
 
         private static Uri BuildDownloadUri(Uri manifestBaseUri, string relativeUrl)
         {
-            if (Settings.Default.LicenseServerEnabled && !string.IsNullOrWhiteSpace(Settings.Default.LicenseServerUrl))
+            if (IsLicenseServerEnabled() && !string.IsNullOrWhiteSpace(Settings.Default.LicenseServerUrl))
             {
                 return new Uri(
                     new Uri(PathUtility.EnsureTrailingSlash(Settings.Default.LicenseServerUrl)),
@@ -141,6 +141,15 @@ namespace ActiveWorks.UpdateHub
             }
 
             return new Uri(manifestBaseUri, relativeUrl);
+        }
+
+        private static bool IsLicenseServerEnabled()
+        {
+#if DEBUG
+            return Settings.Default.LicenseServerEnabled;
+#else
+            return true;
+#endif
         }
 
         private static WebClient CreateWebClient(string licenseToken)
