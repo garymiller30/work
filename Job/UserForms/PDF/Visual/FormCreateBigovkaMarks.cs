@@ -1,4 +1,6 @@
 ﻿using Interfaces;
+using Interfaces.Licensing;
+using JobSpace.Licensing;
 using JobSpace.Models.ScreenPrimitives;
 using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
@@ -81,9 +83,13 @@ namespace JobSpace.UserForms.PDF
         {
             cb_mirrorEven.Checked = BigovkaMarksParams.MirrorEven;
         }
-
+        [RequiresFeature(LicenseFeature.ExportPdf)]
         private void buttonCreate_Click(object sender, EventArgs e)
         {
+            if (!LicenseUiGate.RequireFor(this,GetType(), nameof(buttonCreate_Click)))
+            {
+                return;
+            }
 
             if (CreateParameters())
             {
@@ -241,8 +247,14 @@ namespace JobSpace.UserForms.PDF
             textBoxBigovky.Text = half.ToString("F1", CultureInfo.InvariantCulture);
         }
 
+        [RequiresFeature(LicenseFeature.ThreeDPreview)]
         private void btn_3d_Click(object sender, EventArgs e)
         {
+            if (!LicenseUiGate.RequireFor(this, GetType(), nameof(btn_3d_Click)))
+            {
+                return;
+            }
+
             try
             {
                 if (CreateParameters() == false)

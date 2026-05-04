@@ -1,13 +1,15 @@
-﻿using System.Text.Json;
-using System.IO;
-using PDFlib_dotnet;
-using JobSpace.Static.Pdf.Common;
+﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
-using Interfaces.FileBrowser;
+using JobSpace.Static.Pdf.Common;
+using PDFlib_dotnet;
+using System.IO;
+using System.Text.Json;
 
 namespace JobSpace.Static.Pdf.Split
 {
     [PdfTool("","• Розділити тимчасово зібраний файл",Icon = "split_temporary_file",Order =30)]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfSplitTemporary : IPdfTool
     {
         public bool Configure(PdfJobContext context)

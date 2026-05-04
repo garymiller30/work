@@ -1,4 +1,6 @@
 ﻿using Interfaces;
+using Interfaces.Licensing;
+using JobSpace.Licensing;
 using JobSpace.Models.ScreenPrimitives;
 using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
@@ -86,9 +88,14 @@ namespace JobSpace.UserForms.PDF.Visual
 
 
         }
-
+        [RequiresFeature(LicenseFeature.ExportPdf)]
         private void btn_ok_Click(object sender, EventArgs e)
         {
+            if (!LicenseUiGate.RequireFor(this, GetType(), nameof(btn_ok_Click)))
+            {
+                return;
+            }
+
             SpiralSettings.SpiralPlace = (SpiralPlaceEnum)cb_place.SelectedIndex;
             SpiralSettings.SpiralFile = uc_SelectSpiralControl1.GetSelectedSpiralFilePath();
             DialogResult = DialogResult.OK;

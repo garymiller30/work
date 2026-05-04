@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using Web_ActiveWorks.Components;
 using Web_ActiveWorks.Models;
 using Web_ActiveWorks.Services;
@@ -57,6 +58,7 @@ public class Program
         app.MapPost(
                 "/api/license/activate",
                 async Task<IResult> (
+                    HttpContext httpContext,
                     [FromBody] LicenseActivateRequest request,
                     LicenseStore store,
                     LicenseTokenService tokenService) =>
@@ -77,16 +79,14 @@ public class Program
                         return Results.Conflict("Device limit is reached for this license.");
                     }
 
-                    return Results.Ok(new LicenseTokenResponse
-                    {
-                        Token = tokenService.CreateToken(license, request.MachineId)
-                    });
+                    return CreateLicenseTokenResult(license, request.MachineId, tokenService, httpContext.RequestServices.GetRequiredService<ILogger<Program>>());
                 })
             .DisableAntiforgery();
 
         app.MapPost(
                 "/api/license/refresh",
                 async Task<IResult> (
+                    HttpContext httpContext,
                     [FromBody] LicenseRefreshRequest request,
                     LicenseStore store,
                     LicenseTokenService tokenService) =>
@@ -103,10 +103,7 @@ public class Program
                         return Results.NotFound("License was not found.");
                     }
 
-                    return Results.Ok(new LicenseTokenResponse
-                    {
-                        Token = tokenService.CreateToken(license, request.MachineId)
-                    });
+                    return CreateLicenseTokenResult(license, request.MachineId, tokenService, httpContext.RequestServices.GetRequiredService<ILogger<Program>>());
                 })
             .DisableAntiforgery();
 
@@ -216,5 +213,34 @@ public class Program
         return Path.IsPathRooted(path)
             ? path
             : Path.GetFullPath(Path.Combine(contentRootPath, path));
+    }
+
+    private static IResult CreateLicenseTokenResult(
+        LicenseSubscription license,
+        string machineId,
+        LicenseTokenService tokenService,
+        ILogger logger)
+    {
+        try
+        {
+            return Results.Ok(new LicenseTokenResponse
+            {
+                Token = tokenService.CreateToken(license, machineId)
+            });
+        }
+        catch (InvalidOperationException ex)
+        {
+            logger.LogError(ex, "License token signing is not configured correctly.");
+            return Results.Problem(
+                detail: "License server could not sign the token. Check Licensing:PrivateKeyPem.",
+                statusCode: StatusCodes.Status500InternalServerError);
+        }
+        catch (CryptographicException ex)
+        {
+            logger.LogError(ex, "License private key is invalid.");
+            return Results.Problem(
+                detail: "License server private key is invalid. Check Licensing:PrivateKeyPem PEM format.",
+                statusCode: StatusCodes.Status500InternalServerError);
+        }
     }
 }

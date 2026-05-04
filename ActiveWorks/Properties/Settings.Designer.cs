@@ -160,7 +160,7 @@ namespace ActiveWorks.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool LicenseServerEnabled {
             get {
                 return ((bool)(this["LicenseServerEnabled"]));
@@ -187,7 +187,7 @@ namespace ActiveWorks.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("yEiT-4BBh-Fe6p-g31j-e8v7")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LicenseKey {
             get {
                 return ((string)(this["LicenseKey"]));

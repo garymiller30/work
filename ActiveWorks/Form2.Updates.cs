@@ -1,3 +1,4 @@
+using ActiveWorks.Forms;
 using ActiveWorks.Properties;
 using ActiveWorks.UpdateHub;
 using Logger;
@@ -11,6 +12,23 @@ namespace ActiveWorks
 {
     public sealed partial class Form2
     {
+        private const string EnterLicenseStatusText = "Ввести ключ ліцензії";
+        private const string LicenseInactiveStatusText = "Оновлення недоступні: підписка неактивна.";
+
+        private void InitializeLicenseStatus()
+        {
+            if (_licenseClientService == null || !_licenseClientService.IsConfigured)
+            {
+                return;
+            }
+
+            if (!_licenseClientService.CurrentToken.IsValid)
+            {
+                toolStripStatusLabelUpdate.Text = EnterLicenseStatusText;
+                toolStripStatusLabelUpdate.ToolTipText = "Натисніть, щоб активувати підписку.";
+            }
+        }
+
         private async Task CheckForUpdatesAsync()
         {
             try
@@ -18,7 +36,7 @@ namespace ActiveWorks
                 var result = await _updateClientService.CheckForUpdatesAsync();
                 if (result.IsAccessDenied)
                 {
-                    toolStripStatusLabelUpdate.Text = "Оновлення недоступні: підписка неактивна.";
+                    toolStripStatusLabelUpdate.Text = LicenseInactiveStatusText;
                     toolStripStatusLabelUpdate.ToolTipText = result.AccessDeniedReason;
                     return;
                 }
@@ -152,7 +170,7 @@ namespace ActiveWorks
             _updateCheckTimer.Start();
         }
 
-        private void ToolStripStatusLabelUpdate_Click(object sender, EventArgs e)
+        private async void ToolStripStatusLabelUpdate_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(toolStripStatusLabelUpdate.Text) && _pendingUpdateType == UpdateHubShared.UpdateType.Optional)
             {
@@ -162,6 +180,57 @@ namespace ActiveWorks
                 if (answer == DialogResult.Yes)
                 {
                     StartUpdateAndClose();
+                }
+
+                return;
+            }
+
+            if (_licenseClientService == null || !_licenseClientService.IsConfigured)
+            {
+                return;
+            }
+
+            using (var form = new FormLicenseKey(_licenseClientService.StoredLicenseKey))
+            {
+                if (form.ShowDialog(this) != DialogResult.OK)
+                {
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(form.LicenseKey))
+                {
+                    MessageBox.Show(this, "Введіть ключ ліцензії.", "Ключ ліцензії", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                toolStripStatusLabelUpdate.Text = "Активація ліцензії...";
+                toolStripStatusLabelUpdate.ToolTipText = string.Empty;
+
+                try
+                {
+                    var state = await _licenseClientService.ActivateAsync(form.LicenseKey);
+                    if (!state.IsValid)
+                    {
+                        MessageBox.Show(this, state.Message, "Ліцензію не активовано", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        toolStripStatusLabelUpdate.Text = LicenseInactiveStatusText;
+                        toolStripStatusLabelUpdate.ToolTipText = state.Message;
+                        return;
+                    }
+
+                    toolStripStatusLabelUpdate.Text = "Ліцензію активовано. Перевіряю оновлення...";
+                    await CheckForUpdatesAsync();
+                    if (string.Equals(toolStripStatusLabelUpdate.Text, "Ліцензію активовано. Перевіряю оновлення...", StringComparison.Ordinal))
+                    {
+                        toolStripStatusLabelUpdate.Text = "Ліцензію активовано. Оновлень немає.";
+                        toolStripStatusLabelUpdate.ToolTipText = string.Empty;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Licensing", "ToolStripStatusLabelUpdate_Click", ex.ToString());
+                    MessageBox.Show(this, ex.Message, "Ліцензію не активовано", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    toolStripStatusLabelUpdate.Text = LicenseInactiveStatusText;
+                    toolStripStatusLabelUpdate.ToolTipText = ex.Message;
                 }
             }
         }

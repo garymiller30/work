@@ -10,9 +10,9 @@ This branch adds the first production-ready slice for monthly subscription licen
 
 ## Desktop settings
 
-Licensing is disabled by default so existing installations keep using the current public update manifest.
+In `Debug`, licensing can be disabled with `LicenseServerEnabled=False` for local development. In `Release`, the client treats the license server as enabled regardless of that setting, so a shipped build cannot accidentally bypass premium feature checks by changing config.
 
-To enable it in `ActiveWorks.exe.config`:
+Configure it in `ActiveWorks.exe.config`:
 
 ```xml
 <setting name="LicenseServerEnabled" serializeAs="String">
@@ -37,7 +37,7 @@ When licensing is enabled, the app uses:
 
 ## Server settings
 
-Configure the server private key in `Web_ActiveWorks/appsettings.json` or environment-specific configuration:
+Configure the server private key through environment-specific configuration or a deployment secret. Do not commit a real private key to `Web_ActiveWorks/appsettings.json`.
 
 ```json
 {
@@ -129,5 +129,21 @@ or for methods:
 if (!LicenseFeatureGate.RequireFor(GetType(), nameof(SomePremiumMethod)))
 {
     return;
+}
+```
+
+Example for a premium button inside a settings form:
+
+```csharp
+[RequiresFeature(LicenseFeature.ThreeDPreview)]
+private void btn_3d_Click(object sender, EventArgs e)
+{
+    if (!LicenseFeatureGate.RequireFor(GetType(), nameof(btn_3d_Click)))
+    {
+        MessageBox.Show(this, "3D-перегляд доступний тільки з активною підпискою.");
+        return;
+    }
+
+    // Premium action.
 }
 ```

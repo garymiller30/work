@@ -1,4 +1,5 @@
 ﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using iText.Kernel.Pdf;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 namespace JobSpace.Static.Pdf.Remove
 {
     [PdfTool("","Видалити ICC-профілі з PDF",Icon = "remove_icc_profile")]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfRemoveICCProfiles : IPdfTool
     {
         public void Execute(PdfJobContext context)

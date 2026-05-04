@@ -62,6 +62,7 @@ namespace ActiveWorks
             LicenseFeatureGate.IsFeatureEnabled = _licenseClientService.IsFeatureEnabled;
             _updateClientService = new UpdateClientService(Settings.Default.UpdateHubManifestUrl, AppDomain.CurrentDomain.BaseDirectory, _licenseClientService);
             toolStripStatusLabelUpdate.Click += ToolStripStatusLabelUpdate_Click;
+            InitializeLicenseStatus();
         }
 
         private void ButtonSpecAnyIssue_Click(object sender, EventArgs e)

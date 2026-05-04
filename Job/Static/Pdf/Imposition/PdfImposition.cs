@@ -1,4 +1,5 @@
 ﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.UserForms.PDF;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Linq;
 namespace JobSpace.Static.Pdf.Imposition
 {
     [PdfTool("", "Спуск полос",Order = 2,Icon ="imposition")]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfImposition : IPdfTool
     {
         ImposInputParam Parameters { get; set; } = new ImposInputParam();

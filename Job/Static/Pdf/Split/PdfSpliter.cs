@@ -1,4 +1,5 @@
 ﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.UserForms;
@@ -9,6 +10,7 @@ using System.Windows.Forms;
 namespace JobSpace.Static.Pdf.Split
 {
     [PdfTool("Розділити", "розвороти", Description = "Розділити розвороти сторінок", Icon = "split_razvorot", Order = 30)]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfSpliter : IPdfTool
     {
         PdfSplitterParams _param;

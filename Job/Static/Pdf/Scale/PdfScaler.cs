@@ -1,4 +1,5 @@
 ﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.PdfScale;
@@ -12,6 +13,7 @@ using System.Windows.Forms;
 namespace JobSpace.Static.Pdf.Scale
 {
     [PdfTool("","Масштабувати PDF",Icon ="scale")]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfScaler : IPdfTool
     {
 

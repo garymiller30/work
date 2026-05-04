@@ -86,6 +86,7 @@ public sealed class LicenseTokenService
             ExportPdf = false,
             AdvancedReports = false,
             Sync = false,
+            ThreeDPreview = false,
             MaxProjects = 3
         };
     }

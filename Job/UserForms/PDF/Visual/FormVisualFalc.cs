@@ -1,6 +1,8 @@
 ﻿using Amazon.Runtime.Internal.Util;
 using Interfaces;
+using Interfaces.Licensing;
 using Interfaces.PdfUtils;
+using JobSpace.Licensing;
 using JobSpace.Models.ScreenPrimitives;
 using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
@@ -204,9 +206,14 @@ namespace JobSpace.UserForms.PDF.Visual
                 }
             }
         }
-
+        [RequiresFeature(LicenseFeature.ExportPdf)]
         private void btn_ok_Click(object sender, EventArgs e)
         {
+            if (!LicenseUiGate.RequireFor(this, GetType(), nameof(btn_ok_Click)))
+            {
+                return;
+            }
+
             SchemaParams = new FalcSchemaParams()
             {
                 Mirrored = cb_mirrored_parts.Checked,
@@ -223,9 +230,15 @@ namespace JobSpace.UserForms.PDF.Visual
             DialogResult = DialogResult.OK;
             Close();
         }
-
+        [RequiresFeature(LicenseFeature.ThreeDPreview)]
         private void btn_3d_Click(object sender, EventArgs e)
         {
+            if (!LicenseUiGate.RequireFor(this, GetType(), nameof(btn_3d_Click)))
+            {
+                return;
+            }
+
+
             try
             {
                 Cursor = Cursors.WaitCursor;

@@ -16,6 +16,9 @@ public sealed class LicenseFeatureSet
     [JsonPropertyName("sync")]
     public bool Sync { get; set; }
 
+    [JsonPropertyName("threeDPreview")]
+    public bool ThreeDPreview { get; set; }
+
     [JsonPropertyName("maxProjects")]
     public int MaxProjects { get; set; }
 }

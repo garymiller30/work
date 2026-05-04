@@ -1,4 +1,5 @@
 ﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
@@ -9,6 +10,7 @@ using System.Text.Json;
 namespace JobSpace.Static.Pdf.MergeTemporary
 {
     [PdfTool("", "• З'єднати файли в один (тимчасово)", Icon = "merge_in_temporary_file")]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfMergeTemporary : IPdfTool
     {
 

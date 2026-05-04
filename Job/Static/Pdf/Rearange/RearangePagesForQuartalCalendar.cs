@@ -1,4 +1,5 @@
 ﻿using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
@@ -7,6 +8,7 @@ using System.IO;
 namespace JobSpace.Static.Pdf.Rearange
 {
     [PdfTool("Квартальний календар", "14 -> 36", Order = 40)]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public class RearangePagesForQuartalCalendar : IPdfTool
     {
         int _cntMonthinBlock = 3;

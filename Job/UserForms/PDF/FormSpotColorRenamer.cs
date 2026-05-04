@@ -150,10 +150,7 @@ namespace JobSpace.UserForms.PDF
 
         private static string GetSavedRenamesFile()
         {
-            return Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "ActiveWorks",
-                "spot_color_renames.json");
+            return Path.Combine(Application.StartupPath, "db", "spot_color_renames.json");
         }
 
 

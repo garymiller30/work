@@ -5,6 +5,7 @@ namespace Interfaces.Licensing
         Updates,
         ExportPdf,
         AdvancedReports,
-        Sync
+        Sync,
+        ThreeDPreview
     }
 }
