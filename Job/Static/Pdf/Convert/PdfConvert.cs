@@ -12,10 +12,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ghostscript.NET.Processor;
+using Interfaces.Licensing;
 
 namespace JobSpace.Static.Pdf.Convert
 {
     [PdfTool("", "Конвертувати в PDF", Order = 0, Icon = "convert", Description = "Конвертувати в PDF файли з розширенням jpg, png, jpeg, tif, tiff, svg, psd, ai", SeparatorAfter = true, IsBackgroundTask = true)]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfConvert : IPdfTool
     {
         PdfConvertParams _params = new PdfConvertParams();

@@ -4,6 +4,7 @@ using ExtensionMethods;
 using FtpClient;
 using Interfaces;
 using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using Interfaces.Profile;
 using JobSpace.Menus;
@@ -288,6 +289,17 @@ namespace JobSpace.UC
         async void Tool_Click(object sender, EventArgs e)
         {
             var toolInfo = (ToolInfo)((ToolStripItem)sender).Tag;
+
+            if (!LicenseFeatureGate.RequireFor(toolInfo.ToolType, out var requirement))
+            {
+                MessageBox.Show(
+                    this,
+                    $"Функція \"{toolInfo.Meta.Name}\" доступна тільки з активною підпискою.",
+                    "Потрібна підписка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
 
             var tool = toolInfo.Create();
 

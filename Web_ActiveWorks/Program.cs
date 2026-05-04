@@ -32,6 +32,8 @@ public class Program
         builder.Services.AddScoped<CurrentUserService>();
         builder.Services.AddSingleton<WebAccessSettingsStore>();
         builder.Services.AddSingleton<MongoProfileDataService>();
+        builder.Services.AddSingleton<LicenseStore>();
+        builder.Services.AddSingleton<LicenseTokenService>();
 
         var app = builder.Build();
 
@@ -51,6 +53,99 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseAntiforgery();
+
+        app.MapPost(
+                "/api/license/activate",
+                async Task<IResult> (
+                    [FromBody] LicenseActivateRequest request,
+                    LicenseStore store,
+                    LicenseTokenService tokenService) =>
+                {
+                    if (string.IsNullOrWhiteSpace(request.LicenseKey) || string.IsNullOrWhiteSpace(request.MachineId))
+                    {
+                        return Results.BadRequest("License key and machine id are required.");
+                    }
+
+                    var license = await store.FindByKeyAsync(request.LicenseKey);
+                    if (license is null)
+                    {
+                        return Results.NotFound("License was not found.");
+                    }
+
+                    if (!await store.RegisterMachineAsync(license, request.MachineId))
+                    {
+                        return Results.Conflict("Device limit is reached for this license.");
+                    }
+
+                    return Results.Ok(new LicenseTokenResponse
+                    {
+                        Token = tokenService.CreateToken(license, request.MachineId)
+                    });
+                })
+            .DisableAntiforgery();
+
+        app.MapPost(
+                "/api/license/refresh",
+                async Task<IResult> (
+                    [FromBody] LicenseRefreshRequest request,
+                    LicenseStore store,
+                    LicenseTokenService tokenService) =>
+                {
+                    var payload = tokenService.ValidateToken(request.Token);
+                    if (payload is null || !string.Equals(payload.MachineId, request.MachineId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return Results.Unauthorized();
+                    }
+
+                    var license = await store.FindByIdAsync(payload.LicenseId);
+                    if (license is null)
+                    {
+                        return Results.NotFound("License was not found.");
+                    }
+
+                    return Results.Ok(new LicenseTokenResponse
+                    {
+                        Token = tokenService.CreateToken(license, request.MachineId)
+                    });
+                })
+            .DisableAntiforgery();
+
+        app.MapGet(
+            "/api/updates/manifest",
+            (HttpContext httpContext, IWebHostEnvironment environment, IConfiguration configuration, LicenseTokenService tokenService) =>
+            {
+                if (!TryAuthorizeUpdates(httpContext, tokenService))
+                {
+                    return Results.StatusCode(StatusCodes.Status403Forbidden);
+                }
+
+                var options = configuration.GetSection("Licensing").Get<LicenseOptions>() ?? new LicenseOptions();
+                var updateRoot = ResolvePath(environment.ContentRootPath, options.UpdateRootPath);
+                var manifestPath = Path.Combine(updateRoot, options.ManifestFileName);
+                return File.Exists(manifestPath)
+                    ? Results.File(manifestPath, "application/json")
+                    : Results.NotFound();
+            });
+
+        app.MapGet(
+            "/api/updates/download/{**path}",
+            (string path, HttpContext httpContext, IWebHostEnvironment environment, IConfiguration configuration, LicenseTokenService tokenService) =>
+            {
+                if (!TryAuthorizeUpdates(httpContext, tokenService))
+                {
+                    return Results.StatusCode(StatusCodes.Status403Forbidden);
+                }
+
+                var options = configuration.GetSection("Licensing").Get<LicenseOptions>() ?? new LicenseOptions();
+                var updateRoot = ResolvePath(environment.ContentRootPath, options.UpdateRootPath);
+                var fullPath = Path.GetFullPath(Path.Combine(updateRoot, path.Replace('/', Path.DirectorySeparatorChar)));
+                if (!fullPath.StartsWith(Path.GetFullPath(updateRoot), StringComparison.OrdinalIgnoreCase) || !System.IO.File.Exists(fullPath))
+                {
+                    return Results.NotFound();
+                }
+
+                return Results.File(fullPath, "application/octet-stream", Path.GetFileName(fullPath));
+            });
 
         app.MapPost(
                 "/account/login",
@@ -102,5 +197,24 @@ public class Program
             .AddInteractiveServerRenderMode();
 
         app.Run();
+    }
+
+    private static bool TryAuthorizeUpdates(HttpContext httpContext, LicenseTokenService tokenService)
+    {
+        var authorization = httpContext.Request.Headers.Authorization.ToString();
+        const string bearerPrefix = "Bearer ";
+        if (!authorization.StartsWith(bearerPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        return tokenService.AllowsUpdates(authorization[bearerPrefix.Length..].Trim());
+    }
+
+    private static string ResolvePath(string contentRootPath, string path)
+    {
+        return Path.IsPathRooted(path)
+            ? path
+            : Path.GetFullPath(Path.Combine(contentRootPath, path));
     }
 }
