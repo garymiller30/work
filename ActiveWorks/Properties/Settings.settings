@@ -38,6 +38,21 @@
     <Setting Name="LastSkippedUpdateVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="LicenseServerEnabled" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LicenseServerUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://aworks.pp.ua/</Value>
+    </Setting>
+    <Setting Name="LicensePublicKeyXml" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">&lt;RSAKeyValue&gt;&lt;Modulus&gt;3fVe75xX5cOyXpxL6EtEPi7e2oFju2BrHy8ocN78WRFTHT6nwcyMvXIby6ZB5+3ieeNPj5CC2IlfzofUD5owWNUtfWbzPr/ME53fWuvsva3sUShjlMtbM8+xLbzvNq/eRF/RdawXuBvgVR9rChw0ovfZ3SC6wP9etUTA01oj9HTob39ZD52ehdhjOQSk2HFeRHu+YSu8pKjJAsZMpTt49z4FA2rVEJuPzk0+abGT9/ALG5TZCegZMpGZJudlBAiQTG6q+hj/c74J+2tEkfrtU1GT9l71fe4KoeIhIvVbjYfRIPjL9G4N8sBgAXw3tFYccV4M7q/ARvccE/gS4/DUvQ==&lt;/Modulus&gt;&lt;Exponent&gt;AQAB&lt;/Exponent&gt;&lt;/RSAKeyValue&gt;</Value>
+    </Setting>
+    <Setting Name="LicenseKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">yEiT-4BBh-Fe6p-g31j-e8v7</Value>
+    </Setting>
+    <Setting Name="LicenseToken" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
     <Setting Name="WhatNew" Type="System.String" Scope="Application">
       <Value Profile="(Default)">
 					8.6.1

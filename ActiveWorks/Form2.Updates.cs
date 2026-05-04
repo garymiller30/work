@@ -16,6 +16,13 @@ namespace ActiveWorks
             try
             {
                 var result = await _updateClientService.CheckForUpdatesAsync();
+                if (result.IsAccessDenied)
+                {
+                    toolStripStatusLabelUpdate.Text = "Оновлення недоступні: підписка неактивна.";
+                    toolStripStatusLabelUpdate.ToolTipText = result.AccessDeniedReason;
+                    return;
+                }
+
                 if (result.IsDisabled || !result.IsUpdateAvailable)
                 {
                     return;

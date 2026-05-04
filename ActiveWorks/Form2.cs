@@ -1,8 +1,10 @@
 using ActiveWorks.Forms;
+using ActiveWorks.Licensing;
 using ActiveWorks.Properties;
 using ActiveWorks.UpdateHub;
 using ActiveWorks.UserControls;
 using ExtensionMethods;
+using Interfaces.Licensing;
 using Krypton.Toolkit;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,7 @@ namespace ActiveWorks
 
         FormBackgroundTasks _formBackgroundTask;
         readonly Stopwatch _sw = new Stopwatch();
+        readonly LicenseClientService _licenseClientService;
         readonly UpdateClientService _updateClientService;
         System.Windows.Forms.Timer _updateCheckTimer;
         string _pendingUpdateFolder;
@@ -55,7 +58,9 @@ namespace ActiveWorks
 
             string manifestUrl = Settings.Default.UpdateHubManifestUrl;
             Logger.Log.Info("App", "Form2", $"UpdateHub manifest URL: {manifestUrl}");
-            _updateClientService = new UpdateClientService(Settings.Default.UpdateHubManifestUrl, AppDomain.CurrentDomain.BaseDirectory);
+            _licenseClientService = new LicenseClientService();
+            LicenseFeatureGate.IsFeatureEnabled = _licenseClientService.IsFeatureEnabled;
+            _updateClientService = new UpdateClientService(Settings.Default.UpdateHubManifestUrl, AppDomain.CurrentDomain.BaseDirectory, _licenseClientService);
             toolStripStatusLabelUpdate.Click += ToolStripStatusLabelUpdate_Click;
         }
 

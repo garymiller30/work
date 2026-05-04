@@ -498,6 +498,16 @@
     <Compile Include="JobRenderer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Licensing\Base64Url.cs" />
+    <Compile Include="Licensing\LicenseClientService.cs" />
+    <Compile Include="Licensing\LicenseFeatureSet.cs" />
+    <Compile Include="Licensing\LicenseJsonSerializer.cs" />
+    <Compile Include="Licensing\LicenseMachine.cs" />
+    <Compile Include="Licensing\LicenseStorage.cs" />
+    <Compile Include="Licensing\LicenseStorageState.cs" />
+    <Compile Include="Licensing\LicenseTokenPayload.cs" />
+    <Compile Include="Licensing\LicenseTokenState.cs" />
+    <Compile Include="Licensing\LicenseTokenValidator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />

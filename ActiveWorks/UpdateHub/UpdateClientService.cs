@@ -1,4 +1,5 @@
 using ActiveWorks.Properties;
+using ActiveWorks.Licensing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,16 +17,19 @@ namespace ActiveWorks.UpdateHub
     {
         private readonly string _manifestUrl;
         private readonly string _applicationDirectory;
+        private readonly LicenseClientService _licenseClientService;
 
-        public UpdateClientService(string manifestUrl, string applicationDirectory)
+        public UpdateClientService(string manifestUrl, string applicationDirectory, LicenseClientService licenseClientService)
         {
             _manifestUrl = manifestUrl;
             _applicationDirectory = applicationDirectory;
+            _licenseClientService = licenseClientService;
         }
 
         public bool IsConfigured =>
             Settings.Default.UpdateHubEnabled &&
-            !string.IsNullOrWhiteSpace(_manifestUrl);
+            (!string.IsNullOrWhiteSpace(_manifestUrl) ||
+             Settings.Default.LicenseServerEnabled && !string.IsNullOrWhiteSpace(Settings.Default.LicenseServerUrl));
 
         public async Task<UpdateCheckResult> CheckForUpdatesAsync()
         {
@@ -34,7 +38,13 @@ namespace ActiveWorks.UpdateHub
                 return UpdateCheckResult.Disabled();
             }
 
-            var manifest = await DownloadManifestAsync().ConfigureAwait(false);
+            var license = await _licenseClientService.GetUsableTokenAsync().ConfigureAwait(false);
+            if (!license.AllowsUpdates)
+            {
+                return UpdateCheckResult.AccessDenied(license.Message);
+            }
+
+            var manifest = await DownloadManifestAsync(license.Token).ConfigureAwait(false);
 
             var localVersion = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0);
             if (!Version.TryParse(manifest.Version, out var serverVersion) || serverVersion <= localVersion)
@@ -70,15 +80,15 @@ namespace ActiveWorks.UpdateHub
             }
 
             Directory.CreateDirectory(tempRoot);
-            var manifestBaseUri = new Uri(_manifestUrl);
+            var manifestBaseUri = GetManifestUri();
             var packagePath = PathUtility.EnsureTrailingSlash(manifest.PackagePath);
 
-            using (var client = new WebClient())
+            using (var client = CreateWebClient(license.Token))
             {
                 foreach (var file in filesToDownload)
                 {
                     var relativeUrl = PathUtility.CombineUrl(packagePath, file.Path);
-                    var fileUri = new Uri(manifestBaseUri, relativeUrl);
+                    var fileUri = BuildDownloadUri(manifestBaseUri, relativeUrl);
                     var targetPath = Path.Combine(tempRoot, file.Path.Replace('/', Path.DirectorySeparatorChar));
                     Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
                     await client.DownloadFileTaskAsync(fileUri, targetPath).ConfigureAwait(false);
@@ -92,12 +102,56 @@ namespace ActiveWorks.UpdateHub
 
         public async Task<UpdateManifest> DownloadManifestAsync()
         {
-            using (var client = new WebClient())
+            var license = await _licenseClientService.GetUsableTokenAsync().ConfigureAwait(false);
+            if (!license.AllowsUpdates)
+            {
+                throw new InvalidOperationException("License does not allow updates. " + license.Message);
+            }
+
+            return await DownloadManifestAsync(license.Token).ConfigureAwait(false);
+        }
+
+        private async Task<UpdateManifest> DownloadManifestAsync(string licenseToken)
+        {
+            using (var client = CreateWebClient(licenseToken))
             {
                 client.Encoding = System.Text.Encoding.UTF8;
-                var json = await client.DownloadStringTaskAsync(new Uri(_manifestUrl)).ConfigureAwait(false);
+                var json = await client.DownloadStringTaskAsync(GetManifestUri()).ConfigureAwait(false);
                 return UpdateManifestSerializer.Deserialize(json);
             }
+        }
+
+        private Uri GetManifestUri()
+        {
+            if (Settings.Default.LicenseServerEnabled && !string.IsNullOrWhiteSpace(Settings.Default.LicenseServerUrl))
+            {
+                return new Uri(new Uri(PathUtility.EnsureTrailingSlash(Settings.Default.LicenseServerUrl)), "api/updates/manifest");
+            }
+
+            return new Uri(_manifestUrl);
+        }
+
+        private static Uri BuildDownloadUri(Uri manifestBaseUri, string relativeUrl)
+        {
+            if (Settings.Default.LicenseServerEnabled && !string.IsNullOrWhiteSpace(Settings.Default.LicenseServerUrl))
+            {
+                return new Uri(
+                    new Uri(PathUtility.EnsureTrailingSlash(Settings.Default.LicenseServerUrl)),
+                    "api/updates/download/" + relativeUrl.TrimStart('/'));
+            }
+
+            return new Uri(manifestBaseUri, relativeUrl);
+        }
+
+        private static WebClient CreateWebClient(string licenseToken)
+        {
+            var client = new WebClient();
+            if (!string.IsNullOrWhiteSpace(licenseToken))
+            {
+                client.Headers[HttpRequestHeader.Authorization] = "Bearer " + licenseToken;
+            }
+
+            return client;
         }
 
         public static void StartUpdaterAndExit(string updateFolder)
@@ -156,6 +210,8 @@ namespace ActiveWorks.UpdateHub
     {
         public bool IsUpdateAvailable { get; private set; }
         public bool IsDisabled { get; private set; }
+        public bool IsAccessDenied { get; private set; }
+        public string AccessDeniedReason { get; private set; }
         public UpdateManifest Manifest { get; private set; }
         public string DownloadFolder { get; private set; }
         public int ChangedFilesCount { get; private set; }
@@ -168,6 +224,15 @@ namespace ActiveWorks.UpdateHub
         public static UpdateCheckResult NoUpdate()
         {
             return new UpdateCheckResult();
+        }
+
+        public static UpdateCheckResult AccessDenied(string reason)
+        {
+            return new UpdateCheckResult
+            {
+                IsAccessDenied = true,
+                AccessDeniedReason = reason
+            };
         }
 
         public static UpdateCheckResult Available(UpdateManifest manifest, string downloadFolder, int changedFilesCount)
