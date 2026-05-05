@@ -519,7 +519,6 @@ namespace ActiveWorks
                     profile.Events.Jobs.OnJobAdd += OnJobAdd;
                     profile.Jobs.CreateJob();
                     profile.Events.Jobs.OnJobAdd -= OnJobAdd;
-
                 }
             };
             groupTriple.Items.Add(button);
