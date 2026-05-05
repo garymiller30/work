@@ -77,6 +77,7 @@ namespace JobSpace.Static.Pdf.Common
             }
 
             var media = NormalizeBox(mediaRaw);
+            var crop = ReadNormalizedBox(p, doc, pageIdx, "CropBox", mediaRaw);
             var trim = ReadNormalizedBox(p, doc, pageIdx, "TrimBox", mediaRaw);
 
             boxes.Media.left = media.left;
@@ -85,6 +86,13 @@ namespace JobSpace.Static.Pdf.Common
             boxes.Media.height = media.top - media.bottom;
             boxes.Media.right = 0;
             boxes.Media.top = 0;
+
+            boxes.Crop.left = crop.left - media.left;
+            boxes.Crop.bottom = crop.bottom - media.bottom;
+            boxes.Crop.width = crop.right - crop.left;
+            boxes.Crop.height = crop.top - crop.bottom;
+            boxes.Crop.right = media.right - crop.right;
+            boxes.Crop.top = media.top - crop.top;
 
             boxes.Trim.left = trim.left - media.left;
             boxes.Trim.bottom = trim.bottom - media.bottom;
@@ -150,6 +158,7 @@ namespace JobSpace.Static.Pdf.Common
 
                     Boxes boxes = GetBoxes(p, indoc, i);
                     info.Mediabox = boxes.Media;
+                    info.Cropbox = boxes.Crop;
                     info.Trimbox = boxes.Trim;
 
                     list.Add(info);
@@ -200,6 +209,7 @@ namespace JobSpace.Static.Pdf.Common
 
                 Boxes boxes = GetBoxes(p, indoc, pageIdx);
                 pdfPageInfo.Mediabox = boxes.Media;
+                pdfPageInfo.Cropbox = boxes.Crop;
                 pdfPageInfo.Trimbox = boxes.Trim;
 
                 p.close_pdi_page(page);
@@ -350,9 +360,11 @@ namespace JobSpace.Static.Pdf.Common
                             using (var bmpStream = pdfiumBmp.AsBmpStream(renderDpi, renderDpi))
                             using (var fullBmp = new Bitmap(bmpStream))
                             {
-                                // TrimBox у PDF координатах (bottom-left)
-                                double l = box.Trimbox.left * scale;
-                                double b = box.Trimbox.bottom * scale;
+                                Box renderBox = GetPdfiumRenderBox(box, page.Width, page.Height);
+
+                                // TrimBox у координатах області, яку PDFium реально рендерить (bottom-left)
+                                double l = (box.Trimbox.left - renderBox.left) * scale;
+                                double b = (box.Trimbox.bottom - renderBox.bottom) * scale;
                                 double w = box.Trimbox.width * scale;
                                 double h = box.Trimbox.height * scale;
 
@@ -439,6 +451,38 @@ namespace JobSpace.Static.Pdf.Common
                 limitedScale = Math.Min(limitedScale, maxPixelScale);
 
             return Math.Max(limitedScale, 1.0 / 72.0);
+        }
+
+        private static Box GetPdfiumRenderBox(PdfPageInfo pageInfo, double pdfiumPageWidth, double pdfiumPageHeight)
+        {
+            if (pageInfo?.Cropbox != null &&
+                AreSameSize(pageInfo.Cropbox, pdfiumPageWidth, pdfiumPageHeight))
+            {
+                return pageInfo.Cropbox;
+            }
+
+            if (pageInfo?.Mediabox != null)
+                return new Box
+                {
+                    left = 0,
+                    bottom = 0,
+                    width = pageInfo.Mediabox.width,
+                    height = pageInfo.Mediabox.height
+                };
+
+            return new Box { left = 0, bottom = 0, width = pdfiumPageWidth, height = pdfiumPageHeight };
+        }
+
+        private static bool AreSameSize(Box box, double width, double height)
+        {
+            const double tolerance = 0.5;
+            bool same = Math.Abs(box.width - width) <= tolerance &&
+                        Math.Abs(box.height - height) <= tolerance;
+
+            bool rotated = Math.Abs(box.width - height) <= tolerance &&
+                           Math.Abs(box.height - width) <= tolerance;
+
+            return same || rotated;
         }
 
         private static bool IsPdfiumSafePath(string path)
