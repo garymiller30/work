@@ -22,7 +22,12 @@ namespace ActiveWorks
                 return;
             }
 
-            if (!_licenseClientService.CurrentToken.IsValid)
+            var state = _licenseClientService.CurrentToken;
+            if (state.IsValid)
+            {
+                SetLicenseActiveStatus(state);
+            }
+            else
             {
                 toolStripStatusLabelUpdate.Text = EnterLicenseStatusText;
                 toolStripStatusLabelUpdate.ToolTipText = "Натисніть, щоб активувати підписку.";
@@ -217,12 +222,13 @@ namespace ActiveWorks
                         return;
                     }
 
-                    toolStripStatusLabelUpdate.Text = "Ліцензію активовано. Перевіряю оновлення...";
+                    SetLicenseActiveStatus(state);
+                    var licenseStatusText = toolStripStatusLabelUpdate.Text;
+                    toolStripStatusLabelUpdate.Text = licenseStatusText + " Перевіряю оновлення...";
                     await CheckForUpdatesAsync();
-                    if (string.Equals(toolStripStatusLabelUpdate.Text, "Ліцензію активовано. Перевіряю оновлення...", StringComparison.Ordinal))
+                    if (string.Equals(toolStripStatusLabelUpdate.Text, licenseStatusText + " Перевіряю оновлення...", StringComparison.Ordinal))
                     {
-                        toolStripStatusLabelUpdate.Text = "Ліцензію активовано. Оновлень немає.";
-                        toolStripStatusLabelUpdate.ToolTipText = string.Empty;
+                        SetLicenseActiveStatus(state);
                     }
                 }
                 catch (Exception ex)
@@ -251,6 +257,49 @@ namespace ActiveWorks
             {
                 Log.Error("UpdateHub", "StartUpdateAndClose", ex.ToString());
                 MessageBox.Show(this, ex.Message, "Не вдалося запустити оновлення", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void SetLicenseActiveStatus(ActiveWorks.Licensing.LicenseTokenState state)
+        {
+            DateTime paidUntilUtc;
+            if (state?.Payload == null ||
+                string.IsNullOrWhiteSpace(state.Payload.PaidUntilUtc) ||
+                !DateTime.TryParse(state.Payload.PaidUntilUtc, null, System.Globalization.DateTimeStyles.RoundtripKind, out paidUntilUtc))
+            {
+                toolStripStatusLabelUpdate.Text = "Ліцензія активна.";
+                toolStripStatusLabelUpdate.ToolTipText = string.Empty;
+                return;
+            }
+
+            if (paidUntilUtc.Kind != DateTimeKind.Utc)
+            {
+                paidUntilUtc = paidUntilUtc.ToUniversalTime();
+            }
+
+            var daysLeft = Math.Max(0, (int)Math.Ceiling((paidUntilUtc - DateTime.UtcNow).TotalDays));
+            toolStripStatusLabelUpdate.Text = $"Ліцензія активна: залишилось {daysLeft} {FormatDays(daysLeft)}.";
+            toolStripStatusLabelUpdate.ToolTipText = "Підписка оплачена до " + paidUntilUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm");
+        }
+
+        private static string FormatDays(int days)
+        {
+            var lastTwoDigits = days % 100;
+            if (lastTwoDigits >= 11 && lastTwoDigits <= 14)
+            {
+                return "днів";
+            }
+
+            switch (days % 10)
+            {
+                case 1:
+                    return "день";
+                case 2:
+                case 3:
+                case 4:
+                    return "дні";
+                default:
+                    return "днів";
             }
         }
     }
