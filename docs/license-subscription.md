@@ -91,6 +91,14 @@ Use the helper script:
 
 The script appends a new license to `Web_ActiveWorks/Data/licenses.json` and prints the generated `LicenseKey`.
 
+To extend an existing license:
+
+```powershell
+.\Web_ActiveWorks\Scripts\Extend-License.ps1 -LicenseKey "XXXX-XXXX-XXXX-XXXX-XXXX" -Months 1
+```
+
+The extension starts from the current `paidUntilUtc` if it is still in the future, or from now if the license has already expired. You can also use `-Days 7` for short test periods.
+
 Put that key into `%LOCALAPPDATA%\ActiveWorks\license.json`:
 
 ```json

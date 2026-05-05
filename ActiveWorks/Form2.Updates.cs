@@ -196,6 +196,12 @@ namespace ActiveWorks
                 return;
             }
 
+            if (_licenseClientService.CurrentToken.IsValid)
+            {
+                await RefreshLicenseStatusAsync();
+                return;
+            }
+
             using (var form = new FormLicenseKey(_licenseClientService.StoredLicenseKey))
             {
                 if (form.ShowDialog(this) != DialogResult.OK)
@@ -239,6 +245,35 @@ namespace ActiveWorks
                     toolStripStatusLabelUpdate.Text = LicenseInactiveStatusText;
                     toolStripStatusLabelUpdate.ToolTipText = ex.Message;
                 }
+            }
+        }
+
+        private async Task RefreshLicenseStatusAsync()
+        {
+            var previousText = toolStripStatusLabelUpdate.Text;
+            var previousToolTip = toolStripStatusLabelUpdate.ToolTipText;
+
+            toolStripStatusLabelUpdate.Text = "Оновлюю ліцензію...";
+
+            try
+            {
+                var state = await _licenseClientService.RefreshAsync();
+                if (state.IsValid)
+                {
+                    SetLicenseActiveStatus(state);
+                    return;
+                }
+
+                toolStripStatusLabelUpdate.Text = LicenseInactiveStatusText;
+                toolStripStatusLabelUpdate.ToolTipText = state.Message;
+                MessageBox.Show(this, state.Message, "Ліцензію не оновлено", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Licensing", "RefreshLicenseStatusAsync", ex.ToString());
+                toolStripStatusLabelUpdate.Text = previousText;
+                toolStripStatusLabelUpdate.ToolTipText = previousToolTip;
+                MessageBox.Show(this, ex.Message, "Ліцензію не оновлено", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
