@@ -38,6 +38,7 @@ namespace ActiveWorks
         {
             try
             {
+                ClearPendingUpdate();
                 var result = await _updateClientService.CheckForUpdatesAsync();
                 if (result.IsAccessDenied)
                 {
@@ -177,7 +178,7 @@ namespace ActiveWorks
 
         private async void ToolStripStatusLabelUpdate_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(toolStripStatusLabelUpdate.Text) && _pendingUpdateType == UpdateHubShared.UpdateType.Optional)
+            if (_pendingUpdateType == UpdateHubShared.UpdateType.Optional && !string.IsNullOrWhiteSpace(_pendingUpdateFolder))
             {
                 var answer = MessageBox.Show(this, "Встановити необов'язкове оновлення зараз?", "Необов'язкове оновлення",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -258,6 +259,12 @@ namespace ActiveWorks
                 Log.Error("UpdateHub", "StartUpdateAndClose", ex.ToString());
                 MessageBox.Show(this, ex.Message, "Не вдалося запустити оновлення", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void ClearPendingUpdate()
+        {
+            _pendingUpdateFolder = null;
+            _pendingUpdateType = null;
         }
 
         private void SetLicenseActiveStatus(ActiveWorks.Licensing.LicenseTokenState state)
