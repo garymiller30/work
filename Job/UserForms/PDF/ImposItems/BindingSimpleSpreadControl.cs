@@ -127,7 +127,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             var templatePageContainer = new TemplatePageContainer();
             var printField = GetPrintFieldFormat(parameters);
             var masterPage = parameters.Sheet.MasterPage;
-            
+
             var primarySpread = GetSpreadFit(printField.W, printField.H, masterPage, primaryAngle);
 
             int cntX = primarySpread.CntX;
@@ -275,6 +275,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 templatePageContainer.TemplatePages.ForEach(p => p.Back.MasterIdx = 0);
                 return;
+            }
+            else if (sheet.SheetPlaceType == TemplateSheetPlaceType.Sheetwise)
+            {
+                templatePageContainer.TemplatePages.ForEach(p => p.Back.Angle = LooseBindingSheetwise.GetBackAngle(p.Front.Angle));
             }
             else if (sheet.SheetPlaceType == TemplateSheetPlaceType.WorkAndTurn)
             {
