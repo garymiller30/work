@@ -37,6 +37,7 @@ namespace JobSpace.Static
     {
         private const string PreviewCacheFolderName = ".preview";
         private const string PreviewCacheIndexFileName = "preview-cache.json";
+        private const int PreviewCacheVersion = 2;
         private static readonly object PreviewCacheLock = new object();
 
         #region PDF
@@ -621,6 +622,7 @@ namespace JobSpace.Static
                         x.PageIndex == pageIdx);
 
                     if (entry == null ||
+                        entry.CacheVersion != PreviewCacheVersion ||
                         entry.Length != sourceFile.Length ||
                         entry.LastWriteTimeUtcTicks != sourceFile.LastWriteTimeUtc.Ticks ||
                         string.IsNullOrWhiteSpace(entry.PreviewFileName))
@@ -680,6 +682,7 @@ namespace JobSpace.Static
 
                     entry.FileName = sourceFile.Name;
                     entry.FullName = sourceFile.FullName;
+                    entry.CacheVersion = PreviewCacheVersion;
                     entry.PageIndex = pageIdx;
                     entry.Length = sourceFile.Length;
                     entry.LastWriteTimeUtcTicks = sourceFile.LastWriteTimeUtc.Ticks;
@@ -788,7 +791,7 @@ namespace JobSpace.Static
             if (safeName.Length > 80)
                 safeName = safeName.Substring(0, 80);
 
-            return $"{safeName}_p{pageIdx + 1}_{GetStablePathHash(sourceFile.FullName)}.png";
+            return $"{safeName}_p{pageIdx + 1}_v{PreviewCacheVersion}_{GetStablePathHash(sourceFile.FullName)}.png";
         }
 
         private static string SanitizePreviewFileName(string value)
@@ -825,6 +828,7 @@ namespace JobSpace.Static
         {
             public string FileName { get; set; }
             public string FullName { get; set; }
+            public int CacheVersion { get; set; }
             public int PageIndex { get; set; }
             public long Length { get; set; }
             public long LastWriteTimeUtcTicks { get; set; }

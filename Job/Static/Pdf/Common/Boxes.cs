@@ -9,6 +9,7 @@ namespace JobSpace.Static.Pdf.Common
     public sealed class Boxes
     {
         public Box Media = new Box();
+        public Box Crop = new Box();
         public Box Trim = new Box();
     }
 }

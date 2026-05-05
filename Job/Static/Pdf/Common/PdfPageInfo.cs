@@ -9,6 +9,7 @@ namespace JobSpace.Static.Pdf.Common
     public class PdfPageInfo
     {
         public Box Mediabox { get;set; }
+        public Box Cropbox { get;set; }
         public Box Trimbox { get;set; }
         public double Rotate { get;set; } = 0.0;
     }
