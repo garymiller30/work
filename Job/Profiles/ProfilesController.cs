@@ -18,6 +18,13 @@ namespace JobSpace.Profiles
         public static void LoadProfiles(string profilesFolder)
         {
             _profilesFolder = profilesFolder;
+            Profiles.Clear();
+
+            if (!Directory.Exists(_profilesFolder))
+            {
+                Directory.CreateDirectory(_profilesFolder);
+                return;
+            }
 
             var dirs = Directory.GetDirectories(_profilesFolder)
                                 .Where(d => !Path.GetFileName(d).StartsWith("-"))
@@ -44,11 +51,6 @@ namespace JobSpace.Profiles
                 .ToList();
 
             Profiles.AddRange(loadedProfiles);
-
-            if (Profiles.Count == 0)
-            {
-                ProfilesController.AddProfile();
-            }
         }
 
         public static Profile[] GetProfiles()
@@ -86,6 +88,22 @@ namespace JobSpace.Profiles
 
             return null;
 
+        }
+
+        public static Profile CreateProfile(string profilesFolder, ProfileSettings profileSettings)
+        {
+            _profilesFolder = profilesFolder;
+
+            var profile = new Profile
+            {
+                Settings = profileSettings
+            };
+
+            profile.InitProfilePath(_profilesFolder);
+            Profiles.Add(profile);
+            Save(profile);
+
+            return profile;
         }
 
         public static void Save()
