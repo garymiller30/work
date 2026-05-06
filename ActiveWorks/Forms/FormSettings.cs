@@ -3,6 +3,8 @@
 
 
 using ActiveWorks.Forms;
+using ActiveWorks.Licensing;
+using ActiveWorks.PluginHub;
 using BrightIdeasSoftware;
 using Krypton.Toolkit;
 using Interfaces;
@@ -14,6 +16,8 @@ using JobSpace.Statuses;
 using JobSpace.UserForms;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using MailNotifier;
@@ -26,10 +30,21 @@ namespace ActiveWorks
     {
 
         private Profile _currentProfile;
+        private readonly PluginCatalogClient _pluginCatalogClient;
+        private readonly List<PluginCatalogItem> _pluginCatalogItems = new List<PluginCatalogItem>();
+        private Button _buttonRefreshPluginCatalog;
+        private Button _buttonInstallOrUpdatePlugin;
+        private Button _buttonTogglePlugin;
+        private Label _labelPluginCatalogStatus;
+        private OLVColumn _olvColumnPluginLocalVersion;
+        private OLVColumn _olvColumnPluginServerVersion;
+        private OLVColumn _olvColumnPluginStatus;
 
         public FormSettings()
         {
             InitializeComponent();
+            _pluginCatalogClient = new PluginCatalogClient(new LicenseClientService());
+            InitializePluginManagementControls();
 
             objectListViewProfiles.AddObjects(ProfilesController.GetProfiles());
 
@@ -479,10 +494,266 @@ namespace ActiveWorks
 
         private void LoadPluginsInfo()
         {
-            var plugins = _currentProfile.Plugins.GetPluginsBase();
-
             objectListViewPlugins.ClearObjects();
-            objectListViewPlugins.AddObjects(plugins);
+            objectListViewPlugins.AddObjects(BuildPluginManagementItems());
+
+            UpdatePluginActionButtons();
+            _ = RefreshPluginCatalogAsync(false);
+        }
+
+        private void InitializePluginManagementControls()
+        {
+            olvColumnPluginName.AspectName = "Name";
+            olvColumnPluginName.Text = "Плагін";
+            olvColumnPluginDescription.AspectName = "Description";
+            olvColumnPluginDescription.Text = "Опис";
+
+            _olvColumnPluginLocalVersion = new OLVColumn("Встановлено", "LocalVersion") { Width = 95 };
+            _olvColumnPluginServerVersion = new OLVColumn("На сервері", "ServerVersion") { Width = 95 };
+            _olvColumnPluginStatus = new OLVColumn("Стан", "StatusText") { Width = 190 };
+
+            objectListViewPlugins.AllColumns.Add(_olvColumnPluginLocalVersion);
+            objectListViewPlugins.AllColumns.Add(_olvColumnPluginServerVersion);
+            objectListViewPlugins.AllColumns.Add(_olvColumnPluginStatus);
+            objectListViewPlugins.Columns.AddRange(new ColumnHeader[]
+            {
+                _olvColumnPluginLocalVersion,
+                _olvColumnPluginServerVersion,
+                _olvColumnPluginStatus
+            });
+            objectListViewPlugins.SelectedIndexChanged += objectListViewPlugins_SelectedIndexChanged;
+
+            var panel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                Height = 36,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                Padding = new Padding(3)
+            };
+
+            _buttonRefreshPluginCatalog = new Button { Text = "Оновити каталог", AutoSize = true };
+            _buttonInstallOrUpdatePlugin = new Button { Text = "Завантажити / оновити", AutoSize = true, Enabled = false };
+            _buttonTogglePlugin = new Button { Text = "Відключити", AutoSize = true, Enabled = false };
+            _labelPluginCatalogStatus = new Label
+            {
+                AutoSize = true,
+                Padding = new Padding(8, 7, 0, 0),
+                ForeColor = Color.DimGray
+            };
+
+            _buttonRefreshPluginCatalog.Click += async (s, e) => await RefreshPluginCatalogAsync(true);
+            _buttonInstallOrUpdatePlugin.Click += async (s, e) => await InstallOrUpdateSelectedPluginAsync();
+            _buttonTogglePlugin.Click += (s, e) => ToggleSelectedPlugin();
+
+            panel.Controls.Add(_buttonRefreshPluginCatalog);
+            panel.Controls.Add(_buttonInstallOrUpdatePlugin);
+            panel.Controls.Add(_buttonTogglePlugin);
+            panel.Controls.Add(_labelPluginCatalogStatus);
+
+            tabPagePlugins.Controls.Add(panel);
+            tabPagePlugins.Controls.SetChildIndex(panel, 0);
+        }
+
+        private List<PluginManagementItem> BuildPluginManagementItems()
+        {
+            var items = new List<PluginManagementItem>();
+            if (_currentProfile == null || _currentProfile.Plugins == null)
+            {
+                return items;
+            }
+
+            var pluginsDirectory = GetCurrentProfilePluginsDirectory();
+            var disabledFiles = DisabledPluginStore.Load(pluginsDirectory);
+            var loadedFileNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var plugin in _currentProfile.Plugins.GetPluginsBase())
+            {
+                var item = PluginManagementItem.FromPlugin(plugin, disabledFiles.Contains(Path.GetFileName(plugin.GetType().Assembly.Location)));
+                loadedFileNames.Add(item.AssemblyFileName);
+                items.Add(item);
+            }
+
+            foreach (var disabledFile in disabledFiles.Where(x => !loadedFileNames.Contains(x)))
+            {
+                items.Add(PluginManagementItem.FromDisabledFile(disabledFile));
+            }
+
+            MergeCatalogItems(items);
+            return items.OrderBy(x => x.Name, StringComparer.OrdinalIgnoreCase).ToList();
+        }
+
+        private void MergeCatalogItems(List<PluginManagementItem> items)
+        {
+            foreach (var catalogItem in _pluginCatalogItems)
+            {
+                var localItem = items.FirstOrDefault(x => MatchesCatalogItem(x, catalogItem));
+                if (localItem == null)
+                {
+                    items.Add(PluginManagementItem.FromCatalog(catalogItem));
+                }
+                else
+                {
+                    localItem.AttachCatalog(catalogItem);
+                }
+            }
+        }
+
+        private static bool MatchesCatalogItem(PluginManagementItem localItem, PluginCatalogItem catalogItem)
+        {
+            return string.Equals(localItem.Id, catalogItem.Id, StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(localItem.Name, catalogItem.Name, StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(Path.GetFileNameWithoutExtension(localItem.AssemblyFileName), catalogItem.Id, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private async System.Threading.Tasks.Task RefreshPluginCatalogAsync(bool showMessages)
+        {
+            if (_currentProfile == null)
+            {
+                return;
+            }
+
+            if (!_pluginCatalogClient.IsConfigured)
+            {
+                _labelPluginCatalogStatus.Text = "Сервер плагінів не налаштовано.";
+                UpdatePluginActionButtons();
+                return;
+            }
+
+            try
+            {
+                _buttonRefreshPluginCatalog.Enabled = false;
+                _labelPluginCatalogStatus.Text = "Завантаження каталогу...";
+
+                _pluginCatalogItems.Clear();
+                _pluginCatalogItems.AddRange(await _pluginCatalogClient.GetCatalogAsync());
+
+                objectListViewPlugins.ClearObjects();
+                objectListViewPlugins.AddObjects(BuildPluginManagementItems());
+                _labelPluginCatalogStatus.Text = $"Каталог: {_pluginCatalogItems.Count} плагінів.";
+            }
+            catch (Exception ex)
+            {
+                _labelPluginCatalogStatus.Text = "Не вдалося завантажити каталог.";
+                if (showMessages)
+                {
+                    MessageBox.Show(this, ex.Message, "Каталог плагінів", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            finally
+            {
+                _buttonRefreshPluginCatalog.Enabled = true;
+                UpdatePluginActionButtons();
+            }
+        }
+
+        private async System.Threading.Tasks.Task InstallOrUpdateSelectedPluginAsync()
+        {
+            var item = GetSelectedPluginManagementItem();
+            if (item == null || item.CatalogItem == null)
+            {
+                return;
+            }
+
+            try
+            {
+                SetPluginButtonsEnabled(false);
+                _labelPluginCatalogStatus.Text = "Завантаження пакета...";
+
+                var tempDirectory = Path.Combine(Path.GetTempPath(), "ActiveWorksPlugins");
+                Directory.CreateDirectory(tempDirectory);
+                var packagePath = Path.Combine(tempDirectory, item.CatalogItem.Id + "-" + item.CatalogItem.Version + ".zip");
+
+                await _pluginCatalogClient.DownloadPackageAsync(item.CatalogItem.Id, packagePath);
+
+                _labelPluginCatalogStatus.Text = "Встановлення пакета...";
+                var installer = new PluginPackageInstaller(AppDomain.CurrentDomain.BaseDirectory, GetCurrentProfilePluginsDirectory());
+                var result = installer.Install(packagePath);
+
+                LoadPluginsInfo();
+
+                MessageBox.Show(
+                    this,
+                    $"Плагін '{item.Name}' встановлено або оновлено.{Environment.NewLine}" +
+                    $"Файлів скопійовано: {result.InstalledFilesCount}.{Environment.NewLine}" +
+                    $"Файлів відкладено до перезапуску: {result.PendingFilesCount}.{Environment.NewLine}{Environment.NewLine}" +
+                    "Перезапустіть ActiveWorks, щоб зміни плагінів набули чинності.",
+                    "Плагіни",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Не вдалося встановити плагін", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                SetPluginButtonsEnabled(true);
+                UpdatePluginActionButtons();
+            }
+        }
+
+        private void ToggleSelectedPlugin()
+        {
+            var item = GetSelectedPluginManagementItem();
+            if (item == null || string.IsNullOrWhiteSpace(item.AssemblyFileName))
+            {
+                return;
+            }
+
+            var pluginsDirectory = GetCurrentProfilePluginsDirectory();
+            var disabledFiles = DisabledPluginStore.Load(pluginsDirectory);
+            if (disabledFiles.Contains(item.AssemblyFileName))
+            {
+                disabledFiles.Remove(item.AssemblyFileName);
+            }
+            else
+            {
+                disabledFiles.Add(item.AssemblyFileName);
+            }
+
+            DisabledPluginStore.Save(pluginsDirectory, disabledFiles);
+            LoadPluginsInfo();
+
+            MessageBox.Show(
+                this,
+                "Зміна стану плагіна буде застосована після перезапуску ActiveWorks.",
+                "Плагіни",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
+
+        private PluginManagementItem GetSelectedPluginManagementItem()
+        {
+            return objectListViewPlugins.SelectedObject as PluginManagementItem;
+        }
+
+        private void objectListViewPlugins_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdatePluginActionButtons();
+        }
+
+        private void UpdatePluginActionButtons()
+        {
+            var item = GetSelectedPluginManagementItem();
+            _buttonInstallOrUpdatePlugin.Enabled = item != null && item.CatalogItem != null;
+            _buttonInstallOrUpdatePlugin.Text = item != null && item.IsLoaded
+                ? "Оновити"
+                : "Завантажити";
+            _buttonTogglePlugin.Enabled = item != null && !string.IsNullOrWhiteSpace(item.AssemblyFileName);
+            _buttonTogglePlugin.Text = item != null && item.IsDisabled ? "Увімкнути" : "Відключити";
+        }
+
+        private void SetPluginButtonsEnabled(bool enabled)
+        {
+            _buttonRefreshPluginCatalog.Enabled = enabled;
+            _buttonInstallOrUpdatePlugin.Enabled = enabled;
+            _buttonTogglePlugin.Enabled = enabled;
+        }
+
+        private string GetCurrentProfilePluginsDirectory()
+        {
+            return Path.Combine(_currentProfile.ProfilePath, "Plugins");
         }
 
         private void buttonRemoveProfile_Click(object sender, EventArgs e)
@@ -690,9 +961,10 @@ namespace ActiveWorks
 
         private void objectListViewPlugins_DoubleClick(object sender, EventArgs e)
         {
-            if (objectListViewPlugins.SelectedObject is IPluginBase plugin)
+            var item = GetSelectedPluginManagementItem();
+            if (item != null && item.Plugin != null)
             {
-                plugin.ShowSettingsDlg();
+                item.Plugin.ShowSettingsDlg();
             }
         }
 
