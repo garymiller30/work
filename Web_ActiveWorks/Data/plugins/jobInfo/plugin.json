@@ -1,0 +1,1 @@
+﻿{"id":"jobInfo","name":"Job Info","version":"1.0.0.0","description":"інформація про замовлення","changelog":"","publishedAtUtc":"2026-05-06T06:44:52.3034648Z","packagePath":"jobInfo-1.0.0.0.zip","files":[{"path":"OrderInfo.dll","targetRoot":"ProfilePlugins","targetPath":"OrderInfo.dll","hash":"7d56d6c31e78cfeeff3d80189d2a5408b96e6f7c2b6247479ff18fe86057a7c7","size":23552}]}

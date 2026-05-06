@@ -4,7 +4,21 @@ public sealed class PluginCatalogOptions
 {
     public string RootPath { get; set; } = "Data/plugins";
 
+    public string CatalogFileName { get; set; } = "plugins.json";
+
     public string ManifestFileName { get; set; } = "plugin.json";
+}
+
+public sealed class PluginCatalogManifest
+{
+    public List<PluginCatalogManifestItem> Plugins { get; set; } = new();
+}
+
+public sealed class PluginCatalogManifestItem
+{
+    public string Id { get; set; } = "";
+
+    public string ManifestPath { get; set; } = "";
 }
 
 public sealed class PluginPackageManifest
