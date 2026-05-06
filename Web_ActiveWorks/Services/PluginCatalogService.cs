@@ -1,6 +1,4 @@
-using System.IO.Compression;
 using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
 using Web_ActiveWorks.Models;
 
@@ -60,33 +58,21 @@ public sealed class PluginCatalogService
         }
 
         var manifest = manifestEntry.Manifest;
-        var packageRoot = ResolveChildPath(manifestEntry.DirectoryPath, string.IsNullOrWhiteSpace(manifest.PackagePath)
-            ? manifestEntry.DirectoryPath
-            : manifest.PackagePath.Replace('/', Path.DirectorySeparatorChar));
-
-        var stream = new MemoryStream();
-        using (var archive = new ZipArchive(stream, ZipArchiveMode.Create, leaveOpen: true, Encoding.UTF8))
+        if (!string.IsNullOrWhiteSpace(manifest.PackagePath) &&
+            string.Equals(Path.GetExtension(manifest.PackagePath), ".zip", StringComparison.OrdinalIgnoreCase))
         {
-            AddTextEntry(archive, "plugin.json", JsonSerializer.Serialize(manifest, _jsonOptions));
-            AddTextEntry(archive, "install-readme.txt", BuildInstallReadme(manifest));
-
-            foreach (var file in manifest.Files)
+            var zipPath = ResolveChildPath(manifestEntry.DirectoryPath, manifest.PackagePath.Replace('/', Path.DirectorySeparatorChar));
+            if (!File.Exists(zipPath))
             {
-                var sourcePath = ResolveChildPath(packageRoot, file.Path.Replace('/', Path.DirectorySeparatorChar));
-                if (!File.Exists(sourcePath))
-                {
-                    continue;
-                }
-
-                var entryPath = GetZipEntryPath(file);
-                archive.CreateEntryFromFile(sourcePath, entryPath, CompressionLevel.Optimal);
+                return null;
             }
+
+            return new PluginDownloadPackage(
+                File.OpenRead(zipPath),
+                Path.GetFileName(zipPath));
         }
 
-        stream.Position = 0;
-        return new PluginDownloadPackage(
-            stream,
-            BuildSafeFileName(manifest.Id, manifest.Version) + ".zip");
+        return null;
     }
 
     private async Task<IReadOnlyList<PluginManifestEntry>> LoadManifestsAsync()
@@ -97,11 +83,7 @@ public sealed class PluginCatalogService
             return Array.Empty<PluginManifestEntry>();
         }
 
-        var options = GetOptions();
-        var manifestPaths = Directory
-            .GetFiles(pluginRoot, options.ManifestFileName, SearchOption.AllDirectories)
-            .OrderBy(x => x, StringComparer.OrdinalIgnoreCase)
-            .ToList();
+        var manifestPaths = await GetManifestPathsAsync(pluginRoot);
 
         var result = new List<PluginManifestEntry>();
         foreach (var manifestPath in manifestPaths)
@@ -125,6 +107,41 @@ public sealed class PluginCatalogService
         }
 
         return result;
+    }
+
+    private async Task<List<string>> GetManifestPathsAsync(string pluginRoot)
+    {
+        var options = GetOptions();
+        var catalogPath = Path.Combine(pluginRoot, options.CatalogFileName);
+        if (File.Exists(catalogPath))
+        {
+            try
+            {
+                await using var catalogStream = File.OpenRead(catalogPath);
+                var catalog = await JsonSerializer.DeserializeAsync<PluginCatalogManifest>(catalogStream, _jsonOptions);
+                var paths = catalog?.Plugins?
+                    .Where(x => x is not null && !string.IsNullOrWhiteSpace(x.ManifestPath))
+                    .Select(x => ResolveChildPath(pluginRoot, x.ManifestPath.Replace('/', Path.DirectorySeparatorChar)))
+                    .Where(File.Exists)
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .OrderBy(x => x, StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+                if (paths is { Count: > 0 })
+                {
+                    return paths;
+                }
+            }
+            catch
+            {
+                // Fall back to scanning plugin folders if the catalog index is broken.
+            }
+        }
+
+        return Directory
+            .GetFiles(pluginRoot, options.ManifestFileName, SearchOption.AllDirectories)
+            .OrderBy(x => x, StringComparer.OrdinalIgnoreCase)
+            .ToList();
     }
 
     private async Task<PluginPackageManifest?> ReadManifestAsync(string manifestPath)
@@ -176,6 +193,12 @@ public sealed class PluginCatalogService
 
     private void UpdateFileMetadata(PluginPackageManifest manifest, string manifestDirectory)
     {
+        if (!string.IsNullOrWhiteSpace(manifest.PackagePath) &&
+            string.Equals(Path.GetExtension(manifest.PackagePath), ".zip", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
         var packageRoot = ResolveChildPath(manifestDirectory, string.IsNullOrWhiteSpace(manifest.PackagePath)
             ? manifestDirectory
             : manifest.PackagePath.Replace('/', Path.DirectorySeparatorChar));
@@ -235,37 +258,6 @@ public sealed class PluginCatalogService
         return fullPath;
     }
 
-    private static string GetZipEntryPath(PluginPackageFile file)
-    {
-        var targetPath = NormalizeRelativePath(string.IsNullOrWhiteSpace(file.TargetPath) ? file.Path : file.TargetPath);
-        if (string.Equals(file.TargetRoot, PluginInstallTarget.Application, StringComparison.OrdinalIgnoreCase))
-        {
-            return NormalizeRelativePath(Path.Combine("Application", targetPath));
-        }
-
-        return NormalizeRelativePath(Path.Combine("Profiles", "_PROFILE_", "Plugins", targetPath));
-    }
-
-    private static string BuildInstallReadme(PluginPackageManifest manifest)
-    {
-        var builder = new StringBuilder();
-        builder.AppendLine("ActiveWorks plugin package");
-        builder.AppendLine();
-        builder.AppendLine("Plugin: " + manifest.Name);
-        builder.AppendLine("Version: " + manifest.Version);
-        builder.AppendLine();
-        builder.AppendLine("Copy files from Application to the folder with ActiveWorks.exe.");
-        builder.AppendLine("Copy files from Profiles/_PROFILE_/Plugins to Profiles/<user profile>/Plugins.");
-        return builder.ToString();
-    }
-
-    private static void AddTextEntry(ZipArchive archive, string entryName, string content)
-    {
-        var entry = archive.CreateEntry(entryName, CompressionLevel.Optimal);
-        using var writer = new StreamWriter(entry.Open(), Encoding.UTF8);
-        writer.Write(content);
-    }
-
     private static string NormalizeRelativePath(string path) =>
         (path ?? string.Empty).Replace('\\', '/').TrimStart('/');
 
@@ -274,17 +266,6 @@ public sealed class PluginCatalogService
         using var stream = File.OpenRead(path);
         var hash = SHA256.HashData(stream);
         return Convert.ToHexString(hash).ToLowerInvariant();
-    }
-
-    private static string BuildSafeFileName(string id, string version)
-    {
-        var value = string.IsNullOrWhiteSpace(version) ? id : id + "-" + version;
-        var invalid = Path.GetInvalidFileNameChars();
-        var chars = value
-            .Select(ch => invalid.Contains(ch) ? '-' : ch)
-            .ToArray();
-
-        return new string(chars);
     }
 
     private sealed record PluginManifestEntry(PluginPackageManifest Manifest, string DirectoryPath);
