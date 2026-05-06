@@ -137,8 +137,7 @@ public class Program
 
                 var options = configuration.GetSection("Licensing").Get<LicenseOptions>() ?? new LicenseOptions();
                 var updateRoot = ResolvePath(environment.ContentRootPath, options.UpdateRootPath);
-                var fullPath = Path.GetFullPath(Path.Combine(updateRoot, path.Replace('/', Path.DirectorySeparatorChar)));
-                if (!fullPath.StartsWith(Path.GetFullPath(updateRoot), StringComparison.OrdinalIgnoreCase) || !System.IO.File.Exists(fullPath))
+                if (!TryResolveUpdateDownloadPath(updateRoot, path, out var fullPath) || !System.IO.File.Exists(fullPath))
                 {
                     return Results.NotFound();
                 }
@@ -271,6 +270,39 @@ public class Program
             ? path
             : Path.GetFullPath(Path.Combine(contentRootPath, path));
     }
+
+    private static bool TryResolveUpdateDownloadPath(string updateRoot, string requestPath, out string fullPath)
+    {
+        fullPath = string.Empty;
+        if (string.IsNullOrWhiteSpace(requestPath))
+        {
+            return false;
+        }
+
+        var segments = requestPath
+            .Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+        if (segments.Length == 0 || segments.Any(IsUnsafePathSegment))
+        {
+            return false;
+        }
+
+        var updateRootFullPath = Path.GetFullPath(updateRoot);
+        var candidate = Path.GetFullPath(Path.Combine(new[] { updateRootFullPath }.Concat(segments).ToArray()));
+        var rootPrefix = updateRootFullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+        if (!candidate.StartsWith(rootPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        fullPath = candidate;
+        return true;
+    }
+
+    private static bool IsUnsafePathSegment(string segment) =>
+        string.IsNullOrWhiteSpace(segment) ||
+        segment == "." ||
+        segment == ".." ||
+        segment.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0;
 
     private static IResult CreateLicenseTokenResult(
         LicenseSubscription license,
