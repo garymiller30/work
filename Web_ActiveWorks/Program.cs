@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using System.Text.Json;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Web_ActiveWorks.Components;
@@ -35,6 +36,7 @@ public class Program
         builder.Services.AddSingleton<MongoProfileDataService>();
         builder.Services.AddSingleton<LicenseStore>();
         builder.Services.AddSingleton<LicenseTokenService>();
+        builder.Services.AddSingleton<PluginCatalogService>();
 
         var app = builder.Build();
 
@@ -144,6 +146,51 @@ public class Program
                 return Results.File(fullPath, "application/octet-stream", Path.GetFileName(fullPath));
             });
 
+        app.MapGet(
+            "/api/plugins",
+            async (HttpContext httpContext, PluginCatalogService pluginCatalogService, LicenseTokenService tokenService) =>
+            {
+                if (!TryAuthorizeDownloads(httpContext, tokenService))
+                {
+                    return Results.StatusCode(StatusCodes.Status403Forbidden);
+                }
+
+                return Results.Ok(await pluginCatalogService.GetCatalogAsync());
+            });
+
+        app.MapGet(
+            "/api/plugins/{id}/manifest",
+            async (string id, HttpContext httpContext, PluginCatalogService pluginCatalogService, LicenseTokenService tokenService) =>
+            {
+                if (!TryAuthorizeDownloads(httpContext, tokenService))
+                {
+                    return Results.StatusCode(StatusCodes.Status403Forbidden);
+                }
+
+                var manifest = await pluginCatalogService.FindManifestAsync(id);
+                return manifest is null
+                    ? Results.NotFound()
+                    : Results.Json(manifest, new JsonSerializerOptions(JsonSerializerDefaults.Web)
+                    {
+                        WriteIndented = true
+                    });
+            });
+
+        app.MapGet(
+            "/api/plugins/{id}/download",
+            async (string id, HttpContext httpContext, PluginCatalogService pluginCatalogService, LicenseTokenService tokenService) =>
+            {
+                if (!TryAuthorizeDownloads(httpContext, tokenService))
+                {
+                    return Results.StatusCode(StatusCodes.Status403Forbidden);
+                }
+
+                var package = await pluginCatalogService.BuildDownloadPackageAsync(id);
+                return package is null
+                    ? Results.NotFound()
+                    : Results.File(package.Content, "application/zip", package.FileName);
+            });
+
         app.MapPost(
                 "/account/login",
                 async Task<IResult> (
@@ -206,6 +253,16 @@ public class Program
         }
 
         return tokenService.AllowsUpdates(authorization[bearerPrefix.Length..].Trim());
+    }
+
+    private static bool TryAuthorizeDownloads(HttpContext httpContext, LicenseTokenService tokenService)
+    {
+        if (httpContext.User.Identity?.IsAuthenticated == true)
+        {
+            return true;
+        }
+
+        return TryAuthorizeUpdates(httpContext, tokenService);
     }
 
     private static string ResolvePath(string contentRootPath, string path)

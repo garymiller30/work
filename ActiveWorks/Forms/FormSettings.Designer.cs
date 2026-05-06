@@ -1926,19 +1926,21 @@
             // 
             this.objectListViewPlugins.AllColumns.Add(this.olvColumnPluginName);
             this.objectListViewPlugins.AllColumns.Add(this.olvColumnPluginDescription);
+            this.objectListViewPlugins.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.objectListViewPlugins.CellEditUseWholeCell = false;
             this.objectListViewPlugins.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumnPluginName,
             this.olvColumnPluginDescription});
             this.objectListViewPlugins.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListViewPlugins.Dock = System.Windows.Forms.DockStyle.Fill;
             this.objectListViewPlugins.FullRowSelect = true;
             this.objectListViewPlugins.GridLines = true;
             this.objectListViewPlugins.HideSelection = false;
-            this.objectListViewPlugins.Location = new System.Drawing.Point(3, 3);
+            this.objectListViewPlugins.Location = new System.Drawing.Point(3, 45);
             this.objectListViewPlugins.Name = "objectListViewPlugins";
             this.objectListViewPlugins.ShowGroups = false;
-            this.objectListViewPlugins.Size = new System.Drawing.Size(693, 361);
+            this.objectListViewPlugins.Size = new System.Drawing.Size(693, 319);
             this.objectListViewPlugins.TabIndex = 0;
             this.objectListViewPlugins.UseCompatibleStateImageBehavior = false;
             this.objectListViewPlugins.View = System.Windows.Forms.View.Details;

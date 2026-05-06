@@ -20,6 +20,7 @@ namespace Plugins
 {
     public sealed class PluginManager : IPluginManager
     {
+        private const string DisabledPluginsFileName = "disabled-plugins.txt";
         private readonly IUserProfile _profile;
         private readonly string _pluginsPath;
         private readonly string _pluginsSettingsPath;
@@ -66,11 +67,18 @@ namespace Plugins
             if (Directory.Exists(path))
             {
                 Stopwatch _sw = new Stopwatch();
+                var disabledPluginFiles = LoadDisabledPluginFiles(path);
 
                 var files = new DirectoryInfo(path).GetFiles("*.dll");
 
                 foreach (var fi in files)
                 {
+                    if (disabledPluginFiles.Contains(fi.Name))
+                    {
+                        Log.Info(this, $"({_profile.Settings.ProfileName}) Plugin Manager : Disabled: ", fi.Name);
+                        continue;
+                    }
+
                     _sw.Start();
                     Log.Info(this, $"({_profile.Settings.ProfileName}) Plugin Manager : Loading: ", fi.Name);
                     try
@@ -188,6 +196,21 @@ namespace Plugins
                 //Log.Info(this,"Plugin Manager : BeforeJobChange - End : ",plugin.Value.PluginName);
                 //InvokeMethod(plugin.Key, "BeforeJobChange",job);
             }
+        }
+
+        private static HashSet<string> LoadDisabledPluginFiles(string pluginsPath)
+        {
+            var path = Path.Combine(pluginsPath, DisabledPluginsFileName);
+            if (!File.Exists(path))
+            {
+                return new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            }
+
+            return new HashSet<string>(
+                File.ReadAllLines(path)
+                    .Select(x => (x ?? string.Empty).Trim())
+                    .Where(x => !string.IsNullOrWhiteSpace(x)),
+                StringComparer.OrdinalIgnoreCase);
         }
 
         public void AfterJobChange(IJob job)
