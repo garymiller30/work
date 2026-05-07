@@ -16,57 +16,6 @@
     <PackageReference Version="5.3.0" Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Version="5.3.0" Include="Microsoft.CodeAnalysis.CSharp.Scripting" />
     <PackageReference Version="5.3.0" Include="Microsoft.CodeAnalysis.Scripting.Common" />
-    <PackageReference Version="4.7.0" Include="Microsoft.CSharp" />
-    <PackageReference Version="4.3.0" Include="System.AppContext" />
-    <PackageReference Version="4.6.1" Include="System.Buffers" />
-    <PackageReference Version="4.3.0" Include="System.Collections" />
-    <PackageReference Version="4.3.0" Include="System.Collections.Concurrent" />
-    <PackageReference Version="10.0.7" Include="System.Collections.Immutable" />
-    <PackageReference Version="4.3.1" Include="System.Console" />
-    <PackageReference Version="4.3.0" Include="System.Diagnostics.Debug" />
-    <PackageReference Version="4.3.0" Include="System.Diagnostics.FileVersionInfo" />
-    <PackageReference Version="4.3.0" Include="System.Diagnostics.StackTrace" />
-    <PackageReference Version="4.3.0" Include="System.Diagnostics.Tools" />
-    <PackageReference Version="4.3.0" Include="System.Dynamic.Runtime" />
-    <PackageReference Version="4.3.0" Include="System.Globalization" />
-    <PackageReference Version="4.3.0" Include="System.IO" />
-    <PackageReference Version="4.3.0" Include="System.IO.Compression" />
-    <PackageReference Version="4.3.0" Include="System.IO.FileSystem" />
-    <PackageReference Version="4.3.0" Include="System.IO.FileSystem.Primitives" />
-    <PackageReference Version="10.0.7" Include="System.IO.Pipelines" />
-    <PackageReference Version="4.3.0" Include="System.Linq" />
-    <PackageReference Version="4.3.0" Include="System.Linq.Expressions" />
-    <PackageReference Version="4.6.3" Include="System.Memory" />
-    <PackageReference Version="4.6.1" Include="System.Numerics.Vectors" />
-    <PackageReference Version="4.3.0" Include="System.Reflection" />
-    <PackageReference Version="4.3.0" Include="System.Reflection.Extensions" />
-    <PackageReference Version="10.0.7" Include="System.Reflection.Metadata" />
-    <PackageReference Version="4.3.0" Include="System.Resources.ResourceManager" />
-    <PackageReference Version="4.3.1" Include="System.Runtime" />
-    <PackageReference Version="6.1.2" Include="System.Runtime.CompilerServices.Unsafe" />
-    <PackageReference Version="4.3.1" Include="System.Runtime.Extensions" />
-    <PackageReference Version="4.3.0" Include="System.Runtime.InteropServices" />
-    <PackageReference Version="4.3.0" Include="System.Runtime.Numerics" />
-    <PackageReference Version="4.3.1" Include="System.Security.Cryptography.Algorithms" />
-    <PackageReference Version="4.3.0" Include="System.Security.Cryptography.Encoding" />
-    <PackageReference Version="4.3.0" Include="System.Security.Cryptography.Primitives" />
-    <PackageReference Version="4.3.2" Include="System.Security.Cryptography.X509Certificates" />
-    <PackageReference Version="4.3.0" Include="System.Text.Encoding" />
-    <PackageReference Version="10.0.7" Include="System.Text.Encoding.CodePages" />
-    <PackageReference Version="4.3.0" Include="System.Text.Encoding.Extensions" />
-    <PackageReference Version="10.0.7" Include="System.Text.Encodings.Web" />
-    <PackageReference Version="10.0.7" Include="System.Text.Json" />
-    <PackageReference Version="4.3.0" Include="System.Threading" />
-    <PackageReference Version="4.3.0" Include="System.Threading.Tasks" />
-    <PackageReference Version="4.6.3" Include="System.Threading.Tasks.Extensions" />
-    <PackageReference Version="4.3.0" Include="System.Threading.Tasks.Parallel" />
-    <PackageReference Version="4.3.0" Include="System.Threading.Thread" />
-    <PackageReference Version="4.3.1" Include="System.Xml.ReaderWriter" />
-    <PackageReference Version="4.3.0" Include="System.Xml.XDocument" />
-    <PackageReference Version="4.3.0" Include="System.Xml.XmlDocument" />
-    <PackageReference Version="4.3.0" Include="System.Xml.XPath" />
-    <PackageReference Version="4.3.0" Include="System.Xml.XPath.XDocument" />
-    <PackageReference Version="10.0.7" Include="System.Resources.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ValueTuple" />
