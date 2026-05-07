@@ -12,7 +12,6 @@
   <ItemGroup>
     <PackageReference Version="13.0.4" Include="Newtonsoft.Json" />
     <PackageReference Include="ObjectListView.Repack.NET6Plus" Version="2.9.5" />
-    <PackageReference Version="10.0.5" Include="System.Resources.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Properties\Settings.settings">

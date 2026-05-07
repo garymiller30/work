@@ -12,7 +12,6 @@
   <ItemGroup>
     <PackageReference Version="0.11.0" Include="Microsoft.DependencyValidation.Analyzers" />
     <PackageReference Version="13.0.4" Include="Newtonsoft.Json" />
-    <PackageReference Version="10.0.7" Include="System.Resources.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj" />

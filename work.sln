@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31912.275
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11723.231 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4E8727C8-DA41-4C8F-A9D5-EC838A777BC7}"
 	ProjectSection(SolutionItems) = preProject
@@ -39,11 +39,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "Interfaces\In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeekReport", "WeekReport\WeekReport.csproj", "{BE3F4CC7-1C9D-4F49-862E-BDF25E84858E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaticFiles", "StaticFiles\StaticFiles.csproj", "{C3715EAD-232D-4B0F-8D21-0D50BF2CA4CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginStaticFiles", "StaticFiles\PluginStaticFiles.csproj", "{C3715EAD-232D-4B0F-8D21-0D50BF2CA4CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{AC6CFED7-8E64-469F-A97D-C25B644CD8A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderInfo", "OrderInfo\OrderInfo.csproj", "{AF13E994-0F4D-42AF-A20F-6D3ABD53F9FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginOrderInfo", "OrderInfo\PluginOrderInfo.csproj", "{AF13E994-0F4D-42AF-A20F-6D3ABD53F9FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowProgress", "ShowProgress\ShowProgress.csproj", "{75C06626-64C3-4683-90DE-BD87ADF64C29}"
 EndProject

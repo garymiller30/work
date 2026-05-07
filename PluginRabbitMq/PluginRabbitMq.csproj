@@ -13,13 +13,6 @@
     <PackageReference Version="7.8.0" Include="EasyNetQ" />
     <PackageReference Version="13.0.4" Include="Newtonsoft.Json" />
     <PackageReference Version="6.8.1" Include="RabbitMQ.Client" />
-    <PackageReference Version="4.6.0" Include="System.Buffers" />
-    <PackageReference Version="4.6.0" Include="System.Memory" />
-    <PackageReference Version="4.6.0" Include="System.Numerics.Vectors" />
-    <PackageReference Version="6.1.0" Include="System.Runtime.CompilerServices.Unsafe" />
-    <PackageReference Version="8.0.0" Include="System.Threading.Channels" />
-    <PackageReference Version="4.5.4" Include="System.Threading.Tasks.Extensions" />
-    <PackageReference Version="10.0.5" Include="System.Resources.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Logger">
