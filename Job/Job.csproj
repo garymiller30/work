@@ -104,7 +104,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ColorTables\*.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="PDFlib_dotnet_native.dll" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="mongocrypt.dll" />
   </ItemGroup>

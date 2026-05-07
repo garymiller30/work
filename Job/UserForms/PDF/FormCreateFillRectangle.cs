@@ -12,7 +12,7 @@ namespace JobSpace.UserForms.PDF
 {
     public partial class FormCreateFillRectangle : Form
     {
-        const string PANTONE_PATH = "ColorTables";
+        const string PANTONE_PATH = "db\\ColorTables";
         List<Models.ColorTable> pantone_tables = new List<Models.ColorTable>();
         
 
