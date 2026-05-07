@@ -11,8 +11,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Version="0.11.0" Include="Microsoft.DependencyValidation.Analyzers" />
-    <PackageReference Version="2.9.1" Include="ObjectListView.Official" />
-    <PackageReference Version="10.0.5" Include="System.Resources.Extensions" />
+    <PackageReference Include="ObjectListView.Repack.NET6Plus" Version="2.9.5" />
+    <PackageReference Version="10.0.7" Include="System.Resources.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="RulesService">

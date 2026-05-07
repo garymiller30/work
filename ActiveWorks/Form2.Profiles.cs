@@ -90,7 +90,7 @@ namespace ActiveWorks
                 MdiParent = this
             };
 
-            SplashScreen.Splash.SetHeader(profile.Settings.ProfileName, ContentAlignment.TopRight);
+            SplashScreen.Splash.SetHeader(profile.Settings.ProfileName);
             SplashScreen.Splash.SetStatus("завантажуємо налаштування...");
 
             formProfile.InitProfile();

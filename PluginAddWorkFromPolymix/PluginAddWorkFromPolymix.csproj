@@ -26,18 +26,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ObjectListView.Repack.NET6Plus" Version="2.9.5" />
     <PackageReference Include="Krypton.Toolkit" Version="105.26.4.110" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
-    <PackageReference Include="System.Text.Json" Version="10.0.5" />
+    <PackageReference Include="System.Reflection.Metadata" Version="10.0.7" />
+    <PackageReference Include="System.Text.Json" Version="10.0.7" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="ObjectListView">
-      <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
