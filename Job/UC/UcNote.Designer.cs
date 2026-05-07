@@ -48,6 +48,7 @@
             // 
             // kryptonRichTextBox1
             // 
+            kryptonRichTextBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             kryptonRichTextBox1.Location = new System.Drawing.Point(0, 29);
             kryptonRichTextBox1.Margin = new System.Windows.Forms.Padding(0);
             kryptonRichTextBox1.Name = "kryptonRichTextBox1";
@@ -181,6 +182,7 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoSize = true;
             Controls.Add(toolStrip1);
             Controls.Add(kryptonRichTextBox1);
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);

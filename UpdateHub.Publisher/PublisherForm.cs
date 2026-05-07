@@ -282,14 +282,30 @@ namespace UpdateHubPublisher
             try
             {
                 var pluginFile = RequireFile(_pluginFileTextBox.Text, "Plugin DLL");
+                var pluginFolder = Path.GetDirectoryName(pluginFile);
                 var projectFile = FindPluginProjectFile(pluginFile);
-                if (string.IsNullOrWhiteSpace(projectFile))
+                string publishRoot;
+
+                if (IsPublishedPluginOutput(pluginFile))
                 {
-                    MessageBox.Show(this, "Could not find a .csproj for the selected plugin DLL.", "Plugin Publisher", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    publishRoot = pluginFolder;
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(projectFile))
+                    {
+                        MessageBox.Show(
+                            this,
+                            "Could not find a .csproj for the selected plugin DLL. Select a plugin DLL from a dotnet publish output folder, or select a DLL under the project bin folder.",
+                            "Plugin Publisher",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    publishRoot = PublishPluginForDependencyDiscovery(projectFile, pluginFile);
                 }
 
-                var publishRoot = PublishPluginForDependencyDiscovery(projectFile, pluginFile);
                 var applicationFiles = GetApplicationFilesForDependencyFiltering(pluginFile);
                 var dependencies = DiscoverPublishedDependencyFiles(projectFile, pluginFile, publishRoot, applicationFiles).ToList();
                 var existing = GetLines(_pluginDependencyFilesTextBox).ToList();
@@ -315,6 +331,13 @@ namespace UpdateHubPublisher
             {
                 MessageBox.Show(this, ex.Message, "Plugin Publisher", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private static bool IsPublishedPluginOutput(string pluginFile)
+        {
+            var pluginFolder = Path.GetDirectoryName(pluginFile);
+            var pluginBaseName = Path.GetFileNameWithoutExtension(pluginFile);
+            return File.Exists(Path.Combine(pluginFolder, pluginBaseName + ".deps.json"));
         }
 
         private void ReadSelectedPluginMetadata(bool showMessages)
@@ -510,7 +533,10 @@ namespace UpdateHubPublisher
             string publishRoot,
             HashSet<string> applicationFiles)
         {
-            var assetPaths = GetPackageRuntimeAssetPaths(projectFile);
+            var assetPaths = string.IsNullOrWhiteSpace(projectFile)
+                ? new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                : GetPackageRuntimeAssetPaths(projectFile);
+            var useAssetFilter = assetPaths.Count > 0;
             var pluginFileName = Path.GetFileName(pluginFile);
             foreach (var file in Directory.GetFiles(publishRoot, "*", SearchOption.AllDirectories))
             {
@@ -522,7 +548,14 @@ namespace UpdateHubPublisher
                     continue;
                 }
 
-                if (!assetPaths.Contains(relativePath) && !assetPaths.Contains(fileName))
+                if (useAssetFilter)
+                {
+                    if (!assetPaths.Contains(relativePath) && !assetPaths.Contains(fileName))
+                    {
+                        continue;
+                    }
+                }
+                else if (!IsDependencyCandidateFile(relativePath))
                 {
                     continue;
                 }
@@ -538,6 +571,14 @@ namespace UpdateHubPublisher
                     TargetPath = relativePath
                 };
             }
+        }
+
+        private static bool IsDependencyCandidateFile(string relativePath)
+        {
+            var extension = Path.GetExtension(relativePath);
+            return string.Equals(extension, ".dll", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(extension, ".config", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(extension, ".json", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool ApplicationAlreadyContainsDependency(HashSet<string> applicationFiles, string relativePath)

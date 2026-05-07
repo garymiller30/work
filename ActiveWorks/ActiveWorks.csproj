@@ -110,6 +110,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="db\ColorTables\PANTONE PLUS solid coated-V3.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="db\ColorTables\PANTONE PLUS solid uncoated-V3.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="db\ColorTables\PANTONE Solid Coated-V4.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="db\ColorTables\PANTONE Solid Uncoated-V4.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="db\paper_thickness.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="db\resources\pdftool_icons\add_page_size.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
