@@ -37,6 +37,9 @@
     <Reference Include="EasyNetQ, Version=7.0.0.0, Culture=neutral, PublicKeyToken=8b1766e46498eb4b, processorArchitecture=MSIL">
       <HintPath>..\packages\EasyNetQ.7.8.0\lib\netstandard2.0\EasyNetQ.dll</HintPath>
     </Reference>
+    <Reference Include="Logger" Condition="Exists('..\Logger\bin\$(Configuration)\Logger.dll')">
+      <HintPath>..\Logger\bin\$(Configuration)\Logger.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -90,10 +93,12 @@
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{BB0FE1FA-8C37-4E59-A548-669F97109E64}</Project>
       <Name>Interfaces</Name>
+      <SetTargetFramework>TargetFramework=net48</SetTargetFramework>
     </ProjectReference>
     <ProjectReference Include="..\Logger\Logger.csproj">
       <Project>{AC6CFED7-8E64-469F-A97D-C25B644CD8A3}</Project>
       <Name>Logger</Name>
+      <SetTargetFramework>TargetFramework=net48</SetTargetFramework>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

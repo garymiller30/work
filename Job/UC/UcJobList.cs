@@ -22,6 +22,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static JobSpace.Static.NaturalSorting;
+using OokiiTaskDialog = Ookii.Dialogs.WinForms.TaskDialog;
+using OokiiTaskDialogButton = Ookii.Dialogs.WinForms.TaskDialogButton;
 
 namespace JobSpace.UC
 {
@@ -540,9 +542,9 @@ namespace JobSpace.UC
         {
             if (objectListView_NewWorks.SelectedObjects.Count > 0)
             {
-                TaskDialog td = new TaskDialog();
-                td.Buttons.Add(new TaskDialogButton(ButtonType.Yes));
-                td.Buttons.Add(new TaskDialogButton(ButtonType.Cancel));
+                OokiiTaskDialog td = new OokiiTaskDialog();
+                td.Buttons.Add(new OokiiTaskDialogButton(ButtonType.Yes));
+                td.Buttons.Add(new OokiiTaskDialogButton(ButtonType.Cancel));
                 td.WindowTitle = "Видалення робіт";
                 td.Content = "Видалити вибрані роботи?\nВидаляється тільки запис з бази данних, файли залишаються";
                 var button = td.ShowDialog();

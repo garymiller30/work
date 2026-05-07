@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -17,6 +17,7 @@ namespace CasheViewer
 
         static string baseUrlAll = "https://bank.gov.ua/NBUStatService/v1/statdirectory/inflation?id_api=prices_price_cpi_&MCRD081=Total&TZEP=PCPM_&period=m&json";
         static string baseUrl = "https://bank.gov.ua/NBUStatService/v1/statdirectory/inflation";
+        static readonly HttpClient client = new HttpClient();
         static Dictionary<string, string> parameters = new Dictionary<string, string>() {
             {"id_api","prices_price_cpi_"},
             { "MCRD081","Total"},
@@ -39,18 +40,13 @@ namespace CasheViewer
 
             //parameters["start"] = $"{year}{monthStart:D2}01";
             url += string.Join("&", parameters.Select(kv => $"{kv.Key}={kv.Value}"));
-            using (var client = new System.Net.WebClient())
+            string json = client.GetStringAsync(url).GetAwaiter().GetResult();
+            if (string.IsNullOrEmpty(json))
             {
-                client.Encoding = Encoding.UTF8;
-                string json = client.DownloadString(url);
-                if (string.IsNullOrEmpty(json))
-                {
-                    return new List<ConsumerPriceView>() { new ConsumerPriceView() };
-                }
-
-                res = JsonSerializer.Deserialize<List<ConsumerPrice>>(json);
+                return new List<ConsumerPriceView>() { new ConsumerPriceView() };
             }
 
+            res = JsonSerializer.Deserialize<List<ConsumerPrice>>(json);
 
             var filtered = res.Where(x => x.ku == null);
             res = filtered.OrderBy(x => x.dt).ToList();
@@ -70,17 +66,13 @@ namespace CasheViewer
 
         private static void LoadAllPrices()
         {
-            using (var client = new System.Net.WebClient())
+            string json = client.GetStringAsync(baseUrlAll).GetAwaiter().GetResult();
+            if (string.IsNullOrEmpty(json))
             {
-                client.Encoding = Encoding.UTF8;
-                string json = client.DownloadString(baseUrlAll);
-                if (string.IsNullOrEmpty(json))
-                {
-                    return ;
-                }
-
-                allPrices = JsonSerializer.Deserialize<List<ConsumerPrice>>(json);
+                return ;
             }
+
+            allPrices = JsonSerializer.Deserialize<List<ConsumerPrice>>(json);
         }
 
         public static ConsumerPriceView GetConsumerPrice(DateTime date)

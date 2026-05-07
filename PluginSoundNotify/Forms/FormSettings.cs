@@ -181,7 +181,11 @@ namespace PluginSoundNotify.Forms
         {
             Task.Run(() =>
                 {
-                    var wplayer = new WMPLib.WindowsMediaPlayer { URL = _selectedSoundSettings.FileName };
+                    var playerType = Type.GetTypeFromProgID("WMPlayer.OCX");
+                    if (playerType == null) return;
+
+                    dynamic wplayer = Activator.CreateInstance(playerType);
+                    wplayer.URL = _selectedSoundSettings.FileName;
                     wplayer.controls.play();
                 }).ConfigureAwait(false);
         }
