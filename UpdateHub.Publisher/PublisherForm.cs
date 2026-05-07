@@ -333,7 +333,11 @@ namespace UpdateHubPublisher
             try
             {
                 var metadata = PluginMetadataReader.Read(pluginFile);
-                if (string.IsNullOrWhiteSpace(_pluginIdTextBox.Text))
+                if (!string.IsNullOrWhiteSpace(metadata.Id))
+                {
+                    _pluginIdTextBox.Text = metadata.Id;
+                }
+                else if (string.IsNullOrWhiteSpace(_pluginIdTextBox.Text))
                 {
                     _pluginIdTextBox.Text = Path.GetFileNameWithoutExtension(pluginFile);
                 }
@@ -1418,6 +1422,8 @@ namespace UpdateHubPublisher
 
     internal sealed class PluginMetadata
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -1430,9 +1436,11 @@ namespace UpdateHubPublisher
         public static PluginMetadata Read(string pluginFile)
         {
             var assembly = Assembly.LoadFrom(pluginFile);
+            var assemblyTitle = GetAttribute<AssemblyTitleAttribute>(assembly)?.Title;
             var metadata = new PluginMetadata
             {
-                Name = GetAttribute<AssemblyTitleAttribute>(assembly)?.Title,
+                Id = assemblyTitle,
+                Name = assemblyTitle,
                 Description = GetAttribute<AssemblyDescriptionAttribute>(assembly)?.Description,
                 Version = assembly.GetName().Version?.ToString()
             };
