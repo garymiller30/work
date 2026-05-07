@@ -18,10 +18,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Krypton.Docking" Version="100.26.1.19" />
-    <PackageReference Include="Krypton.Navigator" Version="100.26.1.19" />
-    <PackageReference Include="Krypton.Toolkit" Version="100.26.1.19" />
-    <PackageReference Include="Krypton.Workspace" Version="100.26.1.19" />
+    <PackageReference Include="Krypton.Docking" Version="105.26.4.110" />
+    <PackageReference Include="Krypton.Navigator" Version="105.26.4.110" />
+    <PackageReference Include="Krypton.Toolkit" Version="105.26.4.110" />
+    <PackageReference Include="Krypton.Workspace" Version="105.26.4.110" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3595.46" />
     <PackageReference Include="System.Buffers" Version="4.6.1" />
