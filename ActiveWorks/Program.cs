@@ -16,6 +16,7 @@ namespace ActiveWorks
         [STAThread]
         static void Main()
         {
+            AppContext.SetSwitch("System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization", true);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
