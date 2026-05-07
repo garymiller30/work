@@ -29,181 +29,167 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcNote));
-            this.kryptonRichTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButtonBold = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonItalic = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonStrikethrough = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonUnderline = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonReset = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonAlignLeft = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonAlignCenter = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonAlignRight = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonSelectedColor = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonColor = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip1.SuspendLayout();
-            this.SuspendLayout();
+            kryptonRichTextBox1 = new System.Windows.Forms.RichTextBox();
+            toolStrip1 = new System.Windows.Forms.ToolStrip();
+            toolStripButtonBold = new System.Windows.Forms.ToolStripButton();
+            toolStripButtonItalic = new System.Windows.Forms.ToolStripButton();
+            toolStripButtonStrikethrough = new System.Windows.Forms.ToolStripButton();
+            toolStripButtonUnderline = new System.Windows.Forms.ToolStripButton();
+            toolStripButtonReset = new System.Windows.Forms.ToolStripButton();
+            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            toolStripButtonAlignLeft = new System.Windows.Forms.ToolStripButton();
+            toolStripButtonAlignCenter = new System.Windows.Forms.ToolStripButton();
+            toolStripButtonAlignRight = new System.Windows.Forms.ToolStripButton();
+            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            toolStripButtonSelectedColor = new System.Windows.Forms.ToolStripButton();
+            toolStripButtonColor = new System.Windows.Forms.ToolStripButton();
+            toolStrip1.SuspendLayout();
+            SuspendLayout();
             // 
             // kryptonRichTextBox1
             // 
-            this.kryptonRichTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kryptonRichTextBox1.Location = new System.Drawing.Point(0, 25);
-            this.kryptonRichTextBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.kryptonRichTextBox1.Name = "kryptonRichTextBox1";
-            this.kryptonRichTextBox1.Size = new System.Drawing.Size(367, 182);
-            this.kryptonRichTextBox1.TabIndex = 0;
-            this.kryptonRichTextBox1.Text = "";
-            this.kryptonRichTextBox1.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.kryptonRichTextBox1_LinkClicked);
-            this.kryptonRichTextBox1.Leave += new System.EventHandler(this.kryptonRichTextBox1_Leave);
+            kryptonRichTextBox1.Location = new System.Drawing.Point(0, 29);
+            kryptonRichTextBox1.Margin = new System.Windows.Forms.Padding(0);
+            kryptonRichTextBox1.Name = "kryptonRichTextBox1";
+            kryptonRichTextBox1.Size = new System.Drawing.Size(428, 210);
+            kryptonRichTextBox1.TabIndex = 0;
+            kryptonRichTextBox1.Text = "";
+            kryptonRichTextBox1.LinkClicked += kryptonRichTextBox1_LinkClicked;
+            kryptonRichTextBox1.Leave += kryptonRichTextBox1_Leave;
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButtonBold,
-            this.toolStripButtonItalic,
-            this.toolStripButtonStrikethrough,
-            this.toolStripButtonUnderline,
-            this.toolStripButtonReset,
-            this.toolStripSeparator1,
-            this.toolStripButtonAlignLeft,
-            this.toolStripButtonAlignCenter,
-            this.toolStripButtonAlignRight,
-            this.toolStripSeparator2,
-            this.toolStripButtonSelectedColor,
-            this.toolStripButtonColor});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(367, 25);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
+            toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripButtonBold, toolStripButtonItalic, toolStripButtonStrikethrough, toolStripButtonUnderline, toolStripButtonReset, toolStripSeparator1, toolStripButtonAlignLeft, toolStripButtonAlignCenter, toolStripButtonAlignRight, toolStripSeparator2, toolStripButtonSelectedColor, toolStripButtonColor });
+            toolStrip1.Location = new System.Drawing.Point(0, 0);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            toolStrip1.Size = new System.Drawing.Size(428, 25);
+            toolStrip1.TabIndex = 1;
+            toolStrip1.Text = "toolStrip1";
             // 
             // toolStripButtonBold
             // 
-            this.toolStripButtonBold.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonBold.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonBold.Image")));
-            this.toolStripButtonBold.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonBold.Name = "toolStripButtonBold";
-            this.toolStripButtonBold.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonBold.Text = "Bold";
-            this.toolStripButtonBold.Click += new System.EventHandler(this.ToolStripButtonBold_Click);
+            toolStripButtonBold.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButtonBold.Image = (System.Drawing.Image)resources.GetObject("toolStripButtonBold.Image");
+            toolStripButtonBold.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButtonBold.Name = "toolStripButtonBold";
+            toolStripButtonBold.Size = new System.Drawing.Size(23, 22);
+            toolStripButtonBold.Text = "Bold";
+            toolStripButtonBold.Click += ToolStripButtonBold_Click;
             // 
             // toolStripButtonItalic
             // 
-            this.toolStripButtonItalic.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonItalic.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonItalic.Image")));
-            this.toolStripButtonItalic.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonItalic.Name = "toolStripButtonItalic";
-            this.toolStripButtonItalic.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonItalic.Text = "Italic";
-            this.toolStripButtonItalic.Click += new System.EventHandler(this.ToolStripButtonItalic_Click);
+            toolStripButtonItalic.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButtonItalic.Image = (System.Drawing.Image)resources.GetObject("toolStripButtonItalic.Image");
+            toolStripButtonItalic.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButtonItalic.Name = "toolStripButtonItalic";
+            toolStripButtonItalic.Size = new System.Drawing.Size(23, 22);
+            toolStripButtonItalic.Text = "Italic";
+            toolStripButtonItalic.Click += ToolStripButtonItalic_Click;
             // 
             // toolStripButtonStrikethrough
             // 
-            this.toolStripButtonStrikethrough.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonStrikethrough.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonStrikethrough.Image")));
-            this.toolStripButtonStrikethrough.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonStrikethrough.Name = "toolStripButtonStrikethrough";
-            this.toolStripButtonStrikethrough.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonStrikethrough.Text = "Strikeout";
-            this.toolStripButtonStrikethrough.Click += new System.EventHandler(this.ToolStripButtonStrikethrough_Click);
+            toolStripButtonStrikethrough.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButtonStrikethrough.Image = (System.Drawing.Image)resources.GetObject("toolStripButtonStrikethrough.Image");
+            toolStripButtonStrikethrough.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButtonStrikethrough.Name = "toolStripButtonStrikethrough";
+            toolStripButtonStrikethrough.Size = new System.Drawing.Size(23, 22);
+            toolStripButtonStrikethrough.Text = "Strikeout";
+            toolStripButtonStrikethrough.Click += ToolStripButtonStrikethrough_Click;
             // 
             // toolStripButtonUnderline
             // 
-            this.toolStripButtonUnderline.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonUnderline.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonUnderline.Image")));
-            this.toolStripButtonUnderline.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonUnderline.Name = "toolStripButtonUnderline";
-            this.toolStripButtonUnderline.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonUnderline.Text = "Underline";
-            this.toolStripButtonUnderline.Click += new System.EventHandler(this.ToolStripButtonUnderline_Click);
+            toolStripButtonUnderline.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButtonUnderline.Image = (System.Drawing.Image)resources.GetObject("toolStripButtonUnderline.Image");
+            toolStripButtonUnderline.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButtonUnderline.Name = "toolStripButtonUnderline";
+            toolStripButtonUnderline.Size = new System.Drawing.Size(23, 22);
+            toolStripButtonUnderline.Text = "Underline";
+            toolStripButtonUnderline.Click += ToolStripButtonUnderline_Click;
             // 
             // toolStripButtonReset
             // 
-            this.toolStripButtonReset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonReset.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonReset.Image")));
-            this.toolStripButtonReset.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonReset.Name = "toolStripButtonReset";
-            this.toolStripButtonReset.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonReset.Text = "Clear";
-            this.toolStripButtonReset.Click += new System.EventHandler(this.ToolStripButtonReset_Click);
+            toolStripButtonReset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButtonReset.Image = (System.Drawing.Image)resources.GetObject("toolStripButtonReset.Image");
+            toolStripButtonReset.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButtonReset.Name = "toolStripButtonReset";
+            toolStripButtonReset.Size = new System.Drawing.Size(23, 22);
+            toolStripButtonReset.Text = "Clear";
+            toolStripButtonReset.Click += ToolStripButtonReset_Click;
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButtonAlignLeft
             // 
-            this.toolStripButtonAlignLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonAlignLeft.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAlignLeft.Image")));
-            this.toolStripButtonAlignLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonAlignLeft.Name = "toolStripButtonAlignLeft";
-            this.toolStripButtonAlignLeft.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonAlignLeft.Text = "Align left";
-            this.toolStripButtonAlignLeft.Click += new System.EventHandler(this.ToolStripButtonAlignLeft_Click);
+            toolStripButtonAlignLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButtonAlignLeft.Image = (System.Drawing.Image)resources.GetObject("toolStripButtonAlignLeft.Image");
+            toolStripButtonAlignLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButtonAlignLeft.Name = "toolStripButtonAlignLeft";
+            toolStripButtonAlignLeft.Size = new System.Drawing.Size(23, 22);
+            toolStripButtonAlignLeft.Text = "Align left";
+            toolStripButtonAlignLeft.Click += ToolStripButtonAlignLeft_Click;
             // 
             // toolStripButtonAlignCenter
             // 
-            this.toolStripButtonAlignCenter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonAlignCenter.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAlignCenter.Image")));
-            this.toolStripButtonAlignCenter.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonAlignCenter.Name = "toolStripButtonAlignCenter";
-            this.toolStripButtonAlignCenter.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonAlignCenter.Text = "Align center";
-            this.toolStripButtonAlignCenter.Click += new System.EventHandler(this.ToolStripButtonAlignCenter_Click);
+            toolStripButtonAlignCenter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButtonAlignCenter.Image = (System.Drawing.Image)resources.GetObject("toolStripButtonAlignCenter.Image");
+            toolStripButtonAlignCenter.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButtonAlignCenter.Name = "toolStripButtonAlignCenter";
+            toolStripButtonAlignCenter.Size = new System.Drawing.Size(23, 22);
+            toolStripButtonAlignCenter.Text = "Align center";
+            toolStripButtonAlignCenter.Click += ToolStripButtonAlignCenter_Click;
             // 
             // toolStripButtonAlignRight
             // 
-            this.toolStripButtonAlignRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonAlignRight.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonAlignRight.Image")));
-            this.toolStripButtonAlignRight.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonAlignRight.Name = "toolStripButtonAlignRight";
-            this.toolStripButtonAlignRight.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonAlignRight.Text = "Align right";
-            this.toolStripButtonAlignRight.Click += new System.EventHandler(this.ToolStripButtonAlignRight_Click);
+            toolStripButtonAlignRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButtonAlignRight.Image = (System.Drawing.Image)resources.GetObject("toolStripButtonAlignRight.Image");
+            toolStripButtonAlignRight.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButtonAlignRight.Name = "toolStripButtonAlignRight";
+            toolStripButtonAlignRight.Size = new System.Drawing.Size(23, 22);
+            toolStripButtonAlignRight.Text = "Align right";
+            toolStripButtonAlignRight.Click += ToolStripButtonAlignRight_Click;
             // 
             // toolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // toolStripButtonSelectedColor
             // 
-            this.toolStripButtonSelectedColor.BackColor = System.Drawing.Color.Black;
-            this.toolStripButtonSelectedColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
-            this.toolStripButtonSelectedColor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonSelectedColor.Name = "toolStripButtonSelectedColor";
-            this.toolStripButtonSelectedColor.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonSelectedColor.Click += new System.EventHandler(this.ToolStripButtonSelectedColor_Click);
+            toolStripButtonSelectedColor.BackColor = System.Drawing.Color.Black;
+            toolStripButtonSelectedColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.None;
+            toolStripButtonSelectedColor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButtonSelectedColor.Name = "toolStripButtonSelectedColor";
+            toolStripButtonSelectedColor.Size = new System.Drawing.Size(23, 22);
+            toolStripButtonSelectedColor.Click += ToolStripButtonSelectedColor_Click;
             // 
             // toolStripButtonColor
             // 
-            this.toolStripButtonColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonColor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonColor.Image")));
-            this.toolStripButtonColor.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonColor.Name = "toolStripButtonColor";
-            this.toolStripButtonColor.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonColor.Text = "Select color";
-            this.toolStripButtonColor.Click += new System.EventHandler(this.ToolStripButtonColor_Click);
+            toolStripButtonColor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButtonColor.Image = (System.Drawing.Image)resources.GetObject("toolStripButtonColor.Image");
+            toolStripButtonColor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButtonColor.Name = "toolStripButtonColor";
+            toolStripButtonColor.Size = new System.Drawing.Size(23, 22);
+            toolStripButtonColor.Text = "Select color";
+            toolStripButtonColor.Click += ToolStripButtonColor_Click;
             // 
             // UcNote
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.kryptonRichTextBox1);
-            this.Name = "UcNote";
-            this.Size = new System.Drawing.Size(367, 207);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(toolStrip1);
+            Controls.Add(kryptonRichTextBox1);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "UcNote";
+            Size = new System.Drawing.Size(428, 239);
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

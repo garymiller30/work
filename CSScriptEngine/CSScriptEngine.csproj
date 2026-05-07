@@ -66,7 +66,7 @@
     <PackageReference Version="4.3.0" Include="System.Xml.XmlDocument" />
     <PackageReference Version="4.3.0" Include="System.Xml.XPath" />
     <PackageReference Version="4.3.0" Include="System.Xml.XPath.XDocument" />
-    <PackageReference Version="10.0.5" Include="System.Resources.Extensions" />
+    <PackageReference Version="10.0.7" Include="System.Resources.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ValueTuple" />

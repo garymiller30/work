@@ -1,7 +1,6 @@
 using ActiveWorks.Forms;
 using ActiveWorks.PluginHub;
 using ActiveWorks.Properties;
-using QRCoder;
 using System;
 using System.IO;
 using System.Windows.Forms;
