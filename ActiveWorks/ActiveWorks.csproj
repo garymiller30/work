@@ -6,7 +6,7 @@
     <AssemblyName>ActiveWorks</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
-    <UseWPF>true</UseWPF>
+    <UseWPF>False</UseWPF>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
     <ApplicationIcon>Iconshock-Real-Vista-Construction-Tool-kit.ico</ApplicationIcon>
@@ -113,9 +113,6 @@
     </Reference>
     <Reference Include="RulesService">
       <HintPath>..\..\RulesService\bin\Debug\RulesService.dll</HintPath>
-    </Reference>
-    <Reference Include="SplashScreen">
-      <HintPath>..\..\SplashScreen\SplashScreen\bin\Debug\SplashScreen.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -225,34 +222,6 @@
   </Target>
 
   <Target Name="RemoveNonWindowsRuntimeFolders" AfterTargets="Build" Condition="Exists('$(OutDir)runtimes')">
-    <RemoveDir Directories="
-      $(OutDir)runtimes\android-arm;
-      $(OutDir)runtimes\android-arm64;
-      $(OutDir)runtimes\android-x64;
-      $(OutDir)runtimes\android-x86;
-      $(OutDir)runtimes\ios-arm;
-      $(OutDir)runtimes\ios-arm64;
-      $(OutDir)runtimes\ios-armv7s;
-      $(OutDir)runtimes\iossimulator-arm64;
-      $(OutDir)runtimes\iossimulator-x64;
-      $(OutDir)runtimes\linux;
-      $(OutDir)runtimes\linux-arm;
-      $(OutDir)runtimes\linux-arm64;
-      $(OutDir)runtimes\linux-loongarch64;
-      $(OutDir)runtimes\linux-musl-arm;
-      $(OutDir)runtimes\linux-musl-arm64;
-      $(OutDir)runtimes\linux-musl-loongarch64;
-      $(OutDir)runtimes\linux-musl-riscv64;
-      $(OutDir)runtimes\linux-musl-x64;
-      $(OutDir)runtimes\linux-riscv64;
-      $(OutDir)runtimes\linux-x64;
-      $(OutDir)runtimes\linux-x86;
-      $(OutDir)runtimes\maccatalyst-arm64;
-      $(OutDir)runtimes\maccatalyst-x64;
-      $(OutDir)runtimes\osx;
-      $(OutDir)runtimes\osx-arm64;
-      $(OutDir)runtimes\osx-x64;
-      $(OutDir)runtimes\tvos-arm64;
-      $(OutDir)runtimes\tvossimulator-x64" />
+    <RemoveDir Directories="&#xA;      $(OutDir)runtimes\android-arm;&#xA;      $(OutDir)runtimes\android-arm64;&#xA;      $(OutDir)runtimes\android-x64;&#xA;      $(OutDir)runtimes\android-x86;&#xA;      $(OutDir)runtimes\ios-arm;&#xA;      $(OutDir)runtimes\ios-arm64;&#xA;      $(OutDir)runtimes\ios-armv7s;&#xA;      $(OutDir)runtimes\iossimulator-arm64;&#xA;      $(OutDir)runtimes\iossimulator-x64;&#xA;      $(OutDir)runtimes\linux;&#xA;      $(OutDir)runtimes\linux-arm;&#xA;      $(OutDir)runtimes\linux-arm64;&#xA;      $(OutDir)runtimes\linux-loongarch64;&#xA;      $(OutDir)runtimes\linux-musl-arm;&#xA;      $(OutDir)runtimes\linux-musl-arm64;&#xA;      $(OutDir)runtimes\linux-musl-loongarch64;&#xA;      $(OutDir)runtimes\linux-musl-riscv64;&#xA;      $(OutDir)runtimes\linux-musl-x64;&#xA;      $(OutDir)runtimes\linux-riscv64;&#xA;      $(OutDir)runtimes\linux-x64;&#xA;      $(OutDir)runtimes\linux-x86;&#xA;      $(OutDir)runtimes\maccatalyst-arm64;&#xA;      $(OutDir)runtimes\maccatalyst-x64;&#xA;      $(OutDir)runtimes\osx;&#xA;      $(OutDir)runtimes\osx-arm64;&#xA;      $(OutDir)runtimes\osx-x64;&#xA;      $(OutDir)runtimes\tvos-arm64;&#xA;      $(OutDir)runtimes\tvossimulator-x64" />
   </Target>
 </Project>
