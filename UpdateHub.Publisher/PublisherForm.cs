@@ -34,6 +34,7 @@ namespace UpdateHubPublisher
 
         private readonly TextBox _pluginFileTextBox;
         private readonly TextBox _pluginPublishFolderTextBox;
+        private readonly TextBox _pluginApplicationFolderTextBox;
         private readonly TextBox _pluginIdTextBox;
         private readonly TextBox _pluginNameTextBox;
         private readonly TextBox _pluginVersionTextBox;
@@ -103,26 +104,27 @@ namespace UpdateHubPublisher
                 "temp_update/**"
             });
 
-            var pluginRoot = CreateRootTable(10, 150);
+            var pluginRoot = CreateRootTable(11, 150);
             pluginTab.Controls.Add(pluginRoot);
 
             _pluginFileTextBox = AddPathRow(pluginRoot, 0, "Plugin DLL:", BrowsePluginFile);
             _pluginPublishFolderTextBox = AddPathRow(pluginRoot, 1, "Web publish path:", BrowsePluginPublishFolder);
+            _pluginApplicationFolderTextBox = AddPathRow(pluginRoot, 2, "ActiveWorks bin path:", BrowsePluginApplicationFolder);
 
             _pluginIdTextBox = new TextBox { Dock = DockStyle.Fill };
-            AddRow(pluginRoot, 2, "Plugin id:", _pluginIdTextBox);
+            AddRow(pluginRoot, 3, "Plugin id:", _pluginIdTextBox);
 
             _pluginNameTextBox = new TextBox { Dock = DockStyle.Fill };
-            AddRow(pluginRoot, 3, "Plugin name:", _pluginNameTextBox);
+            AddRow(pluginRoot, 4, "Plugin name:", _pluginNameTextBox);
 
             _pluginVersionTextBox = new TextBox { Dock = DockStyle.Fill };
-            AddRow(pluginRoot, 4, "Version:", _pluginVersionTextBox);
+            AddRow(pluginRoot, 5, "Version:", _pluginVersionTextBox);
 
             _pluginDescriptionTextBox = new TextBox { Dock = DockStyle.Fill, Multiline = true, ScrollBars = ScrollBars.Vertical };
-            AddRow(pluginRoot, 5, "Description:", _pluginDescriptionTextBox, 70);
+            AddRow(pluginRoot, 6, "Description:", _pluginDescriptionTextBox, 70);
 
             _pluginChangelogTextBox = new TextBox { Dock = DockStyle.Fill, Multiline = true, ScrollBars = ScrollBars.Vertical };
-            AddRow(pluginRoot, 6, "Changelog:", _pluginChangelogTextBox, 90);
+            AddRow(pluginRoot, 7, "Changelog:", _pluginChangelogTextBox, 90);
 
             _pluginDependencyFilesTextBox = new TextBox { Dock = DockStyle.Fill, Multiline = true, ScrollBars = ScrollBars.Vertical };
             var dependencyPanel = new Panel { Dock = DockStyle.Fill };
@@ -145,7 +147,7 @@ namespace UpdateHubPublisher
             _pluginDependencyFilesTextBox.Dock = DockStyle.Fill;
             dependencyPanel.Controls.Add(_pluginDependencyFilesTextBox);
             dependencyPanel.Controls.Add(dependencyButtons);
-            AddRow(pluginRoot, 7, "Dependency files:", dependencyPanel, 120);
+            AddRow(pluginRoot, 8, "Dependency files:", dependencyPanel, 120);
 
             var pluginButtonPanel = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.LeftToRight, AutoSize = true };
             var readPluginMetadataButton = new Button { Text = "Read Metadata", AutoSize = true };
@@ -157,10 +159,10 @@ namespace UpdateHubPublisher
             pluginButtonPanel.Controls.Add(readPluginMetadataButton);
             pluginButtonPanel.Controls.Add(generatePluginButton);
             pluginButtonPanel.Controls.Add(publishPluginButton);
-            AddRow(pluginRoot, 8, "Actions:", pluginButtonPanel);
+            AddRow(pluginRoot, 9, "Actions:", pluginButtonPanel);
 
             _pluginPreviewTextBox = CreatePreviewTextBox();
-            AddRow(pluginRoot, 9, "plugin.json:", _pluginPreviewTextBox, 210);
+            AddRow(pluginRoot, 10, "plugin.json:", _pluginPreviewTextBox, 210);
 
             LoadBlacklist();
             LoadState();
@@ -222,6 +224,8 @@ namespace UpdateHubPublisher
         private void BrowsePublishFolder(object sender, EventArgs e) => BrowseFolder(_publishFolderTextBox);
 
         private void BrowsePluginPublishFolder(object sender, EventArgs e) => BrowseFolder(_pluginPublishFolderTextBox);
+
+        private void BrowsePluginApplicationFolder(object sender, EventArgs e) => BrowseFolder(_pluginApplicationFolderTextBox);
 
         private void BrowseFolder(TextBox textBox)
         {
@@ -286,7 +290,8 @@ namespace UpdateHubPublisher
                 }
 
                 var publishRoot = PublishPluginForDependencyDiscovery(projectFile, pluginFile);
-                var dependencies = DiscoverPublishedDependencyFiles(projectFile, pluginFile, publishRoot).ToList();
+                var applicationFiles = GetApplicationFilesForDependencyFiltering(pluginFile);
+                var dependencies = DiscoverPublishedDependencyFiles(projectFile, pluginFile, publishRoot, applicationFiles).ToList();
                 var existing = GetLines(_pluginDependencyFilesTextBox).ToList();
 
                 foreach (var dependency in dependencies)
@@ -461,7 +466,45 @@ namespace UpdateHubPublisher
                 : "Debug";
         }
 
-        private static IEnumerable<PluginDependencyFile> DiscoverPublishedDependencyFiles(string projectFile, string pluginFile, string publishRoot)
+        private HashSet<string> GetApplicationFilesForDependencyFiltering(string pluginFile)
+        {
+            var applicationRoot = ResolveApplicationRoot(pluginFile);
+            var files = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (string.IsNullOrWhiteSpace(applicationRoot) || !Directory.Exists(applicationRoot))
+            {
+                return files;
+            }
+
+            foreach (var file in Directory.GetFiles(applicationRoot, "*", SearchOption.AllDirectories))
+            {
+                var relativePath = PathUtility.NormalizeRelativePath(file.Substring(applicationRoot.Length).TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+                files.Add(relativePath);
+
+                if (relativePath.IndexOf('/') < 0)
+                {
+                    files.Add(Path.GetFileName(file));
+                }
+            }
+
+            return files;
+        }
+
+        private string ResolveApplicationRoot(string pluginFile)
+        {
+            var applicationFolder = (_pluginApplicationFolderTextBox.Text ?? string.Empty).Trim();
+            if (Directory.Exists(applicationFolder))
+            {
+                return applicationFolder;
+            }
+
+            return null;
+        }
+
+        private static IEnumerable<PluginDependencyFile> DiscoverPublishedDependencyFiles(
+            string projectFile,
+            string pluginFile,
+            string publishRoot,
+            HashSet<string> applicationFiles)
         {
             var assetPaths = GetPackageRuntimeAssetPaths(projectFile);
             var pluginFileName = Path.GetFileName(pluginFile);
@@ -480,12 +523,34 @@ namespace UpdateHubPublisher
                     continue;
                 }
 
+                if (ApplicationAlreadyContainsDependency(applicationFiles, relativePath))
+                {
+                    continue;
+                }
+
                 yield return new PluginDependencyFile
                 {
                     SourceFilePath = file,
                     TargetPath = relativePath
                 };
             }
+        }
+
+        private static bool ApplicationAlreadyContainsDependency(HashSet<string> applicationFiles, string relativePath)
+        {
+            if (applicationFiles == null || applicationFiles.Count == 0)
+            {
+                return false;
+            }
+
+            relativePath = PathUtility.NormalizeRelativePath(relativePath);
+            if (applicationFiles.Contains(relativePath))
+            {
+                return true;
+            }
+
+            return relativePath.IndexOf('/') < 0 &&
+                   applicationFiles.Contains(Path.GetFileName(relativePath));
         }
 
         private static bool IsPluginBuildFile(string fileName, string pluginFileName)
@@ -1192,6 +1257,10 @@ namespace UpdateHubPublisher
                 {
                     _pluginPublishFolderTextBox.Text = item.Value;
                 }
+                else if (item.Key.Equals("PluginApplicationFolder", StringComparison.OrdinalIgnoreCase))
+                {
+                    _pluginApplicationFolderTextBox.Text = item.Value;
+                }
                 else if (item.Key.Equals("PluginId", StringComparison.OrdinalIgnoreCase))
                 {
                     _pluginIdTextBox.Text = item.Value;
@@ -1223,6 +1292,7 @@ namespace UpdateHubPublisher
             {
                 "PluginFile=" + ((_pluginFileTextBox.Text ?? string.Empty).Trim()),
                 "PluginPublishFolder=" + ((_pluginPublishFolderTextBox.Text ?? string.Empty).Trim()),
+                "PluginApplicationFolder=" + ((_pluginApplicationFolderTextBox.Text ?? string.Empty).Trim()),
                 "PluginId=" + ((_pluginIdTextBox.Text ?? string.Empty).Trim()),
                 "PluginName=" + ((_pluginNameTextBox.Text ?? string.Empty).Trim()),
                 "PluginVersion=" + ((_pluginVersionTextBox.Text ?? string.Empty).Trim())
