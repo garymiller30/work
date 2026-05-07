@@ -25,6 +25,9 @@ using Krypton.Toolkit;
 using Logger;
 using Ookii.Dialogs.WinForms;
 using SharpCompress.Common;
+using OokiiTaskDialog = Ookii.Dialogs.WinForms.TaskDialog;
+using OokiiTaskDialogButton = Ookii.Dialogs.WinForms.TaskDialogButton;
+using OokiiTaskDialogIcon = Ookii.Dialogs.WinForms.TaskDialogIcon;
 
 
 namespace JobSpace.Fasades
@@ -231,16 +234,16 @@ namespace JobSpace.Fasades
 
             if (j.Any())
             {
-                var dialog = new TaskDialog
+                var dialog = new OokiiTaskDialog
                 {
                     WindowTitle = @"Увага!",
-                    MainIcon = TaskDialogIcon.Custom,
+                    MainIcon = OokiiTaskDialogIcon.Custom,
                     //CustomMainIcon = Properties.Resources.emotion_misdoubt,
                     MainInstruction =
                     $"У {job.Customer} робота з номером {job.Number} вже існує. Все одно створити?"
                 };
-                dialog.Buttons.Add(new TaskDialogButton(ButtonType.Yes));
-                dialog.Buttons.Add(new TaskDialogButton(ButtonType.No));
+                dialog.Buttons.Add(new OokiiTaskDialogButton(ButtonType.Yes));
+                dialog.Buttons.Add(new OokiiTaskDialogButton(ButtonType.No));
 
                 if (dialog.ShowDialog().ButtonType == ButtonType.No)
                 {

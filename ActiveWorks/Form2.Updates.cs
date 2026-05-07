@@ -6,6 +6,9 @@ using Ookii.Dialogs.WinForms;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TaskDialog = Ookii.Dialogs.WinForms.TaskDialog;
+using TaskDialogButton = Ookii.Dialogs.WinForms.TaskDialogButton;
+using TaskDialogIcon = Ookii.Dialogs.WinForms.TaskDialogIcon;
 using UpdateHubShared = global::UpdateHub;
 
 namespace ActiveWorks

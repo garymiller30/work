@@ -1,5 +1,4 @@
 ﻿using ActiveWorks;
-using CSScriptEngine;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.FileBrowser;
@@ -106,7 +105,6 @@ namespace JobSpace.Profiles
             {
                 // ініціалізація фасадів, налаштування не залежать від бази, але потрібен Base для роботи
                 ScriptEngine = new PythonScriptEngine(this);
-                //ScriptEngine = new CSScriptEngine.CSScriptEngine(this);
                 SearchHistory = new SearchHistory(this);
                 MenuManagers = new MenuManager(this);
                 FileBrowser = new FileBrowsers(this);
