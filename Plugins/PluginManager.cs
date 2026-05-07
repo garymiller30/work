@@ -277,36 +277,87 @@ namespace Plugins
             }
 
             var fileName = requestedAssemblyName.Name + ".dll";
+            var yieldedPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var candidatePath in probePaths.Select(probePath => Path.Combine(probePath, fileName)))
+            {
+                if (IsMatchingAssemblyCandidate(candidatePath, requestedAssemblyName, exactVersion))
+                {
+                    yieldedPaths.Add(candidatePath);
+                    yield return candidatePath;
+                }
+            }
+
             foreach (var probePath in probePaths)
             {
-                var candidatePath = Path.Combine(probePath, fileName);
-                if (!File.Exists(candidatePath))
+                foreach (var candidatePath in GetWindowsRuntimeCandidatePaths(probePath, fileName))
                 {
-                    continue;
-                }
+                    if (yieldedPaths.Contains(candidatePath))
+                    {
+                        continue;
+                    }
 
-                AssemblyName candidateAssemblyName;
-                try
-                {
-                    candidateAssemblyName = AssemblyName.GetAssemblyName(candidatePath);
+                    if (IsMatchingAssemblyCandidate(candidatePath, requestedAssemblyName, exactVersion))
+                    {
+                        yieldedPaths.Add(candidatePath);
+                        yield return candidatePath;
+                    }
                 }
-                catch
-                {
-                    continue;
-                }
-
-                if (!string.Equals(candidateAssemblyName.Name, requestedAssemblyName.Name, StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-
-                if (exactVersion && candidateAssemblyName.Version != requestedAssemblyName.Version)
-                {
-                    continue;
-                }
-
-                yield return candidatePath;
             }
+
+            foreach (var probePath in probePaths)
+            {
+                if (!Directory.Exists(probePath))
+                {
+                    continue;
+                }
+
+                foreach (var candidatePath in Directory.GetFiles(probePath, fileName, SearchOption.AllDirectories))
+                {
+                    if (yieldedPaths.Contains(candidatePath))
+                    {
+                        continue;
+                    }
+
+                    if (IsMatchingAssemblyCandidate(candidatePath, requestedAssemblyName, exactVersion))
+                    {
+                        yieldedPaths.Add(candidatePath);
+                        yield return candidatePath;
+                    }
+                }
+            }
+        }
+
+        private static IEnumerable<string> GetWindowsRuntimeCandidatePaths(string probePath, string fileName)
+        {
+            yield return Path.Combine(probePath, "runtimes", "win", "lib", "net10.0", fileName);
+            yield return Path.Combine(probePath, "runtimes", "win", "lib", "net9.0", fileName);
+            yield return Path.Combine(probePath, "runtimes", "win", "lib", "net8.0", fileName);
+        }
+
+        private static bool IsMatchingAssemblyCandidate(string candidatePath, AssemblyName requestedAssemblyName, bool exactVersion)
+        {
+            if (!File.Exists(candidatePath))
+            {
+                return false;
+            }
+
+            AssemblyName candidateAssemblyName;
+            try
+            {
+                candidateAssemblyName = AssemblyName.GetAssemblyName(candidatePath);
+            }
+            catch
+            {
+                return false;
+            }
+
+            if (!string.Equals(candidateAssemblyName.Name, requestedAssemblyName.Name, StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            return !exactVersion || candidateAssemblyName.Version == requestedAssemblyName.Version;
         }
 
         public void AfterJobChange(IJob job)

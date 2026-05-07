@@ -313,6 +313,10 @@ namespace UpdateHubPublisher
                 foreach (var dependency in dependencies)
                 {
                     var line = FormatDependencyLine(dependency.SourceFilePath, dependency.TargetPath);
+                    existing.RemoveAll(x => string.Equals(
+                        GetDependencyTargetPath(x, GetDependencySourcePath(x)),
+                        dependency.TargetPath,
+                        StringComparison.OrdinalIgnoreCase));
                     if (!existing.Contains(line, StringComparer.OrdinalIgnoreCase))
                     {
                         existing.Add(line);
@@ -537,6 +541,7 @@ namespace UpdateHubPublisher
                 ? new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                 : GetPackageRuntimeAssetPaths(projectFile);
             var useAssetFilter = assetPaths.Count > 0;
+            var preferredRuntimeAssets = GetPreferredRuntimeAssets(publishRoot, assetPaths);
             var pluginFileName = Path.GetFileName(pluginFile);
             foreach (var file in Directory.GetFiles(publishRoot, "*", SearchOption.AllDirectories))
             {
@@ -554,12 +559,19 @@ namespace UpdateHubPublisher
                     {
                         continue;
                     }
+
+                    if (preferredRuntimeAssets.ContainsKey(fileName) &&
+                        !string.Equals(preferredRuntimeAssets[fileName], relativePath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
                 }
                 else if (!IsDependencyCandidateFile(relativePath))
                 {
                     continue;
                 }
 
+                var targetPath = GetPublishedDependencyTargetPath(relativePath, fileName, preferredRuntimeAssets);
                 if (ApplicationAlreadyContainsDependency(applicationFiles, relativePath))
                 {
                     continue;
@@ -568,9 +580,50 @@ namespace UpdateHubPublisher
                 yield return new PluginDependencyFile
                 {
                     SourceFilePath = file,
-                    TargetPath = relativePath
+                    TargetPath = targetPath
                 };
             }
+        }
+
+        private static Dictionary<string, string> GetPreferredRuntimeAssets(string publishRoot, HashSet<string> assetPaths)
+        {
+            var preferredRuntimeAssets = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            if (string.IsNullOrWhiteSpace(publishRoot) || !Directory.Exists(publishRoot) || assetPaths == null || assetPaths.Count == 0)
+            {
+                return preferredRuntimeAssets;
+            }
+
+            foreach (var file in Directory.GetFiles(publishRoot, "*", SearchOption.AllDirectories))
+            {
+                var relativePath = PathUtility.NormalizeRelativePath(file.Substring(publishRoot.Length).TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+                if (!assetPaths.Contains(relativePath) || !IsManagedRuntimeAsset(relativePath))
+                {
+                    continue;
+                }
+
+                preferredRuntimeAssets[Path.GetFileName(file)] = relativePath;
+            }
+
+            return preferredRuntimeAssets;
+        }
+
+        private static string GetPublishedDependencyTargetPath(string relativePath, string fileName, Dictionary<string, string> preferredRuntimeAssets)
+        {
+            if (preferredRuntimeAssets != null &&
+                preferredRuntimeAssets.TryGetValue(fileName, out var preferredRelativePath) &&
+                string.Equals(preferredRelativePath, relativePath, StringComparison.OrdinalIgnoreCase) &&
+                IsManagedRuntimeAsset(relativePath))
+            {
+                return fileName;
+            }
+
+            return relativePath;
+        }
+
+        private static bool IsManagedRuntimeAsset(string relativePath)
+        {
+            relativePath = PathUtility.NormalizeRelativePath(relativePath);
+            return relativePath.StartsWith("runtimes/win/lib/", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsDependencyCandidateFile(string relativePath)
