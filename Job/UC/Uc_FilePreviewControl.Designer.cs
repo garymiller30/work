@@ -29,139 +29,127 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Uc_FilePreviewControl));
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.tsb_previous_page = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tst_cur_page = new System.Windows.Forms.ToolStripTextBox();
-            this.tsl_count_pages = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_next_page = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsb_fit_to_window = new System.Windows.Forms.ToolStripButton();
-            this.tsb_show_spread = new System.Windows.Forms.ToolStripButton();
-            this.uc_PreviewControl1 = new JobSpace.UC.Uc_PreviewControl();
-            this.toolStrip1.SuspendLayout();
-            this.SuspendLayout();
+            toolStrip1 = new System.Windows.Forms.ToolStrip();
+            tsb_previous_page = new System.Windows.Forms.ToolStripButton();
+            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            tst_cur_page = new System.Windows.Forms.ToolStripTextBox();
+            tsl_count_pages = new System.Windows.Forms.ToolStripLabel();
+            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            tsb_next_page = new System.Windows.Forms.ToolStripButton();
+            toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            tsb_fit_to_window = new System.Windows.Forms.ToolStripButton();
+            tsb_show_spread = new System.Windows.Forms.ToolStripButton();
+            uc_PreviewControl1 = new Uc_PreviewControl();
+            toolStrip1.SuspendLayout();
+            SuspendLayout();
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsb_previous_page,
-            this.toolStripSeparator1,
-            this.tst_cur_page,
-            this.tsl_count_pages,
-            this.toolStripSeparator2,
-            this.tsb_next_page,
-            this.toolStripSeparator3,
-            this.tsb_fit_to_window,
-            this.tsb_show_spread});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(233, 25);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
+            toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { tsb_previous_page, toolStripSeparator1, tst_cur_page, tsl_count_pages, toolStripSeparator2, tsb_next_page, toolStripSeparator3, tsb_fit_to_window, tsb_show_spread });
+            toolStrip1.Location = new System.Drawing.Point(0, 0);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Size = new System.Drawing.Size(272, 25);
+            toolStrip1.TabIndex = 0;
+            toolStrip1.Text = "toolStrip1";
             // 
             // tsb_previous_page
             // 
-            this.tsb_previous_page.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_previous_page.Image = ((System.Drawing.Image)(resources.GetObject("tsb_previous_page.Image")));
-            this.tsb_previous_page.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_previous_page.Name = "tsb_previous_page";
-            this.tsb_previous_page.Size = new System.Drawing.Size(23, 22);
-            this.tsb_previous_page.Text = "попередня сторінка";
-            this.tsb_previous_page.Click += new System.EventHandler(this.tsb_previous_page_Click);
+            tsb_previous_page.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            tsb_previous_page.Image = (System.Drawing.Image)resources.GetObject("tsb_previous_page.Image");
+            tsb_previous_page.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsb_previous_page.Name = "tsb_previous_page";
+            tsb_previous_page.Size = new System.Drawing.Size(23, 22);
+            tsb_previous_page.Text = "попередня сторінка";
+            tsb_previous_page.Click += tsb_previous_page_Click;
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // tst_cur_page
             // 
-            this.tst_cur_page.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.tst_cur_page.Name = "tst_cur_page";
-            this.tst_cur_page.Size = new System.Drawing.Size(30, 25);
-            this.tst_cur_page.Text = "1";
-            this.tst_cur_page.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tst_cur_page.TextChanged += new System.EventHandler(this.tst_cur_page_TextChanged);
+            tst_cur_page.Name = "tst_cur_page";
+            tst_cur_page.Size = new System.Drawing.Size(34, 25);
+            tst_cur_page.Text = "1";
+            tst_cur_page.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            tst_cur_page.TextChanged += tst_cur_page_TextChanged;
             // 
             // tsl_count_pages
             // 
-            this.tsl_count_pages.Name = "tsl_count_pages";
-            this.tsl_count_pages.Size = new System.Drawing.Size(24, 22);
-            this.tsl_count_pages.Text = "/00";
+            tsl_count_pages.Name = "tsl_count_pages";
+            tsl_count_pages.Size = new System.Drawing.Size(24, 22);
+            tsl_count_pages.Text = "/00";
             // 
             // toolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // tsb_next_page
             // 
-            this.tsb_next_page.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_next_page.Image = ((System.Drawing.Image)(resources.GetObject("tsb_next_page.Image")));
-            this.tsb_next_page.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_next_page.Name = "tsb_next_page";
-            this.tsb_next_page.Size = new System.Drawing.Size(23, 22);
-            this.tsb_next_page.Text = "наступна сторінка";
-            this.tsb_next_page.Click += new System.EventHandler(this.tsb_next_page_Click);
+            tsb_next_page.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            tsb_next_page.Image = (System.Drawing.Image)resources.GetObject("tsb_next_page.Image");
+            tsb_next_page.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsb_next_page.Name = "tsb_next_page";
+            tsb_next_page.Size = new System.Drawing.Size(23, 22);
+            tsb_next_page.Text = "наступна сторінка";
+            tsb_next_page.Click += tsb_next_page_Click;
             // 
             // toolStripSeparator3
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // tsb_fit_to_window
             // 
-            this.tsb_fit_to_window.Checked = true;
-            this.tsb_fit_to_window.CheckOnClick = true;
-            this.tsb_fit_to_window.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tsb_fit_to_window.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_fit_to_window.Image = ((System.Drawing.Image)(resources.GetObject("tsb_fit_to_window.Image")));
-            this.tsb_fit_to_window.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_fit_to_window.Name = "tsb_fit_to_window";
-            this.tsb_fit_to_window.Size = new System.Drawing.Size(23, 22);
-            this.tsb_fit_to_window.Text = "Зображення в розмір вікна";
-            this.tsb_fit_to_window.CheckStateChanged += new System.EventHandler(this.tsb_fit_to_window_CheckStateChanged);
+            tsb_fit_to_window.Checked = true;
+            tsb_fit_to_window.CheckOnClick = true;
+            tsb_fit_to_window.CheckState = System.Windows.Forms.CheckState.Checked;
+            tsb_fit_to_window.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            tsb_fit_to_window.Image = (System.Drawing.Image)resources.GetObject("tsb_fit_to_window.Image");
+            tsb_fit_to_window.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsb_fit_to_window.Name = "tsb_fit_to_window";
+            tsb_fit_to_window.Size = new System.Drawing.Size(23, 22);
+            tsb_fit_to_window.Text = "Зображення в розмір вікна";
+            tsb_fit_to_window.CheckStateChanged += tsb_fit_to_window_CheckStateChanged;
             // 
             // tsb_show_spread
             // 
-            this.tsb_show_spread.CheckOnClick = true;
-            this.tsb_show_spread.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsb_show_spread.Image = ((System.Drawing.Image)(resources.GetObject("tsb_show_spread.Image")));
-            this.tsb_show_spread.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_show_spread.Name = "tsb_show_spread";
-            this.tsb_show_spread.Size = new System.Drawing.Size(23, 22);
-            this.tsb_show_spread.Text = "Розвороти";
-            this.tsb_show_spread.ToolTipText = "Показати розворотами";
-            this.tsb_show_spread.CheckedChanged += new System.EventHandler(this.tsb_show_spread_CheckedChanged);
+            tsb_show_spread.CheckOnClick = true;
+            tsb_show_spread.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            tsb_show_spread.Image = (System.Drawing.Image)resources.GetObject("tsb_show_spread.Image");
+            tsb_show_spread.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsb_show_spread.Name = "tsb_show_spread";
+            tsb_show_spread.Size = new System.Drawing.Size(23, 22);
+            tsb_show_spread.Text = "Розвороти";
+            tsb_show_spread.ToolTipText = "Показати розворотами";
+            tsb_show_spread.CheckedChanged += tsb_show_spread_CheckedChanged;
             // 
             // uc_PreviewControl1
             // 
-            this.uc_PreviewControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.uc_PreviewControl1.FitToScreen = true;
-            this.uc_PreviewControl1.Location = new System.Drawing.Point(0, 25);
-            this.uc_PreviewControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.uc_PreviewControl1.Name = "uc_PreviewControl1";
-            
-            this.uc_PreviewControl1.Size = new System.Drawing.Size(233, 202);
-            this.uc_PreviewControl1.TabIndex = 1;
+            uc_PreviewControl1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            uc_PreviewControl1.FitToScreen = true;
+            uc_PreviewControl1.Location = new System.Drawing.Point(0, 29);
+            uc_PreviewControl1.Margin = new System.Windows.Forms.Padding(0);
+            uc_PreviewControl1.Name = "uc_PreviewControl1";
+            uc_PreviewControl1.Size = new System.Drawing.Size(272, 233);
+            uc_PreviewControl1.TabIndex = 1;
             // 
             // Uc_FilePreviewControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.uc_PreviewControl1);
-            this.Controls.Add(this.toolStrip1);
-            this.Name = "Uc_FilePreviewControl";
-            this.Size = new System.Drawing.Size(233, 227);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(uc_PreviewControl1);
+            Controls.Add(toolStrip1);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "Uc_FilePreviewControl";
+            Size = new System.Drawing.Size(272, 262);
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

@@ -28,68 +28,68 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pb_preview = new System.Windows.Forms.PictureBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmi_copy_image = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            panel1 = new System.Windows.Forms.Panel();
+            pb_preview = new System.Windows.Forms.PictureBox();
+            contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(components);
+            tsmi_copy_image = new System.Windows.Forms.ToolStripMenuItem();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pb_preview).BeginInit();
+            contextMenuStrip1.SuspendLayout();
+            SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.pb_preview);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(339, 243);
-            this.panel1.TabIndex = 0;
-            this.panel1.SizeChanged += new System.EventHandler(this.panel1_SizeChanged);
+            panel1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            panel1.AutoScroll = true;
+            panel1.Controls.Add(pb_preview);
+            panel1.Location = new System.Drawing.Point(0, 0);
+            panel1.Margin = new System.Windows.Forms.Padding(0);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(396, 280);
+            panel1.TabIndex = 0;
+            panel1.SizeChanged += panel1_SizeChanged;
             // 
             // pb_preview
             // 
-            this.pb_preview.BackColor = System.Drawing.Color.White;
-            this.pb_preview.ContextMenuStrip = this.contextMenuStrip1;
-            this.pb_preview.Location = new System.Drawing.Point(0, 0);
-            this.pb_preview.Margin = new System.Windows.Forms.Padding(0);
-            this.pb_preview.Name = "pb_preview";
-            this.pb_preview.Size = new System.Drawing.Size(192, 133);
-            this.pb_preview.TabIndex = 0;
-            this.pb_preview.TabStop = false;
-            this.pb_preview.Paint += new System.Windows.Forms.PaintEventHandler(this.pb_preview_Paint);
-            this.pb_preview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pb_preview_MouseDown);
-            this.pb_preview.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pb_preview_MouseMove);
-            this.pb_preview.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pb_preview_MouseUp);
+            pb_preview.BackColor = System.Drawing.Color.White;
+            pb_preview.ContextMenuStrip = contextMenuStrip1;
+            pb_preview.Location = new System.Drawing.Point(0, 0);
+            pb_preview.Margin = new System.Windows.Forms.Padding(0);
+            pb_preview.Name = "pb_preview";
+            pb_preview.Size = new System.Drawing.Size(180, 180);
+            pb_preview.TabIndex = 0;
+            pb_preview.TabStop = false;
+            pb_preview.Paint += pb_preview_Paint;
+            pb_preview.MouseDown += pb_preview_MouseDown;
+            pb_preview.MouseMove += pb_preview_MouseMove;
+            pb_preview.MouseUp += pb_preview_MouseUp;
             // 
             // contextMenuStrip1
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmi_copy_image});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(202, 48);
+            contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmi_copy_image });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new System.Drawing.Size(202, 26);
             // 
             // tsmi_copy_image
             // 
-            this.tsmi_copy_image.Name = "tsmi_copy_image";
-            this.tsmi_copy_image.Size = new System.Drawing.Size(201, 22);
-            this.tsmi_copy_image.Text = "копіювати зображення";
-            this.tsmi_copy_image.Click += new System.EventHandler(this.tsmi_copy_image_Click);
+            tsmi_copy_image.Name = "tsmi_copy_image";
+            tsmi_copy_image.Size = new System.Drawing.Size(201, 22);
+            tsmi_copy_image.Text = "копіювати зображення";
+            tsmi_copy_image.Click += tsmi_copy_image_Click;
             // 
             // Uc_PreviewControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panel1);
-            this.Name = "Uc_PreviewControl";
-            this.Size = new System.Drawing.Size(339, 243);
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_preview)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(panel1);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "Uc_PreviewControl";
+            Size = new System.Drawing.Size(396, 280);
+            panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pb_preview).EndInit();
+            contextMenuStrip1.ResumeLayout(false);
+            ResumeLayout(false);
 
         }
 
