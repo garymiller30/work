@@ -113,33 +113,29 @@ public sealed class PluginCatalogService
     {
         var options = GetOptions();
         var catalogPath = Path.Combine(pluginRoot, options.CatalogFileName);
+        var paths = new List<string>();
         if (File.Exists(catalogPath))
         {
             try
             {
                 await using var catalogStream = File.OpenRead(catalogPath);
                 var catalog = await JsonSerializer.DeserializeAsync<PluginCatalogManifest>(catalogStream, _jsonOptions);
-                var paths = catalog?.Plugins?
+                paths.AddRange(catalog?.Plugins?
                     .Where(x => x is not null && !string.IsNullOrWhiteSpace(x.ManifestPath))
                     .Select(x => ResolveChildPath(pluginRoot, x.ManifestPath.Replace('/', Path.DirectorySeparatorChar)))
                     .Where(File.Exists)
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .OrderBy(x => x, StringComparer.OrdinalIgnoreCase)
-                    .ToList();
-
-                if (paths is { Count: > 0 })
-                {
-                    return paths;
-                }
+                    ?? Enumerable.Empty<string>());
             }
             catch
             {
-                // Fall back to scanning plugin folders if the catalog index is broken.
+                // Keep serving plugin folders even if the catalog index is temporarily broken.
             }
         }
 
-        return Directory
-            .GetFiles(pluginRoot, options.ManifestFileName, SearchOption.AllDirectories)
+        paths.AddRange(Directory.GetFiles(pluginRoot, options.ManifestFileName, SearchOption.AllDirectories));
+
+        return paths
+            .Distinct(StringComparer.OrdinalIgnoreCase)
             .OrderBy(x => x, StringComparer.OrdinalIgnoreCase)
             .ToList();
     }

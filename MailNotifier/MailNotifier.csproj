@@ -44,7 +44,6 @@
     <ProjectReference Include="..\ExtensionMethods\ExtensionMethods.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
     <ProjectReference Include="..\Logger\Logger.csproj" />
-    <ProjectReference Include="..\ShowProgress\ShowProgress.csproj" />
   </ItemGroup>
 
   <ItemGroup>
