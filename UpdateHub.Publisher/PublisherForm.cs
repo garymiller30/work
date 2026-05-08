@@ -540,6 +540,7 @@ namespace UpdateHubPublisher
             var assetPaths = string.IsNullOrWhiteSpace(projectFile)
                 ? new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                 : GetPackageRuntimeAssetPaths(projectFile);
+            AddProjectReferenceAssemblyFileNames(projectFile, assetPaths);
             var useAssetFilter = assetPaths.Count > 0;
             var preferredRuntimeAssets = GetPreferredRuntimeAssets(publishRoot, assetPaths);
             var pluginFileName = Path.GetFileName(pluginFile);
@@ -821,6 +822,66 @@ namespace UpdateHubPublisher
             }
 
             return packageNames;
+        }
+
+        private static void AddProjectReferenceAssemblyFileNames(string projectFile, HashSet<string> assetPaths)
+        {
+            if (string.IsNullOrWhiteSpace(projectFile) || assetPaths == null)
+            {
+                return;
+            }
+
+            AddProjectReferenceAssemblyFileNames(projectFile, assetPaths, new HashSet<string>(StringComparer.OrdinalIgnoreCase));
+        }
+
+        private static void AddProjectReferenceAssemblyFileNames(string projectFile, HashSet<string> assetPaths, HashSet<string> visitedProjects)
+        {
+            if (string.IsNullOrWhiteSpace(projectFile))
+            {
+                return;
+            }
+
+            var fullProjectFile = Path.GetFullPath(projectFile);
+            if (!visitedProjects.Add(fullProjectFile) || !File.Exists(fullProjectFile))
+            {
+                return;
+            }
+
+            foreach (var referencedProjectFile in GetProjectReferenceFiles(fullProjectFile))
+            {
+                if (!File.Exists(referencedProjectFile))
+                {
+                    continue;
+                }
+
+                assetPaths.Add(GetProjectAssemblyName(referencedProjectFile) + ".dll");
+                AddProjectReferenceAssemblyFileNames(referencedProjectFile, assetPaths, visitedProjects);
+            }
+        }
+
+        private static IEnumerable<string> GetProjectReferenceFiles(string projectFile)
+        {
+            XDocument document;
+            try
+            {
+                document = XDocument.Load(projectFile);
+            }
+            catch
+            {
+                yield break;
+            }
+
+            var projectDirectory = Path.GetDirectoryName(projectFile);
+            foreach (var projectReference in document.Descendants().Where(x => string.Equals(x.Name.LocalName, "ProjectReference", StringComparison.OrdinalIgnoreCase)))
+            {
+                var include = projectReference.Attribute("Include")?.Value;
+                if (string.IsNullOrWhiteSpace(include))
+                {
+                    continue;
+                }
+
+                yield return Path.GetFullPath(Path.Combine(projectDirectory, include));
+            }
         }
 
         private static string FormatDependencyLine(string sourceFile, string targetPath)

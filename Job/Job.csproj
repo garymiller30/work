@@ -96,7 +96,6 @@
     <ProjectReference Include="..\PluginFileshareWeb\PluginFileshareWeb.csproj" />
     <ProjectReference Include="..\Plugins\Plugins.csproj" />
     <ProjectReference Include="..\PythonEngine\PythonEngine.csproj" />
-    <ProjectReference Include="..\ShowProgress\ShowProgress.csproj" />
   </ItemGroup>
 
   <ItemGroup>
