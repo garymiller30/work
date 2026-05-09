@@ -24,9 +24,11 @@ namespace ActiveWorks
                 AppDomain.CurrentDomain.BaseDirectory,
                 ResolveApplicationPath(Settings.Default.ProfilesPath));
 
-            if (!FormInitialProfileWizard.HasProfiles(Settings.Default.ProfilesPath))
+            var profilesPath = ResolveApplicationPath(Settings.Default.ProfilesPath);
+
+            if (!FormInitialProfileWizard.HasProfiles(profilesPath))
             {
-                using (var wizard = new FormInitialProfileWizard(Settings.Default.ProfilesPath))
+                using (var wizard = new FormInitialProfileWizard(profilesPath))
                 {
                     if (wizard.ShowDialog() != DialogResult.OK)
                     {
