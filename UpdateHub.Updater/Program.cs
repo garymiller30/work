@@ -29,12 +29,13 @@ namespace Updater
             }
 
             var updateDirectory = args[1];
+            var fallbackMainProcessPath = args.Length >= 3 ? args[2] : null;
             if (!Directory.Exists(updateDirectory))
             {
                 return 3;
             }
 
-            Process process;
+            Process process = null;
             string mainProcessPath;
 
             try
@@ -44,10 +45,18 @@ namespace Updater
             }
             catch
             {
-                return 4;
+                if (string.IsNullOrWhiteSpace(fallbackMainProcessPath) || !File.Exists(fallbackMainProcessPath))
+                {
+                    return 4;
+                }
+
+                mainProcessPath = fallbackMainProcessPath;
             }
 
-            WaitForProcessExit(process);
+            if (process != null)
+            {
+                WaitForProcessExit(process);
+            }
 
             var applicationDirectory = Path.GetDirectoryName(mainProcessPath);
             if (string.IsNullOrWhiteSpace(applicationDirectory))

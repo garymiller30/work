@@ -124,9 +124,12 @@ namespace ActiveWorks
                 new KryptonContextMenuItem(@"Reset Layout", Resources.layout_reset_window_icon, (sender, args) =>
                 {
                     formProfile.ResetLayout();
+                    var profileToReset = (JobSpace.Profiles.Profile)((FormProfile)formProfile).Tag;
                     _profileTabs.Remove((FormProfile)formProfile);
                     kryptonRibbon1.RibbonTabs.Remove(tab);
-                    CreateProfileTab((JobSpace.Profiles.Profile)((FormProfile)formProfile).Tag);
+                    var recreatedProfileTab = CreateProfileTab(profileToReset);
+                    ChangeUserProfile(recreatedProfileTab);
+                    SetRibbonTab(recreatedProfileTab);
                 })
             }));
 
@@ -140,6 +143,11 @@ namespace ActiveWorks
         {
             foreach (var tab in _profileTabs)
             {
+                if (!tab.IsInitialized)
+                {
+                    continue;
+                }
+
                 // примінити налаштування шрифту для JobList
                 ((JobSpace.Profiles.Profile)tab.Tag).Jobs.JobListControl.ApplyJobListFontSettings();
                 ((JobSpace.Profiles.Profile)tab.Tag).FileBrowser.InitBrowserToolStripUtils();
