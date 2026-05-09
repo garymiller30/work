@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PluginTelegramNotify")]
+[assembly: AssemblyTitle("Plugin_RabbitMQ")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PluginTelegramNotify")]
+[assembly: AssemblyProduct("Plugin_RabbitMQ")]
 [assembly: AssemblyCopyright("Copyright Ігор Мельник © 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("de31ab43-858a-46c9-8587-d313c2d78fe1")]
+[assembly: Guid("b8df4254-755e-46cc-a21e-f3d6df33169e")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -29,5 +29,8 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
+// You can specify all the values or you can default the Build and Revision Numbers
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("8.23.0.0")]
 [assembly: AssemblyFileVersion("8.23.0.0")]
