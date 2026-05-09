@@ -3,8 +3,10 @@ using JobSpace.Profiles;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,6 +21,7 @@ namespace ActiveWorks.Forms
         private readonly TextBox _textBoxDatabaseName;
         private readonly NumericUpDown _numericUpDownTimeout;
         private readonly Button _buttonCreate;
+        private readonly Button _buttonImport;
         private readonly Button _buttonCancel;
         private readonly Label _labelStatus;
 
@@ -32,7 +35,7 @@ namespace ActiveWorks.Forms
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
-            ClientSize = new Size(560, 270);
+            ClientSize = new Size(560, 306);
 
             var labelTitle = new Label
             {
@@ -63,10 +66,18 @@ namespace ActiveWorks.Forms
                 Size = new Size(80, 20)
             };
 
+            _buttonImport = new Button
+            {
+                Text = "Імпортувати архів...",
+                Location = new Point(170, 230),
+                Size = new Size(140, 26)
+            };
+            _buttonImport.Click += ButtonImport_Click;
+
             _buttonCreate = new Button
             {
                 Text = "Створити",
-                Location = new Point(344, 230),
+                Location = new Point(344, 266),
                 Size = new Size(88, 26)
             };
             _buttonCreate.Click += ButtonCreate_Click;
@@ -75,14 +86,14 @@ namespace ActiveWorks.Forms
             {
                 Text = "Скасувати",
                 DialogResult = DialogResult.Cancel,
-                Location = new Point(438, 230),
+                Location = new Point(438, 266),
                 Size = new Size(88, 26)
             };
 
             _labelStatus = new Label
             {
                 AutoSize = false,
-                Location = new Point(16, 232),
+                Location = new Point(16, 268),
                 Size = new Size(315, 22),
                 ForeColor = Color.Firebrick
             };
@@ -93,11 +104,13 @@ namespace ActiveWorks.Forms
             Controls.Add(CreateLabel("MongoDB connection:", 16, 125));
             Controls.Add(CreateLabel("Назва бази:", 16, 161));
             Controls.Add(CreateLabel("Timeout, сек:", 16, 197));
+            Controls.Add(CreateLabel("Архів профілів:", 16, 234));
             Controls.Add(_textBoxProfileName);
             Controls.Add(_textBoxMongoConnection);
             Controls.Add(_textBoxDatabaseName);
             Controls.Add(_numericUpDownTimeout);
             Controls.Add(_labelStatus);
+            Controls.Add(_buttonImport);
             Controls.Add(_buttonCreate);
             Controls.Add(_buttonCancel);
 
@@ -182,6 +195,134 @@ namespace ActiveWorks.Forms
             }
         }
 
+        private void ButtonImport_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new OpenFileDialog())
+            {
+                dialog.Filter = "ZIP archives (*.zip)|*.zip|All files (*.*)|*.*";
+                dialog.Title = "Оберіть архів профілю";
+
+                if (dialog.ShowDialog(this) != DialogResult.OK)
+                {
+                    return;
+                }
+
+                SetBusy(true, "Імпортуємо профілі...");
+
+                try
+                {
+                    var importedProfileNames = ImportProfilesArchive(dialog.FileName);
+                    if (importedProfileNames.Length == 0)
+                    {
+                        SetBusy(false, "В архіві не знайдено профілів.");
+                        return;
+                    }
+
+                    ProfilesController.LoadProfiles(_profilesPath);
+                    var defaultProfile = ProfilesController.GetProfiles().FirstOrDefault();
+                    Settings.Default.DefaultProfile = defaultProfile?.Settings.ProfileName ?? importedProfileNames[0];
+                    Settings.Default.Save();
+
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
+                catch (Exception ex)
+                {
+                    SetBusy(false, ex.Message);
+                }
+            }
+        }
+
+        private string[] ImportProfilesArchive(string archivePath)
+        {
+            Directory.CreateDirectory(_profilesPath);
+
+            using (var archive = ZipFile.OpenRead(archivePath))
+            {
+                var profileRoots = GetProfileRoots(archive).ToArray();
+                if (profileRoots.Length == 0)
+                {
+                    return Array.Empty<string>();
+                }
+
+                foreach (var profileRoot in profileRoots)
+                {
+                    var profileName = GetProfileName(profileRoot);
+                    var targetRoot = ResolveChildPath(_profilesPath, profileName);
+                    if (Directory.Exists(targetRoot) && Directory.EnumerateFileSystemEntries(targetRoot).Any())
+                    {
+                        throw new InvalidOperationException($"Профіль '{profileName}' вже існує.");
+                    }
+
+                    foreach (var entry in archive.Entries)
+                    {
+                        if (string.IsNullOrWhiteSpace(entry.Name))
+                        {
+                            continue;
+                        }
+
+                        var entryPath = NormalizeArchivePath(entry.FullName);
+                        var rootPrefix = profileRoot + "/";
+                        if (!entryPath.StartsWith(rootPrefix, StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+
+                        var relativePath = entryPath.Substring(rootPrefix.Length);
+                        var targetPath = ResolveChildPath(targetRoot, relativePath);
+                        Directory.CreateDirectory(Path.GetDirectoryName(targetPath));
+                        entry.ExtractToFile(targetPath, true);
+                    }
+                }
+
+                return profileRoots.Select(GetProfileName).ToArray();
+            }
+        }
+
+        private static IEnumerable<string> GetProfileRoots(ZipArchive archive)
+        {
+            return archive.Entries
+                .Where(entry => string.Equals(entry.Name, "ProfileSettings.xml", StringComparison.OrdinalIgnoreCase))
+                .Select(entry => NormalizeArchivePath(entry.FullName))
+                .Select(path =>
+                {
+                    var separatorIndex = path.LastIndexOf('/');
+                    return separatorIndex > 0 ? path.Substring(0, separatorIndex) : string.Empty;
+                })
+                .Where(root => !string.IsNullOrWhiteSpace(root))
+                .Distinct(StringComparer.OrdinalIgnoreCase);
+        }
+
+        private static string GetProfileName(string profileRoot)
+        {
+            var profileName = profileRoot.Split('/').Last();
+            if (string.IsNullOrWhiteSpace(profileName) || profileName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            {
+                throw new InvalidOperationException("Архів містить профіль з недопустимою назвою.");
+            }
+
+            return profileName;
+        }
+
+        private static string NormalizeArchivePath(string entryPath)
+        {
+            return (entryPath ?? string.Empty).Replace('\\', '/').Trim('/');
+        }
+
+        private static string ResolveChildPath(string root, string relativePath)
+        {
+            var rootFullPath = Path.GetFullPath(root);
+            var fullPath = Path.GetFullPath(Path.Combine(rootFullPath, relativePath.Replace('/', Path.DirectorySeparatorChar)));
+            var prefix = rootFullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+            if (!fullPath.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(fullPath, rootFullPath, StringComparison.OrdinalIgnoreCase))
+            {
+                throw new InvalidOperationException("Архів містить шлях за межі каталогу профілів.");
+            }
+
+            return fullPath;
+        }
+
         private bool ValidateInput(string profileName, string connectionString, string databaseName)
         {
             if (string.IsNullOrWhiteSpace(profileName))
@@ -220,6 +361,7 @@ namespace ActiveWorks.Forms
         private void SetBusy(bool busy, string status)
         {
             _buttonCreate.Enabled = !busy;
+            _buttonImport.Enabled = !busy;
             _buttonCancel.Enabled = !busy;
             _textBoxProfileName.Enabled = !busy;
             _textBoxMongoConnection.Enabled = !busy;
