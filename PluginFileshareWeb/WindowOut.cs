@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -37,10 +38,39 @@ namespace PluginFileshareWeb
         public WindowOut()
         {
             InitializeComponent();
+            ApplyModernChrome();
             _tab_control = kryptonNavigator1;
             _tab_control.SelectedPageChanged += tControl_SelectedIndexChanged;
             //_tab_control.MouseDoubleClick += tControl_MouseDoubleClick;
             _ = InitializeAsync();
+        }
+
+        private void ApplyModernChrome()
+        {
+            BackColor = Color.FromArgb(248, 250, 252);
+            toolStripContainer1.BackColor = BackColor;
+            toolStripContainer1.TopToolStripPanel.BackColor = Color.FromArgb(245, 247, 250);
+            toolStripContainer1.ContentPanel.BackColor = BackColor;
+
+            toolStrip1.RenderMode = ToolStripRenderMode.Professional;
+            toolStrip1.Renderer = new FileshareToolStripRenderer();
+
+            StyleCommandButton(tsb_add_tab, Color.FromArgb(37, 99, 235), Color.White);
+            StyleCommandButton(tsb_go, Color.FromArgb(22, 163, 74), Color.White);
+            StyleCommandButton(tsb_zoomOk, Color.FromArgb(226, 232, 240), Color.FromArgb(15, 23, 42));
+            StyleCommandButton(toolStripButton_Add, Color.FromArgb(226, 232, 240), Color.FromArgb(15, 23, 42));
+
+            toolStripTextBoxUrl.BorderStyle = BorderStyle.FixedSingle;
+            tstb_zoomFactor.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private static void StyleCommandButton(ToolStripButton button, Color backColor, Color foreColor)
+        {
+            button.AutoSize = false;
+            button.BackColor = backColor;
+            button.ForeColor = foreColor;
+            button.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            button.TextAlign = ContentAlignment.MiddleCenter;
         }
 
         //private void tControl_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -177,6 +207,8 @@ namespace PluginFileshareWeb
             var button = new ToolStripButton(link.Name);
             button.Tag = link;
             button.ToolTipText = link.Url;
+            button.Margin = new Padding(6, 0, 0, 0);
+            button.Padding = new Padding(8, 0, 8, 0);
             button.Click += toolStripButton1_Click;
 
             return button;
@@ -285,6 +317,11 @@ namespace PluginFileshareWeb
 
         private async Task AddTabAsync(string title = "")
         {
+            curwebView2 = await CreateWebViewTabAsync(title);
+        }
+
+        private async Task<WebView2> CreateWebViewTabAsync(string title = "")
+        {
             string userDataFolder = Path.Combine(Path.GetTempPath(), $"{Environment.UserName}\\aw_web\\{UserProfile.Settings.ProfileName}");
             if (!Directory.Exists(userDataFolder)) { Directory.CreateDirectory(userDataFolder); }
 
@@ -295,40 +332,58 @@ namespace PluginFileshareWeb
                 userDataFolder: Path.Combine(userDataFolder),
                 options);
 
-            curwebView2 = new WebView2();
-            curwebView2.ZoomFactor = zoomFactor / 100;
-             await curwebView2.EnsureCoreWebView2Async(environment);
+            var webView = new WebView2();
+            webView.ZoomFactor = zoomFactor / 100;
+            await webView.EnsureCoreWebView2Async(environment);
 
-            curwebView2.CoreWebView2.ServerCertificateErrorDetected += (s, e) =>
+            webView.CoreWebView2.ServerCertificateErrorDetected += (s, e) =>
             {
                 e.Action = CoreWebView2ServerCertificateErrorAction.AlwaysAllow;
             };
-            curwebView2.CoreWebView2.DocumentTitleChanged += (s, e) =>
+            webView.CoreWebView2.DocumentTitleChanged += (s, e) =>
             {
-                if (curwebView2.CoreWebView2 != null)
+                if (webView.CoreWebView2 != null)
                 {
-                    var tab = (KryptonPage)curwebView2.Parent;
+                    var tab = webView.Parent as KryptonPage;
                     if (tab != null)
                     {
-                        tab.Text = curwebView2.CoreWebView2.DocumentTitle;
+                        tab.Text = webView.CoreWebView2.DocumentTitle;
                     }
                 }
             };
-            curwebView2.CoreWebView2.Settings.IsPasswordAutosaveEnabled = true;
+            webView.CoreWebView2.NewWindowRequested += WebView_NewWindowRequested;
+            webView.CoreWebView2.Settings.IsPasswordAutosaveEnabled = true;
 
             if (_curJob != null)
             {
-                curwebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
+                webView.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
             }
 
             KryptonPage tabPage = new KryptonPage(title);
-            tabPage.Tag = curwebView2;
-            curwebView2.Dock = DockStyle.Fill;
-            tabPage.Controls.Add(curwebView2);
+            tabPage.Tag = webView;
+            webView.Dock = DockStyle.Fill;
+            tabPage.Controls.Add(webView);
             _tab_control.Pages.Add(tabPage);
             _tab_control.SelectedPage = tabPage;
+
+            return webView;
         }
 
+        private async void WebView_NewWindowRequested(object sender, CoreWebView2NewWindowRequestedEventArgs e)
+        {
+            var deferral = e.GetDeferral();
+
+            try
+            {
+                var newWebView = await CreateWebViewTabAsync("Нова вкладка");
+                e.NewWindow = newWebView.CoreWebView2;
+                e.Handled = true;
+            }
+            finally
+            {
+                deferral.Complete();
+            }
+        }
        
         private void kryptonNavigator1_CloseAction(object sender, CloseActionEventArgs e)
         {
@@ -343,6 +398,74 @@ namespace PluginFileshareWeb
                     webView2.Dispose();
                 }
             }
+        }
+
+        private sealed class FileshareToolStripRenderer : ToolStripProfessionalRenderer
+        {
+            public FileshareToolStripRenderer()
+                : base(new FileshareColorTable())
+            {
+            }
+
+            protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+            {
+                using (var pen = new Pen(Color.FromArgb(226, 232, 240)))
+                {
+                    e.Graphics.DrawLine(pen, 0, e.ToolStrip.Height - 1, e.ToolStrip.Width, e.ToolStrip.Height - 1);
+                }
+            }
+
+            protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
+            {
+                var button = e.Item as ToolStripButton;
+                if (button == null)
+                {
+                    base.OnRenderButtonBackground(e);
+                    return;
+                }
+
+                var bounds = new Rectangle(Point.Empty, e.Item.Size);
+                bounds.Inflate(-1, -3);
+                var fill = button.BackColor;
+
+                if (button.Pressed)
+                {
+                    fill = ControlPaint.Dark(fill, 0.08f);
+                }
+                else if (button.Selected)
+                {
+                    fill = ControlPaint.Light(fill, 0.08f);
+                }
+
+                using (var path = RoundedRectangle(bounds, 6))
+                using (var brush = new SolidBrush(fill))
+                {
+                    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    e.Graphics.FillPath(brush, path);
+                }
+            }
+
+            private static GraphicsPath RoundedRectangle(Rectangle bounds, int radius)
+            {
+                int diameter = radius * 2;
+                var path = new GraphicsPath();
+                path.AddArc(bounds.Left, bounds.Top, diameter, diameter, 180, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Top, diameter, diameter, 270, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter, diameter, diameter, 0, 90);
+                path.AddArc(bounds.Left, bounds.Bottom - diameter, diameter, diameter, 90, 90);
+                path.CloseFigure();
+                return path;
+            }
+        }
+
+        private sealed class FileshareColorTable : ProfessionalColorTable
+        {
+            public override Color ToolStripGradientBegin => Color.FromArgb(245, 247, 250);
+            public override Color ToolStripGradientMiddle => Color.FromArgb(245, 247, 250);
+            public override Color ToolStripGradientEnd => Color.FromArgb(245, 247, 250);
+            public override Color ButtonSelectedGradientBegin => Color.FromArgb(226, 232, 240);
+            public override Color ButtonSelectedGradientMiddle => Color.FromArgb(226, 232, 240);
+            public override Color ButtonSelectedGradientEnd => Color.FromArgb(226, 232, 240);
         }
     }
 }
