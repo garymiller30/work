@@ -1170,7 +1170,12 @@ namespace JobSpace.UC
             {
                 foreach (IFileSystemInfoExt selectedObject in objectListView1.SelectedObjects)
                 {
-                    Process.Start(selectedObject.FileInfo.FullName);
+                    var path = selectedObject.FileInfo.FullName;
+                    Process.Start(new ProcessStartInfo(path)
+                    {
+                        UseShellExecute = true,
+                        WorkingDirectory = Path.GetDirectoryName(path) ?? string.Empty
+                    });
                     Thread.Sleep(700);
                 }
             }

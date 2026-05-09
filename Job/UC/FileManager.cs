@@ -408,6 +408,7 @@ namespace JobSpace.UC
                 {
                     var pi = new ProcessStartInfo(fileOrDirectory.FileInfo.FullName)
                     {
+                        UseShellExecute = true,
                         WorkingDirectory = Path.GetDirectoryName(fileOrDirectory.FileInfo.FullName)
                     };
                     Process.Start(pi);
