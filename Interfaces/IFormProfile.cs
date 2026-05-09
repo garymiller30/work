@@ -8,6 +8,7 @@ namespace Interfaces
 {
     public interface IFormProfile
     {
+        bool IsInitialized { get; }
         void SaveLayout();
         void InitProfile();
         void ResetLayout();
