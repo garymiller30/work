@@ -85,8 +85,11 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.AutoSize = false;
+            this.toolStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsb_add_tab,
             this.toolStripSeparator2,
@@ -100,7 +103,8 @@
             this.toolStripButton_Add});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(539, 25);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(8, 3, 8, 3);
+            this.toolStrip1.Size = new System.Drawing.Size(760, 34);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -109,9 +113,11 @@
             this.tsb_add_tab.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsb_add_tab.Image = ((System.Drawing.Image)(resources.GetObject("tsb_add_tab.Image")));
             this.tsb_add_tab.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_add_tab.Margin = new System.Windows.Forms.Padding(0, 0, 6, 0);
             this.tsb_add_tab.Name = "tsb_add_tab";
-            this.tsb_add_tab.Size = new System.Drawing.Size(73, 22);
-            this.tsb_add_tab.Text = "+ закладку ";
+            this.tsb_add_tab.Size = new System.Drawing.Size(108, 28);
+            this.tsb_add_tab.Text = "+ Нова вкладка";
+            this.tsb_add_tab.ToolTipText = "Створити нову вкладку";
             this.tsb_add_tab.Click += new System.EventHandler(this.tsb_add_tab_Click);
             // 
             // toolStripSeparator2
@@ -122,18 +128,20 @@
             // toolStripTextBoxUrl
             // 
             this.toolStripTextBoxUrl.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripTextBoxUrl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.toolStripTextBoxUrl.Name = "toolStripTextBoxUrl";
-            this.toolStripTextBoxUrl.Size = new System.Drawing.Size(300, 25);
+            this.toolStripTextBoxUrl.Size = new System.Drawing.Size(360, 28);
+            this.toolStripTextBoxUrl.ToolTipText = "Адреса сторінки";
             this.toolStripTextBoxUrl.Click += new System.EventHandler(this.toolStripTextBoxUrl_Click);
             // 
             // tsb_go
             // 
-            this.tsb_go.BackColor = System.Drawing.Color.PaleGreen;
             this.tsb_go.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsb_go.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_go.Name = "tsb_go";
-            this.tsb_go.Size = new System.Drawing.Size(26, 22);
-            this.tsb_go.Text = "Go";
+            this.tsb_go.Size = new System.Drawing.Size(64, 28);
+            this.tsb_go.Text = "Перейти";
+            this.tsb_go.ToolTipText = "Відкрити адресу";
             this.tsb_go.Click += new System.EventHandler(this.toolStripButtonGo_Click);
             // 
             // toolStripSeparator1
@@ -144,8 +152,9 @@
             // tstb_zoomFactor
             // 
             this.tstb_zoomFactor.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tstb_zoomFactor.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
             this.tstb_zoomFactor.Name = "tstb_zoomFactor";
-            this.tstb_zoomFactor.Size = new System.Drawing.Size(40, 25);
+            this.tstb_zoomFactor.Size = new System.Drawing.Size(44, 28);
             this.tstb_zoomFactor.Text = "80";
             this.tstb_zoomFactor.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -161,8 +170,9 @@
             this.tsb_zoomOk.Image = ((System.Drawing.Image)(resources.GetObject("tsb_zoomOk.Image")));
             this.tsb_zoomOk.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsb_zoomOk.Name = "tsb_zoomOk";
-            this.tsb_zoomOk.Size = new System.Drawing.Size(26, 22);
-            this.tsb_zoomOk.Text = "Ok";
+            this.tsb_zoomOk.Size = new System.Drawing.Size(30, 28);
+            this.tsb_zoomOk.Text = "OK";
+            this.tsb_zoomOk.ToolTipText = "Застосувати масштаб";
             this.tsb_zoomOk.Click += new System.EventHandler(this.tsb_zoomOk_Click);
             // 
             // toolStripSeparator3
@@ -175,9 +185,11 @@
             this.toolStripButton_Add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripButton_Add.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Add.Image")));
             this.toolStripButton_Add.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton_Add.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
             this.toolStripButton_Add.Name = "toolStripButton_Add";
-            this.toolStripButton_Add.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Add.Text = "+";
+            this.toolStripButton_Add.Size = new System.Drawing.Size(112, 28);
+            this.toolStripButton_Add.Text = "+ Посилання";
+            this.toolStripButton_Add.ToolTipText = "Додати швидке посилання";
             this.toolStripButton_Add.Click += new System.EventHandler(this.toolStripButton_Add_Click);
             // 
             // tabPage1
