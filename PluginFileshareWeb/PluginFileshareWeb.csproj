@@ -33,4 +33,8 @@
     </AdditionalFiles>
   </ItemGroup>
 
+  <Target Name="IncrementAssemblyRevision" BeforeTargets="BeforeBuild">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\Build\IncrementAssemblyRevision.ps1&quot; &quot;$(MSBuildProjectDirectory)\Properties\AssemblyInfo.cs&quot;" />
+  </Target>
+
 </Project>

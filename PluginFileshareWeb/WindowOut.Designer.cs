@@ -36,6 +36,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripTextBoxUrl = new System.Windows.Forms.ToolStripTextBox();
             this.tsb_go = new System.Windows.Forms.ToolStripButton();
+            this.tsb_paste_go = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tstb_zoomFactor = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -87,6 +88,7 @@
             // 
             this.toolStrip1.AutoSize = false;
             this.toolStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(250)))));
+            this.toolStrip1.CanOverflow = false;
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
@@ -95,6 +97,7 @@
             this.toolStripSeparator2,
             this.toolStripTextBoxUrl,
             this.tsb_go,
+            this.tsb_paste_go,
             this.toolStripSeparator1,
             this.tstb_zoomFactor,
             this.toolStripLabel1,
@@ -104,7 +107,8 @@
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(8, 3, 8, 3);
-            this.toolStrip1.Size = new System.Drawing.Size(760, 34);
+            this.toolStrip1.Size = new System.Drawing.Size(809, 34);
+            this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -130,7 +134,7 @@
             this.toolStripTextBoxUrl.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBoxUrl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.toolStripTextBoxUrl.Name = "toolStripTextBoxUrl";
-            this.toolStripTextBoxUrl.Size = new System.Drawing.Size(360, 28);
+            this.toolStripTextBoxUrl.Size = new System.Drawing.Size(160, 28);
             this.toolStripTextBoxUrl.ToolTipText = "Адреса сторінки";
             this.toolStripTextBoxUrl.Click += new System.EventHandler(this.toolStripTextBoxUrl_Click);
             // 
@@ -143,6 +147,17 @@
             this.tsb_go.Text = "Перейти";
             this.tsb_go.ToolTipText = "Відкрити адресу";
             this.tsb_go.Click += new System.EventHandler(this.toolStripButtonGo_Click);
+            // 
+            // tsb_paste_go
+            // 
+            this.tsb_paste_go.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsb_paste_go.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsb_paste_go.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            this.tsb_paste_go.Name = "tsb_paste_go";
+            this.tsb_paste_go.Size = new System.Drawing.Size(136, 28);
+            this.tsb_paste_go.Text = "Вставити і перейти";
+            this.tsb_paste_go.ToolTipText = "Створити вкладку з посилання з буфера обміну";
+            this.tsb_paste_go.Click += new System.EventHandler(this.tsb_paste_go_Click);
             // 
             // toolStripSeparator1
             // 
@@ -238,6 +253,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton_Add;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxUrl;
         private System.Windows.Forms.ToolStripButton tsb_go;
+        private System.Windows.Forms.ToolStripButton tsb_paste_go;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripTextBox tstb_zoomFactor;

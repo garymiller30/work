@@ -57,11 +57,16 @@ namespace PluginFileshareWeb
 
             StyleCommandButton(tsb_add_tab, Color.FromArgb(37, 99, 235), Color.White);
             StyleCommandButton(tsb_go, Color.FromArgb(22, 163, 74), Color.White);
+            StyleCommandButton(tsb_paste_go, Color.FromArgb(14, 165, 233), Color.White);
             StyleCommandButton(tsb_zoomOk, Color.FromArgb(226, 232, 240), Color.FromArgb(15, 23, 42));
             StyleCommandButton(toolStripButton_Add, Color.FromArgb(226, 232, 240), Color.FromArgb(15, 23, 42));
 
             toolStripTextBoxUrl.BorderStyle = BorderStyle.FixedSingle;
             tstb_zoomFactor.BorderStyle = BorderStyle.FixedSingle;
+
+            Resize += (s, e) => AdjustToolbarLayout();
+            toolStripContainer1.TopToolStripPanel.Resize += (s, e) => AdjustToolbarLayout();
+            AdjustToolbarLayout();
         }
 
         private static void StyleCommandButton(ToolStripButton button, Color backColor, Color foreColor)
@@ -71,6 +76,15 @@ namespace PluginFileshareWeb
             button.ForeColor = foreColor;
             button.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             button.TextAlign = ContentAlignment.MiddleCenter;
+        }
+
+        private void AdjustToolbarLayout()
+        {
+            toolStrip1.Width = Math.Max(Width, 809);
+
+            int fixedWidth = toolStrip1.Padding.Horizontal + 560;
+            int urlWidth = toolStrip1.Width - fixedWidth;
+            toolStripTextBoxUrl.Width = Math.Max(150, Math.Min(420, urlWidth));
         }
 
         //private void tControl_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -112,6 +126,9 @@ namespace PluginFileshareWeb
                 {
                     curwebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
                 }
+
+                UpdateAddressBar(webView2);
+                tstb_zoomFactor.Text = (webView2.ZoomFactor * 100).ToString("N0");
 
             }
         }
@@ -276,7 +293,7 @@ namespace PluginFileshareWeb
                 {
                     if (curwebView2 == null) { await AddTabAsync(); }
 
-                    curwebView2.Source = new Uri(EnsureUrlHasProtocol(toolStripTextBoxUrl.Text));
+                    curwebView2.Source = new Uri(EnsureUrlHasProtocol(toolStripTextBoxUrl.Text.Trim()));
                 }
                 catch (Exception ex)
                 {
@@ -286,13 +303,61 @@ namespace PluginFileshareWeb
             }
         }
 
+        private async void tsb_paste_go_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!Clipboard.ContainsText())
+                {
+                    MessageBox.Show("У буфері обміну немає тексту з посиланням.");
+                    return;
+                }
+
+                string clipboardText = Clipboard.GetText().Trim();
+                string url = EnsureUrlHasProtocol(clipboardText);
+
+                if (!IsValidWebUrl(url))
+                {
+                    MessageBox.Show("У буфері обміну не схоже на web-посилання.");
+                    return;
+                }
+
+                await AddTabAsync("Нова вкладка");
+                toolStripTextBoxUrl.Text = url;
+                curwebView2.Source = new Uri(url);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         string EnsureUrlHasProtocol(string urlWithoutProtocol)
         {
+            urlWithoutProtocol = urlWithoutProtocol.Trim();
             if (!urlWithoutProtocol.StartsWith("http://") && !urlWithoutProtocol.StartsWith("https://"))
             {
                 return "https://" + urlWithoutProtocol;
             }
             return urlWithoutProtocol;
+        }
+
+        private static bool IsValidWebUrl(string url)
+        {
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri uri)) return false;
+
+            return uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps;
+        }
+
+        private void UpdateAddressBar(WebView2 webView)
+        {
+            if (webView?.Source == null) return;
+
+            string source = webView.Source.ToString();
+            if (!string.Equals(source, "about:blank", StringComparison.OrdinalIgnoreCase))
+            {
+                toolStripTextBoxUrl.Text = source;
+            }
         }
 
         private void toolStripTextBoxUrl_Click(object sender, EventArgs e)
@@ -349,6 +414,13 @@ namespace PluginFileshareWeb
                     {
                         tab.Text = webView.CoreWebView2.DocumentTitle;
                     }
+                }
+            };
+            webView.CoreWebView2.SourceChanged += (s, e) =>
+            {
+                if (ReferenceEquals(curwebView2, webView))
+                {
+                    UpdateAddressBar(webView);
                 }
             };
             webView.CoreWebView2.NewWindowRequested += WebView_NewWindowRequested;
