@@ -1,6 +1,7 @@
 ﻿using Interfaces;
 using Interfaces.Profile;
 using Krypton.Navigator;
+using Krypton.Workspace;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 using System;
@@ -27,7 +28,7 @@ namespace PluginFileshareWeb
         CoreWebView2EnvironmentOptions options;
         WebView2 curwebView2 = null;
         List<ToolStripButton> toolStripButtons = new List<ToolStripButton>();
-        KryptonNavigator _tab_control;
+        KryptonWorkspace _tab_control;
         double zoomFactor = 80;
         public IUserProfile UserProfile { get; set; }
 
@@ -39,8 +40,9 @@ namespace PluginFileshareWeb
         {
             InitializeComponent();
             ApplyModernChrome();
-            _tab_control = kryptonNavigator1;
-            _tab_control.SelectedPageChanged += tControl_SelectedIndexChanged;
+            _tab_control = kryptonWorkspace1;
+            _tab_control.ActivePageChanged += tControl_SelectedIndexChanged;
+            _tab_control.WorkspaceCellAdding += KryptonWorkspace1_WorkspaceCellAdding;
             //_tab_control.MouseDoubleClick += tControl_MouseDoubleClick;
             _ = InitializeAsync();
         }
@@ -117,9 +119,9 @@ namespace PluginFileshareWeb
 
         private void tControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_tab_control.SelectedPage == null) return;
+            if (_tab_control.ActivePage == null) return;
 
-            if (_tab_control.SelectedPage.Tag is WebView2 webView2)
+            if (_tab_control.ActivePage.Tag is WebView2 webView2)
             {
                 curwebView2 = webView2;
                 if (_curJob != null)
@@ -148,10 +150,10 @@ namespace PluginFileshareWeb
             LinkInfo link = (LinkInfo)((ToolStripButton)sender).Tag;
 
             await AddTabAsync();
-            WebView2 webView = (WebView2)_tab_control.SelectedPage.Tag;
+            WebView2 webView = (WebView2)_tab_control.ActivePage.Tag;
             //збережемо посилання в тег вкладки
             webView.Tag = link;
-            _tab_control.SelectedPage.Text = link.Name;
+            _tab_control.ActivePage.Text = link.Name;
 
 
 
@@ -187,10 +189,10 @@ namespace PluginFileshareWeb
             foreach (var link in _settings.OpenOnStart)
             {
                 await AddTabAsync();
-                WebView2 webView = (WebView2)_tab_control.SelectedPage.Tag;
+                WebView2 webView = (WebView2)_tab_control.ActivePage.Tag;
                 //збережемо посилання в тег вкладки
                 webView.Tag = link;
-                _tab_control.SelectedPage.Text = link.Name;
+                _tab_control.ActivePage.Text = link.Name;
 
                 curwebView2.Source = new Uri("about:blank");
                 curwebView2.Source = new Uri(link.Url);
@@ -432,13 +434,45 @@ namespace PluginFileshareWeb
             }
 
             KryptonPage tabPage = new KryptonPage(title);
+            tabPage.UniqueName = Guid.NewGuid().ToString("N");
+            tabPage.TextTitle = title;
             tabPage.Tag = webView;
             webView.Dock = DockStyle.Fill;
             tabPage.Controls.Add(webView);
-            _tab_control.Pages.Add(tabPage);
-            _tab_control.SelectedPage = tabPage;
+
+            KryptonWorkspaceCell cell = GetTargetCell();
+            cell.Pages.Add(tabPage);
+            _tab_control.ActivePage = tabPage;
 
             return webView;
+        }
+
+        private KryptonWorkspaceCell GetTargetCell()
+        {
+            if (_tab_control.ActiveCell != null) return _tab_control.ActiveCell;
+
+            KryptonWorkspaceCell firstCell = _tab_control.FirstCell();
+            if (firstCell != null) return firstCell;
+
+            KryptonWorkspaceCell cell = CreateWorkspaceCell();
+            _tab_control.Root.Children.Add(cell);
+            return cell;
+        }
+
+        private KryptonWorkspaceCell CreateWorkspaceCell()
+        {
+            return new KryptonWorkspaceCell();
+        }
+
+        private void InitializeWorkspaceCell(KryptonWorkspaceCell cell)
+        {
+            cell.NavigatorMode = NavigatorMode.BarTabGroup;
+            cell.CloseAction += kryptonWorkspaceCell_CloseAction;
+        }
+
+        private void KryptonWorkspace1_WorkspaceCellAdding(object sender, WorkspaceCellEventArgs e)
+        {
+            InitializeWorkspaceCell(e.Cell);
         }
 
         private async void WebView_NewWindowRequested(object sender, CoreWebView2NewWindowRequestedEventArgs e)
@@ -457,7 +491,7 @@ namespace PluginFileshareWeb
             }
         }
        
-        private void kryptonNavigator1_CloseAction(object sender, CloseActionEventArgs e)
+        private void kryptonWorkspaceCell_CloseAction(object sender, CloseActionEventArgs e)
         {
             if (e.Action == CloseButtonAction.RemovePageAndDispose)
             {

@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowOut));
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.kryptonNavigator1 = new Krypton.Navigator.KryptonNavigator();
+            this.kryptonWorkspace1 = new Krypton.Workspace.KryptonWorkspace();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsb_add_tab = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -48,8 +48,8 @@
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigator1)).BeginInit();
-            this.kryptonNavigator1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspace1)).BeginInit();
+            this.kryptonWorkspace1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,7 +58,7 @@
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.kryptonNavigator1);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.kryptonWorkspace1);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(809, 428);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
@@ -71,18 +71,20 @@
             // 
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
             // 
-            // kryptonNavigator1
+            // kryptonWorkspace1
             // 
-            this.kryptonNavigator1.ControlKryptonFormFeatures = false;
-            this.kryptonNavigator1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonNavigator1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonNavigator1.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
-            this.kryptonNavigator1.Owner = null;
-            this.kryptonNavigator1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
-            this.kryptonNavigator1.Size = new System.Drawing.Size(809, 428);
-            this.kryptonNavigator1.TabIndex = 0;
-            this.kryptonNavigator1.Text = "kryptonNavigator1";
-            this.kryptonNavigator1.CloseAction += new System.EventHandler<Krypton.Navigator.CloseActionEventArgs>(this.kryptonNavigator1_CloseAction);
+            this.kryptonWorkspace1.AllowPageDrag = true;
+            this.kryptonWorkspace1.AllowResizing = true;
+            this.kryptonWorkspace1.CompactFlags = Krypton.Workspace.CompactFlags.RemoveEmptyCells;
+            this.kryptonWorkspace1.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
+            this.kryptonWorkspace1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonWorkspace1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonWorkspace1.Name = "kryptonWorkspace1";
+            this.kryptonWorkspace1.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
+            this.kryptonWorkspace1.ShowMaximizeButton = false;
+            this.kryptonWorkspace1.Size = new System.Drawing.Size(809, 428);
+            this.kryptonWorkspace1.TabIndex = 0;
+            this.kryptonWorkspace1.Text = "kryptonWorkspace1";
             // 
             // toolStrip1
             // 
@@ -239,8 +241,8 @@
             this.toolStripContainer1.TopToolStripPanel.PerformLayout();
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigator1)).EndInit();
-            this.kryptonNavigator1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonWorkspace1)).EndInit();
+            this.kryptonWorkspace1.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -264,6 +266,6 @@
         
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private Krypton.Navigator.KryptonNavigator kryptonNavigator1;
+        private Krypton.Workspace.KryptonWorkspace kryptonWorkspace1;
     }
 }
