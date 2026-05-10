@@ -25,6 +25,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         public string MarksPath { get; private set; }
         public string SheetTemplatesPath { get; private set; }
         public string PrintSheetsPath { get; private set; }
+        public string AutoImposPath { get; private set; }
         public string TemplatePlatesPath { get; private set; }
         Profile _profile;
 
@@ -37,6 +38,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             MarksPath = Path.Combine(RootPath, "Marks");
             SheetTemplatesPath = Path.Combine(RootPath, "SheetTemplates");
             PrintSheetsPath = Path.Combine(RootPath, "PrintSheets");
+            AutoImposPath = Path.Combine(RootPath, "AutoImpos");
             TemplatePlatesPath = Path.Combine(RootPath, "TemplatePlates");
 
             if (!Directory.Exists(RootPath)) Directory.CreateDirectory(RootPath);
@@ -44,6 +46,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             if (!Directory.Exists(MarksPath)) Directory.CreateDirectory(MarksPath);
             if (!Directory.Exists(SheetTemplatesPath)) Directory.CreateDirectory(SheetTemplatesPath);
             if (!Directory.Exists(PrintSheetsPath)) Directory.CreateDirectory(PrintSheetsPath);
+            if (!Directory.Exists(AutoImposPath)) Directory.CreateDirectory(AutoImposPath);
             if (!Directory.Exists(TemplatePlatesPath)) Directory.CreateDirectory(TemplatePlatesPath);
 
             Marks = new MarksService(profile);
