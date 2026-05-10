@@ -21,13 +21,7 @@ using JobSpace.Models;
 using JobSpace.Static;
 using JobSpace.UC;
 using JobSpace.UserForms;
-using Krypton.Toolkit;
 using Logger;
-using Ookii.Dialogs.WinForms;
-using SharpCompress.Common;
-using OokiiTaskDialog = Ookii.Dialogs.WinForms.TaskDialog;
-using OokiiTaskDialogButton = Ookii.Dialogs.WinForms.TaskDialogButton;
-using OokiiTaskDialogIcon = Ookii.Dialogs.WinForms.TaskDialogIcon;
 
 
 namespace JobSpace.Fasades
@@ -234,18 +228,18 @@ namespace JobSpace.Fasades
 
             if (j.Any())
             {
-                var dialog = new OokiiTaskDialog
+                var yesButton = System.Windows.Forms.TaskDialogButton.Yes;
+                var noButton = System.Windows.Forms.TaskDialogButton.No;
+                var page = new System.Windows.Forms.TaskDialogPage
                 {
-                    WindowTitle = @"Увага!",
-                    MainIcon = OokiiTaskDialogIcon.Custom,
-                    //CustomMainIcon = Properties.Resources.emotion_misdoubt,
-                    MainInstruction =
-                    $"У {job.Customer} робота з номером {job.Number} вже існує. Все одно створити?"
+                    Caption = @"Увага!",
+                    Icon = System.Windows.Forms.TaskDialogIcon.Warning,
+                    Heading = $"У {job.Customer} робота з номером {job.Number} вже існує. Все одно створити?",
+                    Buttons = { yesButton, noButton },
+                    DefaultButton = noButton
                 };
-                dialog.Buttons.Add(new OokiiTaskDialogButton(ButtonType.Yes));
-                dialog.Buttons.Add(new OokiiTaskDialogButton(ButtonType.No));
 
-                if (dialog.ShowDialog().ButtonType == ButtonType.No)
+                if (System.Windows.Forms.TaskDialog.ShowDialog(page, System.Windows.Forms.TaskDialogStartupLocation.CenterScreen) == noButton)
                 {
                     return false;
                 }
