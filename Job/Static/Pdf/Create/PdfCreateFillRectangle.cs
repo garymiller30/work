@@ -8,7 +8,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Створити","Заливка прямокутника",Icon = "create_rectangle_fill",Order = 10)]
+    [PdfTool("Створити","Заливка прямокутника",Icon = "create_rectangle_fill",Order = 4)]
     public sealed class PdfCreateFillRectangle : IPdfTool
     {
 
