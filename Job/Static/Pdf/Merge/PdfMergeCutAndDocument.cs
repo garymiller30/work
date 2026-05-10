@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Merge
 {
-    [PdfTool("З'єднати", "контур ножа і документ", Description = "вибраний файл накладається на кожну сторінку документа", Icon = "merge_cut_to_doc")]
+    [PdfTool("З'єднати", "контур ножа і документ", Description = "вибраний файл накладається на кожну сторінку документа", Icon = "merge_cut_to_doc",Order = 3)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfMergeCutAndDocument : IPdfTool
     {

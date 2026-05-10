@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace JobSpace.Static.Pdf.Imposition
 {
-    [PdfTool("", "Спуск полос",Order = 2,Icon ="imposition")]
+    [PdfTool("", "Спуск полос",Order = 50,Icon ="imposition")]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfImposition : IPdfTool
     {

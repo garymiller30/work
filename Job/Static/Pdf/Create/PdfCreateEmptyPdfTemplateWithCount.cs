@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Створити","порожній PDF шаблон з кількістю",Icon = "create_empty_pdf_template",Order =10)]
+    [PdfTool("Створити","порожній PDF шаблон з кількістю",Icon = "create_empty_pdf_template",Order =4)]
     public sealed class PdfCreateEmptyPdfTemplateWithCount : IPdfTool
     {
         List<EmptyTemplate> _templates;

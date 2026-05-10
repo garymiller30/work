@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Create.Falc
 {
-    [PdfTool("Візуалізація", "Фальцовка в намотку", Icon = "visual_falc", Order = 20)]
+    [PdfTool("Візуалізація", "Фальцовка в намотку", Icon = "visual_falc", Order = 1)]
     public class FalcSchema : IPdfTool
     {
         const double COEF_DIMENSION = 0.3;

@@ -1,5 +1,4 @@
-﻿using JobSpace.Static.Pdf.Scale;
-using PDFlib_dotnet;
+﻿using PDFlib_dotnet;
 using System;
 
 namespace JobSpace.Static.Pdf.Common

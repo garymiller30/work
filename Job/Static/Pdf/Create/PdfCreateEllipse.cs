@@ -7,7 +7,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Створити", "Еліпс (ProofColor)", Icon = "create_ellipse", Order = 10)]
+    [PdfTool("Створити", "Еліпс (ProofColor)", Icon = "create_ellipse", Order = 4)]
     public sealed class PdfCreateEllipse : IPdfTool
     {
         public bool Configure(PdfJobContext context)

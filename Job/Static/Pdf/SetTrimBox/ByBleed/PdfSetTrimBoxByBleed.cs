@@ -1,17 +1,8 @@
 ﻿using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Convert;
-using JobSpace.Static.Pdf.Scale;
 using PDFlib_dotnet;
-using SharpCompress.Common;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
 {
