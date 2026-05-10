@@ -1,6 +1,6 @@
-﻿using JobSpace.Profiles;
-using ExtensionMethods;
+﻿using ExtensionMethods;
 using JobSpace.CustomForms;
+using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF;
 using JobSpace.Static.Pdf.Imposition.Models;
@@ -9,7 +9,6 @@ using JobSpace.Static.Pdf.Imposition.Models.View;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using Krypton.Toolkit;
-using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -739,7 +738,7 @@ namespace JobSpace.UserForms.PDF
 
         private void btn_selectCustomFolder_Click(object sender, EventArgs e)
         {
-            using (var form = new VistaFolderBrowserDialog())
+            using (var form = new FolderBrowserDialog())
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {

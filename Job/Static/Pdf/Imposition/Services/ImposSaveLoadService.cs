@@ -3,15 +3,9 @@ using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Imposition.Services
@@ -164,7 +158,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             List<TemplateSheet> sheets = new List<TemplateSheet>();
 
-            using (var form = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            using (var form = new OpenFileDialog())
             {
                 form.InitialDirectory = SheetTemplatesPath;
                 form.RestoreDirectory = true;
@@ -215,7 +209,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         public  List<PrintSheet> LoadPrintSheets()
         {
-            using (var form = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            using (var form = new OpenFileDialog())
             {
                 form.InitialDirectory = PrintSheetsPath;
                 form.CheckFileExists = true;

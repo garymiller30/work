@@ -83,8 +83,8 @@ namespace JobSpace.UserForms
 
         private void bnt_import_Click(object sender, EventArgs e)
         {
-            // імпортуємо шаблони з csv файлу. Використовуємо діалог з Ookii.Dialogs.WinForms для вибору файлу
-            using (var ofd = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            // імпортуємо шаблони з csv файлу. 
+            using (var ofd = new OpenFileDialog())
             {
                 ofd.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
                 if (ofd.ShowDialog() == DialogResult.OK)

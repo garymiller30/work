@@ -28,2252 +28,2201 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSettings));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBoxStoreByYear = new System.Windows.Forms.CheckBox();
-            this.button_WorkFolder = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox_Work = new System.Windows.Forms.TextBox();
-            this.buttonOpenSignaJobsFolder = new System.Windows.Forms.Button();
-            this.label21 = new System.Windows.Forms.Label();
-            this.textBoxFolderSignaJobs = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip_FolderNames = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.numericUpDownBaseTimeOut = new System.Windows.Forms.NumericUpDown();
-            this.label28 = new System.Windows.Forms.Label();
-            this.textBoxBaseName = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox_mongoDB = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.groupBox15 = new System.Windows.Forms.GroupBox();
-            this.btn_joblist_select_font = new System.Windows.Forms.Button();
-            this.tb_joblist_font = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.groupBox16 = new System.Windows.Forms.GroupBox();
-            this.checkBoxHideCategory = new System.Windows.Forms.CheckBox();
-            this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.kryptonButton_MoveSignaFileToOrder = new Krypton.Toolkit.KryptonButton();
-            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
-            this.textBox_FolderForSignaFileInJob = new System.Windows.Forms.TextBox();
-            this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
-            this.label27 = new System.Windows.Forms.Label();
-            this.textBoxSignaShablon = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.tabPageUtils = new System.Windows.Forms.TabPage();
-            this.objectListView_Utils = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumnUtilsEnable = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnEvent = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnChangeStatus = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnUsedInMainWindow = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnUsedExplorer0 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnUsedExplorerRight = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnUsedExplorer2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnUsedExplorer3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.contextMenuStrip_Utils = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.добавитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.удалитьToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.выбратьФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPageSendTo = new System.Windows.Forms.TabPage();
-            this.objectListViewSendTo = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnFileNameShablon = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.contextMenuStrip_Explorer = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.удалитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.выбратьПапкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPageOther = new System.Windows.Forms.TabPage();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.buttonAddFolderName = new System.Windows.Forms.Button();
-            this.textBoxFolderName = new System.Windows.Forms.TextBox();
-            this.listBoxFolderNames = new System.Windows.Forms.ListBox();
-            this.checkBoxUseViewer = new System.Windows.Forms.CheckBox();
-            this.groupBoxViewer = new System.Windows.Forms.GroupBox();
-            this.buttonSelectViewer = new System.Windows.Forms.Button();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.textBoxViewerCommandLine = new System.Windows.Forms.TextBox();
-            this.textBoxViewer = new System.Windows.Forms.TextBox();
-            this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.buttonExtBrowsersSettings = new System.Windows.Forms.Button();
-            this.numericUpDownCountExplorers = new System.Windows.Forms.NumericUpDown();
-            this.label25 = new System.Windows.Forms.Label();
-            this.listBox_CustomButtonFolder = new System.Windows.Forms.ListBox();
-            this.contextMenuStripCustomPath = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.удалитьToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.button_CustomButtonPath = new System.Windows.Forms.Button();
-            this.label14 = new System.Windows.Forms.Label();
-            this.tabPagePdfConvertor = new System.Windows.Forms.TabPage();
-            this.checkBoxMoveOriginalFileToTrash = new System.Windows.Forms.CheckBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.buttonScriptRemove = new System.Windows.Forms.Button();
-            this.buttonScriptAdd = new System.Windows.Forms.Button();
-            this.objectListViewFtpScripts = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn7 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.buttonFtpSettingsRemove = new System.Windows.Forms.Button();
-            this.buttonFtpSettingsAdd = new System.Windows.Forms.Button();
-            this.listBox_Ftp_Servers = new System.Windows.Forms.ListBox();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.olv_mail_templates = new BrightIdeasSoftware.ObjectListView();
-            this.olvc_mail_template_name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.cms_mail_templates = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.додатиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.редагуватиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.видалитиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.cb_mail_connection_type = new System.Windows.Forms.ComboBox();
-            this.gb_mail_googleApi_settings = new System.Windows.Forms.GroupBox();
-            this.btn_mail_gmail_settings_sel_secret_file = new System.Windows.Forms.Button();
-            this.tb_mail_gmail_settings_secret_file = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.gb_mail_smtp_settings = new System.Windows.Forms.GroupBox();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.numericUpDownSmtpPort = new System.Windows.Forms.NumericUpDown();
-            this.textBox_MailPassword = new System.Windows.Forms.TextBox();
-            this.textBoxSmtpServer = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.textBox_MailFrom = new System.Windows.Forms.TextBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.checkBoxMailAutoRelogon = new System.Windows.Forms.CheckBox();
-            this.numericUpDown_ImapPort = new System.Windows.Forms.NumericUpDown();
-            this.textBox_ImapServer = new System.Windows.Forms.TextBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.button_MailAdd = new System.Windows.Forms.Button();
-            this.label13 = new System.Windows.Forms.Label();
-            this.textBox_MailTo = new System.Windows.Forms.TextBox();
-            this.listBox_SendEmails = new System.Windows.Forms.ListBox();
-            this.contextMenuStripMails = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.копіюватиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.buttonStatusSetDefault = new System.Windows.Forms.Button();
-            this.objectListViewStatuses = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumnStatusName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnStatusDef = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.buttonStatusDelete = new System.Windows.Forms.Button();
-            this.buttonStatusEdit = new System.Windows.Forms.Button();
-            this.buttonStatusAdd = new System.Windows.Forms.Button();
-            this.groupBoxOnChangeStatuses = new System.Windows.Forms.GroupBox();
-            this.checkBoxStatusEnable = new System.Windows.Forms.CheckBox();
-            this.panelStatusParams = new System.Windows.Forms.Panel();
-            this.label35 = new System.Windows.Forms.Label();
-            this.textBoxStatusCommandLineParam = new System.Windows.Forms.TextBox();
-            this.buttonStatusSelectProgram = new System.Windows.Forms.Button();
-            this.label34 = new System.Windows.Forms.Label();
-            this.textBoxStatusFileName = new System.Windows.Forms.TextBox();
-            this.tabPagePlugins = new System.Windows.Forms.TabPage();
-            this.objectListViewPlugins = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumnPluginName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnPluginDescription = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.tabPageCategory = new System.Windows.Forms.TabPage();
-            this.objectListViewCategories = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumnCategory = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnDeleteCategory = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox_addCategory = new System.Windows.Forms.TextBox();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.contextMenuStrip_PlateOwners = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.удалитьToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip_Mail = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.удалитьToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.vistaFolderBrowserDialog1 = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog();
-            this.vistaOpenFileDialog1 = new Ookii.Dialogs.WinForms.VistaOpenFileDialog();
-            this.button_Save = new System.Windows.Forms.Button();
-            this.groupBox17 = new System.Windows.Forms.GroupBox();
-            this.buttonSetProfileDefault = new System.Windows.Forms.Button();
-            this.buttonRemoveProfile = new System.Windows.Forms.Button();
-            this.buttonAddProfile = new System.Windows.Forms.Button();
-            this.objectListViewProfiles = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.statusChangeParamBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.groupBox1.SuspendLayout();
-            this.contextMenuStrip_FolderNames.SuspendLayout();
-            this.tabControlMain.SuspendLayout();
-            this.tabPage5.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBaseTimeOut)).BeginInit();
-            this.tabPage1.SuspendLayout();
-            this.groupBox15.SuspendLayout();
-            this.groupBox16.SuspendLayout();
-            this.groupBox14.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabControl2.SuspendLayout();
-            this.tabPageUtils.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListView_Utils)).BeginInit();
-            this.contextMenuStrip_Utils.SuspendLayout();
-            this.tabPageSendTo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewSendTo)).BeginInit();
-            this.contextMenuStrip_Explorer.SuspendLayout();
-            this.tabPageOther.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBoxViewer.SuspendLayout();
-            this.groupBox13.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCountExplorers)).BeginInit();
-            this.contextMenuStripCustomPath.SuspendLayout();
-            this.tabPagePdfConvertor.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewFtpScripts)).BeginInit();
-            this.groupBox9.SuspendLayout();
-            this.tabPage6.SuspendLayout();
-            this.groupBox10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olv_mail_templates)).BeginInit();
-            this.cms_mail_templates.SuspendLayout();
-            this.groupBox11.SuspendLayout();
-            this.groupBox12.SuspendLayout();
-            this.gb_mail_googleApi_settings.SuspendLayout();
-            this.gb_mail_smtp_settings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSmtpPort)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ImapPort)).BeginInit();
-            this.groupBox7.SuspendLayout();
-            this.contextMenuStripMails.SuspendLayout();
-            this.tabPage7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewStatuses)).BeginInit();
-            this.groupBoxOnChangeStatuses.SuspendLayout();
-            this.panelStatusParams.SuspendLayout();
-            this.tabPagePlugins.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewPlugins)).BeginInit();
-            this.tabPageCategory.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewCategories)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            this.contextMenuStrip_PlateOwners.SuspendLayout();
-            this.contextMenuStrip_Mail.SuspendLayout();
-            this.groupBox17.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewProfiles)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.statusChangeParamBindingSource)).BeginInit();
-            this.SuspendLayout();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            checkBoxStoreByYear = new System.Windows.Forms.CheckBox();
+            button_WorkFolder = new System.Windows.Forms.Button();
+            label2 = new System.Windows.Forms.Label();
+            textBox_Work = new System.Windows.Forms.TextBox();
+            buttonOpenSignaJobsFolder = new System.Windows.Forms.Button();
+            label21 = new System.Windows.Forms.Label();
+            textBoxFolderSignaJobs = new System.Windows.Forms.TextBox();
+            contextMenuStrip_FolderNames = new System.Windows.Forms.ContextMenuStrip(components);
+            удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            tabControlMain = new System.Windows.Forms.TabControl();
+            tabPage5 = new System.Windows.Forms.TabPage();
+            groupBox5 = new System.Windows.Forms.GroupBox();
+            label29 = new System.Windows.Forms.Label();
+            numericUpDownBaseTimeOut = new System.Windows.Forms.NumericUpDown();
+            label28 = new System.Windows.Forms.Label();
+            textBoxBaseName = new System.Windows.Forms.TextBox();
+            label6 = new System.Windows.Forms.Label();
+            textBox_mongoDB = new System.Windows.Forms.TextBox();
+            label9 = new System.Windows.Forms.Label();
+            tabPage1 = new System.Windows.Forms.TabPage();
+            groupBox15 = new System.Windows.Forms.GroupBox();
+            btn_joblist_select_font = new System.Windows.Forms.Button();
+            tb_joblist_font = new System.Windows.Forms.TextBox();
+            label3 = new System.Windows.Forms.Label();
+            groupBox16 = new System.Windows.Forms.GroupBox();
+            checkBoxHideCategory = new System.Windows.Forms.CheckBox();
+            groupBox14 = new System.Windows.Forms.GroupBox();
+            kryptonButton_MoveSignaFileToOrder = new Krypton.Toolkit.KryptonButton();
+            kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            textBox_FolderForSignaFileInJob = new System.Windows.Forms.TextBox();
+            kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
+            label27 = new System.Windows.Forms.Label();
+            textBoxSignaShablon = new System.Windows.Forms.TextBox();
+            label26 = new System.Windows.Forms.Label();
+            tabPage2 = new System.Windows.Forms.TabPage();
+            tabControl2 = new System.Windows.Forms.TabControl();
+            tabPageUtils = new System.Windows.Forms.TabPage();
+            objectListView_Utils = new BrightIdeasSoftware.ObjectListView();
+            olvColumnUtilsEnable = new BrightIdeasSoftware.OLVColumn();
+            olvColumn3 = new BrightIdeasSoftware.OLVColumn();
+            olvColumn4 = new BrightIdeasSoftware.OLVColumn();
+            olvColumn5 = new BrightIdeasSoftware.OLVColumn();
+            olvColumnEvent = new BrightIdeasSoftware.OLVColumn();
+            olvColumnChangeStatus = new BrightIdeasSoftware.OLVColumn();
+            olvColumnUsedInMainWindow = new BrightIdeasSoftware.OLVColumn();
+            olvColumnUsedExplorer0 = new BrightIdeasSoftware.OLVColumn();
+            olvColumnUsedExplorerRight = new BrightIdeasSoftware.OLVColumn();
+            olvColumnUsedExplorer2 = new BrightIdeasSoftware.OLVColumn();
+            olvColumnUsedExplorer3 = new BrightIdeasSoftware.OLVColumn();
+            contextMenuStrip_Utils = new System.Windows.Forms.ContextMenuStrip(components);
+            добавитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            удалитьToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            выбратьФайлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            tabPageSendTo = new System.Windows.Forms.TabPage();
+            objectListViewSendTo = new BrightIdeasSoftware.ObjectListView();
+            olvColumn1 = new BrightIdeasSoftware.OLVColumn();
+            olvColumn2 = new BrightIdeasSoftware.OLVColumn();
+            olvColumnFileNameShablon = new BrightIdeasSoftware.OLVColumn();
+            contextMenuStrip_Explorer = new System.Windows.Forms.ContextMenuStrip(components);
+            добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            удалитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            выбратьПапкуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            tabPageOther = new System.Windows.Forms.TabPage();
+            groupBox8 = new System.Windows.Forms.GroupBox();
+            groupBox3 = new System.Windows.Forms.GroupBox();
+            buttonAddFolderName = new System.Windows.Forms.Button();
+            textBoxFolderName = new System.Windows.Forms.TextBox();
+            listBoxFolderNames = new System.Windows.Forms.ListBox();
+            groupBox13 = new System.Windows.Forms.GroupBox();
+            buttonExtBrowsersSettings = new System.Windows.Forms.Button();
+            numericUpDownCountExplorers = new System.Windows.Forms.NumericUpDown();
+            label25 = new System.Windows.Forms.Label();
+            listBox_CustomButtonFolder = new System.Windows.Forms.ListBox();
+            contextMenuStripCustomPath = new System.Windows.Forms.ContextMenuStrip(components);
+            удалитьToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            button_CustomButtonPath = new System.Windows.Forms.Button();
+            label14 = new System.Windows.Forms.Label();
+            tabPagePdfConvertor = new System.Windows.Forms.TabPage();
+            checkBoxMoveOriginalFileToTrash = new System.Windows.Forms.CheckBox();
+            groupBox6 = new System.Windows.Forms.GroupBox();
+            label10 = new System.Windows.Forms.Label();
+            tabPage3 = new System.Windows.Forms.TabPage();
+            groupBox4 = new System.Windows.Forms.GroupBox();
+            buttonScriptRemove = new System.Windows.Forms.Button();
+            buttonScriptAdd = new System.Windows.Forms.Button();
+            objectListViewFtpScripts = new BrightIdeasSoftware.ObjectListView();
+            olvColumn6 = new BrightIdeasSoftware.OLVColumn();
+            olvColumn7 = new BrightIdeasSoftware.OLVColumn();
+            groupBox9 = new System.Windows.Forms.GroupBox();
+            buttonFtpSettingsRemove = new System.Windows.Forms.Button();
+            buttonFtpSettingsAdd = new System.Windows.Forms.Button();
+            listBox_Ftp_Servers = new System.Windows.Forms.ListBox();
+            tabPage6 = new System.Windows.Forms.TabPage();
+            groupBox10 = new System.Windows.Forms.GroupBox();
+            olv_mail_templates = new BrightIdeasSoftware.ObjectListView();
+            olvc_mail_template_name = new BrightIdeasSoftware.OLVColumn();
+            cms_mail_templates = new System.Windows.Forms.ContextMenuStrip(components);
+            додатиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            редагуватиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            видалитиШаблонToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            groupBox11 = new System.Windows.Forms.GroupBox();
+            groupBox12 = new System.Windows.Forms.GroupBox();
+            cb_mail_connection_type = new System.Windows.Forms.ComboBox();
+            gb_mail_googleApi_settings = new System.Windows.Forms.GroupBox();
+            btn_mail_gmail_settings_sel_secret_file = new System.Windows.Forms.Button();
+            tb_mail_gmail_settings_secret_file = new System.Windows.Forms.TextBox();
+            label1 = new System.Windows.Forms.Label();
+            gb_mail_smtp_settings = new System.Windows.Forms.GroupBox();
+            label30 = new System.Windows.Forms.Label();
+            label32 = new System.Windows.Forms.Label();
+            label12 = new System.Windows.Forms.Label();
+            numericUpDownSmtpPort = new System.Windows.Forms.NumericUpDown();
+            textBox_MailPassword = new System.Windows.Forms.TextBox();
+            textBoxSmtpServer = new System.Windows.Forms.TextBox();
+            label11 = new System.Windows.Forms.Label();
+            label33 = new System.Windows.Forms.Label();
+            textBox_MailFrom = new System.Windows.Forms.TextBox();
+            label31 = new System.Windows.Forms.Label();
+            checkBoxMailAutoRelogon = new System.Windows.Forms.CheckBox();
+            numericUpDown_ImapPort = new System.Windows.Forms.NumericUpDown();
+            textBox_ImapServer = new System.Windows.Forms.TextBox();
+            groupBox7 = new System.Windows.Forms.GroupBox();
+            button_MailAdd = new System.Windows.Forms.Button();
+            label13 = new System.Windows.Forms.Label();
+            textBox_MailTo = new System.Windows.Forms.TextBox();
+            listBox_SendEmails = new System.Windows.Forms.ListBox();
+            contextMenuStripMails = new System.Windows.Forms.ContextMenuStrip(components);
+            копіюватиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            tabPage7 = new System.Windows.Forms.TabPage();
+            buttonStatusSetDefault = new System.Windows.Forms.Button();
+            objectListViewStatuses = new BrightIdeasSoftware.ObjectListView();
+            olvColumnStatusName = new BrightIdeasSoftware.OLVColumn();
+            olvColumnStatusDef = new BrightIdeasSoftware.OLVColumn();
+            buttonStatusDelete = new System.Windows.Forms.Button();
+            buttonStatusEdit = new System.Windows.Forms.Button();
+            buttonStatusAdd = new System.Windows.Forms.Button();
+            groupBoxOnChangeStatuses = new System.Windows.Forms.GroupBox();
+            checkBoxStatusEnable = new System.Windows.Forms.CheckBox();
+            panelStatusParams = new System.Windows.Forms.Panel();
+            label35 = new System.Windows.Forms.Label();
+            textBoxStatusCommandLineParam = new System.Windows.Forms.TextBox();
+            buttonStatusSelectProgram = new System.Windows.Forms.Button();
+            label34 = new System.Windows.Forms.Label();
+            textBoxStatusFileName = new System.Windows.Forms.TextBox();
+            tabPagePlugins = new System.Windows.Forms.TabPage();
+            objectListViewPlugins = new BrightIdeasSoftware.ObjectListView();
+            olvColumnPluginName = new BrightIdeasSoftware.OLVColumn();
+            olvColumnPluginDescription = new BrightIdeasSoftware.OLVColumn();
+            tabPageCategory = new System.Windows.Forms.TabPage();
+            objectListViewCategories = new BrightIdeasSoftware.ObjectListView();
+            olvColumnCategory = new BrightIdeasSoftware.OLVColumn();
+            olvColumnDeleteCategory = new BrightIdeasSoftware.OLVColumn();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            button1 = new System.Windows.Forms.Button();
+            textBox_addCategory = new System.Windows.Forms.TextBox();
+            imageList1 = new System.Windows.Forms.ImageList(components);
+            contextMenuStrip_PlateOwners = new System.Windows.Forms.ContextMenuStrip(components);
+            удалитьToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            contextMenuStrip_Mail = new System.Windows.Forms.ContextMenuStrip(components);
+            удалитьToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            button_Save = new System.Windows.Forms.Button();
+            groupBox17 = new System.Windows.Forms.GroupBox();
+            buttonSetProfileDefault = new System.Windows.Forms.Button();
+            buttonRemoveProfile = new System.Windows.Forms.Button();
+            buttonAddProfile = new System.Windows.Forms.Button();
+            objectListViewProfiles = new BrightIdeasSoftware.ObjectListView();
+            olvColumnName = new BrightIdeasSoftware.OLVColumn();
+            statusChangeParamBindingSource = new System.Windows.Forms.BindingSource(components);
+            groupBox1.SuspendLayout();
+            contextMenuStrip_FolderNames.SuspendLayout();
+            tabControlMain.SuspendLayout();
+            tabPage5.SuspendLayout();
+            groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownBaseTimeOut).BeginInit();
+            tabPage1.SuspendLayout();
+            groupBox15.SuspendLayout();
+            groupBox16.SuspendLayout();
+            groupBox14.SuspendLayout();
+            tabPage2.SuspendLayout();
+            tabControl2.SuspendLayout();
+            tabPageUtils.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)objectListView_Utils).BeginInit();
+            contextMenuStrip_Utils.SuspendLayout();
+            tabPageSendTo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)objectListViewSendTo).BeginInit();
+            contextMenuStrip_Explorer.SuspendLayout();
+            tabPageOther.SuspendLayout();
+            groupBox8.SuspendLayout();
+            groupBox3.SuspendLayout();
+            groupBox13.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownCountExplorers).BeginInit();
+            contextMenuStripCustomPath.SuspendLayout();
+            tabPagePdfConvertor.SuspendLayout();
+            groupBox6.SuspendLayout();
+            tabPage3.SuspendLayout();
+            groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)objectListViewFtpScripts).BeginInit();
+            groupBox9.SuspendLayout();
+            tabPage6.SuspendLayout();
+            groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)olv_mail_templates).BeginInit();
+            cms_mail_templates.SuspendLayout();
+            groupBox11.SuspendLayout();
+            groupBox12.SuspendLayout();
+            gb_mail_googleApi_settings.SuspendLayout();
+            gb_mail_smtp_settings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownSmtpPort).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_ImapPort).BeginInit();
+            groupBox7.SuspendLayout();
+            contextMenuStripMails.SuspendLayout();
+            tabPage7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)objectListViewStatuses).BeginInit();
+            groupBoxOnChangeStatuses.SuspendLayout();
+            panelStatusParams.SuspendLayout();
+            tabPagePlugins.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)objectListViewPlugins).BeginInit();
+            tabPageCategory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)objectListViewCategories).BeginInit();
+            groupBox2.SuspendLayout();
+            contextMenuStrip_PlateOwners.SuspendLayout();
+            contextMenuStrip_Mail.SuspendLayout();
+            groupBox17.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)objectListViewProfiles).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)statusChangeParamBindingSource).BeginInit();
+            SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.checkBoxStoreByYear);
-            this.groupBox1.Controls.Add(this.button_WorkFolder);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.textBox_Work);
-            this.groupBox1.Location = new System.Drawing.Point(6, 6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(273, 100);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
+            groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            groupBox1.Controls.Add(checkBoxStoreByYear);
+            groupBox1.Controls.Add(button_WorkFolder);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(textBox_Work);
+            groupBox1.Location = new System.Drawing.Point(7, 7);
+            groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Size = new System.Drawing.Size(318, 115);
+            groupBox1.TabIndex = 0;
+            groupBox1.TabStop = false;
             // 
             // checkBoxStoreByYear
             // 
-            this.checkBoxStoreByYear.AutoSize = true;
-            this.checkBoxStoreByYear.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.checkBoxStoreByYear.Location = new System.Drawing.Point(16, 53);
-            this.checkBoxStoreByYear.Name = "checkBoxStoreByYear";
-            this.checkBoxStoreByYear.Size = new System.Drawing.Size(121, 17);
-            this.checkBoxStoreByYear.TabIndex = 13;
-            this.checkBoxStoreByYear.Text = "зберігати по роках";
-            this.checkBoxStoreByYear.UseVisualStyleBackColor = true;
+            checkBoxStoreByYear.AutoSize = true;
+            checkBoxStoreByYear.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            checkBoxStoreByYear.Location = new System.Drawing.Point(19, 61);
+            checkBoxStoreByYear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxStoreByYear.Name = "checkBoxStoreByYear";
+            checkBoxStoreByYear.Size = new System.Drawing.Size(129, 19);
+            checkBoxStoreByYear.TabIndex = 13;
+            checkBoxStoreByYear.Text = "зберігати по роках";
+            checkBoxStoreByYear.UseVisualStyleBackColor = true;
             // 
             // button_WorkFolder
             // 
-            this.button_WorkFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_WorkFolder.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button_WorkFolder.Location = new System.Drawing.Point(230, 25);
-            this.button_WorkFolder.Name = "button_WorkFolder";
-            this.button_WorkFolder.Size = new System.Drawing.Size(32, 23);
-            this.button_WorkFolder.TabIndex = 5;
-            this.button_WorkFolder.Text = " ...";
-            this.button_WorkFolder.UseVisualStyleBackColor = true;
-            this.button_WorkFolder.Click += new System.EventHandler(this.Button_WorkFolder_Click);
+            button_WorkFolder.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            button_WorkFolder.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            button_WorkFolder.Location = new System.Drawing.Point(268, 29);
+            button_WorkFolder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            button_WorkFolder.Name = "button_WorkFolder";
+            button_WorkFolder.Size = new System.Drawing.Size(37, 27);
+            button_WorkFolder.TabIndex = 5;
+            button_WorkFolder.Text = " ...";
+            button_WorkFolder.UseVisualStyleBackColor = true;
+            button_WorkFolder.Click += Button_WorkFolder_Click;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label2.Location = new System.Drawing.Point(13, 11);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(227, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Коренева папка для зберігання замовлень";
+            label2.AutoSize = true;
+            label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label2.Location = new System.Drawing.Point(15, 13);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(240, 15);
+            label2.TabIndex = 4;
+            label2.Text = "Коренева папка для зберігання замовлень";
             // 
             // textBox_Work
             // 
-            this.textBox_Work.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_Work.Location = new System.Drawing.Point(16, 27);
-            this.textBox_Work.Name = "textBox_Work";
-            this.textBox_Work.Size = new System.Drawing.Size(208, 20);
-            this.textBox_Work.TabIndex = 3;
+            textBox_Work.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            textBox_Work.Location = new System.Drawing.Point(19, 31);
+            textBox_Work.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBox_Work.Name = "textBox_Work";
+            textBox_Work.Size = new System.Drawing.Size(242, 23);
+            textBox_Work.TabIndex = 3;
             // 
             // buttonOpenSignaJobsFolder
             // 
-            this.buttonOpenSignaJobsFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOpenSignaJobsFolder.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonOpenSignaJobsFolder.Location = new System.Drawing.Point(370, 34);
-            this.buttonOpenSignaJobsFolder.Name = "buttonOpenSignaJobsFolder";
-            this.buttonOpenSignaJobsFolder.Size = new System.Drawing.Size(32, 23);
-            this.buttonOpenSignaJobsFolder.TabIndex = 9;
-            this.buttonOpenSignaJobsFolder.Text = " ...";
-            this.buttonOpenSignaJobsFolder.UseVisualStyleBackColor = true;
-            this.buttonOpenSignaJobsFolder.Click += new System.EventHandler(this.ButtonOpenSignaJobsFolder_Click);
+            buttonOpenSignaJobsFolder.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            buttonOpenSignaJobsFolder.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            buttonOpenSignaJobsFolder.Location = new System.Drawing.Point(432, 39);
+            buttonOpenSignaJobsFolder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonOpenSignaJobsFolder.Name = "buttonOpenSignaJobsFolder";
+            buttonOpenSignaJobsFolder.Size = new System.Drawing.Size(37, 27);
+            buttonOpenSignaJobsFolder.TabIndex = 9;
+            buttonOpenSignaJobsFolder.Text = " ...";
+            buttonOpenSignaJobsFolder.UseVisualStyleBackColor = true;
+            buttonOpenSignaJobsFolder.Click += ButtonOpenSignaJobsFolder_Click;
             // 
             // label21
             // 
-            this.label21.AutoSize = true;
-            this.label21.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label21.Location = new System.Drawing.Point(12, 20);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(103, 13);
-            this.label21.TabIndex = 8;
-            this.label21.Text = "Папка с Signa Jobs";
+            label21.AutoSize = true;
+            label21.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label21.Location = new System.Drawing.Point(14, 23);
+            label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label21.Name = "label21";
+            label21.Size = new System.Drawing.Size(108, 15);
+            label21.TabIndex = 8;
+            label21.Text = "Папка с Signa Jobs";
             // 
             // textBoxFolderSignaJobs
             // 
-            this.textBoxFolderSignaJobs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxFolderSignaJobs.Location = new System.Drawing.Point(15, 36);
-            this.textBoxFolderSignaJobs.Name = "textBoxFolderSignaJobs";
-            this.textBoxFolderSignaJobs.Size = new System.Drawing.Size(349, 20);
-            this.textBoxFolderSignaJobs.TabIndex = 7;
+            textBoxFolderSignaJobs.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            textBoxFolderSignaJobs.Location = new System.Drawing.Point(18, 42);
+            textBoxFolderSignaJobs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBoxFolderSignaJobs.Name = "textBoxFolderSignaJobs";
+            textBoxFolderSignaJobs.Size = new System.Drawing.Size(406, 23);
+            textBoxFolderSignaJobs.TabIndex = 7;
             // 
             // contextMenuStrip_FolderNames
             // 
-            this.contextMenuStrip_FolderNames.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.contextMenuStrip_FolderNames.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.удалитьToolStripMenuItem});
-            this.contextMenuStrip_FolderNames.Name = "contextMenuStrip1";
-            this.contextMenuStrip_FolderNames.Size = new System.Drawing.Size(131, 26);
+            contextMenuStrip_FolderNames.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            contextMenuStrip_FolderNames.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { удалитьToolStripMenuItem });
+            contextMenuStrip_FolderNames.Name = "contextMenuStrip1";
+            contextMenuStrip_FolderNames.Size = new System.Drawing.Size(131, 26);
             // 
             // удалитьToolStripMenuItem
             // 
-            this.удалитьToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Delete;
-            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.удалитьToolStripMenuItem.Text = "видалити";
-            this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.УдалитьToolStripMenuItem_Click);
+            удалитьToolStripMenuItem.Image = Properties.Resources.Delete;
+            удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
+            удалитьToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            удалитьToolStripMenuItem.Text = "видалити";
+            удалитьToolStripMenuItem.Click += УдалитьToolStripMenuItem_Click;
             // 
             // tabControlMain
             // 
-            this.tabControlMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.tabControlMain.Controls.Add(this.tabPage5);
-            this.tabControlMain.Controls.Add(this.tabPage1);
-            this.tabControlMain.Controls.Add(this.tabPage2);
-            this.tabControlMain.Controls.Add(this.tabPage3);
-            this.tabControlMain.Controls.Add(this.tabPage6);
-            this.tabControlMain.Controls.Add(this.tabPage7);
-            this.tabControlMain.Controls.Add(this.tabPagePlugins);
-            this.tabControlMain.Controls.Add(this.tabPageCategory);
-            this.tabControlMain.Enabled = false;
-            this.tabControlMain.ImageList = this.imageList1;
-            this.tabControlMain.Location = new System.Drawing.Point(215, 12);
-            this.tabControlMain.Name = "tabControlMain";
-            this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(707, 394);
-            this.tabControlMain.TabIndex = 4;
+            tabControlMain.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            tabControlMain.Controls.Add(tabPage5);
+            tabControlMain.Controls.Add(tabPage1);
+            tabControlMain.Controls.Add(tabPage2);
+            tabControlMain.Controls.Add(tabPage3);
+            tabControlMain.Controls.Add(tabPage6);
+            tabControlMain.Controls.Add(tabPage7);
+            tabControlMain.Controls.Add(tabPagePlugins);
+            tabControlMain.Controls.Add(tabPageCategory);
+            tabControlMain.Enabled = false;
+            tabControlMain.ImageList = imageList1;
+            tabControlMain.Location = new System.Drawing.Point(251, 14);
+            tabControlMain.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabControlMain.Name = "tabControlMain";
+            tabControlMain.SelectedIndex = 0;
+            tabControlMain.Size = new System.Drawing.Size(825, 455);
+            tabControlMain.TabIndex = 4;
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.groupBox5);
-            this.tabPage5.ImageKey = "database_blue.png";
-            this.tabPage5.Location = new System.Drawing.Point(4, 23);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(699, 367);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "База";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            tabPage5.Controls.Add(groupBox5);
+            tabPage5.ImageKey = "database_blue.png";
+            tabPage5.Location = new System.Drawing.Point(4, 24);
+            tabPage5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage5.Size = new System.Drawing.Size(817, 427);
+            tabPage5.TabIndex = 4;
+            tabPage5.Text = "База";
+            tabPage5.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.label29);
-            this.groupBox5.Controls.Add(this.numericUpDownBaseTimeOut);
-            this.groupBox5.Controls.Add(this.label28);
-            this.groupBox5.Controls.Add(this.textBoxBaseName);
-            this.groupBox5.Controls.Add(this.label6);
-            this.groupBox5.Controls.Add(this.textBox_mongoDB);
-            this.groupBox5.Controls.Add(this.label9);
-            this.groupBox5.Location = new System.Drawing.Point(6, 6);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(568, 83);
-            this.groupBox5.TabIndex = 9;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "MongoDB";
+            groupBox5.Controls.Add(label29);
+            groupBox5.Controls.Add(numericUpDownBaseTimeOut);
+            groupBox5.Controls.Add(label28);
+            groupBox5.Controls.Add(textBoxBaseName);
+            groupBox5.Controls.Add(label6);
+            groupBox5.Controls.Add(textBox_mongoDB);
+            groupBox5.Controls.Add(label9);
+            groupBox5.Location = new System.Drawing.Point(7, 7);
+            groupBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox5.Size = new System.Drawing.Size(663, 96);
+            groupBox5.TabIndex = 9;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "MongoDB";
             // 
             // label29
             // 
-            this.label29.AutoSize = true;
-            this.label29.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label29.Location = new System.Drawing.Point(535, 50);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(25, 13);
-            this.label29.TabIndex = 12;
-            this.label29.Text = "сек";
+            label29.AutoSize = true;
+            label29.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label29.Location = new System.Drawing.Point(624, 58);
+            label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label29.Name = "label29";
+            label29.Size = new System.Drawing.Size(25, 15);
+            label29.TabIndex = 12;
+            label29.Text = "сек";
             // 
             // numericUpDownBaseTimeOut
             // 
-            this.numericUpDownBaseTimeOut.Location = new System.Drawing.Point(470, 48);
-            this.numericUpDownBaseTimeOut.Minimum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.numericUpDownBaseTimeOut.Name = "numericUpDownBaseTimeOut";
-            this.numericUpDownBaseTimeOut.Size = new System.Drawing.Size(59, 20);
-            this.numericUpDownBaseTimeOut.TabIndex = 11;
-            this.numericUpDownBaseTimeOut.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
+            numericUpDownBaseTimeOut.Location = new System.Drawing.Point(548, 55);
+            numericUpDownBaseTimeOut.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDownBaseTimeOut.Minimum = new decimal(new int[] { 3, 0, 0, 0 });
+            numericUpDownBaseTimeOut.Name = "numericUpDownBaseTimeOut";
+            numericUpDownBaseTimeOut.Size = new System.Drawing.Size(69, 23);
+            numericUpDownBaseTimeOut.TabIndex = 11;
+            numericUpDownBaseTimeOut.Value = new decimal(new int[] { 5, 0, 0, 0 });
             // 
             // label28
             // 
-            this.label28.AutoSize = true;
-            this.label28.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label28.Location = new System.Drawing.Point(292, 50);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(166, 13);
-            this.label28.TabIndex = 10;
-            this.label28.Text = "таймаут для з\'єднання з базою";
+            label28.AutoSize = true;
+            label28.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label28.Location = new System.Drawing.Point(341, 58);
+            label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label28.Name = "label28";
+            label28.Size = new System.Drawing.Size(175, 15);
+            label28.TabIndex = 10;
+            label28.Text = "таймаут для з'єднання з базою";
             // 
             // textBoxBaseName
             // 
-            this.textBoxBaseName.Location = new System.Drawing.Point(103, 47);
-            this.textBoxBaseName.Name = "textBoxBaseName";
-            this.textBoxBaseName.Size = new System.Drawing.Size(136, 20);
-            this.textBoxBaseName.TabIndex = 7;
+            textBoxBaseName.Location = new System.Drawing.Point(120, 54);
+            textBoxBaseName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBoxBaseName.Name = "textBoxBaseName";
+            textBoxBaseName.Size = new System.Drawing.Size(158, 23);
+            textBoxBaseName.TabIndex = 7;
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label6.Location = new System.Drawing.Point(31, 50);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(66, 13);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "Назва бази";
+            label6.AutoSize = true;
+            label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label6.Location = new System.Drawing.Point(36, 58);
+            label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(67, 15);
+            label6.TabIndex = 6;
+            label6.Text = "Назва бази";
             // 
             // textBox_mongoDB
             // 
-            this.textBox_mongoDB.Location = new System.Drawing.Point(103, 16);
-            this.textBox_mongoDB.Name = "textBox_mongoDB";
-            this.textBox_mongoDB.Size = new System.Drawing.Size(458, 20);
-            this.textBox_mongoDB.TabIndex = 1;
+            textBox_mongoDB.Location = new System.Drawing.Point(120, 18);
+            textBox_mongoDB.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBox_mongoDB.Name = "textBox_mongoDB";
+            textBox_mongoDB.Size = new System.Drawing.Size(534, 23);
+            textBox_mongoDB.TabIndex = 1;
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label9.Location = new System.Drawing.Point(6, 19);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(91, 13);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "Рядок з\'єднання";
+            label9.AutoSize = true;
+            label9.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label9.Location = new System.Drawing.Point(7, 22);
+            label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label9.Name = "label9";
+            label9.Size = new System.Drawing.Size(95, 15);
+            label9.TabIndex = 0;
+            label9.Text = "Рядок з'єднання";
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.groupBox15);
-            this.tabPage1.Controls.Add(this.groupBox16);
-            this.tabPage1.Controls.Add(this.groupBox14);
-            this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.ImageKey = "setting_tools.png";
-            this.tabPage1.Location = new System.Drawing.Point(4, 23);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(699, 367);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Основні";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            tabPage1.Controls.Add(groupBox15);
+            tabPage1.Controls.Add(groupBox16);
+            tabPage1.Controls.Add(groupBox14);
+            tabPage1.Controls.Add(groupBox1);
+            tabPage1.ImageKey = "setting_tools.png";
+            tabPage1.Location = new System.Drawing.Point(4, 24);
+            tabPage1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage1.Size = new System.Drawing.Size(817, 427);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Основні";
+            tabPage1.UseVisualStyleBackColor = true;
             // 
             // groupBox15
             // 
-            this.groupBox15.Controls.Add(this.btn_joblist_select_font);
-            this.groupBox15.Controls.Add(this.tb_joblist_font);
-            this.groupBox15.Controls.Add(this.label3);
-            this.groupBox15.Location = new System.Drawing.Point(6, 168);
-            this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Size = new System.Drawing.Size(273, 92);
-            this.groupBox15.TabIndex = 14;
-            this.groupBox15.TabStop = false;
-            this.groupBox15.Text = "Список робіт";
+            groupBox15.Controls.Add(btn_joblist_select_font);
+            groupBox15.Controls.Add(tb_joblist_font);
+            groupBox15.Controls.Add(label3);
+            groupBox15.Location = new System.Drawing.Point(7, 194);
+            groupBox15.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox15.Name = "groupBox15";
+            groupBox15.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox15.Size = new System.Drawing.Size(318, 106);
+            groupBox15.TabIndex = 14;
+            groupBox15.TabStop = false;
+            groupBox15.Text = "Список робіт";
             // 
             // btn_joblist_select_font
             // 
-            this.btn_joblist_select_font.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_joblist_select_font.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btn_joblist_select_font.Location = new System.Drawing.Point(230, 11);
-            this.btn_joblist_select_font.Name = "btn_joblist_select_font";
-            this.btn_joblist_select_font.Size = new System.Drawing.Size(32, 23);
-            this.btn_joblist_select_font.TabIndex = 14;
-            this.btn_joblist_select_font.Text = " ...";
-            this.btn_joblist_select_font.UseVisualStyleBackColor = true;
-            this.btn_joblist_select_font.Click += new System.EventHandler(this.btn_joblist_select_font_Click);
+            btn_joblist_select_font.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            btn_joblist_select_font.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            btn_joblist_select_font.Location = new System.Drawing.Point(268, 13);
+            btn_joblist_select_font.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btn_joblist_select_font.Name = "btn_joblist_select_font";
+            btn_joblist_select_font.Size = new System.Drawing.Size(37, 27);
+            btn_joblist_select_font.TabIndex = 14;
+            btn_joblist_select_font.Text = " ...";
+            btn_joblist_select_font.UseVisualStyleBackColor = true;
+            btn_joblist_select_font.Click += btn_joblist_select_font_Click;
             // 
             // tb_joblist_font
             // 
-            this.tb_joblist_font.Location = new System.Drawing.Point(52, 13);
-            this.tb_joblist_font.Name = "tb_joblist_font";
-            this.tb_joblist_font.ReadOnly = true;
-            this.tb_joblist_font.Size = new System.Drawing.Size(172, 20);
-            this.tb_joblist_font.TabIndex = 1;
+            tb_joblist_font.Location = new System.Drawing.Point(61, 15);
+            tb_joblist_font.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tb_joblist_font.Name = "tb_joblist_font";
+            tb_joblist_font.ReadOnly = true;
+            tb_joblist_font.Size = new System.Drawing.Size(200, 23);
+            tb_joblist_font.TabIndex = 1;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "шрифт";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(7, 18);
+            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(46, 15);
+            label3.TabIndex = 0;
+            label3.Text = "шрифт";
             // 
             // groupBox16
             // 
-            this.groupBox16.Controls.Add(this.checkBoxHideCategory);
-            this.groupBox16.Location = new System.Drawing.Point(6, 112);
-            this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(273, 50);
-            this.groupBox16.TabIndex = 13;
-            this.groupBox16.TabStop = false;
-            this.groupBox16.Text = "Нове замовлення";
+            groupBox16.Controls.Add(checkBoxHideCategory);
+            groupBox16.Location = new System.Drawing.Point(7, 129);
+            groupBox16.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox16.Name = "groupBox16";
+            groupBox16.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox16.Size = new System.Drawing.Size(318, 58);
+            groupBox16.TabIndex = 13;
+            groupBox16.TabStop = false;
+            groupBox16.Text = "Нове замовлення";
             // 
             // checkBoxHideCategory
             // 
-            this.checkBoxHideCategory.AutoSize = true;
-            this.checkBoxHideCategory.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.checkBoxHideCategory.Location = new System.Drawing.Point(6, 19);
-            this.checkBoxHideCategory.Name = "checkBoxHideCategory";
-            this.checkBoxHideCategory.Size = new System.Drawing.Size(128, 17);
-            this.checkBoxHideCategory.TabIndex = 15;
-            this.checkBoxHideCategory.Text = "сховати \"Категорія\"";
-            this.checkBoxHideCategory.UseVisualStyleBackColor = true;
+            checkBoxHideCategory.AutoSize = true;
+            checkBoxHideCategory.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            checkBoxHideCategory.Location = new System.Drawing.Point(7, 22);
+            checkBoxHideCategory.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxHideCategory.Name = "checkBoxHideCategory";
+            checkBoxHideCategory.Size = new System.Drawing.Size(134, 19);
+            checkBoxHideCategory.TabIndex = 15;
+            checkBoxHideCategory.Text = "сховати \"Категорія\"";
+            checkBoxHideCategory.UseVisualStyleBackColor = true;
             // 
             // groupBox14
             // 
-            this.groupBox14.Controls.Add(this.kryptonButton_MoveSignaFileToOrder);
-            this.groupBox14.Controls.Add(this.kryptonLabel1);
-            this.groupBox14.Controls.Add(this.textBox_FolderForSignaFileInJob);
-            this.groupBox14.Controls.Add(this.kryptonCheckBox1);
-            this.groupBox14.Controls.Add(this.label27);
-            this.groupBox14.Controls.Add(this.textBoxSignaShablon);
-            this.groupBox14.Controls.Add(this.label26);
-            this.groupBox14.Controls.Add(this.textBoxFolderSignaJobs);
-            this.groupBox14.Controls.Add(this.label21);
-            this.groupBox14.Controls.Add(this.buttonOpenSignaJobsFolder);
-            this.groupBox14.Location = new System.Drawing.Point(285, 6);
-            this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(408, 254);
-            this.groupBox14.TabIndex = 12;
-            this.groupBox14.TabStop = false;
-            this.groupBox14.Text = "Prinect Signa 16+";
+            groupBox14.Controls.Add(kryptonButton_MoveSignaFileToOrder);
+            groupBox14.Controls.Add(kryptonLabel1);
+            groupBox14.Controls.Add(textBox_FolderForSignaFileInJob);
+            groupBox14.Controls.Add(kryptonCheckBox1);
+            groupBox14.Controls.Add(label27);
+            groupBox14.Controls.Add(textBoxSignaShablon);
+            groupBox14.Controls.Add(label26);
+            groupBox14.Controls.Add(textBoxFolderSignaJobs);
+            groupBox14.Controls.Add(label21);
+            groupBox14.Controls.Add(buttonOpenSignaJobsFolder);
+            groupBox14.Location = new System.Drawing.Point(332, 7);
+            groupBox14.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox14.Name = "groupBox14";
+            groupBox14.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox14.Size = new System.Drawing.Size(476, 293);
+            groupBox14.TabIndex = 12;
+            groupBox14.TabStop = false;
+            groupBox14.Text = "Prinect Signa 16+";
             // 
             // kryptonButton_MoveSignaFileToOrder
             // 
-            this.kryptonButton_MoveSignaFileToOrder.Enabled = false;
-            this.kryptonButton_MoveSignaFileToOrder.Location = new System.Drawing.Point(87, 214);
-            this.kryptonButton_MoveSignaFileToOrder.Name = "kryptonButton_MoveSignaFileToOrder";
-            this.kryptonButton_MoveSignaFileToOrder.Size = new System.Drawing.Size(228, 25);
-            this.kryptonButton_MoveSignaFileToOrder.TabIndex = 16;
-            this.kryptonButton_MoveSignaFileToOrder.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kryptonButton_MoveSignaFileToOrder.Values.Text = "перенести файл signa до замовлення";
-            this.kryptonButton_MoveSignaFileToOrder.Click += new System.EventHandler(this.kryptonButton_MoveSignaFileToOrder_Click);
+            kryptonButton_MoveSignaFileToOrder.Enabled = false;
+            kryptonButton_MoveSignaFileToOrder.Location = new System.Drawing.Point(102, 247);
+            kryptonButton_MoveSignaFileToOrder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            kryptonButton_MoveSignaFileToOrder.Name = "kryptonButton_MoveSignaFileToOrder";
+            kryptonButton_MoveSignaFileToOrder.Size = new System.Drawing.Size(266, 29);
+            kryptonButton_MoveSignaFileToOrder.TabIndex = 16;
+            kryptonButton_MoveSignaFileToOrder.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            kryptonButton_MoveSignaFileToOrder.Values.Text = "перенести файл signa до замовлення";
+            kryptonButton_MoveSignaFileToOrder.Click += kryptonButton_MoveSignaFileToOrder_Click;
             // 
             // kryptonLabel1
             // 
-            this.kryptonLabel1.Location = new System.Drawing.Point(15, 171);
-            this.kryptonLabel1.Name = "kryptonLabel1";
-            this.kryptonLabel1.Size = new System.Drawing.Size(125, 20);
-            this.kryptonLabel1.TabIndex = 15;
-            this.kryptonLabel1.Values.Text = "папка в  замовленні";
+            kryptonLabel1.Location = new System.Drawing.Point(18, 197);
+            kryptonLabel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            kryptonLabel1.Name = "kryptonLabel1";
+            kryptonLabel1.Size = new System.Drawing.Size(146, 23);
+            kryptonLabel1.TabIndex = 15;
+            kryptonLabel1.Values.Text = "папка в  замовленні";
             // 
             // textBox_FolderForSignaFileInJob
             // 
-            this.textBox_FolderForSignaFileInJob.Location = new System.Drawing.Point(146, 171);
-            this.textBox_FolderForSignaFileInJob.Name = "textBox_FolderForSignaFileInJob";
-            this.textBox_FolderForSignaFileInJob.Size = new System.Drawing.Size(169, 20);
-            this.textBox_FolderForSignaFileInJob.TabIndex = 14;
+            textBox_FolderForSignaFileInJob.Location = new System.Drawing.Point(170, 197);
+            textBox_FolderForSignaFileInJob.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBox_FolderForSignaFileInJob.Name = "textBox_FolderForSignaFileInJob";
+            textBox_FolderForSignaFileInJob.Size = new System.Drawing.Size(196, 23);
+            textBox_FolderForSignaFileInJob.TabIndex = 14;
             // 
             // kryptonCheckBox1
             // 
-            this.kryptonCheckBox1.Location = new System.Drawing.Point(18, 136);
-            this.kryptonCheckBox1.Name = "kryptonCheckBox1";
-            this.kryptonCheckBox1.Size = new System.Drawing.Size(240, 20);
-            this.kryptonCheckBox1.TabIndex = 13;
-            this.kryptonCheckBox1.Values.Text = "зберігати файл у папці з замовленням";
+            kryptonCheckBox1.Location = new System.Drawing.Point(21, 157);
+            kryptonCheckBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            kryptonCheckBox1.Name = "kryptonCheckBox1";
+            kryptonCheckBox1.Size = new System.Drawing.Size(280, 23);
+            kryptonCheckBox1.TabIndex = 13;
+            kryptonCheckBox1.Values.Text = "зберігати файл у папці з замовленням";
             // 
             // label27
             // 
-            this.label27.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label27.Location = new System.Drawing.Point(15, 109);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(366, 24);
-            this.label27.TabIndex = 12;
-            this.label27.Text = "{0} - Customer, {1} - JobNumber, {2} - Description, {3} - Category";
+            label27.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label27.Location = new System.Drawing.Point(18, 126);
+            label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label27.Name = "label27";
+            label27.Size = new System.Drawing.Size(427, 28);
+            label27.TabIndex = 12;
+            label27.Text = "{0} - Customer, {1} - JobNumber, {2} - Description, {3} - Category";
             // 
             // textBoxSignaShablon
             // 
-            this.textBoxSignaShablon.Location = new System.Drawing.Point(15, 80);
-            this.textBoxSignaShablon.Name = "textBoxSignaShablon";
-            this.textBoxSignaShablon.Size = new System.Drawing.Size(366, 20);
-            this.textBoxSignaShablon.TabIndex = 11;
+            textBoxSignaShablon.Location = new System.Drawing.Point(18, 92);
+            textBoxSignaShablon.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBoxSignaShablon.Name = "textBoxSignaShablon";
+            textBoxSignaShablon.Size = new System.Drawing.Size(426, 23);
+            textBoxSignaShablon.TabIndex = 11;
             // 
             // label26
             // 
-            this.label26.AutoSize = true;
-            this.label26.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label26.Location = new System.Drawing.Point(12, 64);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(108, 13);
-            this.label26.TabIndex = 10;
-            this.label26.Text = "Шаблон імені файла";
+            label26.AutoSize = true;
+            label26.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label26.Location = new System.Drawing.Point(14, 74);
+            label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label26.Name = "label26";
+            label26.Size = new System.Drawing.Size(121, 15);
+            label26.TabIndex = 10;
+            label26.Text = "Шаблон імені файла";
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.tabControl2);
-            this.tabPage2.Controls.Add(this.groupBox6);
-            this.tabPage2.ImageKey = "folder_explorer.png";
-            this.tabPage2.Location = new System.Drawing.Point(4, 23);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(699, 367);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Провідник";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            tabPage2.Controls.Add(tabControl2);
+            tabPage2.Controls.Add(groupBox6);
+            tabPage2.ImageKey = "folder_explorer.png";
+            tabPage2.Location = new System.Drawing.Point(4, 24);
+            tabPage2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage2.Size = new System.Drawing.Size(817, 427);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Провідник";
+            tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabControl2
             // 
-            this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl2.Controls.Add(this.tabPageUtils);
-            this.tabControl2.Controls.Add(this.tabPageSendTo);
-            this.tabControl2.Controls.Add(this.tabPageOther);
-            this.tabControl2.Controls.Add(this.tabPagePdfConvertor);
-            this.tabControl2.Location = new System.Drawing.Point(3, 7);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(578, 348);
-            this.tabControl2.TabIndex = 4;
+            tabControl2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            tabControl2.Controls.Add(tabPageUtils);
+            tabControl2.Controls.Add(tabPageSendTo);
+            tabControl2.Controls.Add(tabPageOther);
+            tabControl2.Controls.Add(tabPagePdfConvertor);
+            tabControl2.Location = new System.Drawing.Point(4, 8);
+            tabControl2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabControl2.Name = "tabControl2";
+            tabControl2.SelectedIndex = 0;
+            tabControl2.Size = new System.Drawing.Size(674, 402);
+            tabControl2.TabIndex = 4;
             // 
             // tabPageUtils
             // 
-            this.tabPageUtils.Controls.Add(this.objectListView_Utils);
-            this.tabPageUtils.Location = new System.Drawing.Point(4, 22);
-            this.tabPageUtils.Name = "tabPageUtils";
-            this.tabPageUtils.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageUtils.Size = new System.Drawing.Size(570, 322);
-            this.tabPageUtils.TabIndex = 1;
-            this.tabPageUtils.Text = "Menu \"Utils\"";
-            this.tabPageUtils.UseVisualStyleBackColor = true;
+            tabPageUtils.Controls.Add(objectListView_Utils);
+            tabPageUtils.Location = new System.Drawing.Point(4, 24);
+            tabPageUtils.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageUtils.Name = "tabPageUtils";
+            tabPageUtils.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageUtils.Size = new System.Drawing.Size(666, 374);
+            tabPageUtils.TabIndex = 1;
+            tabPageUtils.Text = "Menu \"Utils\"";
+            tabPageUtils.UseVisualStyleBackColor = true;
             // 
             // objectListView_Utils
             // 
-            this.objectListView_Utils.AllColumns.Add(this.olvColumnUtilsEnable);
-            this.objectListView_Utils.AllColumns.Add(this.olvColumn3);
-            this.objectListView_Utils.AllColumns.Add(this.olvColumn4);
-            this.objectListView_Utils.AllColumns.Add(this.olvColumn5);
-            this.objectListView_Utils.AllColumns.Add(this.olvColumnEvent);
-            this.objectListView_Utils.AllColumns.Add(this.olvColumnChangeStatus);
-            this.objectListView_Utils.AllColumns.Add(this.olvColumnUsedInMainWindow);
-            this.objectListView_Utils.AllColumns.Add(this.olvColumnUsedExplorer0);
-            this.objectListView_Utils.AllColumns.Add(this.olvColumnUsedExplorerRight);
-            this.objectListView_Utils.AllColumns.Add(this.olvColumnUsedExplorer2);
-            this.objectListView_Utils.AllColumns.Add(this.olvColumnUsedExplorer3);
-            this.objectListView_Utils.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.SingleClickAlways;
-            this.objectListView_Utils.CellEditUseWholeCell = false;
-            this.objectListView_Utils.CheckBoxes = true;
-            this.objectListView_Utils.CheckedAspectName = "Enable";
-            this.objectListView_Utils.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumnUtilsEnable,
-            this.olvColumn3,
-            this.olvColumn4,
-            this.olvColumn5,
-            this.olvColumnEvent,
-            this.olvColumnChangeStatus,
-            this.olvColumnUsedInMainWindow,
-            this.olvColumnUsedExplorer0,
-            this.olvColumnUsedExplorerRight,
-            this.olvColumnUsedExplorer2,
-            this.olvColumnUsedExplorer3});
-            this.objectListView_Utils.ContextMenuStrip = this.contextMenuStrip_Utils;
-            this.objectListView_Utils.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListView_Utils.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.objectListView_Utils.FullRowSelect = true;
-            this.objectListView_Utils.GridLines = true;
-            this.objectListView_Utils.HeaderWordWrap = true;
-            this.objectListView_Utils.HideSelection = false;
-            this.objectListView_Utils.IsSimpleDragSource = true;
-            this.objectListView_Utils.IsSimpleDropSink = true;
-            this.objectListView_Utils.Location = new System.Drawing.Point(3, 3);
-            this.objectListView_Utils.Name = "objectListView_Utils";
-            this.objectListView_Utils.ShowGroups = false;
-            this.objectListView_Utils.ShowImagesOnSubItems = true;
-            this.objectListView_Utils.ShowItemToolTips = true;
-            this.objectListView_Utils.Size = new System.Drawing.Size(564, 316);
-            this.objectListView_Utils.TabIndex = 0;
-            this.objectListView_Utils.UseCompatibleStateImageBehavior = false;
-            this.objectListView_Utils.UseSubItemCheckBoxes = true;
-            this.objectListView_Utils.View = System.Windows.Forms.View.Details;
-            this.objectListView_Utils.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.objectListView_Utils_CellEditFinishing);
-            this.objectListView_Utils.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.objectListView_Utils_CellEditStarting);
-            this.objectListView_Utils.SubItemChecking += new System.EventHandler<BrightIdeasSoftware.SubItemCheckingEventArgs>(this.objectListView_Utils_SubItemChecking);
+            objectListView_Utils.AllColumns.Add(olvColumnUtilsEnable);
+            objectListView_Utils.AllColumns.Add(olvColumn3);
+            objectListView_Utils.AllColumns.Add(olvColumn4);
+            objectListView_Utils.AllColumns.Add(olvColumn5);
+            objectListView_Utils.AllColumns.Add(olvColumnEvent);
+            objectListView_Utils.AllColumns.Add(olvColumnChangeStatus);
+            objectListView_Utils.AllColumns.Add(olvColumnUsedInMainWindow);
+            objectListView_Utils.AllColumns.Add(olvColumnUsedExplorer0);
+            objectListView_Utils.AllColumns.Add(olvColumnUsedExplorerRight);
+            objectListView_Utils.AllColumns.Add(olvColumnUsedExplorer2);
+            objectListView_Utils.AllColumns.Add(olvColumnUsedExplorer3);
+            objectListView_Utils.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.SingleClickAlways;
+            objectListView_Utils.CellEditUseWholeCell = false;
+            objectListView_Utils.CheckBoxes = true;
+            objectListView_Utils.CheckedAspectName = "Enable";
+            objectListView_Utils.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumnUtilsEnable, olvColumn3, olvColumn4, olvColumn5, olvColumnEvent, olvColumnChangeStatus, olvColumnUsedInMainWindow, olvColumnUsedExplorer0, olvColumnUsedExplorerRight, olvColumnUsedExplorer2, olvColumnUsedExplorer3 });
+            objectListView_Utils.ContextMenuStrip = contextMenuStrip_Utils;
+            objectListView_Utils.Dock = System.Windows.Forms.DockStyle.Fill;
+            objectListView_Utils.FullRowSelect = true;
+            objectListView_Utils.GridLines = true;
+            objectListView_Utils.HeaderWordWrap = true;
+            objectListView_Utils.IsSimpleDragSource = true;
+            objectListView_Utils.IsSimpleDropSink = true;
+            objectListView_Utils.Location = new System.Drawing.Point(4, 3);
+            objectListView_Utils.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            objectListView_Utils.Name = "objectListView_Utils";
+            objectListView_Utils.ShowGroups = false;
+            objectListView_Utils.ShowImagesOnSubItems = true;
+            objectListView_Utils.ShowItemToolTips = true;
+            objectListView_Utils.Size = new System.Drawing.Size(658, 368);
+            objectListView_Utils.TabIndex = 0;
+            objectListView_Utils.UseCompatibleStateImageBehavior = false;
+            objectListView_Utils.UseSubItemCheckBoxes = true;
+            objectListView_Utils.View = System.Windows.Forms.View.Details;
+            objectListView_Utils.CellEditFinishing += objectListView_Utils_CellEditFinishing;
+            objectListView_Utils.CellEditStarting += objectListView_Utils_CellEditStarting;
+            objectListView_Utils.SubItemChecking += objectListView_Utils_SubItemChecking;
             // 
             // olvColumnUtilsEnable
             // 
-            this.olvColumnUtilsEnable.AspectName = "";
-            this.olvColumnUtilsEnable.Text = "Enable";
+            olvColumnUtilsEnable.AspectName = "";
+            olvColumnUtilsEnable.Text = "Enable";
             // 
             // olvColumn3
             // 
-            this.olvColumn3.AspectName = "Name";
-            this.olvColumn3.CellEditUseWholeCell = true;
-            this.olvColumn3.Text = "Назва";
-            this.olvColumn3.Width = 100;
+            olvColumn3.AspectName = "Name";
+            olvColumn3.CellEditUseWholeCell = true;
+            olvColumn3.Text = "Назва";
+            olvColumn3.Width = 100;
             // 
             // olvColumn4
             // 
-            this.olvColumn4.AspectName = "Path";
-            this.olvColumn4.Text = "Шлях";
-            this.olvColumn4.Width = 250;
+            olvColumn4.AspectName = "Path";
+            olvColumn4.Text = "Шлях";
+            olvColumn4.Width = 250;
             // 
             // olvColumn5
             // 
-            this.olvColumn5.AspectName = "CommandLine";
-            this.olvColumn5.Text = "параметри командного рядка";
-            this.olvColumn5.Width = 201;
+            olvColumn5.AspectName = "CommandLine";
+            olvColumn5.Text = "параметри командного рядка";
+            olvColumn5.Width = 201;
             // 
             // olvColumnEvent
             // 
-            this.olvColumnEvent.AspectName = "EventOnFinish";
-            this.olvColumnEvent.CheckBoxes = true;
-            this.olvColumnEvent.Text = "чекати завершення";
-            this.olvColumnEvent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.olvColumnEvent.ToolTipText = "чекати завершення програми";
+            olvColumnEvent.AspectName = "EventOnFinish";
+            olvColumnEvent.CheckBoxes = true;
+            olvColumnEvent.Text = "чекати завершення";
+            olvColumnEvent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            olvColumnEvent.ToolTipText = "чекати завершення програми";
             // 
             // olvColumnChangeStatus
             // 
-            this.olvColumnChangeStatus.AspectName = "";
-            this.olvColumnChangeStatus.Text = "Змінити статус на";
-            this.olvColumnChangeStatus.ToolTipText = "змінити статус після виконання програми";
+            olvColumnChangeStatus.AspectName = "";
+            olvColumnChangeStatus.Text = "Змінити статус на";
+            olvColumnChangeStatus.ToolTipText = "змінити статус після виконання програми";
             // 
             // olvColumnUsedInMainWindow
             // 
-            this.olvColumnUsedInMainWindow.AspectName = "UsedInMainWindow";
-            this.olvColumnUsedInMainWindow.CheckBoxes = true;
-            this.olvColumnUsedInMainWindow.Text = "вікно з роботами";
-            this.olvColumnUsedInMainWindow.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            olvColumnUsedInMainWindow.AspectName = "UsedInMainWindow";
+            olvColumnUsedInMainWindow.CheckBoxes = true;
+            olvColumnUsedInMainWindow.Text = "вікно з роботами";
+            olvColumnUsedInMainWindow.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // olvColumnUsedExplorer0
             // 
-            this.olvColumnUsedExplorer0.AspectName = "";
-            this.olvColumnUsedExplorer0.CheckBoxes = true;
-            this.olvColumnUsedExplorer0.Text = "Explorer Main";
-            this.olvColumnUsedExplorer0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            olvColumnUsedExplorer0.AspectName = "";
+            olvColumnUsedExplorer0.CheckBoxes = true;
+            olvColumnUsedExplorer0.Text = "Explorer Main";
+            olvColumnUsedExplorer0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // olvColumnUsedExplorerRight
             // 
-            this.olvColumnUsedExplorerRight.CheckBoxes = true;
-            this.olvColumnUsedExplorerRight.Text = "Explorer Right";
-            this.olvColumnUsedExplorerRight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            olvColumnUsedExplorerRight.CheckBoxes = true;
+            olvColumnUsedExplorerRight.Text = "Explorer Right";
+            olvColumnUsedExplorerRight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // olvColumnUsedExplorer2
             // 
-            this.olvColumnUsedExplorer2.CheckBoxes = true;
-            this.olvColumnUsedExplorer2.Text = "Explorer 2";
-            this.olvColumnUsedExplorer2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            olvColumnUsedExplorer2.CheckBoxes = true;
+            olvColumnUsedExplorer2.Text = "Explorer 2";
+            olvColumnUsedExplorer2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // olvColumnUsedExplorer3
             // 
-            this.olvColumnUsedExplorer3.CheckBoxes = true;
-            this.olvColumnUsedExplorer3.Text = "Explorer 3";
-            this.olvColumnUsedExplorer3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            olvColumnUsedExplorer3.CheckBoxes = true;
+            olvColumnUsedExplorer3.Text = "Explorer 3";
+            olvColumnUsedExplorer3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // contextMenuStrip_Utils
             // 
-            this.contextMenuStrip_Utils.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.contextMenuStrip_Utils.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.добавитьToolStripMenuItem1,
-            this.удалитьToolStripMenuItem2,
-            this.выбратьФайлToolStripMenuItem});
-            this.contextMenuStrip_Utils.Name = "contextMenuStrip_Utils";
-            this.contextMenuStrip_Utils.Size = new System.Drawing.Size(160, 70);
+            contextMenuStrip_Utils.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            contextMenuStrip_Utils.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { добавитьToolStripMenuItem1, удалитьToolStripMenuItem2, выбратьФайлToolStripMenuItem });
+            contextMenuStrip_Utils.Name = "contextMenuStrip_Utils";
+            contextMenuStrip_Utils.Size = new System.Drawing.Size(160, 70);
             // 
             // добавитьToolStripMenuItem1
             // 
-            this.добавитьToolStripMenuItem1.Image = global::ActiveWorks.Properties.Resources.Create;
-            this.добавитьToolStripMenuItem1.Name = "добавитьToolStripMenuItem1";
-            this.добавитьToolStripMenuItem1.Size = new System.Drawing.Size(159, 22);
-            this.добавитьToolStripMenuItem1.Text = "додати";
-            this.добавитьToolStripMenuItem1.Click += new System.EventHandler(this.ДобавитьToolStripMenuItem1_Click);
+            добавитьToolStripMenuItem1.Image = Properties.Resources.Create;
+            добавитьToolStripMenuItem1.Name = "добавитьToolStripMenuItem1";
+            добавитьToolStripMenuItem1.Size = new System.Drawing.Size(159, 22);
+            добавитьToolStripMenuItem1.Text = "додати";
+            добавитьToolStripMenuItem1.Click += ДобавитьToolStripMenuItem1_Click;
             // 
             // удалитьToolStripMenuItem2
             // 
-            this.удалитьToolStripMenuItem2.Image = global::ActiveWorks.Properties.Resources.Delete;
-            this.удалитьToolStripMenuItem2.Name = "удалитьToolStripMenuItem2";
-            this.удалитьToolStripMenuItem2.Size = new System.Drawing.Size(159, 22);
-            this.удалитьToolStripMenuItem2.Text = "видалити";
-            this.удалитьToolStripMenuItem2.Click += new System.EventHandler(this.УдалитьToolStripMenuItem2_Click);
+            удалитьToolStripMenuItem2.Image = Properties.Resources.Delete;
+            удалитьToolStripMenuItem2.Name = "удалитьToolStripMenuItem2";
+            удалитьToolStripMenuItem2.Size = new System.Drawing.Size(159, 22);
+            удалитьToolStripMenuItem2.Text = "видалити";
+            удалитьToolStripMenuItem2.Click += УдалитьToolStripMenuItem2_Click;
             // 
             // выбратьФайлToolStripMenuItem
             // 
-            this.выбратьФайлToolStripMenuItem.Name = "выбратьФайлToolStripMenuItem";
-            this.выбратьФайлToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.выбратьФайлToolStripMenuItem.Text = "вибрати файл";
-            this.выбратьФайлToolStripMenuItem.Click += new System.EventHandler(this.ВыбратьФайлToolStripMenuItem_Click);
+            выбратьФайлToolStripMenuItem.Name = "выбратьФайлToolStripMenuItem";
+            выбратьФайлToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            выбратьФайлToolStripMenuItem.Text = "вибрати файл";
+            выбратьФайлToolStripMenuItem.Click += ВыбратьФайлToolStripMenuItem_Click;
             // 
             // tabPageSendTo
             // 
-            this.tabPageSendTo.Controls.Add(this.objectListViewSendTo);
-            this.tabPageSendTo.Location = new System.Drawing.Point(4, 22);
-            this.tabPageSendTo.Name = "tabPageSendTo";
-            this.tabPageSendTo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSendTo.Size = new System.Drawing.Size(570, 322);
-            this.tabPageSendTo.TabIndex = 0;
-            this.tabPageSendTo.Text = "Menu \"SendTo\"";
-            this.tabPageSendTo.UseVisualStyleBackColor = true;
+            tabPageSendTo.Controls.Add(objectListViewSendTo);
+            tabPageSendTo.Location = new System.Drawing.Point(4, 24);
+            tabPageSendTo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageSendTo.Name = "tabPageSendTo";
+            tabPageSendTo.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageSendTo.Size = new System.Drawing.Size(666, 374);
+            tabPageSendTo.TabIndex = 0;
+            tabPageSendTo.Text = "Menu \"SendTo\"";
+            tabPageSendTo.UseVisualStyleBackColor = true;
             // 
             // objectListViewSendTo
             // 
-            this.objectListViewSendTo.AllColumns.Add(this.olvColumn1);
-            this.objectListViewSendTo.AllColumns.Add(this.olvColumn2);
-            this.objectListViewSendTo.AllColumns.Add(this.olvColumnFileNameShablon);
-            this.objectListViewSendTo.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.SingleClickAlways;
-            this.objectListViewSendTo.CellEditUseWholeCell = false;
-            this.objectListViewSendTo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn1,
-            this.olvColumn2,
-            this.olvColumnFileNameShablon});
-            this.objectListViewSendTo.ContextMenuStrip = this.contextMenuStrip_Explorer;
-            this.objectListViewSendTo.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListViewSendTo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.objectListViewSendTo.FullRowSelect = true;
-            this.objectListViewSendTo.GridLines = true;
-            this.objectListViewSendTo.HideSelection = false;
-            this.objectListViewSendTo.Location = new System.Drawing.Point(3, 3);
-            this.objectListViewSendTo.Name = "objectListViewSendTo";
-            this.objectListViewSendTo.ShowGroups = false;
-            this.objectListViewSendTo.Size = new System.Drawing.Size(564, 316);
-            this.objectListViewSendTo.TabIndex = 0;
-            this.objectListViewSendTo.UseCompatibleStateImageBehavior = false;
-            this.objectListViewSendTo.View = System.Windows.Forms.View.Details;
+            objectListViewSendTo.AllColumns.Add(olvColumn1);
+            objectListViewSendTo.AllColumns.Add(olvColumn2);
+            objectListViewSendTo.AllColumns.Add(olvColumnFileNameShablon);
+            objectListViewSendTo.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.SingleClickAlways;
+            objectListViewSendTo.CellEditUseWholeCell = false;
+            objectListViewSendTo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumn1, olvColumn2, olvColumnFileNameShablon });
+            objectListViewSendTo.ContextMenuStrip = contextMenuStrip_Explorer;
+            objectListViewSendTo.Dock = System.Windows.Forms.DockStyle.Fill;
+            objectListViewSendTo.FullRowSelect = true;
+            objectListViewSendTo.GridLines = true;
+            objectListViewSendTo.Location = new System.Drawing.Point(4, 3);
+            objectListViewSendTo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            objectListViewSendTo.Name = "objectListViewSendTo";
+            objectListViewSendTo.ShowGroups = false;
+            objectListViewSendTo.Size = new System.Drawing.Size(658, 368);
+            objectListViewSendTo.TabIndex = 0;
+            objectListViewSendTo.UseCompatibleStateImageBehavior = false;
+            objectListViewSendTo.View = System.Windows.Forms.View.Details;
             // 
             // olvColumn1
             // 
-            this.olvColumn1.AspectName = "Name";
-            this.olvColumn1.CellEditUseWholeCell = true;
-            this.olvColumn1.Text = "Назва";
-            this.olvColumn1.Width = 100;
+            olvColumn1.AspectName = "Name";
+            olvColumn1.CellEditUseWholeCell = true;
+            olvColumn1.Text = "Назва";
+            olvColumn1.Width = 100;
             // 
             // olvColumn2
             // 
-            this.olvColumn2.AspectName = "Path";
-            this.olvColumn2.CellEditUseWholeCell = true;
-            this.olvColumn2.Text = "Шлях";
-            this.olvColumn2.Width = 250;
+            olvColumn2.AspectName = "Path";
+            olvColumn2.CellEditUseWholeCell = true;
+            olvColumn2.Text = "Шлях";
+            olvColumn2.Width = 250;
             // 
             // olvColumnFileNameShablon
             // 
-            this.olvColumnFileNameShablon.AspectName = "FileName";
-            this.olvColumnFileNameShablon.Text = "File Name Shablon";
+            olvColumnFileNameShablon.AspectName = "FileName";
+            olvColumnFileNameShablon.Text = "File Name Shablon";
             // 
             // contextMenuStrip_Explorer
             // 
-            this.contextMenuStrip_Explorer.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.contextMenuStrip_Explorer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.добавитьToolStripMenuItem,
-            this.удалитьToolStripMenuItem1,
-            this.выбратьПапкуToolStripMenuItem});
-            this.contextMenuStrip_Explorer.Name = "contextMenuStrip_Explorer";
-            this.contextMenuStrip_Explorer.Size = new System.Drawing.Size(163, 70);
+            contextMenuStrip_Explorer.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            contextMenuStrip_Explorer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { добавитьToolStripMenuItem, удалитьToolStripMenuItem1, выбратьПапкуToolStripMenuItem });
+            contextMenuStrip_Explorer.Name = "contextMenuStrip_Explorer";
+            contextMenuStrip_Explorer.Size = new System.Drawing.Size(163, 70);
             // 
             // добавитьToolStripMenuItem
             // 
-            this.добавитьToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Create;
-            this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
-            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.добавитьToolStripMenuItem.Text = "додати";
-            this.добавитьToolStripMenuItem.Click += new System.EventHandler(this.ДобавитьToolStripMenuItem_Click);
+            добавитьToolStripMenuItem.Image = Properties.Resources.Create;
+            добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
+            добавитьToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            добавитьToolStripMenuItem.Text = "додати";
+            добавитьToolStripMenuItem.Click += ДобавитьToolStripMenuItem_Click;
             // 
             // удалитьToolStripMenuItem1
             // 
-            this.удалитьToolStripMenuItem1.Image = global::ActiveWorks.Properties.Resources.Delete;
-            this.удалитьToolStripMenuItem1.Name = "удалитьToolStripMenuItem1";
-            this.удалитьToolStripMenuItem1.Size = new System.Drawing.Size(162, 22);
-            this.удалитьToolStripMenuItem1.Text = "видалити";
-            this.удалитьToolStripMenuItem1.Click += new System.EventHandler(this.УдалитьToolStripMenuItem1_Click);
+            удалитьToolStripMenuItem1.Image = Properties.Resources.Delete;
+            удалитьToolStripMenuItem1.Name = "удалитьToolStripMenuItem1";
+            удалитьToolStripMenuItem1.Size = new System.Drawing.Size(162, 22);
+            удалитьToolStripMenuItem1.Text = "видалити";
+            удалитьToolStripMenuItem1.Click += УдалитьToolStripMenuItem1_Click;
             // 
             // выбратьПапкуToolStripMenuItem
             // 
-            this.выбратьПапкуToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Folder;
-            this.выбратьПапкуToolStripMenuItem.Name = "выбратьПапкуToolStripMenuItem";
-            this.выбратьПапкуToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.выбратьПапкуToolStripMenuItem.Text = "вибрати папку";
-            this.выбратьПапкуToolStripMenuItem.Click += new System.EventHandler(this.ВыбратьПапкуToolStripMenuItem_Click);
+            выбратьПапкуToolStripMenuItem.Image = Properties.Resources.Folder;
+            выбратьПапкуToolStripMenuItem.Name = "выбратьПапкуToolStripMenuItem";
+            выбратьПапкуToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            выбратьПапкуToolStripMenuItem.Text = "вибрати папку";
+            выбратьПапкуToolStripMenuItem.Click += ВыбратьПапкуToolStripMenuItem_Click;
             // 
             // tabPageOther
             // 
-            this.tabPageOther.Controls.Add(this.groupBox8);
-            this.tabPageOther.Location = new System.Drawing.Point(4, 22);
-            this.tabPageOther.Name = "tabPageOther";
-            this.tabPageOther.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageOther.Size = new System.Drawing.Size(570, 322);
-            this.tabPageOther.TabIndex = 2;
-            this.tabPageOther.Text = "Інше";
-            this.tabPageOther.UseVisualStyleBackColor = true;
+            tabPageOther.Controls.Add(groupBox8);
+            tabPageOther.Location = new System.Drawing.Point(4, 24);
+            tabPageOther.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageOther.Name = "tabPageOther";
+            tabPageOther.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageOther.Size = new System.Drawing.Size(666, 374);
+            tabPageOther.TabIndex = 2;
+            tabPageOther.Text = "Інше";
+            tabPageOther.UseVisualStyleBackColor = true;
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.groupBox3);
-            this.groupBox8.Controls.Add(this.checkBoxUseViewer);
-            this.groupBox8.Controls.Add(this.groupBoxViewer);
-            this.groupBox8.Controls.Add(this.groupBox13);
-            this.groupBox8.Controls.Add(this.listBox_CustomButtonFolder);
-            this.groupBox8.Controls.Add(this.button_CustomButtonPath);
-            this.groupBox8.Controls.Add(this.label14);
-            this.groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox8.Location = new System.Drawing.Point(3, 3);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(564, 316);
-            this.groupBox8.TabIndex = 3;
-            this.groupBox8.TabStop = false;
+            groupBox8.Controls.Add(groupBox3);
+            groupBox8.Controls.Add(groupBox13);
+            groupBox8.Controls.Add(listBox_CustomButtonFolder);
+            groupBox8.Controls.Add(button_CustomButtonPath);
+            groupBox8.Controls.Add(label14);
+            groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
+            groupBox8.Location = new System.Drawing.Point(4, 3);
+            groupBox8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox8.Name = "groupBox8";
+            groupBox8.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox8.Size = new System.Drawing.Size(658, 368);
+            groupBox8.TabIndex = 3;
+            groupBox8.TabStop = false;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.buttonAddFolderName);
-            this.groupBox3.Controls.Add(this.textBoxFolderName);
-            this.groupBox3.Controls.Add(this.listBoxFolderNames);
-            this.groupBox3.Location = new System.Drawing.Point(278, 103);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(237, 136);
-            this.groupBox3.TabIndex = 13;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Папки для швидкого створення";
+            groupBox3.Controls.Add(buttonAddFolderName);
+            groupBox3.Controls.Add(textBoxFolderName);
+            groupBox3.Controls.Add(listBoxFolderNames);
+            groupBox3.Location = new System.Drawing.Point(324, 119);
+            groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Size = new System.Drawing.Size(276, 157);
+            groupBox3.TabIndex = 13;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Папки для швидкого створення";
             // 
             // buttonAddFolderName
             // 
-            this.buttonAddFolderName.Image = global::ActiveWorks.Properties.Resources.Actions_list_add_icon;
-            this.buttonAddFolderName.Location = new System.Drawing.Point(184, 16);
-            this.buttonAddFolderName.Name = "buttonAddFolderName";
-            this.buttonAddFolderName.Size = new System.Drawing.Size(47, 23);
-            this.buttonAddFolderName.TabIndex = 2;
-            this.buttonAddFolderName.UseVisualStyleBackColor = true;
-            this.buttonAddFolderName.Click += new System.EventHandler(this.buttonAddFolderName_Click);
+            buttonAddFolderName.Image = Properties.Resources.Actions_list_add_icon;
+            buttonAddFolderName.Location = new System.Drawing.Point(215, 18);
+            buttonAddFolderName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonAddFolderName.Name = "buttonAddFolderName";
+            buttonAddFolderName.Size = new System.Drawing.Size(55, 27);
+            buttonAddFolderName.TabIndex = 2;
+            buttonAddFolderName.UseVisualStyleBackColor = true;
+            buttonAddFolderName.Click += buttonAddFolderName_Click;
             // 
             // textBoxFolderName
             // 
-            this.textBoxFolderName.Location = new System.Drawing.Point(7, 20);
-            this.textBoxFolderName.Name = "textBoxFolderName";
-            this.textBoxFolderName.Size = new System.Drawing.Size(170, 20);
-            this.textBoxFolderName.TabIndex = 1;
+            textBoxFolderName.Location = new System.Drawing.Point(8, 23);
+            textBoxFolderName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBoxFolderName.Name = "textBoxFolderName";
+            textBoxFolderName.Size = new System.Drawing.Size(198, 23);
+            textBoxFolderName.TabIndex = 1;
             // 
             // listBoxFolderNames
             // 
-            this.listBoxFolderNames.ContextMenuStrip = this.contextMenuStrip_FolderNames;
-            this.listBoxFolderNames.FormattingEnabled = true;
-            this.listBoxFolderNames.Location = new System.Drawing.Point(7, 46);
-            this.listBoxFolderNames.Name = "listBoxFolderNames";
-            this.listBoxFolderNames.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listBoxFolderNames.Size = new System.Drawing.Size(224, 82);
-            this.listBoxFolderNames.TabIndex = 0;
-            // 
-            // checkBoxUseViewer
-            // 
-            this.checkBoxUseViewer.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.checkBoxUseViewer.Location = new System.Drawing.Point(9, 222);
-            this.checkBoxUseViewer.Name = "checkBoxUseViewer";
-            this.checkBoxUseViewer.Size = new System.Drawing.Size(263, 24);
-            this.checkBoxUseViewer.TabIndex = 0;
-            this.checkBoxUseViewer.Text = "Попередній перегляд";
-            this.checkBoxUseViewer.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxViewer
-            // 
-            this.groupBoxViewer.Controls.Add(this.buttonSelectViewer);
-            this.groupBoxViewer.Controls.Add(this.label37);
-            this.groupBoxViewer.Controls.Add(this.label36);
-            this.groupBoxViewer.Controls.Add(this.textBoxViewerCommandLine);
-            this.groupBoxViewer.Controls.Add(this.textBoxViewer);
-            this.groupBoxViewer.Location = new System.Drawing.Point(9, 245);
-            this.groupBoxViewer.Name = "groupBoxViewer";
-            this.groupBoxViewer.Size = new System.Drawing.Size(386, 71);
-            this.groupBoxViewer.TabIndex = 12;
-            this.groupBoxViewer.TabStop = false;
-            // 
-            // buttonSelectViewer
-            // 
-            this.buttonSelectViewer.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonSelectViewer.Location = new System.Drawing.Point(338, 17);
-            this.buttonSelectViewer.Name = "buttonSelectViewer";
-            this.buttonSelectViewer.Size = new System.Drawing.Size(35, 23);
-            this.buttonSelectViewer.TabIndex = 4;
-            this.buttonSelectViewer.Text = "...";
-            this.buttonSelectViewer.UseVisualStyleBackColor = true;
-            this.buttonSelectViewer.Click += new System.EventHandler(this.buttonSelectViewer_Click);
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label37.Location = new System.Drawing.Point(6, 45);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(62, 13);
-            this.label37.TabIndex = 3;
-            this.label37.Text = "параметри";
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label36.Location = new System.Drawing.Point(6, 22);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(56, 13);
-            this.label36.TabIndex = 2;
-            this.label36.Text = "програма";
-            // 
-            // textBoxViewerCommandLine
-            // 
-            this.textBoxViewerCommandLine.Location = new System.Drawing.Point(76, 42);
-            this.textBoxViewerCommandLine.Name = "textBoxViewerCommandLine";
-            this.textBoxViewerCommandLine.Size = new System.Drawing.Size(256, 20);
-            this.textBoxViewerCommandLine.TabIndex = 1;
-            // 
-            // textBoxViewer
-            // 
-            this.textBoxViewer.Location = new System.Drawing.Point(76, 19);
-            this.textBoxViewer.Name = "textBoxViewer";
-            this.textBoxViewer.Size = new System.Drawing.Size(256, 20);
-            this.textBoxViewer.TabIndex = 0;
+            listBoxFolderNames.ContextMenuStrip = contextMenuStrip_FolderNames;
+            listBoxFolderNames.FormattingEnabled = true;
+            listBoxFolderNames.Location = new System.Drawing.Point(8, 53);
+            listBoxFolderNames.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            listBoxFolderNames.Name = "listBoxFolderNames";
+            listBoxFolderNames.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            listBoxFolderNames.Size = new System.Drawing.Size(261, 94);
+            listBoxFolderNames.TabIndex = 0;
             // 
             // groupBox13
             // 
-            this.groupBox13.Controls.Add(this.buttonExtBrowsersSettings);
-            this.groupBox13.Controls.Add(this.numericUpDownCountExplorers);
-            this.groupBox13.Controls.Add(this.label25);
-            this.groupBox13.Location = new System.Drawing.Point(278, 16);
-            this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(237, 81);
-            this.groupBox13.TabIndex = 11;
-            this.groupBox13.TabStop = false;
+            groupBox13.Controls.Add(buttonExtBrowsersSettings);
+            groupBox13.Controls.Add(numericUpDownCountExplorers);
+            groupBox13.Controls.Add(label25);
+            groupBox13.Location = new System.Drawing.Point(324, 18);
+            groupBox13.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox13.Name = "groupBox13";
+            groupBox13.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox13.Size = new System.Drawing.Size(276, 93);
+            groupBox13.TabIndex = 11;
+            groupBox13.TabStop = false;
             // 
             // buttonExtBrowsersSettings
             // 
-            this.buttonExtBrowsersSettings.Location = new System.Drawing.Point(6, 40);
-            this.buttonExtBrowsersSettings.Name = "buttonExtBrowsersSettings";
-            this.buttonExtBrowsersSettings.Size = new System.Drawing.Size(225, 35);
-            this.buttonExtBrowsersSettings.TabIndex = 13;
-            this.buttonExtBrowsersSettings.Text = "додаткові налаштування провідників";
-            this.buttonExtBrowsersSettings.UseVisualStyleBackColor = true;
-            this.buttonExtBrowsersSettings.Click += new System.EventHandler(this.buttonExtBrowsersSettings_Click);
+            buttonExtBrowsersSettings.Location = new System.Drawing.Point(7, 46);
+            buttonExtBrowsersSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonExtBrowsersSettings.Name = "buttonExtBrowsersSettings";
+            buttonExtBrowsersSettings.Size = new System.Drawing.Size(262, 40);
+            buttonExtBrowsersSettings.TabIndex = 13;
+            buttonExtBrowsersSettings.Text = "додаткові налаштування провідників";
+            buttonExtBrowsersSettings.UseVisualStyleBackColor = true;
+            buttonExtBrowsersSettings.Click += buttonExtBrowsersSettings_Click;
             // 
             // numericUpDownCountExplorers
             // 
-            this.numericUpDownCountExplorers.Location = new System.Drawing.Point(133, 14);
-            this.numericUpDownCountExplorers.Maximum = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-            this.numericUpDownCountExplorers.Name = "numericUpDownCountExplorers";
-            this.numericUpDownCountExplorers.Size = new System.Drawing.Size(98, 20);
-            this.numericUpDownCountExplorers.TabIndex = 1;
-            this.numericUpDownCountExplorers.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numericUpDownCountExplorers.Location = new System.Drawing.Point(155, 16);
+            numericUpDownCountExplorers.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDownCountExplorers.Maximum = new decimal(new int[] { 4, 0, 0, 0 });
+            numericUpDownCountExplorers.Name = "numericUpDownCountExplorers";
+            numericUpDownCountExplorers.Size = new System.Drawing.Size(114, 23);
+            numericUpDownCountExplorers.TabIndex = 1;
+            numericUpDownCountExplorers.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label25
             // 
-            this.label25.AutoSize = true;
-            this.label25.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label25.Location = new System.Drawing.Point(3, 16);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(113, 13);
-            this.label25.TabIndex = 0;
-            this.label25.Text = "кількість провідників";
+            label25.AutoSize = true;
+            label25.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label25.Location = new System.Drawing.Point(4, 18);
+            label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label25.Name = "label25";
+            label25.Size = new System.Drawing.Size(123, 15);
+            label25.TabIndex = 0;
+            label25.Text = "кількість провідників";
             // 
             // listBox_CustomButtonFolder
             // 
-            this.listBox_CustomButtonFolder.ContextMenuStrip = this.contextMenuStripCustomPath;
-            this.listBox_CustomButtonFolder.FormattingEnabled = true;
-            this.listBox_CustomButtonFolder.Location = new System.Drawing.Point(9, 43);
-            this.listBox_CustomButtonFolder.Name = "listBox_CustomButtonFolder";
-            this.listBox_CustomButtonFolder.Size = new System.Drawing.Size(263, 173);
-            this.listBox_CustomButtonFolder.TabIndex = 3;
+            listBox_CustomButtonFolder.ContextMenuStrip = contextMenuStripCustomPath;
+            listBox_CustomButtonFolder.FormattingEnabled = true;
+            listBox_CustomButtonFolder.Location = new System.Drawing.Point(10, 50);
+            listBox_CustomButtonFolder.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            listBox_CustomButtonFolder.Name = "listBox_CustomButtonFolder";
+            listBox_CustomButtonFolder.Size = new System.Drawing.Size(306, 214);
+            listBox_CustomButtonFolder.TabIndex = 3;
             // 
             // contextMenuStripCustomPath
             // 
-            this.contextMenuStripCustomPath.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.contextMenuStripCustomPath.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.удалитьToolStripMenuItem5});
-            this.contextMenuStripCustomPath.Name = "contextMenuStripCustomPath";
-            this.contextMenuStripCustomPath.Size = new System.Drawing.Size(126, 26);
+            contextMenuStripCustomPath.Font = new System.Drawing.Font("Segoe UI", 9F);
+            contextMenuStripCustomPath.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { удалитьToolStripMenuItem5 });
+            contextMenuStripCustomPath.Name = "contextMenuStripCustomPath";
+            contextMenuStripCustomPath.Size = new System.Drawing.Size(126, 26);
             // 
             // удалитьToolStripMenuItem5
             // 
-            this.удалитьToolStripMenuItem5.Image = global::ActiveWorks.Properties.Resources.Delete;
-            this.удалитьToolStripMenuItem5.Name = "удалитьToolStripMenuItem5";
-            this.удалитьToolStripMenuItem5.Size = new System.Drawing.Size(125, 22);
-            this.удалитьToolStripMenuItem5.Text = "видалити";
-            this.удалитьToolStripMenuItem5.Click += new System.EventHandler(this.УдалитьToolStripMenuItem5_Click);
+            удалитьToolStripMenuItem5.Image = Properties.Resources.Delete;
+            удалитьToolStripMenuItem5.Name = "удалитьToolStripMenuItem5";
+            удалитьToolStripMenuItem5.Size = new System.Drawing.Size(125, 22);
+            удалитьToolStripMenuItem5.Text = "видалити";
+            удалитьToolStripMenuItem5.Click += УдалитьToolStripMenuItem5_Click;
             // 
             // button_CustomButtonPath
             // 
-            this.button_CustomButtonPath.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button_CustomButtonPath.Location = new System.Drawing.Point(224, 16);
-            this.button_CustomButtonPath.Name = "button_CustomButtonPath";
-            this.button_CustomButtonPath.Size = new System.Drawing.Size(48, 23);
-            this.button_CustomButtonPath.TabIndex = 2;
-            this.button_CustomButtonPath.Text = "...";
-            this.button_CustomButtonPath.UseVisualStyleBackColor = true;
-            this.button_CustomButtonPath.Click += new System.EventHandler(this.Button_CustomButtonPath_Click);
+            button_CustomButtonPath.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            button_CustomButtonPath.Location = new System.Drawing.Point(261, 18);
+            button_CustomButtonPath.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            button_CustomButtonPath.Name = "button_CustomButtonPath";
+            button_CustomButtonPath.Size = new System.Drawing.Size(56, 27);
+            button_CustomButtonPath.TabIndex = 2;
+            button_CustomButtonPath.Text = "...";
+            button_CustomButtonPath.UseVisualStyleBackColor = true;
+            button_CustomButtonPath.Click += Button_CustomButtonPath_Click;
             // 
             // label14
             // 
-            this.label14.Image = global::ActiveWorks.Properties.Resources.button_navigation;
-            this.label14.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label14.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label14.Location = new System.Drawing.Point(6, 15);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(120, 25);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "Папка для кнопки";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label14.Image = Properties.Resources.button_navigation;
+            label14.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label14.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label14.Location = new System.Drawing.Point(7, 17);
+            label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label14.Name = "label14";
+            label14.Size = new System.Drawing.Size(140, 29);
+            label14.TabIndex = 0;
+            label14.Text = "Папка для кнопки";
+            label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabPagePdfConvertor
             // 
-            this.tabPagePdfConvertor.Controls.Add(this.checkBoxMoveOriginalFileToTrash);
-            this.tabPagePdfConvertor.Location = new System.Drawing.Point(4, 22);
-            this.tabPagePdfConvertor.Name = "tabPagePdfConvertor";
-            this.tabPagePdfConvertor.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePdfConvertor.Size = new System.Drawing.Size(570, 322);
-            this.tabPagePdfConvertor.TabIndex = 3;
-            this.tabPagePdfConvertor.Text = "Конвертор в PDF";
-            this.tabPagePdfConvertor.UseVisualStyleBackColor = true;
+            tabPagePdfConvertor.Controls.Add(checkBoxMoveOriginalFileToTrash);
+            tabPagePdfConvertor.Location = new System.Drawing.Point(4, 24);
+            tabPagePdfConvertor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPagePdfConvertor.Name = "tabPagePdfConvertor";
+            tabPagePdfConvertor.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPagePdfConvertor.Size = new System.Drawing.Size(666, 374);
+            tabPagePdfConvertor.TabIndex = 3;
+            tabPagePdfConvertor.Text = "Конвертор в PDF";
+            tabPagePdfConvertor.UseVisualStyleBackColor = true;
             // 
             // checkBoxMoveOriginalFileToTrash
             // 
-            this.checkBoxMoveOriginalFileToTrash.AutoSize = true;
-            this.checkBoxMoveOriginalFileToTrash.Location = new System.Drawing.Point(15, 16);
-            this.checkBoxMoveOriginalFileToTrash.Name = "checkBoxMoveOriginalFileToTrash";
-            this.checkBoxMoveOriginalFileToTrash.Size = new System.Drawing.Size(325, 17);
-            this.checkBoxMoveOriginalFileToTrash.TabIndex = 0;
-            this.checkBoxMoveOriginalFileToTrash.Text = "Переносити в корзину оригінальні файли після конвертації";
-            this.checkBoxMoveOriginalFileToTrash.UseVisualStyleBackColor = true;
+            checkBoxMoveOriginalFileToTrash.AutoSize = true;
+            checkBoxMoveOriginalFileToTrash.Location = new System.Drawing.Point(18, 18);
+            checkBoxMoveOriginalFileToTrash.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxMoveOriginalFileToTrash.Name = "checkBoxMoveOriginalFileToTrash";
+            checkBoxMoveOriginalFileToTrash.Size = new System.Drawing.Size(355, 19);
+            checkBoxMoveOriginalFileToTrash.TabIndex = 0;
+            checkBoxMoveOriginalFileToTrash.Text = "Переносити в корзину оригінальні файли після конвертації";
+            checkBoxMoveOriginalFileToTrash.UseVisualStyleBackColor = true;
             // 
             // groupBox6
             // 
-            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox6.Controls.Add(this.label10);
-            this.groupBox6.Location = new System.Drawing.Point(583, 29);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(110, 322);
-            this.groupBox6.TabIndex = 2;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "підказка";
+            groupBox6.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            groupBox6.Controls.Add(label10);
+            groupBox6.Location = new System.Drawing.Point(680, 33);
+            groupBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox6.Size = new System.Drawing.Size(128, 372);
+            groupBox6.TabIndex = 2;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "підказка";
             // 
             // label10
             // 
-            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label10.Location = new System.Drawing.Point(3, 16);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(104, 303);
-            this.label10.TabIndex = 0;
-            this.label10.Text = resources.GetString("label10.Text");
+            label10.Dock = System.Windows.Forms.DockStyle.Fill;
+            label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label10.Location = new System.Drawing.Point(4, 19);
+            label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label10.Name = "label10";
+            label10.Size = new System.Drawing.Size(120, 350);
+            label10.TabIndex = 0;
+            label10.Text = resources.GetString("label10.Text");
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.groupBox4);
-            this.tabPage3.Controls.Add(this.groupBox9);
-            this.tabPage3.ImageKey = "webalizer_ftp.png";
-            this.tabPage3.Location = new System.Drawing.Point(4, 23);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(699, 367);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "FTP";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            tabPage3.Controls.Add(groupBox4);
+            tabPage3.Controls.Add(groupBox9);
+            tabPage3.ImageKey = "webalizer_ftp.png";
+            tabPage3.Location = new System.Drawing.Point(4, 24);
+            tabPage3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage3.Size = new System.Drawing.Size(817, 427);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "FTP";
+            tabPage3.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.buttonScriptRemove);
-            this.groupBox4.Controls.Add(this.buttonScriptAdd);
-            this.groupBox4.Controls.Add(this.objectListViewFtpScripts);
-            this.groupBox4.Location = new System.Drawing.Point(212, 6);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(481, 355);
-            this.groupBox4.TabIndex = 1;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Скрипти";
+            groupBox4.Controls.Add(buttonScriptRemove);
+            groupBox4.Controls.Add(buttonScriptAdd);
+            groupBox4.Controls.Add(objectListViewFtpScripts);
+            groupBox4.Location = new System.Drawing.Point(247, 7);
+            groupBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox4.Size = new System.Drawing.Size(561, 410);
+            groupBox4.TabIndex = 1;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Скрипти";
             // 
             // buttonScriptRemove
             // 
-            this.buttonScriptRemove.Location = new System.Drawing.Point(104, 19);
-            this.buttonScriptRemove.Name = "buttonScriptRemove";
-            this.buttonScriptRemove.Size = new System.Drawing.Size(75, 23);
-            this.buttonScriptRemove.TabIndex = 2;
-            this.buttonScriptRemove.Text = "видалити";
-            this.buttonScriptRemove.UseVisualStyleBackColor = true;
-            this.buttonScriptRemove.Click += new System.EventHandler(this.buttonScriptRemove_Click);
+            buttonScriptRemove.Location = new System.Drawing.Point(121, 22);
+            buttonScriptRemove.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonScriptRemove.Name = "buttonScriptRemove";
+            buttonScriptRemove.Size = new System.Drawing.Size(88, 27);
+            buttonScriptRemove.TabIndex = 2;
+            buttonScriptRemove.Text = "видалити";
+            buttonScriptRemove.UseVisualStyleBackColor = true;
+            buttonScriptRemove.Click += buttonScriptRemove_Click;
             // 
             // buttonScriptAdd
             // 
-            this.buttonScriptAdd.Location = new System.Drawing.Point(6, 19);
-            this.buttonScriptAdd.Name = "buttonScriptAdd";
-            this.buttonScriptAdd.Size = new System.Drawing.Size(75, 23);
-            this.buttonScriptAdd.TabIndex = 1;
-            this.buttonScriptAdd.Text = "додати";
-            this.buttonScriptAdd.UseVisualStyleBackColor = true;
-            this.buttonScriptAdd.Click += new System.EventHandler(this.buttonScriptAdd_Click);
+            buttonScriptAdd.Location = new System.Drawing.Point(7, 22);
+            buttonScriptAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonScriptAdd.Name = "buttonScriptAdd";
+            buttonScriptAdd.Size = new System.Drawing.Size(88, 27);
+            buttonScriptAdd.TabIndex = 1;
+            buttonScriptAdd.Text = "додати";
+            buttonScriptAdd.UseVisualStyleBackColor = true;
+            buttonScriptAdd.Click += buttonScriptAdd_Click;
             // 
             // objectListViewFtpScripts
             // 
-            this.objectListViewFtpScripts.AllColumns.Add(this.olvColumn6);
-            this.objectListViewFtpScripts.AllColumns.Add(this.olvColumn7);
-            this.objectListViewFtpScripts.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.objectListViewFtpScripts.CellEditUseWholeCell = false;
-            this.objectListViewFtpScripts.CheckBoxes = true;
-            this.objectListViewFtpScripts.CheckedAspectName = "Enable";
-            this.objectListViewFtpScripts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn6,
-            this.olvColumn7});
-            this.objectListViewFtpScripts.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListViewFtpScripts.FullRowSelect = true;
-            this.objectListViewFtpScripts.GridLines = true;
-            this.objectListViewFtpScripts.HideSelection = false;
-            this.objectListViewFtpScripts.Location = new System.Drawing.Point(6, 48);
-            this.objectListViewFtpScripts.Name = "objectListViewFtpScripts";
-            this.objectListViewFtpScripts.ShowGroups = false;
-            this.objectListViewFtpScripts.Size = new System.Drawing.Size(469, 301);
-            this.objectListViewFtpScripts.TabIndex = 0;
-            this.objectListViewFtpScripts.UseCompatibleStateImageBehavior = false;
-            this.objectListViewFtpScripts.View = System.Windows.Forms.View.Details;
+            objectListViewFtpScripts.AllColumns.Add(olvColumn6);
+            objectListViewFtpScripts.AllColumns.Add(olvColumn7);
+            objectListViewFtpScripts.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
+            objectListViewFtpScripts.CellEditUseWholeCell = false;
+            objectListViewFtpScripts.CheckBoxes = true;
+            objectListViewFtpScripts.CheckedAspectName = "Enable";
+            objectListViewFtpScripts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumn6, olvColumn7 });
+            objectListViewFtpScripts.FullRowSelect = true;
+            objectListViewFtpScripts.GridLines = true;
+            objectListViewFtpScripts.Location = new System.Drawing.Point(7, 55);
+            objectListViewFtpScripts.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            objectListViewFtpScripts.Name = "objectListViewFtpScripts";
+            objectListViewFtpScripts.ShowGroups = false;
+            objectListViewFtpScripts.Size = new System.Drawing.Size(546, 347);
+            objectListViewFtpScripts.TabIndex = 0;
+            objectListViewFtpScripts.UseCompatibleStateImageBehavior = false;
+            objectListViewFtpScripts.View = System.Windows.Forms.View.Details;
             // 
             // olvColumn6
             // 
-            this.olvColumn6.AspectName = "ScriptPath";
-            this.olvColumn6.Text = "Шлях";
-            this.olvColumn6.Width = 300;
+            olvColumn6.AspectName = "ScriptPath";
+            olvColumn6.Text = "Шлях";
+            olvColumn6.Width = 300;
             // 
             // olvColumn7
             // 
-            this.olvColumn7.AspectName = "Parameters";
-            this.olvColumn7.Text = "Параметри";
-            this.olvColumn7.Width = 200;
+            olvColumn7.AspectName = "Parameters";
+            olvColumn7.Text = "Параметри";
+            olvColumn7.Width = 200;
             // 
             // groupBox9
             // 
-            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox9.Controls.Add(this.buttonFtpSettingsRemove);
-            this.groupBox9.Controls.Add(this.buttonFtpSettingsAdd);
-            this.groupBox9.Controls.Add(this.listBox_Ftp_Servers);
-            this.groupBox9.Location = new System.Drawing.Point(6, 6);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(200, 358);
-            this.groupBox9.TabIndex = 0;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Список FTP серверів";
+            groupBox9.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            groupBox9.Controls.Add(buttonFtpSettingsRemove);
+            groupBox9.Controls.Add(buttonFtpSettingsAdd);
+            groupBox9.Controls.Add(listBox_Ftp_Servers);
+            groupBox9.Location = new System.Drawing.Point(7, 7);
+            groupBox9.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox9.Name = "groupBox9";
+            groupBox9.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox9.Size = new System.Drawing.Size(233, 413);
+            groupBox9.TabIndex = 0;
+            groupBox9.TabStop = false;
+            groupBox9.Text = "Список FTP серверів";
             // 
             // buttonFtpSettingsRemove
             // 
-            this.buttonFtpSettingsRemove.Location = new System.Drawing.Point(122, 20);
-            this.buttonFtpSettingsRemove.Name = "buttonFtpSettingsRemove";
-            this.buttonFtpSettingsRemove.Size = new System.Drawing.Size(75, 29);
-            this.buttonFtpSettingsRemove.TabIndex = 2;
-            this.buttonFtpSettingsRemove.Text = "видалити";
-            this.buttonFtpSettingsRemove.UseVisualStyleBackColor = true;
-            this.buttonFtpSettingsRemove.Click += new System.EventHandler(this.buttonFtpSettingsRemove_Click);
+            buttonFtpSettingsRemove.Location = new System.Drawing.Point(142, 23);
+            buttonFtpSettingsRemove.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonFtpSettingsRemove.Name = "buttonFtpSettingsRemove";
+            buttonFtpSettingsRemove.Size = new System.Drawing.Size(88, 33);
+            buttonFtpSettingsRemove.TabIndex = 2;
+            buttonFtpSettingsRemove.Text = "видалити";
+            buttonFtpSettingsRemove.UseVisualStyleBackColor = true;
+            buttonFtpSettingsRemove.Click += buttonFtpSettingsRemove_Click;
             // 
             // buttonFtpSettingsAdd
             // 
-            this.buttonFtpSettingsAdd.Location = new System.Drawing.Point(3, 20);
-            this.buttonFtpSettingsAdd.Name = "buttonFtpSettingsAdd";
-            this.buttonFtpSettingsAdd.Size = new System.Drawing.Size(75, 29);
-            this.buttonFtpSettingsAdd.TabIndex = 1;
-            this.buttonFtpSettingsAdd.Text = "додати";
-            this.buttonFtpSettingsAdd.UseVisualStyleBackColor = true;
-            this.buttonFtpSettingsAdd.Click += new System.EventHandler(this.ButtonFtpSettingsAdd_Click);
+            buttonFtpSettingsAdd.Location = new System.Drawing.Point(4, 23);
+            buttonFtpSettingsAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonFtpSettingsAdd.Name = "buttonFtpSettingsAdd";
+            buttonFtpSettingsAdd.Size = new System.Drawing.Size(88, 33);
+            buttonFtpSettingsAdd.TabIndex = 1;
+            buttonFtpSettingsAdd.Text = "додати";
+            buttonFtpSettingsAdd.UseVisualStyleBackColor = true;
+            buttonFtpSettingsAdd.Click += ButtonFtpSettingsAdd_Click;
             // 
             // listBox_Ftp_Servers
             // 
-            this.listBox_Ftp_Servers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox_Ftp_Servers.FormattingEnabled = true;
-            this.listBox_Ftp_Servers.Location = new System.Drawing.Point(3, 55);
-            this.listBox_Ftp_Servers.Name = "listBox_Ftp_Servers";
-            this.listBox_Ftp_Servers.Size = new System.Drawing.Size(194, 290);
-            this.listBox_Ftp_Servers.TabIndex = 0;
-            this.listBox_Ftp_Servers.DoubleClick += new System.EventHandler(this.listBox_Ftp_Servers_DoubleClick);
+            listBox_Ftp_Servers.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            listBox_Ftp_Servers.FormattingEnabled = true;
+            listBox_Ftp_Servers.Location = new System.Drawing.Point(4, 63);
+            listBox_Ftp_Servers.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            listBox_Ftp_Servers.Name = "listBox_Ftp_Servers";
+            listBox_Ftp_Servers.Size = new System.Drawing.Size(226, 334);
+            listBox_Ftp_Servers.TabIndex = 0;
+            listBox_Ftp_Servers.DoubleClick += listBox_Ftp_Servers_DoubleClick;
             // 
             // tabPage6
             // 
-            this.tabPage6.Controls.Add(this.groupBox10);
-            this.tabPage6.Controls.Add(this.groupBox11);
-            this.tabPage6.Controls.Add(this.groupBox7);
-            this.tabPage6.ImageKey = "mail_yellow.png";
-            this.tabPage6.Location = new System.Drawing.Point(4, 23);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(699, 367);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "Пошта";
-            this.tabPage6.UseVisualStyleBackColor = true;
+            tabPage6.Controls.Add(groupBox10);
+            tabPage6.Controls.Add(groupBox11);
+            tabPage6.Controls.Add(groupBox7);
+            tabPage6.ImageKey = "mail_yellow.png";
+            tabPage6.Location = new System.Drawing.Point(4, 24);
+            tabPage6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage6.Name = "tabPage6";
+            tabPage6.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage6.Size = new System.Drawing.Size(817, 427);
+            tabPage6.TabIndex = 5;
+            tabPage6.Text = "Пошта";
+            tabPage6.UseVisualStyleBackColor = true;
             // 
             // groupBox10
             // 
-            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox10.Controls.Add(this.olv_mail_templates);
-            this.groupBox10.Location = new System.Drawing.Point(242, 184);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(451, 177);
-            this.groupBox10.TabIndex = 12;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "шаблони листів";
+            groupBox10.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            groupBox10.Controls.Add(olv_mail_templates);
+            groupBox10.Location = new System.Drawing.Point(282, 212);
+            groupBox10.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox10.Name = "groupBox10";
+            groupBox10.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox10.Size = new System.Drawing.Size(526, 204);
+            groupBox10.TabIndex = 12;
+            groupBox10.TabStop = false;
+            groupBox10.Text = "шаблони листів";
             // 
             // olv_mail_templates
             // 
-            this.olv_mail_templates.AllColumns.Add(this.olvc_mail_template_name);
-            this.olv_mail_templates.CellEditUseWholeCell = false;
-            this.olv_mail_templates.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvc_mail_template_name});
-            this.olv_mail_templates.ContextMenuStrip = this.cms_mail_templates;
-            this.olv_mail_templates.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olv_mail_templates.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.olv_mail_templates.FullRowSelect = true;
-            this.olv_mail_templates.GridLines = true;
-            this.olv_mail_templates.HideSelection = false;
-            this.olv_mail_templates.Location = new System.Drawing.Point(3, 16);
-            this.olv_mail_templates.Name = "olv_mail_templates";
-            this.olv_mail_templates.ShowGroups = false;
-            this.olv_mail_templates.Size = new System.Drawing.Size(445, 158);
-            this.olv_mail_templates.TabIndex = 0;
-            this.olv_mail_templates.UseCompatibleStateImageBehavior = false;
-            this.olv_mail_templates.View = System.Windows.Forms.View.Details;
+            olv_mail_templates.AllColumns.Add(olvc_mail_template_name);
+            olv_mail_templates.CellEditUseWholeCell = false;
+            olv_mail_templates.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvc_mail_template_name });
+            olv_mail_templates.ContextMenuStrip = cms_mail_templates;
+            olv_mail_templates.Dock = System.Windows.Forms.DockStyle.Fill;
+            olv_mail_templates.FullRowSelect = true;
+            olv_mail_templates.GridLines = true;
+            olv_mail_templates.Location = new System.Drawing.Point(4, 19);
+            olv_mail_templates.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            olv_mail_templates.Name = "olv_mail_templates";
+            olv_mail_templates.ShowGroups = false;
+            olv_mail_templates.Size = new System.Drawing.Size(518, 182);
+            olv_mail_templates.TabIndex = 0;
+            olv_mail_templates.UseCompatibleStateImageBehavior = false;
+            olv_mail_templates.View = System.Windows.Forms.View.Details;
             // 
             // olvc_mail_template_name
             // 
-            this.olvc_mail_template_name.AspectName = "ShablonName";
-            this.olvc_mail_template_name.Text = "назва шаблону";
-            this.olvc_mail_template_name.Width = 392;
+            olvc_mail_template_name.AspectName = "ShablonName";
+            olvc_mail_template_name.Text = "назва шаблону";
+            olvc_mail_template_name.Width = 392;
             // 
             // cms_mail_templates
             // 
-            this.cms_mail_templates.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.cms_mail_templates.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.додатиШаблонToolStripMenuItem,
-            this.редагуватиШаблонToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.видалитиШаблонToolStripMenuItem});
-            this.cms_mail_templates.Name = "cms_mail_templates";
-            this.cms_mail_templates.Size = new System.Drawing.Size(183, 76);
+            cms_mail_templates.Font = new System.Drawing.Font("Segoe UI", 9F);
+            cms_mail_templates.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { додатиШаблонToolStripMenuItem, редагуватиШаблонToolStripMenuItem, toolStripSeparator2, видалитиШаблонToolStripMenuItem });
+            cms_mail_templates.Name = "cms_mail_templates";
+            cms_mail_templates.Size = new System.Drawing.Size(183, 76);
             // 
             // додатиШаблонToolStripMenuItem
             // 
-            this.додатиШаблонToolStripMenuItem.Name = "додатиШаблонToolStripMenuItem";
-            this.додатиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.додатиШаблонToolStripMenuItem.Text = "додати шаблон";
-            this.додатиШаблонToolStripMenuItem.Click += new System.EventHandler(this.додатиШаблонToolStripMenuItem_Click);
+            додатиШаблонToolStripMenuItem.Name = "додатиШаблонToolStripMenuItem";
+            додатиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            додатиШаблонToolStripMenuItem.Text = "додати шаблон";
+            додатиШаблонToolStripMenuItem.Click += додатиШаблонToolStripMenuItem_Click;
             // 
             // редагуватиШаблонToolStripMenuItem
             // 
-            this.редагуватиШаблонToolStripMenuItem.Name = "редагуватиШаблонToolStripMenuItem";
-            this.редагуватиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.редагуватиШаблонToolStripMenuItem.Text = "редагувати шаблон";
-            this.редагуватиШаблонToolStripMenuItem.Click += new System.EventHandler(this.редагуватиШаблонToolStripMenuItem_Click);
+            редагуватиШаблонToolStripMenuItem.Name = "редагуватиШаблонToolStripMenuItem";
+            редагуватиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            редагуватиШаблонToolStripMenuItem.Text = "редагувати шаблон";
+            редагуватиШаблонToolStripMenuItem.Click += редагуватиШаблонToolStripMenuItem_Click;
             // 
             // toolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(179, 6);
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new System.Drawing.Size(179, 6);
             // 
             // видалитиШаблонToolStripMenuItem
             // 
-            this.видалитиШаблонToolStripMenuItem.Name = "видалитиШаблонToolStripMenuItem";
-            this.видалитиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.видалитиШаблонToolStripMenuItem.Text = "видалити шаблон";
-            this.видалитиШаблонToolStripMenuItem.Click += new System.EventHandler(this.видалитиШаблонToolStripMenuItem_Click);
+            видалитиШаблонToolStripMenuItem.Name = "видалитиШаблонToolStripMenuItem";
+            видалитиШаблонToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            видалитиШаблонToolStripMenuItem.Text = "видалити шаблон";
+            видалитиШаблонToolStripMenuItem.Click += видалитиШаблонToolStripMenuItem_Click;
             // 
             // groupBox11
             // 
-            this.groupBox11.Controls.Add(this.groupBox12);
-            this.groupBox11.Controls.Add(this.gb_mail_googleApi_settings);
-            this.groupBox11.Controls.Add(this.gb_mail_smtp_settings);
-            this.groupBox11.Location = new System.Drawing.Point(7, 0);
-            this.groupBox11.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.groupBox11.Size = new System.Drawing.Size(686, 178);
-            this.groupBox11.TabIndex = 11;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "`";
+            groupBox11.Controls.Add(groupBox12);
+            groupBox11.Controls.Add(gb_mail_googleApi_settings);
+            groupBox11.Controls.Add(gb_mail_smtp_settings);
+            groupBox11.Location = new System.Drawing.Point(8, 0);
+            groupBox11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 3);
+            groupBox11.Name = "groupBox11";
+            groupBox11.Padding = new System.Windows.Forms.Padding(4, 0, 4, 3);
+            groupBox11.Size = new System.Drawing.Size(800, 205);
+            groupBox11.TabIndex = 11;
+            groupBox11.TabStop = false;
+            groupBox11.Text = "`";
             // 
             // groupBox12
             // 
-            this.groupBox12.Controls.Add(this.cb_mail_connection_type);
-            this.groupBox12.Location = new System.Drawing.Point(6, 6);
-            this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(88, 166);
-            this.groupBox12.TabIndex = 24;
-            this.groupBox12.TabStop = false;
+            groupBox12.Controls.Add(cb_mail_connection_type);
+            groupBox12.Location = new System.Drawing.Point(7, 7);
+            groupBox12.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox12.Name = "groupBox12";
+            groupBox12.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox12.Size = new System.Drawing.Size(103, 192);
+            groupBox12.TabIndex = 24;
+            groupBox12.TabStop = false;
             // 
             // cb_mail_connection_type
             // 
-            this.cb_mail_connection_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_mail_connection_type.FormattingEnabled = true;
-            this.cb_mail_connection_type.Location = new System.Drawing.Point(6, 14);
-            this.cb_mail_connection_type.Name = "cb_mail_connection_type";
-            this.cb_mail_connection_type.Size = new System.Drawing.Size(76, 21);
-            this.cb_mail_connection_type.TabIndex = 0;
+            cb_mail_connection_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cb_mail_connection_type.FormattingEnabled = true;
+            cb_mail_connection_type.Location = new System.Drawing.Point(7, 16);
+            cb_mail_connection_type.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            cb_mail_connection_type.Name = "cb_mail_connection_type";
+            cb_mail_connection_type.Size = new System.Drawing.Size(88, 23);
+            cb_mail_connection_type.TabIndex = 0;
             // 
             // gb_mail_googleApi_settings
             // 
-            this.gb_mail_googleApi_settings.Controls.Add(this.btn_mail_gmail_settings_sel_secret_file);
-            this.gb_mail_googleApi_settings.Controls.Add(this.tb_mail_gmail_settings_secret_file);
-            this.gb_mail_googleApi_settings.Controls.Add(this.label1);
-            this.gb_mail_googleApi_settings.Location = new System.Drawing.Point(384, 6);
-            this.gb_mail_googleApi_settings.Name = "gb_mail_googleApi_settings";
-            this.gb_mail_googleApi_settings.Size = new System.Drawing.Size(296, 166);
-            this.gb_mail_googleApi_settings.TabIndex = 23;
-            this.gb_mail_googleApi_settings.TabStop = false;
-            this.gb_mail_googleApi_settings.Text = "Gmail API";
+            gb_mail_googleApi_settings.Controls.Add(btn_mail_gmail_settings_sel_secret_file);
+            gb_mail_googleApi_settings.Controls.Add(tb_mail_gmail_settings_secret_file);
+            gb_mail_googleApi_settings.Controls.Add(label1);
+            gb_mail_googleApi_settings.Location = new System.Drawing.Point(448, 7);
+            gb_mail_googleApi_settings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            gb_mail_googleApi_settings.Name = "gb_mail_googleApi_settings";
+            gb_mail_googleApi_settings.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            gb_mail_googleApi_settings.Size = new System.Drawing.Size(345, 192);
+            gb_mail_googleApi_settings.TabIndex = 23;
+            gb_mail_googleApi_settings.TabStop = false;
+            gb_mail_googleApi_settings.Text = "Gmail API";
             // 
             // btn_mail_gmail_settings_sel_secret_file
             // 
-            this.btn_mail_gmail_settings_sel_secret_file.Location = new System.Drawing.Point(256, 16);
-            this.btn_mail_gmail_settings_sel_secret_file.Name = "btn_mail_gmail_settings_sel_secret_file";
-            this.btn_mail_gmail_settings_sel_secret_file.Size = new System.Drawing.Size(34, 23);
-            this.btn_mail_gmail_settings_sel_secret_file.TabIndex = 24;
-            this.btn_mail_gmail_settings_sel_secret_file.Text = "...";
-            this.btn_mail_gmail_settings_sel_secret_file.UseVisualStyleBackColor = true;
-            this.btn_mail_gmail_settings_sel_secret_file.Click += new System.EventHandler(this.btn_mail_gmail_settings_sel_secret_file_Click);
+            btn_mail_gmail_settings_sel_secret_file.Location = new System.Drawing.Point(299, 18);
+            btn_mail_gmail_settings_sel_secret_file.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btn_mail_gmail_settings_sel_secret_file.Name = "btn_mail_gmail_settings_sel_secret_file";
+            btn_mail_gmail_settings_sel_secret_file.Size = new System.Drawing.Size(40, 27);
+            btn_mail_gmail_settings_sel_secret_file.TabIndex = 24;
+            btn_mail_gmail_settings_sel_secret_file.Text = "...";
+            btn_mail_gmail_settings_sel_secret_file.UseVisualStyleBackColor = true;
+            btn_mail_gmail_settings_sel_secret_file.Click += btn_mail_gmail_settings_sel_secret_file_Click;
             // 
             // tb_mail_gmail_settings_secret_file
             // 
-            this.tb_mail_gmail_settings_secret_file.Location = new System.Drawing.Point(9, 43);
-            this.tb_mail_gmail_settings_secret_file.Name = "tb_mail_gmail_settings_secret_file";
-            this.tb_mail_gmail_settings_secret_file.ReadOnly = true;
-            this.tb_mail_gmail_settings_secret_file.Size = new System.Drawing.Size(281, 20);
-            this.tb_mail_gmail_settings_secret_file.TabIndex = 23;
+            tb_mail_gmail_settings_secret_file.Location = new System.Drawing.Point(10, 50);
+            tb_mail_gmail_settings_secret_file.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tb_mail_gmail_settings_secret_file.Name = "tb_mail_gmail_settings_secret_file";
+            tb_mail_gmail_settings_secret_file.ReadOnly = true;
+            tb_mail_gmail_settings_secret_file.Size = new System.Drawing.Size(327, 23);
+            tb_mail_gmail_settings_secret_file.TabIndex = 23;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label1.Location = new System.Drawing.Point(6, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(121, 13);
-            this.label1.TabIndex = 22;
-            this.label1.Text = "client secret файл (json)";
+            label1.AutoSize = true;
+            label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label1.Location = new System.Drawing.Point(7, 24);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(135, 15);
+            label1.TabIndex = 22;
+            label1.Text = "client secret файл (json)";
             // 
             // gb_mail_smtp_settings
             // 
-            this.gb_mail_smtp_settings.Controls.Add(this.label30);
-            this.gb_mail_smtp_settings.Controls.Add(this.label32);
-            this.gb_mail_smtp_settings.Controls.Add(this.label12);
-            this.gb_mail_smtp_settings.Controls.Add(this.numericUpDownSmtpPort);
-            this.gb_mail_smtp_settings.Controls.Add(this.textBox_MailPassword);
-            this.gb_mail_smtp_settings.Controls.Add(this.textBoxSmtpServer);
-            this.gb_mail_smtp_settings.Controls.Add(this.label11);
-            this.gb_mail_smtp_settings.Controls.Add(this.label33);
-            this.gb_mail_smtp_settings.Controls.Add(this.textBox_MailFrom);
-            this.gb_mail_smtp_settings.Controls.Add(this.label31);
-            this.gb_mail_smtp_settings.Controls.Add(this.checkBoxMailAutoRelogon);
-            this.gb_mail_smtp_settings.Controls.Add(this.numericUpDown_ImapPort);
-            this.gb_mail_smtp_settings.Controls.Add(this.textBox_ImapServer);
-            this.gb_mail_smtp_settings.Location = new System.Drawing.Point(101, 6);
-            this.gb_mail_smtp_settings.Name = "gb_mail_smtp_settings";
-            this.gb_mail_smtp_settings.Size = new System.Drawing.Size(277, 166);
-            this.gb_mail_smtp_settings.TabIndex = 22;
-            this.gb_mail_smtp_settings.TabStop = false;
-            this.gb_mail_smtp_settings.Text = "SMTP";
+            gb_mail_smtp_settings.Controls.Add(label30);
+            gb_mail_smtp_settings.Controls.Add(label32);
+            gb_mail_smtp_settings.Controls.Add(label12);
+            gb_mail_smtp_settings.Controls.Add(numericUpDownSmtpPort);
+            gb_mail_smtp_settings.Controls.Add(textBox_MailPassword);
+            gb_mail_smtp_settings.Controls.Add(textBoxSmtpServer);
+            gb_mail_smtp_settings.Controls.Add(label11);
+            gb_mail_smtp_settings.Controls.Add(label33);
+            gb_mail_smtp_settings.Controls.Add(textBox_MailFrom);
+            gb_mail_smtp_settings.Controls.Add(label31);
+            gb_mail_smtp_settings.Controls.Add(checkBoxMailAutoRelogon);
+            gb_mail_smtp_settings.Controls.Add(numericUpDown_ImapPort);
+            gb_mail_smtp_settings.Controls.Add(textBox_ImapServer);
+            gb_mail_smtp_settings.Location = new System.Drawing.Point(118, 7);
+            gb_mail_smtp_settings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            gb_mail_smtp_settings.Name = "gb_mail_smtp_settings";
+            gb_mail_smtp_settings.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            gb_mail_smtp_settings.Size = new System.Drawing.Size(323, 192);
+            gb_mail_smtp_settings.TabIndex = 22;
+            gb_mail_smtp_settings.TabStop = false;
+            gb_mail_smtp_settings.Text = "SMTP";
             // 
             // label30
             // 
-            this.label30.AutoSize = true;
-            this.label30.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label30.Location = new System.Drawing.Point(6, 16);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(68, 13);
-            this.label30.TabIndex = 15;
-            this.label30.Text = "imap сервер";
+            label30.AutoSize = true;
+            label30.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label30.Location = new System.Drawing.Point(7, 18);
+            label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label30.Name = "label30";
+            label30.Size = new System.Drawing.Size(75, 15);
+            label30.TabIndex = 15;
+            label30.Text = "imap сервер";
             // 
             // label32
             // 
-            this.label32.AutoSize = true;
-            this.label32.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label32.Location = new System.Drawing.Point(202, 50);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(10, 13);
-            this.label32.TabIndex = 21;
-            this.label32.Text = ":";
+            label32.AutoSize = true;
+            label32.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label32.Location = new System.Drawing.Point(236, 58);
+            label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label32.Name = "label32";
+            label32.Size = new System.Drawing.Size(10, 15);
+            label32.TabIndex = 21;
+            label32.Text = ":";
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label12.Location = new System.Drawing.Point(31, 114);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(43, 13);
-            this.label12.TabIndex = 4;
-            this.label12.Text = "пароль";
+            label12.AutoSize = true;
+            label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label12.Location = new System.Drawing.Point(36, 132);
+            label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label12.Name = "label12";
+            label12.Size = new System.Drawing.Size(47, 15);
+            label12.TabIndex = 4;
+            label12.Text = "пароль";
             // 
             // numericUpDownSmtpPort
             // 
-            this.numericUpDownSmtpPort.Location = new System.Drawing.Point(218, 48);
-            this.numericUpDownSmtpPort.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.numericUpDownSmtpPort.Name = "numericUpDownSmtpPort";
-            this.numericUpDownSmtpPort.Size = new System.Drawing.Size(48, 20);
-            this.numericUpDownSmtpPort.TabIndex = 20;
-            this.numericUpDownSmtpPort.Value = new decimal(new int[] {
-            587,
-            0,
-            0,
-            0});
+            numericUpDownSmtpPort.Location = new System.Drawing.Point(254, 55);
+            numericUpDownSmtpPort.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDownSmtpPort.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            numericUpDownSmtpPort.Name = "numericUpDownSmtpPort";
+            numericUpDownSmtpPort.Size = new System.Drawing.Size(56, 23);
+            numericUpDownSmtpPort.TabIndex = 20;
+            numericUpDownSmtpPort.Value = new decimal(new int[] { 587, 0, 0, 0 });
             // 
             // textBox_MailPassword
             // 
-            this.textBox_MailPassword.Location = new System.Drawing.Point(80, 111);
-            this.textBox_MailPassword.Name = "textBox_MailPassword";
-            this.textBox_MailPassword.PasswordChar = '*';
-            this.textBox_MailPassword.Size = new System.Drawing.Size(186, 20);
-            this.textBox_MailPassword.TabIndex = 3;
-            this.textBox_MailPassword.UseSystemPasswordChar = true;
+            textBox_MailPassword.Location = new System.Drawing.Point(93, 128);
+            textBox_MailPassword.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBox_MailPassword.Name = "textBox_MailPassword";
+            textBox_MailPassword.PasswordChar = '*';
+            textBox_MailPassword.Size = new System.Drawing.Size(216, 23);
+            textBox_MailPassword.TabIndex = 3;
+            textBox_MailPassword.UseSystemPasswordChar = true;
             // 
             // textBoxSmtpServer
             // 
-            this.textBoxSmtpServer.Location = new System.Drawing.Point(80, 47);
-            this.textBoxSmtpServer.Name = "textBoxSmtpServer";
-            this.textBoxSmtpServer.Size = new System.Drawing.Size(115, 20);
-            this.textBoxSmtpServer.TabIndex = 18;
-            this.textBoxSmtpServer.Text = "smtp.gmail.com";
+            textBoxSmtpServer.Location = new System.Drawing.Point(93, 54);
+            textBoxSmtpServer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBoxSmtpServer.Name = "textBoxSmtpServer";
+            textBoxSmtpServer.Size = new System.Drawing.Size(134, 23);
+            textBoxSmtpServer.TabIndex = 18;
+            textBoxSmtpServer.Text = "smtp.gmail.com";
             // 
             // label11
             // 
-            this.label11.AutoSize = true;
-            this.label11.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label11.Location = new System.Drawing.Point(42, 81);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(32, 13);
-            this.label11.TabIndex = 1;
-            this.label11.Text = "логін";
+            label11.AutoSize = true;
+            label11.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label11.Location = new System.Drawing.Point(49, 93);
+            label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label11.Name = "label11";
+            label11.Size = new System.Drawing.Size(36, 15);
+            label11.TabIndex = 1;
+            label11.Text = "логін";
             // 
             // label33
             // 
-            this.label33.AutoSize = true;
-            this.label33.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label33.Location = new System.Drawing.Point(6, 50);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(68, 13);
-            this.label33.TabIndex = 19;
-            this.label33.Text = "smtp сервер";
+            label33.AutoSize = true;
+            label33.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label33.Location = new System.Drawing.Point(7, 58);
+            label33.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label33.Name = "label33";
+            label33.Size = new System.Drawing.Size(75, 15);
+            label33.TabIndex = 19;
+            label33.Text = "smtp сервер";
             // 
             // textBox_MailFrom
             // 
-            this.textBox_MailFrom.Location = new System.Drawing.Point(80, 78);
-            this.textBox_MailFrom.Name = "textBox_MailFrom";
-            this.textBox_MailFrom.Size = new System.Drawing.Size(186, 20);
-            this.textBox_MailFrom.TabIndex = 0;
+            textBox_MailFrom.Location = new System.Drawing.Point(93, 90);
+            textBox_MailFrom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBox_MailFrom.Name = "textBox_MailFrom";
+            textBox_MailFrom.Size = new System.Drawing.Size(216, 23);
+            textBox_MailFrom.TabIndex = 0;
             // 
             // label31
             // 
-            this.label31.AutoSize = true;
-            this.label31.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label31.Location = new System.Drawing.Point(201, 16);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(10, 13);
-            this.label31.TabIndex = 17;
-            this.label31.Text = ":";
+            label31.AutoSize = true;
+            label31.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label31.Location = new System.Drawing.Point(234, 18);
+            label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label31.Name = "label31";
+            label31.Size = new System.Drawing.Size(10, 15);
+            label31.TabIndex = 17;
+            label31.Text = ":";
             // 
             // checkBoxMailAutoRelogon
             // 
-            this.checkBoxMailAutoRelogon.AutoSize = true;
-            this.checkBoxMailAutoRelogon.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.checkBoxMailAutoRelogon.Location = new System.Drawing.Point(21, 139);
-            this.checkBoxMailAutoRelogon.Name = "checkBoxMailAutoRelogon";
-            this.checkBoxMailAutoRelogon.Size = new System.Drawing.Size(245, 17);
-            this.checkBoxMailAutoRelogon.TabIndex = 13;
-            this.checkBoxMailAutoRelogon.Text = "автоматично підключатися при відключенні";
-            this.checkBoxMailAutoRelogon.UseVisualStyleBackColor = true;
+            checkBoxMailAutoRelogon.AutoSize = true;
+            checkBoxMailAutoRelogon.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            checkBoxMailAutoRelogon.Location = new System.Drawing.Point(24, 160);
+            checkBoxMailAutoRelogon.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxMailAutoRelogon.Name = "checkBoxMailAutoRelogon";
+            checkBoxMailAutoRelogon.Size = new System.Drawing.Size(272, 19);
+            checkBoxMailAutoRelogon.TabIndex = 13;
+            checkBoxMailAutoRelogon.Text = "автоматично підключатися при відключенні";
+            checkBoxMailAutoRelogon.UseVisualStyleBackColor = true;
             // 
             // numericUpDown_ImapPort
             // 
-            this.numericUpDown_ImapPort.Location = new System.Drawing.Point(217, 14);
-            this.numericUpDown_ImapPort.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.numericUpDown_ImapPort.Name = "numericUpDown_ImapPort";
-            this.numericUpDown_ImapPort.Size = new System.Drawing.Size(49, 20);
-            this.numericUpDown_ImapPort.TabIndex = 16;
-            this.numericUpDown_ImapPort.Value = new decimal(new int[] {
-            993,
-            0,
-            0,
-            0});
+            numericUpDown_ImapPort.Location = new System.Drawing.Point(253, 16);
+            numericUpDown_ImapPort.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDown_ImapPort.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            numericUpDown_ImapPort.Name = "numericUpDown_ImapPort";
+            numericUpDown_ImapPort.Size = new System.Drawing.Size(57, 23);
+            numericUpDown_ImapPort.TabIndex = 16;
+            numericUpDown_ImapPort.Value = new decimal(new int[] { 993, 0, 0, 0 });
             // 
             // textBox_ImapServer
             // 
-            this.textBox_ImapServer.Location = new System.Drawing.Point(80, 13);
-            this.textBox_ImapServer.Name = "textBox_ImapServer";
-            this.textBox_ImapServer.Size = new System.Drawing.Size(115, 20);
-            this.textBox_ImapServer.TabIndex = 14;
-            this.textBox_ImapServer.Text = "imap.gmail.com";
+            textBox_ImapServer.Location = new System.Drawing.Point(93, 15);
+            textBox_ImapServer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBox_ImapServer.Name = "textBox_ImapServer";
+            textBox_ImapServer.Size = new System.Drawing.Size(134, 23);
+            textBox_ImapServer.TabIndex = 14;
+            textBox_ImapServer.Text = "imap.gmail.com";
             // 
             // groupBox7
             // 
-            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox7.Controls.Add(this.button_MailAdd);
-            this.groupBox7.Controls.Add(this.label13);
-            this.groupBox7.Controls.Add(this.textBox_MailTo);
-            this.groupBox7.Controls.Add(this.listBox_SendEmails);
-            this.groupBox7.Location = new System.Drawing.Point(7, 184);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(229, 177);
-            this.groupBox7.TabIndex = 10;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "адреси для швидкого надсилання";
+            groupBox7.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            groupBox7.Controls.Add(button_MailAdd);
+            groupBox7.Controls.Add(label13);
+            groupBox7.Controls.Add(textBox_MailTo);
+            groupBox7.Controls.Add(listBox_SendEmails);
+            groupBox7.Location = new System.Drawing.Point(8, 212);
+            groupBox7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox7.Size = new System.Drawing.Size(267, 204);
+            groupBox7.TabIndex = 10;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "адреси для швидкого надсилання";
             // 
             // button_MailAdd
             // 
-            this.button_MailAdd.FlatAppearance.BorderSize = 0;
-            this.button_MailAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_MailAdd.Image = global::ActiveWorks.Properties.Resources.Create;
-            this.button_MailAdd.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button_MailAdd.Location = new System.Drawing.Point(192, 33);
-            this.button_MailAdd.Name = "button_MailAdd";
-            this.button_MailAdd.Size = new System.Drawing.Size(26, 23);
-            this.button_MailAdd.TabIndex = 7;
-            this.button_MailAdd.UseVisualStyleBackColor = true;
-            this.button_MailAdd.Click += new System.EventHandler(this.Button_MailAdd_Click);
+            button_MailAdd.FlatAppearance.BorderSize = 0;
+            button_MailAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            button_MailAdd.Image = Properties.Resources.Create;
+            button_MailAdd.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            button_MailAdd.Location = new System.Drawing.Point(224, 38);
+            button_MailAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            button_MailAdd.Name = "button_MailAdd";
+            button_MailAdd.Size = new System.Drawing.Size(30, 27);
+            button_MailAdd.TabIndex = 7;
+            button_MailAdd.UseVisualStyleBackColor = true;
+            button_MailAdd.Click += Button_MailAdd_Click;
             // 
             // label13
             // 
-            this.label13.AutoSize = true;
-            this.label13.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label13.Location = new System.Drawing.Point(6, 19);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(88, 13);
-            this.label13.TabIndex = 6;
-            this.label13.Text = "кому надсилати";
+            label13.AutoSize = true;
+            label13.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label13.Location = new System.Drawing.Point(7, 22);
+            label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label13.Name = "label13";
+            label13.Size = new System.Drawing.Size(95, 15);
+            label13.TabIndex = 6;
+            label13.Text = "кому надсилати";
             // 
             // textBox_MailTo
             // 
-            this.textBox_MailTo.Location = new System.Drawing.Point(9, 35);
-            this.textBox_MailTo.Name = "textBox_MailTo";
-            this.textBox_MailTo.Size = new System.Drawing.Size(177, 20);
-            this.textBox_MailTo.TabIndex = 5;
+            textBox_MailTo.Location = new System.Drawing.Point(10, 40);
+            textBox_MailTo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBox_MailTo.Name = "textBox_MailTo";
+            textBox_MailTo.Size = new System.Drawing.Size(206, 23);
+            textBox_MailTo.TabIndex = 5;
             // 
             // listBox_SendEmails
             // 
-            this.listBox_SendEmails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox_SendEmails.ContextMenuStrip = this.contextMenuStripMails;
-            this.listBox_SendEmails.FormattingEnabled = true;
-            this.listBox_SendEmails.Location = new System.Drawing.Point(9, 61);
-            this.listBox_SendEmails.Name = "listBox_SendEmails";
-            this.listBox_SendEmails.Size = new System.Drawing.Size(209, 95);
-            this.listBox_SendEmails.TabIndex = 2;
+            listBox_SendEmails.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            listBox_SendEmails.ContextMenuStrip = contextMenuStripMails;
+            listBox_SendEmails.FormattingEnabled = true;
+            listBox_SendEmails.Location = new System.Drawing.Point(10, 70);
+            listBox_SendEmails.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            listBox_SendEmails.Name = "listBox_SendEmails";
+            listBox_SendEmails.Size = new System.Drawing.Size(243, 109);
+            listBox_SendEmails.TabIndex = 2;
             // 
             // contextMenuStripMails
             // 
-            this.contextMenuStripMails.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.contextMenuStripMails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.копіюватиToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.deleteToolStripMenuItem});
-            this.contextMenuStripMails.Name = "contextMenuStripMails";
-            this.contextMenuStripMails.Size = new System.Drawing.Size(142, 54);
+            contextMenuStripMails.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            contextMenuStripMails.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { копіюватиToolStripMenuItem, toolStripSeparator1, deleteToolStripMenuItem });
+            contextMenuStripMails.Name = "contextMenuStripMails";
+            contextMenuStripMails.Size = new System.Drawing.Size(142, 54);
             // 
             // копіюватиToolStripMenuItem
             // 
-            this.копіюватиToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Copy;
-            this.копіюватиToolStripMenuItem.Name = "копіюватиToolStripMenuItem";
-            this.копіюватиToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.копіюватиToolStripMenuItem.Text = "копіювати ";
-            this.копіюватиToolStripMenuItem.Click += new System.EventHandler(this.копіюватиToolStripMenuItem_Click);
+            копіюватиToolStripMenuItem.Image = Properties.Resources.Copy;
+            копіюватиToolStripMenuItem.Name = "копіюватиToolStripMenuItem";
+            копіюватиToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            копіюватиToolStripMenuItem.Text = "копіювати ";
+            копіюватиToolStripMenuItem.Click += копіюватиToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
             // 
             // deleteToolStripMenuItem
             // 
-            this.deleteToolStripMenuItem.Image = global::ActiveWorks.Properties.Resources.Delete;
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.deleteToolStripMenuItem.Text = "видалити";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            deleteToolStripMenuItem.Image = Properties.Resources.Delete;
+            deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            deleteToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            deleteToolStripMenuItem.Text = "видалити";
+            deleteToolStripMenuItem.Click += deleteToolStripMenuItem_Click;
             // 
             // tabPage7
             // 
-            this.tabPage7.Controls.Add(this.buttonStatusSetDefault);
-            this.tabPage7.Controls.Add(this.objectListViewStatuses);
-            this.tabPage7.Controls.Add(this.buttonStatusDelete);
-            this.tabPage7.Controls.Add(this.buttonStatusEdit);
-            this.tabPage7.Controls.Add(this.buttonStatusAdd);
-            this.tabPage7.Controls.Add(this.groupBoxOnChangeStatuses);
-            this.tabPage7.Location = new System.Drawing.Point(4, 23);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(699, 367);
-            this.tabPage7.TabIndex = 6;
-            this.tabPage7.Text = "Статуси";
-            this.tabPage7.UseVisualStyleBackColor = true;
+            tabPage7.Controls.Add(buttonStatusSetDefault);
+            tabPage7.Controls.Add(objectListViewStatuses);
+            tabPage7.Controls.Add(buttonStatusDelete);
+            tabPage7.Controls.Add(buttonStatusEdit);
+            tabPage7.Controls.Add(buttonStatusAdd);
+            tabPage7.Controls.Add(groupBoxOnChangeStatuses);
+            tabPage7.Location = new System.Drawing.Point(4, 24);
+            tabPage7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPage7.Name = "tabPage7";
+            tabPage7.Size = new System.Drawing.Size(817, 427);
+            tabPage7.TabIndex = 6;
+            tabPage7.Text = "Статуси";
+            tabPage7.UseVisualStyleBackColor = true;
             // 
             // buttonStatusSetDefault
             // 
-            this.buttonStatusSetDefault.Location = new System.Drawing.Point(109, 12);
-            this.buttonStatusSetDefault.Name = "buttonStatusSetDefault";
-            this.buttonStatusSetDefault.Size = new System.Drawing.Size(60, 23);
-            this.buttonStatusSetDefault.TabIndex = 7;
-            this.buttonStatusSetDefault.Text = "Set Def";
-            this.buttonStatusSetDefault.UseVisualStyleBackColor = true;
-            this.buttonStatusSetDefault.Click += new System.EventHandler(this.buttonStatusSetDefault_Click);
+            buttonStatusSetDefault.Location = new System.Drawing.Point(127, 14);
+            buttonStatusSetDefault.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonStatusSetDefault.Name = "buttonStatusSetDefault";
+            buttonStatusSetDefault.Size = new System.Drawing.Size(70, 27);
+            buttonStatusSetDefault.TabIndex = 7;
+            buttonStatusSetDefault.Text = "Set Def";
+            buttonStatusSetDefault.UseVisualStyleBackColor = true;
+            buttonStatusSetDefault.Click += buttonStatusSetDefault_Click;
             // 
             // objectListViewStatuses
             // 
-            this.objectListViewStatuses.AllColumns.Add(this.olvColumnStatusName);
-            this.objectListViewStatuses.AllColumns.Add(this.olvColumnStatusDef);
-            this.objectListViewStatuses.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.objectListViewStatuses.CellEditUseWholeCell = false;
-            this.objectListViewStatuses.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumnStatusName,
-            this.olvColumnStatusDef});
-            this.objectListViewStatuses.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListViewStatuses.FullRowSelect = true;
-            this.objectListViewStatuses.GridLines = true;
-            this.objectListViewStatuses.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.objectListViewStatuses.HideSelection = false;
-            this.objectListViewStatuses.Location = new System.Drawing.Point(3, 41);
-            this.objectListViewStatuses.MultiSelect = false;
-            this.objectListViewStatuses.Name = "objectListViewStatuses";
-            this.objectListViewStatuses.ShowGroups = false;
-            this.objectListViewStatuses.Size = new System.Drawing.Size(219, 307);
-            this.objectListViewStatuses.TabIndex = 6;
-            this.objectListViewStatuses.UseCompatibleStateImageBehavior = false;
-            this.objectListViewStatuses.View = System.Windows.Forms.View.Details;
-            this.objectListViewStatuses.Click += new System.EventHandler(this.objectListViewStatuses_Click);
+            objectListViewStatuses.AllColumns.Add(olvColumnStatusName);
+            objectListViewStatuses.AllColumns.Add(olvColumnStatusDef);
+            objectListViewStatuses.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            objectListViewStatuses.CellEditUseWholeCell = false;
+            objectListViewStatuses.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumnStatusName, olvColumnStatusDef });
+            objectListViewStatuses.FullRowSelect = true;
+            objectListViewStatuses.GridLines = true;
+            objectListViewStatuses.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            objectListViewStatuses.Location = new System.Drawing.Point(4, 47);
+            objectListViewStatuses.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            objectListViewStatuses.MultiSelect = false;
+            objectListViewStatuses.Name = "objectListViewStatuses";
+            objectListViewStatuses.ShowGroups = false;
+            objectListViewStatuses.Size = new System.Drawing.Size(255, 354);
+            objectListViewStatuses.TabIndex = 6;
+            objectListViewStatuses.UseCompatibleStateImageBehavior = false;
+            objectListViewStatuses.View = System.Windows.Forms.View.Details;
+            objectListViewStatuses.Click += objectListViewStatuses_Click;
             // 
             // olvColumnStatusName
             // 
-            this.olvColumnStatusName.AspectName = "Name";
-            this.olvColumnStatusName.ImageAspectName = "Img";
-            this.olvColumnStatusName.IsEditable = false;
-            this.olvColumnStatusName.Text = "Ім\'я";
-            this.olvColumnStatusName.Width = 150;
+            olvColumnStatusName.AspectName = "Name";
+            olvColumnStatusName.ImageAspectName = "Img";
+            olvColumnStatusName.IsEditable = false;
+            olvColumnStatusName.Text = "Ім'я";
+            olvColumnStatusName.Width = 150;
             // 
             // olvColumnStatusDef
             // 
-            this.olvColumnStatusDef.AspectName = "IsDefault";
-            this.olvColumnStatusDef.Text = "За замовчуванням";
+            olvColumnStatusDef.AspectName = "IsDefault";
+            olvColumnStatusDef.Text = "За замовчуванням";
             // 
             // buttonStatusDelete
             // 
-            this.buttonStatusDelete.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonStatusDelete.Location = new System.Drawing.Point(175, 12);
-            this.buttonStatusDelete.Name = "buttonStatusDelete";
-            this.buttonStatusDelete.Size = new System.Drawing.Size(47, 23);
-            this.buttonStatusDelete.TabIndex = 5;
-            this.buttonStatusDelete.Text = "Del";
-            this.buttonStatusDelete.UseVisualStyleBackColor = true;
-            this.buttonStatusDelete.Click += new System.EventHandler(this.buttonStatusDelete_Click);
+            buttonStatusDelete.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            buttonStatusDelete.Location = new System.Drawing.Point(204, 14);
+            buttonStatusDelete.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonStatusDelete.Name = "buttonStatusDelete";
+            buttonStatusDelete.Size = new System.Drawing.Size(55, 27);
+            buttonStatusDelete.TabIndex = 5;
+            buttonStatusDelete.Text = "Del";
+            buttonStatusDelete.UseVisualStyleBackColor = true;
+            buttonStatusDelete.Click += buttonStatusDelete_Click;
             // 
             // buttonStatusEdit
             // 
-            this.buttonStatusEdit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonStatusEdit.Location = new System.Drawing.Point(59, 12);
-            this.buttonStatusEdit.Name = "buttonStatusEdit";
-            this.buttonStatusEdit.Size = new System.Drawing.Size(44, 23);
-            this.buttonStatusEdit.TabIndex = 4;
-            this.buttonStatusEdit.Text = "Edit";
-            this.buttonStatusEdit.UseVisualStyleBackColor = true;
-            this.buttonStatusEdit.Click += new System.EventHandler(this.buttonStatusEdit_Click);
+            buttonStatusEdit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            buttonStatusEdit.Location = new System.Drawing.Point(69, 14);
+            buttonStatusEdit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonStatusEdit.Name = "buttonStatusEdit";
+            buttonStatusEdit.Size = new System.Drawing.Size(51, 27);
+            buttonStatusEdit.TabIndex = 4;
+            buttonStatusEdit.Text = "Edit";
+            buttonStatusEdit.UseVisualStyleBackColor = true;
+            buttonStatusEdit.Click += buttonStatusEdit_Click;
             // 
             // buttonStatusAdd
             // 
-            this.buttonStatusAdd.Location = new System.Drawing.Point(9, 12);
-            this.buttonStatusAdd.Name = "buttonStatusAdd";
-            this.buttonStatusAdd.Size = new System.Drawing.Size(44, 23);
-            this.buttonStatusAdd.TabIndex = 3;
-            this.buttonStatusAdd.Text = "Add";
-            this.buttonStatusAdd.UseVisualStyleBackColor = true;
-            this.buttonStatusAdd.Click += new System.EventHandler(this.buttonStatusAdd_Click);
+            buttonStatusAdd.Location = new System.Drawing.Point(10, 14);
+            buttonStatusAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonStatusAdd.Name = "buttonStatusAdd";
+            buttonStatusAdd.Size = new System.Drawing.Size(51, 27);
+            buttonStatusAdd.TabIndex = 3;
+            buttonStatusAdd.Text = "Add";
+            buttonStatusAdd.UseVisualStyleBackColor = true;
+            buttonStatusAdd.Click += buttonStatusAdd_Click;
             // 
             // groupBoxOnChangeStatuses
             // 
-            this.groupBoxOnChangeStatuses.Controls.Add(this.checkBoxStatusEnable);
-            this.groupBoxOnChangeStatuses.Controls.Add(this.panelStatusParams);
-            this.groupBoxOnChangeStatuses.Location = new System.Drawing.Point(228, 3);
-            this.groupBoxOnChangeStatuses.Name = "groupBoxOnChangeStatuses";
-            this.groupBoxOnChangeStatuses.Size = new System.Drawing.Size(468, 345);
-            this.groupBoxOnChangeStatuses.TabIndex = 2;
-            this.groupBoxOnChangeStatuses.TabStop = false;
-            this.groupBoxOnChangeStatuses.Text = "Налаштування";
+            groupBoxOnChangeStatuses.Controls.Add(checkBoxStatusEnable);
+            groupBoxOnChangeStatuses.Controls.Add(panelStatusParams);
+            groupBoxOnChangeStatuses.Location = new System.Drawing.Point(266, 3);
+            groupBoxOnChangeStatuses.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBoxOnChangeStatuses.Name = "groupBoxOnChangeStatuses";
+            groupBoxOnChangeStatuses.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBoxOnChangeStatuses.Size = new System.Drawing.Size(546, 398);
+            groupBoxOnChangeStatuses.TabIndex = 2;
+            groupBoxOnChangeStatuses.TabStop = false;
+            groupBoxOnChangeStatuses.Text = "Налаштування";
             // 
             // checkBoxStatusEnable
             // 
-            this.checkBoxStatusEnable.AutoSize = true;
-            this.checkBoxStatusEnable.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.checkBoxStatusEnable.Location = new System.Drawing.Point(6, 24);
-            this.checkBoxStatusEnable.Name = "checkBoxStatusEnable";
-            this.checkBoxStatusEnable.Size = new System.Drawing.Size(75, 17);
-            this.checkBoxStatusEnable.TabIndex = 5;
-            this.checkBoxStatusEnable.Text = "Включити";
-            this.checkBoxStatusEnable.UseVisualStyleBackColor = true;
-            this.checkBoxStatusEnable.CheckedChanged += new System.EventHandler(this.checkBoxStatusEnable_CheckedChanged);
+            checkBoxStatusEnable.AutoSize = true;
+            checkBoxStatusEnable.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            checkBoxStatusEnable.Location = new System.Drawing.Point(7, 28);
+            checkBoxStatusEnable.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxStatusEnable.Name = "checkBoxStatusEnable";
+            checkBoxStatusEnable.Size = new System.Drawing.Size(82, 19);
+            checkBoxStatusEnable.TabIndex = 5;
+            checkBoxStatusEnable.Text = "Включити";
+            checkBoxStatusEnable.UseVisualStyleBackColor = true;
+            checkBoxStatusEnable.CheckedChanged += checkBoxStatusEnable_CheckedChanged;
             // 
             // panelStatusParams
             // 
-            this.panelStatusParams.Controls.Add(this.label35);
-            this.panelStatusParams.Controls.Add(this.textBoxStatusCommandLineParam);
-            this.panelStatusParams.Controls.Add(this.buttonStatusSelectProgram);
-            this.panelStatusParams.Controls.Add(this.label34);
-            this.panelStatusParams.Controls.Add(this.textBoxStatusFileName);
-            this.panelStatusParams.Location = new System.Drawing.Point(6, 50);
-            this.panelStatusParams.Name = "panelStatusParams";
-            this.panelStatusParams.Size = new System.Drawing.Size(459, 94);
-            this.panelStatusParams.TabIndex = 0;
+            panelStatusParams.Controls.Add(label35);
+            panelStatusParams.Controls.Add(textBoxStatusCommandLineParam);
+            panelStatusParams.Controls.Add(buttonStatusSelectProgram);
+            panelStatusParams.Controls.Add(label34);
+            panelStatusParams.Controls.Add(textBoxStatusFileName);
+            panelStatusParams.Location = new System.Drawing.Point(7, 58);
+            panelStatusParams.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            panelStatusParams.Name = "panelStatusParams";
+            panelStatusParams.Size = new System.Drawing.Size(536, 108);
+            panelStatusParams.TabIndex = 0;
             // 
             // label35
             // 
-            this.label35.AutoSize = true;
-            this.label35.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label35.Location = new System.Drawing.Point(3, 47);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(85, 13);
-            this.label35.TabIndex = 4;
-            this.label35.Text = "з параметрами";
+            label35.AutoSize = true;
+            label35.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label35.Location = new System.Drawing.Point(4, 54);
+            label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label35.Name = "label35";
+            label35.Size = new System.Drawing.Size(90, 15);
+            label35.TabIndex = 4;
+            label35.Text = "з параметрами";
             // 
             // textBoxStatusCommandLineParam
             // 
-            this.textBoxStatusCommandLineParam.Location = new System.Drawing.Point(3, 63);
-            this.textBoxStatusCommandLineParam.Name = "textBoxStatusCommandLineParam";
-            this.textBoxStatusCommandLineParam.Size = new System.Drawing.Size(431, 20);
-            this.textBoxStatusCommandLineParam.TabIndex = 3;
-            this.textBoxStatusCommandLineParam.TextChanged += new System.EventHandler(this.textBoxStatusCommandLineParam_TextChanged);
+            textBoxStatusCommandLineParam.Location = new System.Drawing.Point(4, 73);
+            textBoxStatusCommandLineParam.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBoxStatusCommandLineParam.Name = "textBoxStatusCommandLineParam";
+            textBoxStatusCommandLineParam.Size = new System.Drawing.Size(502, 23);
+            textBoxStatusCommandLineParam.TabIndex = 3;
+            textBoxStatusCommandLineParam.TextChanged += textBoxStatusCommandLineParam_TextChanged;
             // 
             // buttonStatusSelectProgram
             // 
-            this.buttonStatusSelectProgram.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonStatusSelectProgram.Location = new System.Drawing.Point(400, 17);
-            this.buttonStatusSelectProgram.Name = "buttonStatusSelectProgram";
-            this.buttonStatusSelectProgram.Size = new System.Drawing.Size(34, 23);
-            this.buttonStatusSelectProgram.TabIndex = 2;
-            this.buttonStatusSelectProgram.Text = "...";
-            this.buttonStatusSelectProgram.UseVisualStyleBackColor = true;
-            this.buttonStatusSelectProgram.Click += new System.EventHandler(this.buttonStatusSelectProgram_Click);
+            buttonStatusSelectProgram.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            buttonStatusSelectProgram.Location = new System.Drawing.Point(467, 20);
+            buttonStatusSelectProgram.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonStatusSelectProgram.Name = "buttonStatusSelectProgram";
+            buttonStatusSelectProgram.Size = new System.Drawing.Size(40, 27);
+            buttonStatusSelectProgram.TabIndex = 2;
+            buttonStatusSelectProgram.Text = "...";
+            buttonStatusSelectProgram.UseVisualStyleBackColor = true;
+            buttonStatusSelectProgram.Click += buttonStatusSelectProgram_Click;
             // 
             // label34
             // 
-            this.label34.AutoSize = true;
-            this.label34.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label34.Location = new System.Drawing.Point(3, 4);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(59, 13);
-            this.label34.TabIndex = 1;
-            this.label34.Text = "запускати";
+            label34.AutoSize = true;
+            label34.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            label34.Location = new System.Drawing.Point(4, 5);
+            label34.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label34.Name = "label34";
+            label34.Size = new System.Drawing.Size(61, 15);
+            label34.TabIndex = 1;
+            label34.Text = "запускати";
             // 
             // textBoxStatusFileName
             // 
-            this.textBoxStatusFileName.Location = new System.Drawing.Point(3, 20);
-            this.textBoxStatusFileName.Name = "textBoxStatusFileName";
-            this.textBoxStatusFileName.Size = new System.Drawing.Size(381, 20);
-            this.textBoxStatusFileName.TabIndex = 0;
-            this.textBoxStatusFileName.TextChanged += new System.EventHandler(this.textBoxStatusFileName_TextChanged);
+            textBoxStatusFileName.Location = new System.Drawing.Point(4, 23);
+            textBoxStatusFileName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBoxStatusFileName.Name = "textBoxStatusFileName";
+            textBoxStatusFileName.Size = new System.Drawing.Size(444, 23);
+            textBoxStatusFileName.TabIndex = 0;
+            textBoxStatusFileName.TextChanged += textBoxStatusFileName_TextChanged;
             // 
             // tabPagePlugins
             // 
-            this.tabPagePlugins.Controls.Add(this.objectListViewPlugins);
-            this.tabPagePlugins.Location = new System.Drawing.Point(4, 23);
-            this.tabPagePlugins.Name = "tabPagePlugins";
-            this.tabPagePlugins.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPagePlugins.Size = new System.Drawing.Size(699, 367);
-            this.tabPagePlugins.TabIndex = 7;
-            this.tabPagePlugins.Text = "Plugins";
-            this.tabPagePlugins.UseVisualStyleBackColor = true;
+            tabPagePlugins.Controls.Add(objectListViewPlugins);
+            tabPagePlugins.Location = new System.Drawing.Point(4, 24);
+            tabPagePlugins.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPagePlugins.Name = "tabPagePlugins";
+            tabPagePlugins.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPagePlugins.Size = new System.Drawing.Size(817, 427);
+            tabPagePlugins.TabIndex = 7;
+            tabPagePlugins.Text = "Plugins";
+            tabPagePlugins.UseVisualStyleBackColor = true;
             // 
             // objectListViewPlugins
             // 
-            this.objectListViewPlugins.AllColumns.Add(this.olvColumnPluginName);
-            this.objectListViewPlugins.AllColumns.Add(this.olvColumnPluginDescription);
-            this.objectListViewPlugins.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.objectListViewPlugins.CellEditUseWholeCell = false;
-            this.objectListViewPlugins.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumnPluginName,
-            this.olvColumnPluginDescription});
-            this.objectListViewPlugins.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListViewPlugins.FullRowSelect = true;
-            this.objectListViewPlugins.GridLines = true;
-            this.objectListViewPlugins.HideSelection = false;
-            this.objectListViewPlugins.Location = new System.Drawing.Point(3, 45);
-            this.objectListViewPlugins.Name = "objectListViewPlugins";
-            this.objectListViewPlugins.ShowGroups = false;
-            this.objectListViewPlugins.Size = new System.Drawing.Size(693, 319);
-            this.objectListViewPlugins.TabIndex = 0;
-            this.objectListViewPlugins.UseCompatibleStateImageBehavior = false;
-            this.objectListViewPlugins.View = System.Windows.Forms.View.Details;
-            this.objectListViewPlugins.DoubleClick += new System.EventHandler(this.objectListViewPlugins_DoubleClick);
+            objectListViewPlugins.AllColumns.Add(olvColumnPluginName);
+            objectListViewPlugins.AllColumns.Add(olvColumnPluginDescription);
+            objectListViewPlugins.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            objectListViewPlugins.CellEditUseWholeCell = false;
+            objectListViewPlugins.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumnPluginName, olvColumnPluginDescription });
+            objectListViewPlugins.FullRowSelect = true;
+            objectListViewPlugins.GridLines = true;
+            objectListViewPlugins.Location = new System.Drawing.Point(4, 52);
+            objectListViewPlugins.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            objectListViewPlugins.Name = "objectListViewPlugins";
+            objectListViewPlugins.ShowGroups = false;
+            objectListViewPlugins.Size = new System.Drawing.Size(808, 367);
+            objectListViewPlugins.TabIndex = 0;
+            objectListViewPlugins.UseCompatibleStateImageBehavior = false;
+            objectListViewPlugins.View = System.Windows.Forms.View.Details;
+            objectListViewPlugins.DoubleClick += objectListViewPlugins_DoubleClick;
             // 
             // olvColumnPluginName
             // 
-            this.olvColumnPluginName.AspectName = "PluginName";
-            this.olvColumnPluginName.Text = "Plugin Name";
-            this.olvColumnPluginName.Width = 200;
+            olvColumnPluginName.AspectName = "PluginName";
+            olvColumnPluginName.Text = "Plugin Name";
+            olvColumnPluginName.Width = 200;
             // 
             // olvColumnPluginDescription
             // 
-            this.olvColumnPluginDescription.AspectName = "PluginDescription";
-            this.olvColumnPluginDescription.Text = "Description";
-            this.olvColumnPluginDescription.Width = 300;
+            olvColumnPluginDescription.AspectName = "PluginDescription";
+            olvColumnPluginDescription.Text = "Description";
+            olvColumnPluginDescription.Width = 300;
             // 
             // tabPageCategory
             // 
-            this.tabPageCategory.Controls.Add(this.objectListViewCategories);
-            this.tabPageCategory.Controls.Add(this.groupBox2);
-            this.tabPageCategory.Location = new System.Drawing.Point(4, 23);
-            this.tabPageCategory.Name = "tabPageCategory";
-            this.tabPageCategory.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCategory.Size = new System.Drawing.Size(699, 367);
-            this.tabPageCategory.TabIndex = 8;
-            this.tabPageCategory.Text = "Категорії";
-            this.tabPageCategory.UseVisualStyleBackColor = true;
+            tabPageCategory.Controls.Add(objectListViewCategories);
+            tabPageCategory.Controls.Add(groupBox2);
+            tabPageCategory.Location = new System.Drawing.Point(4, 24);
+            tabPageCategory.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageCategory.Name = "tabPageCategory";
+            tabPageCategory.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tabPageCategory.Size = new System.Drawing.Size(817, 427);
+            tabPageCategory.TabIndex = 8;
+            tabPageCategory.Text = "Категорії";
+            tabPageCategory.UseVisualStyleBackColor = true;
             // 
             // objectListViewCategories
             // 
-            this.objectListViewCategories.AllColumns.Add(this.olvColumnCategory);
-            this.objectListViewCategories.AllColumns.Add(this.olvColumnDeleteCategory);
-            this.objectListViewCategories.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.objectListViewCategories.CellEditUseWholeCell = false;
-            this.objectListViewCategories.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumnCategory,
-            this.olvColumnDeleteCategory});
-            this.objectListViewCategories.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListViewCategories.FullRowSelect = true;
-            this.objectListViewCategories.GridLines = true;
-            this.objectListViewCategories.HideSelection = false;
-            this.objectListViewCategories.Location = new System.Drawing.Point(6, 65);
-            this.objectListViewCategories.Name = "objectListViewCategories";
-            this.objectListViewCategories.ShowGroups = false;
-            this.objectListViewCategories.Size = new System.Drawing.Size(360, 296);
-            this.objectListViewCategories.TabIndex = 1;
-            this.objectListViewCategories.UseCompatibleStateImageBehavior = false;
-            this.objectListViewCategories.View = System.Windows.Forms.View.Details;
-            this.objectListViewCategories.ButtonClick += new System.EventHandler<BrightIdeasSoftware.CellClickEventArgs>(this.objectListViewCategories_ButtonClick);
+            objectListViewCategories.AllColumns.Add(olvColumnCategory);
+            objectListViewCategories.AllColumns.Add(olvColumnDeleteCategory);
+            objectListViewCategories.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            objectListViewCategories.CellEditUseWholeCell = false;
+            objectListViewCategories.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumnCategory, olvColumnDeleteCategory });
+            objectListViewCategories.FullRowSelect = true;
+            objectListViewCategories.GridLines = true;
+            objectListViewCategories.Location = new System.Drawing.Point(7, 75);
+            objectListViewCategories.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            objectListViewCategories.Name = "objectListViewCategories";
+            objectListViewCategories.ShowGroups = false;
+            objectListViewCategories.Size = new System.Drawing.Size(419, 341);
+            objectListViewCategories.TabIndex = 1;
+            objectListViewCategories.UseCompatibleStateImageBehavior = false;
+            objectListViewCategories.View = System.Windows.Forms.View.Details;
+            objectListViewCategories.ButtonClick += objectListViewCategories_ButtonClick;
             // 
             // olvColumnCategory
             // 
-            this.olvColumnCategory.AspectName = "Name";
-            this.olvColumnCategory.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
-            this.olvColumnCategory.Text = "Категорія";
-            this.olvColumnCategory.Width = 276;
+            olvColumnCategory.AspectName = "Name";
+            olvColumnCategory.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
+            olvColumnCategory.Text = "Категорія";
+            olvColumnCategory.Width = 276;
             // 
             // olvColumnDeleteCategory
             // 
-            this.olvColumnDeleteCategory.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
-            this.olvColumnDeleteCategory.Groupable = false;
-            this.olvColumnDeleteCategory.Hideable = false;
-            this.olvColumnDeleteCategory.IsButton = true;
-            this.olvColumnDeleteCategory.Text = "Видалити";
+            olvColumnDeleteCategory.ButtonSizing = BrightIdeasSoftware.OLVColumn.ButtonSizingMode.CellBounds;
+            olvColumnDeleteCategory.Groupable = false;
+            olvColumnDeleteCategory.Hideable = false;
+            olvColumnDeleteCategory.IsButton = true;
+            olvColumnDeleteCategory.Text = "Видалити";
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.textBox_addCategory);
-            this.groupBox2.Location = new System.Drawing.Point(6, 6);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(360, 53);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "додати категорію";
+            groupBox2.Controls.Add(button1);
+            groupBox2.Controls.Add(textBox_addCategory);
+            groupBox2.Location = new System.Drawing.Point(7, 7);
+            groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Size = new System.Drawing.Size(420, 61);
+            groupBox2.TabIndex = 0;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "додати категорію";
             // 
             // button1
             // 
-            this.button1.Image = global::ActiveWorks.Properties.Resources.Actions_list_add_icon;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(275, 17);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "додати";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Image = Properties.Resources.Actions_list_add_icon;
+            button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            button1.Location = new System.Drawing.Point(321, 20);
+            button1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(88, 27);
+            button1.TabIndex = 1;
+            button1.Text = "додати";
+            button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // textBox_addCategory
             // 
-            this.textBox_addCategory.Location = new System.Drawing.Point(6, 19);
-            this.textBox_addCategory.Name = "textBox_addCategory";
-            this.textBox_addCategory.Size = new System.Drawing.Size(260, 20);
-            this.textBox_addCategory.TabIndex = 0;
+            textBox_addCategory.Location = new System.Drawing.Point(7, 22);
+            textBox_addCategory.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBox_addCategory.Name = "textBox_addCategory";
+            textBox_addCategory.Size = new System.Drawing.Size(303, 23);
+            textBox_addCategory.TabIndex = 0;
             // 
             // imageList1
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "mail_yellow.png");
-            this.imageList1.Images.SetKeyName(1, "webalizer_ftp.png");
-            this.imageList1.Images.SetKeyName(2, "folder_explorer.png");
-            this.imageList1.Images.SetKeyName(3, "database_blue.png");
-            this.imageList1.Images.SetKeyName(4, "setting_tools.png");
+            imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            imageList1.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("imageList1.ImageStream");
+            imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            imageList1.Images.SetKeyName(0, "mail_yellow.png");
+            imageList1.Images.SetKeyName(1, "webalizer_ftp.png");
+            imageList1.Images.SetKeyName(2, "folder_explorer.png");
+            imageList1.Images.SetKeyName(3, "database_blue.png");
+            imageList1.Images.SetKeyName(4, "setting_tools.png");
             // 
             // contextMenuStrip_PlateOwners
             // 
-            this.contextMenuStrip_PlateOwners.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.contextMenuStrip_PlateOwners.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.удалитьToolStripMenuItem4});
-            this.contextMenuStrip_PlateOwners.Name = "contextMenuStrip_PlateOwners";
-            this.contextMenuStrip_PlateOwners.Size = new System.Drawing.Size(126, 26);
+            contextMenuStrip_PlateOwners.Font = new System.Drawing.Font("Segoe UI", 9F);
+            contextMenuStrip_PlateOwners.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { удалитьToolStripMenuItem4 });
+            contextMenuStrip_PlateOwners.Name = "contextMenuStrip_PlateOwners";
+            contextMenuStrip_PlateOwners.Size = new System.Drawing.Size(126, 26);
             // 
             // удалитьToolStripMenuItem4
             // 
-            this.удалитьToolStripMenuItem4.Image = global::ActiveWorks.Properties.Resources.Delete;
-            this.удалитьToolStripMenuItem4.Name = "удалитьToolStripMenuItem4";
-            this.удалитьToolStripMenuItem4.Size = new System.Drawing.Size(125, 22);
-            this.удалитьToolStripMenuItem4.Text = "видалити";
-            this.удалитьToolStripMenuItem4.Click += new System.EventHandler(this.УдалитьToolStripMenuItem4_Click);
+            удалитьToolStripMenuItem4.Image = Properties.Resources.Delete;
+            удалитьToolStripMenuItem4.Name = "удалитьToolStripMenuItem4";
+            удалитьToolStripMenuItem4.Size = new System.Drawing.Size(125, 22);
+            удалитьToolStripMenuItem4.Text = "видалити";
+            удалитьToolStripMenuItem4.Click += УдалитьToolStripMenuItem4_Click;
             // 
             // contextMenuStrip_Mail
             // 
-            this.contextMenuStrip_Mail.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.contextMenuStrip_Mail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.удалитьToolStripMenuItem3});
-            this.contextMenuStrip_Mail.Name = "contextMenuStrip_Mail";
-            this.contextMenuStrip_Mail.Size = new System.Drawing.Size(131, 26);
+            contextMenuStrip_Mail.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            contextMenuStrip_Mail.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { удалитьToolStripMenuItem3 });
+            contextMenuStrip_Mail.Name = "contextMenuStrip_Mail";
+            contextMenuStrip_Mail.Size = new System.Drawing.Size(131, 26);
             // 
             // удалитьToolStripMenuItem3
             // 
-            this.удалитьToolStripMenuItem3.Image = global::ActiveWorks.Properties.Resources.Delete;
-            this.удалитьToolStripMenuItem3.Name = "удалитьToolStripMenuItem3";
-            this.удалитьToolStripMenuItem3.Size = new System.Drawing.Size(130, 22);
-            this.удалитьToolStripMenuItem3.Text = "видалити";
-            this.удалитьToolStripMenuItem3.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
-            // 
-            // vistaOpenFileDialog1
-            // 
-            this.vistaOpenFileDialog1.Filter = "Исполняемые файлы|*.exe;*.py";
+            удалитьToolStripMenuItem3.Image = Properties.Resources.Delete;
+            удалитьToolStripMenuItem3.Name = "удалитьToolStripMenuItem3";
+            удалитьToolStripMenuItem3.Size = new System.Drawing.Size(130, 22);
+            удалитьToolStripMenuItem3.Text = "видалити";
+            удалитьToolStripMenuItem3.Click += deleteToolStripMenuItem_Click;
             // 
             // button_Save
             // 
-            this.button_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_Save.FlatAppearance.BorderSize = 0;
-            this.button_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_Save.Image = global::ActiveWorks.Properties.Resources.Hardware_Floppy_icon;
-            this.button_Save.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button_Save.Location = new System.Drawing.Point(416, 412);
-            this.button_Save.MinimumSize = new System.Drawing.Size(81, 35);
-            this.button_Save.Name = "button_Save";
-            this.button_Save.Size = new System.Drawing.Size(105, 69);
-            this.button_Save.TabIndex = 1;
-            this.button_Save.UseVisualStyleBackColor = true;
-            this.button_Save.Click += new System.EventHandler(this.Button_Save_Click);
+            button_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            button_Save.FlatAppearance.BorderSize = 0;
+            button_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            button_Save.Image = Properties.Resources.Hardware_Floppy_icon;
+            button_Save.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            button_Save.Location = new System.Drawing.Point(485, 475);
+            button_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            button_Save.MinimumSize = new System.Drawing.Size(94, 40);
+            button_Save.Name = "button_Save";
+            button_Save.Size = new System.Drawing.Size(122, 80);
+            button_Save.TabIndex = 1;
+            button_Save.UseVisualStyleBackColor = true;
+            button_Save.Click += Button_Save_Click;
             // 
             // groupBox17
             // 
-            this.groupBox17.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox17.Controls.Add(this.buttonSetProfileDefault);
-            this.groupBox17.Controls.Add(this.buttonRemoveProfile);
-            this.groupBox17.Controls.Add(this.buttonAddProfile);
-            this.groupBox17.Controls.Add(this.objectListViewProfiles);
-            this.groupBox17.Location = new System.Drawing.Point(13, 13);
-            this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(196, 393);
-            this.groupBox17.TabIndex = 9;
-            this.groupBox17.TabStop = false;
-            this.groupBox17.Text = "Профілі";
+            groupBox17.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            groupBox17.Controls.Add(buttonSetProfileDefault);
+            groupBox17.Controls.Add(buttonRemoveProfile);
+            groupBox17.Controls.Add(buttonAddProfile);
+            groupBox17.Controls.Add(objectListViewProfiles);
+            groupBox17.Location = new System.Drawing.Point(15, 15);
+            groupBox17.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox17.Name = "groupBox17";
+            groupBox17.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox17.Size = new System.Drawing.Size(229, 453);
+            groupBox17.TabIndex = 9;
+            groupBox17.TabStop = false;
+            groupBox17.Text = "Профілі";
             // 
             // buttonSetProfileDefault
             // 
-            this.buttonSetProfileDefault.BackColor = System.Drawing.Color.Ivory;
-            this.buttonSetProfileDefault.FlatAppearance.BorderSize = 0;
-            this.buttonSetProfileDefault.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSetProfileDefault.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonSetProfileDefault.Location = new System.Drawing.Point(66, 20);
-            this.buttonSetProfileDefault.Name = "buttonSetProfileDefault";
-            this.buttonSetProfileDefault.Size = new System.Drawing.Size(53, 23);
-            this.buttonSetProfileDefault.TabIndex = 3;
-            this.buttonSetProfileDefault.Text = "Default";
-            this.buttonSetProfileDefault.UseVisualStyleBackColor = false;
-            this.buttonSetProfileDefault.Click += new System.EventHandler(this.buttonSetProfileDefault_Click);
+            buttonSetProfileDefault.BackColor = System.Drawing.Color.Ivory;
+            buttonSetProfileDefault.FlatAppearance.BorderSize = 0;
+            buttonSetProfileDefault.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonSetProfileDefault.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            buttonSetProfileDefault.Location = new System.Drawing.Point(77, 23);
+            buttonSetProfileDefault.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonSetProfileDefault.Name = "buttonSetProfileDefault";
+            buttonSetProfileDefault.Size = new System.Drawing.Size(62, 27);
+            buttonSetProfileDefault.TabIndex = 3;
+            buttonSetProfileDefault.Text = "Default";
+            buttonSetProfileDefault.UseVisualStyleBackColor = false;
+            buttonSetProfileDefault.Click += buttonSetProfileDefault_Click;
             // 
             // buttonRemoveProfile
             // 
-            this.buttonRemoveProfile.BackColor = System.Drawing.Color.LightSalmon;
-            this.buttonRemoveProfile.FlatAppearance.BorderSize = 0;
-            this.buttonRemoveProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonRemoveProfile.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonRemoveProfile.Location = new System.Drawing.Point(127, 20);
-            this.buttonRemoveProfile.Name = "buttonRemoveProfile";
-            this.buttonRemoveProfile.Size = new System.Drawing.Size(63, 23);
-            this.buttonRemoveProfile.TabIndex = 2;
-            this.buttonRemoveProfile.Text = "видалити";
-            this.buttonRemoveProfile.UseVisualStyleBackColor = false;
-            this.buttonRemoveProfile.Click += new System.EventHandler(this.buttonRemoveProfile_Click);
+            buttonRemoveProfile.BackColor = System.Drawing.Color.LightSalmon;
+            buttonRemoveProfile.FlatAppearance.BorderSize = 0;
+            buttonRemoveProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonRemoveProfile.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            buttonRemoveProfile.Location = new System.Drawing.Point(148, 23);
+            buttonRemoveProfile.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonRemoveProfile.Name = "buttonRemoveProfile";
+            buttonRemoveProfile.Size = new System.Drawing.Size(74, 27);
+            buttonRemoveProfile.TabIndex = 2;
+            buttonRemoveProfile.Text = "видалити";
+            buttonRemoveProfile.UseVisualStyleBackColor = false;
+            buttonRemoveProfile.Click += buttonRemoveProfile_Click;
             // 
             // buttonAddProfile
             // 
-            this.buttonAddProfile.BackColor = System.Drawing.Color.GreenYellow;
-            this.buttonAddProfile.FlatAppearance.BorderSize = 0;
-            this.buttonAddProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAddProfile.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.buttonAddProfile.Location = new System.Drawing.Point(7, 20);
-            this.buttonAddProfile.Name = "buttonAddProfile";
-            this.buttonAddProfile.Size = new System.Drawing.Size(53, 23);
-            this.buttonAddProfile.TabIndex = 1;
-            this.buttonAddProfile.Text = "додати";
-            this.buttonAddProfile.UseVisualStyleBackColor = false;
-            this.buttonAddProfile.Click += new System.EventHandler(this.buttonAddProfile_Click);
+            buttonAddProfile.BackColor = System.Drawing.Color.GreenYellow;
+            buttonAddProfile.FlatAppearance.BorderSize = 0;
+            buttonAddProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            buttonAddProfile.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            buttonAddProfile.Location = new System.Drawing.Point(8, 23);
+            buttonAddProfile.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonAddProfile.Name = "buttonAddProfile";
+            buttonAddProfile.Size = new System.Drawing.Size(62, 27);
+            buttonAddProfile.TabIndex = 1;
+            buttonAddProfile.Text = "додати";
+            buttonAddProfile.UseVisualStyleBackColor = false;
+            buttonAddProfile.Click += buttonAddProfile_Click;
             // 
             // objectListViewProfiles
             // 
-            this.objectListViewProfiles.AllColumns.Add(this.olvColumnName);
-            this.objectListViewProfiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.objectListViewProfiles.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.objectListViewProfiles.CellEditUseWholeCell = false;
-            this.objectListViewProfiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumnName});
-            this.objectListViewProfiles.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListViewProfiles.FullRowSelect = true;
-            this.objectListViewProfiles.GridLines = true;
-            this.objectListViewProfiles.HideSelection = false;
-            this.objectListViewProfiles.Location = new System.Drawing.Point(7, 47);
-            this.objectListViewProfiles.Name = "objectListViewProfiles";
-            this.objectListViewProfiles.ShowGroups = false;
-            this.objectListViewProfiles.Size = new System.Drawing.Size(183, 340);
-            this.objectListViewProfiles.TabIndex = 0;
-            this.objectListViewProfiles.UseCompatibleStateImageBehavior = false;
-            this.objectListViewProfiles.View = System.Windows.Forms.View.Details;
-            this.objectListViewProfiles.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.objectListViewProfiles_CellEditFinishing);
-            this.objectListViewProfiles.SelectedIndexChanged += new System.EventHandler(this.objectListViewProfiles_SelectedIndexChanged);
+            objectListViewProfiles.AllColumns.Add(olvColumnName);
+            objectListViewProfiles.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            objectListViewProfiles.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
+            objectListViewProfiles.CellEditUseWholeCell = false;
+            objectListViewProfiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumnName });
+            objectListViewProfiles.FullRowSelect = true;
+            objectListViewProfiles.GridLines = true;
+            objectListViewProfiles.Location = new System.Drawing.Point(8, 54);
+            objectListViewProfiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            objectListViewProfiles.Name = "objectListViewProfiles";
+            objectListViewProfiles.ShowGroups = false;
+            objectListViewProfiles.Size = new System.Drawing.Size(213, 392);
+            objectListViewProfiles.TabIndex = 0;
+            objectListViewProfiles.UseCompatibleStateImageBehavior = false;
+            objectListViewProfiles.View = System.Windows.Forms.View.Details;
+            objectListViewProfiles.CellEditFinishing += objectListViewProfiles_CellEditFinishing;
+            objectListViewProfiles.SelectedIndexChanged += objectListViewProfiles_SelectedIndexChanged;
             // 
             // olvColumnName
             // 
-            this.olvColumnName.AspectName = "Settings.ProfileName";
-            this.olvColumnName.Text = "Ім\'я профілю";
-            this.olvColumnName.Width = 200;
+            olvColumnName.AspectName = "Settings.ProfileName";
+            olvColumnName.Text = "Ім'я профілю";
+            olvColumnName.Width = 200;
             // 
             // FormSettings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(938, 493);
-            this.Controls.Add(this.groupBox17);
-            this.Controls.Add(this.button_Save);
-            this.Controls.Add(this.tabControlMain);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "FormSettings";
-            this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Налаштування";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.contextMenuStrip_FolderNames.ResumeLayout(false);
-            this.tabControlMain.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBaseTimeOut)).EndInit();
-            this.tabPage1.ResumeLayout(false);
-            this.groupBox15.ResumeLayout(false);
-            this.groupBox15.PerformLayout();
-            this.groupBox16.ResumeLayout(false);
-            this.groupBox16.PerformLayout();
-            this.groupBox14.ResumeLayout(false);
-            this.groupBox14.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabControl2.ResumeLayout(false);
-            this.tabPageUtils.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.objectListView_Utils)).EndInit();
-            this.contextMenuStrip_Utils.ResumeLayout(false);
-            this.tabPageSendTo.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewSendTo)).EndInit();
-            this.contextMenuStrip_Explorer.ResumeLayout(false);
-            this.tabPageOther.ResumeLayout(false);
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBoxViewer.ResumeLayout(false);
-            this.groupBoxViewer.PerformLayout();
-            this.groupBox13.ResumeLayout(false);
-            this.groupBox13.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCountExplorers)).EndInit();
-            this.contextMenuStripCustomPath.ResumeLayout(false);
-            this.tabPagePdfConvertor.ResumeLayout(false);
-            this.tabPagePdfConvertor.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewFtpScripts)).EndInit();
-            this.groupBox9.ResumeLayout(false);
-            this.tabPage6.ResumeLayout(false);
-            this.groupBox10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.olv_mail_templates)).EndInit();
-            this.cms_mail_templates.ResumeLayout(false);
-            this.groupBox11.ResumeLayout(false);
-            this.groupBox12.ResumeLayout(false);
-            this.gb_mail_googleApi_settings.ResumeLayout(false);
-            this.gb_mail_googleApi_settings.PerformLayout();
-            this.gb_mail_smtp_settings.ResumeLayout(false);
-            this.gb_mail_smtp_settings.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSmtpPort)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_ImapPort)).EndInit();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
-            this.contextMenuStripMails.ResumeLayout(false);
-            this.tabPage7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewStatuses)).EndInit();
-            this.groupBoxOnChangeStatuses.ResumeLayout(false);
-            this.groupBoxOnChangeStatuses.PerformLayout();
-            this.panelStatusParams.ResumeLayout(false);
-            this.panelStatusParams.PerformLayout();
-            this.tabPagePlugins.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewPlugins)).EndInit();
-            this.tabPageCategory.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewCategories)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.contextMenuStrip_PlateOwners.ResumeLayout(false);
-            this.contextMenuStrip_Mail.ResumeLayout(false);
-            this.groupBox17.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.objectListViewProfiles)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.statusChangeParamBindingSource)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(1094, 569);
+            Controls.Add(groupBox17);
+            Controls.Add(button_Save);
+            Controls.Add(tabControlMain);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "FormSettings";
+            ShowIcon = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Налаштування";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            contextMenuStrip_FolderNames.ResumeLayout(false);
+            tabControlMain.ResumeLayout(false);
+            tabPage5.ResumeLayout(false);
+            groupBox5.ResumeLayout(false);
+            groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownBaseTimeOut).EndInit();
+            tabPage1.ResumeLayout(false);
+            groupBox15.ResumeLayout(false);
+            groupBox15.PerformLayout();
+            groupBox16.ResumeLayout(false);
+            groupBox16.PerformLayout();
+            groupBox14.ResumeLayout(false);
+            groupBox14.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            tabControl2.ResumeLayout(false);
+            tabPageUtils.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)objectListView_Utils).EndInit();
+            contextMenuStrip_Utils.ResumeLayout(false);
+            tabPageSendTo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)objectListViewSendTo).EndInit();
+            contextMenuStrip_Explorer.ResumeLayout(false);
+            tabPageOther.ResumeLayout(false);
+            groupBox8.ResumeLayout(false);
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            groupBox13.ResumeLayout(false);
+            groupBox13.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownCountExplorers).EndInit();
+            contextMenuStripCustomPath.ResumeLayout(false);
+            tabPagePdfConvertor.ResumeLayout(false);
+            tabPagePdfConvertor.PerformLayout();
+            groupBox6.ResumeLayout(false);
+            tabPage3.ResumeLayout(false);
+            groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)objectListViewFtpScripts).EndInit();
+            groupBox9.ResumeLayout(false);
+            tabPage6.ResumeLayout(false);
+            groupBox10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)olv_mail_templates).EndInit();
+            cms_mail_templates.ResumeLayout(false);
+            groupBox11.ResumeLayout(false);
+            groupBox12.ResumeLayout(false);
+            gb_mail_googleApi_settings.ResumeLayout(false);
+            gb_mail_googleApi_settings.PerformLayout();
+            gb_mail_smtp_settings.ResumeLayout(false);
+            gb_mail_smtp_settings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownSmtpPort).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown_ImapPort).EndInit();
+            groupBox7.ResumeLayout(false);
+            groupBox7.PerformLayout();
+            contextMenuStripMails.ResumeLayout(false);
+            tabPage7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)objectListViewStatuses).EndInit();
+            groupBoxOnChangeStatuses.ResumeLayout(false);
+            groupBoxOnChangeStatuses.PerformLayout();
+            panelStatusParams.ResumeLayout(false);
+            panelStatusParams.PerformLayout();
+            tabPagePlugins.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)objectListViewPlugins).EndInit();
+            tabPageCategory.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)objectListViewCategories).EndInit();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            contextMenuStrip_PlateOwners.ResumeLayout(false);
+            contextMenuStrip_Mail.ResumeLayout(false);
+            groupBox17.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)objectListViewProfiles).EndInit();
+            ((System.ComponentModel.ISupportInitialize)statusChangeParamBindingSource).EndInit();
+            ResumeLayout(false);
 
         }
 
@@ -2313,9 +2262,7 @@
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.ListBox listBox_Ftp_Servers;
         private System.Windows.Forms.ListBox listBox_CustomButtonFolder;
-        private Ookii.Dialogs.WinForms.VistaFolderBrowserDialog vistaFolderBrowserDialog1;
         private System.Windows.Forms.ToolStripMenuItem выбратьФайлToolStripMenuItem;
-        private Ookii.Dialogs.WinForms.VistaOpenFileDialog vistaOpenFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem выбратьПапкуToolStripMenuItem;
         private System.Windows.Forms.Button buttonOpenSignaJobsFolder;
         private System.Windows.Forms.Label label21;
@@ -2380,13 +2327,6 @@
         private System.Windows.Forms.BindingSource statusChangeParamBindingSource;
         private BrightIdeasSoftware.OLVColumn olvColumnUtilsEnable;
         private BrightIdeasSoftware.OLVColumn olvColumnUsedInMainWindow;
-        private System.Windows.Forms.CheckBox checkBoxUseViewer;
-        private System.Windows.Forms.GroupBox groupBoxViewer;
-        private System.Windows.Forms.Button buttonSelectViewer;
-        private System.Windows.Forms.Label label37;
-        private System.Windows.Forms.Label label36;
-        private System.Windows.Forms.TextBox textBoxViewerCommandLine;
-        private System.Windows.Forms.TextBox textBoxViewer;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripMails;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private BrightIdeasSoftware.OLVColumn olvColumnUsedExplorer0;

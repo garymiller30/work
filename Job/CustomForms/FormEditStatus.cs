@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using Interfaces;
 using JobSpace.Profiles;
-using Ookii.Dialogs.WinForms;
 
 namespace JobSpace.CustomForms
 {
@@ -48,7 +47,7 @@ namespace JobSpace.CustomForms
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            using (var f = new VistaOpenFileDialog())
+            using (var f = new OpenFileDialog())
             {
                 f.Multiselect = false;
                 f.CheckFileExists = true;

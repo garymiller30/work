@@ -1,15 +1,14 @@
-﻿using ExtensionMethods;
+﻿using BackgroundTaskServiceLib;
+using ExtensionMethods;
+using Interfaces;
+using Krypton.Toolkit;
 using MailNotifier.Shablons;
-using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using BackgroundTaskServiceLib;
-using Krypton.Toolkit;
-using Interfaces;
 
 namespace MailNotifier
 {
@@ -105,7 +104,7 @@ namespace MailNotifier
 
         private void AddAttachFiles()
         {
-            using (var d = new VistaOpenFileDialog())
+            using (var d = new OpenFileDialog())
             {
                 d.CheckFileExists = true;
                 d.Multiselect = true;

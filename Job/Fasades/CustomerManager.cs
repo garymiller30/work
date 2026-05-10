@@ -246,7 +246,7 @@ namespace JobSpace.Fasades
 
             if (string.IsNullOrEmpty(_profile.Jobs.Settings.WorkPath))
             {
-                using (var fd = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog())
+                using (var fd = new FolderBrowserDialog())
                 {
                     if (fd.ShowDialog() == DialogResult.OK)
                     {
