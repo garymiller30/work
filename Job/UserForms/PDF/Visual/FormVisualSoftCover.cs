@@ -1,17 +1,11 @@
 ﻿using Interfaces;
 using JobSpace.Models.ScreenPrimitives;
 using JobSpace.Static.Pdf.Common;
-using JobSpace.Static.Pdf.Visual.HardCover;
 using JobSpace.Static.Pdf.Visual.SoftCover;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JobSpace.UserForms.PDF.Visual
@@ -182,7 +176,7 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void btn_load_schema_Click(object sender, EventArgs e)
         {
-            using (Ookii.Dialogs.WinForms.VistaOpenFileDialog ofd = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.Filter = "Hard Cover Schema|*.scschema";
                 ofd.DefaultExt = ".scschema";

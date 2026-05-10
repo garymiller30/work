@@ -4,19 +4,11 @@ using JobSpace.Licensing;
 using JobSpace.Models.ScreenPrimitives;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Visual.HardCover;
-using JobSpace.UC;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.UserForms.PDF.Visual
 {
@@ -138,7 +130,7 @@ namespace JobSpace.UserForms.PDF.Visual
         }
         private void btn_load_schema_Click(object sender, EventArgs e)
         {
-            using (Ookii.Dialogs.WinForms.VistaOpenFileDialog ofd = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.Filter = "Hard Cover Schema|*.hcschema";
                 ofd.DefaultExt = ".hcschema";

@@ -2,7 +2,6 @@ using ActiveWorks.Forms;
 using ActiveWorks.Properties;
 using ActiveWorks.UpdateHub;
 using Logger;
-using Ookii.Dialogs.WinForms;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;

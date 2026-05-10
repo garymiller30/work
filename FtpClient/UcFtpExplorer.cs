@@ -854,7 +854,7 @@ namespace FtpClient
                 var files = objectListView1.SelectedObjects.Cast<IFtpFileExt>().ToList();
                 if (files.Any())
                 {
-                    using (var d = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog())
+                    using (var d = new FolderBrowserDialog())
                     {
                         d.ShowNewFolderButton = true;
 

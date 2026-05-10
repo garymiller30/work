@@ -360,7 +360,7 @@ namespace JobSpace.UserForms
 
         private void btn_select_custom_folder_Click(object sender, EventArgs e)
         {
-            using (var form = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog())
+            using (var form = new FolderBrowserDialog())
             {
                 form.Description = "Оберіть папку";
 
