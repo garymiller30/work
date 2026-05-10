@@ -1,5 +1,4 @@
-﻿using Amazon;
-using BrightIdeasSoftware;
+﻿using BrightIdeasSoftware;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.MQ;
@@ -11,7 +10,6 @@ using JobSpace.Profiles;
 using JobSpace.Static;
 using JobSpace.UserForms;
 using Logger;
-using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -22,8 +20,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static JobSpace.Static.NaturalSorting;
-using OokiiTaskDialog = Ookii.Dialogs.WinForms.TaskDialog;
-using OokiiTaskDialogButton = Ookii.Dialogs.WinForms.TaskDialogButton;
 
 namespace JobSpace.UC
 {
@@ -542,14 +538,19 @@ namespace JobSpace.UC
         {
             if (objectListView_NewWorks.SelectedObjects.Count > 0)
             {
-                OokiiTaskDialog td = new OokiiTaskDialog();
-                td.Buttons.Add(new OokiiTaskDialogButton(ButtonType.Yes));
-                td.Buttons.Add(new OokiiTaskDialogButton(ButtonType.Cancel));
-                td.WindowTitle = "Видалення робіт";
-                td.Content = "Видалити вибрані роботи?\nВидаляється тільки запис з бази данних, файли залишаються";
-                var button = td.ShowDialog();
+                var yesButton = System.Windows.Forms.TaskDialogButton.Yes;
+                var cancelButton = System.Windows.Forms.TaskDialogButton.Cancel;
+                var page = new System.Windows.Forms.TaskDialogPage
+                {
+                    Caption = "Видалення робіт",
+                    Text = "Видалити вибрані роботи?\nВидаляється тільки запис з бази данних, файли залишаються",
+                    Icon = System.Windows.Forms.TaskDialogIcon.Warning,
+                    Buttons = { yesButton, cancelButton },
+                    DefaultButton = cancelButton,
+                    AllowCancel = true
+                };
 
-                if (button.ButtonType == ButtonType.Yes)
+                if (System.Windows.Forms.TaskDialog.ShowDialog(this, page, System.Windows.Forms.TaskDialogStartupLocation.CenterOwner) == yesButton)
                 {
                     var jobs = objectListView_NewWorks.SelectedObjects.Cast<IJob>().ToArray();
                     foreach (var job in jobs)
