@@ -903,7 +903,14 @@ namespace JobSpace.UC
         {
             try
             {
-                Process.Start(_fileManager.Settings.CurFolder);
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = $"\"{_fileManager.Settings.CurFolder}\"",
+                    UseShellExecute = true
+                };
+
+                Process.Start(startInfo);
             }
             catch (Exception exception)
             {

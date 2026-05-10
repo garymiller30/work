@@ -51,6 +51,7 @@
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_SaveToPdf = new System.Windows.Forms.Button();
+            this.btn_SaveAsAutoImpos = new System.Windows.Forms.Button();
             this.btn_cancel_export = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.pdfFileListControl1 = new JobSpace.UserForms.PDF.ImposItems.PdfFileListControl();
@@ -294,9 +295,9 @@
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(156, 7);
+            this.progressBar1.Location = new System.Drawing.Point(278, 7);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(148, 25);
+            this.progressBar1.Size = new System.Drawing.Size(55, 25);
             this.progressBar1.TabIndex = 10;
             // 
             // cb_UseProofColor
@@ -368,11 +369,22 @@
             this.btn_SaveToPdf.Location = new System.Drawing.Point(0, 0);
             this.btn_SaveToPdf.Margin = new System.Windows.Forms.Padding(0);
             this.btn_SaveToPdf.Name = "btn_SaveToPdf";
-            this.btn_SaveToPdf.Size = new System.Drawing.Size(153, 35);
+            this.btn_SaveToPdf.Size = new System.Drawing.Size(120, 35);
             this.btn_SaveToPdf.TabIndex = 3;
             this.btn_SaveToPdf.Text = "Зберегти в PDF";
             this.btn_SaveToPdf.UseVisualStyleBackColor = false;
             this.btn_SaveToPdf.Click += new System.EventHandler(this.btn_SaveToPdf_Click);
+            // 
+            // btn_SaveAsAutoImpos
+            // 
+            this.btn_SaveAsAutoImpos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_SaveAsAutoImpos.Location = new System.Drawing.Point(123, 3);
+            this.btn_SaveAsAutoImpos.Name = "btn_SaveAsAutoImpos";
+            this.btn_SaveAsAutoImpos.Size = new System.Drawing.Size(116, 35);
+            this.btn_SaveAsAutoImpos.TabIndex = 22;
+            this.btn_SaveAsAutoImpos.Text = "Зберегти як автоспуск";
+            this.btn_SaveAsAutoImpos.UseVisualStyleBackColor = true;
+            this.btn_SaveAsAutoImpos.Click += new System.EventHandler(this.btn_SaveAsAutoImpos_Click);
             // 
             // btn_cancel_export
             // 
@@ -392,6 +404,7 @@
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.Controls.Add(this.btn_SaveToPdf);
+            this.flowLayoutPanel1.Controls.Add(this.btn_SaveAsAutoImpos);
             this.flowLayoutPanel1.Controls.Add(this.progressBar1);
             this.flowLayoutPanel1.Controls.Add(this.btn_cancel_export);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(129, 760);
@@ -566,5 +579,6 @@
         private Krypton.Toolkit.KryptonPropertyGrid pg_Parameters2;
         private System.Windows.Forms.Button btn_cancel_export;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button btn_SaveAsAutoImpos;
     }
 }
