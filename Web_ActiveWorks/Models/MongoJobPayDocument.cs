@@ -7,7 +7,7 @@ namespace Web_ActiveWorks.Models
     public class MongoJobPayDocument
     {
         public ObjectId ParentId { get; set; }
-        public string Price { get; set; } = default!;
+        public BsonValue Price { get; set; } = BsonNull.Value;
         public List<MongoJobPayItem> Pays { get; set; } = new();
     }
 }
