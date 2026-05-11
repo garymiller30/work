@@ -4,6 +4,7 @@ using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -13,8 +14,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class PrintSheetsControl : UserControl
     {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler<PrintSheet> OnPrintSheetsChanged { get; set; } = delegate { };
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler JustReassignPages { get; set; } = delegate { };
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler OnPrintSheetDeleted { get; set; } = delegate { };
         
         //int id = 1;

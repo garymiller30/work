@@ -35,9 +35,9 @@ namespace PluginFileshareWeb
         double zoomFactor = 80;
         public IUserProfile UserProfile { get; set; }
 
-        public string PluginName => "Швидкі посилання";
+        public string PluginName => "Simple Web Browser";
 
-        public string PluginDescription => "Популярні файлообмінники v2.0";
+        public string PluginDescription => "вбудований простий веб браузер";
 
         public WindowOut()
         {
@@ -48,7 +48,7 @@ namespace PluginFileshareWeb
             _tab_control.WorkspaceCellAdding += KryptonWorkspace1_WorkspaceCellAdding;
             _tab_control.PageDrop += (s, e) => SaveWorkspaceLayoutSafe();
             _tab_control.CellCountChanged += (s, e) => SaveWorkspaceLayoutSafe();
-            //_tab_control.MouseDoubleClick += tControl_MouseDoubleClick;
+           
             _ = InitializeAsync();
         }
 
@@ -135,34 +135,6 @@ namespace PluginFileshareWeb
             toolStripTextBoxUrl.Width = Math.Max(150, Math.Min(420, urlWidth));
         }
 
-        //private void tControl_MouseDoubleClick(object sender, MouseEventArgs e)
-        //{
-        //    if (e.Button == MouseButtons.Left)
-        //    {
-        //        // Check if the user double-clicked on a tab
-        //        for (int i = 0; i < _tab_control.TabCount; i++)
-        //        {
-        //            Rectangle tabRect = _tab_control.GetTabRect(i);
-        //            if (tabRect.Contains(e.Location))
-        //            {
-        //                var tabPage = _tab_control.TabPages[i];
-        //                if (tabPage.Tag is WebView2 webView2)
-        //                {
-        //                    LinkInfo link = (LinkInfo)webView2.Tag;
-        //                    _settings.OpenOnStart.Remove(link);
-        //                    UserProfile.Plugins.SaveSettings(_settings);
-        //                    // Dispose the WebView2 control
-        //                    webView2.Dispose();
-        //                }
-        //                // Remove the tab
-        //                _tab_control.TabPages.RemoveAt(i);
-
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
-
         private void tControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_tab_control.ActivePage == null) return;
@@ -195,26 +167,7 @@ namespace PluginFileshareWeb
         {
             LinkInfo link = (LinkInfo)((ToolStripButton)sender).Tag;
 
-            await AddTabAsync(link.Name, GetLinkPageUniqueName(link));
-            WebView2 webView = (WebView2)_tab_control.ActivePage.Tag;
-            //збережемо посилання в тег вкладки
-            webView.Tag = link;
-            _tab_control.ActivePage.Text = link.Name;
-            _tab_control.ActivePage.TextTitle = link.Name;
-
-
-
-            curwebView2.Source = new Uri("about:blank");
-            curwebView2.Source = new Uri(link.Url);
-            curwebView2.ZoomFactorChanged += (s, ev) =>
-            {
-                link.ZoomFactor = curwebView2.ZoomFactor;
-                tstb_zoomFactor.Text = (link.ZoomFactor * 100).ToString("N0");
-                UserProfile.Plugins.SaveSettings(_settings);
-            };
-            _settings.OpenOnStart.Add(link);
-            UserProfile.Plugins.SaveSettings(_settings);
-            SaveWorkspaceLayoutSafe();
+            await OpenRememberedLinkAsync(link);
         }
 
 
@@ -239,24 +192,13 @@ namespace PluginFileshareWeb
 
             try
             {
-                foreach (var link in _settings.OpenOnStart)
-                {
-                    await AddTabAsync(link.Name, GetLinkPageUniqueName(link));
-                    WebView2 webView = (WebView2)_tab_control.ActivePage.Tag;
-                    //збережемо посилання в тег вкладки
-                    webView.Tag = link;
-                    _tab_control.ActivePage.Text = link.Name;
-                    _tab_control.ActivePage.TextTitle = link.Name;
+                LoadWorkspaceLayoutSafe();
+                InitializeWorkspaceCells();
+                RemoveRestoredPlaceholderPages();
 
-                    curwebView2.Source = new Uri("about:blank");
-                    curwebView2.Source = new Uri(link.Url);
-                    curwebView2.ZoomFactor = link.ZoomFactor;
-                    curwebView2.ZoomFactorChanged += (s, ev) =>
-                    {
-                        link.ZoomFactor = curwebView2.ZoomFactor;
-                        tstb_zoomFactor.Text = (link.ZoomFactor * 100).ToString("N0");
-                        UserProfile.Plugins.SaveSettings(_settings);
-                    };
+                foreach (var link in _settings.OpenOnStart.ToList())
+                {
+                    await OpenRememberedLinkAsync(link, GetLinkPageUniqueName(link), remember: false);
                 }
             }
             finally
@@ -264,7 +206,7 @@ namespace PluginFileshareWeb
                 _isLoadingWorkspaceLayout = false;
             }
 
-            LoadWorkspaceLayoutSafe();
+            SaveWorkspaceLayoutSafe();
         }
 
         private void AddingLinksToToolStrip()
@@ -356,7 +298,10 @@ namespace PluginFileshareWeb
                 {
                     if (curwebView2 == null) { await AddTabAsync(); }
 
-                    curwebView2.Source = new Uri(EnsureUrlHasProtocol(toolStripTextBoxUrl.Text.Trim()));
+                    string url = EnsureUrlHasProtocol(toolStripTextBoxUrl.Text.Trim());
+                    RememberWebViewUrl(curwebView2, url);
+                    curwebView2.Source = new Uri(url);
+
                 }
                 catch (Exception ex)
                 {
@@ -387,6 +332,7 @@ namespace PluginFileshareWeb
 
                 await AddTabAsync("Нова вкладка");
                 toolStripTextBoxUrl.Text = url;
+                RememberWebViewUrl(curwebView2, url);
                 curwebView2.Source = new Uri(url);
             }
             catch (Exception ex)
@@ -451,6 +397,86 @@ namespace PluginFileshareWeb
         private async Task AddTabAsync(string title, string uniqueName)
         {
             curwebView2 = await CreateWebViewTabAsync(title, uniqueName);
+        }
+
+        private async Task OpenRememberedLinkAsync(LinkInfo link, string uniqueName = null, bool remember = true)
+        {
+            await AddTabAsync(link.Name, uniqueName);
+
+            WebView2 webView = (WebView2)_tab_control.ActivePage.Tag;
+            BindLinkToWebView(webView, link);
+            webView.ZoomFactor = link.ZoomFactor;
+
+            curwebView2.Source = new Uri("about:blank");
+            curwebView2.Source = new Uri(link.Url);
+            if (remember)
+            {
+                RememberOpenLink(link);
+            }
+
+            SaveWorkspaceLayoutSafe();
+        }
+
+        private void BindLinkToWebView(WebView2 webView, LinkInfo link)
+        {
+            if (webView == null || link == null) return;
+
+            webView.Tag = link;
+
+            if (_tab_control.ActivePage != null && ReferenceEquals(_tab_control.ActivePage.Tag, webView))
+            {
+                _tab_control.ActivePage.Text = link.Name;
+                _tab_control.ActivePage.TextTitle = link.Name;
+            }
+
+            webView.ZoomFactorChanged += (s, ev) =>
+            {
+                link.ZoomFactor = webView.ZoomFactor;
+                if (ReferenceEquals(curwebView2, webView))
+                {
+                    tstb_zoomFactor.Text = (link.ZoomFactor * 100).ToString("N0");
+                }
+
+                UserProfile.Plugins.SaveSettings(_settings);
+            };
+        }
+
+        private void RememberWebViewUrl(WebView2 webView, string url)
+        {
+            if (webView == null || string.IsNullOrWhiteSpace(url)) return;
+
+            if (webView.Tag is LinkInfo oldLink)
+            {
+                _settings.OpenOnStart.Remove(oldLink);
+            }
+
+            var link = new LinkInfo
+            {
+                Name = GetLinkTitle(url),
+                Url = url,
+                ZoomFactor = webView.ZoomFactor
+            };
+
+            BindLinkToWebView(webView, link);
+            RememberOpenLink(link);
+            SaveWorkspaceLayoutSafe();
+        }
+
+        private void RememberOpenLink(LinkInfo link)
+        {
+            _settings.OpenOnStart.Remove(link);
+            _settings.OpenOnStart.Add(link);
+            UserProfile.Plugins.SaveSettings(_settings);
+        }
+
+        private static string GetLinkTitle(string url)
+        {
+            if (Uri.TryCreate(url, UriKind.Absolute, out Uri uri) && !string.IsNullOrWhiteSpace(uri.Host))
+            {
+                return uri.Host;
+            }
+
+            return url;
         }
 
         private async Task<WebView2> CreateWebViewTabAsync(string title = "", string uniqueName = null)
@@ -605,6 +631,8 @@ namespace PluginFileshareWeb
             string layoutPath = GetWorkspaceLayoutPath();
             if (!File.Exists(layoutPath)) return;
 
+            bool wasLoadingWorkspaceLayout = _isLoadingWorkspaceLayout;
+
             try
             {
                 _isLoadingWorkspaceLayout = true;
@@ -622,7 +650,27 @@ namespace PluginFileshareWeb
             }
             finally
             {
-                _isLoadingWorkspaceLayout = false;
+                _isLoadingWorkspaceLayout = wasLoadingWorkspaceLayout;
+            }
+        }
+
+        private void InitializeWorkspaceCells()
+        {
+            KryptonWorkspaceCell cell = _tab_control.FirstCell();
+            while (cell != null)
+            {
+                InitializeWorkspaceCell(cell);
+                cell = _tab_control.NextCell(cell);
+            }
+        }
+
+        private void RemoveRestoredPlaceholderPages()
+        {
+            foreach (KryptonPage page in _tab_control.AllPages().ToList())
+            {
+                if (page.Tag is WebView2) continue;
+
+                _tab_control.ClosePage(page);
             }
         }
 
