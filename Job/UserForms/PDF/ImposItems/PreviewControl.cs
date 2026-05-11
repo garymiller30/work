@@ -340,6 +340,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void pb_preview_Paint(object sender, PaintEventArgs e)
         {
+            // In WinForms, use DesignMode or LicenseManager to detect design-time.
+            if (this.DesignMode || System.ComponentModel.LicenseManager.UsageMode == System.ComponentModel.LicenseUsageMode.Designtime)
+            {
+                return;
+            }
+
+
             if (_imposParam.ControlsBind == null || _imposParam.ControlsBind.Sheet == null) return;
 
             if (_imposParam.ControlsBind.SelectedPreviewPage != null)

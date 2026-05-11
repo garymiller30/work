@@ -152,7 +152,7 @@ namespace JobSpace.UserForms.PDF
         void AddPrintSheet(TemplateSheet e)
         {
             PrintSheet sheet = PrintSheet.ConvertTemplateSheetToPrintSheet(e);
-           
+
             printSheetsControl1.AddSheet(sheet);
 
             if (ModifierKeys != Keys.Alt)
@@ -213,7 +213,7 @@ namespace JobSpace.UserForms.PDF
             _tool_param.OnPageGroupDistributeHor += OnPageGroupDistributeHor;
             _tool_param.OnPageGroupDistributeVer += OnPageGroupDistributeVer;
             _tool_param.OnPageGroupDelete += OnPageGroupDelete;
-            
+
         }
 
         private void OnPageGroupDistributeVer(object sender, List<PageGroup> e)
@@ -656,7 +656,13 @@ namespace JobSpace.UserForms.PDF
                 {
                     if (MessageBox.Show("Відкрити?", "Виконано!", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        Process.Start(_imposParam.ProductPart.ExportParameters.OutputFilePath);
+                        var startInfo = new ProcessStartInfo
+                        {
+                            FileName = _imposParam.ProductPart.ExportParameters.OutputFilePath,
+                            UseShellExecute = true
+                        };
+
+                        Process.Start(startInfo);
                     }
                 }
             }
@@ -770,5 +776,14 @@ namespace JobSpace.UserForms.PDF
             public ExportParameters ExportParameters { get; set; } = new ExportParameters();
         }
 
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

@@ -18,10 +18,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class AddTemplateSheetControl : UserControl
     {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler<TemplateSheet> OnSheetAdded = delegate { };
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler<TemplateSheet> OnSheetEdited = delegate { };
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler<TemplateSheet> OnSheetSelected { get; set; } = delegate { };
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler<TemplateSheet> OnSheetAddToPrint { get; set; } = delegate { };
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler<TemplateSheet> OnSheetAddManyToPrint = delegate { };
 
         List<TemplateSheet> _quickAccess = new List<TemplateSheet> { };
