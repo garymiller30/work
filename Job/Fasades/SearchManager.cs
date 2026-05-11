@@ -57,14 +57,14 @@ namespace JobSpace.Fasades
 
             var jobs = _profile.Base.ApplyViewFilter(customer, text, _viewFilters.Where(x => x.Value).Select(x => x.Key.Code).ToArray());
 
-            _profile.Events.Jobs.OnJobsAdd(this, jobs);
+            _profile.Events.Jobs.RaiseJobsAdd(this, jobs);
         }
 
         public void ClearFilters()
         {
             var jobs = _profile.Base.ApplyViewFilter(string.Empty, string.Empty, _profile.StatusManager.GetEnabledViewStatuses());
 
-            _profile.Events.Jobs.OnJobsAdd(this, jobs);
+            _profile.Events.Jobs.RaiseJobsAdd(this, jobs);
         }
     }
 }

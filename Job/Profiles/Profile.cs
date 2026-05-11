@@ -28,7 +28,7 @@ namespace JobSpace.Profiles
         public bool IsInitialized { get; private set; }
         public string ProfilePath { get; set; }
         public IProfileSettings Settings { get; set; } = new ProfileSettings();
-        public IProfileEvents Events { get; set; } = new ProfileEvents.ProfileEvents();
+        public IProfileEvents Events { get; set; } = new ProfileEvents.ProfileEventHub();
         public IBaseManager Base { get; set; }
         public IJobManager Jobs { get; set; }
         public IPluginManager Plugins { get; set; }
@@ -96,7 +96,7 @@ namespace JobSpace.Profiles
                     state.Description = $"Відсутнє підключення до бази данних {Settings.GetBaseSettings().MongoDbBaseName}";
                     state.State = Interfaces.Enums.ServiceStateEnum.INACTIVE;
                 }
-                Events.ServiceStateEvents.UpdateServiceState(this, state);
+                Events.ServiceStateEvents.RaiseUpdateServiceState(this, state);
             };
 
             Base = new BaseManager(repo, Settings.GetBaseSettings());

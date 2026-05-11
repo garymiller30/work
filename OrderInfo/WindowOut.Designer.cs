@@ -13,10 +13,29 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (!disposing)
+            {
+                return;
+            }
+
+            if (ucNote1 != null)
+            {
+                ucNote1.OnLeaveControl -= UcNote1_OnLeave;
+            }
+
+            RemoveCheckedEvents();
+
+            if (_isSubscribed && ucAddWorkPluginsContainer1 != null)
+            {
+                ucAddWorkPluginsContainer1.Unsubscribe(UserProfile);
+                _isSubscribed = false;
+            }
+
+            if (components != null)
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
