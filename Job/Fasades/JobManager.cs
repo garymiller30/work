@@ -422,8 +422,14 @@ namespace JobSpace.Fasades
                 .SetPageHeight(format.Item2)
                 .Save();
 
-            Process.Start(destFile);
-            // }
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "explorer.exe",
+                Arguments = $"\"{destFile}\"",
+                UseShellExecute = true
+            };
+
+            Process.Start(startInfo);
         }
 
         private Tuple<decimal, decimal> GetFormatFile(IJob j)
