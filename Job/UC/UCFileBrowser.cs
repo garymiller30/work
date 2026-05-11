@@ -38,10 +38,10 @@ namespace JobSpace.UC
         private const string ObjectListViewDragSourceFormat = "JobSpace.UC.UCFileBrowser.ObjectListViewDragSource";
         private static readonly object PdfToolUsageSync = new object();
         Dictionary<string, ToolStripMenuItem> menuCache = new Dictionary<string, ToolStripMenuItem>(StringComparer.InvariantCultureIgnoreCase);
-        private readonly System.Windows.Forms.Timer _previewTimer = new System.Windows.Forms.Timer { Interval = 150 };
         private IUserProfile UserProfile { get; set; }
 
         private IFileManager _fileManager;
+        private bool _selectFirstPreviewableFileAfterRefresh;
 
         private string[] _customButtonPath;
 
@@ -64,8 +64,6 @@ namespace JobSpace.UC
             UserProfile = profile;
 
             InitializeComponent();
-            components?.Add(_previewTimer);
-            _previewTimer.Tick += PreviewTimer_Tick;
 
             InitFileManager();
             InitListView();
@@ -564,11 +562,66 @@ namespace JobSpace.UC
 
         private void FileManager_OnRefreshDirectory(object sender, List<IFileSystemInfoExt> e)
         {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(() => FileManager_OnRefreshDirectory(sender, e)));
+                return;
+            }
+
             StopTaskGetExtendedInfo();
             objectListView1.EmptyListMsg = null;
             objectListView1.AddObjects(e);
+            SelectFirstPreviewableFileAfterRefresh(e);
             StartTaskGetExtendedInfo(e);
             UpdateStatusControl();
+        }
+
+        private void SelectFirstPreviewableFileAfterRefresh(List<IFileSystemInfoExt> files)
+        {
+            if (!_selectFirstPreviewableFileAfterRefresh) return;
+
+            if (!tsb_preview.Checked)
+            {
+                _selectFirstPreviewableFileAfterRefresh = false;
+                return;
+            }
+
+            sc_list.Panel2Collapsed = false;
+
+            var file = files?.FirstOrDefault(CanPreviewFile);
+            if (file == null)
+            {
+                _selectFirstPreviewableFileAfterRefresh = false;
+                uc_PreviewBrowserFile1.ClearPreview();
+                return;
+            }
+
+            _selectFirstPreviewableFileAfterRefresh = false;
+            objectListView1.SelectObject(file, true);
+            objectListView1.EnsureModelVisible(file);
+        }
+
+        private static bool CanPreviewFile(IFileSystemInfoExt file)
+        {
+            if (file == null || file.IsDir || file.FileInfo == null)
+                return false;
+
+            switch (file.FileInfo.Extension.ToLowerInvariant())
+            {
+                case ".pdf":
+                case ".ai":
+                case ".tif":
+                case ".tiff":
+                case ".png":
+                case ".bmp":
+                case ".jpg":
+                case ".jpeg":
+                case ".psd":
+                case ".eps":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         #endregion
@@ -1302,6 +1355,7 @@ namespace JobSpace.UC
         }
         public void SetRootFolder(string directory)
         {
+            _selectFirstPreviewableFileAfterRefresh = tsb_preview.Checked && Directory.Exists(directory);
             _fileManager.SetRootDirectory(directory);
         }
         public void LockUI(bool enabled)
@@ -1401,7 +1455,7 @@ namespace JobSpace.UC
         private void ObjectListView1_SelectionChanged(object sender, EventArgs e)
         {
             toolStripStatusLabelSelected.Text = GetSelectedFilesSize();
-            QueueFilePreview();
+            ShowFilePreview();
         }
         private void ОтправитьEmailToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
@@ -1620,28 +1674,10 @@ namespace JobSpace.UC
         private void tsb_preview_Click(object sender, EventArgs e)
         {
             sc_list.Panel2Collapsed = !sc_list.Panel2Collapsed;
-            QueueFilePreview();
+            ShowFilePreview();
         }
         private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            QueueFilePreview();
-        }
-        private void PreviewTimer_Tick(object sender, EventArgs e)
-        {
-            _previewTimer.Stop();
-            ShowFilePreview();
-        }
-        private void QueueFilePreview()
-        {
-            _previewTimer.Stop();
-
-            if (sc_list.Panel2Collapsed)
-            {
-                uc_PreviewBrowserFile1.ClearPreview();
-                return;
-            }
-
-            _previewTimer.Start();
         }
         private void ShowFilePreview()
         {

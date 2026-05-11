@@ -29,434 +29,430 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSelectPdfNewSize));
-            this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownBleed = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButtonNonProportial = new System.Windows.Forms.RadioButton();
-            this.radioButtonProportial = new System.Windows.Forms.RadioButton();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.radioButtonTrimbox = new System.Windows.Forms.RadioButton();
-            this.radioButtonMediabox = new System.Windows.Forms.RadioButton();
-            this.buttonOk = new System.Windows.Forms.Button();
-            this.ucSelectStandartPageFormat1 = new JobSpace.UC.UcSelectStandartPageFormat();
-            this.button1 = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBoxWorH = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.numericUpDownVal = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.labelWorH = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.buttonGarazd = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBleed)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVal)).BeginInit();
-            this.groupBox4.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.SuspendLayout();
+            numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
+            numericUpDownBleed = new System.Windows.Forms.NumericUpDown();
+            label3 = new System.Windows.Forms.Label();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            radioButtonNonProportial = new System.Windows.Forms.RadioButton();
+            radioButtonProportial = new System.Windows.Forms.RadioButton();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            radioButtonTrimbox = new System.Windows.Forms.RadioButton();
+            radioButtonMediabox = new System.Windows.Forms.RadioButton();
+            buttonOk = new System.Windows.Forms.Button();
+            ucSelectStandartPageFormat1 = new JobSpace.UC.UcSelectStandartPageFormat();
+            button1 = new System.Windows.Forms.Button();
+            groupBox3 = new System.Windows.Forms.GroupBox();
+            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            label8 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            comboBoxWorH = new System.Windows.Forms.ComboBox();
+            label6 = new System.Windows.Forms.Label();
+            numericUpDownVal = new System.Windows.Forms.NumericUpDown();
+            label5 = new System.Windows.Forms.Label();
+            labelWorH = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
+            textBox1 = new System.Windows.Forms.TextBox();
+            buttonGarazd = new System.Windows.Forms.Button();
+            groupBox4 = new System.Windows.Forms.GroupBox();
+            groupBox5 = new System.Windows.Forms.GroupBox();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownWidth).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownHeight).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownBleed).BeginInit();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            groupBox3.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownVal).BeginInit();
+            groupBox4.SuspendLayout();
+            groupBox5.SuspendLayout();
+            SuspendLayout();
             // 
             // numericUpDownWidth
             // 
-            this.numericUpDownWidth.DecimalPlaces = 1;
-            this.numericUpDownWidth.Location = new System.Drawing.Point(14, 44);
-            this.numericUpDownWidth.Maximum = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            this.numericUpDownWidth.Name = "numericUpDownWidth";
-            this.numericUpDownWidth.Size = new System.Drawing.Size(70, 20);
-            this.numericUpDownWidth.TabIndex = 0;
-            this.numericUpDownWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDownWidth.Value = new decimal(new int[] {
-            210,
-            0,
-            0,
-            0});
-            this.numericUpDownWidth.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
-            this.numericUpDownWidth.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
+            numericUpDownWidth.DecimalPlaces = 1;
+            numericUpDownWidth.Location = new System.Drawing.Point(16, 51);
+            numericUpDownWidth.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDownWidth.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
+            numericUpDownWidth.Name = "numericUpDownWidth";
+            numericUpDownWidth.Size = new System.Drawing.Size(82, 23);
+            numericUpDownWidth.TabIndex = 0;
+            numericUpDownWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numericUpDownWidth.Value = new decimal(new int[] { 210, 0, 0, 0 });
+            numericUpDownWidth.Click += numericUpDownWidth_Enter;
+            numericUpDownWidth.Enter += numericUpDownWidth_Enter;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Ширина";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(18, 30);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(52, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Ширина";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(120, 26);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Висота";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(140, 30);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(45, 15);
+            label2.TabIndex = 2;
+            label2.Text = "Висота";
             // 
             // numericUpDownHeight
             // 
-            this.numericUpDownHeight.DecimalPlaces = 1;
-            this.numericUpDownHeight.Location = new System.Drawing.Point(123, 44);
-            this.numericUpDownHeight.Maximum = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            this.numericUpDownHeight.Name = "numericUpDownHeight";
-            this.numericUpDownHeight.Size = new System.Drawing.Size(70, 20);
-            this.numericUpDownHeight.TabIndex = 3;
-            this.numericUpDownHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDownHeight.Value = new decimal(new int[] {
-            297,
-            0,
-            0,
-            0});
-            this.numericUpDownHeight.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
-            this.numericUpDownHeight.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
+            numericUpDownHeight.DecimalPlaces = 1;
+            numericUpDownHeight.Location = new System.Drawing.Point(144, 51);
+            numericUpDownHeight.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDownHeight.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
+            numericUpDownHeight.Name = "numericUpDownHeight";
+            numericUpDownHeight.Size = new System.Drawing.Size(82, 23);
+            numericUpDownHeight.TabIndex = 3;
+            numericUpDownHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numericUpDownHeight.Value = new decimal(new int[] { 297, 0, 0, 0 });
+            numericUpDownHeight.Click += numericUpDownWidth_Enter;
+            numericUpDownHeight.Enter += numericUpDownWidth_Enter;
             // 
             // numericUpDownBleed
             // 
-            this.numericUpDownBleed.DecimalPlaces = 1;
-            this.numericUpDownBleed.Location = new System.Drawing.Point(245, 44);
-            this.numericUpDownBleed.Maximum = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            this.numericUpDownBleed.Name = "numericUpDownBleed";
-            this.numericUpDownBleed.Size = new System.Drawing.Size(47, 20);
-            this.numericUpDownBleed.TabIndex = 5;
-            this.numericUpDownBleed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDownBleed.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.numericUpDownBleed.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
-            this.numericUpDownBleed.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
+            numericUpDownBleed.DecimalPlaces = 1;
+            numericUpDownBleed.Location = new System.Drawing.Point(246, 51);
+            numericUpDownBleed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDownBleed.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
+            numericUpDownBleed.Name = "numericUpDownBleed";
+            numericUpDownBleed.Size = new System.Drawing.Size(55, 23);
+            numericUpDownBleed.TabIndex = 5;
+            numericUpDownBleed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numericUpDownBleed.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            numericUpDownBleed.Click += numericUpDownWidth_Enter;
+            numericUpDownBleed.Enter += numericUpDownWidth_Enter;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(206, 26);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(90, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Поля на підрізку";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(240, 30);
+            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(98, 15);
+            label3.TabIndex = 4;
+            label3.Text = "Поля на підрізку";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButtonNonProportial);
-            this.groupBox1.Controls.Add(this.radioButtonProportial);
-            this.groupBox1.Location = new System.Drawing.Point(98, 187);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(132, 69);
-            this.groupBox1.TabIndex = 6;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Як збільшуємо?";
+            groupBox1.Controls.Add(radioButtonNonProportial);
+            groupBox1.Controls.Add(radioButtonProportial);
+            groupBox1.Location = new System.Drawing.Point(114, 216);
+            groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Size = new System.Drawing.Size(154, 80);
+            groupBox1.TabIndex = 6;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Як збільшуємо?";
             // 
             // radioButtonNonProportial
             // 
-            this.radioButtonNonProportial.AutoSize = true;
-            this.radioButtonNonProportial.Location = new System.Drawing.Point(6, 42);
-            this.radioButtonNonProportial.Name = "radioButtonNonProportial";
-            this.radioButtonNonProportial.Size = new System.Drawing.Size(101, 17);
-            this.radioButtonNonProportial.TabIndex = 1;
-            this.radioButtonNonProportial.Text = "Непропорційно";
-            this.radioButtonNonProportial.UseVisualStyleBackColor = true;
+            radioButtonNonProportial.AutoSize = true;
+            radioButtonNonProportial.Location = new System.Drawing.Point(7, 48);
+            radioButtonNonProportial.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            radioButtonNonProportial.Name = "radioButtonNonProportial";
+            radioButtonNonProportial.Size = new System.Drawing.Size(113, 19);
+            radioButtonNonProportial.TabIndex = 1;
+            radioButtonNonProportial.Text = "Непропорційно";
+            radioButtonNonProportial.UseVisualStyleBackColor = true;
             // 
             // radioButtonProportial
             // 
-            this.radioButtonProportial.AutoSize = true;
-            this.radioButtonProportial.Checked = true;
-            this.radioButtonProportial.Location = new System.Drawing.Point(6, 19);
-            this.radioButtonProportial.Name = "radioButtonProportial";
-            this.radioButtonProportial.Size = new System.Drawing.Size(89, 17);
-            this.radioButtonProportial.TabIndex = 0;
-            this.radioButtonProportial.TabStop = true;
-            this.radioButtonProportial.Text = "Пропорційно";
-            this.radioButtonProportial.UseVisualStyleBackColor = true;
+            radioButtonProportial.AutoSize = true;
+            radioButtonProportial.Checked = true;
+            radioButtonProportial.Location = new System.Drawing.Point(7, 22);
+            radioButtonProportial.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            radioButtonProportial.Name = "radioButtonProportial";
+            radioButtonProportial.Size = new System.Drawing.Size(100, 19);
+            radioButtonProportial.TabIndex = 0;
+            radioButtonProportial.TabStop = true;
+            radioButtonProportial.Text = "Пропорційно";
+            radioButtonProportial.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.radioButtonTrimbox);
-            this.groupBox2.Controls.Add(this.radioButtonMediabox);
-            this.groupBox2.Location = new System.Drawing.Point(246, 187);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(129, 69);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Відносно чого?";
+            groupBox2.Controls.Add(radioButtonTrimbox);
+            groupBox2.Controls.Add(radioButtonMediabox);
+            groupBox2.Location = new System.Drawing.Point(287, 216);
+            groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Size = new System.Drawing.Size(150, 80);
+            groupBox2.TabIndex = 7;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Відносно чого?";
             // 
             // radioButtonTrimbox
             // 
-            this.radioButtonTrimbox.AutoSize = true;
-            this.radioButtonTrimbox.Checked = true;
-            this.radioButtonTrimbox.Location = new System.Drawing.Point(6, 42);
-            this.radioButtonTrimbox.Name = "radioButtonTrimbox";
-            this.radioButtonTrimbox.Size = new System.Drawing.Size(62, 17);
-            this.radioButtonTrimbox.TabIndex = 3;
-            this.radioButtonTrimbox.TabStop = true;
-            this.radioButtonTrimbox.Text = "Trimbox";
-            this.radioButtonTrimbox.UseVisualStyleBackColor = true;
+            radioButtonTrimbox.AutoSize = true;
+            radioButtonTrimbox.Checked = true;
+            radioButtonTrimbox.Location = new System.Drawing.Point(7, 48);
+            radioButtonTrimbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            radioButtonTrimbox.Name = "radioButtonTrimbox";
+            radioButtonTrimbox.Size = new System.Drawing.Size(68, 19);
+            radioButtonTrimbox.TabIndex = 3;
+            radioButtonTrimbox.TabStop = true;
+            radioButtonTrimbox.Text = "Trimbox";
+            radioButtonTrimbox.UseVisualStyleBackColor = true;
             // 
             // radioButtonMediabox
             // 
-            this.radioButtonMediabox.AutoSize = true;
-            this.radioButtonMediabox.Location = new System.Drawing.Point(6, 19);
-            this.radioButtonMediabox.Name = "radioButtonMediabox";
-            this.radioButtonMediabox.Size = new System.Drawing.Size(71, 17);
-            this.radioButtonMediabox.TabIndex = 2;
-            this.radioButtonMediabox.Text = "Mediabox";
-            this.radioButtonMediabox.UseVisualStyleBackColor = true;
+            radioButtonMediabox.AutoSize = true;
+            radioButtonMediabox.Location = new System.Drawing.Point(7, 22);
+            radioButtonMediabox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            radioButtonMediabox.Name = "radioButtonMediabox";
+            radioButtonMediabox.Size = new System.Drawing.Size(78, 19);
+            radioButtonMediabox.TabIndex = 2;
+            radioButtonMediabox.Text = "Mediabox";
+            radioButtonMediabox.UseVisualStyleBackColor = true;
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(98, 283);
-            this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(277, 39);
-            this.buttonOk.TabIndex = 8;
-            this.buttonOk.Text = "ЗМІНИТИ ФОРМАТ";
-            this.buttonOk.UseVisualStyleBackColor = true;
-            this.buttonOk.Click += new System.EventHandler(this.button1_Click);
+            buttonOk.Location = new System.Drawing.Point(114, 327);
+            buttonOk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonOk.Name = "buttonOk";
+            buttonOk.Size = new System.Drawing.Size(323, 45);
+            buttonOk.TabIndex = 8;
+            buttonOk.Text = "ЗМІНИТИ ФОРМАТ";
+            buttonOk.UseVisualStyleBackColor = true;
+            buttonOk.Click += button1_Click;
             // 
             // ucSelectStandartPageFormat1
             // 
-            this.ucSelectStandartPageFormat1.AutoSize = true;
-            this.ucSelectStandartPageFormat1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ucSelectStandartPageFormat1.Location = new System.Drawing.Point(17, 21);
-            this.ucSelectStandartPageFormat1.Name = "ucSelectStandartPageFormat1";
-            this.ucSelectStandartPageFormat1.Size = new System.Drawing.Size(112, 48);
-            this.ucSelectStandartPageFormat1.TabIndex = 9;
-            this.ucSelectStandartPageFormat1.PaperFormatChanged += new System.EventHandler<JobSpace.Static.Pdf.Common.PaperFormat>(this.ucSelectStandartPageFormat1_PaperFormatChanged);
+            ucSelectStandartPageFormat1.AutoSize = true;
+            ucSelectStandartPageFormat1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            ucSelectStandartPageFormat1.Location = new System.Drawing.Point(33, 22);
+            ucSelectStandartPageFormat1.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            ucSelectStandartPageFormat1.Name = "ucSelectStandartPageFormat1";
+            ucSelectStandartPageFormat1.Size = new System.Drawing.Size(131, 53);
+            ucSelectStandartPageFormat1.TabIndex = 9;
+            ucSelectStandartPageFormat1.PaperFormatChanged += ucSelectStandartPageFormat1_PaperFormatChanged;
             // 
             // button1
             // 
-            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(92, 41);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(23, 23);
-            this.button1.TabIndex = 10;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            button1.Image = (System.Drawing.Image)resources.GetObject("button1.Image");
+            button1.Location = new System.Drawing.Point(107, 47);
+            button1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(27, 27);
+            button1.TabIndex = 10;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click_1;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.flowLayoutPanel1);
-            this.groupBox3.Location = new System.Drawing.Point(12, 98);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(465, 71);
-            this.groupBox3.TabIndex = 11;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Порахувати";
+            groupBox3.Controls.Add(flowLayoutPanel1);
+            groupBox3.Location = new System.Drawing.Point(14, 113);
+            groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Size = new System.Drawing.Size(572, 82);
+            groupBox3.TabIndex = 11;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Порахувати";
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.label8);
-            this.flowLayoutPanel1.Controls.Add(this.label4);
-            this.flowLayoutPanel1.Controls.Add(this.comboBoxWorH);
-            this.flowLayoutPanel1.Controls.Add(this.label6);
-            this.flowLayoutPanel1.Controls.Add(this.numericUpDownVal);
-            this.flowLayoutPanel1.Controls.Add(this.label5);
-            this.flowLayoutPanel1.Controls.Add(this.labelWorH);
-            this.flowLayoutPanel1.Controls.Add(this.label7);
-            this.flowLayoutPanel1.Controls.Add(this.textBox1);
-            this.flowLayoutPanel1.Controls.Add(this.buttonGarazd);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(459, 52);
-            this.flowLayoutPanel1.TabIndex = 0;
+            flowLayoutPanel1.Controls.Add(label8);
+            flowLayoutPanel1.Controls.Add(label4);
+            flowLayoutPanel1.Controls.Add(comboBoxWorH);
+            flowLayoutPanel1.Controls.Add(label6);
+            flowLayoutPanel1.Controls.Add(numericUpDownVal);
+            flowLayoutPanel1.Controls.Add(label5);
+            flowLayoutPanel1.Controls.Add(labelWorH);
+            flowLayoutPanel1.Controls.Add(label7);
+            flowLayoutPanel1.Controls.Add(textBox1);
+            flowLayoutPanel1.Controls.Add(buttonGarazd);
+            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            flowLayoutPanel1.Location = new System.Drawing.Point(4, 19);
+            flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new System.Drawing.Size(564, 60);
+            flowLayoutPanel1.TabIndex = 0;
             // 
             // label8
             // 
-            this.label8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label8.Location = new System.Drawing.Point(3, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(453, 23);
-            this.label8.TabIndex = 9;
-            this.label8.Text = "Перед тим як рахувати, потрібно виставити поточну ширину і висоту документа";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            label8.Dock = System.Windows.Forms.DockStyle.Top;
+            label8.Location = new System.Drawing.Point(4, 0);
+            label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(528, 27);
+            label8.TabIndex = 9;
+            label8.Text = "Перед тим як рахувати, потрібно виставити поточну ширину і висоту документа";
+            label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(3, 23);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(36, 23);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Якщо";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label4.Location = new System.Drawing.Point(4, 27);
+            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(42, 27);
+            label4.TabIndex = 0;
+            label4.Text = "Якщо";
+            label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // comboBoxWorH
             // 
-            this.comboBoxWorH.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxWorH.FormattingEnabled = true;
-            this.comboBoxWorH.Items.AddRange(new object[] {
-            "ширина",
-            "висота"});
-            this.comboBoxWorH.Location = new System.Drawing.Point(45, 26);
-            this.comboBoxWorH.Name = "comboBoxWorH";
-            this.comboBoxWorH.Size = new System.Drawing.Size(67, 21);
-            this.comboBoxWorH.TabIndex = 1;
-            this.comboBoxWorH.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            comboBoxWorH.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxWorH.FormattingEnabled = true;
+            comboBoxWorH.Items.AddRange(new object[] { "ширина", "висота" });
+            comboBoxWorH.Location = new System.Drawing.Point(54, 30);
+            comboBoxWorH.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            comboBoxWorH.Name = "comboBoxWorH";
+            comboBoxWorH.Size = new System.Drawing.Size(78, 23);
+            comboBoxWorH.TabIndex = 1;
+            comboBoxWorH.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(118, 23);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(13, 23);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "=";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label6.Location = new System.Drawing.Point(140, 27);
+            label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(15, 27);
+            label6.TabIndex = 5;
+            label6.Text = "=";
+            label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // numericUpDownVal
             // 
-            this.numericUpDownVal.DecimalPlaces = 1;
-            this.numericUpDownVal.Location = new System.Drawing.Point(137, 26);
-            this.numericUpDownVal.Maximum = new decimal(new int[] {
-            276447231,
-            23283,
-            0,
-            0});
-            this.numericUpDownVal.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownVal.Name = "numericUpDownVal";
-            this.numericUpDownVal.Size = new System.Drawing.Size(61, 20);
-            this.numericUpDownVal.TabIndex = 6;
-            this.numericUpDownVal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numericUpDownVal.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownVal.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
-            this.numericUpDownVal.Click += new System.EventHandler(this.numericUpDownWidth_Enter);
-            this.numericUpDownVal.Enter += new System.EventHandler(this.numericUpDownWidth_Enter);
+            numericUpDownVal.DecimalPlaces = 1;
+            numericUpDownVal.Location = new System.Drawing.Point(163, 30);
+            numericUpDownVal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDownVal.Maximum = new decimal(new int[] { 276447231, 23283, 0, 0 });
+            numericUpDownVal.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDownVal.Name = "numericUpDownVal";
+            numericUpDownVal.Size = new System.Drawing.Size(71, 23);
+            numericUpDownVal.TabIndex = 6;
+            numericUpDownVal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numericUpDownVal.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDownVal.ValueChanged += numericUpDown1_ValueChanged;
+            numericUpDownVal.Click += numericUpDownWidth_Enter;
+            numericUpDownVal.Enter += numericUpDownWidth_Enter;
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(204, 23);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(18, 23);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "то";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label5.Location = new System.Drawing.Point(242, 27);
+            label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(21, 27);
+            label5.TabIndex = 2;
+            label5.Text = "то";
+            label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelWorH
             // 
-            this.labelWorH.Location = new System.Drawing.Point(228, 23);
-            this.labelWorH.Name = "labelWorH";
-            this.labelWorH.Size = new System.Drawing.Size(61, 23);
-            this.labelWorH.TabIndex = 3;
-            this.labelWorH.Text = "label6";
-            this.labelWorH.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            labelWorH.Location = new System.Drawing.Point(271, 27);
+            labelWorH.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelWorH.Name = "labelWorH";
+            labelWorH.Size = new System.Drawing.Size(71, 27);
+            labelWorH.TabIndex = 3;
+            labelWorH.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(295, 23);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(13, 23);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "=";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            label7.Location = new System.Drawing.Point(350, 27);
+            label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(15, 27);
+            label7.TabIndex = 7;
+            label7.Text = "=";
+            label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(314, 26);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(61, 20);
-            this.textBox1.TabIndex = 4;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            textBox1.Location = new System.Drawing.Point(373, 30);
+            textBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBox1.Name = "textBox1";
+            textBox1.ReadOnly = true;
+            textBox1.Size = new System.Drawing.Size(70, 23);
+            textBox1.TabIndex = 4;
+            textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // buttonGarazd
             // 
-            this.buttonGarazd.Location = new System.Drawing.Point(381, 26);
-            this.buttonGarazd.Name = "buttonGarazd";
-            this.buttonGarazd.Size = new System.Drawing.Size(74, 23);
-            this.buttonGarazd.TabIndex = 8;
-            this.buttonGarazd.Text = "влаштовує";
-            this.buttonGarazd.UseVisualStyleBackColor = true;
-            this.buttonGarazd.Click += new System.EventHandler(this.buttonGarazd_Click);
+            buttonGarazd.Location = new System.Drawing.Point(451, 30);
+            buttonGarazd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonGarazd.Name = "buttonGarazd";
+            buttonGarazd.Size = new System.Drawing.Size(86, 27);
+            buttonGarazd.TabIndex = 8;
+            buttonGarazd.Text = "влаштовує";
+            buttonGarazd.UseVisualStyleBackColor = true;
+            buttonGarazd.Click += buttonGarazd_Click;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.ucSelectStandartPageFormat1);
-            this.groupBox4.Location = new System.Drawing.Point(331, 8);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(146, 84);
-            this.groupBox4.TabIndex = 12;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Вибрати зі стандартних";
+            groupBox4.Controls.Add(ucSelectStandartPageFormat1);
+            groupBox4.Location = new System.Drawing.Point(386, 9);
+            groupBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox4.Size = new System.Drawing.Size(200, 97);
+            groupBox4.TabIndex = 12;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Вибрати зі стандартних";
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.label1);
-            this.groupBox5.Controls.Add(this.numericUpDownWidth);
-            this.groupBox5.Controls.Add(this.label2);
-            this.groupBox5.Controls.Add(this.button1);
-            this.groupBox5.Controls.Add(this.numericUpDownHeight);
-            this.groupBox5.Controls.Add(this.label3);
-            this.groupBox5.Controls.Add(this.numericUpDownBleed);
-            this.groupBox5.Location = new System.Drawing.Point(12, 8);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(302, 84);
-            this.groupBox5.TabIndex = 13;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Новий формат документа";
+            groupBox5.Controls.Add(label1);
+            groupBox5.Controls.Add(numericUpDownWidth);
+            groupBox5.Controls.Add(label2);
+            groupBox5.Controls.Add(button1);
+            groupBox5.Controls.Add(numericUpDownHeight);
+            groupBox5.Controls.Add(label3);
+            groupBox5.Controls.Add(numericUpDownBleed);
+            groupBox5.Location = new System.Drawing.Point(14, 9);
+            groupBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox5.Size = new System.Drawing.Size(352, 97);
+            groupBox5.TabIndex = 13;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Новий формат документа";
             // 
             // FormSelectPdfNewSize
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(489, 344);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.buttonOk);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FormSelectPdfNewSize";
-            this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Змінити формат документа";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBleed)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownVal)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(646, 397);
+            Controls.Add(groupBox5);
+            Controls.Add(groupBox4);
+            Controls.Add(groupBox3);
+            Controls.Add(buttonOk);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FormSelectPdfNewSize";
+            ShowIcon = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Змінити формат документа";
+            ((System.ComponentModel.ISupportInitialize)numericUpDownWidth).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownHeight).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownBleed).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownVal).EndInit();
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
+            groupBox5.ResumeLayout(false);
+            groupBox5.PerformLayout();
+            ResumeLayout(false);
 
         }
 
