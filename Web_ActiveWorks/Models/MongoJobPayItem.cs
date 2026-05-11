@@ -1,8 +1,10 @@
-﻿namespace Web_ActiveWorks.Models
+using MongoDB.Bson;
+
+namespace Web_ActiveWorks.Models
 {
     public class MongoJobPayItem
     {
         public DateTime Date { get; set; }
-        public string Sum { get; set; } = default!;
+        public BsonValue Sum { get; set; } = BsonNull.Value;
     }
 }
