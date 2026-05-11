@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Interfaces
 {
@@ -10,5 +6,8 @@ namespace Interfaces
     {
         EventHandler<IServiceState> AddServiceState { get; set; }
         EventHandler<IServiceState> UpdateServiceState { get; set; }
+
+        void RaiseAddServiceState(object sender, IServiceState state);
+        void RaiseUpdateServiceState(object sender, IServiceState state);
     }
 }

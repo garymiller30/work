@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Interfaces;
 using Interfaces.Profile;
 
@@ -8,18 +7,22 @@ namespace JobSpace.Profiles.ProfileEvents
 {
     public sealed class JobEvents : AbstractEvents, IJobEvents
     {
-        public EventHandler<IJob> OnSetCurrentJob { get;set;}  = delegate { };
-        public EventHandler<IJob> OnJobAdd { get;set;} = delegate { };
-        public EventHandler<ICollection> OnJobsAdd { get;set;} = delegate { };
+        private bool _isInitialized;
+
+        public EventHandler<IJob> OnSetCurrentJob { get; set; } = delegate { };
+        public EventHandler<IJob> OnJobAdd { get; set; } = delegate { };
+        public EventHandler<ICollection> OnJobsAdd { get; set; } = delegate { };
         public EventHandler<IJob> OnJobChange { get; set; } = delegate { };
         public EventHandler<IJob> OnJobBeginEdit { get; set; } = delegate { };
         public EventHandler<IJob> OnJobFinishEdit { get; set; } = delegate { };
         public EventHandler<IJob> OnJobDelete { get; set; } = delegate { };
-        public EventHandler OnToolsMenuInitialized { get ; set ; } = delegate { };
+        public EventHandler OnToolsMenuInitialized { get; set; } = delegate { };
 
         public override void Init(IUserProfile profile)
         {
-            if (profile == null || profile.Jobs == null) return; 
+            if (_isInitialized || profile == null || profile.Jobs == null) return;
+
+            _isInitialized = true;
 
             profile.Jobs.OnSetCurrentJob += (sender,job) => OnSetCurrentJob(sender,job);
             profile.Jobs.OnJobAdd += (sender,job )=> OnJobAdd(sender,job);
@@ -31,9 +34,19 @@ namespace JobSpace.Profiles.ProfileEvents
 
         }
 
-        public void RiseOnJobChange(IJob job)
+        public void RaiseOnSetCurrentJob(IJob job)
         {
-            OnSetCurrentJob(null,job);
+            OnSetCurrentJob(null, job);
+        }
+
+        public void RaiseJobsAdd(object sender, ICollection jobs)
+        {
+            OnJobsAdd(sender, jobs);
+        }
+
+        public void RaiseToolsMenuInitialized(object sender)
+        {
+            OnToolsMenuInitialized(sender, EventArgs.Empty);
         }
     }
 }

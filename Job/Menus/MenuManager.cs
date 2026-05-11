@@ -15,7 +15,7 @@ namespace JobSpace.Menus
         {
             InitializeMenus(userProfile);
             IsInitialized = true;
-            userProfile.Events.Jobs.OnToolsMenuInitialized(this,null);
+            userProfile.Events.Jobs.RaiseToolsMenuInitialized(this);
         }
 
         void InitializeMenus(IUserProfile userProfile)
