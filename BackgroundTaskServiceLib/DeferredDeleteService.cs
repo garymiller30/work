@@ -1,9 +1,9 @@
 using Logger;
-using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading;
 
@@ -15,14 +15,8 @@ namespace BackgroundTaskServiceLib
         private static readonly StringComparer PathComparer = StringComparer.InvariantCultureIgnoreCase;
         private static readonly List<DeferredDeleteRequest> PendingRequests = new List<DeferredDeleteRequest>();
         private static readonly HashSet<string> EnqueuedPaths = new HashSet<string>(PathComparer);
-        private static readonly TimeSpan[] RetryDelays =
-        {
-            TimeSpan.FromSeconds(5),
-            TimeSpan.FromSeconds(15),
-            TimeSpan.FromSeconds(30),
-            TimeSpan.FromMinutes(1),
-            TimeSpan.FromMinutes(5)
-        };
+        private const int MaxAttempts = 5;
+        private static readonly TimeSpan RetryDelay = TimeSpan.FromSeconds(30);
 
         private static bool _initialized;
 
@@ -130,11 +124,17 @@ namespace BackgroundTaskServiceLib
                 }
                 catch (IOException e)
                 {
-                    WaitBeforeRetry(request, task, e);
+                    if (!WaitBeforeRetry(request, task, e))
+                    {
+                        return;
+                    }
                 }
                 catch (UnauthorizedAccessException e)
                 {
-                    WaitBeforeRetry(request, task, e);
+                    if (!WaitBeforeRetry(request, task, e))
+                    {
+                        return;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -154,15 +154,7 @@ namespace BackgroundTaskServiceLib
         {
             if (request.Mode == DeferredDeleteMode.RecycleBin)
             {
-                if (Directory.Exists(request.Path))
-                {
-                    FileSystem.DeleteDirectory(request.Path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
-                }
-                else
-                {
-                    FileSystem.DeleteFile(request.Path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
-                }
-
+                RecycleSilently(request.Path);
                 return;
             }
 
@@ -176,33 +168,51 @@ namespace BackgroundTaskServiceLib
             }
         }
 
-        private static void WaitBeforeRetry(DeferredDeleteRequest request, BackgroundTaskItem task, Exception exception)
+        private static bool WaitBeforeRetry(DeferredDeleteRequest request, BackgroundTaskItem task, Exception exception)
         {
             request.LastError = exception.Message;
             SavePendingRequests();
 
-            var delay = GetRetryDelay(request.Attempts);
+            if (request.Attempts >= MaxAttempts)
+            {
+                RemovePendingRequest(request);
+                task.SetStatus(BackgroundTaskStatus.Failed, $"Не вдалося видалити після {MaxAttempts} спроб. {exception.Message}");
+                Log.Error(null, "DeferredDeleteService", $"Cannot delete {request.Path} after {MaxAttempts} attempts: {exception}");
+                return false;
+            }
+
             task.SetStatus(
                 BackgroundTaskStatus.Running,
-                $"Зайнято. Повтор через {FormatDelay(delay)}. {exception.Message}");
+                $"Зайнято. Спроба {request.Attempts}/{MaxAttempts}. Повтор через 30 с. {exception.Message}");
 
-            if (task.CancelationToken.WaitHandle.WaitOne(delay))
+            if (task.CancelationToken.WaitHandle.WaitOne(RetryDelay))
             {
                 task.SetStatus(BackgroundTaskStatus.Canceled, "Скасування...");
+                return false;
             }
+
+            return true;
         }
 
-        private static TimeSpan GetRetryDelay(int attempts)
+        private static void RecycleSilently(string path)
         {
-            var index = Math.Max(0, Math.Min(attempts - 1, RetryDelays.Length - 1));
-            return RetryDelays[index];
-        }
+            var operation = new SHFILEOPSTRUCT
+            {
+                wFunc = FO_DELETE,
+                pFrom = path + '\0' + '\0',
+                fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT
+            };
 
-        private static string FormatDelay(TimeSpan delay)
-        {
-            return delay.TotalMinutes >= 1
-                ? $"{(int)delay.TotalMinutes} хв"
-                : $"{(int)delay.TotalSeconds} с";
+            var result = SHFileOperation(ref operation);
+            if (result != 0)
+            {
+                throw new IOException($"Shell delete failed with code {result}");
+            }
+
+            if (operation.fAnyOperationsAborted)
+            {
+                throw new OperationCanceledException("Delete operation was aborted.");
+            }
         }
 
         private static void RemovePendingRequest(DeferredDeleteRequest request)
@@ -262,6 +272,28 @@ namespace BackgroundTaskServiceLib
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 "ActiveWorks");
             return System.IO.Path.Combine(root, "deferred-delete-queue.json");
+        }
+
+        private const int FO_DELETE = 3;
+        private const ushort FOF_SILENT = 0x0004;
+        private const ushort FOF_NOCONFIRMATION = 0x0010;
+        private const ushort FOF_ALLOWUNDO = 0x0040;
+        private const ushort FOF_NOERRORUI = 0x0400;
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        private static extern int SHFileOperation(ref SHFILEOPSTRUCT lpFileOp);
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct SHFILEOPSTRUCT
+        {
+            public IntPtr hwnd;
+            public uint wFunc;
+            public string pFrom;
+            public string pTo;
+            public ushort fFlags;
+            public bool fAnyOperationsAborted;
+            public IntPtr hNameMappings;
+            public string lpszProgressTitle;
         }
     }
 }
