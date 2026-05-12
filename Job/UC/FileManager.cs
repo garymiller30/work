@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using BackgroundTaskServiceLib;
 using Interfaces.FileBrowser;
 using Interfaces.Plugins;
 using JobSpace.Models.FileBrowser;
@@ -256,27 +257,15 @@ namespace JobSpace.UC
 
         public void DeleteFilesAndDirectories(IEnumerable<IFileSystemInfoExt> files)
         {
-
             foreach (IFileSystemInfoExt file in files)
             {
-            retry:
-
                 try
                 {
-                    if (file.IsDir) FileSystem.DeleteDirectory(file.FileInfo.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);// Directory.Delete(file.FileInfo.FullName, true);
-                    else FileSystem.DeleteFile(file.FileInfo.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);// File.Delete(file.FileInfo.FullName);
-                }
-                catch (IOException)
-                {
-                    var message = FileUtil.GetNamesWhoBlock(file.FileInfo.FullName);
-                    if (MessageBox.Show($"Файл {file.FileInfo.FullName} заблоковано такими програмами: {message}", "Файл заблоковано", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Retry)
-                    {
-                        goto retry;
-                    }
+                    DeferredDeleteService.Enqueue(file.FileInfo.FullName, DeferredDeleteMode.RecycleBin);
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "помилка");
+                    OnError(this, e.Message);
                 }
             }
         }
