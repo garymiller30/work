@@ -1,6 +1,7 @@
 using ActiveWorks.Forms;
 using ActiveWorks.PluginHub;
 using ActiveWorks.Properties;
+using BackgroundTaskServiceLib;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -23,6 +24,7 @@ namespace ActiveWorks
             PluginPackageInstaller.ApplyPendingFiles(
                 AppDomain.CurrentDomain.BaseDirectory,
                 ResolveApplicationPath(Settings.Default.ProfilesPath));
+            DeferredDeleteService.Initialize();
 
             var profilesPath = ResolveApplicationPath(Settings.Default.ProfilesPath);
 
