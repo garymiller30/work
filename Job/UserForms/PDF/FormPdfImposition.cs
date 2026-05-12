@@ -364,6 +364,16 @@ namespace JobSpace.UserForms.PDF
                 var imposition = JsonSerializer.Deserialize<SavedImposition>(str);
                 if (imposition == null) return;
 
+                if (!IsLoadedImpositionCompatible(imposition))
+                {
+                    MessageBox.Show(
+                        "Збережений спуск полос створений для іншого набору PDF-файлів і не буде завантажений.",
+                        "Спуск полос",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
                 ApplyLoadedImposition(imposition);
             }
             catch (Exception ex)
@@ -444,6 +454,7 @@ namespace JobSpace.UserForms.PDF
 
             return new SavedImposition
             {
+                PdfFiles = CreateSavedPdfFileInfo(),
                 RunList = _imposParam.ProductPart.RunList,
                 TemplateSheets = _imposParam.ProductPart.TemplateSheets,
                 PrintSheets = _imposParam.ProductPart.PrintSheets,
@@ -451,6 +462,79 @@ namespace JobSpace.UserForms.PDF
                 Proof = _imposParam.ProductPart.Proof,
                 ExportParameters = _imposParam.ProductPart.ExportParameters
             };
+        }
+
+        private List<SavedPdfFileInfo> CreateSavedPdfFileInfo()
+        {
+            return _imposParam.ProductPart.PdfFiles
+                .Select(file => new SavedPdfFileInfo
+                {
+                    Id = file.Id,
+                    FileName = file.FileName,
+                    PageCount = file.Pages?.Length ?? 0,
+                    Count = file.Count
+                })
+                .ToList();
+        }
+
+        private bool IsLoadedImpositionCompatible(SavedImposition imposition)
+        {
+            if (imposition.PdfFiles != null && imposition.PdfFiles.Count > 0)
+            {
+                return IsSavedPdfFileInfoCompatible(imposition.PdfFiles);
+            }
+
+            return IsRunListCompatible(imposition.RunList);
+        }
+
+        private bool IsSavedPdfFileInfoCompatible(List<SavedPdfFileInfo> savedFiles)
+        {
+            var currentFiles = CreateSavedPdfFileInfo();
+
+            if (savedFiles.Count != currentFiles.Count)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < savedFiles.Count; i++)
+            {
+                var saved = savedFiles[i];
+                var current = currentFiles[i];
+
+                if (saved.Id != current.Id ||
+                    saved.PageCount != current.PageCount ||
+                    saved.Count != current.Count ||
+                    !string.Equals(saved.FileName, current.FileName, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool IsRunListCompatible(ImposRunList runList)
+        {
+            if (runList?.RunPages == null)
+            {
+                return true;
+            }
+
+            foreach (var runPage in runList.RunPages)
+            {
+                if (runPage.FileId == 0 && runPage.PageIdx == 0)
+                {
+                    continue;
+                }
+
+                var file = _imposParam.ProductPart.PdfFiles.FirstOrDefault(x => x.Id == runPage.FileId);
+                if (file?.Pages == null || runPage.PageIdx <= 0 || runPage.PageIdx > file.Pages.Length)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private bool TryGetImpositionFilePath(out string filePath)
@@ -768,12 +852,21 @@ namespace JobSpace.UserForms.PDF
 
         private sealed class SavedImposition
         {
+            public List<SavedPdfFileInfo> PdfFiles { get; set; } = new List<SavedPdfFileInfo>();
             public ImposRunList RunList { get; set; } = new ImposRunList();
             public List<TemplateSheet> TemplateSheets { get; set; } = new List<TemplateSheet>();
             public List<PrintSheet> PrintSheets { get; set; } = new List<PrintSheet>();
             public ImposColors UsedColors { get; set; } = new ImposColors();
             public ProofParameters Proof { get; set; } = new ProofParameters();
             public ExportParameters ExportParameters { get; set; } = new ExportParameters();
+        }
+
+        private sealed class SavedPdfFileInfo
+        {
+            public int Id { get; set; }
+            public string FileName { get; set; }
+            public int PageCount { get; set; }
+            public int Count { get; set; }
         }
 
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
