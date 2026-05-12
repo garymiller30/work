@@ -12,9 +12,13 @@ namespace JobSpace.Static.Pdf.Imposition.Services
     {
         public static PdfFilePage GetPage(List<PdfFile> files,ImposRunPage page)
         {
-            var file = files.FirstOrDefault(f => f.Id == page.FileId);
-            if (file == null)
+            if (files == null || page == null || page.PageIdx <= 0)
                 return null;
+
+            var file = files.FirstOrDefault(f => f.Id == page.FileId);
+            if (file == null || file.Pages == null || page.PageIdx > file.Pages.Length)
+                return null;
+
             return file.Pages[page.PageIdx-1];
         }
     }
