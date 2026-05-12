@@ -28,297 +28,283 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nW = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.nH = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
-            this.nCount = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
-            this.nMul = new System.Windows.Forms.NumericUpDown();
-            this.buttonAdd = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumnW = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnH = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnCnt = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnMul = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.buttonCreate = new System.Windows.Forms.Button();
-            this.bnt_import = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nW)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nH)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nCount)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nMul)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
-            this.SuspendLayout();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            label1 = new System.Windows.Forms.Label();
+            nW = new System.Windows.Forms.NumericUpDown();
+            label2 = new System.Windows.Forms.Label();
+            nH = new System.Windows.Forms.NumericUpDown();
+            label3 = new System.Windows.Forms.Label();
+            nCount = new System.Windows.Forms.NumericUpDown();
+            label4 = new System.Windows.Forms.Label();
+            nMul = new System.Windows.Forms.NumericUpDown();
+            buttonAdd = new System.Windows.Forms.Button();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            objectListView1 = new BrightIdeasSoftware.ObjectListView();
+            olvColumnW = new BrightIdeasSoftware.OLVColumn();
+            olvColumnH = new BrightIdeasSoftware.OLVColumn();
+            olvColumnCnt = new BrightIdeasSoftware.OLVColumn();
+            olvColumnMul = new BrightIdeasSoftware.OLVColumn();
+            buttonCreate = new System.Windows.Forms.Button();
+            bnt_import = new System.Windows.Forms.Button();
+            groupBox1.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nW).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nH).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nCount).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nMul).BeginInit();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)objectListView1).BeginInit();
+            SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.flowLayoutPanel1);
-            this.groupBox1.Location = new System.Drawing.Point(13, 13);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(515, 52);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
+            groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            groupBox1.Controls.Add(flowLayoutPanel1);
+            groupBox1.Location = new System.Drawing.Point(15, 15);
+            groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Size = new System.Drawing.Size(769, 60);
+            groupBox1.TabIndex = 0;
+            groupBox1.TabStop = false;
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.label1);
-            this.flowLayoutPanel1.Controls.Add(this.nW);
-            this.flowLayoutPanel1.Controls.Add(this.label2);
-            this.flowLayoutPanel1.Controls.Add(this.nH);
-            this.flowLayoutPanel1.Controls.Add(this.label3);
-            this.flowLayoutPanel1.Controls.Add(this.nCount);
-            this.flowLayoutPanel1.Controls.Add(this.label4);
-            this.flowLayoutPanel1.Controls.Add(this.nMul);
-            this.flowLayoutPanel1.Controls.Add(this.buttonAdd);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(509, 33);
-            this.flowLayoutPanel1.TabIndex = 0;
+            flowLayoutPanel1.Controls.Add(label1);
+            flowLayoutPanel1.Controls.Add(nW);
+            flowLayoutPanel1.Controls.Add(label2);
+            flowLayoutPanel1.Controls.Add(nH);
+            flowLayoutPanel1.Controls.Add(label3);
+            flowLayoutPanel1.Controls.Add(nCount);
+            flowLayoutPanel1.Controls.Add(label4);
+            flowLayoutPanel1.Controls.Add(nMul);
+            flowLayoutPanel1.Controls.Add(buttonAdd);
+            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            flowLayoutPanel1.Location = new System.Drawing.Point(4, 19);
+            flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new System.Drawing.Size(761, 38);
+            flowLayoutPanel1.TabIndex = 0;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 29);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "ширина";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label1.AutoSize = true;
+            label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            label1.Location = new System.Drawing.Point(4, 0);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(52, 33);
+            label1.TabIndex = 0;
+            label1.Text = "ширина";
+            label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // nW
             // 
-            this.nW.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nW.Location = new System.Drawing.Point(54, 3);
-            this.nW.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nW.Name = "nW";
-            this.nW.Size = new System.Drawing.Size(60, 20);
-            this.nW.TabIndex = 1;
-            this.nW.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nW.Click += new System.EventHandler(this.nW_Enter);
-            this.nW.Enter += new System.EventHandler(this.nW_Enter);
+            nW.Dock = System.Windows.Forms.DockStyle.Fill;
+            nW.Location = new System.Drawing.Point(64, 3);
+            nW.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nW.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nW.Name = "nW";
+            nW.Size = new System.Drawing.Size(70, 23);
+            nW.TabIndex = 1;
+            nW.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nW.Click += nW_Enter;
+            nW.Enter += nW_Enter;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(120, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(42, 29);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "висота";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label2.AutoSize = true;
+            label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            label2.Location = new System.Drawing.Point(142, 0);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(44, 33);
+            label2.TabIndex = 2;
+            label2.Text = "висота";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // nH
             // 
-            this.nH.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nH.Location = new System.Drawing.Point(168, 3);
-            this.nH.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nH.Name = "nH";
-            this.nH.Size = new System.Drawing.Size(60, 20);
-            this.nH.TabIndex = 3;
-            this.nH.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nH.Click += new System.EventHandler(this.nW_Enter);
-            this.nH.Enter += new System.EventHandler(this.nW_Enter);
+            nH.Dock = System.Windows.Forms.DockStyle.Fill;
+            nH.Location = new System.Drawing.Point(194, 3);
+            nH.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nH.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nH.Name = "nH";
+            nH.Size = new System.Drawing.Size(70, 23);
+            nH.TabIndex = 3;
+            nH.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nH.Click += nW_Enter;
+            nH.Enter += nW_Enter;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(234, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 29);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "тираж";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label3.AutoSize = true;
+            label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            label3.Location = new System.Drawing.Point(272, 0);
+            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(41, 33);
+            label3.TabIndex = 4;
+            label3.Text = "тираж";
+            label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // nCount
             // 
-            this.nCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nCount.Location = new System.Drawing.Point(278, 3);
-            this.nCount.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nCount.Name = "nCount";
-            this.nCount.Size = new System.Drawing.Size(60, 20);
-            this.nCount.TabIndex = 5;
-            this.nCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nCount.Click += new System.EventHandler(this.nW_Enter);
-            this.nCount.Enter += new System.EventHandler(this.nW_Enter);
+            nCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            nCount.Location = new System.Drawing.Point(321, 3);
+            nCount.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nCount.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nCount.Name = "nCount";
+            nCount.Size = new System.Drawing.Size(70, 23);
+            nCount.TabIndex = 5;
+            nCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nCount.Click += nW_Enter;
+            nCount.Enter += nW_Enter;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(344, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 29);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "кількість";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            label4.AutoSize = true;
+            label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            label4.Location = new System.Drawing.Point(399, 0);
+            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(55, 33);
+            label4.TabIndex = 6;
+            label4.Text = "кількість";
+            label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // nMul
             // 
-            this.nMul.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nMul.Location = new System.Drawing.Point(402, 3);
-            this.nMul.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.nMul.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nMul.Name = "nMul";
-            this.nMul.Size = new System.Drawing.Size(60, 20);
-            this.nMul.TabIndex = 7;
-            this.nMul.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nMul.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nMul.Click += new System.EventHandler(this.nW_Enter);
-            this.nMul.Enter += new System.EventHandler(this.nW_Enter);
+            nMul.Dock = System.Windows.Forms.DockStyle.Fill;
+            nMul.Location = new System.Drawing.Point(462, 3);
+            nMul.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nMul.Maximum = new decimal(new int[] { 999999999, 0, 0, 0 });
+            nMul.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nMul.Name = "nMul";
+            nMul.Size = new System.Drawing.Size(70, 23);
+            nMul.TabIndex = 7;
+            nMul.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nMul.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nMul.Click += nW_Enter;
+            nMul.Enter += nW_Enter;
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(468, 3);
-            this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(38, 23);
-            this.buttonAdd.TabIndex = 8;
-            this.buttonAdd.Text = "+";
-            this.buttonAdd.UseVisualStyleBackColor = true;
-            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            buttonAdd.AutoSize = true;
+            buttonAdd.Location = new System.Drawing.Point(540, 3);
+            buttonAdd.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonAdd.Name = "buttonAdd";
+            buttonAdd.Size = new System.Drawing.Size(113, 27);
+            buttonAdd.TabIndex = 8;
+            buttonAdd.Text = "+додати в список";
+            buttonAdd.UseVisualStyleBackColor = true;
+            buttonAdd.Click += buttonAdd_Click;
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.objectListView1);
-            this.groupBox2.Location = new System.Drawing.Point(13, 71);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(515, 233);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Список";
+            groupBox2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            groupBox2.Controls.Add(objectListView1);
+            groupBox2.Location = new System.Drawing.Point(15, 82);
+            groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Size = new System.Drawing.Size(769, 269);
+            groupBox2.TabIndex = 1;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Список";
             // 
             // objectListView1
             // 
-            this.objectListView1.AllColumns.Add(this.olvColumnW);
-            this.objectListView1.AllColumns.Add(this.olvColumnH);
-            this.objectListView1.AllColumns.Add(this.olvColumnCnt);
-            this.objectListView1.AllColumns.Add(this.olvColumnMul);
-            this.objectListView1.CellEditUseWholeCell = false;
-            this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumnW,
-            this.olvColumnH,
-            this.olvColumnCnt,
-            this.olvColumnMul});
-            this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.objectListView1.FullRowSelect = true;
-            this.objectListView1.GridLines = true;
-            this.objectListView1.HideSelection = false;
-            this.objectListView1.Location = new System.Drawing.Point(3, 16);
-            this.objectListView1.Name = "objectListView1";
-            this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(509, 214);
-            this.objectListView1.TabIndex = 0;
-            this.objectListView1.UseCompatibleStateImageBehavior = false;
-            this.objectListView1.UseNotifyPropertyChanged = true;
-            this.objectListView1.View = System.Windows.Forms.View.Details;
-            this.objectListView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.objectListView1_KeyDown);
+            objectListView1.AllColumns.Add(olvColumnW);
+            objectListView1.AllColumns.Add(olvColumnH);
+            objectListView1.AllColumns.Add(olvColumnCnt);
+            objectListView1.AllColumns.Add(olvColumnMul);
+            objectListView1.CellEditUseWholeCell = false;
+            objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumnW, olvColumnH, olvColumnCnt, olvColumnMul });
+            objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            objectListView1.FullRowSelect = true;
+            objectListView1.GridLines = true;
+            objectListView1.Location = new System.Drawing.Point(4, 19);
+            objectListView1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            objectListView1.Name = "objectListView1";
+            objectListView1.ShowGroups = false;
+            objectListView1.Size = new System.Drawing.Size(761, 247);
+            objectListView1.TabIndex = 0;
+            objectListView1.UseCompatibleStateImageBehavior = false;
+            objectListView1.UseNotifyPropertyChanged = true;
+            objectListView1.View = System.Windows.Forms.View.Details;
+            objectListView1.KeyDown += objectListView1_KeyDown;
             // 
             // olvColumnW
             // 
-            this.olvColumnW.AspectName = "Width";
-            this.olvColumnW.Text = "ширина";
+            olvColumnW.AspectName = "Width";
+            olvColumnW.Text = "ширина";
             // 
             // olvColumnH
             // 
-            this.olvColumnH.AspectName = "Height";
-            this.olvColumnH.Text = "висота";
+            olvColumnH.AspectName = "Height";
+            olvColumnH.Text = "висота";
             // 
             // olvColumnCnt
             // 
-            this.olvColumnCnt.AspectName = "Count";
-            this.olvColumnCnt.Text = "тираж";
-            this.olvColumnCnt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            olvColumnCnt.AspectName = "Count";
+            olvColumnCnt.Text = "тираж";
+            olvColumnCnt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // olvColumnMul
             // 
-            this.olvColumnMul.AspectName = "Multiplier";
-            this.olvColumnMul.Text = "кількість";
-            this.olvColumnMul.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            olvColumnMul.AspectName = "Multiplier";
+            olvColumnMul.Text = "кількість";
+            olvColumnMul.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // buttonCreate
             // 
-            this.buttonCreate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonCreate.Location = new System.Drawing.Point(438, 310);
-            this.buttonCreate.Name = "buttonCreate";
-            this.buttonCreate.Size = new System.Drawing.Size(90, 35);
-            this.buttonCreate.TabIndex = 2;
-            this.buttonCreate.Text = "Створити";
-            this.buttonCreate.UseVisualStyleBackColor = true;
-            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
+            buttonCreate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            buttonCreate.Location = new System.Drawing.Point(595, 358);
+            buttonCreate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonCreate.Name = "buttonCreate";
+            buttonCreate.Size = new System.Drawing.Size(105, 40);
+            buttonCreate.TabIndex = 2;
+            buttonCreate.Text = "Створити";
+            buttonCreate.UseVisualStyleBackColor = true;
+            buttonCreate.Click += buttonCreate_Click;
             // 
             // bnt_import
             // 
-            this.bnt_import.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.bnt_import.Location = new System.Drawing.Point(16, 310);
-            this.bnt_import.Name = "bnt_import";
-            this.bnt_import.Size = new System.Drawing.Size(133, 35);
-            this.bnt_import.TabIndex = 3;
-            this.bnt_import.Text = "Імпортувати список";
-            this.bnt_import.UseVisualStyleBackColor = true;
-            this.bnt_import.Click += new System.EventHandler(this.bnt_import_Click);
+            bnt_import.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            bnt_import.Location = new System.Drawing.Point(19, 358);
+            bnt_import.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            bnt_import.Name = "bnt_import";
+            bnt_import.Size = new System.Drawing.Size(155, 40);
+            bnt_import.TabIndex = 3;
+            bnt_import.Text = "Імпортувати список";
+            bnt_import.UseVisualStyleBackColor = true;
+            bnt_import.Click += bnt_import_Click;
             // 
             // FormCreateEmptiesWithCount
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 357);
-            this.Controls.Add(this.bnt_import);
-            this.Controls.Add(this.buttonCreate);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Name = "FormCreateEmptiesWithCount";
-            this.ShowIcon = false;
-            this.Text = "Створити пустишки з тиражами";
-            this.groupBox1.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nW)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nH)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nCount)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nMul)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(798, 412);
+            Controls.Add(bnt_import);
+            Controls.Add(buttonCreate);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "FormCreateEmptiesWithCount";
+            ShowIcon = false;
+            Text = "Створити пустишки з тиражами";
+            groupBox1.ResumeLayout(false);
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nW).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nH).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nCount).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nMul).EndInit();
+            groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)objectListView1).EndInit();
+            ResumeLayout(false);
 
         }
 
