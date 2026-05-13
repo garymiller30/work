@@ -526,13 +526,17 @@ namespace JobSpace.Static
         {
             if (files.Count == 0) return;
 
-            var filelist = files.Cast<IFileSystemInfoExt>();
+            var filelist = files
+                .Cast<IFileSystemInfoExt>()
+                .Where(x => x != null && !x.IsDir)
+                .ToList();
+
+            if (filelist.Count == 0) return;
 
             BackgroundTaskService.AddTask(new BackgroundTaskItem()
             {
                 Name = $"send mail to {mailAddress}",
                 Files = filelist
-                    .Where(x => x != null && !x.IsDir)
                     .Select(x => x.FileInfo.FullName)
                     .Where(x => !string.IsNullOrWhiteSpace(x))
                     .Distinct(StringComparer.InvariantCultureIgnoreCase)
@@ -541,10 +545,7 @@ namespace JobSpace.Static
                 {
                     foreach (var file in filelist)
                     {
-                        if (!file.IsDir)
-                        {
-                            profile.MailNotifier.SendFile(mailAddress, file.FileInfo.FullName);
-                        }
+                        profile.MailNotifier.SendFile(mailAddress, file.FileInfo.FullName);
                     }
                 },
             });

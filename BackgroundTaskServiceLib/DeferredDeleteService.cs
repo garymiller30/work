@@ -187,6 +187,7 @@ namespace BackgroundTaskServiceLib
 
             if (task.CancelationToken.WaitHandle.WaitOne(RetryDelay))
             {
+                RemovePendingRequest(request);
                 task.SetStatus(BackgroundTaskStatus.Canceled, "Скасування...");
                 return false;
             }
