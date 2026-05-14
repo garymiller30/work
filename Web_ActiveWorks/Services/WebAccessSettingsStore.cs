@@ -135,6 +135,12 @@ public sealed class WebAccessSettingsStore
                     ProfileKey = "default-profile",
                     VisibleStatusCodes = [1, 2]
                 }
+            ],
+            PaymentRequisites =
+            [
+                new PaymentRequisiteDefinition { BankName = "Приват" },
+                new PaymentRequisiteDefinition { BankName = "Моно" },
+                new PaymentRequisiteDefinition { BankName = "А-Банк" }
             ]
         };
     }
