@@ -13,6 +13,7 @@ using JobSpace.Static;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.UserForms;
 using JobSpace.UserForms.PDF;
+using Microsoft.Win32;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,11 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -36,12 +39,17 @@ namespace JobSpace.UC
         private const string LOADING = "завантаження...";
         private const string PdfToolUsageMenuItemName = "pdfToolUsageStatsToolStripMenuItem";
         private const string ObjectListViewDragSourceFormat = "JobSpace.UC.UCFileBrowser.ObjectListViewDragSource";
+        private const string InstallFontsMenuItemName = "installFontsToolStripMenuItem";
+        private const int HWND_BROADCAST = 0xffff;
+        private const int WM_FONTCHANGE = 0x001D;
+        private const int SMTO_ABORTIFHUNG = 0x0002;
         private static readonly object PdfToolUsageSync = new object();
         Dictionary<string, ToolStripMenuItem> menuCache = new Dictionary<string, ToolStripMenuItem>(StringComparer.InvariantCultureIgnoreCase);
         private IUserProfile UserProfile { get; set; }
 
         private IFileManager _fileManager;
         private bool _selectFirstPreviewableFileAfterRefresh;
+        private ToolStripMenuItem _installFontsToolStripMenuItem;
 
         private string[] _customButtonPath;
 
@@ -65,11 +73,25 @@ namespace JobSpace.UC
 
             InitializeComponent();
 
+            InitInstallFontsContextMenuItem();
             InitFileManager();
             InitListView();
 
             ApplySettings();
         }
+
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern int AddFontResourceEx(string name, uint fl, IntPtr res);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr SendMessageTimeout(
+            IntPtr hWnd,
+            int msg,
+            IntPtr wParam,
+            IntPtr lParam,
+            int flags,
+            int timeout,
+            out IntPtr result);
 
         #region [PDFTool menu]
 
@@ -1003,6 +1025,7 @@ namespace JobSpace.UC
         private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             предварительныйПросмотрToolStripMenuItem.Visible = UserProfile.Settings.GetFileBrowser().UseViewer;
+            UpdateInstallFontsMenuItem();
 
             отправитьВToolStripMenuItem.DropDownItems.Clear();
             отправитьВToolStripMenuItem.DropDownItems.AddRange(UserProfile.MenuManagers.SendTo.Get(SendMenuItem_ClickAsync).ToArray());
@@ -1018,6 +1041,165 @@ namespace JobSpace.UC
 
             SetToMoveFolders();
         }
+
+        private void InitInstallFontsContextMenuItem()
+        {
+            if (contextMenuStrip1.Items.ContainsKey(InstallFontsMenuItemName))
+            {
+                _installFontsToolStripMenuItem = contextMenuStrip1.Items[InstallFontsMenuItemName] as ToolStripMenuItem;
+                return;
+            }
+
+            _installFontsToolStripMenuItem = new ToolStripMenuItem
+            {
+                Name = InstallFontsMenuItemName,
+                Text = "встановити шрифт(и)",
+                Visible = false
+            };
+            _installFontsToolStripMenuItem.Click += InstallFontsToolStripMenuItem_Click;
+
+            int insertIndex = contextMenuStrip1.Items.IndexOf(открытьВПрограммеПоУмолчаниюToolStripMenuItem);
+            if (insertIndex < 0)
+                insertIndex = contextMenuStrip1.Items.Count;
+
+            contextMenuStrip1.Items.Insert(insertIndex, _installFontsToolStripMenuItem);
+        }
+
+        private void UpdateInstallFontsMenuItem()
+        {
+            if (_installFontsToolStripMenuItem == null)
+                return;
+
+            var selectedFonts = GetSelectedFontFiles().ToList();
+
+            _installFontsToolStripMenuItem.Visible = selectedFonts.Count > 0
+                && selectedFonts.Count == objectListView1.SelectedObjects.Count;
+            _installFontsToolStripMenuItem.Enabled = selectedFonts.Count > 0;
+        }
+
+        private void InstallFontsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var fontFiles = GetSelectedFontFiles().ToList();
+            if (fontFiles.Count == 0)
+                return;
+
+            var errors = new List<string>();
+            int installed = 0;
+
+            foreach (var fontFile in fontFiles)
+            {
+                try
+                {
+                    InstallFontForCurrentUser(fontFile.FileInfo.FullName);
+                    installed++;
+                }
+                catch (Exception ex)
+                {
+                    errors.Add($"{fontFile.FileInfo.Name}: {ex.Message}");
+                    Logger.Log.Error(null, "UCFileBrowser.InstallFontsToolStripMenuItem_Click", $"{fontFile.FileInfo.FullName}: {ex.Message}");
+                }
+            }
+
+            NotifyFontChange();
+
+            if (errors.Count == 0)
+            {
+                MessageBox.Show(
+                    this,
+                    $"Встановлено шрифтів: {installed}.",
+                    "Встановлення шрифтів",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show(
+                    this,
+                    $"Встановлено шрифтів: {installed}.\nНе вдалося встановити:\n{string.Join("\n", errors)}",
+                    "Встановлення шрифтів",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+        }
+
+        private IEnumerable<IFileSystemInfoExt> GetSelectedFontFiles()
+        {
+            return objectListView1.SelectedObjects
+                .Cast<IFileSystemInfoExt>()
+                .Where(IsFontFile);
+        }
+
+        private static bool IsFontFile(IFileSystemInfoExt file)
+        {
+            if (file == null || file.IsDir || file.FileInfo == null)
+                return false;
+
+            switch (file.FileInfo.Extension.ToLowerInvariant())
+            {
+                case ".ttf":
+                case ".otf":
+                case ".ttc":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private static void InstallFontForCurrentUser(string sourceFontPath)
+        {
+            string fontsDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "Microsoft",
+                "Windows",
+                "Fonts");
+
+            Directory.CreateDirectory(fontsDir);
+
+            string targetPath = Path.Combine(fontsDir, Path.GetFileName(sourceFontPath));
+
+            if (!string.Equals(Path.GetFullPath(sourceFontPath), Path.GetFullPath(targetPath), StringComparison.OrdinalIgnoreCase))
+                File.Copy(sourceFontPath, targetPath, true);
+
+            using (RegistryKey fontsKey = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\Fonts"))
+            {
+                foreach (string fontName in GetFontRegistryNames(targetPath))
+                {
+                    fontsKey.SetValue(fontName, targetPath);
+                }
+            }
+
+            AddFontResourceEx(targetPath, 0, IntPtr.Zero);
+        }
+
+        private static IEnumerable<string> GetFontRegistryNames(string fontPath)
+        {
+            string fontType = Path.GetExtension(fontPath).Equals(".otf", StringComparison.OrdinalIgnoreCase)
+                ? "OpenType"
+                : "TrueType";
+
+            using (PrivateFontCollection fontCollection = new PrivateFontCollection())
+            {
+                fontCollection.AddFontFile(fontPath);
+
+                foreach (FontFamily family in fontCollection.Families)
+                {
+                    yield return $"{family.Name} ({fontType})";
+                }
+            }
+        }
+
+        private static void NotifyFontChange()
+        {
+            SendMessageTimeout(
+                new IntPtr(HWND_BROADCAST),
+                WM_FONTCHANGE,
+                IntPtr.Zero,
+                IntPtr.Zero,
+                SMTO_ABORTIFHUNG,
+                1000,
+                out _);
+        }
+
         private void SetToMoveFolders()
         {
             переміститиДоToolStripMenuItem.Visible = false;
