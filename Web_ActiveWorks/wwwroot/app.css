@@ -369,15 +369,139 @@ code,
         text-align: right;
     }
 }
-/* Óñ³ ÍÅ îïèñ */
+/* Fixed-width columns */
 .jobs-table th:not(.col-description),
 .jobs-table td:not(.col-description) {
     white-space: nowrap;
     width: 1%;
 }
 
-/* Îïèñ */
+/* Description column */
 .col-description {
     width: auto;
     white-space: normal;
+}
+.secondary-action,
+.danger-action {
+    border: 1px solid rgba(24, 50, 77, 0.14);
+    border-radius: 999px;
+    padding: 0.7rem 1rem;
+    background: #fff;
+    color: #18324d;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.secondary-action:hover {
+    background: #eef5f8;
+}
+
+.danger-action {
+    color: #9d312b;
+    border-color: rgba(157, 49, 43, 0.2);
+}
+
+.danger-action:hover {
+    background: #fff1f0;
+}
+
+.admin-section {
+    margin-bottom: 1.5rem;
+}
+
+.admin-section-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: start;
+    margin-bottom: 1rem;
+}
+
+.form-grid {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.requisites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.requisite-card {
+    border-radius: 1.4rem;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 20px 40px rgba(20, 47, 71, 0.08);
+    border: 1px solid rgba(24, 50, 77, 0.08);
+    overflow: hidden;
+}
+
+.requisite-card-header {
+    padding: 1.2rem 1.2rem 1rem;
+    background: #f4f8fb;
+    border-bottom: 1px solid rgba(24, 50, 77, 0.08);
+}
+
+.requisite-list {
+    margin: 0;
+    padding: 0.3rem 1.2rem 1.2rem;
+}
+
+.requisite-list div {
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(24, 50, 77, 0.08);
+}
+
+.requisite-list div:last-child {
+    border-bottom: 0;
+}
+
+.requisite-list dt {
+    color: #607488;
+    font-size: 0.84rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.requisite-list dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+    color: #18324d;
+    font-weight: 600;
+}
+
+@media (max-width: 640.98px) {
+    .admin-section-header {
+        flex-direction: column;
+    }
+}
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.requisite-card-header.edit-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.requisite-edit-form {
+    display: grid;
+    gap: 0.85rem;
+    padding: 1.2rem;
+}
+
+@media (max-width: 640.98px) {
+    .header-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
 }

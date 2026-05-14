@@ -9,7 +9,7 @@
 <div class="page-header">
     <div>
         <h1>Адміністрування доступів</h1>
-        <p class="page-subtitle">Тут задаються користувачі, які бачать сторінку робіт, і статуси, доступні кожному окремо.</p>
+        <p class="page-subtitle">Тут задаються користувачі, які бачать сторінку робіт, статуси для них і реквізити для оплати.</p>
     </div>
     <button class="primary-action" @onclick="SaveAsync" disabled="@_isSaving">Зберегти</button>
 </div>
@@ -33,6 +33,72 @@
 }
 else
 {
+    <section class="admin-section">
+        <div class="admin-section-header">
+            <div>
+                <h2>Реквізити для оплати</h2>
+                <p class="page-subtitle">Ці дані бачать усі користувачі на сторінці реквізитів.</p>
+            </div>
+            <button class="secondary-action" type="button" @onclick="AddPaymentRequisite">Додати банк</button>
+        </div>
+
+        @if (_paymentRequisites.Count == 0)
+        {
+            <div class="empty-state compact">
+                <h2>Реквізити не додані</h2>
+                <p>Додайте хоча б один банк, щоб показати його користувачам.</p>
+            </div>
+        }
+        else
+        {
+            <div class="admin-grid">
+                @foreach (var requisite in _paymentRequisites)
+                {
+                    <section class="admin-card">
+                        <div class="admin-card-header">
+                            <div>
+                                <h2>@(string.IsNullOrWhiteSpace(requisite.BankName) ? "Новий банк" : requisite.BankName)</h2>
+                                <div class="admin-meta">Реквізити для сторінки оплати</div>
+                            </div>
+                            <button class="danger-action" type="button" @onclick="() => RemovePaymentRequisite(requisite)">Видалити</button>
+                        </div>
+
+                        <div class="form-grid">
+                            <label class="field-label">
+                                Назва банку
+                                <input class="text-field" @bind="requisite.BankName" />
+                            </label>
+                            <label class="field-label">
+                                Отримувач
+                                <input class="text-field" @bind="requisite.Recipient" />
+                            </label>
+                            <label class="field-label">
+                                IBAN
+                                <input class="text-field mono" @bind="requisite.Iban" />
+                            </label>
+                            <label class="field-label">
+                                РНОКПП/ЄДРПОУ
+                                <input class="text-field mono" @bind="requisite.TaxId" />
+                            </label>
+                            <label class="field-label">
+                                Номер картки
+                                <input class="text-field mono" @bind="requisite.CardNumber" />
+                            </label>
+                        </div>
+                    </section>
+                }
+            </div>
+        }
+    </section>
+
+    <section class="admin-section">
+        <div class="admin-section-header">
+            <div>
+                <h2>Користувачі та статуси</h2>
+                <p class="page-subtitle">Доступи до сторінки робіт і видимі статуси для кожного користувача.</p>
+            </div>
+        </div>
+
     <div class="admin-grid">
         @foreach (var user in _users)
         {
@@ -81,6 +147,7 @@ else
             </section>
         }
     </div>
+    </section>
 }
 
 @code {
@@ -90,6 +157,7 @@ else
     private string? _error;
     private WebAccessSettings _settings = new();
     private List<AdminUserEditorModel> _users = new();
+    private List<AdminPaymentRequisiteEditorModel> _paymentRequisites = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -106,6 +174,16 @@ else
         {
             _settings = await SettingsStore.GetAsync();
             _users = new List<AdminUserEditorModel>();
+            _paymentRequisites = _settings.PaymentRequisites
+                .Select(x => new AdminPaymentRequisiteEditorModel
+                {
+                    BankName = x.BankName,
+                    Recipient = x.Recipient,
+                    Iban = x.Iban,
+                    TaxId = x.TaxId,
+                    CardNumber = x.CardNumber
+                })
+                .ToList();
 
             foreach (var user in _settings.Users.OrderBy(x => x.Username))
             {
@@ -168,6 +246,16 @@ else
         }
     }
 
+    private void AddPaymentRequisite()
+    {
+        _paymentRequisites.Add(new AdminPaymentRequisiteEditorModel());
+    }
+
+    private void RemovePaymentRequisite(AdminPaymentRequisiteEditorModel requisite)
+    {
+        _paymentRequisites.Remove(requisite);
+    }
+
     private async Task SaveAsync()
     {
         _isSaving = true;
@@ -187,6 +275,23 @@ else
                     .OrderBy(x => x)
                     .ToList();
             }
+
+            _settings.PaymentRequisites = _paymentRequisites
+                .Where(x =>
+                    !string.IsNullOrWhiteSpace(x.BankName) ||
+                    !string.IsNullOrWhiteSpace(x.Recipient) ||
+                    !string.IsNullOrWhiteSpace(x.Iban) ||
+                    !string.IsNullOrWhiteSpace(x.TaxId) ||
+                    !string.IsNullOrWhiteSpace(x.CardNumber))
+                .Select(x => new PaymentRequisiteDefinition
+                {
+                    BankName = x.BankName.Trim(),
+                    Recipient = x.Recipient.Trim(),
+                    Iban = x.Iban.Trim(),
+                    TaxId = x.TaxId.Trim(),
+                    CardNumber = x.CardNumber.Trim()
+                })
+                .ToList();
 
             await SettingsStore.SaveAsync(_settings);
             _message = "Налаштування збережено.";
