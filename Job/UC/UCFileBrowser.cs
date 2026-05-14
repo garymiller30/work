@@ -618,6 +618,9 @@ namespace JobSpace.UC
                 case ".jpeg":
                 case ".psd":
                 case ".eps":
+                case ".ttf":
+                case ".otf":
+                case ".ttc":
                     return true;
                 default:
                     return false;
