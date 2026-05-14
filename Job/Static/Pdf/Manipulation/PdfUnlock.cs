@@ -1,4 +1,5 @@
 using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using iText.Kernel.Exceptions;
 using iText.Kernel.Pdf;
@@ -11,6 +12,7 @@ using System.Windows.Forms;
 namespace JobSpace.Static.Pdf.Manipulation
 {
     [PdfTool("Маніпуляції з файлом", "Розблокувати PDF", Icon = "pdf_unlock", Description = "Створити копію PDF без обмежень на друк або редагування", Order = 5, IsBackgroundTask = true)]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfUnlock : IPdfTool
     {
         public bool Configure(PdfJobContext context)
