@@ -746,6 +746,13 @@ namespace JobSpace.UC
 
         public void SelectJob(IJob job)
         {
+            if (objectListView_NewWorks.SelectedObject is IJob selJob)
+            {
+                if (selJob.Id.Equals(job.Id))
+                {
+                    return;
+                }
+            }
             objectListView_NewWorks.DeselectAll();
             objectListView_NewWorks.SelectObject(job);
             _profile.Jobs.SetCurrentJob(job);
