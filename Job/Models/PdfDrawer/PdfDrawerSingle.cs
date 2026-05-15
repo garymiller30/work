@@ -16,7 +16,7 @@ namespace JobSpace.Models.PdfDrawer
         {
             if (pdfDrawerPageCache == null || parameters == null) return new Tuple<Image, double, double>(null, 100, 100);
 
-            Tuple<Image, double, double> res = await pdfDrawerPageCache.GetPreviewAsync(pageNo);
+            Tuple<Image, double, double> res = await pdfDrawerPageCache.GetPreviewAsync(parameters, pageNo);
 
             if (res == null) return null;
 
