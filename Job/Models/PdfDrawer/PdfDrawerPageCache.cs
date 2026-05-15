@@ -69,24 +69,24 @@ namespace JobSpace.Models.PdfDrawer
             string ext = _file.FileInfo.Extension.ToLower();
             if (boxes_pages[pageIdx] == null)
             {
-                // якщо це pdf файл, то отримуємо кількість сторінок
-                if (ext == ".pdf" || ext == ".ai")
+                boxes_pages[pageIdx] = await Task.Run(() =>
                 {
-                    PdfPageInfo pageInfo = PdfHelper.GetPageInfo(_file.FileInfo.FullName, pageIdx);
-                    boxes_pages[pageIdx] = pageInfo;
-                }
-                else
-                {
+                    // якщо це pdf файл, то отримуємо кількість сторінок
+                    if (ext == ".pdf" || ext == ".ai")
+                    {
+                        return PdfHelper.GetPageInfo(_file.FileInfo.FullName, pageIdx);
+                    }
+
                     // для інших типів файлів можна отримати розміри, але не обертати
                     //Отримати розміри зображення без завантаження повного зображення
                     Size size = FileBrowserSevices.GetImageSize(_file.FileInfo.FullName);
 
-                    boxes_pages[pageIdx] = new PdfPageInfo
+                    return new PdfPageInfo
                     {
                         Trimbox = new Box { width = size.Width * PdfHelper.mn, height = size.Height * PdfHelper.mn },
                         Rotate = 0
                     };
-                }
+                });
             }
 
             int requiredDpi = GetRequiredPreviewDpi(ext, boxes_pages[pageIdx], parameters);
