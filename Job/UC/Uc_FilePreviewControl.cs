@@ -90,6 +90,7 @@ namespace JobSpace.UC
             int requestId = _previewRequestId;
             var pageCache = pdfDrawerPageCache;
             int page = _currentPage;
+            previewParameters.PreviewTargetLongSidePixels = uc_PreviewControl1.GetPreviewTargetLongSidePixels();
 
             uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
             try

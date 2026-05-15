@@ -23,8 +23,8 @@ namespace JobSpace.Models.PdfDrawer
                 rightPageNo = pageNo;
             }
 
-            var leftTask = pdfDrawerPageCache.GetPreviewAsync(leftPageNo);
-            var rightTask = pdfDrawerPageCache.GetPreviewAsync(rightPageNo);
+            var leftTask = pdfDrawerPageCache.GetPreviewAsync(parameters, leftPageNo);
+            var rightTask = pdfDrawerPageCache.GetPreviewAsync(parameters, rightPageNo);
 
             await Task.WhenAll(leftTask, rightTask);
 

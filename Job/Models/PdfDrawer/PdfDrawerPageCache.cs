@@ -18,6 +18,7 @@ namespace JobSpace.Models.PdfDrawer
         IFileSystemInfoExt _file;
         PdfPageInfo[] boxes_pages;
         Image[] images;
+        int[] imageDpis;
         public void Dispose()
         {
             if (images != null)
@@ -50,9 +51,10 @@ namespace JobSpace.Models.PdfDrawer
             boxes_pages = new PdfPageInfo[TotalPages];
             // підготувати кеш зображень
             images = new Image[TotalPages];
+            imageDpis = new int[TotalPages];
         }
 
-        public async Task<Tuple<Image, double, double>> GetPreviewAsync(int pageNo)
+        public async Task<Tuple<Image, double, double>> GetPreviewAsync(PdfPreviewParameters parameters, int pageNo)
         {
 
             double wMM = 100;
@@ -64,14 +66,9 @@ namespace JobSpace.Models.PdfDrawer
             if (pageIdx < 0 || pageIdx >= TotalPages || boxes_pages == null || images == null)
                 return null;
 
-            // перевірити чи є кешоване зображення
-            if (images[pageIdx] != null)
+            string ext = _file.FileInfo.Extension.ToLower();
+            if (boxes_pages[pageIdx] == null)
             {
-                preview = images[pageIdx];
-            }
-            else
-            {
-                string ext = _file.FileInfo.Extension.ToLower();
                 // якщо це pdf файл, то отримуємо кількість сторінок
                 if (ext == ".pdf" || ext == ".ai")
                 {
@@ -90,9 +87,19 @@ namespace JobSpace.Models.PdfDrawer
                         Rotate = 0
                     };
                 }
+            }
 
+            int requiredDpi = GetRequiredPreviewDpi(ext, boxes_pages[pageIdx], parameters);
+
+            // перевірити чи є кешоване зображення достатньої якості
+            if (images[pageIdx] != null && imageDpis[pageIdx] >= requiredDpi)
+            {
+                preview = images[pageIdx];
+            }
+            else
+            {
                 // Асинхронно завантажуємо фінальне зображення
-                preview = await Task.Run(() => FileBrowserSevices.File_GetPreview(_file, pageIdx));
+                preview = await Task.Run(() => FileBrowserSevices.File_GetPreview(_file, pageIdx, requiredDpi));
             }
 
             if (preview != null)
@@ -105,6 +112,7 @@ namespace JobSpace.Models.PdfDrawer
                 // кешувати зображення
                 images[pageIdx]?.Dispose();
                 images[pageIdx] = preview;
+                imageDpis[pageIdx] = requiredDpi;
 
                 if (boxes_pages[pageIdx]?.Trimbox != null)
                 {
@@ -117,6 +125,31 @@ namespace JobSpace.Models.PdfDrawer
             }
 
             return null;
+        }
+
+        private static int GetRequiredPreviewDpi(string ext, PdfPageInfo pageInfo, PdfPreviewParameters parameters)
+        {
+            const int defaultDpi = 150;
+            const double smallPdfLongSideMm = 60.0;
+            const int minTargetLongSidePixels = 512;
+            const int maxTargetLongSidePixels = 2400;
+
+            if (ext != ".pdf" && ext != ".ai")
+                return defaultDpi;
+
+            if (pageInfo?.Trimbox == null)
+                return defaultDpi;
+
+            double angle = pageInfo.Rotate;
+            double longSideMm = Math.Max(pageInfo.Trimbox.wMM(angle), pageInfo.Trimbox.hMM(angle));
+            if (longSideMm <= 0 || longSideMm > smallPdfLongSideMm)
+                return defaultDpi;
+
+            int targetLongSidePixels = parameters?.PreviewTargetLongSidePixels ?? 0;
+            targetLongSidePixels = Math.Max(minTargetLongSidePixels, Math.Min(maxTargetLongSidePixels, targetLongSidePixels));
+
+            int dpi = (int)Math.Ceiling(targetLongSidePixels * 25.4 / longSideMm);
+            return Math.Max(defaultDpi, dpi);
         }
 
         public PdfPageInfo GetPageInfo(int pageNo)

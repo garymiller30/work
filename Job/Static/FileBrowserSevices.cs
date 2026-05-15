@@ -551,13 +551,16 @@ namespace JobSpace.Static
             });
         }
 
-        public static Image File_GetPreview(IFileSystemInfoExt f, int pageIdx = 0)
+        public static Image File_GetPreview(IFileSystemInfoExt f, int pageIdx = 0, int dpi = 150)
         {
+            if (dpi <= 0)
+                dpi = 150;
+
             string ext = f.FileInfo.Extension.ToLowerInvariant();
             if (ext == ".pdf" || ext == ".ai")
             {
                 FileInfo sourceFile = new FileInfo(f.FileInfo.FullName);
-                Image cachedPreview = TryGetCachedPreview(sourceFile, pageIdx);
+                Image cachedPreview = TryGetCachedPreview(sourceFile, pageIdx, dpi);
                 if (cachedPreview != null)
                     return cachedPreview;
 
@@ -567,9 +570,9 @@ namespace JobSpace.Static
                 {
                     try
                     {
-                        using (Bitmap preview = PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx))
+                        using (Bitmap preview = PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx, dpi))
                         {
-                            Image savedPreview = TrySaveCachedPreview(sourceFile, pageIdx, preview);
+                            Image savedPreview = TrySaveCachedPreview(sourceFile, pageIdx, dpi, preview);
                             if (savedPreview != null)
                                 return savedPreview;
 
@@ -602,7 +605,7 @@ namespace JobSpace.Static
             return null;
         }
 
-        private static Image TryGetCachedPreview(FileInfo sourceFile, int pageIdx)
+        private static Image TryGetCachedPreview(FileInfo sourceFile, int pageIdx, int dpi)
         {
             try
             {
@@ -614,7 +617,8 @@ namespace JobSpace.Static
                     PreviewCacheIndex index = LoadPreviewCacheIndex(sourceFile.DirectoryName);
                     PreviewCacheEntry entry = index?.Files?.FirstOrDefault(x =>
                         string.Equals(x.FileName, sourceFile.Name, StringComparison.InvariantCultureIgnoreCase) &&
-                        x.PageIndex == pageIdx);
+                        x.PageIndex == pageIdx &&
+                        x.Dpi == dpi);
 
                     if (entry == null ||
                         entry.CacheVersion != PreviewCacheVersion ||
@@ -639,7 +643,7 @@ namespace JobSpace.Static
             }
         }
 
-        private static Image TrySaveCachedPreview(FileInfo sourceFile, int pageIdx, Bitmap preview)
+        private static Image TrySaveCachedPreview(FileInfo sourceFile, int pageIdx, int dpi, Bitmap preview)
         {
             string tempPreviewPath = null;
 
@@ -657,9 +661,10 @@ namespace JobSpace.Static
 
                     PreviewCacheEntry entry = index.Files.FirstOrDefault(x =>
                         string.Equals(x.FileName, sourceFile.Name, StringComparison.InvariantCultureIgnoreCase) &&
-                        x.PageIndex == pageIdx);
+                        x.PageIndex == pageIdx &&
+                        x.Dpi == dpi);
 
-                    string previewFileName = BuildPreviewFileName(sourceFile, pageIdx);
+                    string previewFileName = BuildPreviewFileName(sourceFile, pageIdx, dpi);
                     string previewPath = Path.Combine(previewDir, previewFileName);
                     tempPreviewPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.tmp");
 
@@ -679,6 +684,7 @@ namespace JobSpace.Static
                     entry.FullName = sourceFile.FullName;
                     entry.CacheVersion = PreviewCacheVersion;
                     entry.PageIndex = pageIdx;
+                    entry.Dpi = dpi;
                     entry.Length = sourceFile.Length;
                     entry.LastWriteTimeUtcTicks = sourceFile.LastWriteTimeUtc.Ticks;
                     entry.PreviewFileName = previewFileName;
@@ -780,13 +786,13 @@ namespace JobSpace.Static
             }
         }
 
-        private static string BuildPreviewFileName(FileInfo sourceFile, int pageIdx)
+        private static string BuildPreviewFileName(FileInfo sourceFile, int pageIdx, int dpi)
         {
             string safeName = SanitizePreviewFileName(Path.GetFileNameWithoutExtension(sourceFile.Name));
             if (safeName.Length > 80)
                 safeName = safeName.Substring(0, 80);
 
-            return $"{safeName}_p{pageIdx + 1}_v{PreviewCacheVersion}_{GetStablePathHash(sourceFile.FullName)}.png";
+            return $"{safeName}_p{pageIdx + 1}_dpi{dpi}_v{PreviewCacheVersion}_{GetStablePathHash(sourceFile.FullName)}.png";
         }
 
         private static string SanitizePreviewFileName(string value)
@@ -825,6 +831,7 @@ namespace JobSpace.Static
             public string FullName { get; set; }
             public int CacheVersion { get; set; }
             public int PageIndex { get; set; }
+            public int Dpi { get; set; }
             public long Length { get; set; }
             public long LastWriteTimeUtcTicks { get; set; }
             public string PreviewFileName { get; set; }

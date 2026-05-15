@@ -74,6 +74,14 @@ namespace JobSpace.UC
             UpdatePreviewLayout();
         }
 
+        public int GetPreviewTargetLongSidePixels()
+        {
+            int width = panel1.ClientSize.Width;
+            int height = panel1.ClientSize.Height;
+
+            return Math.Max(width, height);
+        }
+
         public Uc_PreviewControl()
         {
             InitializeComponent();
