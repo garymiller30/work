@@ -95,9 +95,11 @@ namespace JobSpace.UC
 
         private void pb_preview_Paint(object sender, PaintEventArgs e)
         {
+            Graphics g = e.Graphics;
+            g.Clear(pb_preview.BackColor);
+
             if (image == null) return;
 
-            Graphics g = e.Graphics;
             g.PageUnit = GraphicsUnit.Millimeter;
             g.ScaleTransform(_previewParameters.ZoomFactor, _previewParameters.ZoomFactor);
             
@@ -138,10 +140,16 @@ namespace JobSpace.UC
         public void StartWait(string animationFile)
         {
             Image = null;
+            ClearWaitImage();
 
             pb_preview.SizeMode = PictureBoxSizeMode.CenterImage;
+            pb_preview.Location = new Point(0, 0);
+            pb_preview.Size = panel1.ClientSize;
             // Спершу показуємо анімований GIF
-            pb_preview.ImageLocation = animationFile;
+            if (File.Exists(animationFile))
+            {
+                pb_preview.Image = Image.FromFile(animationFile);
+            }
         }
 
         public void StopWait()
@@ -154,7 +162,10 @@ namespace JobSpace.UC
         {
             pb_preview.CancelAsync();
             pb_preview.ImageLocation = null;
+            var waitImage = pb_preview.Image;
             pb_preview.Image = null;
+            waitImage?.Dispose();
+            pb_preview.Invalidate();
         }
 
         public void Redraw()
