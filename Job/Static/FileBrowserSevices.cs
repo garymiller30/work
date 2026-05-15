@@ -551,7 +551,7 @@ namespace JobSpace.Static
             });
         }
 
-        public static Image File_GetPreview(IFileSystemInfoExt f, int pageIdx = 0, int dpi = 150)
+        public static Image File_GetPreview(IFileSystemInfoExt f, int pageIdx = 0, int dpi = 150, bool cacheOnly = false)
         {
             if (dpi <= 0)
                 dpi = 150;
@@ -563,6 +563,9 @@ namespace JobSpace.Static
                 Image cachedPreview = TryGetCachedPreview(sourceFile, pageIdx, dpi);
                 if (cachedPreview != null)
                     return cachedPreview;
+
+                if (cacheOnly)
+                    return null;
 
                 Exception lastException = null;
 

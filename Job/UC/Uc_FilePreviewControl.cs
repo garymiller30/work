@@ -36,9 +36,11 @@ namespace JobSpace.UC
             uc_PreviewControl1.SetPreviewParameters(previewParameters);
         }
 
-        public void Show(IFileSystemInfoExt filePath)
+        public async void Show(IFileSystemInfoExt filePath)
         {
             _previewRequestId++;
+            int requestId = _previewRequestId;
+
             pdfDrawerPageCache?.Dispose();
             pdfDrawerPageCache = null;
 
@@ -48,14 +50,79 @@ namespace JobSpace.UC
                 return;
             }
 
-            pdfDrawerPageCache = new PdfDrawerPageCache(filePath);
-
             _currentPage = 1;
             tst_cur_page.Text = _currentPage.ToString();
-            tsl_count_pages.Text = $"/{pdfDrawerPageCache.TotalPages}";
-            SetPdfNavigationEnabled(true);
+            tsl_count_pages.Text = "/...";
+            SetPdfNavigationEnabled(false);
+            uc_PreviewControl1.StartWait(Path.Combine(AppContext.BaseDirectory, "db\\resources\\wait.gif"));
+            TryShowCachedPreview(filePath, requestId);
 
-            GetPreview();
+            try
+            {
+                var pageCache = await Task.Run(() => new PdfDrawerPageCache(filePath));
+
+                if (requestId != _previewRequestId)
+                {
+                    pageCache.Dispose();
+                    return;
+                }
+
+                pdfDrawerPageCache = pageCache;
+                tsl_count_pages.Text = $"/{pdfDrawerPageCache.TotalPages}";
+                SetPdfNavigationEnabled(true);
+
+                GetPreview();
+            }
+            catch (Exception e)
+            {
+                if (requestId != _previewRequestId)
+                    return;
+
+                Logger.Log.Error(null, "Uc_FilePreviewControl.Show", e.Message);
+                uc_PreviewControl1.SetImage(null, 0, 0);
+                uc_PreviewControl1.StopWait();
+            }
+        }
+
+        private async void TryShowCachedPreview(IFileSystemInfoExt filePath, int requestId)
+        {
+            if (filePath?.FileInfo == null)
+                return;
+
+            string ext = filePath.FileInfo.Extension.ToLowerInvariant();
+            if (ext != ".pdf" && ext != ".ai")
+                return;
+
+            try
+            {
+                Image cachedPreview = await Task.Run(() => FileBrowserSevices.File_GetPreview(filePath, 0, 150, true));
+
+                if (requestId != _previewRequestId)
+                {
+                    cachedPreview?.Dispose();
+                    return;
+                }
+
+                if (cachedPreview == null)
+                    return;
+
+                try
+                {
+                    const float screenDpi = 96f;
+                    double w = cachedPreview.Width * 25.4 / screenDpi;
+                    double h = cachedPreview.Height * 25.4 / screenDpi;
+                    uc_PreviewControl1.SetImage(cachedPreview, w, h);
+                    uc_PreviewControl1.StopWait();
+                }
+                finally
+                {
+                    cachedPreview.Dispose();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Log.Error(null, "Uc_FilePreviewControl.TryShowCachedPreview", e.Message);
+            }
         }
 
         private void ShowFontPreview(IFileSystemInfoExt filePath)

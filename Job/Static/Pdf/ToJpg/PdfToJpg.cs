@@ -2,7 +2,6 @@
 using Interfaces.FileBrowser;
 using Interfaces.Plugins;
 using JobSpace.Dlg;
-using JobSpace.Static.Pdf.Imposition.Models;
 using SkiaSharp;
 using System;
 using System.Drawing.Imaging;
@@ -11,7 +10,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.ToJpg
 {
-    [PdfTool("","Конвертувати PDF в JPG",Icon = "convert_to_jpg")]
+    [PdfTool("", "Конвертувати PDF в JPG", Icon = "convert_to_jpg")]
     public sealed class PdfToJpg : IPdfTool
     {
         PdfToJpgParams _params;
@@ -33,7 +32,7 @@ namespace JobSpace.Static.Pdf.ToJpg
                 ToJpg(file.FullName);
         }
 
-      
+
 
         public void ToJpg(string filePath)
         {
@@ -42,53 +41,29 @@ namespace JobSpace.Static.Pdf.ToJpg
                 string directory = Path.GetDirectoryName(filePath);
                 string baseName = Path.GetFileNameWithoutExtension(filePath);
 
-                using (var rasterizer = new GhostscriptRasterizer())
-                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                using var rasterizer = new GhostscriptRasterizer();
+                using var fs = File.OpenRead(filePath);
+
+                rasterizer.Open(fs);
+
+                for (int page = 1; page <= rasterizer.PageCount; page++)
                 {
-                    rasterizer.Open(fs);
+                    var outFile = Path.Combine(directory,
+                      $"{baseName}_page_{page:D3}.jpg");
 
-                    int pageCount = rasterizer.PageCount;
+                    using var bitmap = rasterizer.GetPage(_params.Dpi, page);
+                    using var image = SKImage.FromBitmap(bitmap);
+                    using var data = image.Encode(SKEncodedImageFormat.Jpeg,
+                                                   (int)_params.Quality);
 
-                    for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++)
-                    {
-                        string outputPath = Path.Combine(
-                            directory,
-                            $"{baseName}_page_{pageNumber:D3}.jpg");
-
-                        using (SKBitmap bitmap = rasterizer.GetPage(_params.Dpi, pageNumber))
-                        {
-                            using (SKImage image = SKImage.FromBitmap(bitmap))
-                            using (SKData data = image.Encode(SKEncodedImageFormat.Jpeg, (int)_params.Quality))
-                            using (FileStream outStream = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
-                            {
-                                data.SaveTo(outStream);
-                            }
-                        }
-                    }
+                    File.WriteAllBytes(outFile, data.ToArray());
                 }
+
             }
             catch (Exception e)
             {
-                string output = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath) + ".log");
-                File.WriteAllText(output, e.Message);
+                Logger.Log.Error(null, "PdfToJpg", $"Помилка конвертації PDF в JPG: {e.Message}");
             }
         }
-
-        private static ImageCodecInfo GetEncoderInfo(ImageFormat format)
-        {
-            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
-
-            foreach (ImageCodecInfo codec in codecs)
-            {
-                if (codec.FormatID == format.Guid)
-                {
-                    return codec;
-                }
-            }
-
-            return null;
-        }
-
-       
     }
 }
