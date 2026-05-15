@@ -69,6 +69,7 @@ namespace JobSpace.UC
         /// <param name="h">The height of the image in device-independent units.</param>
         public void SetImage(Image img, double w, double h)
         {
+            ClearWaitImage();
             Image = img;
             size = new SizeF((float)w, (float)h);
             UpdatePreviewLayout();
@@ -145,8 +146,15 @@ namespace JobSpace.UC
 
         public void StopWait()
         {
-            pb_preview.ImageLocation = null;
+            ClearWaitImage();
             pb_preview.SizeMode = PictureBoxSizeMode.Normal;
+        }
+
+        private void ClearWaitImage()
+        {
+            pb_preview.CancelAsync();
+            pb_preview.ImageLocation = null;
+            pb_preview.Image = null;
         }
 
         public void Redraw()
