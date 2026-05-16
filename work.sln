@@ -84,6 +84,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardcoverOrderCalculator", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plugin_RabbitMQ", "Plugin_RabbitMQ\Plugin_RabbitMQ\Plugin_RabbitMQ.csproj", "{B8DF4254-755E-46CC-A21E-F3D6DF33169E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginFileSearch", "PluginFileSearch\PluginFileSearch.csproj", "{498437A6-5C81-475A-9923-7920CC4DA515}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -875,6 +877,30 @@ Global
 		{B8DF4254-755E-46CC-A21E-F3D6DF33169E}.SERVER|x64.Build.0 = Debug|Any CPU
 		{B8DF4254-755E-46CC-A21E-F3D6DF33169E}.SERVER|x86.ActiveCfg = Debug|Any CPU
 		{B8DF4254-755E-46CC-A21E-F3D6DF33169E}.SERVER|x86.Build.0 = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Debug|x64.Build.0 = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Debug|x86.Build.0 = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Release|x64.ActiveCfg = Release|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Release|x64.Build.0 = Release|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Release|x86.ActiveCfg = Release|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.Release|x86.Build.0 = Release|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.SERVER|Any CPU.ActiveCfg = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.SERVER|Any CPU.Build.0 = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.SERVER|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.SERVER|Mixed Platforms.Build.0 = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.SERVER|x64.ActiveCfg = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.SERVER|x64.Build.0 = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.SERVER|x86.ActiveCfg = Debug|Any CPU
+		{498437A6-5C81-475A-9923-7920CC4DA515}.SERVER|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
