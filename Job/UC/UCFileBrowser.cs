@@ -1543,6 +1543,26 @@ namespace JobSpace.UC
             _selectFirstPreviewableFileAfterRefresh = tsb_preview.Checked && Directory.Exists(directory);
             _fileManager.SetRootDirectory(directory);
         }
+
+        public void ShowFileInFolder(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+                return;
+
+            var directory = Path.GetDirectoryName(filePath);
+            if (string.IsNullOrWhiteSpace(directory) || !Directory.Exists(directory))
+                return;
+
+            objectListView1.ClearObjects();
+            objectListView1.EmptyListMsg = LOADING;
+
+            _selectFirstPreviewableFileAfterRefresh = false;
+            _fileManager.Settings.RootFolder = directory;
+            _fileManager.Settings.CurFolder = directory;
+            _ = _fileManager.RefreshAsync(Path.GetFileName(filePath));
+            UpdateStatusControl();
+        }
+
         public void LockUI(bool enabled)
         {
             objectListView1.ClearObjects();
