@@ -66,8 +66,8 @@ namespace UpdateHubPublisher
             _sourceFolderTextBox = AddPathRow(root, 0, "Source bin/Release:", BrowseSourceFolder);
             _publishFolderTextBox = AddPathRow(root, 1, "IIS publish path:", BrowsePublishFolder);
 
-            _versionTextBox = new TextBox { Dock = DockStyle.Fill };
-            AddRow(root, 2, "Version:", _versionTextBox);
+            _versionTextBox = new TextBox { Dock = DockStyle.Fill, ReadOnly = true };
+            AddRow(root, 2, "ActiveWorks version:", _versionTextBox);
 
             _updateTypeComboBox = new ComboBox { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             _updateTypeComboBox.Items.AddRange(new object[] { UpdateType.Critical, UpdateType.Recommended, UpdateType.Optional });
@@ -219,7 +219,11 @@ namespace UpdateHubPublisher
             root.SetColumnSpan(control, 2);
         }
 
-        private void BrowseSourceFolder(object sender, EventArgs e) => BrowseFolder(_sourceFolderTextBox);
+        private void BrowseSourceFolder(object sender, EventArgs e)
+        {
+            BrowseFolder(_sourceFolderTextBox);
+            RefreshActiveWorksVersion();
+        }
 
         private void BrowsePublishFolder(object sender, EventArgs e) => BrowseFolder(_publishFolderTextBox);
 
@@ -274,6 +278,25 @@ namespace UpdateHubPublisher
                 }
 
                 _pluginDependencyFilesTextBox.Text = string.Join(Environment.NewLine, existing);
+            }
+        }
+
+        private void RefreshActiveWorksVersion()
+        {
+            var sourceFolder = (_sourceFolderTextBox.Text ?? string.Empty).Trim();
+            if (!Directory.Exists(sourceFolder))
+            {
+                _versionTextBox.Clear();
+                return;
+            }
+
+            try
+            {
+                _versionTextBox.Text = ReadActiveWorksVersion(sourceFolder);
+            }
+            catch
+            {
+                _versionTextBox.Clear();
             }
         }
 
@@ -1017,7 +1040,8 @@ namespace UpdateHubPublisher
         private UpdateManifest BuildManifest()
         {
             var sourceFolder = RequireDirectory(_sourceFolderTextBox.Text, "Source bin/Release");
-            var version = RequireText(_versionTextBox.Text, "Version");
+            var version = ReadActiveWorksVersion(sourceFolder);
+            _versionTextBox.Text = version;
             var selectedType = (UpdateType)_updateTypeComboBox.SelectedItem;
             var blacklist = GetLines(_blacklistTextBox).ToList();
 
@@ -1049,6 +1073,17 @@ namespace UpdateHubPublisher
                 PublishedAtUtc = DateTime.UtcNow.ToString("O"),
                 Files = files.OrderBy(x => x.Path, StringComparer.OrdinalIgnoreCase).ToList()
             };
+        }
+
+        private static string ReadActiveWorksVersion(string sourceFolder)
+        {
+            var activeWorksFile = RequireFile(Path.Combine(sourceFolder, "ActiveWorks.exe"), "ActiveWorks.exe");
+            var versionInfo = FileVersionInfo.GetVersionInfo(activeWorksFile);
+            var version = !string.IsNullOrWhiteSpace(versionInfo.FileVersion)
+                ? versionInfo.FileVersion
+                : versionInfo.ProductVersion;
+
+            return RequireText(version, "ActiveWorks.exe version");
         }
 
         private PluginPackageManifest BuildPluginManifest()
@@ -1391,11 +1426,9 @@ namespace UpdateHubPublisher
                 {
                     _publishFolderTextBox.Text = item.Value;
                 }
-                else if (item.Key.Equals("Version", StringComparison.OrdinalIgnoreCase))
-                {
-                    _versionTextBox.Text = item.Value;
-                }
             }
+
+            RefreshActiveWorksVersion();
         }
 
         private void LoadPluginState()
@@ -1440,8 +1473,7 @@ namespace UpdateHubPublisher
             SaveKeyValues(GetStateFilePath(), new[]
             {
                 "SourceFolder=" + ((_sourceFolderTextBox.Text ?? string.Empty).Trim()),
-                "PublishFolder=" + ((_publishFolderTextBox.Text ?? string.Empty).Trim()),
-                "Version=" + ((_versionTextBox.Text ?? string.Empty).Trim())
+                "PublishFolder=" + ((_publishFolderTextBox.Text ?? string.Empty).Trim())
             });
         }
 
