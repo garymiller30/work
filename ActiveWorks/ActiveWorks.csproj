@@ -193,6 +193,9 @@
     <None Update="db\resources\pdftool_icons\numeric_files.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="db\resources\pdftool_icons\pdf_trimbox.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="db\resources\pdftool_icons\pdf_unlock.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
