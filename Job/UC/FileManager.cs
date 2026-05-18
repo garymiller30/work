@@ -190,6 +190,11 @@ namespace JobSpace.UC
 
         public void PasteFromClipboard(string[] files)
         {
+            PasteFromClipboard(files, CutFromClipboard);
+        }
+
+        public void PasteFromClipboard(string[] files, bool cutFromClipboard)
+        {
 
             foreach (var file in files)
             {
@@ -198,7 +203,7 @@ namespace JobSpace.UC
 
                 if (Directory.Exists(file))
                 {
-                    if (FileManager.CutFromClipboard) //вирізати
+                    if (cutFromClipboard) //вирізати
                     {
                         _moveFileOrDir(info, Path.Combine(Settings.CurFolder, Path.Combine(Settings.CurFolder, Path.GetFileName(file))));
                     }
@@ -218,7 +223,7 @@ namespace JobSpace.UC
                         count++;
                     }
 
-                    if (CutFromClipboard)
+                    if (cutFromClipboard)
                     {
                         _moveFileOrDir(info, target);
                     }

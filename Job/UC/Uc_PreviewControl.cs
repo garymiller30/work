@@ -21,6 +21,8 @@ namespace JobSpace.UC
     public partial class Uc_PreviewControl : UserControl
     {
         private Image image;
+        private Panel _loaderPanel;
+        private PictureBox _loaderPictureBox;
         
         private bool _dragging = false;
         private Point _dragStartPoint;
@@ -86,6 +88,7 @@ namespace JobSpace.UC
         public Uc_PreviewControl()
         {
             InitializeComponent();
+            InitializeLoaderOverlay();
         }
 
         private void panel1_SizeChanged(object sender, EventArgs e)
@@ -105,6 +108,29 @@ namespace JobSpace.UC
             
             g.DrawImage(image, 0, 0, size.Width, size.Height);
         }
+
+        private void InitializeLoaderOverlay()
+        {
+            _loaderPictureBox = new PictureBox
+            {
+                Dock = DockStyle.Fill,
+                SizeMode = PictureBoxSizeMode.CenterImage,
+                BackColor = System.Drawing.Color.White
+            };
+
+            _loaderPanel = new Panel
+            {
+                Anchor = panel1.Anchor,
+                BackColor = System.Drawing.Color.White,
+                Location = panel1.Location,
+                Size = panel1.Size,
+                Visible = false
+            };
+            _loaderPanel.Controls.Add(_loaderPictureBox);
+            Controls.Add(_loaderPanel);
+            _loaderPanel.BringToFront();
+        }
+
         private void UpdatePreviewLayout()
         {
             if (image == null) return;
@@ -142,28 +168,29 @@ namespace JobSpace.UC
             Image = null;
             ClearWaitImage();
 
-            pb_preview.SizeMode = PictureBoxSizeMode.CenterImage;
             pb_preview.Location = new Point(0, 0);
             pb_preview.Size = panel1.ClientSize;
-            // Спершу показуємо анімований GIF
+            pb_preview.Invalidate();
+
             if (File.Exists(animationFile))
             {
-                pb_preview.Image = Image.FromFile(animationFile);
+                _loaderPictureBox.Image = Image.FromFile(animationFile);
             }
+
+            _loaderPanel.Visible = true;
+            _loaderPanel.BringToFront();
         }
 
         public void StopWait()
         {
             ClearWaitImage();
-            pb_preview.SizeMode = PictureBoxSizeMode.Normal;
         }
 
         private void ClearWaitImage()
         {
-            pb_preview.CancelAsync();
-            pb_preview.ImageLocation = null;
-            var waitImage = pb_preview.Image;
-            pb_preview.Image = null;
+            _loaderPanel.Visible = false;
+            var waitImage = _loaderPictureBox.Image;
+            _loaderPictureBox.Image = null;
             waitImage?.Dispose();
             pb_preview.Invalidate();
         }
