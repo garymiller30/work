@@ -463,10 +463,11 @@ namespace JobSpace.Static
         {
             if (Clipboard.ContainsFileDropList())
             {
-                var filePaths = Clipboard.GetFileDropList();
+                var filePaths = Clipboard.GetFileDropList().Cast<string>().ToArray();
+                bool cutFromClipboard = FileManager.CutFromClipboard;
 
                 BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"Paste", 
-                    new Action(() => fileManager.PasteFromClipboard(filePaths.Cast<string>().ToArray()))));
+                    new Action(() => fileManager.PasteFromClipboard(filePaths, cutFromClipboard))));
             }
         }
         public static void Clipboard_PasteLikeCopyFiles(IFileManager fileManager)
