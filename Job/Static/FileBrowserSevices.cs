@@ -1,4 +1,5 @@
 ﻿using BackgroundTaskServiceLib;
+using Google.Apis.Drive.v3.Data;
 using ImageMagick;
 using Interfaces;
 using Interfaces.Profile;
@@ -35,7 +36,7 @@ namespace JobSpace.Static
         private static readonly object PreviewCacheLock = new object();
 
         #region PDF
-       
+
         public static void PDF_ShowImposDialog(IList files, ImposInputParam param)
         {
             if (files.Count == 0) return;
@@ -50,7 +51,7 @@ namespace JobSpace.Static
         #endregion
 
         #region FILE
-        
+
         public static void File_MoveFolderContentsToHere(IList files, IFileManager fileManager)
         {
             if (files.Count == 0) return;
@@ -192,6 +193,7 @@ namespace JobSpace.Static
             {
                 var pi = new ProcessStartInfo
                 {
+                    UseShellExecute = true,
                     WorkingDirectory = Path.GetDirectoryName(menu.Path) ?? throw new InvalidOperationException(),
                     FileName = Path.GetDirectoryName(menu.Path),
                 };
@@ -462,7 +464,9 @@ namespace JobSpace.Static
             if (Clipboard.ContainsFileDropList())
             {
                 var filePaths = Clipboard.GetFileDropList();
-                fileManager.PasteFromClipboard(filePaths.Cast<string>().ToArray());
+
+                BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"Paste", 
+                    new Action(() => fileManager.PasteFromClipboard(filePaths.Cast<string>().ToArray()))));
             }
         }
         public static void Clipboard_PasteLikeCopyFiles(IFileManager fileManager)
@@ -633,7 +637,7 @@ namespace JobSpace.Static
                     }
 
                     string previewPath = Path.Combine(GetPreviewCacheDirectory(sourceFile.DirectoryName, false), entry.PreviewFileName);
-                    if (!File.Exists(previewPath))
+                    if (!System.IO.File.Exists(previewPath))
                         return null;
 
                     return LoadBitmapWithoutFileLock(previewPath);
@@ -672,9 +676,9 @@ namespace JobSpace.Static
                     tempPreviewPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.tmp");
 
                     preview.Save(tempPreviewPath, System.Drawing.Imaging.ImageFormat.Png);
-                    if (File.Exists(previewPath))
-                        File.Delete(previewPath);
-                    File.Move(tempPreviewPath, previewPath);
+                    if (System.IO.File.Exists(previewPath))
+                        System.IO.File.Delete(previewPath);
+                    System.IO.File.Move(tempPreviewPath, previewPath);
                     tempPreviewPath = null;
 
                     if (entry == null)
@@ -720,7 +724,7 @@ namespace JobSpace.Static
                 System.IO.Directory.CreateDirectory(previewDir);
                 try
                 {
-                    File.SetAttributes(previewDir, File.GetAttributes(previewDir) | FileAttributes.Hidden);
+                    System.IO.File.SetAttributes(previewDir, System.IO.File.GetAttributes(previewDir) | FileAttributes.Hidden);
                 }
                 catch
                 {
@@ -737,10 +741,10 @@ namespace JobSpace.Static
                 return new PreviewCacheIndex();
 
             string indexPath = Path.Combine(previewDir, PreviewCacheIndexFileName);
-            if (!File.Exists(indexPath))
+            if (!System.IO.File.Exists(indexPath))
                 return new PreviewCacheIndex();
 
-            string json = File.ReadAllText(indexPath, Encoding.UTF8);
+            string json = System.IO.File.ReadAllText(indexPath, Encoding.UTF8);
             return JsonConvert.DeserializeObject<PreviewCacheIndex>(json) ?? new PreviewCacheIndex();
         }
 
@@ -753,10 +757,10 @@ namespace JobSpace.Static
 
             try
             {
-                File.WriteAllText(tempIndexPath, json, Encoding.UTF8);
-                if (File.Exists(indexPath))
-                    File.Delete(indexPath);
-                File.Move(tempIndexPath, indexPath);
+                System.IO.File.WriteAllText(tempIndexPath, json, Encoding.UTF8);
+                if (System.IO.File.Exists(indexPath))
+                    System.IO.File.Delete(indexPath);
+                System.IO.File.Move(tempIndexPath, indexPath);
                 tempIndexPath = null;
             }
             finally
@@ -772,8 +776,8 @@ namespace JobSpace.Static
 
             try
             {
-                if (File.Exists(path))
-                    File.Delete(path);
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
             }
             catch
             {
