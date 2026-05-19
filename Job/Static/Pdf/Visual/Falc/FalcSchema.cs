@@ -14,8 +14,8 @@ namespace JobSpace.Static.Pdf.Create.Falc
     public class FalcSchema : IPdfTool
     {
         const double COEF_DIMENSION = 0.3;
-        const double DISTANCE_FROM_TRIM = 2;
-        const double MARK_LENGTH = 2;
+        //const double DISTANCE_FROM_TRIM = 2;
+        //const double MARK_LENGTH = 2;
 
         FalcSchemaParams _param;
 
@@ -171,13 +171,15 @@ namespace JobSpace.Static.Pdf.Create.Falc
         {
             var trimbox = pageInfo.Trimbox;
 
-            p.setcolor("fillstroke", "cmyk", 1, 0, 1, 0);
+            var c = _param.Color;
+
+            p.setcolor("fillstroke", "cmyk", c.C/100, c.M/100, c.Y/100, c.K/100);
             p.setlinewidth(1.5);
 
             double x = trimbox.left;
             double y = trimbox.bottom;
 
-            y -= (DISTANCE_FROM_TRIM + MARK_LENGTH) * PdfHelper.mn;
+            y -= (_param.LineDistance + _param.LineLen) * PdfHelper.mn;
 
             if (pageIdx % 2 == 0)
             {
@@ -188,7 +190,7 @@ namespace JobSpace.Static.Pdf.Create.Falc
                 {
                     xOfs -= (double)_param.PartsWidth[i] * PdfHelper.mn;
 
-                    DrawHorLines(p, pageInfo, trimbox, xOfs, MARK_LENGTH, DISTANCE_FROM_TRIM);
+                    DrawHorLines(p, pageInfo, trimbox, xOfs, _param.LineLen, _param.LineDistance);
                 }
             }
             else
@@ -198,7 +200,7 @@ namespace JobSpace.Static.Pdf.Create.Falc
                 {
                     xOfs += (double)_param.PartsWidth[i] * PdfHelper.mn;
 
-                    DrawHorLines(p, pageInfo, trimbox, xOfs, MARK_LENGTH, DISTANCE_FROM_TRIM);
+                    DrawHorLines(p, pageInfo, trimbox, xOfs, _param.LineLen, _param.LineDistance);
                 }
             }
         }

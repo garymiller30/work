@@ -181,13 +181,12 @@ namespace JobSpace.UserForms.PDF.Visual
                     var strJson = File.ReadAllText(ofd.FileName);
                     var param = System.Text.Json.JsonSerializer.Deserialize<FalcSchemaParams>(strJson);
                     cb_mirrored_parts.Checked = param.Mirrored;
-                    int cntPart = param.PartsWidth.Length;
-                    cb_cnt_falc.SelectedIndex = cntPart - 2;
+                    
+                    cb_cnt_falc.SelectedIndex = param.FalcCnt-1;
 
-                    for (int i = 0; i < cntPart; i++)
+                    for (int i = 0; i < _deltas.Length; i++)
                     {
-                        decimal partWidth = param.PartsWidth[i];
-                        _deltas[i].Value = partWidth;
+                        _deltas[i].Value = param.RawPartsWidth[i];
                     }
                     Redraw();
                 }
@@ -206,17 +205,33 @@ namespace JobSpace.UserForms.PDF.Visual
                 Mirrored = cb_mirrored_parts.Checked,
                 PartsWidth = partsDelta,
                 CreateFileAndSchema = cb_create_file_and_schema.Checked,
-                CreateSchema = cb_create_schema.Checked
+                CreateSchema = cb_create_schema.Checked,
+                LineLen = (double)numLen.Value,
+                LineDistance = (double) numDistanse.Value,
+                Color = uc_PdfColorSelector1.MarkColor
+                
             };
 
             if (cb_save_schema.Checked)
             {
+                PrepareForSave();
                 SaveSchema();
             }
 
             DialogResult = DialogResult.OK;
             Close();
         }
+
+        private void PrepareForSave()
+        {
+            SchemaParams.FalcCnt = cb_cnt_falc.SelectedIndex+1;
+            SchemaParams.RawPartsWidth = new decimal[_deltas.Length];
+            for (int i = 0; i < _deltas.Length; i++)
+            {
+                SchemaParams.RawPartsWidth[i] = _deltas[i].Value;
+            }
+        }
+
         [RequiresFeature(LicenseFeature.ThreeDPreview)]
         private void btn_3d_Click(object sender, EventArgs e)
         {
