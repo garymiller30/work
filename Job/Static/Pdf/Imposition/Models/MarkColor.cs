@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JobSpace.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -79,14 +80,18 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public bool IsSpot { get; set; } = false;
         public string Name { get; set; } = "Spot";
+        public ColorTypeEnum ColorType { get; set; } = ColorTypeEnum.CMYK;
         public double C { get; set; } = 0;
         public double M { get; set; } = 0;
         public double Y { get; set; } = 0;
         public double K { get; set; } = 100;
+
+        public double l { get; set; } = 0;
+        public double a { get; set; } = 0;
+        public double b { get; set; } = 0;
+
         public double Tint { get; set; } = 100;
         public double Opasity { get; set; } = 100;
         public bool IsOverprint { get; set; } = false;
-
-
     }
 }
