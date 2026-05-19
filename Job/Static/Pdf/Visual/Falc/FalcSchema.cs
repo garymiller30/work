@@ -148,7 +148,7 @@ namespace JobSpace.Static.Pdf.Create.Falc
             {
                 if (widths[i] > 0)
                 {
-                    double w = (double)widths[i];
+                    double w = Math.Round((double)widths[i], 1);
 
                     PdfHelper.DrawDimensionsX(p, spot, x, y, w);
                     x += w;
