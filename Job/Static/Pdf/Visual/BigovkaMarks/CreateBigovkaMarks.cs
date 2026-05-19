@@ -157,7 +157,6 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
                     p.lineto(box.left + boxes.Media.left + box.width + (_param.DistanceFromTrim + _param.Length) * PdfHelper.mn, ofsY);
                     p.stroke();
                 }
-
             }
         }
 

@@ -45,19 +45,11 @@
             groupBox5 = new System.Windows.Forms.GroupBox();
             btn_add_to_center = new System.Windows.Forms.Button();
             textBoxBigovky = new System.Windows.Forms.TextBox();
-            groupBox6 = new System.Windows.Forms.GroupBox();
-            cb_b = new System.Windows.Forms.CheckBox();
-            cb_y = new System.Windows.Forms.CheckBox();
-            cb_m = new System.Windows.Forms.CheckBox();
-            cb_c = new System.Windows.Forms.CheckBox();
-            numK = new System.Windows.Forms.NumericUpDown();
-            numY = new System.Windows.Forms.NumericUpDown();
-            numM = new System.Windows.Forms.NumericUpDown();
-            numC = new System.Windows.Forms.NumericUpDown();
             groupBox7 = new System.Windows.Forms.GroupBox();
             cb_files = new System.Windows.Forms.ComboBox();
             uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             btn_3d = new System.Windows.Forms.Button();
+            uc_PdfColorSelector1 = new JobSpace.UC.PDF.Uc_PdfColorSelector();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numLen).BeginInit();
@@ -66,11 +58,6 @@
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numBleed).BeginInit();
             groupBox5.SuspendLayout();
-            groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numK).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numY).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numM).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numC).BeginInit();
             groupBox7.SuspendLayout();
             SuspendLayout();
             // 
@@ -282,121 +269,6 @@
             textBoxBigovky.TabIndex = 0;
             textBoxBigovky.TextChanged += textBoxBigovky_TextChanged;
             // 
-            // groupBox6
-            // 
-            groupBox6.Controls.Add(cb_b);
-            groupBox6.Controls.Add(cb_y);
-            groupBox6.Controls.Add(cb_m);
-            groupBox6.Controls.Add(cb_c);
-            groupBox6.Controls.Add(numK);
-            groupBox6.Controls.Add(numY);
-            groupBox6.Controls.Add(numM);
-            groupBox6.Controls.Add(numC);
-            groupBox6.Location = new System.Drawing.Point(126, 385);
-            groupBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            groupBox6.Name = "groupBox6";
-            groupBox6.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            groupBox6.Size = new System.Drawing.Size(237, 83);
-            groupBox6.TabIndex = 6;
-            groupBox6.TabStop = false;
-            groupBox6.Text = "Колір";
-            // 
-            // cb_b
-            // 
-            cb_b.Appearance = System.Windows.Forms.Appearance.Button;
-            cb_b.AutoSize = true;
-            cb_b.Location = new System.Drawing.Point(189, 22);
-            cb_b.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            cb_b.Name = "cb_b";
-            cb_b.Size = new System.Drawing.Size(24, 25);
-            cb_b.TabIndex = 10;
-            cb_b.Text = "K";
-            cb_b.UseVisualStyleBackColor = true;
-            cb_b.CheckedChanged += cb_b_CheckedChanged;
-            // 
-            // cb_y
-            // 
-            cb_y.Appearance = System.Windows.Forms.Appearance.Button;
-            cb_y.AutoSize = true;
-            cb_y.Location = new System.Drawing.Point(132, 22);
-            cb_y.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            cb_y.Name = "cb_y";
-            cb_y.Size = new System.Drawing.Size(24, 25);
-            cb_y.TabIndex = 9;
-            cb_y.Text = "Y";
-            cb_y.UseVisualStyleBackColor = true;
-            cb_y.CheckedChanged += cb_y_CheckedChanged;
-            // 
-            // cb_m
-            // 
-            cb_m.Appearance = System.Windows.Forms.Appearance.Button;
-            cb_m.AutoSize = true;
-            cb_m.Location = new System.Drawing.Point(75, 22);
-            cb_m.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            cb_m.Name = "cb_m";
-            cb_m.Size = new System.Drawing.Size(28, 25);
-            cb_m.TabIndex = 8;
-            cb_m.Text = "M";
-            cb_m.UseVisualStyleBackColor = true;
-            cb_m.CheckedChanged += cb_m_CheckedChanged;
-            // 
-            // cb_c
-            // 
-            cb_c.Appearance = System.Windows.Forms.Appearance.Button;
-            cb_c.AutoSize = true;
-            cb_c.Location = new System.Drawing.Point(18, 22);
-            cb_c.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            cb_c.Name = "cb_c";
-            cb_c.Size = new System.Drawing.Size(25, 25);
-            cb_c.TabIndex = 7;
-            cb_c.Text = "C";
-            cb_c.UseVisualStyleBackColor = true;
-            cb_c.CheckedChanged += cb_c_CheckedChanged;
-            // 
-            // numK
-            // 
-            numK.Location = new System.Drawing.Point(178, 53);
-            numK.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            numK.Name = "numK";
-            numK.Size = new System.Drawing.Size(50, 23);
-            numK.TabIndex = 3;
-            numK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            numK.Click += numDistanse_Enter;
-            numK.Enter += numDistanse_Enter;
-            // 
-            // numY
-            // 
-            numY.Location = new System.Drawing.Point(121, 53);
-            numY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            numY.Name = "numY";
-            numY.Size = new System.Drawing.Size(50, 23);
-            numY.TabIndex = 2;
-            numY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            numY.Click += numDistanse_Enter;
-            numY.Enter += numDistanse_Enter;
-            // 
-            // numM
-            // 
-            numM.Location = new System.Drawing.Point(64, 53);
-            numM.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            numM.Name = "numM";
-            numM.Size = new System.Drawing.Size(50, 23);
-            numM.TabIndex = 1;
-            numM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            numM.Click += numDistanse_Enter;
-            numM.Enter += numDistanse_Enter;
-            // 
-            // numC
-            // 
-            numC.Location = new System.Drawing.Point(7, 53);
-            numC.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            numC.Name = "numC";
-            numC.Size = new System.Drawing.Size(50, 23);
-            numC.TabIndex = 0;
-            numC.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            numC.Click += numDistanse_Enter;
-            numC.Enter += numDistanse_Enter;
-            // 
             // groupBox7
             // 
             groupBox7.Controls.Add(cb_files);
@@ -441,15 +313,23 @@
             btn_3d.UseVisualStyleBackColor = true;
             btn_3d.Click += btn_3d_Click;
             // 
+            // uc_PdfColorSelector1
+            // 
+            uc_PdfColorSelector1.Location = new System.Drawing.Point(126, 398);
+            uc_PdfColorSelector1.MarkColor = null;
+            uc_PdfColorSelector1.Name = "uc_PdfColorSelector1";
+            uc_PdfColorSelector1.Size = new System.Drawing.Size(237, 71);
+            uc_PdfColorSelector1.TabIndex = 12;
+            // 
             // FormCreateBigovkaMarks
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(917, 558);
+            Controls.Add(uc_PdfColorSelector1);
             Controls.Add(btn_3d);
             Controls.Add(uc_PreviewBrowserFile1);
             Controls.Add(groupBox7);
-            Controls.Add(groupBox6);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
@@ -474,12 +354,6 @@
             ((System.ComponentModel.ISupportInitialize)numBleed).EndInit();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
-            groupBox6.ResumeLayout(false);
-            groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numK).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numY).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numM).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numC).EndInit();
             groupBox7.ResumeLayout(false);
             ResumeLayout(false);
 
@@ -502,20 +376,12 @@
         private System.Windows.Forms.NumericUpDown numBleed;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TextBox textBoxBigovky;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.NumericUpDown numK;
-        private System.Windows.Forms.NumericUpDown numY;
-        private System.Windows.Forms.NumericUpDown numM;
-        private System.Windows.Forms.NumericUpDown numC;
-        private System.Windows.Forms.CheckBox cb_b;
-        private System.Windows.Forms.CheckBox cb_y;
-        private System.Windows.Forms.CheckBox cb_m;
-        private System.Windows.Forms.CheckBox cb_c;
         private System.Windows.Forms.CheckBox cb_mirrorEven;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.ComboBox cb_files;
         private System.Windows.Forms.Button btn_add_to_center;
         private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
         private System.Windows.Forms.Button btn_3d;
+        private UC.PDF.Uc_PdfColorSelector uc_PdfColorSelector1;
     }
 }

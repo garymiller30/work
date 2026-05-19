@@ -15,11 +15,18 @@ namespace JobSpace.UC.PDF
     {
 
         public event EventHandler OnColorSelected = delegate { };
-        public MarkColor MarkColor { get; set; }
+        private MarkColor _markColor = MarkColor.White;
+        public MarkColor MarkColor
+        {
+            get => _markColor;
+            set => _markColor = value ?? MarkColor.White;
+        }
 
         public Uc_PdfColorSelector()
         {
             InitializeComponent();
+
+            SetLabelColorName();
         }
 
         private void btn_select_color_Click(object sender, EventArgs e)
