@@ -45,6 +45,7 @@
             // 
             // panel_color
             // 
+            panel_color.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             panel_color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             panel_color.Location = new System.Drawing.Point(121, 5);
             panel_color.Name = "panel_color";
@@ -53,6 +54,7 @@
             // 
             // label_selected_color
             // 
+            label_selected_color.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             label_selected_color.Location = new System.Drawing.Point(3, 40);
             label_selected_color.Name = "label_selected_color";
             label_selected_color.Size = new System.Drawing.Size(253, 23);
