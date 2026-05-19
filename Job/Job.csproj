@@ -38,9 +38,9 @@
     <PackageReference Include="itext.commons" Version="9.6.0" />
     <PackageReference Include="iTextSharp" Version="5.5.13.5" />
     <PackageReference Include="Krypton.Toolkit" Version="105.26.4.110" />
-    <PackageReference Include="Magick.NET.Core" Version="14.13.0" />
-    <PackageReference Include="Magick.NET.SystemDrawing" Version="8.0.21" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.13.0" />
+    <PackageReference Include="Magick.NET.Core" Version="14.13.1" />
+    <PackageReference Include="Magick.NET.SystemDrawing" Version="8.0.22" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.13.1" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7" />
@@ -49,8 +49,8 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.7" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="10.0.7" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
-    <PackageReference Include="MongoDB.Bson" Version="3.8.0" />
-    <PackageReference Include="MongoDB.Driver" Version="3.8.0" />
+    <PackageReference Include="MongoDB.Bson" Version="3.8.1" />
+    <PackageReference Include="MongoDB.Driver" Version="3.8.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="ObjectListView.Repack.NET6Plus" Version="2.9.5" />
     <PackageReference Include="PDFiumSharpV2" Version="1.1.4" />

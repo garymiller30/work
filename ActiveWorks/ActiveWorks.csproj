@@ -56,9 +56,9 @@
     <PackageReference Include="Krypton.Ribbon" Version="105.26.4.110" />
     <PackageReference Include="Krypton.Toolkit" Version="105.26.4.110" />
     <PackageReference Include="Krypton.Workspace" Version="105.26.4.110" />
-    <PackageReference Include="Magick.NET.Core" Version="14.13.0" />
-    <PackageReference Include="Magick.NET.SystemDrawing" Version="8.0.21" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.13.0" />
+    <PackageReference Include="Magick.NET.Core" Version="14.13.1" />
+    <PackageReference Include="Magick.NET.SystemDrawing" Version="8.0.22" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.13.1" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.7" />
@@ -68,8 +68,8 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.7" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="10.0.7" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3912.50" />
-    <PackageReference Include="MongoDB.Bson" Version="3.8.0" />
-    <PackageReference Include="MongoDB.Driver" Version="3.8.0" />
+    <PackageReference Include="MongoDB.Bson" Version="3.8.1" />
+    <PackageReference Include="MongoDB.Driver" Version="3.8.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="PDFiumSharpV2" Version="1.1.4" />
     <PackageReference Include="SharpCompress" Version="0.48.0" />
