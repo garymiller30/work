@@ -262,6 +262,24 @@
     <None Update="db\resources\wait.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="db\StatusIcons\check-1-icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="db\StatusIcons\New-icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="db\StatusIcons\Pay-Per-Click-icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="db\StatusIcons\payment.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="db\StatusIcons\preview-icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="db\StatusIcons\Trash-can-icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Native\pdfium.dll" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Native\pdfium_x64.dll" CopyToOutputDirectory="PreserveNewest" />
     <Content Update="db\resources\pdftool_icons\**\*.*" CopyToOutputDirectory="PreserveNewest" />
@@ -330,6 +348,10 @@
     <EmbeddedResource Update="UserControls\UcTabProfile3.resx">
       <DependentUpon>UcTabProfile3.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="db\StatusIcons\" />
   </ItemGroup>
 
   <PropertyGroup>
