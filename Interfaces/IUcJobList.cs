@@ -31,6 +31,7 @@ namespace Interfaces
         void ApplyViewListFilterDate(DateTime date);
         void ApplyViewListFilterText(string text);
         void ApplyJobListFontSettings();
+        void RefreshStatusPresentation();
         IEnumerable GetJobList();
     }
 }

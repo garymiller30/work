@@ -36,6 +36,23 @@ namespace JobSpace.Fasades
             }
         }
 
+        public void RefreshStatuses()
+        {
+            var previousFilters = _viewFilters.ToDictionary(x => x.Key.Code, x => x.Value);
+            _viewFilters = new Dictionary<IJobStatus, bool>();
+
+            var result = _profile.StatusManager.GetJobStatuses();
+            if (result == null)
+            {
+                return;
+            }
+
+            foreach (var status in result)
+            {
+                _viewFilters.Add(status, previousFilters.TryGetValue(status.Code, out var isChecked) ? isChecked : true);
+            }
+        }
+
 
         public Dictionary<IJobStatus, bool> GetStatuses() => _viewFilters;
 
