@@ -149,8 +149,73 @@ namespace ActiveWorks
                 }
 
                 // примінити налаштування шрифту для JobList
-                ((JobSpace.Profiles.Profile)tab.Tag).Jobs.JobListControl.ApplyJobListFontSettings();
-                ((JobSpace.Profiles.Profile)tab.Tag).FileBrowser.InitBrowserToolStripUtils();
+                var profile = (JobSpace.Profiles.Profile)tab.Tag;
+                profile.SearchManager.RefreshStatuses();
+                profile.Jobs.JobListControl.ApplyJobListFontSettings();
+                profile.Jobs.JobListControl.RefreshStatusPresentation();
+                profile.Jobs.JobListControl.ApplyViewListFilterStatuses(profile.StatusManager.GetEnabledViewStatuses());
+                profile.FileBrowser.InitBrowserToolStripUtils();
+                RefreshStatusRibbonGroups(tab, profile);
+            }
+        }
+
+        private void RefreshStatusRibbonGroups(FormProfile formProfile, JobSpace.Profiles.Profile profile)
+        {
+            var ribbonTab = kryptonRibbon1.RibbonTabs.FirstOrDefault(x => ReferenceEquals(x.Tag, formProfile));
+            if (ribbonTab == null)
+            {
+                return;
+            }
+
+            var statusesGroup = ribbonTab.Groups.FirstOrDefault(x => x.TextLine1 == @"Змінити статус");
+            if (statusesGroup != null)
+            {
+                FillStatusesGroup(statusesGroup, profile);
+            }
+
+            var viewFilterGroup = ribbonTab.Groups.FirstOrDefault(x => x.TextLine1 == @"Перегляд");
+            if (viewFilterGroup != null)
+            {
+                FillViewFilterGroup(viewFilterGroup, profile);
+            }
+
+            RefreshSearchStatusFilterGroup(ribbonTab, profile);
+        }
+
+        private static void RefreshSearchStatusFilterGroup(KryptonRibbonTab tab, JobSpace.Profiles.Profile profile)
+        {
+            var searchGroup = tab.Groups.FirstOrDefault(x => x.TextLine1 == @"Пошук");
+            if (searchGroup?.Items.Count < 2 || !(searchGroup.Items[1] is KryptonRibbonGroupLines groupLines))
+            {
+                return;
+            }
+
+            groupLines.Items.Clear();
+            foreach (var status in profile.SearchManager.GetStatuses())
+            {
+                IJobStatus s = status.Key;
+                var button = new KryptonRibbonGroupButton()
+                {
+                    TextLine1 = s.Name,
+                    ImageSmall = s.Img,
+                    ButtonType = GroupButtonType.Check,
+                    Tag = status,
+                    ToolTipValues = {
+                        Heading = $"Показувати статус \"{s.Name}\" у пошуку",
+                        Description = $"Увімкніть, щоб шукати роботи зі статусом \"{s.Name}\".",
+                        EnableToolTips = true,
+                        Image = s.Img
+                    }
+                };
+                button.Checked = status.Value;
+
+                button.Click += (sender, args) =>
+                {
+                    profile.SearchManager.ChangeStatus(s, ((KryptonRibbonGroupButton)sender).Checked);
+
+                };
+
+                groupLines.Items.Add(button);
             }
         }
 
@@ -420,6 +485,12 @@ namespace ActiveWorks
                 Image = Resources.Glasses_icon,
             };
             tab.Groups.Add(group);
+            FillViewFilterGroup(group, profile);
+        }
+
+        private static void FillViewFilterGroup(KryptonRibbonGroup group, JobSpace.Profiles.Profile profile)
+        {
+            group.Items.Clear();
             var groupLines = new KryptonRibbonGroupLines { ItemSizeMaximum = GroupItemSize.Small };
             group.Items.Add(groupLines);
 
@@ -463,8 +534,14 @@ namespace ActiveWorks
                 MinimumWidth = 100,
                 Image = Resources.move_icon
             };
-            var groupTriple = new KryptonRibbonGroupLines();
+            FillStatusesGroup(group, profile);
+            tab.Groups.Add(group);
+        }
 
+        private static void FillStatusesGroup(KryptonRibbonGroup group, JobSpace.Profiles.Profile profile)
+        {
+            group.Items.Clear();
+            var groupTriple = new KryptonRibbonGroupLines();
 
             foreach (IJobStatus status in profile.StatusManager.GetJobStatuses())
             {
@@ -481,7 +558,6 @@ namespace ActiveWorks
                 groupTriple.Items.Add(button);
             }
             group.Items.Add(groupTriple);
-            tab.Groups.Add(group);
         }
 
 

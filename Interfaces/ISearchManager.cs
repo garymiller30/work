@@ -10,6 +10,7 @@ namespace Interfaces
     {
         Dictionary<IJobStatus, bool> GetStatuses();
         void ChangeStatus(IJobStatus s, bool @checked);
+        void RefreshStatuses();
         void Search(string customer, string text);
         void ClearFilters();
     }

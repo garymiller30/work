@@ -800,6 +800,12 @@ namespace JobSpace.UC
             objectListView_NewWorks.Font = _profile.Settings.GetJobListSettings().UserFont;
         }
 
+        public void RefreshStatusPresentation()
+        {
+            InitObjectListviewImageList();
+            objectListView_NewWorks.RefreshObjects(objectListView_NewWorks.Objects?.Cast<object>().ToArray() ?? Array.Empty<object>());
+        }
+
         public IEnumerable GetJobList()
         {
             return objectListView_NewWorks.FilteredObjects;
