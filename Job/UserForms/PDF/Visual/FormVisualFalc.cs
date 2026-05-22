@@ -182,11 +182,13 @@ namespace JobSpace.UserForms.PDF.Visual
                     var param = System.Text.Json.JsonSerializer.Deserialize<FalcSchemaParams>(strJson);
                     cb_mirrored_parts.Checked = param.Mirrored;
                     
-                    cb_cnt_falc.SelectedIndex = param.FalcCnt-1;
+                    var rawPartsWidth = param.RawPartsWidth ?? param.PartsWidth ?? Array.Empty<decimal>();
+                    int falcCnt = param.FalcCnt > 0 ? param.FalcCnt : Math.Max(1, rawPartsWidth.Length - 1);
+                    cb_cnt_falc.SelectedIndex = Math.Max(0, Math.Min(cb_cnt_falc.Items.Count - 1, falcCnt - 1));
 
-                    for (int i = 0; i < _deltas.Length; i++)
+                    for (int i = 0; i < _deltas.Length && i < rawPartsWidth.Length; i++)
                     {
-                        _deltas[i].Value = param.RawPartsWidth[i];
+                        _deltas[i].Value = rawPartsWidth[i];
                     }
                     Redraw();
                 }
