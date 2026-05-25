@@ -32,6 +32,13 @@ namespace JobSpace.UserForms.PDF
                 { "QR", PersonalizationCodeType.Qr }
             };
 
+        private static readonly Dictionary<string, PersonalizationExportMode> ExportModes =
+            new Dictionary<string, PersonalizationExportMode>
+            {
+                { "Все окремими файлами", PersonalizationExportMode.SeparateFiles },
+                { "Все в одному файлі", PersonalizationExportMode.SingleFile }
+            };
+
         private static readonly Dictionary<string, PersonalizationAnchorPoint> Anchors =
             new Dictionary<string, PersonalizationAnchorPoint>
             {
@@ -49,15 +56,24 @@ namespace JobSpace.UserForms.PDF
         private readonly TextBox _basePdfTextBox = new TextBox();
         private readonly TextBox _dataTextBox = new TextBox();
         private readonly TextBox _outputTextBox = new TextBox();
+        private readonly ComboBox _exportModeComboBox = new ComboBox();
+        private readonly TextBox _exportRowsTextBox = new TextBox();
         private readonly NumericUpDown _previewRow = new NumericUpDown();
         private readonly CheckBox _autoPreviewCheckBox = new CheckBox();
         private readonly Timer _previewTimer = new Timer();
         private readonly Label _dataInfoLabel = new Label();
         private readonly Label _sourceHintLabel = new Label();
         private readonly DataGridView _layersGrid = new DataGridView();
+        private readonly Panel _previewPanel = new Panel();
         private readonly PictureBox _previewBox = new PictureBox();
+        private readonly ComboBox _zoomComboBox = new ComboBox();
         private readonly string[] _fontNames;
         private bool _loadingTemplate;
+        private bool _renderingPreview;
+        private bool _draggingPreviewLayer;
+        private Point _dragStartPoint;
+        private double _dragStartXmm;
+        private double _dragStartYmm;
 
         public PdfPersonalizationSettings Settings { get; private set; }
 
@@ -90,6 +106,7 @@ namespace JobSpace.UserForms.PDF
             Height = 820;
             MinimizeBox = false;
             StartPosition = FormStartPosition.CenterParent;
+            KeyPreview = true;
 
             var root = new SplitContainer
             {
@@ -104,7 +121,7 @@ namespace JobSpace.UserForms.PDF
             {
                 Dock = DockStyle.Fill,
                 ColumnCount = 3,
-                RowCount = 9,
+                RowCount = 10,
                 Padding = new Padding(8),
                 AutoSize = false
             };
@@ -112,6 +129,7 @@ namespace JobSpace.UserForms.PDF
             left.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 105));
             left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
             left.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 90));
+            left.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
             left.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
             left.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
             left.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
@@ -127,32 +145,43 @@ namespace JobSpace.UserForms.PDF
             AddFilePicker(left, 1, "Дані", _dataTextBox, "TSV/CSV (*.csv;*.tsv;*.txt)|*.csv;*.tsv;*.txt|Усі файли (*.*)|*.*", SelectDataFile);
             AddFolderPicker(left, 2, "Вивід", _outputTextBox);
 
+            left.Controls.Add(new Label { Text = "Експорт", Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft }, 0, 3);
+            _exportModeComboBox.Dock = DockStyle.Fill;
+            _exportModeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            _exportModeComboBox.Items.AddRange(ExportModes.Keys.Cast<object>().ToArray());
+            if (_exportModeComboBox.Items.Count > 0)
+                _exportModeComboBox.SelectedIndex = 0;
+            left.Controls.Add(_exportModeComboBox, 1, 3);
+            _exportRowsTextBox.Dock = DockStyle.Fill;
+            _exportRowsTextBox.TextChanged += (s, e) => SchedulePreviewUpdate();
+            left.Controls.Add(_exportRowsTextBox, 2, 3);
+
             var previewLabel = new Label { Text = "Рядок", Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft };
-            left.Controls.Add(previewLabel, 0, 3);
+            left.Controls.Add(previewLabel, 0, 4);
             _previewRow.Minimum = 1;
             _previewRow.Maximum = 1;
             _previewRow.Dock = DockStyle.Left;
             _previewRow.Width = 80;
             _previewRow.ValueChanged += (s, e) => SchedulePreviewUpdate();
-            left.Controls.Add(_previewRow, 1, 3);
+            left.Controls.Add(_previewRow, 1, 4);
             _autoPreviewCheckBox.Text = "автоматичне оновлення";
             _autoPreviewCheckBox.Dock = DockStyle.Fill;
             _autoPreviewCheckBox.CheckedChanged += (s, e) => SchedulePreviewUpdate();
-            left.Controls.Add(_autoPreviewCheckBox, 2, 3);
+            left.Controls.Add(_autoPreviewCheckBox, 2, 4);
 
             _dataInfoLabel.Dock = DockStyle.Fill;
             _dataInfoLabel.TextAlign = ContentAlignment.MiddleLeft;
             left.SetColumnSpan(_dataInfoLabel, 3);
-            left.Controls.Add(_dataInfoLabel, 0, 4);
+            left.Controls.Add(_dataInfoLabel, 0, 5);
 
             _sourceHintLabel.Dock = DockStyle.Fill;
             _sourceHintLabel.TextAlign = ContentAlignment.MiddleLeft;
             left.SetColumnSpan(_sourceHintLabel, 3);
-            left.Controls.Add(_sourceHintLabel, 0, 5);
+            left.Controls.Add(_sourceHintLabel, 0, 6);
 
             ConfigureGrid();
             left.SetColumnSpan(_layersGrid, 3);
-            left.Controls.Add(_layersGrid, 0, 6);
+            left.Controls.Add(_layersGrid, 0, 7);
 
             var layerButtons = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.LeftToRight };
             layerButtons.Controls.Add(MakeButton("+ основа", (s, e) => AddLayerRow(PersonalizationLayerType.BasePdf, _basePdfTextBox.Text)));
@@ -163,7 +192,7 @@ namespace JobSpace.UserForms.PDF
             layerButtons.Controls.Add(MakeButton("вниз", (s, e) => MoveSelectedRow(1)));
             layerButtons.Controls.Add(MakeButton("видалити", (s, e) => DeleteSelectedRow()));
             left.SetColumnSpan(layerButtons, 3);
-            left.Controls.Add(layerButtons, 0, 7);
+            left.Controls.Add(layerButtons, 0, 8);
 
             var actionButtons = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.RightToLeft };
             actionButtons.Controls.Add(MakeButton("OK", OkClick));
@@ -172,12 +201,50 @@ namespace JobSpace.UserForms.PDF
             actionButtons.Controls.Add(MakeButton("Завантажити шаблон", LoadTemplateClick));
             actionButtons.Controls.Add(MakeButton("Зберегти шаблон", SaveTemplateClick));
             left.SetColumnSpan(actionButtons, 3);
-            left.Controls.Add(actionButtons, 0, 8);
+            left.Controls.Add(actionButtons, 0, 9);
+
+            var previewLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 2
+            };
+            previewLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
+            previewLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            root.Panel2.Controls.Add(previewLayout);
+
+            var previewToolbar = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.LeftToRight,
+                Padding = new Padding(4, 3, 4, 3)
+            };
+            previewToolbar.Controls.Add(new Label { Text = "Zoom", AutoSize = true, TextAlign = ContentAlignment.MiddleLeft, Padding = new Padding(0, 5, 4, 0) });
+            _zoomComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            _zoomComboBox.Width = 90;
+            _zoomComboBox.Items.AddRange(new object[] { "Fit", "50%", "75%", "100%", "150%", "200%", "300%" });
+            _zoomComboBox.SelectedIndex = 0;
+            _zoomComboBox.SelectedIndexChanged += (s, e) => TryUpdatePreview(false);
+            previewToolbar.Controls.Add(_zoomComboBox);
+            previewLayout.Controls.Add(previewToolbar, 0, 0);
+
+            _previewPanel.Dock = DockStyle.Fill;
+            _previewPanel.AutoScroll = true;
+            _previewPanel.BackColor = Color.White;
+            _previewPanel.TabStop = true;
+            _previewPanel.MouseWheel += PreviewMouseWheel;
+            _previewPanel.MouseEnter += (s, e) => _previewPanel.Focus();
+            previewLayout.Controls.Add(_previewPanel, 0, 1);
 
             _previewBox.Dock = DockStyle.Fill;
             _previewBox.BackColor = Color.White;
             _previewBox.SizeMode = PictureBoxSizeMode.Zoom;
-            root.Panel2.Controls.Add(_previewBox);
+            _previewBox.MouseDown += PreviewMouseDown;
+            _previewBox.MouseMove += PreviewMouseMove;
+            _previewBox.MouseUp += PreviewMouseUp;
+            _previewBox.MouseWheel += PreviewMouseWheel;
+            _previewBox.MouseEnter += (s, e) => _previewPanel.Focus();
+            _previewPanel.Controls.Add(_previewBox);
 
             _basePdfTextBox.TextChanged += (s, e) => SchedulePreviewUpdate();
             _dataTextBox.TextChanged += (s, e) =>
@@ -399,6 +466,11 @@ namespace JobSpace.UserForms.PDF
                 BasePdfPath = _basePdfTextBox.Text,
                 DataFilePath = _dataTextBox.Text,
                 OutputFolder = _outputTextBox.Text
+                ,
+                ExportMode = ExportModes.TryGetValue(Convert.ToString(_exportModeComboBox.SelectedItem) ?? string.Empty, out PersonalizationExportMode exportMode)
+                    ? exportMode
+                    : PersonalizationExportMode.SeparateFiles,
+                ExportRows = _exportRowsTextBox.Text
             };
 
             foreach (DataGridViewRow row in _layersGrid.Rows)
@@ -444,14 +516,19 @@ namespace JobSpace.UserForms.PDF
 
             try
             {
+                if (_renderingPreview)
+                    return;
+
+                _renderingPreview = true;
                 Settings = ReadSettings(false);
                 tempFile = Path.Combine(Path.GetTempPath(), $"pdf_personalization_preview_{Guid.NewGuid():N}.pdf");
                 new PdfPersonalizationRenderer().RenderPreview(Settings, (int)_previewRow.Value - 1, tempFile);
 
-                using (var bitmap = PdfHelper.RenderByTrimBox(tempFile, 0, 110))
+                using (var bitmap = PdfHelper.RenderByTrimBox(tempFile, 0, GetPreviewRenderDpi()))
                 {
                     Image old = _previewBox.Image;
                     _previewBox.Image = new Bitmap(bitmap);
+                    ApplyPreviewZoom();
                     old?.Dispose();
                 }
             }
@@ -464,6 +541,8 @@ namespace JobSpace.UserForms.PDF
             {
                 if (!string.IsNullOrWhiteSpace(tempFile))
                     TryDelete(tempFile);
+
+                _renderingPreview = false;
             }
         }
 
@@ -474,6 +553,195 @@ namespace JobSpace.UserForms.PDF
 
             _previewTimer.Stop();
             _previewTimer.Start();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (IsPreviewMoveKey(keyData) && MoveSelectedLayerByKey(keyData))
+                return true;
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private static bool IsPreviewMoveKey(Keys keyData)
+        {
+            Keys key = keyData & Keys.KeyCode;
+            return key == Keys.Left || key == Keys.Right || key == Keys.Up || key == Keys.Down;
+        }
+
+        private bool MoveSelectedLayerByKey(Keys keyData)
+        {
+            if (!PreviewHasFocus() || _layersGrid.CurrentRow == null)
+                return false;
+
+            double step = 1.0;
+            if ((keyData & Keys.Shift) == Keys.Shift)
+                step = 10.0;
+            else if ((keyData & Keys.Control) == Keys.Control)
+                step = 0.1;
+
+            Keys key = keyData & Keys.KeyCode;
+            double dx = 0;
+            double dy = 0;
+
+            if (key == Keys.Left)
+                dx = -step;
+            else if (key == Keys.Right)
+                dx = step;
+            else if (key == Keys.Up)
+                dy = step;
+            else if (key == Keys.Down)
+                dy = -step;
+            else
+                return false;
+
+            MoveSelectedLayer(dx, dy, true);
+            return true;
+        }
+
+        private bool PreviewHasFocus()
+        {
+            return _previewBox.Focused || _previewPanel.Focused || _previewPanel.ContainsFocus;
+        }
+
+        private void PreviewMouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left || _layersGrid.CurrentRow == null)
+                return;
+
+            _draggingPreviewLayer = true;
+            _dragStartPoint = e.Location;
+            _dragStartXmm = GetCellDouble(_layersGrid.CurrentRow, "X", 0);
+            _dragStartYmm = GetCellDouble(_layersGrid.CurrentRow, "Ymm", 0);
+            _previewBox.Capture = true;
+            _previewPanel.Focus();
+        }
+
+        private void PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (!_draggingPreviewLayer || _layersGrid.CurrentRow == null || _previewBox.Image == null)
+                return;
+
+            double pixelsPerImagePixel = GetPreviewScreenScale();
+            if (pixelsPerImagePixel <= 0)
+                return;
+
+            double imageDx = (e.X - _dragStartPoint.X) / pixelsPerImagePixel;
+            double imageDy = (e.Y - _dragStartPoint.Y) / pixelsPerImagePixel;
+            double dpiX = _previewBox.Image.HorizontalResolution > 0 ? _previewBox.Image.HorizontalResolution : 110;
+            double dpiY = _previewBox.Image.VerticalResolution > 0 ? _previewBox.Image.VerticalResolution : 110;
+            double dxMm = imageDx * 25.4 / dpiX;
+            double dyMm = -imageDy * 25.4 / dpiY;
+
+            SetSelectedLayerPosition(_dragStartXmm + dxMm, _dragStartYmm + dyMm, false);
+            SchedulePreviewUpdate();
+        }
+
+        private void PreviewMouseUp(object sender, MouseEventArgs e)
+        {
+            if (!_draggingPreviewLayer)
+                return;
+
+            _draggingPreviewLayer = false;
+            _previewBox.Capture = false;
+            TryUpdatePreview(false);
+        }
+
+        private void PreviewMouseWheel(object sender, MouseEventArgs e)
+        {
+            if (_previewBox.Image == null)
+                return;
+
+            int[] zooms = { 50, 75, 100, 150, 200, 300 };
+            int current = GetCurrentZoomPercent();
+            int index = Array.IndexOf(zooms, current);
+            if (index < 0)
+                index = 2;
+
+            index += e.Delta > 0 ? 1 : -1;
+            index = Math.Max(0, Math.Min(zooms.Length - 1, index));
+            _zoomComboBox.SelectedItem = $"{zooms[index]}%";
+        }
+
+        private void ApplyPreviewZoom()
+        {
+            if (_previewBox.Image == null)
+                return;
+
+            string selected = Convert.ToString(_zoomComboBox.SelectedItem);
+            if (string.Equals(selected, "Fit", StringComparison.OrdinalIgnoreCase) || string.IsNullOrWhiteSpace(selected))
+            {
+                _previewBox.Dock = DockStyle.Fill;
+                _previewBox.SizeMode = PictureBoxSizeMode.Zoom;
+                return;
+            }
+
+            int zoom = GetCurrentZoomPercent();
+            _previewBox.Dock = DockStyle.None;
+            _previewBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            _previewBox.Size = new Size(
+                Math.Max(1, (int)Math.Round(_previewBox.Image.Width * zoom / 100.0)),
+                Math.Max(1, (int)Math.Round(_previewBox.Image.Height * zoom / 100.0)));
+            _previewBox.Location = new Point(0, 0);
+        }
+
+        private int GetCurrentZoomPercent()
+        {
+            string selected = Convert.ToString(_zoomComboBox.SelectedItem) ?? "100%";
+            selected = selected.Trim().TrimEnd('%');
+            return int.TryParse(selected, out int zoom) ? zoom : 100;
+        }
+
+        private int GetPreviewRenderDpi()
+        {
+            string selected = Convert.ToString(_zoomComboBox.SelectedItem);
+            if (string.Equals(selected, "Fit", StringComparison.OrdinalIgnoreCase) || string.IsNullOrWhiteSpace(selected))
+                return 110;
+
+            int zoom = GetCurrentZoomPercent();
+            return Math.Max(110, Math.Min(330, (int)Math.Round(110 * zoom / 100.0)));
+        }
+
+        private double GetPreviewScreenScale()
+        {
+            if (_previewBox.Image == null)
+                return 0;
+
+            if (_previewBox.SizeMode == PictureBoxSizeMode.StretchImage)
+                return _previewBox.Width / (double)_previewBox.Image.Width;
+
+            double scaleX = _previewBox.ClientSize.Width / (double)_previewBox.Image.Width;
+            double scaleY = _previewBox.ClientSize.Height / (double)_previewBox.Image.Height;
+            return Math.Min(scaleX, scaleY);
+        }
+
+        private void MoveSelectedLayer(double dxMm, double dyMm, bool refreshPreview)
+        {
+            if (_layersGrid.CurrentRow == null)
+                return;
+
+            double x = GetCellDouble(_layersGrid.CurrentRow, "X", 0) + dxMm;
+            double y = GetCellDouble(_layersGrid.CurrentRow, "Ymm", 0) + dyMm;
+            SetSelectedLayerPosition(x, y, refreshPreview);
+        }
+
+        private void SetSelectedLayerPosition(double xMm, double yMm, bool refreshPreview)
+        {
+            if (_layersGrid.CurrentRow == null)
+                return;
+
+            _layersGrid.CurrentRow.Cells["X"].Value = xMm.ToString("0.###", CultureInfo.InvariantCulture);
+            _layersGrid.CurrentRow.Cells["Ymm"].Value = yMm.ToString("0.###", CultureInfo.InvariantCulture);
+
+            if (refreshPreview)
+                TryUpdatePreview(false);
+            else
+                SchedulePreviewUpdate();
+        }
+
+        private static double GetCellDouble(DataGridViewRow row, string columnName, double fallback)
+        {
+            return PdfPersonalizationData.ParseDouble(row.Cells[columnName].Value, fallback);
         }
 
         private void SaveTemplateClick(object sender, EventArgs e)
@@ -534,6 +802,8 @@ namespace JobSpace.UserForms.PDF
                 _basePdfTextBox.Text = settings.BasePdfPath ?? string.Empty;
                 _dataTextBox.Text = settings.DataFilePath ?? string.Empty;
                 _outputTextBox.Text = settings.OutputFolder ?? string.Empty;
+                _exportModeComboBox.SelectedItem = ExportModes.FirstOrDefault(x => x.Value == settings.ExportMode).Key ?? "Все окремими файлами";
+                _exportRowsTextBox.Text = settings.ExportRows ?? string.Empty;
                 _layersGrid.Rows.Clear();
 
                 foreach (var layer in settings.Layers ?? Enumerable.Empty<PdfPersonalizationLayer>())
@@ -572,7 +842,7 @@ namespace JobSpace.UserForms.PDF
 
         private void UpdateDataInfo()
         {
-            _dataInfoLabel.Text = "CSV/TSV: роздільник табуляція.";
+            _dataInfoLabel.Text = "CSV/TSV: роздільник табуляція. Діапазон експорту: порожньо = всі, приклад 1-5,8,10.";
             _sourceHintLabel.Text = "У полі джерела вкажіть назву колонки або стале значення. Для шару PDF значення трактується як шлях до файлу.";
 
             if (!File.Exists(_dataTextBox.Text))
