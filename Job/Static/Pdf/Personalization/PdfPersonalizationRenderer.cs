@@ -50,6 +50,11 @@ namespace JobSpace.Static.Pdf.Personalization
         public void RenderPreview(PdfPersonalizationSettings settings, int rowIndex, string outputFile)
         {
             PdfPersonalizationData data = PdfPersonalizationData.Load(settings.DataFilePath);
+            RenderPreview(settings, data, rowIndex, outputFile);
+        }
+
+        public void RenderPreview(PdfPersonalizationSettings settings, PdfPersonalizationData data, int rowIndex, string outputFile)
+        {
             if (data.Rows.Count == 0)
                 throw new InvalidOperationException("Файл персоналізації не містить рядків даних.");
 
@@ -320,7 +325,7 @@ namespace JobSpace.Static.Pdf.Personalization
             }
         }
 
-        private static void CreateCodePdf(string filePath, string code, PdfPersonalizationLayer layer)
+        internal static void CreateCodePdf(string filePath, string code, PdfPersonalizationLayer layer)
         {
             using (var writer = new PdfWriter(filePath))
             using (var pdf = new iText.Kernel.Pdf.PdfDocument(writer))

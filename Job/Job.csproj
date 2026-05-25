@@ -107,6 +107,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="UserForms\PDF\FormPdfPersonalization.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserForms\PDF\FormPdfPersonalization.Designer.cs">
+      <DependentUpon>FormPdfPersonalization.cs</DependentUpon>
+    </Compile>
     <Compile Update="Localize.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
