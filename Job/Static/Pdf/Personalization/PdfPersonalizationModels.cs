@@ -35,11 +35,19 @@ namespace JobSpace.Static.Pdf.Personalization
         TopRight
     }
 
+    public enum PersonalizationExportMode
+    {
+        SeparateFiles,
+        SingleFile
+    }
+
     public sealed class PdfPersonalizationSettings
     {
         public string BasePdfPath { get; set; }
         public string DataFilePath { get; set; }
         public string OutputFolder { get; set; }
+        public PersonalizationExportMode ExportMode { get; set; } = PersonalizationExportMode.SeparateFiles;
+        public string ExportRows { get; set; }
         public List<PdfPersonalizationLayer> Layers { get; set; } = new List<PdfPersonalizationLayer>();
     }
 
