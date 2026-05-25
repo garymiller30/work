@@ -156,9 +156,9 @@ namespace JobSpace.UserForms.PDF
 
             var layerButtons = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.LeftToRight };
             layerButtons.Controls.Add(MakeButton("+ основа", (s, e) => AddLayerRow(PersonalizationLayerType.BasePdf, _basePdfTextBox.Text)));
-            layerButtons.Controls.Add(MakeButton("+ PDF", (s, e) => AddLayerRow(PersonalizationLayerType.Pdf, GetFirstFileColumn())));
-            layerButtons.Controls.Add(MakeButton("+ текст", (s, e) => AddLayerRow(PersonalizationLayerType.Text, GetFirstTextColumn())));
-            layerButtons.Controls.Add(MakeButton("+ код", (s, e) => AddLayerRow(PersonalizationLayerType.Code, GetFirstTextColumn())));
+            layerButtons.Controls.Add(MakeButton("+ PDF", (s, e) => AddLayerRow(PersonalizationLayerType.Pdf, GetFirstColumn())));
+            layerButtons.Controls.Add(MakeButton("+ текст", (s, e) => AddLayerRow(PersonalizationLayerType.Text, GetFirstColumn())));
+            layerButtons.Controls.Add(MakeButton("+ код", (s, e) => AddLayerRow(PersonalizationLayerType.Code, GetFirstColumn())));
             layerButtons.Controls.Add(MakeButton("вгору", (s, e) => MoveSelectedRow(-1)));
             layerButtons.Controls.Add(MakeButton("вниз", (s, e) => MoveSelectedRow(1)));
             layerButtons.Controls.Add(MakeButton("видалити", (s, e) => DeleteSelectedRow()));
@@ -572,8 +572,8 @@ namespace JobSpace.UserForms.PDF
 
         private void UpdateDataInfo()
         {
-            _dataInfoLabel.Text = "CSV/TSV: роздільник табуляція; колонки з @ трактуються як шлях до файлу.";
-            _sourceHintLabel.Text = "У полі джерела шару вкажіть назву колонки, @колонку або сталий текст/шлях.";
+            _dataInfoLabel.Text = "CSV/TSV: роздільник табуляція.";
+            _sourceHintLabel.Text = "У полі джерела вкажіть назву колонки або стале значення. Для шару PDF значення трактується як шлях до файлу.";
 
             if (!File.Exists(_dataTextBox.Text))
                 return;
@@ -590,20 +590,12 @@ namespace JobSpace.UserForms.PDF
             }
         }
 
-        private string GetFirstFileColumn()
+        private string GetFirstColumn()
         {
             if (!File.Exists(_dataTextBox.Text))
                 return string.Empty;
 
-            return PdfPersonalizationData.Load(_dataTextBox.Text).FileColumns.FirstOrDefault() ?? string.Empty;
-        }
-
-        private string GetFirstTextColumn()
-        {
-            if (!File.Exists(_dataTextBox.Text))
-                return string.Empty;
-
-            return PdfPersonalizationData.Load(_dataTextBox.Text).TextColumns.FirstOrDefault() ?? string.Empty;
+            return PdfPersonalizationData.Load(_dataTextBox.Text).Columns.FirstOrDefault() ?? string.Empty;
         }
 
         private static void TryDelete(string file)
