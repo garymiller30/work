@@ -1,4 +1,3 @@
-using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Personalization;
 using System;
 using System.Collections.Generic;
@@ -8,11 +7,12 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JobSpace.UserForms.PDF
 {
-    public sealed class FormPdfPersonalization : Form
+    public sealed partial class FormPdfPersonalization : Form
     {
         private static readonly Dictionary<string, PersonalizationLayerType> LayerTypes =
             new Dictionary<string, PersonalizationLayerType>
@@ -53,29 +53,30 @@ namespace JobSpace.UserForms.PDF
                 { "правий верхній", PersonalizationAnchorPoint.TopRight }
             };
 
-        private readonly TextBox _basePdfTextBox = new TextBox();
-        private readonly TextBox _dataTextBox = new TextBox();
-        private readonly TextBox _outputTextBox = new TextBox();
-        private readonly ComboBox _exportModeComboBox = new ComboBox();
-        private readonly TextBox _exportRowsTextBox = new TextBox();
-        private readonly NumericUpDown _previewRow = new NumericUpDown();
-        private readonly CheckBox _autoPreviewCheckBox = new CheckBox();
-        private readonly Timer _previewTimer = new Timer();
-        private readonly Label _dataInfoLabel = new Label();
-        private readonly Label _sourceHintLabel = new Label();
-        private readonly DataGridView _layersGrid = new DataGridView();
-        private readonly Panel _previewPanel = new Panel();
-        private readonly PictureBox _previewBox = new PictureBox();
-        private readonly ComboBox _zoomComboBox = new ComboBox();
         private readonly string[] _fontNames;
         private bool _loadingTemplate;
-        private bool _renderingPreview;
         private bool _draggingPreviewLayer;
+        private bool _dragMovedPreviewLayer;
         private Point _dragStartPoint;
         private double _dragStartXmm;
         private double _dragStartYmm;
+        private bool _previewIsActive;
+        private bool _previewRenderRunning;
+        private bool _previewRenderPending;
+        private bool _previewRenderPendingShowErrors;
+        private int _previewRequestVersion;
+        private Timer _interactivePreviewTimer;
+        private readonly PdfPersonalizationPreviewComposer _previewComposer = new PdfPersonalizationPreviewComposer();
+        private PdfPersonalizationData _cachedPreviewData;
+        private string _cachedPreviewDataPath;
+        private DateTime _cachedPreviewDataWriteTimeUtc;
 
         public PdfPersonalizationSettings Settings { get; private set; }
+
+        public FormPdfPersonalization()
+            : this(null)
+        {
+        }
 
         public FormPdfPersonalization(string basePdfPath)
         {
@@ -86,6 +87,10 @@ namespace JobSpace.UserForms.PDF
                 .ToArray();
 
             InitializeComponent();
+            _interactivePreviewTimer = new Timer(components) { Interval = 180 };
+            _interactivePreviewTimer.Tick += InteractivePreviewTimerTick;
+            colFont.Items.AddRange(_fontNames.Cast<object>().ToArray());
+            UpdateDataInfo();
 
             if (!string.IsNullOrWhiteSpace(basePdfPath))
             {
@@ -97,247 +102,6 @@ namespace JobSpace.UserForms.PDF
             {
                 AddLayerRow(PersonalizationLayerType.BasePdf, string.Empty);
             }
-        }
-
-        private void InitializeComponent()
-        {
-            Text = "Персоналізація PDF";
-            Width = 1280;
-            Height = 820;
-            MinimizeBox = false;
-            StartPosition = FormStartPosition.CenterParent;
-            KeyPreview = true;
-
-            var root = new SplitContainer
-            {
-                Dock = DockStyle.Fill,
-                SplitterDistance = 545,
-                FixedPanel = FixedPanel.Panel1
-            };
-
-            Controls.Add(root);
-
-            var left = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                ColumnCount = 3,
-                RowCount = 10,
-                Padding = new Padding(8),
-                AutoSize = false
-            };
-
-            left.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 105));
-            left.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            left.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 90));
-            left.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            left.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            left.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            left.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            left.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            left.RowStyles.Add(new RowStyle(SizeType.Absolute, 24));
-            left.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            left.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            left.RowStyles.Add(new RowStyle(SizeType.Absolute, 42));
-            left.RowStyles.Add(new RowStyle(SizeType.Absolute, 42));
-            root.Panel1.Controls.Add(left);
-
-            AddFilePicker(left, 0, "Основа", _basePdfTextBox, "PDF (*.pdf)|*.pdf", SelectBasePdf);
-            AddFilePicker(left, 1, "Дані", _dataTextBox, "TSV/CSV (*.csv;*.tsv;*.txt)|*.csv;*.tsv;*.txt|Усі файли (*.*)|*.*", SelectDataFile);
-            AddFolderPicker(left, 2, "Вивід", _outputTextBox);
-
-            left.Controls.Add(new Label { Text = "Експорт", Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft }, 0, 3);
-            _exportModeComboBox.Dock = DockStyle.Fill;
-            _exportModeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            _exportModeComboBox.Items.AddRange(ExportModes.Keys.Cast<object>().ToArray());
-            if (_exportModeComboBox.Items.Count > 0)
-                _exportModeComboBox.SelectedIndex = 0;
-            left.Controls.Add(_exportModeComboBox, 1, 3);
-            _exportRowsTextBox.Dock = DockStyle.Fill;
-            _exportRowsTextBox.TextChanged += (s, e) => SchedulePreviewUpdate();
-            left.Controls.Add(_exportRowsTextBox, 2, 3);
-
-            var previewLabel = new Label { Text = "Рядок", Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft };
-            left.Controls.Add(previewLabel, 0, 4);
-            _previewRow.Minimum = 1;
-            _previewRow.Maximum = 1;
-            _previewRow.Dock = DockStyle.Left;
-            _previewRow.Width = 80;
-            _previewRow.ValueChanged += (s, e) => SchedulePreviewUpdate();
-            left.Controls.Add(_previewRow, 1, 4);
-            _autoPreviewCheckBox.Text = "автоматичне оновлення";
-            _autoPreviewCheckBox.Dock = DockStyle.Fill;
-            _autoPreviewCheckBox.CheckedChanged += (s, e) => SchedulePreviewUpdate();
-            left.Controls.Add(_autoPreviewCheckBox, 2, 4);
-
-            _dataInfoLabel.Dock = DockStyle.Fill;
-            _dataInfoLabel.TextAlign = ContentAlignment.MiddleLeft;
-            left.SetColumnSpan(_dataInfoLabel, 3);
-            left.Controls.Add(_dataInfoLabel, 0, 5);
-
-            _sourceHintLabel.Dock = DockStyle.Fill;
-            _sourceHintLabel.TextAlign = ContentAlignment.MiddleLeft;
-            left.SetColumnSpan(_sourceHintLabel, 3);
-            left.Controls.Add(_sourceHintLabel, 0, 6);
-
-            ConfigureGrid();
-            left.SetColumnSpan(_layersGrid, 3);
-            left.Controls.Add(_layersGrid, 0, 7);
-
-            var layerButtons = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.LeftToRight };
-            layerButtons.Controls.Add(MakeButton("+ основа", (s, e) => AddLayerRow(PersonalizationLayerType.BasePdf, _basePdfTextBox.Text)));
-            layerButtons.Controls.Add(MakeButton("+ PDF", (s, e) => AddLayerRow(PersonalizationLayerType.Pdf, GetFirstColumn())));
-            layerButtons.Controls.Add(MakeButton("+ текст", (s, e) => AddLayerRow(PersonalizationLayerType.Text, GetFirstColumn())));
-            layerButtons.Controls.Add(MakeButton("+ код", (s, e) => AddLayerRow(PersonalizationLayerType.Code, GetFirstColumn())));
-            layerButtons.Controls.Add(MakeButton("вгору", (s, e) => MoveSelectedRow(-1)));
-            layerButtons.Controls.Add(MakeButton("вниз", (s, e) => MoveSelectedRow(1)));
-            layerButtons.Controls.Add(MakeButton("дублювати", (s, e) => DuplicateSelectedRow()));
-            layerButtons.Controls.Add(MakeButton("видалити", (s, e) => DeleteSelectedRow()));
-            left.SetColumnSpan(layerButtons, 3);
-            left.Controls.Add(layerButtons, 0, 8);
-
-            var actionButtons = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.RightToLeft };
-            actionButtons.Controls.Add(MakeButton("OK", OkClick));
-            actionButtons.Controls.Add(MakeButton("Скасувати", (s, e) => Close()));
-            actionButtons.Controls.Add(MakeButton("Preview", PreviewClick));
-            actionButtons.Controls.Add(MakeButton("Завантажити шаблон", LoadTemplateClick));
-            actionButtons.Controls.Add(MakeButton("Зберегти шаблон", SaveTemplateClick));
-            left.SetColumnSpan(actionButtons, 3);
-            left.Controls.Add(actionButtons, 0, 9);
-
-            var previewLayout = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                ColumnCount = 1,
-                RowCount = 2
-            };
-            previewLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 34));
-            previewLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            root.Panel2.Controls.Add(previewLayout);
-
-            var previewToolbar = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.LeftToRight,
-                Padding = new Padding(4, 3, 4, 3)
-            };
-            previewToolbar.Controls.Add(new Label { Text = "Zoom", AutoSize = true, TextAlign = ContentAlignment.MiddleLeft, Padding = new Padding(0, 5, 4, 0) });
-            _zoomComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            _zoomComboBox.Width = 90;
-            _zoomComboBox.Items.AddRange(new object[] { "Fit", "50%", "75%", "100%", "150%", "200%", "300%" });
-            _zoomComboBox.SelectedIndex = 0;
-            _zoomComboBox.SelectedIndexChanged += (s, e) => TryUpdatePreview(false);
-            previewToolbar.Controls.Add(_zoomComboBox);
-            previewLayout.Controls.Add(previewToolbar, 0, 0);
-
-            _previewPanel.Dock = DockStyle.Fill;
-            _previewPanel.AutoScroll = true;
-            _previewPanel.BackColor = Color.White;
-            _previewPanel.TabStop = true;
-            _previewPanel.MouseWheel += PreviewMouseWheel;
-            _previewPanel.MouseEnter += (s, e) => _previewPanel.Focus();
-            previewLayout.Controls.Add(_previewPanel, 0, 1);
-
-            _previewBox.Dock = DockStyle.Fill;
-            _previewBox.BackColor = Color.White;
-            _previewBox.SizeMode = PictureBoxSizeMode.Zoom;
-            _previewBox.MouseDown += PreviewMouseDown;
-            _previewBox.MouseMove += PreviewMouseMove;
-            _previewBox.MouseUp += PreviewMouseUp;
-            _previewBox.MouseWheel += PreviewMouseWheel;
-            _previewBox.MouseEnter += (s, e) => _previewPanel.Focus();
-            _previewPanel.Controls.Add(_previewBox);
-
-            _basePdfTextBox.TextChanged += (s, e) => SchedulePreviewUpdate();
-            _dataTextBox.TextChanged += (s, e) =>
-            {
-                UpdateDataInfo();
-                SchedulePreviewUpdate();
-            };
-            _layersGrid.CellValueChanged += (s, e) => SchedulePreviewUpdate();
-            _layersGrid.RowsRemoved += (s, e) => SchedulePreviewUpdate();
-            _layersGrid.CurrentCellDirtyStateChanged += (s, e) =>
-            {
-                if (_layersGrid.IsCurrentCellDirty)
-                    _layersGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
-            };
-
-            _previewTimer.Interval = 650;
-            _previewTimer.Tick += (s, e) =>
-            {
-                _previewTimer.Stop();
-                if (_autoPreviewCheckBox.Checked)
-                    TryUpdatePreview(false);
-            };
-
-            UpdateDataInfo();
-        }
-
-        private static Button MakeButton(string text, EventHandler handler)
-        {
-            var button = new Button
-            {
-                Text = text,
-                AutoSize = true,
-                Height = 30,
-                Margin = new Padding(3)
-            };
-            button.Click += handler;
-            return button;
-        }
-
-        private void AddFilePicker(TableLayoutPanel panel, int row, string labelText, TextBox textBox, string filter, EventHandler browse)
-        {
-            panel.Controls.Add(new Label { Text = labelText, Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft }, 0, row);
-            textBox.Dock = DockStyle.Fill;
-            panel.Controls.Add(textBox, 1, row);
-            panel.Controls.Add(MakeButton("...", browse), 2, row);
-        }
-
-        private void AddFolderPicker(TableLayoutPanel panel, int row, string labelText, TextBox textBox)
-        {
-            panel.Controls.Add(new Label { Text = labelText, Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft }, 0, row);
-            textBox.Dock = DockStyle.Fill;
-            panel.Controls.Add(textBox, 1, row);
-            panel.Controls.Add(MakeButton("...", (s, e) =>
-            {
-                using (var dialog = new FolderBrowserDialog())
-                {
-                    dialog.SelectedPath = Directory.Exists(textBox.Text) ? textBox.Text : string.Empty;
-                    if (dialog.ShowDialog(this) == DialogResult.OK)
-                        textBox.Text = dialog.SelectedPath;
-                }
-            }), 2, row);
-        }
-
-        private void ConfigureGrid()
-        {
-            _layersGrid.Dock = DockStyle.Fill;
-            _layersGrid.AllowUserToAddRows = false;
-            _layersGrid.AllowUserToDeleteRows = true;
-            _layersGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            _layersGrid.RowHeadersVisible = false;
-            _layersGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            _layersGrid.MultiSelect = false;
-
-            _layersGrid.Columns.Add(new DataGridViewCheckBoxColumn { Name = "Enabled", HeaderText = "✓", Width = 28 });
-            _layersGrid.Columns.Add(new DataGridViewComboBoxColumn { Name = "Type", HeaderText = "Шар", Width = 88, DataSource = LayerTypes.Keys.ToList() });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Source", HeaderText = "Файл/колонка/текст", Width = 150 });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "X", HeaderText = "X мм", Width = 58 });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Ymm", HeaderText = "Y мм", Width = 58 });
-            _layersGrid.Columns.Add(new DataGridViewComboBoxColumn { Name = "BaseAnchor", HeaderText = "Від основи", Width = 112, DataSource = Anchors.Keys.ToList() });
-            _layersGrid.Columns.Add(new DataGridViewComboBoxColumn { Name = "Anchor", HeaderText = "Прив'язка", Width = 112, DataSource = Anchors.Keys.ToList() });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Rotation", HeaderText = "°", Width = 44 });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "Scale", HeaderText = "%", Width = 46 });
-            _layersGrid.Columns.Add(new DataGridViewComboBoxColumn { Name = "CodeType", HeaderText = "Тип коду", Width = 82, DataSource = CodeTypes.Keys.ToList() });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "TargetWidth", HeaderText = "Ш код мм", Width = 70 });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "TargetHeight", HeaderText = "В код мм", Width = 70 });
-            _layersGrid.Columns.Add(new DataGridViewCheckBoxColumn { Name = "ShowText", HeaderText = "текст", Width = 46 });
-            _layersGrid.Columns.Add(new DataGridViewComboBoxColumn { Name = "Font", HeaderText = "Шрифт", Width = 120, DataSource = _fontNames });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "FontSize", HeaderText = "pt", Width = 44 });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "C", HeaderText = "C", Width = 38 });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "M", HeaderText = "M", Width = 38 });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "ColorY", HeaderText = "Y", Width = 38 });
-            _layersGrid.Columns.Add(new DataGridViewTextBoxColumn { Name = "K", HeaderText = "K", Width = 38 });
         }
 
         private void SelectBasePdf(object sender, EventArgs e)
@@ -371,6 +135,75 @@ namespace JobSpace.UserForms.PDF
                     SchedulePreviewUpdate();
                 }
             }
+        }
+
+        private void SelectOutputFolder(object sender, EventArgs e)
+        {
+            using (var dialog = new FolderBrowserDialog())
+            {
+                dialog.SelectedPath = Directory.Exists(_outputTextBox.Text) ? _outputTextBox.Text : string.Empty;
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                    _outputTextBox.Text = dialog.SelectedPath;
+            }
+        }
+
+        private void AddBaseLayerClick(object sender, EventArgs e) => AddLayerRow(PersonalizationLayerType.BasePdf, _basePdfTextBox.Text);
+
+        private void AddPdfLayerClick(object sender, EventArgs e) => AddLayerRow(PersonalizationLayerType.Pdf, GetFirstColumn());
+
+        private void AddTextLayerClick(object sender, EventArgs e) => AddLayerRow(PersonalizationLayerType.Text, GetFirstColumn());
+
+        private void AddCodeLayerClick(object sender, EventArgs e) => AddLayerRow(PersonalizationLayerType.Code, GetFirstColumn());
+
+        private void MoveLayerUpClick(object sender, EventArgs e) => MoveSelectedRow(-1);
+
+        private void MoveLayerDownClick(object sender, EventArgs e) => MoveSelectedRow(1);
+
+        private void DuplicateLayerClick(object sender, EventArgs e) => DuplicateSelectedRow();
+
+        private void DeleteLayerClick(object sender, EventArgs e) => DeleteSelectedRow();
+
+        private void CancelClick(object sender, EventArgs e) => Close();
+
+        private void BasePdfTextChanged(object sender, EventArgs e) => SchedulePreviewUpdate();
+
+        private void DataTextChanged(object sender, EventArgs e)
+        {
+            ClearPreviewDataCache();
+            UpdateDataInfo();
+            SchedulePreviewUpdate();
+        }
+
+        private void SchedulePreviewTextChanged(object sender, EventArgs e) => SchedulePreviewUpdate();
+
+        private void PreviewTimerTick(object sender, EventArgs e)
+        {
+            _previewTimer.Stop();
+            if (_autoPreviewCheckBox.Checked)
+                TryUpdatePreview(false);
+        }
+
+        private void InteractivePreviewTimerTick(object sender, EventArgs e)
+        {
+            _interactivePreviewTimer.Stop();
+            TryUpdatePreview(false);
+        }
+
+        private void LayersGridCellValueChanged(object sender, DataGridViewCellEventArgs e) => SchedulePreviewUpdate();
+
+        private void LayersGridRowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e) => SchedulePreviewUpdate();
+
+        private void LayersGridCurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (_layersGrid.IsCurrentCellDirty)
+                _layersGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
+        }
+
+        private void ZoomSelectedIndexChanged(object sender, EventArgs e) => TryUpdatePreview(false);
+
+        private void PreviewPanelMouseEnter(object sender, EventArgs e)
+        {
+            _previewIsActive = true;
         }
 
         private void AddLayerRow(PersonalizationLayerType type, string source)
@@ -539,39 +372,72 @@ namespace JobSpace.UserForms.PDF
             return settings;
         }
 
-        private void TryUpdatePreview(bool showErrors)
+        private async void TryUpdatePreview(bool showErrors)
         {
-            string tempFile = null;
+            int version = ++_previewRequestVersion;
+            if (_previewRenderRunning)
+            {
+                _previewRenderPending = true;
+                _previewRenderPendingShowErrors |= showErrors;
+                return;
+            }
+
+            await RenderPreviewAsync(version, showErrors);
+        }
+
+        private async Task RenderPreviewAsync(int version, bool showErrors)
+        {
+            Point previewScroll = GetPreviewScrollPosition();
 
             try
             {
-                if (_renderingPreview)
-                    return;
-
-                _renderingPreview = true;
+                _previewRenderRunning = true;
                 Settings = ReadSettings(false);
-                tempFile = Path.Combine(Path.GetTempPath(), $"pdf_personalization_preview_{Guid.NewGuid():N}.pdf");
-                new PdfPersonalizationRenderer().RenderPreview(Settings, (int)_previewRow.Value - 1, tempFile);
+                PdfPersonalizationData data = GetPreviewData();
+                PdfPersonalizationSettings settings = Settings;
+                int rowIndex = (int)_previewRow.Value - 1;
+                int dpi = GetPreviewRenderDpi();
 
-                using (var bitmap = PdfHelper.RenderByTrimBox(tempFile, 0, GetPreviewRenderDpi()))
+                Bitmap rendered = await Task.Run(() =>
+                {
+                    return _previewComposer.Compose(settings, data, rowIndex, dpi);
+                });
+
+                if (IsDisposed || version != _previewRequestVersion)
+                {
+                    rendered.Dispose();
+                    return;
+                }
+
+                try
                 {
                     Image old = _previewBox.Image;
-                    _previewBox.Image = new Bitmap(bitmap);
+                    _previewBox.Image = rendered;
                     ApplyPreviewZoom();
+                    RestorePreviewScrollPosition(previewScroll);
                     old?.Dispose();
+                }
+                catch
+                {
+                    rendered.Dispose();
+                    throw;
                 }
             }
             catch (Exception ex)
             {
-                if (showErrors)
+                if (showErrors && !IsDisposed && version == _previewRequestVersion)
                     MessageBox.Show(this, ex.Message, "Preview", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             finally
             {
-                if (!string.IsNullOrWhiteSpace(tempFile))
-                    TryDelete(tempFile);
-
-                _renderingPreview = false;
+                _previewRenderRunning = false;
+                if (_previewRenderPending && !IsDisposed)
+                {
+                    bool pendingShowErrors = _previewRenderPendingShowErrors;
+                    _previewRenderPending = false;
+                    _previewRenderPendingShowErrors = false;
+                    TryUpdatePreview(pendingShowErrors);
+                }
             }
         }
 
@@ -582,6 +448,15 @@ namespace JobSpace.UserForms.PDF
 
             _previewTimer.Stop();
             _previewTimer.Start();
+        }
+
+        private void ScheduleInteractivePreviewUpdate()
+        {
+            if (_loadingTemplate)
+                return;
+
+            _interactivePreviewTimer.Stop();
+            _interactivePreviewTimer.Start();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -630,7 +505,7 @@ namespace JobSpace.UserForms.PDF
 
         private bool PreviewHasFocus()
         {
-            return _previewBox.Focused || _previewPanel.Focused || _previewPanel.ContainsFocus;
+            return _previewIsActive || _previewBox.Focused || _previewPanel.Focused || _previewPanel.ContainsFocus;
         }
 
         private void PreviewMouseDown(object sender, MouseEventArgs e)
@@ -638,12 +513,13 @@ namespace JobSpace.UserForms.PDF
             if (e.Button != MouseButtons.Left || _layersGrid.CurrentRow == null)
                 return;
 
+            _previewIsActive = true;
             _draggingPreviewLayer = true;
+            _dragMovedPreviewLayer = false;
             _dragStartPoint = e.Location;
             _dragStartXmm = GetCellDouble(_layersGrid.CurrentRow, "X", 0);
             _dragStartYmm = GetCellDouble(_layersGrid.CurrentRow, "Ymm", 0);
             _previewBox.Capture = true;
-            _previewPanel.Focus();
         }
 
         private void PreviewMouseMove(object sender, MouseEventArgs e)
@@ -657,11 +533,15 @@ namespace JobSpace.UserForms.PDF
 
             double imageDx = (e.X - _dragStartPoint.X) / pixelsPerImagePixel;
             double imageDy = (e.Y - _dragStartPoint.Y) / pixelsPerImagePixel;
+            if (Math.Abs(imageDx) < 1 && Math.Abs(imageDy) < 1)
+                return;
+
             double dpiX = _previewBox.Image.HorizontalResolution > 0 ? _previewBox.Image.HorizontalResolution : 110;
             double dpiY = _previewBox.Image.VerticalResolution > 0 ? _previewBox.Image.VerticalResolution : 110;
             double dxMm = imageDx * 25.4 / dpiX;
             double dyMm = -imageDy * 25.4 / dpiY;
 
+            _dragMovedPreviewLayer = true;
             SetSelectedLayerPosition(_dragStartXmm + dxMm, _dragStartYmm + dyMm, false);
             SchedulePreviewUpdate();
         }
@@ -673,7 +553,8 @@ namespace JobSpace.UserForms.PDF
 
             _draggingPreviewLayer = false;
             _previewBox.Capture = false;
-            TryUpdatePreview(false);
+            if (_dragMovedPreviewLayer)
+                ScheduleInteractivePreviewUpdate();
         }
 
         private void PreviewMouseWheel(object sender, MouseEventArgs e)
@@ -700,18 +581,41 @@ namespace JobSpace.UserForms.PDF
             string selected = Convert.ToString(_zoomComboBox.SelectedItem);
             if (string.Equals(selected, "Fit", StringComparison.OrdinalIgnoreCase) || string.IsNullOrWhiteSpace(selected))
             {
+                _previewPanel.AutoScrollMinSize = Size.Empty;
                 _previewBox.Dock = DockStyle.Fill;
                 _previewBox.SizeMode = PictureBoxSizeMode.Zoom;
                 return;
             }
 
+            Point scroll = GetPreviewScrollPosition();
             int zoom = GetCurrentZoomPercent();
             _previewBox.Dock = DockStyle.None;
             _previewBox.SizeMode = PictureBoxSizeMode.StretchImage;
             _previewBox.Size = new Size(
                 Math.Max(1, (int)Math.Round(_previewBox.Image.Width * zoom / 100.0)),
                 Math.Max(1, (int)Math.Round(_previewBox.Image.Height * zoom / 100.0)));
-            _previewBox.Location = new Point(0, 0);
+            _previewPanel.AutoScrollMinSize = _previewBox.Size;
+            if (scroll == Point.Empty)
+                _previewBox.Location = Point.Empty;
+        }
+
+        private Point GetPreviewScrollPosition()
+        {
+            Point position = _previewPanel.AutoScrollPosition;
+            return new Point(Math.Abs(position.X), Math.Abs(position.Y));
+        }
+
+        private void RestorePreviewScrollPosition(Point position)
+        {
+            if (position == Point.Empty)
+                return;
+
+            _previewPanel.AutoScrollPosition = position;
+            BeginInvoke((Action)(() =>
+            {
+                if (!_previewPanel.IsDisposed)
+                    _previewPanel.AutoScrollPosition = position;
+            }));
         }
 
         private int GetCurrentZoomPercent()
@@ -763,9 +667,34 @@ namespace JobSpace.UserForms.PDF
             _layersGrid.CurrentRow.Cells["Ymm"].Value = yMm.ToString("0.###", CultureInfo.InvariantCulture);
 
             if (refreshPreview)
-                TryUpdatePreview(false);
+                ScheduleInteractivePreviewUpdate();
             else
                 SchedulePreviewUpdate();
+        }
+
+        private PdfPersonalizationData GetPreviewData()
+        {
+            string path = _dataTextBox.Text;
+            DateTime writeTimeUtc = File.Exists(path) ? File.GetLastWriteTimeUtc(path) : DateTime.MinValue;
+
+            if (_cachedPreviewData != null &&
+                string.Equals(_cachedPreviewDataPath, path, StringComparison.OrdinalIgnoreCase) &&
+                _cachedPreviewDataWriteTimeUtc == writeTimeUtc)
+            {
+                return _cachedPreviewData;
+            }
+
+            _cachedPreviewData = PdfPersonalizationData.Load(path);
+            _cachedPreviewDataPath = path;
+            _cachedPreviewDataWriteTimeUtc = writeTimeUtc;
+            return _cachedPreviewData;
+        }
+
+        private void ClearPreviewDataCache()
+        {
+            _cachedPreviewData = null;
+            _cachedPreviewDataPath = null;
+            _cachedPreviewDataWriteTimeUtc = DateTime.MinValue;
         }
 
         private static double GetCellDouble(DataGridViewRow row, string columnName, double fallback)
@@ -897,24 +826,5 @@ namespace JobSpace.UserForms.PDF
             return PdfPersonalizationData.Load(_dataTextBox.Text).Columns.FirstOrDefault() ?? string.Empty;
         }
 
-        private static void TryDelete(string file)
-        {
-            try
-            {
-                if (File.Exists(file))
-                    File.Delete(file);
-            }
-            catch
-            {
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-                _previewBox.Image?.Dispose();
-
-            base.Dispose(disposing);
-        }
     }
 }
