@@ -44,6 +44,7 @@ namespace JobSpace.Static.Pdf.Personalization
             using (Graphics graphics = Graphics.FromImage(result))
             {
                 graphics.Clear(Color.White);
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
                 graphics.SmoothingMode = SmoothingMode.HighQuality;
                 graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
@@ -246,7 +247,11 @@ namespace JobSpace.Static.Pdf.Personalization
                     double viewTop = viewBox.bottom + viewBox.height;
                     graphics.TranslateTransform((float)((point.x - viewBox.left) * pixelsPerPoint), (float)((viewTop - point.y) * pixelsPerPoint));
                     graphics.RotateTransform((float)-layer.Rotation);
-                    graphics.DrawString(text, font, brush, new PointF(0, -baselinePx), format);
+                    using (var path = new GraphicsPath())
+                    {
+                        path.AddString(text, font.FontFamily, (int)font.Style, font.Size, new PointF(0, -baselinePx), format);
+                        graphics.FillPath(brush, path);
+                    }
                 }
                 finally
                 {
