@@ -1,4 +1,5 @@
 using Interfaces.FileBrowser;
+using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.UserForms.PDF;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Windows.Forms;
 namespace JobSpace.Static.Pdf.Personalization
 {
     [PdfTool("Персоналізація", "PDF з CSV/TSV", Icon = "personalization", Description = "Персоналізація PDF незалежними шарами з попереднім переглядом", Order = 1)]
+    [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfPersonalizationTool : IPdfTool
     {
         private PdfPersonalizationSettings _settings;
