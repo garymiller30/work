@@ -121,8 +121,7 @@ namespace JobSpace.Static.Pdf.Personalization
             return Path.IsPathRooted(value) ? value : Path.Combine(SourceFolder, value);
         }
 
-        public IReadOnlyList<string> FileColumns => Headers.Where(x => x.StartsWith("@", StringComparison.Ordinal)).ToList();
-        public IReadOnlyList<string> TextColumns => Headers.Where(x => !x.StartsWith("@", StringComparison.Ordinal)).ToList();
+        public IReadOnlyList<string> Columns => Headers.ToList();
 
         private static List<string> SplitTabLine(string line)
         {
