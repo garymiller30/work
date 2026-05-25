@@ -190,6 +190,7 @@ namespace JobSpace.UserForms.PDF
             layerButtons.Controls.Add(MakeButton("+ код", (s, e) => AddLayerRow(PersonalizationLayerType.Code, GetFirstColumn())));
             layerButtons.Controls.Add(MakeButton("вгору", (s, e) => MoveSelectedRow(-1)));
             layerButtons.Controls.Add(MakeButton("вниз", (s, e) => MoveSelectedRow(1)));
+            layerButtons.Controls.Add(MakeButton("дублювати", (s, e) => DuplicateSelectedRow()));
             layerButtons.Controls.Add(MakeButton("видалити", (s, e) => DeleteSelectedRow()));
             left.SetColumnSpan(layerButtons, 3);
             left.Controls.Add(layerButtons, 0, 8);
@@ -424,6 +425,34 @@ namespace JobSpace.UserForms.PDF
                 _layersGrid.Rows.RemoveAt(_layersGrid.CurrentRow.Index);
                 SchedulePreviewUpdate();
             }
+        }
+
+        private void DuplicateSelectedRow()
+        {
+            if (_layersGrid.CurrentRow == null)
+                return;
+
+            int sourceIndex = _layersGrid.CurrentRow.Index;
+            int targetIndex = sourceIndex + 1;
+            int newIndex = _layersGrid.Rows.Add();
+            DataGridViewRow source = _layersGrid.Rows[sourceIndex];
+            DataGridViewRow clone = _layersGrid.Rows[newIndex];
+
+            foreach (DataGridViewCell sourceCell in source.Cells)
+            {
+                clone.Cells[sourceCell.ColumnIndex].Value = sourceCell.Value;
+            }
+
+            if (targetIndex < _layersGrid.Rows.Count - 1)
+            {
+                _layersGrid.Rows.RemoveAt(newIndex);
+                _layersGrid.Rows.Insert(targetIndex, clone);
+            }
+
+            _layersGrid.ClearSelection();
+            _layersGrid.Rows[targetIndex].Selected = true;
+            _layersGrid.CurrentCell = _layersGrid.Rows[targetIndex].Cells[0];
+            SchedulePreviewUpdate();
         }
 
         private void PreviewClick(object sender, EventArgs e)
