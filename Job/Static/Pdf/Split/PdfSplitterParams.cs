@@ -11,5 +11,6 @@ namespace JobSpace.Static.Pdf.Split
         public double Bleed { get; set; } = 3;
         public int From { get; set; } = 1;
         public int To { get; set; } = 0;
+        public bool SaddleStitchOrder { get; set; } = false;
     }
 }

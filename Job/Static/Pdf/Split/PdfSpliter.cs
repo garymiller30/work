@@ -49,62 +49,19 @@ namespace JobSpace.Static.Pdf.Split
                     {
                         var indoc = p.open_pdi_document(filePath, "");
                         var endpage = (int)p.pcos_get_number(indoc, "length:pages");
-
-                        for (var pageno = 1; pageno <= endpage; pageno++)
+                        int to = _param.To > 0 ? _param.To : endpage;
+                        if (to > endpage)
                         {
-                            int page;
-                            int to = _param.To > 0 ? _param.To : endpage;
+                            to = endpage;
+                        }
 
-                            if (pageno >= _param.From && pageno <= to)
-                            {
-                                page = p.open_pdi_page(indoc, pageno, "");
-                                {
-                                    Box box = PdfHelper.GetTrimbox(p, indoc, pageno - 1);
-
-                                    double bleed = _param.Bleed * PdfHelper.mn;
-
-                                    double pageW = box.width / 2 + bleed;
-                                    double pageH = box.height + bleed * 2;
-
-                                    double trim_left = bleed;
-                                    double trim_bottom = bleed;
-                                    double trim_right = pageW;
-                                    double trim_top = trim_bottom + box.height;
-
-                                    // left page
-                                    p.begin_page_ext(
-                                    pageW,
-                                    pageH,
-                                    $"trimbox={{{trim_left} {trim_bottom} {trim_right} {trim_top}}}");
-
-                                    double pageX = bleed - box.left;
-                                    double pageY = bleed - box.bottom;
-
-                                    p.fit_pdi_page(page, pageX, pageY, "");
-                                    p.end_page_ext("");
-
-                                    // right page
-                                    trim_right = box.width / 2;
-
-                                    p.begin_page_ext(
-                                    pageW,
-                                    pageH,
-                                    $"trimbox={{{0} {trim_bottom} {trim_right} {trim_top}}}");
-
-                                    pageX -= pageW;
-
-                                    p.fit_pdi_page(page, pageX, pageY, "");
-                                    p.end_page_ext("");
-                                }
-                            }
-                            else
-                            {
-                                page = p.open_pdi_page(indoc, pageno, "cloneboxes");
-                                p.begin_page_ext(0, 0, "");
-                                p.fit_pdi_page(page, 0, 0, "cloneboxes");
-                                p.end_page_ext("");
-                            }
-                            p.close_pdi_page(page);
+                        if (_param.SaddleStitchOrder)
+                        {
+                            SplitSaddleStitchOrder(p, indoc, endpage, to);
+                        }
+                        else
+                        {
+                            SplitSourceOrder(p, indoc, endpage, to);
                         }
                         p.close_pdi_document(indoc);
                     }
@@ -118,6 +75,114 @@ namespace JobSpace.Static.Pdf.Split
             }
 
 
+        }
+
+        private void SplitSourceOrder(PDFlib p, int indoc, int endpage, int to)
+        {
+            for (var pageno = 1; pageno <= endpage; pageno++)
+            {
+                if (pageno >= _param.From && pageno <= to)
+                {
+                    AddSplitPage(p, indoc, pageno, true);
+                    AddSplitPage(p, indoc, pageno, false);
+                }
+                else
+                {
+                    ClonePage(p, indoc, pageno);
+                }
+            }
+        }
+
+        private void SplitSaddleStitchOrder(PDFlib p, int indoc, int endpage, int to)
+        {
+            if (_param.From > to)
+            {
+                for (var pageno = 1; pageno <= endpage; pageno++)
+                {
+                    ClonePage(p, indoc, pageno);
+                }
+
+                return;
+            }
+
+            for (var pageno = 1; pageno < _param.From; pageno++)
+            {
+                ClonePage(p, indoc, pageno);
+            }
+
+            int spreadCount = to - _param.From + 1;
+            int pagesCount = spreadCount * 2;
+
+            for (var outputPage = 1; outputPage <= pagesCount; outputPage++)
+            {
+                int spreadNumber = outputPage <= spreadCount
+                    ? outputPage
+                    : pagesCount - outputPage + 1;
+
+                bool leftPage = outputPage % 2 == 0;
+                int sourcePage = _param.From + spreadNumber - 1;
+
+                AddSplitPage(p, indoc, sourcePage, leftPage);
+            }
+
+            for (var pageno = to + 1; pageno <= endpage; pageno++)
+            {
+                ClonePage(p, indoc, pageno);
+            }
+        }
+
+        private void AddSplitPage(PDFlib p, int indoc, int pageno, bool leftPage)
+        {
+            int page = p.open_pdi_page(indoc, pageno, "");
+            try
+            {
+                Box box = PdfHelper.GetTrimbox(p, indoc, pageno - 1);
+
+                double bleed = _param.Bleed * PdfHelper.mn;
+
+                double pageW = box.width / 2 + bleed;
+                double pageH = box.height + bleed * 2;
+
+                double trim_left = leftPage ? bleed : 0;
+                double trim_bottom = bleed;
+                double trim_right = leftPage ? pageW : box.width / 2;
+                double trim_top = trim_bottom + box.height;
+
+                p.begin_page_ext(
+                    pageW,
+                    pageH,
+                    $"trimbox={{{trim_left} {trim_bottom} {trim_right} {trim_top}}}");
+
+                double pageX = bleed - box.left;
+                double pageY = bleed - box.bottom;
+
+                if (!leftPage)
+                {
+                    pageX -= pageW;
+                }
+
+                p.fit_pdi_page(page, pageX, pageY, "");
+                p.end_page_ext("");
+            }
+            finally
+            {
+                p.close_pdi_page(page);
+            }
+        }
+
+        private void ClonePage(PDFlib p, int indoc, int pageno)
+        {
+            int page = p.open_pdi_page(indoc, pageno, "cloneboxes");
+            try
+            {
+                p.begin_page_ext(0, 0, "");
+                p.fit_pdi_page(page, 0, 0, "cloneboxes");
+                p.end_page_ext("");
+            }
+            finally
+            {
+                p.close_pdi_page(page);
+            }
         }
     }
 }
