@@ -584,6 +584,7 @@ namespace JobSpace.Static
                             if (savedPreview != null)
                                 return savedPreview;
 
+                            Log.Warning(null, "File_GetPreview", $"Preview rendered but was not saved to cache for {sourceFile.FullName}, page {pageIdx + 1}, dpi {dpi}.");
                             return new Bitmap(preview);
                         }
                     }
@@ -674,12 +675,10 @@ namespace JobSpace.Static
 
                     string previewFileName = BuildPreviewFileName(sourceFile, pageIdx, dpi);
                     string previewPath = Path.Combine(previewDir, previewFileName);
-                    tempPreviewPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.tmp");
+                    tempPreviewPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.png.tmp");
 
-                    preview.Save(tempPreviewPath, System.Drawing.Imaging.ImageFormat.Png);
-                    if (System.IO.File.Exists(previewPath))
-                        System.IO.File.Delete(previewPath);
-                    System.IO.File.Move(tempPreviewPath, previewPath);
+                    SavePngWithoutFileLock(preview, tempPreviewPath);
+                    MoveFileReplacing(tempPreviewPath, previewPath);
                     tempPreviewPath = null;
 
                     if (entry == null)
@@ -705,7 +704,7 @@ namespace JobSpace.Static
             }
             catch (Exception e)
             {
-                Log.Error(null, "TrySaveCachedPreview", $"Cannot save cached preview for {sourceFile?.FullName}, page {pageIdx + 1}: {e.Message}");
+                Log.Error(null, "TrySaveCachedPreview", $"Cannot save cached preview for {sourceFile?.FullName}, page {pageIdx + 1}: {e}");
                 return null;
             }
             finally
@@ -745,8 +744,16 @@ namespace JobSpace.Static
             if (!System.IO.File.Exists(indexPath))
                 return new PreviewCacheIndex();
 
-            string json = System.IO.File.ReadAllText(indexPath, Encoding.UTF8);
-            return JsonConvert.DeserializeObject<PreviewCacheIndex>(json) ?? new PreviewCacheIndex();
+            try
+            {
+                string json = System.IO.File.ReadAllText(indexPath, Encoding.UTF8);
+                return JsonConvert.DeserializeObject<PreviewCacheIndex>(json) ?? new PreviewCacheIndex();
+            }
+            catch (Exception e)
+            {
+                Log.Error(null, "LoadPreviewCacheIndex", $"Cannot read preview cache index {indexPath}: {e}");
+                return new PreviewCacheIndex();
+            }
         }
 
         private static void SavePreviewCacheIndex(string sourceDirectory, PreviewCacheIndex index)
@@ -759,15 +766,62 @@ namespace JobSpace.Static
             try
             {
                 System.IO.File.WriteAllText(tempIndexPath, json, Encoding.UTF8);
-                if (System.IO.File.Exists(indexPath))
-                    System.IO.File.Delete(indexPath);
-                System.IO.File.Move(tempIndexPath, indexPath);
+                MoveFileReplacing(tempIndexPath, indexPath);
                 tempIndexPath = null;
             }
             finally
             {
                 DeleteFileQuietly(tempIndexPath);
             }
+        }
+
+        private static void SavePngWithoutFileLock(Bitmap preview, string path)
+        {
+            using (Bitmap normalizedPreview = NormalizeBitmapForPng(preview))
+            using (var stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+            {
+                normalizedPreview.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            }
+        }
+
+        private static Bitmap NormalizeBitmapForPng(Bitmap source)
+        {
+            var normalized = new Bitmap(source.Width, source.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            normalized.SetResolution(source.HorizontalResolution, source.VerticalResolution);
+
+            using (Graphics g = Graphics.FromImage(normalized))
+            {
+                g.Clear(Color.White);
+                g.DrawImage(source, 0, 0, source.Width, source.Height);
+            }
+
+            return normalized;
+        }
+
+        private static void MoveFileReplacing(string sourcePath, string destinationPath)
+        {
+            const int maxAttempts = 3;
+
+            for (int attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                try
+                {
+                    if (System.IO.File.Exists(destinationPath))
+                        System.IO.File.Delete(destinationPath);
+
+                    System.IO.File.Move(sourcePath, destinationPath);
+                    return;
+                }
+                catch when (attempt < maxAttempts)
+                {
+                    System.Threading.Thread.Sleep(100);
+                }
+            }
+
+            if (System.IO.File.Exists(destinationPath))
+                System.IO.File.Delete(destinationPath);
+
+            System.IO.File.Move(sourcePath, destinationPath);
         }
 
         private static void DeleteFileQuietly(string path)
