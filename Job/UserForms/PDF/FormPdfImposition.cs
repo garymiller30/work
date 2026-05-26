@@ -472,7 +472,9 @@ namespace JobSpace.UserForms.PDF
                     Id = file.Id,
                     FileName = file.FileName,
                     PageCount = file.Pages?.Length ?? 0,
-                    Count = file.Count
+                    Count = file.Count,
+                    PageWidth = GetFirstPageWidth(file),
+                    PageHeight = GetFirstPageHeight(file)
                 })
                 .ToList();
         }
@@ -504,13 +506,39 @@ namespace JobSpace.UserForms.PDF
                 if (saved.Id != current.Id ||
                     saved.PageCount != current.PageCount ||
                     saved.Count != current.Count ||
-                    !string.Equals(saved.FileName, current.FileName, StringComparison.InvariantCultureIgnoreCase))
+                    !IsSavedPdfFormatCompatible(saved, current))
                 {
                     return false;
                 }
             }
 
             return true;
+        }
+
+        private static bool IsSavedPdfFormatCompatible(SavedPdfFileInfo saved, SavedPdfFileInfo current)
+        {
+            if (saved.PageWidth <= 0 || saved.PageHeight <= 0 || current.PageWidth <= 0 || current.PageHeight <= 0)
+            {
+                return true;
+            }
+
+            var savedFormat = NormalizeFormat(saved.PageWidth, saved.PageHeight);
+            var currentFormat = NormalizeFormat(current.PageWidth, current.PageHeight);
+
+            return Math.Abs(savedFormat.width - currentFormat.width) <= 1 &&
+                   Math.Abs(savedFormat.height - currentFormat.height) <= 1;
+        }
+
+        private static decimal GetFirstPageWidth(PdfFile file)
+        {
+            var page = file?.Pages?.FirstOrDefault();
+            return page == null ? 0 : (decimal)page.Trim.W;
+        }
+
+        private static decimal GetFirstPageHeight(PdfFile file)
+        {
+            var page = file?.Pages?.FirstOrDefault();
+            return page == null ? 0 : (decimal)page.Trim.H;
         }
 
         private bool IsRunListCompatible(ImposRunList runList)
@@ -867,6 +895,8 @@ namespace JobSpace.UserForms.PDF
             public string FileName { get; set; }
             public int PageCount { get; set; }
             public int Count { get; set; }
+            public decimal PageWidth { get; set; }
+            public decimal PageHeight { get; set; }
         }
 
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
