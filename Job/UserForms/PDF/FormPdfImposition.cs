@@ -519,7 +519,7 @@ namespace JobSpace.UserForms.PDF
         {
             if (saved.PageWidth <= 0 || saved.PageHeight <= 0 || current.PageWidth <= 0 || current.PageHeight <= 0)
             {
-                return true;
+                return string.Equals(saved.FileName, current.FileName, StringComparison.InvariantCultureIgnoreCase);
             }
 
             var savedFormat = NormalizeFormat(saved.PageWidth, saved.PageHeight);
