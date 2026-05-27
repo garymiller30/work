@@ -103,7 +103,6 @@ namespace PluginFileshareWeb
             toolStrip1.RenderMode = ToolStripRenderMode.Professional;
             toolStrip1.Renderer = new FileshareToolStripRenderer();
 
-            StyleCommandButton(tsb_add_tab, Color.FromArgb(37, 99, 235), Color.White);
             StyleCommandButton(tsb_go, Color.FromArgb(22, 163, 74), Color.White);
             StyleCommandButton(tsb_paste_go, Color.FromArgb(14, 165, 233), Color.White);
             StyleCommandButton(tsb_zoomOk, Color.FromArgb(226, 232, 240), Color.FromArgb(15, 23, 42));
@@ -296,17 +295,15 @@ namespace PluginFileshareWeb
             {
                 try
                 {
-                    if (curwebView2 == null) { await AddTabAsync(); }
+                    await AddTabAsync(); 
 
                     string url = EnsureUrlHasProtocol(toolStripTextBoxUrl.Text.Trim());
                     RememberWebViewUrl(curwebView2, url);
                     curwebView2.Source = new Uri(url);
-
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    
                 }
             }
         }
@@ -535,6 +532,8 @@ namespace PluginFileshareWeb
             KryptonWorkspaceCell cell = GetTargetCell();
             cell.Pages.Add(tabPage);
             _tab_control.ActivePage = tabPage;
+            if (_tab_control.ActiveCell !=null)
+                _tab_control.ActiveCell.SelectedPage = tabPage;
 
             SaveWorkspaceLayoutSafe();
             return webView;

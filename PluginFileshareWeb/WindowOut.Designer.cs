@@ -32,8 +32,6 @@
             toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             kryptonWorkspace1 = new Krypton.Workspace.KryptonWorkspace();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
-            tsb_add_tab = new System.Windows.Forms.ToolStripButton();
-            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             toolStripTextBoxUrl = new System.Windows.Forms.ToolStripTextBox();
             tsb_go = new System.Windows.Forms.ToolStripButton();
             tsb_paste_go = new System.Windows.Forms.ToolStripButton();
@@ -99,7 +97,7 @@
             toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { tsb_add_tab, toolStripSeparator2, toolStripTextBoxUrl, tsb_go, tsb_paste_go, toolStripSeparator1, tstb_zoomFactor, toolStripLabel1, tsb_zoomOk, toolStripSeparator3, toolStripButton_Add });
+            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripTextBoxUrl, tsb_go, tsb_paste_go, toolStripSeparator1, tstb_zoomFactor, toolStripLabel1, tsb_zoomOk, toolStripSeparator3, toolStripButton_Add });
             toolStrip1.Location = new System.Drawing.Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Padding = new System.Windows.Forms.Padding(8, 3, 8, 3);
@@ -107,23 +105,6 @@
             toolStrip1.Stretch = true;
             toolStrip1.TabIndex = 2;
             toolStrip1.Text = "toolStrip1";
-            // 
-            // tsb_add_tab
-            // 
-            tsb_add_tab.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            tsb_add_tab.Image = (System.Drawing.Image)resources.GetObject("tsb_add_tab.Image");
-            tsb_add_tab.ImageTransparentColor = System.Drawing.Color.Magenta;
-            tsb_add_tab.Margin = new System.Windows.Forms.Padding(0, 0, 6, 0);
-            tsb_add_tab.Name = "tsb_add_tab";
-            tsb_add_tab.Size = new System.Drawing.Size(23, 23);
-            tsb_add_tab.Text = "+";
-            tsb_add_tab.ToolTipText = "Створити нову вкладку";
-            tsb_add_tab.Click += tsb_add_tab_Click;
-            // 
-            // toolStripSeparator2
-            // 
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
             // 
             // toolStripTextBoxUrl
             // 
@@ -248,11 +229,9 @@
         private System.Windows.Forms.ToolStripButton tsb_go;
         private System.Windows.Forms.ToolStripButton tsb_paste_go;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripTextBox tstb_zoomFactor;
         private System.Windows.Forms.ToolStripButton tsb_zoomOk;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripButton tsb_add_tab;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         
         private System.Windows.Forms.TabPage tabPage1;
