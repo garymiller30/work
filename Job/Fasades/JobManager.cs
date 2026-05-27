@@ -495,6 +495,11 @@ namespace JobSpace.Fasades
                     var sourceFile = Extensions.GetSignaFilePath(sourceJob, _profile);
                     var destFile = Extensions.GetSignaFilePath(targetJob, _profile);
 
+                    if (Directory.Exists(Path.GetDirectoryName(destFile)) == false)
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(destFile));
+                    }
+
                     File.Copy(sourceFile, destFile, true);
 
                     new SignaController(destFile).ChangeSignaOrderNumber(destFile, j.Number);
@@ -794,6 +799,8 @@ namespace JobSpace.Fasades
 
         public void DublicateWithNewNumber(IJob job)
         {
+            if (job == null) return;
+
             using (var form = new FormEditText())
             {
                 form.Text = "новий номер замовлення";
@@ -806,10 +813,17 @@ namespace JobSpace.Fasades
                     nj.Date = DateTime.Now;
                     nj.PreviousOrder = nj.Number;
                     nj.Number = form.EditText;
+                    nj.UseCustomFolder = false;
+                    nj.Folder = string.Empty;
+                    nj.DontCreateFolder = false;
+
                     if (nj.PreviousOrder.Equals(nj.Number))
                     {
                         nj.Description += "_(COPY)";
                     }
+
+                    _profile.Plugins.AfterJobChange(nj);
+
                     if (AddJob(nj))
                     {
 
