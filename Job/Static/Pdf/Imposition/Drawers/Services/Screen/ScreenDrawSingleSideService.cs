@@ -280,17 +280,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             if (!pagePreviewDrawn)
             {
                 ScreenDrawer.DrawFillRectangle(g, rect, brush);
+                ScreenDrawer.DrawRectangle(g, rect, pen);
+                ScreenDrawCommons.DrawPageRotateMarker(g, page, page.Front, rect, sH);
+                DrawTextFront(g, sheet, page, sH);
             }
-
-            ScreenDrawer.DrawRectangle(g, rect, pen);
             brush.Dispose();
             pen.Dispose();
 
-            ScreenDrawCommons.DrawPageRotateMarker(g, page, page.Front, rect, sH);
-            if (!pagePreviewDrawn)
-            {
-                DrawTextFront(g, sheet, page, sH);
-            }
             DrawCropsMark(g, page, sH);
         }
 
