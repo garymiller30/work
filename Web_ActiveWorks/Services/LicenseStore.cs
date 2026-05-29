@@ -86,7 +86,7 @@ public sealed class LicenseStore
         }
 
         await using var stream = File.OpenRead(_storePath);
-        return await JsonSerializer.DeserializeAsync<LicenseStoreDocument>(stream, _jsonOptions) ?? new LicenseStoreDocument();
+        return Normalize(await JsonSerializer.DeserializeAsync<LicenseStoreDocument>(stream, _jsonOptions));
     }
 
     private async Task SaveCoreAsync(LicenseStoreDocument document)
@@ -94,5 +94,19 @@ public sealed class LicenseStore
         Directory.CreateDirectory(Path.GetDirectoryName(_storePath)!);
         await using var stream = File.Create(_storePath);
         await JsonSerializer.SerializeAsync(stream, document, _jsonOptions);
+    }
+
+    private static LicenseStoreDocument Normalize(LicenseStoreDocument? document)
+    {
+        document ??= new LicenseStoreDocument();
+        document.Licenses ??= [];
+
+        foreach (var license in document.Licenses)
+        {
+            license.ActivatedMachineIds ??= [];
+            license.Features ??= new LicenseFeatureSet();
+        }
+
+        return document;
     }
 }
