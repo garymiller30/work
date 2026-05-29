@@ -63,25 +63,36 @@ public class Program
                     HttpContext httpContext,
                     [FromBody] LicenseActivateRequest request,
                     LicenseStore store,
-                    LicenseTokenService tokenService) =>
+                    LicenseTokenService tokenService,
+                    ILogger<Program> logger) =>
                 {
-                    if (string.IsNullOrWhiteSpace(request.LicenseKey) || string.IsNullOrWhiteSpace(request.MachineId))
+                    try
                     {
-                        return Results.BadRequest("License key and machine id are required.");
-                    }
+                        if (string.IsNullOrWhiteSpace(request.LicenseKey) || string.IsNullOrWhiteSpace(request.MachineId))
+                        {
+                            return Results.BadRequest("License key and machine id are required.");
+                        }
 
-                    var license = await store.FindByKeyAsync(request.LicenseKey);
-                    if (license is null)
+                        var license = await store.FindByKeyAsync(request.LicenseKey);
+                        if (license is null)
+                        {
+                            return Results.NotFound("License was not found.");
+                        }
+
+                        if (!await store.RegisterMachineAsync(license, request.MachineId))
+                        {
+                            return Results.Conflict("Device limit is reached for this license.");
+                        }
+
+                        return CreateLicenseTokenResult(license, request.MachineId, tokenService, logger);
+                    }
+                    catch (Exception ex) when (IsLicenseStoreException(ex))
                     {
-                        return Results.NotFound("License was not found.");
+                        logger.LogError(ex, "License activation failed while reading or writing the license store.");
+                        return Results.Problem(
+                            detail: "License server could not update the license store. Check write permissions for Licensing:StorePath.",
+                            statusCode: StatusCodes.Status500InternalServerError);
                     }
-
-                    if (!await store.RegisterMachineAsync(license, request.MachineId))
-                    {
-                        return Results.Conflict("Device limit is reached for this license.");
-                    }
-
-                    return CreateLicenseTokenResult(license, request.MachineId, tokenService, httpContext.RequestServices.GetRequiredService<ILogger<Program>>());
                 })
             .DisableAntiforgery();
 
@@ -91,21 +102,32 @@ public class Program
                     HttpContext httpContext,
                     [FromBody] LicenseRefreshRequest request,
                     LicenseStore store,
-                    LicenseTokenService tokenService) =>
+                    LicenseTokenService tokenService,
+                    ILogger<Program> logger) =>
                 {
-                    var payload = tokenService.ValidateToken(request.Token);
-                    if (payload is null || !string.Equals(payload.MachineId, request.MachineId, StringComparison.OrdinalIgnoreCase))
+                    try
                     {
-                        return Results.Unauthorized();
-                    }
+                        var payload = tokenService.ValidateToken(request.Token);
+                        if (payload is null || !string.Equals(payload.MachineId, request.MachineId, StringComparison.OrdinalIgnoreCase))
+                        {
+                            return Results.Unauthorized();
+                        }
 
-                    var license = await store.FindByIdAsync(payload.LicenseId);
-                    if (license is null)
+                        var license = await store.FindByIdAsync(payload.LicenseId);
+                        if (license is null)
+                        {
+                            return Results.NotFound("License was not found.");
+                        }
+
+                        return CreateLicenseTokenResult(license, request.MachineId, tokenService, logger);
+                    }
+                    catch (Exception ex) when (IsLicenseStoreException(ex))
                     {
-                        return Results.NotFound("License was not found.");
+                        logger.LogError(ex, "License refresh failed while reading the license store.");
+                        return Results.Problem(
+                            detail: "License server could not read the license store. Check Licensing:StorePath.",
+                            statusCode: StatusCodes.Status500InternalServerError);
                     }
-
-                    return CreateLicenseTokenResult(license, request.MachineId, tokenService, httpContext.RequestServices.GetRequiredService<ILogger<Program>>());
                 })
             .DisableAntiforgery();
 
@@ -303,6 +325,11 @@ public class Program
         segment == "." ||
         segment == ".." ||
         segment.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0;
+
+    private static bool IsLicenseStoreException(Exception ex) =>
+        ex is IOException ||
+        ex is UnauthorizedAccessException ||
+        ex is JsonException;
 
     private static IResult CreateLicenseTokenResult(
         LicenseSubscription license,
