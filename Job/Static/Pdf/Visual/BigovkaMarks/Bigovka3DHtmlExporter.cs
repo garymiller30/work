@@ -123,22 +123,33 @@ namespace JobSpace.Static.Pdf.Visual.BigovkaMarks
 <style>
 html,body{margin:0;height:100%;overflow:hidden;background:#202329;color:#f1f3f5;font-family:Segoe UI,Arial,sans-serif}
 #stage{position:fixed;inset:0;width:100%;height:100%;display:block}
-.panel{position:fixed;left:14px;top:14px;display:flex;gap:12px;align-items:center;background:rgba(20,22,26,.82);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 12px;backdrop-filter:blur(8px);box-shadow:0 12px 30px rgba(0,0,0,.25)}
-.panel label{display:flex;gap:8px;align-items:center;font-size:13px;white-space:nowrap}
-.panel input[type=checkbox]{margin:0}
-.panel input[type=range]{width:220px}
-.panel select{background:#2c3038;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:5px;padding:4px 8px}
-.value{min-width:72px;text-align:right;font-variant-numeric:tabular-nums}
+.panel{position:fixed;left:14px;top:14px;width:min(760px,calc(100vw - 28px));max-height:calc(100vh - 72px);overflow:auto;background:rgba(20,22,26,.86);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 12px;backdrop-filter:blur(8px);box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap}
+.toolbar label{display:flex;gap:8px;align-items:center;font-size:13px;white-space:nowrap}
+.toolbar input[type=range]{width:110px}
+.folds{display:grid;grid-template-columns:auto auto auto minmax(180px,1fr) auto;gap:7px 8px;align-items:center;font-size:12px}
+.folds .head{color:rgba(255,255,255,.62)}
+.folds .name{font-variant-numeric:tabular-nums;color:#dce4ea}
+.folds input,.folds select,.toolbar button{background:#2c3038;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:5px}
+.folds input[type=number]{width:62px;padding:4px 6px}
+.folds input[type=range]{width:100%}
+.folds select{padding:4px 6px}
+.toolbar button{padding:5px 10px;cursor:pointer}
+.toolbar button:hover{background:#38404c}
 .hint{position:fixed;left:16px;bottom:12px;color:rgba(255,255,255,.62);font-size:12px}
-@media(max-width:720px){.panel{right:14px;align-items:flex-start;flex-direction:column}.panel input[type=range]{width:calc(100vw - 150px)}}
+@media(max-width:720px){.folds{grid-template-columns:auto auto minmax(120px,1fr) auto}.folds .side-head,.folds .side-cell{display:none}.toolbar{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
 <canvas id=""stage""></canvas>
 <div class=""panel"">
-  <label>Згин <input id=""fold"" type=""range"" min=""0"" max=""180"" value=""0"" step=""1""><span id=""foldValue"" class=""value"">0°</span></label>
-  <label>Схема <select id=""mode""><option value=""same"">в один бік</option><option value=""accordion"">гармошка</option></select></label>
-  <label><input id=""showCreases"" type=""checkbox"" checked> показати біговки</label>
+  <div class=""toolbar"">
+    <label><input id=""showCreases"" type=""checkbox"" checked> показати біговки</label>
+    <label>радіус <input id=""baseRadius"" type=""range"" min=""0.1"" max=""4"" value=""0.3"" step=""0.1""><span id=""baseRadiusValue"">0.3</span></label>
+    <label>зазор <input id=""layerGap"" type=""range"" min=""0"" max=""0.5"" value=""0.08"" step=""0.01""><span id=""layerGapValue"">0.08</span></label>
+    <button id=""resetFolds"" type=""button"">скинути</button>
+  </div>
+  <div id=""folds"" class=""folds""></div>
 </div>
 <div class=""hint"">Миша: обертати. Колесо: масштаб. Подвійний клік: скинути вигляд.</div>
 <script>
@@ -156,10 +167,10 @@ const config = {
 
 const foldSettings = {
   bendDirection: -1,
-  arcRadius: 0.08,
-  arcRadiusStep: 0.18,
+  arcRadius: 0.3,
+  arcRadiusStep: 0.45,
   paperHalfThickness: 0.01,
-  foldedLayerGap: 0.02
+  foldedLayerGap: 0.08
 };
 
 const canvas = document.getElementById('stage');
@@ -240,9 +251,12 @@ const posBuffer = gl.createBuffer();
 const uvBuffer = gl.createBuffer();
 const indexBuffer = gl.createBuffer();
 const creaseLineBuffer = gl.createBuffer();
-const foldSlider = document.getElementById('fold');
-const foldValue = document.getElementById('foldValue');
-const modeSelect = document.getElementById('mode');
+const foldsPanel = document.getElementById('folds');
+const resetFoldsButton = document.getElementById('resetFolds');
+const baseRadiusSlider = document.getElementById('baseRadius');
+const baseRadiusValue = document.getElementById('baseRadiusValue');
+const layerGapSlider = document.getElementById('layerGap');
+const layerGapValue = document.getElementById('layerGapValue');
 const showCreasesCheckbox = document.getElementById('showCreases');
 
 const state = {
@@ -283,6 +297,8 @@ const ys = buildSamples('y');
 const indices = buildIndices(xs.length, ys.length);
 const uvsFront = buildUvs(false);
 const uvsBack = buildUvs(true);
+initFoldControls();
+syncMaterialControls();
 
 function buildSamples(axis) {
   const size = axis === 'x' ? config.width : config.height;
@@ -293,14 +309,122 @@ function buildSamples(axis) {
   set.add(0); set.add(round3(size));
   for (let creaseIndex = 0; creaseIndex < creases.length; creaseIndex++) {
     const f = creases[creaseIndex];
-    const r = foldRadius(creaseIndex);
-    const maxArc = Math.PI * r;
-    for (let i = 0; i <= 24; i++) {
-      set.add(round3(clamp(f - maxArc * 0.5 * i / 24, 0, size)));
-      set.add(round3(clamp(f + maxArc * 0.5 * i / 24, 0, size)));
+    const maxArc = Math.PI * (4 + foldSettings.arcRadiusStep * Math.max(0, config.creases.length - 1));
+    for (let i = 0; i <= 28; i++) {
+      set.add(round3(clamp(f - maxArc * 0.5 * i / 28, 0, size)));
+      set.add(round3(clamp(f + maxArc * 0.5 * i / 28, 0, size)));
     }
   }
   return Array.from(set).sort((a,b) => a-b);
+}
+
+function initFoldControls() {
+  foldsPanel.innerHTML = '';
+  const headers = [
+    ['head', 'Лінія'],
+    ['head', 'Крок'],
+    ['head side-head', 'Сторона'],
+    ['head', 'Кут'],
+    ['head', '°']
+  ];
+  for (const [cls, text] of headers) {
+    const el = document.createElement('div');
+    el.className = cls;
+    el.textContent = text;
+    foldsPanel.appendChild(el);
+  }
+
+  config.creases.forEach((crease, index) => {
+    const rowName = document.createElement('div');
+    rowName.className = 'name';
+    rowName.textContent = (index + 1) + ' (' + crease.toFixed(1) + ' мм)';
+    foldsPanel.appendChild(rowName);
+
+    const order = document.createElement('input');
+    order.type = 'number';
+    order.min = '0';
+    order.max = String(config.creases.length);
+    order.step = '1';
+    order.value = String(index + 1);
+    order.dataset.foldIndex = String(index);
+    order.dataset.foldField = 'order';
+    foldsPanel.appendChild(order);
+
+    const sideWrap = document.createElement('div');
+    sideWrap.className = 'side-cell';
+    const side = document.createElement('select');
+    side.dataset.foldIndex = String(index);
+    side.dataset.foldField = 'side';
+    const before = document.createElement('option');
+    before.value = 'before';
+    before.textContent = config.direction === 'horizontal' ? 'ліва' : 'нижня';
+    const after = document.createElement('option');
+    after.value = 'after';
+    after.textContent = config.direction === 'horizontal' ? 'права' : 'верхня';
+    side.appendChild(before);
+    side.appendChild(after);
+    side.value = 'after';
+    sideWrap.appendChild(side);
+    foldsPanel.appendChild(sideWrap);
+
+    const angle = document.createElement('input');
+    angle.type = 'range';
+    angle.min = '-180';
+    angle.max = '180';
+    angle.step = '1';
+    angle.value = '0';
+    angle.dataset.foldIndex = String(index);
+    angle.dataset.foldField = 'angle';
+    foldsPanel.appendChild(angle);
+
+    const angleValue = document.createElement('input');
+    angleValue.type = 'number';
+    angleValue.min = '-180';
+    angleValue.max = '180';
+    angleValue.step = '1';
+    angleValue.value = '0';
+    angleValue.dataset.foldIndex = String(index);
+    angleValue.dataset.foldField = 'angleValue';
+    foldsPanel.appendChild(angleValue);
+  });
+
+  foldsPanel.addEventListener('input', handleFoldControlChange);
+  foldsPanel.addEventListener('change', handleFoldControlChange);
+  resetFoldsButton.addEventListener('click', resetFoldControls);
+}
+
+function handleFoldControlChange(event) {
+  const field = event.target.dataset.foldField;
+  const index = event.target.dataset.foldIndex;
+  if (index !== undefined && (field === 'angle' || field === 'angleValue')) {
+    const value = clamp(Number(event.target.value) || 0, -180, 180);
+    const range = foldsPanel.querySelector(`input[data-fold-index=""${index}""][data-fold-field=""angle""]`);
+    const number = foldsPanel.querySelector(`input[data-fold-index=""${index}""][data-fold-field=""angleValue""]`);
+    if (range) range.value = String(value);
+    if (number) number.value = String(value);
+  }
+  requestAnimationFrame(draw);
+}
+
+function resetFoldControls() {
+  config.creases.forEach((_, index) => {
+    const order = foldsPanel.querySelector(`input[data-fold-index=""${index}""][data-fold-field=""order""]`);
+    const side = foldsPanel.querySelector(`select[data-fold-index=""${index}""][data-fold-field=""side""]`);
+    const range = foldsPanel.querySelector(`input[data-fold-index=""${index}""][data-fold-field=""angle""]`);
+    const number = foldsPanel.querySelector(`input[data-fold-index=""${index}""][data-fold-field=""angleValue""]`);
+    if (order) order.value = String(index + 1);
+    if (side) side.value = 'after';
+    if (range) range.value = '0';
+    if (number) number.value = '0';
+  });
+  requestAnimationFrame(draw);
+}
+
+function syncMaterialControls() {
+  foldSettings.arcRadius = Number(baseRadiusSlider.value) || foldSettings.arcRadius;
+  foldSettings.foldedLayerGap = Number(layerGapSlider.value) || 0;
+  baseRadiusValue.textContent = foldSettings.arcRadius.toFixed(1);
+  layerGapValue.textContent = foldSettings.foldedLayerGap.toFixed(2);
 }
 
 function axisMatchesDirection(axis) {
@@ -333,73 +457,190 @@ function buildUvs(back) {
   return new Float32Array(arr);
 }
 
+function currentFoldSteps() {
+  const steps = [];
+  config.creases.forEach((crease, index) => {
+    const orderInput = foldsPanel.querySelector(`input[data-fold-index=""${index}""][data-fold-field=""order""]`);
+    const sideInput = foldsPanel.querySelector(`select[data-fold-index=""${index}""][data-fold-field=""side""]`);
+    const angleInput = foldsPanel.querySelector(`input[data-fold-index=""${index}""][data-fold-field=""angle""]`);
+    const order = Math.max(0, Math.round(Number(orderInput ? orderInput.value : index + 1) || 0));
+    const degrees = clamp(Number(angleInput ? angleInput.value : 0) || 0, -180, 180);
+    if (order === 0 || Math.abs(degrees) < 0.001) return;
+    steps.push({
+      index,
+      order,
+      crease,
+      side: sideInput ? sideInput.value : 'after',
+      angle: -degrees * Math.PI / 180
+    });
+  });
+  steps.sort((a, b) => a.order - b.order || a.index - b.index);
+  for (let i = 0; i < steps.length; i++) steps[i].radius = foldRadius(i);
+  steps.axes = buildFoldAxes(steps);
+  return steps;
+}
+
 function foldRadius(foldIndex) {
   return foldSettings.arcRadius + foldSettings.arcRadiusStep * foldIndex;
 }
 
-function foldAnglesForCurrent() {
-  const angle = Number(foldSlider.value) * Math.PI / 180;
-  const angles = new Array(config.creases.length);
-  for (let i = 0; i < angles.length; i++) {
-    const dir = modeSelect.value === 'accordion' && i % 2 === 1 ? -1 : 1;
-    angles[i] = dir * angle;
+function buildFoldAxes(steps) {
+  const axes = [];
+  for (let i = 0; i < steps.length; i++) {
+    const source = creaseAxisPoint(axisSampleValue(steps[i]));
+    const axis = {
+      point: creaseAxisPoint(steps[i].crease),
+      line: creaseLineDirection(),
+      tangent: creasePanelDirection(),
+      normal: { x: 0, y: 0, z: 1 }
+    };
+    for (let prev = 0; prev < i; prev++) {
+      const angle = creaseArcAngle(source, steps[prev]);
+      if (Math.abs(angle) > 0.0001) {
+        axis.point = applyCreaseArcFold(axis.point, source, steps[prev], axes[prev]);
+        axis.line = rotateVectorAroundAxis(axis.line, axes[prev].line, angle);
+        axis.tangent = rotateVectorAroundAxis(axis.tangent, axes[prev].line, angle);
+        axis.normal = rotateVectorAroundAxis(axis.normal, axes[prev].line, angle);
+      }
+    }
+    const offset = layerOffsetUntil(source, steps, i);
+    axis.point.x += axis.normal.x * offset;
+    axis.point.y += axis.normal.y * offset;
+    axis.point.z += axis.normal.z * offset;
+    axes.push(axis);
   }
-  return angles;
+  return axes;
 }
 
-function transformPoint(source, foldAngles, sideZ) {
-  let p = { x: source.x, y: source.y, z: sideZ };
+function axisSampleValue(step) {
+  const sideSign = step.side === 'before' ? -1 : 1;
+  return step.crease + sideSign * Math.max(0.01, step.radius);
+}
 
-  for (let i = config.creases.length - 1; i >= 0; i--) {
-    p = applyCreaseArcFold(p, source, config.creases[i], foldAngles[i] || 0, foldRadius(i));
+function transformPoint(source, foldSteps, sideZ) {
+  let p = { x: source.x, y: source.y, z: sideZ };
+  let normal = { x: 0, y: 0, z: 1 };
+
+  for (let i = 0; i < foldSteps.length; i++) {
+    const angle = creaseArcAngle(source, foldSteps[i]);
+    if (Math.abs(angle) > 0.0001) {
+      p = applyCreaseArcFold(p, source, foldSteps[i], foldSteps.axes[i]);
+      normal = rotateVectorAroundAxis(normal, foldSteps.axes[i].line, angle);
+    }
   }
 
-  p.z += layerOffset(source, foldAngles);
+  const offset = layerOffset(source, foldSteps);
+  p.x += normal.x * offset;
+  p.y += normal.y * offset;
+  p.z += normal.z * offset;
   return p;
 }
 
-function applyCreaseArcFold(p, source, crease, angle, radius) {
-  if (Math.abs(angle) < 0.0001) return p;
+function applyCreaseArcFold(p, source, step, axis) {
+  if (Math.abs(step.angle) < 0.0001) return p;
+  return applyCylindricalFold(p, source, step, axis);
+}
 
-  const sourceValue = creaseCoordinate(source);
-  const angleSign = angle < 0 ? -1 : 1;
-  const absAngle = Math.abs(angle);
-  const arcDirection = rollArcDirection() * angleSign;
-  const arcLength = radius * absAngle;
-  const leftBoundary = crease - arcLength * 0.5;
-  const rightBoundary = crease + arcLength * 0.5;
+function creaseArcAngle(source, step) {
+  const value = creaseCoordinate(source);
+  const sideSign = step.side === 'before' ? -1 : 1;
+  const local = sideSign * (value - step.crease);
+  const arcLength = step.radius * Math.abs(step.angle);
+  const leftBoundary = -arcLength * 0.5;
+  const rightBoundary = arcLength * 0.5;
 
-  if (sourceValue <= leftBoundary) return p;
+  if (local <= leftBoundary) return 0;
 
-  if (sourceValue < rightBoundary) {
-    const a = clamp((sourceValue - leftBoundary) / radius, 0, absAngle);
-    const signedA = angleSign * a;
-    const centerValue = leftBoundary + radius * Math.sin(a);
-    const centerZ = arcDirection * radius * (1 - Math.cos(a));
-    return setCreaseCoordinate(p, centerValue, centerZ, signedA);
+  if (local < rightBoundary) {
+    const t = (local - leftBoundary) / Math.max(0.0001, arcLength);
+    return step.angle * t;
   }
 
-  const arcEnd = {
-    value: leftBoundary + radius * Math.sin(absAngle),
-    z: arcDirection * radius * (1 - Math.cos(absAngle))
-  };
-  const boundary = creaseAxisPoint(rightBoundary);
-  const rotated = config.direction === 'horizontal'
-    ? rotatePointY(p, boundary, angle)
-    : rotatePointX(p, boundary, -angle);
-
-  return translateAlongCreaseCoordinate(rotated, arcEnd.value - rightBoundary, arcEnd.z);
+  return step.angle;
 }
 
-function rollArcDirection() {
-  return foldSettings.bendDirection;
+function applyCylindricalFold(p, source, step, axis) {
+  const value = creaseCoordinate(source);
+  const sideSign = step.side === 'before' ? -1 : 1;
+  const local = sideSign * (value - step.crease);
+  const absAngle = Math.abs(step.angle);
+  const arcLength = step.radius * absAngle;
+  const leftBoundary = -arcLength * 0.5;
+  const rightBoundary = arcLength * 0.5;
+  if (local <= leftBoundary) return p;
+
+  const relative = subtractPoint(p, axis.point);
+  const dz = dot(relative, axis.normal);
+  const lineOffset = dot(relative, axis.line);
+  const bendSign = Math.sign(step.angle || 1) * foldSettings.bendDirection;
+  let u;
+  let z;
+  let theta;
+
+  if (local < rightBoundary) {
+    theta = (local - leftBoundary) / Math.max(0.0001, step.radius);
+    const signedTheta = Math.sign(step.angle || 1) * theta;
+    u = leftBoundary + step.radius * Math.sin(theta);
+    z = bendSign * step.radius * (1 - Math.cos(theta));
+    const normal = rotateVectorAroundAxis(axis.normal, axis.line, signedTheta);
+    return addPoints(
+      axis.point,
+      scaleVector(axis.line, lineOffset),
+      scaleVector(axis.tangent, sideSign * u),
+      scaleVector(axis.normal, z),
+      scaleVector(normal, dz)
+    );
+  } else {
+    const uEnd = leftBoundary + step.radius * Math.sin(absAngle);
+    const zEnd = bendSign * step.radius * (1 - Math.cos(absAngle));
+    const currentBoundary = addPoints(
+      axis.point,
+      scaleVector(axis.line, lineOffset),
+      scaleVector(axis.tangent, sideSign * rightBoundary)
+    );
+    const arcEnd = addPoints(
+      axis.point,
+      scaleVector(axis.line, lineOffset),
+      scaleVector(axis.tangent, sideSign * uEnd),
+      scaleVector(axis.normal, zEnd)
+    );
+    const packageVector = subtractPoint(p, currentBoundary);
+    const foldedVector = rotateVectorAroundAxis(packageVector, axis.line, step.angle);
+    return addPoints(
+      arcEnd,
+      foldedVector
+    );
+  }
 }
 
-function layerOffset(source, foldAngles) {
+function rotateByDirection(p, axis, angle) {
+  const axisPoint = axis.point || axis;
+  const axisLine = axis.line || creaseLineDirection();
+  return rotatePointAroundAxis(p, axisPoint, axisLine, angle);
+}
+
+function rotateVectorByDirection(v, angle) {
+  return rotateVectorAroundAxis(v, creaseLineDirection(), angle);
+}
+
+function isOnMovingSide(value, step) {
+  const eps = 0.001;
+  return step.side === 'before'
+    ? value < step.crease - eps
+    : value > step.crease + eps;
+}
+
+function layerOffset(source, foldSteps) {
+  return layerOffsetUntil(source, foldSteps, foldSteps.length);
+}
+
+function layerOffsetUntil(source, foldSteps, count) {
   let offset = 0;
   const value = creaseCoordinate(source);
-  for (let i = 0; i < config.creases.length; i++) {
-    if (value > config.creases[i]) offset += foldSettings.foldedLayerGap * clamp(Math.abs(foldAngles[i] || 0) / Math.PI, 0, 1);
+  for (let i = 0; i < count; i++) {
+    if (isOnMovingSide(value, foldSteps[i])) {
+      offset += foldSettings.foldedLayerGap * (i + 1) * clamp(Math.abs(foldSteps[i].angle) / Math.PI, 0, 1);
+    }
   }
   return offset;
 }
@@ -414,36 +655,16 @@ function creaseAxisPoint(value) {
     : { x: 0, y: value - config.height * 0.5, z: 0 };
 }
 
-function setCreaseCoordinate(p, value, z, angle) {
-  if (config.direction === 'horizontal') {
-    return {
-      x: value + p.z * Math.sin(angle),
-      y: p.y,
-      z: z + p.z * Math.cos(angle)
-    };
-  }
-
-  return {
-    x: p.x,
-    y: value - config.height * 0.5 - p.z * Math.sin(angle),
-    z: z + p.z * Math.cos(angle)
-  };
+function creasePanelDirection() {
+  return config.direction === 'horizontal'
+    ? { x: 1, y: 0, z: 0 }
+    : { x: 0, y: 1, z: 0 };
 }
 
-function translateAlongCreaseCoordinate(p, valueOffset, zOffset) {
-  if (config.direction === 'horizontal') {
-    return {
-      x: p.x + valueOffset,
-      y: p.y,
-      z: p.z + zOffset
-    };
-  }
-
-  return {
-    x: p.x,
-    y: p.y + valueOffset,
-    z: p.z + zOffset
-  };
+function creaseLineDirection() {
+  return config.direction === 'horizontal'
+    ? { x: 0, y: 1, z: 0 }
+    : { x: 1, y: 0, z: 0 };
 }
 
 function rotatePointY(p, axis, angle) {
@@ -470,27 +691,110 @@ function rotatePointX(p, axis, angle) {
   };
 }
 
+function rotateVectorY(v, angle) {
+  const s = Math.sin(angle);
+  const c = Math.cos(angle);
+  return {
+    x: v.x * c + v.z * s,
+    y: v.y,
+    z: -v.x * s + v.z * c
+  };
+}
+
+function rotateVectorX(v, angle) {
+  const s = Math.sin(angle);
+  const c = Math.cos(angle);
+  return {
+    x: v.x,
+    y: v.y * c - v.z * s,
+    z: v.y * s + v.z * c
+  };
+}
+
+function rotatePointAroundAxis(p, axisPoint, axisDirection, angle) {
+  const relative = subtractPoint(p, axisPoint);
+  const rotated = rotateVectorAroundAxis(relative, axisDirection, angle);
+  return addPoints(axisPoint, rotated);
+}
+
+function rotateVectorAroundAxis(v, axisDirection, angle) {
+  const axis = normalize(axisDirection);
+  const s = Math.sin(angle);
+  const c = Math.cos(angle);
+  const kDotV = dot(axis, v);
+  const cross = {
+    x: axis.y * v.z - axis.z * v.y,
+    y: axis.z * v.x - axis.x * v.z,
+    z: axis.x * v.y - axis.y * v.x
+  };
+  return {
+    x: v.x * c + cross.x * s + axis.x * kDotV * (1 - c),
+    y: v.y * c + cross.y * s + axis.y * kDotV * (1 - c),
+    z: v.z * c + cross.z * s + axis.z * kDotV * (1 - c)
+  };
+}
+
+function normalize(v) {
+  const length = Math.hypot(v.x, v.y, v.z);
+  if (length < 0.000001) return { x: 0, y: 0, z: 1 };
+  return {
+    x: v.x / length,
+    y: v.y / length,
+    z: v.z / length
+  };
+}
+
+function subtractPoint(a, b) {
+  return {
+    x: a.x - b.x,
+    y: a.y - b.y,
+    z: a.z - b.z
+  };
+}
+
+function scaleVector(v, scale) {
+  return {
+    x: v.x * scale,
+    y: v.y * scale,
+    z: v.z * scale
+  };
+}
+
+function dot(a, b) {
+  return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+function addPoints() {
+  const out = { x: 0, y: 0, z: 0 };
+  for (let i = 0; i < arguments.length; i++) {
+    out.x += arguments[i].x;
+    out.y += arguments[i].y;
+    out.z += arguments[i].z;
+  }
+  return out;
+}
+
 function buildPositions(back) {
-  const foldAngles = foldAnglesForCurrent();
+  const foldSteps = currentFoldSteps();
   const sideZ = back ? -foldSettings.paperHalfThickness : foldSettings.paperHalfThickness;
   const raw = [];
   for (const y of ys) {
     const modelY = config.height * 0.5 - y;
-    for (const x of xs) raw.push(transformPoint({ x, y: modelY }, foldAngles, sideZ));
+    for (const x of xs) raw.push(transformPoint({ x, y: modelY }, foldSteps, sideZ));
   }
-  const center = getModelCenter(foldAngles);
+  const center = getModelCenter(foldSteps);
   const arr = [];
   for (const p of raw) arr.push(p.x - center.x, p.y - center.y, p.z - center.z);
   return new Float32Array(arr);
 }
 
-function getModelCenter(foldAngles) {
+function getModelCenter(foldSteps) {
   const min = { x: Infinity, y: Infinity, z: Infinity };
   const max = { x: -Infinity, y: -Infinity, z: -Infinity };
   for (const y of ys) {
     const modelY = config.height * 0.5 - y;
     for (const x of xs) {
-      const p = transformPoint({ x, y: modelY }, foldAngles, 0);
+      const p = transformPoint({ x, y: modelY }, foldSteps, 0);
       min.x = Math.min(min.x, p.x); min.y = Math.min(min.y, p.y); min.z = Math.min(min.z, p.z);
       max.x = Math.max(max.x, p.x); max.y = Math.max(max.y, p.y); max.z = Math.max(max.z, p.z);
     }
@@ -501,26 +805,26 @@ function getModelCenter(foldAngles) {
 function buildCreaseLinePositions() {
   if (!showCreasesCheckbox.checked) return new Float32Array(0);
 
-  const foldAngles = foldAnglesForCurrent();
-  const center = getModelCenter(foldAngles);
+  const foldSteps = currentFoldSteps();
+  const center = getModelCenter(foldSteps);
   const arr = [];
   const z = foldSettings.paperHalfThickness + 0.08;
 
   for (const crease of config.creases) {
     if (config.direction === 'horizontal') {
-      addLinePoint(arr, { x: crease, y: -config.height * 0.5 }, foldAngles, z, center);
-      addLinePoint(arr, { x: crease, y: config.height * 0.5 }, foldAngles, z, center);
+      addLinePoint(arr, { x: crease, y: -config.height * 0.5 }, foldSteps, z, center);
+      addLinePoint(arr, { x: crease, y: config.height * 0.5 }, foldSteps, z, center);
     } else {
-      addLinePoint(arr, { x: 0, y: crease - config.height * 0.5 }, foldAngles, z, center);
-      addLinePoint(arr, { x: config.width, y: crease - config.height * 0.5 }, foldAngles, z, center);
+      addLinePoint(arr, { x: 0, y: crease - config.height * 0.5 }, foldSteps, z, center);
+      addLinePoint(arr, { x: config.width, y: crease - config.height * 0.5 }, foldSteps, z, center);
     }
   }
 
   return new Float32Array(arr);
 }
 
-function addLinePoint(arr, point, foldAngles, z, center) {
-  const p = transformPoint(point, foldAngles, z);
+function addLinePoint(arr, point, foldSteps, z, center) {
+  const p = transformPoint(point, foldSteps, z);
   arr.push(p.x - center.x, p.y - center.y, p.z - center.z);
 }
 
@@ -575,7 +879,6 @@ function drawCreaseLines(matrix) {
 
 function draw() {
   resize();
-  foldValue.textContent = foldSlider.value + '°';
   gl.viewport(0, 0, canvas.width, canvas.height);
   gl.clearColor(0.125, 0.137, 0.16, 1);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -682,9 +985,15 @@ canvas.addEventListener('dblclick', () => {
   state.zoom = 1.15;
   requestAnimationFrame(draw);
 });
-foldSlider.addEventListener('input', () => requestAnimationFrame(draw));
-modeSelect.addEventListener('change', () => requestAnimationFrame(draw));
 showCreasesCheckbox.addEventListener('change', () => requestAnimationFrame(draw));
+baseRadiusSlider.addEventListener('input', () => {
+  syncMaterialControls();
+  requestAnimationFrame(draw);
+});
+layerGapSlider.addEventListener('input', () => {
+  syncMaterialControls();
+  requestAnimationFrame(draw);
+});
 window.addEventListener('resize', () => requestAnimationFrame(draw));
 requestAnimationFrame(draw);
 </script>
