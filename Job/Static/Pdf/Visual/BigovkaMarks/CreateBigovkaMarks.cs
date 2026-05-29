@@ -280,11 +280,6 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
 
         private double[] GetBigovkiForPage()
         {
-            if (_param.Direction == DirectionEnum.Horizontal && IsMirroredHorizontalPage())
-            {
-                return _param.Bigovki.Reverse().ToArray();
-            }
-
             return _param.Bigovki;
         }
 
@@ -295,11 +290,6 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
             if (remaining <= 0)
             {
                 return _param.Bigovki;
-            }
-
-            if (IsMirroredHorizontalPage())
-            {
-                return new[] { remaining }.Concat(_param.Bigovki).ToArray();
             }
 
             return _param.Bigovki.Concat(new[] { remaining }).ToArray();
