@@ -162,7 +162,7 @@ namespace JobSpace.UserForms.PDF
 
             if (BigovkaMarksParams.MirrorEven && page_idx % 2 == 1)
             {
-                for (int i = BigovkaMarksParams.Bigovki.Length - 1; i >= 0; i--)
+                for (int i = 0; i < BigovkaMarksParams.Bigovki.Length; i++)
                 {
                     x += (float)BigovkaMarksParams.Bigovki[i];
 
