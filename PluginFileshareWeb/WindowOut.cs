@@ -12,8 +12,11 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.LinkLabel;
@@ -33,6 +36,7 @@ namespace PluginFileshareWeb
         Form _ownerForm;
         bool _isLoadingWorkspaceLayout;
         double zoomFactor = 80;
+        private static readonly HttpClient HttpClient = new HttpClient();
         public IUserProfile UserProfile { get; set; }
 
         public string PluginName => "Simple Web Browser";
@@ -107,6 +111,7 @@ namespace PluginFileshareWeb
             StyleCommandButton(tsb_paste_go, Color.FromArgb(14, 165, 233), Color.White);
             StyleCommandButton(tsb_zoomOk, Color.FromArgb(226, 232, 240), Color.FromArgb(15, 23, 42));
             StyleCommandButton(toolStripButton_Add, Color.FromArgb(226, 232, 240), Color.FromArgb(15, 23, 42));
+            StyleCommandButton(tsb_page_links, Color.FromArgb(226, 232, 240), Color.FromArgb(15, 23, 42));
 
             toolStripTextBoxUrl.BorderStyle = BorderStyle.FixedSingle;
             tstb_zoomFactor.BorderStyle = BorderStyle.FixedSingle;
@@ -379,6 +384,322 @@ namespace PluginFileshareWeb
 
             if (res)
             curwebView2.ZoomFactor = zoomFactor/100;
+        }
+
+        private async void tsb_page_links_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (curwebView2?.CoreWebView2 == null)
+                {
+                    MessageBox.Show("Немає активної сторінки.");
+                    return;
+                }
+
+                string downloadFolder = GetCurrentDownloadFolder();
+                if (string.IsNullOrWhiteSpace(downloadFolder))
+                {
+                    MessageBox.Show("Спочатку виберіть роботу, щоб плагін знав поточну папку для завантаження.");
+                    return;
+                }
+
+                Directory.CreateDirectory(downloadFolder);
+
+                IReadOnlyList<PageDownloadLink> links = await GetPageLinksAsync();
+                if (links.Count == 0)
+                {
+                    MessageBox.Show("На активній сторінці не знайдено посилань на файли.");
+                    return;
+                }
+
+                await EnrichLinksWithFileInfoAsync(links);
+
+                using (var form = new FormSelectPageLinks(links, downloadFolder))
+                {
+                    if (form.ShowDialog(FindForm()) != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    IReadOnlyList<PageDownloadLink> selectedLinks = form.SelectedLinks;
+                    if (selectedLinks.Count == 0)
+                    {
+                        MessageBox.Show("Не вибрано жодного посилання.");
+                        return;
+                    }
+
+                    tsb_page_links.Enabled = false;
+                    DownloadSummary summary = await DownloadSelectedLinksAsync(selectedLinks, downloadFolder);
+                    ShowDownloadSummary(summary, downloadFolder);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                tsb_page_links.Enabled = true;
+            }
+        }
+
+        private string GetCurrentDownloadFolder()
+        {
+            if (!string.IsNullOrWhiteSpace(_curJobDir))
+            {
+                return _curJobDir;
+            }
+
+            return curwebView2?.CoreWebView2?.Profile?.DefaultDownloadFolderPath;
+        }
+
+        private async Task<IReadOnlyList<PageDownloadLink>> GetPageLinksAsync()
+        {
+            const string script = @"
+(() => {
+    const fileExtensionPattern = /\.(7z|ai|avi|bmp|csv|doc|docx|eps|gif|gz|heic|indd|jpeg|jpg|mov|mp3|mp4|pdf|png|ppt|pptx|psd|rar|rtf|svg|tif|tiff|txt|webp|xls|xlsx|xml|zip)$/i;
+    const fileNamePattern = /\b[\wА-Яа-яІіЇїЄєҐґ .,'’(){}\[\]-]+\.(7z|ai|avi|bmp|csv|doc|docx|eps|gif|gz|heic|indd|jpeg|jpg|mov|mp3|mp4|pdf|png|ppt|pptx|psd|rar|rtf|svg|tif|tiff|txt|webp|xls|xlsx|xml|zip)\b/i;
+    const isFileLink = (a, url) => {
+        const text = (a.innerText || a.textContent || a.getAttribute('title') || a.getAttribute('aria-label') || '').trim();
+        const path = decodeURIComponent(url.pathname || '');
+        return Boolean(a.getAttribute('download'))
+            || (url.hostname || '').toLowerCase() === 'files.ukr.net' && path.toLowerCase().includes('/package/item/download')
+            || fileExtensionPattern.test(path)
+            || fileNamePattern.test(text);
+    };
+
+    return Array.from(document.querySelectorAll('a[href]'))
+    .filter(a => {
+        const style = window.getComputedStyle(a);
+        const rect = a.getBoundingClientRect();
+        return style.visibility !== 'hidden'
+            && style.display !== 'none'
+            && rect.width > 0
+            && rect.height > 0;
+    })
+    .map(a => {
+        const url = new URL(a.href, document.baseURI);
+        if (!isFileLink(a, url)) {
+            return null;
+        }
+
+        return {
+            text: (a.innerText || a.textContent || a.getAttribute('title') || a.getAttribute('aria-label') || url.pathname.split('/').pop() || url.href).trim(),
+            url: url.href,
+            host: url.host
+        };
+    })
+    .filter(x => x && x.url && (x.url.startsWith('http://') || x.url.startsWith('https://')));
+})();";
+
+            string json = await curwebView2.CoreWebView2.ExecuteScriptAsync(script);
+            var links = JsonSerializer.Deserialize<List<PageDownloadLink>>(json, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            }) ?? new List<PageDownloadLink>();
+
+            return links
+                .Where(link => IsValidWebUrl(link.Url))
+                .GroupBy(link => link.Url, StringComparer.OrdinalIgnoreCase)
+                .Select(group => group.First())
+                .OrderBy(link => link.Host)
+                .ThenBy(link => link.Text)
+                .ToList();
+        }
+
+        private static async Task EnrichLinksWithFileInfoAsync(IReadOnlyList<PageDownloadLink> links)
+        {
+            var tasks = links.Select(EnrichLinkWithFileInfoAsync).ToArray();
+            await Task.WhenAll(tasks);
+        }
+
+        private static async Task EnrichLinkWithFileInfoAsync(PageDownloadLink link)
+        {
+            try
+            {
+                using (HttpResponseMessage response = await SendHeadersOnlyRequestAsync(HttpMethod.Head, link.Url))
+                {
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        throw new HttpRequestException($"HEAD request failed: {(int)response.StatusCode}");
+                    }
+
+                    ApplyFileInfo(link, response.Content.Headers);
+                }
+            }
+            catch
+            {
+                try
+                {
+                    using (HttpResponseMessage response = await SendHeadersOnlyRequestAsync(HttpMethod.Get, link.Url))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            ApplyFileInfo(link, response.Content.Headers);
+                        }
+                    }
+                }
+                catch
+                {
+                    // Missing metadata should not block showing the links list.
+                }
+            }
+        }
+
+        private static async Task<HttpResponseMessage> SendHeadersOnlyRequestAsync(HttpMethod method, string url)
+        {
+            var request = new HttpRequestMessage(method, url);
+            return await HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+        }
+
+        private static void ApplyFileInfo(PageDownloadLink link, HttpContentHeaders headers)
+        {
+            string fileName = GetDownloadFileName(headers, link.Url);
+            if (!string.IsNullOrWhiteSpace(fileName) && !string.Equals(fileName, "download", StringComparison.OrdinalIgnoreCase))
+            {
+                link.Text = fileName;
+            }
+
+            if (headers.ContentLength.HasValue)
+            {
+                link.SizeBytes = headers.ContentLength.Value;
+            }
+        }
+
+        private static async Task<DownloadSummary> DownloadSelectedLinksAsync(IReadOnlyList<PageDownloadLink> links, string downloadFolder)
+        {
+            var summary = new DownloadSummary();
+
+            foreach (PageDownloadLink link in links)
+            {
+                try
+                {
+                    await DownloadFileAsync(link.Url, downloadFolder);
+                    summary.SuccessCount++;
+                }
+                catch (Exception ex)
+                {
+                    summary.Failures.Add($"{link.Url}\n{ex.Message}");
+                }
+            }
+
+            return summary;
+        }
+
+        private static void ShowDownloadSummary(DownloadSummary summary, string downloadFolder)
+        {
+            if (summary.Failures.Count == 0)
+            {
+                MessageBox.Show($"Завантажено файлів: {summary.SuccessCount}\nПапка: {downloadFolder}");
+                return;
+            }
+
+            string failedLinks = string.Join("\n\n", summary.Failures.Take(5));
+            string moreText = summary.Failures.Count > 5 ? $"\n\nЩе помилок: {summary.Failures.Count - 5}" : string.Empty;
+
+            MessageBox.Show(
+                $"Завантажено файлів: {summary.SuccessCount}\nНе вдалося завантажити: {summary.Failures.Count}\nПапка: {downloadFolder}\n\n{failedLinks}{moreText}");
+        }
+
+        private static async Task DownloadFileAsync(string url, string downloadFolder)
+        {
+            using (var response = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
+            {
+                response.EnsureSuccessStatusCode();
+
+                string fileName = GetDownloadFileName(response.Content.Headers, url);
+                string targetPath = GetUniquePath(Path.Combine(downloadFolder, fileName));
+
+                using (Stream source = await response.Content.ReadAsStreamAsync())
+                using (var destination = new FileStream(targetPath, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+                {
+                    await source.CopyToAsync(destination);
+                }
+            }
+        }
+
+        private static string GetDownloadFileName(HttpContentHeaders headers, string url)
+        {
+            string fileName = headers.ContentDisposition?.FileNameStar;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                fileName = headers.ContentDisposition?.FileName;
+            }
+
+            if (string.IsNullOrWhiteSpace(fileName) && Uri.TryCreate(url, UriKind.Absolute, out Uri uri))
+            {
+                fileName = Path.GetFileName(uri.LocalPath);
+            }
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                fileName = "download";
+            }
+
+            fileName = fileName.Trim().Trim('"');
+            fileName = FixMojibakeFileName(fileName);
+            foreach (char invalidChar in Path.GetInvalidFileNameChars())
+            {
+                fileName = fileName.Replace(invalidChar, '_');
+            }
+
+            return string.IsNullOrWhiteSpace(fileName) ? "download" : fileName;
+        }
+
+        private static string FixMojibakeFileName(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName) || !LooksLikeUtf8Mojibake(fileName))
+            {
+                return fileName;
+            }
+
+            try
+            {
+                byte[] bytes = Encoding.GetEncoding("ISO-8859-1").GetBytes(fileName);
+                string decoded = Encoding.UTF8.GetString(bytes);
+
+                return string.IsNullOrWhiteSpace(decoded) ? fileName : decoded;
+            }
+            catch
+            {
+                return fileName;
+            }
+        }
+
+        private static bool LooksLikeUtf8Mojibake(string value)
+        {
+            return value.IndexOf('Ð') >= 0
+                || value.IndexOf('Ñ') >= 0
+                || value.IndexOf('Ò') >= 0
+                || value.IndexOf('Ó') >= 0
+                || value.IndexOf('Â') >= 0;
+        }
+
+        private static string GetUniquePath(string path)
+        {
+            if (!File.Exists(path))
+            {
+                return path;
+            }
+
+            string directory = Path.GetDirectoryName(path);
+            string name = Path.GetFileNameWithoutExtension(path);
+            string extension = Path.GetExtension(path);
+
+            for (int i = 1; ; i++)
+            {
+                string candidate = Path.Combine(directory, $"{name} ({i}){extension}");
+                if (!File.Exists(candidate))
+                {
+                    return candidate;
+                }
+            }
+        }
+
+        private sealed class DownloadSummary
+        {
+            public int SuccessCount { get; set; }
+            public List<string> Failures { get; } = new List<string>();
         }
 
         private async void tsb_add_tab_Click(object sender, EventArgs e)

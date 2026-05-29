@@ -40,6 +40,7 @@
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             tsb_zoomOk = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            tsb_page_links = new System.Windows.Forms.ToolStripButton();
             toolStripButton_Add = new System.Windows.Forms.ToolStripButton();
             tabPage1 = new System.Windows.Forms.TabPage();
             tabPage2 = new System.Windows.Forms.TabPage();
@@ -97,7 +98,7 @@
             toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripTextBoxUrl, tsb_go, tsb_paste_go, toolStripSeparator1, tstb_zoomFactor, toolStripLabel1, tsb_zoomOk, toolStripSeparator3, toolStripButton_Add });
+            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripTextBoxUrl, tsb_go, tsb_paste_go, toolStripSeparator1, tstb_zoomFactor, toolStripLabel1, tsb_zoomOk, toolStripSeparator3, tsb_page_links, toolStripButton_Add });
             toolStrip1.Location = new System.Drawing.Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Padding = new System.Windows.Forms.Padding(8, 3, 8, 3);
@@ -170,6 +171,17 @@
             toolStripSeparator3.Name = "toolStripSeparator3";
             toolStripSeparator3.Size = new System.Drawing.Size(6, 23);
             // 
+            // tsb_page_links
+            // 
+            tsb_page_links.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            tsb_page_links.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsb_page_links.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            tsb_page_links.Name = "tsb_page_links";
+            tsb_page_links.Size = new System.Drawing.Size(116, 23);
+            tsb_page_links.Text = "Посилання сторінки";
+            tsb_page_links.ToolTipText = "Показати посилання на активній сторінці та завантажити вибрані";
+            tsb_page_links.Click += tsb_page_links_Click;
+            // 
             // toolStripButton_Add
             // 
             toolStripButton_Add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -233,6 +245,7 @@
         private System.Windows.Forms.ToolStripButton tsb_zoomOk;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton tsb_page_links;
         
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
