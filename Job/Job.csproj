@@ -107,6 +107,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="UserForms\PDF\Visual\FormPdfSaddleStitchSpreads.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserForms\PDF\Visual\FormPdfSaddleStitchSpreads.Designer.cs">
+      <DependentUpon>FormPdfSaddleStitchSpreads.cs</DependentUpon>
+    </Compile>
     <Compile Update="UserForms\PDF\FormPdfPersonalization.cs">
       <SubType>Form</SubType>
     </Compile>
