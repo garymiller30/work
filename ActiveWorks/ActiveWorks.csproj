@@ -211,6 +211,9 @@
     <None Update="db\resources\pdftool_icons\rotate_page_90_mirror.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="db\resources\pdftool_icons\saddle_stitch.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="db\resources\pdftool_icons\scale.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
