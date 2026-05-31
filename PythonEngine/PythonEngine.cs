@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using BackgroundTaskServiceLib;
 using Interfaces;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
@@ -48,6 +49,7 @@ namespace PythonEngine
             dynamic proxy = new ExpandoObject();
             proxy.GetClipboardText = new Func<object>(GetClipboardText);
             ((dynamic)scope).proxy = proxy;
+            scope.SetVariable("DeleteService", new DeleteServiceScriptApi());
 
             return scope;
         }

@@ -4,6 +4,7 @@ using Logger;
 using System;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -148,7 +149,7 @@ namespace ActiveWorks.Licensing
                     if (!response.IsSuccessStatusCode)
                     {
                         throw new InvalidOperationException(
-                            $"License server returned {(int)response.StatusCode} ({response.ReasonPhrase}). {responseJson}");
+                            $"License server returned {(int)response.StatusCode} ({response.ReasonPhrase}). {BuildErrorMessage(responseJson)}");
                     }
 
                     var tokenResponse = LicenseJsonSerializer.Deserialize<LicenseTokenResponse>(responseJson);
@@ -170,6 +171,53 @@ namespace ActiveWorks.Licensing
         private static string EnsureTrailingSlash(string value)
         {
             return value.EndsWith("/", StringComparison.Ordinal) ? value : value + "/";
+        }
+
+        private static string BuildErrorMessage(string responseText)
+        {
+            var problem = TryDeserializeProblem(responseText);
+            if (!string.IsNullOrWhiteSpace(problem?.Detail))
+            {
+                return problem.Detail;
+            }
+
+            if (!string.IsNullOrWhiteSpace(problem?.Title))
+            {
+                return problem.Title;
+            }
+
+            if (LooksLikeHtml(responseText))
+            {
+                return "License server returned an HTML error page. Check the server logs for the request details.";
+            }
+
+            return string.IsNullOrWhiteSpace(responseText)
+                ? "License server returned an empty error response."
+                : responseText.Trim();
+        }
+
+        private static LicenseProblemResponse TryDeserializeProblem(string responseText)
+        {
+            if (string.IsNullOrWhiteSpace(responseText))
+            {
+                return null;
+            }
+
+            try
+            {
+                return LicenseJsonSerializer.Deserialize<LicenseProblemResponse>(responseText);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static bool LooksLikeHtml(string responseText)
+        {
+            var trimmed = responseText?.TrimStart();
+            return trimmed?.StartsWith("<!DOCTYPE html", StringComparison.OrdinalIgnoreCase) == true ||
+                   trimmed?.StartsWith("<html", StringComparison.OrdinalIgnoreCase) == true;
         }
     }
 
@@ -204,5 +252,15 @@ namespace ActiveWorks.Licensing
     {
         [System.Runtime.Serialization.DataMember(Name = "token")]
         public string Token { get; set; }
+    }
+
+    [DataContract]
+    internal sealed class LicenseProblemResponse
+    {
+        [DataMember(Name = "title")]
+        public string Title { get; set; }
+
+        [DataMember(Name = "detail")]
+        public string Detail { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Створити","штрих-код EAN-13",Icon = "create_barcode_ean13",Order =10)]
+    [PdfTool("Створити","штрих-код EAN-13",Icon = "create_barcode_ean13",Order =4)]
     public class PdfCreateBarcodeEan13 : IPdfTool
     {
         string _code;

@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.Json;
 using System.Windows.Forms;
 using System.IO.Compression;
+using System.Xml.Linq;
 using UpdateHub;
 
 namespace UpdateHubPublisher
@@ -31,6 +34,7 @@ namespace UpdateHubPublisher
 
         private readonly TextBox _pluginFileTextBox;
         private readonly TextBox _pluginPublishFolderTextBox;
+        private readonly TextBox _pluginApplicationFolderTextBox;
         private readonly TextBox _pluginIdTextBox;
         private readonly TextBox _pluginNameTextBox;
         private readonly TextBox _pluginVersionTextBox;
@@ -62,8 +66,8 @@ namespace UpdateHubPublisher
             _sourceFolderTextBox = AddPathRow(root, 0, "Source bin/Release:", BrowseSourceFolder);
             _publishFolderTextBox = AddPathRow(root, 1, "IIS publish path:", BrowsePublishFolder);
 
-            _versionTextBox = new TextBox { Dock = DockStyle.Fill };
-            AddRow(root, 2, "Version:", _versionTextBox);
+            _versionTextBox = new TextBox { Dock = DockStyle.Fill, ReadOnly = true };
+            AddRow(root, 2, "ActiveWorks version:", _versionTextBox);
 
             _updateTypeComboBox = new ComboBox { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             _updateTypeComboBox.Items.AddRange(new object[] { UpdateType.Critical, UpdateType.Recommended, UpdateType.Optional });
@@ -100,26 +104,27 @@ namespace UpdateHubPublisher
                 "temp_update/**"
             });
 
-            var pluginRoot = CreateRootTable(10, 150);
+            var pluginRoot = CreateRootTable(11, 150);
             pluginTab.Controls.Add(pluginRoot);
 
             _pluginFileTextBox = AddPathRow(pluginRoot, 0, "Plugin DLL:", BrowsePluginFile);
             _pluginPublishFolderTextBox = AddPathRow(pluginRoot, 1, "Web publish path:", BrowsePluginPublishFolder);
+            _pluginApplicationFolderTextBox = AddPathRow(pluginRoot, 2, "ActiveWorks bin path:", BrowsePluginApplicationFolder);
 
             _pluginIdTextBox = new TextBox { Dock = DockStyle.Fill };
-            AddRow(pluginRoot, 2, "Plugin id:", _pluginIdTextBox);
+            AddRow(pluginRoot, 3, "Plugin id:", _pluginIdTextBox);
 
             _pluginNameTextBox = new TextBox { Dock = DockStyle.Fill };
-            AddRow(pluginRoot, 3, "Plugin name:", _pluginNameTextBox);
+            AddRow(pluginRoot, 4, "Plugin name:", _pluginNameTextBox);
 
             _pluginVersionTextBox = new TextBox { Dock = DockStyle.Fill };
-            AddRow(pluginRoot, 4, "Version:", _pluginVersionTextBox);
+            AddRow(pluginRoot, 5, "Version:", _pluginVersionTextBox);
 
             _pluginDescriptionTextBox = new TextBox { Dock = DockStyle.Fill, Multiline = true, ScrollBars = ScrollBars.Vertical };
-            AddRow(pluginRoot, 5, "Description:", _pluginDescriptionTextBox, 70);
+            AddRow(pluginRoot, 6, "Description:", _pluginDescriptionTextBox, 70);
 
             _pluginChangelogTextBox = new TextBox { Dock = DockStyle.Fill, Multiline = true, ScrollBars = ScrollBars.Vertical };
-            AddRow(pluginRoot, 6, "Changelog:", _pluginChangelogTextBox, 90);
+            AddRow(pluginRoot, 7, "Changelog:", _pluginChangelogTextBox, 90);
 
             _pluginDependencyFilesTextBox = new TextBox { Dock = DockStyle.Fill, Multiline = true, ScrollBars = ScrollBars.Vertical };
             var dependencyPanel = new Panel { Dock = DockStyle.Fill };
@@ -131,15 +136,18 @@ namespace UpdateHubPublisher
                 WrapContents = false
             };
             var addDependenciesButton = new Button { Text = "Add dependency files", AutoSize = true };
+            var findDependenciesButton = new Button { Text = "Find dependencies", AutoSize = true };
             var clearDependenciesButton = new Button { Text = "Clear", AutoSize = true };
             addDependenciesButton.Click += (s, e) => AddPluginDependencyFiles();
+            findDependenciesButton.Click += (s, e) => FindPluginDependencyFiles();
             clearDependenciesButton.Click += (s, e) => _pluginDependencyFilesTextBox.Clear();
             dependencyButtons.Controls.Add(addDependenciesButton);
+            dependencyButtons.Controls.Add(findDependenciesButton);
             dependencyButtons.Controls.Add(clearDependenciesButton);
             _pluginDependencyFilesTextBox.Dock = DockStyle.Fill;
             dependencyPanel.Controls.Add(_pluginDependencyFilesTextBox);
             dependencyPanel.Controls.Add(dependencyButtons);
-            AddRow(pluginRoot, 7, "Dependency files:", dependencyPanel, 120);
+            AddRow(pluginRoot, 8, "Dependency files:", dependencyPanel, 120);
 
             var pluginButtonPanel = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.LeftToRight, AutoSize = true };
             var readPluginMetadataButton = new Button { Text = "Read Metadata", AutoSize = true };
@@ -151,10 +159,10 @@ namespace UpdateHubPublisher
             pluginButtonPanel.Controls.Add(readPluginMetadataButton);
             pluginButtonPanel.Controls.Add(generatePluginButton);
             pluginButtonPanel.Controls.Add(publishPluginButton);
-            AddRow(pluginRoot, 8, "Actions:", pluginButtonPanel);
+            AddRow(pluginRoot, 9, "Actions:", pluginButtonPanel);
 
             _pluginPreviewTextBox = CreatePreviewTextBox();
-            AddRow(pluginRoot, 9, "plugin.json:", _pluginPreviewTextBox, 210);
+            AddRow(pluginRoot, 10, "plugin.json:", _pluginPreviewTextBox, 210);
 
             LoadBlacklist();
             LoadState();
@@ -211,11 +219,17 @@ namespace UpdateHubPublisher
             root.SetColumnSpan(control, 2);
         }
 
-        private void BrowseSourceFolder(object sender, EventArgs e) => BrowseFolder(_sourceFolderTextBox);
+        private void BrowseSourceFolder(object sender, EventArgs e)
+        {
+            BrowseFolder(_sourceFolderTextBox);
+            RefreshActiveWorksVersion();
+        }
 
         private void BrowsePublishFolder(object sender, EventArgs e) => BrowseFolder(_publishFolderTextBox);
 
         private void BrowsePluginPublishFolder(object sender, EventArgs e) => BrowseFolder(_pluginPublishFolderTextBox);
+
+        private void BrowsePluginApplicationFolder(object sender, EventArgs e) => BrowseFolder(_pluginApplicationFolderTextBox);
 
         private void BrowseFolder(TextBox textBox)
         {
@@ -267,6 +281,92 @@ namespace UpdateHubPublisher
             }
         }
 
+        private void RefreshActiveWorksVersion()
+        {
+            var sourceFolder = (_sourceFolderTextBox.Text ?? string.Empty).Trim();
+            if (!Directory.Exists(sourceFolder))
+            {
+                _versionTextBox.Clear();
+                return;
+            }
+
+            try
+            {
+                _versionTextBox.Text = ReadActiveWorksVersion(sourceFolder);
+            }
+            catch
+            {
+                _versionTextBox.Clear();
+            }
+        }
+
+        private void FindPluginDependencyFiles()
+        {
+            try
+            {
+                var pluginFile = RequireFile(_pluginFileTextBox.Text, "Plugin DLL");
+                var pluginFolder = Path.GetDirectoryName(pluginFile);
+                var projectFile = FindPluginProjectFile(pluginFile);
+                string publishRoot;
+
+                if (IsPublishedPluginOutput(pluginFile))
+                {
+                    publishRoot = pluginFolder;
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(projectFile))
+                    {
+                        MessageBox.Show(
+                            this,
+                            "Could not find a .csproj for the selected plugin DLL. Select a plugin DLL from a dotnet publish output folder, or select a DLL under the project bin folder.",
+                            "Plugin Publisher",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    publishRoot = PublishPluginForDependencyDiscovery(projectFile, pluginFile);
+                }
+
+                var applicationFiles = GetApplicationFilesForDependencyFiltering(pluginFile);
+                var dependencies = DiscoverPublishedDependencyFiles(projectFile, pluginFile, publishRoot, applicationFiles).ToList();
+                var existing = GetLines(_pluginDependencyFilesTextBox).ToList();
+
+                foreach (var dependency in dependencies)
+                {
+                    var line = FormatDependencyLine(dependency.SourceFilePath, dependency.TargetPath);
+                    existing.RemoveAll(x => string.Equals(
+                        GetDependencyTargetPath(x, GetDependencySourcePath(x)),
+                        dependency.TargetPath,
+                        StringComparison.OrdinalIgnoreCase));
+                    if (!existing.Contains(line, StringComparer.OrdinalIgnoreCase))
+                    {
+                        existing.Add(line);
+                    }
+                }
+
+                _pluginDependencyFilesTextBox.Text = string.Join(Environment.NewLine, existing);
+                MessageBox.Show(
+                    this,
+                    "Found " + dependencies.Count + " dependency file(s)." + Environment.NewLine + publishRoot,
+                    "Plugin Publisher",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Plugin Publisher", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private static bool IsPublishedPluginOutput(string pluginFile)
+        {
+            var pluginFolder = Path.GetDirectoryName(pluginFile);
+            var pluginBaseName = Path.GetFileNameWithoutExtension(pluginFile);
+            return File.Exists(Path.Combine(pluginFolder, pluginBaseName + ".deps.json"));
+        }
+
         private void ReadSelectedPluginMetadata(bool showMessages)
         {
             var pluginFile = (_pluginFileTextBox.Text ?? string.Empty).Trim();
@@ -283,7 +383,11 @@ namespace UpdateHubPublisher
             try
             {
                 var metadata = PluginMetadataReader.Read(pluginFile);
-                if (string.IsNullOrWhiteSpace(_pluginIdTextBox.Text))
+                if (!string.IsNullOrWhiteSpace(metadata.Id))
+                {
+                    _pluginIdTextBox.Text = metadata.Id;
+                }
+                else if (string.IsNullOrWhiteSpace(_pluginIdTextBox.Text))
                 {
                     _pluginIdTextBox.Text = Path.GetFileNameWithoutExtension(pluginFile);
                 }
@@ -314,6 +418,530 @@ namespace UpdateHubPublisher
                     MessageBox.Show(this, ex.Message, "Plugin Publisher", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
+        }
+
+        private static string FindPluginProjectFile(string pluginFile)
+        {
+            var pluginName = Path.GetFileNameWithoutExtension(pluginFile);
+            var directory = new DirectoryInfo(Path.GetDirectoryName(pluginFile));
+            while (directory != null)
+            {
+                foreach (var projectFile in directory.GetFiles("*.csproj"))
+                {
+                    if (ProjectBuildsAssembly(projectFile.FullName, pluginName))
+                    {
+                        return projectFile.FullName;
+                    }
+                }
+
+                directory = directory.Parent;
+            }
+
+            return null;
+        }
+
+        private static bool ProjectBuildsAssembly(string projectFile, string assemblyName)
+        {
+            var projectAssemblyName = GetProjectAssemblyName(projectFile);
+            return string.Equals(projectAssemblyName, assemblyName, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string GetProjectAssemblyName(string projectFile)
+        {
+            try
+            {
+                var document = XDocument.Load(projectFile);
+                var assemblyName = document
+                    .Descendants()
+                    .FirstOrDefault(x => string.Equals(x.Name.LocalName, "AssemblyName", StringComparison.OrdinalIgnoreCase))
+                    ?.Value
+                    ?.Trim();
+
+                return string.IsNullOrWhiteSpace(assemblyName)
+                    ? Path.GetFileNameWithoutExtension(projectFile)
+                    : assemblyName;
+            }
+            catch
+            {
+                return Path.GetFileNameWithoutExtension(projectFile);
+            }
+        }
+
+        private static string PublishPluginForDependencyDiscovery(string projectFile, string pluginFile)
+        {
+            var configuration = GetBuildConfiguration(pluginFile);
+            var outputRoot = Path.Combine(
+                Path.GetTempPath(),
+                "UpdateHubPublisher",
+                "plugin-dependencies",
+                Path.GetFileNameWithoutExtension(pluginFile));
+
+            if (Directory.Exists(outputRoot))
+            {
+                Directory.Delete(outputRoot, true);
+            }
+
+            Directory.CreateDirectory(outputRoot);
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+            startInfo.ArgumentList.Add("publish");
+            startInfo.ArgumentList.Add(projectFile);
+            startInfo.ArgumentList.Add("-c");
+            startInfo.ArgumentList.Add(configuration);
+            startInfo.ArgumentList.Add("-o");
+            startInfo.ArgumentList.Add(outputRoot);
+
+            using (var process = Process.Start(startInfo))
+            {
+                var output = process.StandardOutput.ReadToEnd();
+                var error = process.StandardError.ReadToEnd();
+                process.WaitForExit();
+                if (process.ExitCode != 0)
+                {
+                    throw new InvalidOperationException("dotnet publish failed." + Environment.NewLine + output + Environment.NewLine + error);
+                }
+            }
+
+            return outputRoot;
+        }
+
+        private static string GetBuildConfiguration(string pluginFile)
+        {
+            var parts = pluginFile.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            return parts.Any(x => string.Equals(x, "Release", StringComparison.OrdinalIgnoreCase))
+                ? "Release"
+                : "Debug";
+        }
+
+        private HashSet<string> GetApplicationFilesForDependencyFiltering(string pluginFile)
+        {
+            var applicationRoot = ResolveApplicationRoot(pluginFile);
+            var files = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (string.IsNullOrWhiteSpace(applicationRoot) || !Directory.Exists(applicationRoot))
+            {
+                return files;
+            }
+
+            foreach (var file in Directory.GetFiles(applicationRoot, "*", SearchOption.AllDirectories))
+            {
+                var relativePath = PathUtility.NormalizeRelativePath(file.Substring(applicationRoot.Length).TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+                files.Add(relativePath);
+
+                if (relativePath.IndexOf('/') < 0)
+                {
+                    files.Add(Path.GetFileName(file));
+                }
+            }
+
+            return files;
+        }
+
+        private string ResolveApplicationRoot(string pluginFile)
+        {
+            var applicationFolder = (_pluginApplicationFolderTextBox.Text ?? string.Empty).Trim();
+            if (Directory.Exists(applicationFolder))
+            {
+                return applicationFolder;
+            }
+
+            return null;
+        }
+
+        private static IEnumerable<PluginDependencyFile> DiscoverPublishedDependencyFiles(
+            string projectFile,
+            string pluginFile,
+            string publishRoot,
+            HashSet<string> applicationFiles)
+        {
+            var assetPaths = string.IsNullOrWhiteSpace(projectFile)
+                ? new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                : GetPackageRuntimeAssetPaths(projectFile);
+            AddProjectReferenceAssemblyFileNames(projectFile, assetPaths);
+            var useAssetFilter = assetPaths.Count > 0;
+            var preferredRuntimeAssets = GetPreferredRuntimeAssets(publishRoot, assetPaths);
+            var pluginFileName = Path.GetFileName(pluginFile);
+            foreach (var file in Directory.GetFiles(publishRoot, "*", SearchOption.AllDirectories))
+            {
+                var relativePath = PathUtility.NormalizeRelativePath(file.Substring(publishRoot.Length).TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+                var fileName = Path.GetFileName(file);
+                if (string.Equals(fileName, pluginFileName, StringComparison.OrdinalIgnoreCase) ||
+                    IsPluginBuildFile(fileName, pluginFileName))
+                {
+                    continue;
+                }
+
+                if (useAssetFilter)
+                {
+                    if (!assetPaths.Contains(relativePath) && !assetPaths.Contains(fileName))
+                    {
+                        continue;
+                    }
+
+                    if (preferredRuntimeAssets.ContainsKey(fileName) &&
+                        !string.Equals(preferredRuntimeAssets[fileName], relativePath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+                }
+                else if (!IsDependencyCandidateFile(relativePath))
+                {
+                    continue;
+                }
+
+                var targetPath = GetPublishedDependencyTargetPath(relativePath, fileName, preferredRuntimeAssets);
+                if (ApplicationAlreadyContainsDependency(applicationFiles, relativePath))
+                {
+                    continue;
+                }
+
+                yield return new PluginDependencyFile
+                {
+                    SourceFilePath = file,
+                    TargetPath = targetPath
+                };
+            }
+        }
+
+        private static Dictionary<string, string> GetPreferredRuntimeAssets(string publishRoot, HashSet<string> assetPaths)
+        {
+            var preferredRuntimeAssets = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            if (string.IsNullOrWhiteSpace(publishRoot) || !Directory.Exists(publishRoot) || assetPaths == null || assetPaths.Count == 0)
+            {
+                return preferredRuntimeAssets;
+            }
+
+            foreach (var file in Directory.GetFiles(publishRoot, "*", SearchOption.AllDirectories))
+            {
+                var relativePath = PathUtility.NormalizeRelativePath(file.Substring(publishRoot.Length).TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+                if (!assetPaths.Contains(relativePath) || !IsManagedRuntimeAsset(relativePath))
+                {
+                    continue;
+                }
+
+                preferredRuntimeAssets[Path.GetFileName(file)] = relativePath;
+            }
+
+            return preferredRuntimeAssets;
+        }
+
+        private static string GetPublishedDependencyTargetPath(string relativePath, string fileName, Dictionary<string, string> preferredRuntimeAssets)
+        {
+            if (preferredRuntimeAssets != null &&
+                preferredRuntimeAssets.TryGetValue(fileName, out var preferredRelativePath) &&
+                string.Equals(preferredRelativePath, relativePath, StringComparison.OrdinalIgnoreCase) &&
+                IsManagedRuntimeAsset(relativePath))
+            {
+                return fileName;
+            }
+
+            return relativePath;
+        }
+
+        private static bool IsManagedRuntimeAsset(string relativePath)
+        {
+            relativePath = PathUtility.NormalizeRelativePath(relativePath);
+            return relativePath.StartsWith("runtimes/win/lib/", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsDependencyCandidateFile(string relativePath)
+        {
+            var extension = Path.GetExtension(relativePath);
+            return string.Equals(extension, ".dll", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(extension, ".config", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(extension, ".json", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool ApplicationAlreadyContainsDependency(HashSet<string> applicationFiles, string relativePath)
+        {
+            if (applicationFiles == null || applicationFiles.Count == 0)
+            {
+                return false;
+            }
+
+            relativePath = PathUtility.NormalizeRelativePath(relativePath);
+            if (applicationFiles.Contains(relativePath))
+            {
+                return true;
+            }
+
+            return relativePath.IndexOf('/') < 0 &&
+                   applicationFiles.Contains(Path.GetFileName(relativePath));
+        }
+
+        private static bool IsPluginBuildFile(string fileName, string pluginFileName)
+        {
+            var pluginBaseName = Path.GetFileNameWithoutExtension(pluginFileName);
+            return string.Equals(fileName, pluginBaseName + ".pdb", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(fileName, pluginBaseName + ".deps.json", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(fileName, pluginBaseName + ".runtimeconfig.json", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(fileName, pluginFileName + ".config", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static HashSet<string> GetPackageRuntimeAssetPaths(string projectFile)
+        {
+            var packageNames = GetPackageClosure(projectFile);
+            var assetPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var assetsFile = Path.Combine(Path.GetDirectoryName(projectFile), "obj", "project.assets.json");
+            if (!File.Exists(assetsFile))
+            {
+                return assetPaths;
+            }
+
+            using (var document = JsonDocument.Parse(File.ReadAllText(assetsFile)))
+            {
+                if (!document.RootElement.TryGetProperty("targets", out var targets))
+                {
+                    return assetPaths;
+                }
+
+                foreach (var target in targets.EnumerateObject())
+                {
+                    foreach (var package in target.Value.EnumerateObject())
+                    {
+                        var packageName = package.Name.Split('/')[0];
+                        if (!packageNames.Contains(packageName))
+                        {
+                            continue;
+                        }
+
+                        AddRuntimeAssets(package.Value, "runtime", assetPaths);
+                        AddRuntimeAssets(package.Value, "runtimeTargets", assetPaths);
+                    }
+
+                    break;
+                }
+            }
+
+            return assetPaths;
+        }
+
+        private static void AddRuntimeAssets(JsonElement package, string propertyName, HashSet<string> assetPaths)
+        {
+            if (!package.TryGetProperty(propertyName, out var assets))
+            {
+                return;
+            }
+
+            foreach (var asset in assets.EnumerateObject())
+            {
+                if (ShouldIncludeRuntimeAsset(asset.Name, asset.Value))
+                {
+                    assetPaths.Add(Path.GetFileName(asset.Name));
+                    assetPaths.Add(PathUtility.NormalizeRelativePath(asset.Name));
+                }
+            }
+        }
+
+        private static bool ShouldIncludeRuntimeAsset(string assetPath, JsonElement asset)
+        {
+            var extension = Path.GetExtension(assetPath);
+            if (!string.Equals(extension, ".dll", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(extension, ".config", StringComparison.OrdinalIgnoreCase) &&
+                !string.Equals(extension, ".json", StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            if (asset.TryGetProperty("rid", out var rid))
+            {
+                var ridValue = rid.GetString();
+                return !string.IsNullOrWhiteSpace(ridValue) &&
+                       ridValue.StartsWith("win", StringComparison.OrdinalIgnoreCase);
+            }
+
+            return true;
+        }
+
+        private static HashSet<string> GetPackageClosure(string projectFile)
+        {
+            var packageNames = GetDirectPackageReferences(projectFile);
+            var assetsFile = Path.Combine(Path.GetDirectoryName(projectFile), "obj", "project.assets.json");
+            if (!File.Exists(assetsFile))
+            {
+                return packageNames;
+            }
+
+            using (var document = JsonDocument.Parse(File.ReadAllText(assetsFile)))
+            {
+                if (!document.RootElement.TryGetProperty("targets", out var targets))
+                {
+                    return packageNames;
+                }
+
+                JsonElement targetPackages = default;
+                foreach (var target in targets.EnumerateObject())
+                {
+                    targetPackages = target.Value;
+                    break;
+                }
+
+                if (targetPackages.ValueKind == JsonValueKind.Undefined)
+                {
+                    return packageNames;
+                }
+
+                var queue = new Queue<string>(packageNames);
+                while (queue.Count > 0)
+                {
+                    var packageName = queue.Dequeue();
+                    var package = FindPackageTarget(targetPackages, packageName);
+                    if (package.ValueKind == JsonValueKind.Undefined ||
+                        !package.TryGetProperty("dependencies", out var dependencies))
+                    {
+                        continue;
+                    }
+
+                    foreach (var dependency in dependencies.EnumerateObject())
+                    {
+                        if (packageNames.Add(dependency.Name))
+                        {
+                            queue.Enqueue(dependency.Name);
+                        }
+                    }
+                }
+            }
+
+            return packageNames;
+        }
+
+        private static JsonElement FindPackageTarget(JsonElement targetPackages, string packageName)
+        {
+            foreach (var package in targetPackages.EnumerateObject())
+            {
+                if (package.Name.StartsWith(packageName + "/", StringComparison.OrdinalIgnoreCase))
+                {
+                    return package.Value;
+                }
+            }
+
+            return default;
+        }
+
+        private static HashSet<string> GetDirectPackageReferences(string projectFile)
+        {
+            var packageNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            try
+            {
+                var document = XDocument.Load(projectFile);
+                foreach (var packageReference in document.Descendants().Where(x => string.Equals(x.Name.LocalName, "PackageReference", StringComparison.OrdinalIgnoreCase)))
+                {
+                    var include = packageReference.Attribute("Include")?.Value ?? packageReference.Attribute("Update")?.Value;
+                    if (!string.IsNullOrWhiteSpace(include))
+                    {
+                        packageNames.Add(include.Trim());
+                    }
+                }
+            }
+            catch
+            {
+                // The caller can still use manually selected dependencies.
+            }
+
+            return packageNames;
+        }
+
+        private static void AddProjectReferenceAssemblyFileNames(string projectFile, HashSet<string> assetPaths)
+        {
+            if (string.IsNullOrWhiteSpace(projectFile) || assetPaths == null)
+            {
+                return;
+            }
+
+            AddProjectReferenceAssemblyFileNames(projectFile, assetPaths, new HashSet<string>(StringComparer.OrdinalIgnoreCase));
+        }
+
+        private static void AddProjectReferenceAssemblyFileNames(string projectFile, HashSet<string> assetPaths, HashSet<string> visitedProjects)
+        {
+            if (string.IsNullOrWhiteSpace(projectFile))
+            {
+                return;
+            }
+
+            var fullProjectFile = Path.GetFullPath(projectFile);
+            if (!visitedProjects.Add(fullProjectFile) || !File.Exists(fullProjectFile))
+            {
+                return;
+            }
+
+            foreach (var referencedProjectFile in GetProjectReferenceFiles(fullProjectFile))
+            {
+                if (!File.Exists(referencedProjectFile))
+                {
+                    continue;
+                }
+
+                assetPaths.Add(GetProjectAssemblyName(referencedProjectFile) + ".dll");
+                AddProjectReferenceAssemblyFileNames(referencedProjectFile, assetPaths, visitedProjects);
+            }
+        }
+
+        private static IEnumerable<string> GetProjectReferenceFiles(string projectFile)
+        {
+            XDocument document;
+            try
+            {
+                document = XDocument.Load(projectFile);
+            }
+            catch
+            {
+                yield break;
+            }
+
+            var projectDirectory = Path.GetDirectoryName(projectFile);
+            foreach (var projectReference in document.Descendants().Where(x => string.Equals(x.Name.LocalName, "ProjectReference", StringComparison.OrdinalIgnoreCase)))
+            {
+                var include = projectReference.Attribute("Include")?.Value;
+                if (string.IsNullOrWhiteSpace(include))
+                {
+                    continue;
+                }
+
+                yield return Path.GetFullPath(Path.Combine(projectDirectory, include));
+            }
+        }
+
+        private static string FormatDependencyLine(string sourceFile, string targetPath)
+        {
+            targetPath = PathUtility.NormalizeRelativePath(targetPath);
+            return string.Equals(Path.GetFileName(sourceFile), targetPath, StringComparison.OrdinalIgnoreCase)
+                ? sourceFile
+                : sourceFile + "|" + targetPath;
+        }
+
+        private static string GetDependencyTargetPath(string dependencyLine, string fullPath)
+        {
+            var separatorIndex = (dependencyLine ?? string.Empty).IndexOf('|');
+            if (separatorIndex < 0)
+            {
+                return Path.GetFileName(fullPath);
+            }
+
+            var targetPath = dependencyLine.Substring(separatorIndex + 1).Trim();
+            return string.IsNullOrWhiteSpace(targetPath)
+                ? Path.GetFileName(fullPath)
+                : targetPath;
+        }
+
+        private static string GetDependencySourcePath(string dependencyLine)
+        {
+            var separatorIndex = (dependencyLine ?? string.Empty).IndexOf('|');
+            return separatorIndex < 0
+                ? dependencyLine
+                : dependencyLine.Substring(0, separatorIndex).Trim();
+        }
+
+        private sealed class PluginDependencyFile
+        {
+            public string SourceFilePath { get; set; }
+
+            public string TargetPath { get; set; }
         }
 
         private void GenerateManifestPreview()
@@ -412,7 +1040,8 @@ namespace UpdateHubPublisher
         private UpdateManifest BuildManifest()
         {
             var sourceFolder = RequireDirectory(_sourceFolderTextBox.Text, "Source bin/Release");
-            var version = RequireText(_versionTextBox.Text, "Version");
+            var version = ReadActiveWorksVersion(sourceFolder);
+            _versionTextBox.Text = version;
             var selectedType = (UpdateType)_updateTypeComboBox.SelectedItem;
             var blacklist = GetLines(_blacklistTextBox).ToList();
 
@@ -446,6 +1075,17 @@ namespace UpdateHubPublisher
             };
         }
 
+        private static string ReadActiveWorksVersion(string sourceFolder)
+        {
+            var activeWorksFile = RequireFile(Path.Combine(sourceFolder, "ActiveWorks.exe"), "ActiveWorks.exe");
+            var versionInfo = FileVersionInfo.GetVersionInfo(activeWorksFile);
+            var version = !string.IsNullOrWhiteSpace(versionInfo.FileVersion)
+                ? versionInfo.FileVersion
+                : versionInfo.ProductVersion;
+
+            return RequireText(version, "ActiveWorks.exe version");
+        }
+
         private PluginPackageManifest BuildPluginManifest()
         {
             var pluginFile = RequireFile(_pluginFileTextBox.Text, "Plugin DLL");
@@ -463,7 +1103,7 @@ namespace UpdateHubPublisher
 
             foreach (var dependencyFile in GetLines(_pluginDependencyFilesTextBox))
             {
-                var fullPath = RequireFile(dependencyFile, "Dependency file");
+                var fullPath = RequireFile(GetDependencySourcePath(dependencyFile), "Dependency file");
                 if (string.Equals(fullPath, pluginFile, StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
@@ -471,7 +1111,7 @@ namespace UpdateHubPublisher
 
                 files.Add(CreatePluginPackageFile(
                     fullPath,
-                    Path.GetFileName(fullPath),
+                    GetDependencyTargetPath(dependencyFile, fullPath),
                     PluginInstallTarget.Application));
             }
 
@@ -569,7 +1209,7 @@ namespace UpdateHubPublisher
             return new PluginPackageFile
             {
                 Path = PathUtility.NormalizeRelativePath(packagePath),
-                TargetPath = Path.GetFileName(sourceFile),
+                TargetPath = PathUtility.NormalizeRelativePath(packagePath),
                 TargetRoot = targetRoot,
                 Hash = FileHashService.ComputeSha256(sourceFile),
                 Size = fileInfo.Length,
@@ -593,6 +1233,12 @@ namespace UpdateHubPublisher
             var catalog = LoadPluginCatalog(catalogPath);
             var manifestPath = PathUtility.NormalizeRelativePath(Path.Combine(manifest.Id, PluginManifestFileName));
 
+            foreach (var entry in DiscoverPluginCatalogEntries(catalogRoot))
+            {
+                catalog.Plugins.RemoveAll(x => string.Equals(x.Id, entry.Id, StringComparison.OrdinalIgnoreCase));
+                catalog.Plugins.Add(entry);
+            }
+
             catalog.Plugins.RemoveAll(x => string.Equals(x.Id, manifest.Id, StringComparison.OrdinalIgnoreCase));
             catalog.Plugins.Add(new PluginCatalogEntry
             {
@@ -605,6 +1251,47 @@ namespace UpdateHubPublisher
                 .ToList();
 
             SavePluginCatalog(catalog, catalogPath);
+        }
+
+        private static IEnumerable<PluginCatalogEntry> DiscoverPluginCatalogEntries(string catalogRoot)
+        {
+            if (!Directory.Exists(catalogRoot))
+            {
+                yield break;
+            }
+
+            foreach (var pluginManifestPath in Directory.GetFiles(catalogRoot, PluginManifestFileName, SearchOption.AllDirectories))
+            {
+                PluginPackageManifest pluginManifest = null;
+                try
+                {
+                    using (var stream = File.OpenRead(pluginManifestPath))
+                    {
+                        var serializer = new DataContractJsonSerializer(typeof(PluginPackageManifest));
+                        pluginManifest = (PluginPackageManifest)serializer.ReadObject(stream);
+                    }
+                }
+                catch
+                {
+                    // Keep the catalog usable even if one plugin manifest is temporarily broken.
+                }
+
+                var pluginId = pluginManifest != null && !string.IsNullOrWhiteSpace(pluginManifest.Id)
+                    ? pluginManifest.Id
+                    : Path.GetFileName(Path.GetDirectoryName(pluginManifestPath));
+
+                if (string.IsNullOrWhiteSpace(pluginId))
+                {
+                    continue;
+                }
+
+                var relativePath = pluginManifestPath.Substring(catalogRoot.Length).TrimStart(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                yield return new PluginCatalogEntry
+                {
+                    Id = pluginId,
+                    ManifestPath = PathUtility.NormalizeRelativePath(relativePath)
+                };
+            }
         }
 
         private static PluginCatalog LoadPluginCatalog(string catalogPath)
@@ -739,11 +1426,9 @@ namespace UpdateHubPublisher
                 {
                     _publishFolderTextBox.Text = item.Value;
                 }
-                else if (item.Key.Equals("Version", StringComparison.OrdinalIgnoreCase))
-                {
-                    _versionTextBox.Text = item.Value;
-                }
             }
+
+            RefreshActiveWorksVersion();
         }
 
         private void LoadPluginState()
@@ -763,6 +1448,10 @@ namespace UpdateHubPublisher
                 else if (item.Key.Equals("PluginPublishFolder", StringComparison.OrdinalIgnoreCase))
                 {
                     _pluginPublishFolderTextBox.Text = item.Value;
+                }
+                else if (item.Key.Equals("PluginApplicationFolder", StringComparison.OrdinalIgnoreCase))
+                {
+                    _pluginApplicationFolderTextBox.Text = item.Value;
                 }
                 else if (item.Key.Equals("PluginId", StringComparison.OrdinalIgnoreCase))
                 {
@@ -784,8 +1473,7 @@ namespace UpdateHubPublisher
             SaveKeyValues(GetStateFilePath(), new[]
             {
                 "SourceFolder=" + ((_sourceFolderTextBox.Text ?? string.Empty).Trim()),
-                "PublishFolder=" + ((_publishFolderTextBox.Text ?? string.Empty).Trim()),
-                "Version=" + ((_versionTextBox.Text ?? string.Empty).Trim())
+                "PublishFolder=" + ((_publishFolderTextBox.Text ?? string.Empty).Trim())
             });
         }
 
@@ -795,6 +1483,7 @@ namespace UpdateHubPublisher
             {
                 "PluginFile=" + ((_pluginFileTextBox.Text ?? string.Empty).Trim()),
                 "PluginPublishFolder=" + ((_pluginPublishFolderTextBox.Text ?? string.Empty).Trim()),
+                "PluginApplicationFolder=" + ((_pluginApplicationFolderTextBox.Text ?? string.Empty).Trim()),
                 "PluginId=" + ((_pluginIdTextBox.Text ?? string.Empty).Trim()),
                 "PluginName=" + ((_pluginNameTextBox.Text ?? string.Empty).Trim()),
                 "PluginVersion=" + ((_pluginVersionTextBox.Text ?? string.Empty).Trim())
@@ -920,6 +1609,8 @@ namespace UpdateHubPublisher
 
     internal sealed class PluginMetadata
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -932,9 +1623,11 @@ namespace UpdateHubPublisher
         public static PluginMetadata Read(string pluginFile)
         {
             var assembly = Assembly.LoadFrom(pluginFile);
+            var assemblyTitle = GetAttribute<AssemblyTitleAttribute>(assembly)?.Title;
             var metadata = new PluginMetadata
             {
-                Name = GetAttribute<AssemblyTitleAttribute>(assembly)?.Title,
+                Id = assemblyTitle,
+                Name = assemblyTitle,
                 Description = GetAttribute<AssemblyDescriptionAttribute>(assembly)?.Description,
                 Version = assembly.GetName().Version?.ToString()
             };

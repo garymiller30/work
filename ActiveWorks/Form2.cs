@@ -15,7 +15,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using UpdateHubShared = global::UpdateHub;
 
 namespace ActiveWorks
@@ -51,7 +50,7 @@ namespace ActiveWorks
             _sw.Start();
 
             SplashScreen.Splash.ShowSplashScreen();
-            SplashScreen.Splash.SetImage(Resources.SplashScreen8);
+            SplashScreen.Splash.SetImage(Resources.SplashScreen9);
             SplashScreen.Splash.SetVersion(assemblyVersion, Color.Yellow, 12, 12);
             SplashScreen.Splash.SetHeader(string.Empty);
             SplashScreen.Splash.SetStatus(string.Empty);

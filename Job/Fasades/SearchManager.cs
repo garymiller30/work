@@ -36,6 +36,23 @@ namespace JobSpace.Fasades
             }
         }
 
+        public void RefreshStatuses()
+        {
+            var previousFilters = _viewFilters.ToDictionary(x => x.Key.Code, x => x.Value);
+            _viewFilters = new Dictionary<IJobStatus, bool>();
+
+            var result = _profile.StatusManager.GetJobStatuses();
+            if (result == null)
+            {
+                return;
+            }
+
+            foreach (var status in result)
+            {
+                _viewFilters.Add(status, previousFilters.TryGetValue(status.Code, out var isChecked) ? isChecked : true);
+            }
+        }
+
 
         public Dictionary<IJobStatus, bool> GetStatuses() => _viewFilters;
 
@@ -57,14 +74,14 @@ namespace JobSpace.Fasades
 
             var jobs = _profile.Base.ApplyViewFilter(customer, text, _viewFilters.Where(x => x.Value).Select(x => x.Key.Code).ToArray());
 
-            _profile.Events.Jobs.OnJobsAdd(this, jobs);
+            _profile.Events.Jobs.RaiseJobsAdd(this, jobs);
         }
 
         public void ClearFilters()
         {
             var jobs = _profile.Base.ApplyViewFilter(string.Empty, string.Empty, _profile.StatusManager.GetEnabledViewStatuses());
 
-            _profile.Events.Jobs.OnJobsAdd(this, jobs);
+            _profile.Events.Jobs.RaiseJobsAdd(this, jobs);
         }
     }
 }

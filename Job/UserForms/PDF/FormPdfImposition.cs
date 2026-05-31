@@ -1,12 +1,14 @@
-﻿using JobSpace.Profiles;
+﻿using ExtensionMethods;
+using JobSpace.CustomForms;
+using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models.AutoImpos;
 using JobSpace.Static.Pdf.Imposition.Models.View;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using Krypton.Toolkit;
-using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -150,7 +152,7 @@ namespace JobSpace.UserForms.PDF
         void AddPrintSheet(TemplateSheet e)
         {
             PrintSheet sheet = PrintSheet.ConvertTemplateSheetToPrintSheet(e);
-           
+
             printSheetsControl1.AddSheet(sheet);
 
             if (ModifierKeys != Keys.Alt)
@@ -211,7 +213,7 @@ namespace JobSpace.UserForms.PDF
             _tool_param.OnPageGroupDistributeHor += OnPageGroupDistributeHor;
             _tool_param.OnPageGroupDistributeVer += OnPageGroupDistributeVer;
             _tool_param.OnPageGroupDelete += OnPageGroupDelete;
-            
+
         }
 
         private void OnPageGroupDistributeVer(object sender, List<PageGroup> e)
@@ -362,6 +364,16 @@ namespace JobSpace.UserForms.PDF
                 var imposition = JsonSerializer.Deserialize<SavedImposition>(str);
                 if (imposition == null) return;
 
+                if (!IsLoadedImpositionCompatible(imposition))
+                {
+                    MessageBox.Show(
+                        "Збережений спуск полос створений для іншого набору PDF-файлів і не буде завантажений.",
+                        "Спуск полос",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
                 ApplyLoadedImposition(imposition);
             }
             catch (Exception ex)
@@ -442,6 +454,7 @@ namespace JobSpace.UserForms.PDF
 
             return new SavedImposition
             {
+                PdfFiles = CreateSavedPdfFileInfo(),
                 RunList = _imposParam.ProductPart.RunList,
                 TemplateSheets = _imposParam.ProductPart.TemplateSheets,
                 PrintSheets = _imposParam.ProductPart.PrintSheets,
@@ -449,6 +462,107 @@ namespace JobSpace.UserForms.PDF
                 Proof = _imposParam.ProductPart.Proof,
                 ExportParameters = _imposParam.ProductPart.ExportParameters
             };
+        }
+
+        private List<SavedPdfFileInfo> CreateSavedPdfFileInfo()
+        {
+            return _imposParam.ProductPart.PdfFiles
+                .Select(file => new SavedPdfFileInfo
+                {
+                    Id = file.Id,
+                    FileName = file.FileName,
+                    PageCount = file.Pages?.Length ?? 0,
+                    Count = file.Count,
+                    PageWidth = GetFirstPageWidth(file),
+                    PageHeight = GetFirstPageHeight(file)
+                })
+                .ToList();
+        }
+
+        private bool IsLoadedImpositionCompatible(SavedImposition imposition)
+        {
+            if (imposition.PdfFiles != null && imposition.PdfFiles.Count > 0)
+            {
+                return IsSavedPdfFileInfoCompatible(imposition.PdfFiles);
+            }
+
+            return IsRunListCompatible(imposition.RunList);
+        }
+
+        private bool IsSavedPdfFileInfoCompatible(List<SavedPdfFileInfo> savedFiles)
+        {
+            var currentFiles = CreateSavedPdfFileInfo();
+
+            if (savedFiles.Count != currentFiles.Count)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < savedFiles.Count; i++)
+            {
+                var saved = savedFiles[i];
+                var current = currentFiles[i];
+
+                if (saved.Id != current.Id ||
+                    saved.PageCount != current.PageCount ||
+                    saved.Count != current.Count ||
+                    !IsSavedPdfFormatCompatible(saved, current))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static bool IsSavedPdfFormatCompatible(SavedPdfFileInfo saved, SavedPdfFileInfo current)
+        {
+            if (saved.PageWidth <= 0 || saved.PageHeight <= 0 || current.PageWidth <= 0 || current.PageHeight <= 0)
+            {
+                return string.Equals(saved.FileName, current.FileName, StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            var savedFormat = NormalizeFormat(saved.PageWidth, saved.PageHeight);
+            var currentFormat = NormalizeFormat(current.PageWidth, current.PageHeight);
+
+            return Math.Abs(savedFormat.width - currentFormat.width) <= 1 &&
+                   Math.Abs(savedFormat.height - currentFormat.height) <= 1;
+        }
+
+        private static decimal GetFirstPageWidth(PdfFile file)
+        {
+            var page = file?.Pages?.FirstOrDefault();
+            return page == null ? 0 : (decimal)page.Trim.W;
+        }
+
+        private static decimal GetFirstPageHeight(PdfFile file)
+        {
+            var page = file?.Pages?.FirstOrDefault();
+            return page == null ? 0 : (decimal)page.Trim.H;
+        }
+
+        private bool IsRunListCompatible(ImposRunList runList)
+        {
+            if (runList?.RunPages == null)
+            {
+                return true;
+            }
+
+            foreach (var runPage in runList.RunPages)
+            {
+                if (runPage.FileId == 0 && runPage.PageIdx == 0)
+                {
+                    continue;
+                }
+
+                var file = _imposParam.ProductPart.PdfFiles.FirstOrDefault(x => x.Id == runPage.FileId);
+                if (file?.Pages == null || runPage.PageIdx <= 0 || runPage.PageIdx > file.Pages.Length)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private bool TryGetImpositionFilePath(out string filePath)
@@ -469,6 +583,23 @@ namespace JobSpace.UserForms.PDF
             previewControl1.RedrawSheet();
         }
 
+        public void ApplyAutoImposTemplate(AutoImposMatch match)
+        {
+            if (match == null || match.PrintSheets == null || match.PrintSheets.Count == 0)
+                return;
+
+            _imposParam.ProductPart.PrintSheets = match.PrintSheets;
+            printSheetsControl1.SetSheets(match.PrintSheets);
+            NeedCheckRunListPages(this, EventArgs.Empty);
+
+            if (match.PrintSheets.Count > 0)
+            {
+                _imposParam.ControlsBind.SetSheet(match.PrintSheets[0]);
+            }
+
+            RedrawProductPart();
+        }
+
         private async void btn_SaveToPdf_Click(object sender, EventArgs e)
         {
             if (printSheetsControl1.GetSheets().Count == 0)
@@ -480,6 +611,139 @@ namespace JobSpace.UserForms.PDF
                 await SaveToPdfAsync();
             }
 
+        }
+
+        private void btn_SaveAsAutoImpos_Click(object sender, EventArgs e)
+        {
+            BuildProductPartFromUi();
+
+            if (_imposParam.ProductPart.PrintSheets.Count == 0)
+            {
+                MessageBox.Show("Нема листів для збереження", "Автоспуск", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (_imposParam.ProductPart.PdfFiles.Count == 0 || _imposParam.ProductPart.PdfFiles[0].Pages == null || _imposParam.ProductPart.PdfFiles[0].Pages.Length == 0)
+            {
+                MessageBox.Show("Нема PDF-сторінок для визначення формату", "Автоспуск", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string defaultName = CreateDefaultAutoImposRuleName();
+            using (var form = new FormEnterText(defaultName))
+            {
+                form.Text = "Назва автоспуску";
+                if (form.ShowDialog(this) != DialogResult.OK || string.IsNullOrWhiteSpace(form.SelectedText))
+                    return;
+
+                SaveAutoImposRule(form.SelectedText.Trim());
+            }
+        }
+
+        private void SaveAutoImposRule(string ruleName)
+        {
+            var profile = _imposParam.Profile;
+            var service = new AutoImposService(profile);
+            string templateFileName = CreateAutoImposTemplateFileName(ruleName);
+            string templatePath = Path.Combine(profile.ImposService.PrintSheetsPath, templateFileName);
+
+            if (File.Exists(templatePath))
+            {
+                var result = MessageBox.Show(
+                    $"Шаблон \"{templateFileName}\" вже існує. Перезаписати?",
+                    "Автоспуск",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result != DialogResult.Yes)
+                    return;
+            }
+
+            profile.ImposService.SavePrintSheets(_imposParam.ProductPart.PrintSheets, templatePath);
+
+            var rule = CreateAutoImposRule(ruleName, templateFileName);
+            var rules = service.LoadRules();
+            var existing = FindSimilarAutoImposRule(rules, rule);
+
+            if (existing != null)
+            {
+                rules.Remove(existing);
+            }
+
+            rules.Add(rule);
+            service.SaveRules(rules);
+
+            MessageBox.Show("Автоспуск збережено", "Автоспуск", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private AutoImposRule CreateAutoImposRule(string ruleName, string templateFileName)
+        {
+            var firstPage = _imposParam.ProductPart.PdfFiles[0].Pages[0];
+            var format = NormalizeFormat((decimal)firstPage.Trim.W, (decimal)firstPage.Trim.H);
+            int pageCount = _imposParam.ProductPart.PdfFiles.Sum(file => file.Pages?.Length ?? 0);
+
+            return new AutoImposRule
+            {
+                Name = ruleName,
+                Customer = _imposParam.ImposInput.Job?.Customer,
+                CategoryId = _imposParam.ImposInput.Job?.CategoryId?.ToString(),
+                PageWidth = format.width,
+                PageHeight = format.height,
+                ExactPageCount = pageCount > 0 ? pageCount : (int?)null,
+                PrintSheetTemplateFile = templateFileName,
+                Priority = 100,
+                OpenEditorBeforeExport = true
+            };
+        }
+
+        private static AutoImposRule FindSimilarAutoImposRule(List<AutoImposRule> rules, AutoImposRule rule)
+        {
+            return rules.FirstOrDefault(x =>
+                string.Equals(x.Customer, rule.Customer, StringComparison.InvariantCultureIgnoreCase) &&
+                string.Equals(x.CategoryId, rule.CategoryId, StringComparison.InvariantCultureIgnoreCase) &&
+                x.PageWidth == rule.PageWidth &&
+                x.PageHeight == rule.PageHeight &&
+                x.ExactPageCount == rule.ExactPageCount);
+        }
+
+        private string CreateDefaultAutoImposRuleName()
+        {
+            var firstPage = _imposParam.ProductPart.PdfFiles.FirstOrDefault()?.Pages?.FirstOrDefault();
+            string format = firstPage == null ? "PDF" : $"{firstPage.Trim.W:0.#}x{firstPage.Trim.H:0.#}";
+            int pageCount = _imposParam.ProductPart.PdfFiles.Sum(file => file.Pages?.Length ?? 0);
+            string customer = _imposParam.ImposInput.Job?.Customer;
+
+            return string.IsNullOrWhiteSpace(customer)
+                ? $"{format}_{pageCount}p"
+                : $"{customer}_{format}_{pageCount}p";
+        }
+
+        private static string CreateAutoImposTemplateFileName(string ruleName)
+        {
+            string fileName = ruleName.Transliteration();
+            foreach (char invalidChar in Path.GetInvalidFileNameChars())
+            {
+                fileName = fileName.Replace(invalidChar, '_');
+            }
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                fileName = $"auto_impos_{DateTime.Now:yyyyMMdd_HHmmss}";
+            }
+
+            if (!fileName.EndsWith(".json", StringComparison.InvariantCultureIgnoreCase))
+            {
+                fileName += ".json";
+            }
+
+            return fileName;
+        }
+
+        private static (decimal width, decimal height) NormalizeFormat(decimal width, decimal height)
+        {
+            width = Math.Round(width, 1);
+            height = Math.Round(height, 1);
+            return width <= height ? (width, height) : (height, width);
         }
 
         private async Task SaveToPdfAsync()
@@ -504,7 +768,13 @@ namespace JobSpace.UserForms.PDF
                 {
                     if (MessageBox.Show("Відкрити?", "Виконано!", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        Process.Start(_imposParam.ProductPart.ExportParameters.OutputFilePath);
+                        var startInfo = new ProcessStartInfo
+                        {
+                            FileName = _imposParam.ProductPart.ExportParameters.OutputFilePath,
+                            UseShellExecute = true
+                        };
+
+                        Process.Start(startInfo);
                     }
                 }
             }
@@ -586,7 +856,7 @@ namespace JobSpace.UserForms.PDF
 
         private void btn_selectCustomFolder_Click(object sender, EventArgs e)
         {
-            using (var form = new VistaFolderBrowserDialog())
+            using (var form = new FolderBrowserDialog())
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -610,6 +880,7 @@ namespace JobSpace.UserForms.PDF
 
         private sealed class SavedImposition
         {
+            public List<SavedPdfFileInfo> PdfFiles { get; set; } = new List<SavedPdfFileInfo>();
             public ImposRunList RunList { get; set; } = new ImposRunList();
             public List<TemplateSheet> TemplateSheets { get; set; } = new List<TemplateSheet>();
             public List<PrintSheet> PrintSheets { get; set; } = new List<PrintSheet>();
@@ -618,5 +889,24 @@ namespace JobSpace.UserForms.PDF
             public ExportParameters ExportParameters { get; set; } = new ExportParameters();
         }
 
+        private sealed class SavedPdfFileInfo
+        {
+            public int Id { get; set; }
+            public string FileName { get; set; }
+            public int PageCount { get; set; }
+            public int Count { get; set; }
+            public decimal PageWidth { get; set; }
+            public decimal PageHeight { get; set; }
+        }
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void splitContainer2_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

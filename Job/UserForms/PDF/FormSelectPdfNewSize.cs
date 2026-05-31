@@ -1,7 +1,7 @@
 ﻿using ImageMagick;
 using Interfaces;
 using JobSpace.Static.Pdf.Common;
-using JobSpace.Static.Pdf.Scale;
+using JobSpace.Static.Pdf.Manipulation.Scale;
 using System;
 using System.Windows.Forms;
 

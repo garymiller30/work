@@ -56,10 +56,11 @@ namespace PluginSoundNotify
 
                     if (!string.IsNullOrEmpty(settings.FileName) && File.Exists(settings.FileName))
                     {
-                        var player = new WMPLib.WindowsMediaPlayer
-                        {
-                            URL = settings.FileName
-                        };
+                        var playerType = Type.GetTypeFromProgID("WMPlayer.OCX");
+                        if (playerType == null) return;
+
+                        dynamic player = Activator.CreateInstance(playerType);
+                        player.URL = settings.FileName;
                         player.controls.play();
 
                     }

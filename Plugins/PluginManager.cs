@@ -21,6 +21,9 @@ namespace Plugins
     public sealed class PluginManager : IPluginManager
     {
         private const string DisabledPluginsFileName = "disabled-plugins.txt";
+        private static readonly object AssemblyResolverLock = new object();
+        private static readonly List<string> AssemblyProbePaths = new List<string>();
+        private static bool _assemblyResolverRegistered;
         private readonly IUserProfile _profile;
         private readonly string _pluginsPath;
         private readonly string _pluginsSettingsPath;
@@ -48,6 +51,7 @@ namespace Plugins
             _pluginsPath = pluginDir;
             _pluginsSettingsPath = Path.Combine(_pluginsPath, "Settings");
             if (!Directory.Exists(_pluginsSettingsPath)) Directory.CreateDirectory(_pluginsSettingsPath);
+            RegisterAssemblyProbePath(_pluginsPath);
 
             //Load(pluginDir);
         }
@@ -211,6 +215,149 @@ namespace Plugins
                     .Select(x => (x ?? string.Empty).Trim())
                     .Where(x => !string.IsNullOrWhiteSpace(x)),
                 StringComparer.OrdinalIgnoreCase);
+        }
+
+        private static void RegisterAssemblyProbePath(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
+
+            var fullPath = Path.GetFullPath(path);
+
+            lock (AssemblyResolverLock)
+            {
+                if (!AssemblyProbePaths.Contains(fullPath, StringComparer.OrdinalIgnoreCase))
+                {
+                    AssemblyProbePaths.Add(fullPath);
+                }
+
+                var applicationDirectory = AppContext.BaseDirectory;
+                if (!AssemblyProbePaths.Contains(applicationDirectory, StringComparer.OrdinalIgnoreCase))
+                {
+                    AssemblyProbePaths.Add(applicationDirectory);
+                }
+
+                if (!_assemblyResolverRegistered)
+                {
+                    AppDomain.CurrentDomain.AssemblyResolve += ResolvePluginAssembly;
+                    _assemblyResolverRegistered = true;
+                }
+            }
+        }
+
+        private static Assembly ResolvePluginAssembly(object sender, ResolveEventArgs args)
+        {
+            var requestedAssemblyName = new AssemblyName(args.Name);
+
+            foreach (var candidatePath in GetAssemblyCandidates(requestedAssemblyName, exactVersion: true)
+                         .Concat(GetAssemblyCandidates(requestedAssemblyName, exactVersion: false)))
+            {
+                try
+                {
+                    return Assembly.LoadFrom(candidatePath);
+                }
+                catch
+                {
+                    // Keep probing other plugin/application paths.
+                }
+            }
+
+            return null;
+        }
+
+        private static IEnumerable<string> GetAssemblyCandidates(AssemblyName requestedAssemblyName, bool exactVersion)
+        {
+            string[] probePaths;
+
+            lock (AssemblyResolverLock)
+            {
+                probePaths = AssemblyProbePaths.ToArray();
+            }
+
+            var fileName = requestedAssemblyName.Name + ".dll";
+            var yieldedPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var candidatePath in probePaths.Select(probePath => Path.Combine(probePath, fileName)))
+            {
+                if (IsMatchingAssemblyCandidate(candidatePath, requestedAssemblyName, exactVersion))
+                {
+                    yieldedPaths.Add(candidatePath);
+                    yield return candidatePath;
+                }
+            }
+
+            foreach (var probePath in probePaths)
+            {
+                foreach (var candidatePath in GetWindowsRuntimeCandidatePaths(probePath, fileName))
+                {
+                    if (yieldedPaths.Contains(candidatePath))
+                    {
+                        continue;
+                    }
+
+                    if (IsMatchingAssemblyCandidate(candidatePath, requestedAssemblyName, exactVersion))
+                    {
+                        yieldedPaths.Add(candidatePath);
+                        yield return candidatePath;
+                    }
+                }
+            }
+
+            foreach (var probePath in probePaths)
+            {
+                if (!Directory.Exists(probePath))
+                {
+                    continue;
+                }
+
+                foreach (var candidatePath in Directory.GetFiles(probePath, fileName, SearchOption.AllDirectories))
+                {
+                    if (yieldedPaths.Contains(candidatePath))
+                    {
+                        continue;
+                    }
+
+                    if (IsMatchingAssemblyCandidate(candidatePath, requestedAssemblyName, exactVersion))
+                    {
+                        yieldedPaths.Add(candidatePath);
+                        yield return candidatePath;
+                    }
+                }
+            }
+        }
+
+        private static IEnumerable<string> GetWindowsRuntimeCandidatePaths(string probePath, string fileName)
+        {
+            yield return Path.Combine(probePath, "runtimes", "win", "lib", "net10.0", fileName);
+            yield return Path.Combine(probePath, "runtimes", "win", "lib", "net9.0", fileName);
+            yield return Path.Combine(probePath, "runtimes", "win", "lib", "net8.0", fileName);
+        }
+
+        private static bool IsMatchingAssemblyCandidate(string candidatePath, AssemblyName requestedAssemblyName, bool exactVersion)
+        {
+            if (!File.Exists(candidatePath))
+            {
+                return false;
+            }
+
+            AssemblyName candidateAssemblyName;
+            try
+            {
+                candidateAssemblyName = AssemblyName.GetAssemblyName(candidatePath);
+            }
+            catch
+            {
+                return false;
+            }
+
+            if (!string.Equals(candidateAssemblyName.Name, requestedAssemblyName.Name, StringComparison.OrdinalIgnoreCase))
+            {
+                return false;
+            }
+
+            return !exactVersion || candidateAssemblyName.Version == requestedAssemblyName.Version;
         }
 
         public void AfterJobChange(IJob job)

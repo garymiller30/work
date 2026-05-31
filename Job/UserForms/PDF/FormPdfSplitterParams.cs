@@ -27,6 +27,7 @@ namespace JobSpace.UserForms
             Params.From = (int)numericUpDownFrom.Value;
             Params.To = (int)numericUpDownTo.Value;
             Params.Bleed = (double)numericUpDownBleed.Value;
+            Params.SaddleStitchOrder = checkBoxSaddleStitchOrder.Checked;
 
             DialogResult = DialogResult.OK;
         }

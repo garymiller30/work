@@ -11,12 +11,9 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
@@ -283,17 +280,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             if (!pagePreviewDrawn)
             {
                 ScreenDrawer.DrawFillRectangle(g, rect, brush);
+                ScreenDrawer.DrawRectangle(g, rect, pen);
+                ScreenDrawCommons.DrawPageRotateMarker(g, page, page.Front, rect, sH);
+                DrawTextFront(g, sheet, page, sH);
             }
-
-            ScreenDrawer.DrawRectangle(g, rect, pen);
             brush.Dispose();
             pen.Dispose();
 
-            ScreenDrawCommons.DrawPageRotateMarker(g, page, page.Front, rect, sH);
-            if (!pagePreviewDrawn)
-            {
-                DrawTextFront(g, sheet, page, sH);
-            }
             DrawCropsMark(g, page, sH);
         }
 

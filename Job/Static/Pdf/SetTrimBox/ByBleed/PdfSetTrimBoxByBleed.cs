@@ -1,17 +1,8 @@
 ﻿using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Convert;
-using JobSpace.Static.Pdf.Scale;
 using PDFlib_dotnet;
-using SharpCompress.Common;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
 {
@@ -29,34 +20,26 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
             string fileExt = Path.GetExtension(filePath);
 
             if (string.Equals(fileExt, ".pdf", StringComparison.OrdinalIgnoreCase)){
-                var tmpFile = Path.GetTempFileName();
+                var tmpFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.pdf");
 
-                using (PDFlib p = new PDFlib())
+                try
                 {
-                    try
+                    using (PDFlib p = new PDFlib())
                     {
                         p.begin_document(tmpFile, "");
-
-                        if (string.Equals(fileExt, ".pdf", StringComparison.OrdinalIgnoreCase))
-                        {
-                            SetTrimToPdf(p, filePath);
-                        }
-                        else
-                        {
-
-                        }
+                        SetTrimToPdf(p, filePath);
                         p.end_document("");
+                    }
 
-                        RewriteFile(tmpFile, filePath);
-                    }
-                    catch (PDFlibException e)
-                    {
-                        PdfHelper.LogException(e, "PdfSetTrimBoxByBleed");
-                    }
-                    finally
-                    {
-                        File.Delete(tmpFile);
-                    }
+                    RewriteFile(tmpFile, filePath);
+                }
+                catch (PDFlibException e)
+                {
+                    PdfHelper.LogException(e, "PdfSetTrimBoxByBleed");
+                }
+                finally
+                {
+                    DeleteTempFile(tmpFile);
                 }
             }
             else
@@ -107,6 +90,25 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
                 p.close_pdi_page(page);
             }
             p.close_pdi_document(indoc);
+        }
+
+        private static void DeleteTempFile(string tmpFile)
+        {
+            try
+            {
+                if (File.Exists(tmpFile))
+                {
+                    File.Delete(tmpFile);
+                }
+            }
+            catch (IOException e)
+            {
+                Logger.Log.Error(null, "PdfSetTrimBoxByBleed", $"Cannot delete temporary file '{tmpFile}': {e.Message}");
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Logger.Log.Error(null, "PdfSetTrimBoxByBleed", $"Cannot delete temporary file '{tmpFile}': {e.Message}");
+            }
         }
     }
 }

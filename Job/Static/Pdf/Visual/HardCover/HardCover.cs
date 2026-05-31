@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Visual.HardCover
 {
-    [PdfTool("Візуалізація", "Тверда обкладинка", Icon = "visual_hard_cover", Order = 20)]
+    [PdfTool("Візуалізація", "Тверда обкладинка", Icon = "visual_hard_cover", Order = 1)]
     public class HardCover : IPdfTool
     {
         const double COEF_DISTANCE = 0.3;

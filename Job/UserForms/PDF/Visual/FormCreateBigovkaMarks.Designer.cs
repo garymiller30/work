@@ -28,450 +28,334 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonCreate = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cb_mirrorEven = new System.Windows.Forms.CheckBox();
-            this.radioButtonVer = new System.Windows.Forms.RadioButton();
-            this.radioButtonHor = new System.Windows.Forms.RadioButton();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numLen = new System.Windows.Forms.NumericUpDown();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numDistanse = new System.Windows.Forms.NumericUpDown();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.numBleed = new System.Windows.Forms.NumericUpDown();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.btn_add_to_center = new System.Windows.Forms.Button();
-            this.textBoxBigovky = new System.Windows.Forms.TextBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.cb_b = new System.Windows.Forms.CheckBox();
-            this.cb_y = new System.Windows.Forms.CheckBox();
-            this.cb_m = new System.Windows.Forms.CheckBox();
-            this.cb_c = new System.Windows.Forms.CheckBox();
-            this.numK = new System.Windows.Forms.NumericUpDown();
-            this.numY = new System.Windows.Forms.NumericUpDown();
-            this.numM = new System.Windows.Forms.NumericUpDown();
-            this.numC = new System.Windows.Forms.NumericUpDown();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.cb_files = new System.Windows.Forms.ComboBox();
-            this.uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
-            this.btn_3d = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numLen)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDistanse)).BeginInit();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numBleed)).BeginInit();
-            this.groupBox5.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numK)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numM)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numC)).BeginInit();
-            this.groupBox7.SuspendLayout();
-            this.SuspendLayout();
+            buttonCreate = new System.Windows.Forms.Button();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            cb_mirrorEven = new System.Windows.Forms.CheckBox();
+            radioButtonVer = new System.Windows.Forms.RadioButton();
+            radioButtonHor = new System.Windows.Forms.RadioButton();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            label1 = new System.Windows.Forms.Label();
+            numLen = new System.Windows.Forms.NumericUpDown();
+            groupBox3 = new System.Windows.Forms.GroupBox();
+            label2 = new System.Windows.Forms.Label();
+            numDistanse = new System.Windows.Forms.NumericUpDown();
+            groupBox4 = new System.Windows.Forms.GroupBox();
+            label3 = new System.Windows.Forms.Label();
+            numBleed = new System.Windows.Forms.NumericUpDown();
+            groupBox5 = new System.Windows.Forms.GroupBox();
+            btn_add_to_center = new System.Windows.Forms.Button();
+            textBoxBigovky = new System.Windows.Forms.TextBox();
+            groupBox7 = new System.Windows.Forms.GroupBox();
+            cb_files = new System.Windows.Forms.ComboBox();
+            uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
+            btn_3d = new System.Windows.Forms.Button();
+            uc_PdfColorSelector1 = new JobSpace.UC.PDF.Uc_PdfColorSelector();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numLen).BeginInit();
+            groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numDistanse).BeginInit();
+            groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numBleed).BeginInit();
+            groupBox5.SuspendLayout();
+            groupBox7.SuspendLayout();
+            SuspendLayout();
             // 
             // buttonCreate
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(204, 431);
-            this.buttonCreate.Name = "buttonCreate";
-            this.buttonCreate.Size = new System.Drawing.Size(91, 35);
-            this.buttonCreate.TabIndex = 0;
-            this.buttonCreate.Text = "Створити";
-            this.buttonCreate.UseVisualStyleBackColor = true;
-            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
+            buttonCreate.Location = new System.Drawing.Point(238, 497);
+            buttonCreate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonCreate.Name = "buttonCreate";
+            buttonCreate.Size = new System.Drawing.Size(106, 40);
+            buttonCreate.TabIndex = 0;
+            buttonCreate.Text = "Створити";
+            buttonCreate.UseVisualStyleBackColor = true;
+            buttonCreate.Click += buttonCreate_Click;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.cb_mirrorEven);
-            this.groupBox1.Controls.Add(this.radioButtonVer);
-            this.groupBox1.Controls.Add(this.radioButtonHor);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(299, 102);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Напрямок";
+            groupBox1.Controls.Add(cb_mirrorEven);
+            groupBox1.Controls.Add(radioButtonVer);
+            groupBox1.Controls.Add(radioButtonHor);
+            groupBox1.Location = new System.Drawing.Point(14, 14);
+            groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Size = new System.Drawing.Size(349, 118);
+            groupBox1.TabIndex = 1;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Напрямок";
             // 
             // cb_mirrorEven
             // 
-            this.cb_mirrorEven.AutoSize = true;
-            this.cb_mirrorEven.Location = new System.Drawing.Point(32, 42);
-            this.cb_mirrorEven.Name = "cb_mirrorEven";
-            this.cb_mirrorEven.Size = new System.Drawing.Size(112, 17);
-            this.cb_mirrorEven.TabIndex = 11;
-            this.cb_mirrorEven.Text = "Дзеркальні поля";
-            this.cb_mirrorEven.UseVisualStyleBackColor = true;
-            this.cb_mirrorEven.CheckedChanged += new System.EventHandler(this.cb_mirrorEven_CheckedChanged);
+            cb_mirrorEven.AutoSize = true;
+            cb_mirrorEven.Location = new System.Drawing.Point(37, 48);
+            cb_mirrorEven.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            cb_mirrorEven.Name = "cb_mirrorEven";
+            cb_mirrorEven.Size = new System.Drawing.Size(117, 19);
+            cb_mirrorEven.TabIndex = 11;
+            cb_mirrorEven.Text = "Дзеркальні поля";
+            cb_mirrorEven.UseVisualStyleBackColor = true;
+            cb_mirrorEven.CheckedChanged += cb_mirrorEven_CheckedChanged;
             // 
             // radioButtonVer
             // 
-            this.radioButtonVer.AutoSize = true;
-            this.radioButtonVer.Location = new System.Drawing.Point(7, 69);
-            this.radioButtonVer.Name = "radioButtonVer";
-            this.radioButtonVer.Size = new System.Drawing.Size(160, 17);
-            this.radioButtonVer.TabIndex = 1;
-            this.radioButtonVer.Text = "Вертикально (знизу вгору)";
-            this.radioButtonVer.UseVisualStyleBackColor = true;
-            this.radioButtonVer.Click += new System.EventHandler(this.radioButtonHor_Click);
+            radioButtonVer.AutoSize = true;
+            radioButtonVer.Location = new System.Drawing.Point(8, 80);
+            radioButtonVer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            radioButtonVer.Name = "radioButtonVer";
+            radioButtonVer.Size = new System.Drawing.Size(171, 19);
+            radioButtonVer.TabIndex = 1;
+            radioButtonVer.Text = "Вертикально (знизу вгору)";
+            radioButtonVer.UseVisualStyleBackColor = true;
+            radioButtonVer.Click += radioButtonHor_Click;
             // 
             // radioButtonHor
             // 
-            this.radioButtonHor.AutoSize = true;
-            this.radioButtonHor.Checked = true;
-            this.radioButtonHor.Location = new System.Drawing.Point(6, 19);
-            this.radioButtonHor.Name = "radioButtonHor";
-            this.radioButtonHor.Size = new System.Drawing.Size(182, 17);
-            this.radioButtonHor.TabIndex = 0;
-            this.radioButtonHor.TabStop = true;
-            this.radioButtonHor.Text = "Горизонтально (зліва направо)";
-            this.radioButtonHor.UseVisualStyleBackColor = true;
-            this.radioButtonHor.Click += new System.EventHandler(this.radioButtonHor_Click);
+            radioButtonHor.AutoSize = true;
+            radioButtonHor.Checked = true;
+            radioButtonHor.Location = new System.Drawing.Point(7, 22);
+            radioButtonHor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            radioButtonHor.Name = "radioButtonHor";
+            radioButtonHor.Size = new System.Drawing.Size(196, 19);
+            radioButtonHor.TabIndex = 0;
+            radioButtonHor.TabStop = true;
+            radioButtonHor.Text = "Горизонтально (зліва направо)";
+            radioButtonHor.UseVisualStyleBackColor = true;
+            radioButtonHor.Click += radioButtonHor_Click;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.numLen);
-            this.groupBox2.Location = new System.Drawing.Point(12, 337);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(90, 69);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "довжина лінії";
+            groupBox2.Controls.Add(label1);
+            groupBox2.Controls.Add(numLen);
+            groupBox2.Location = new System.Drawing.Point(14, 389);
+            groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Size = new System.Drawing.Size(105, 80);
+            groupBox2.TabIndex = 2;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "довжина лінії";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(58, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(23, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "мм";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(68, 36);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(25, 15);
+            label1.TabIndex = 1;
+            label1.Text = "мм";
             // 
             // numLen
             // 
-            this.numLen.DecimalPlaces = 1;
-            this.numLen.Location = new System.Drawing.Point(10, 29);
-            this.numLen.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numLen.Name = "numLen";
-            this.numLen.Size = new System.Drawing.Size(42, 20);
-            this.numLen.TabIndex = 0;
-            this.numLen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numLen.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.numLen.Click += new System.EventHandler(this.numDistanse_Enter);
-            this.numLen.Enter += new System.EventHandler(this.numDistanse_Enter);
+            numLen.DecimalPlaces = 1;
+            numLen.Location = new System.Drawing.Point(12, 33);
+            numLen.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numLen.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numLen.Name = "numLen";
+            numLen.Size = new System.Drawing.Size(49, 23);
+            numLen.TabIndex = 0;
+            numLen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numLen.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            numLen.Click += numDistanse_Enter;
+            numLen.Enter += numDistanse_Enter;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.numDistanse);
-            this.groupBox3.Location = new System.Drawing.Point(153, 259);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(158, 69);
-            this.groupBox3.TabIndex = 3;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "відстань від лінії різу";
+            groupBox3.Controls.Add(label2);
+            groupBox3.Controls.Add(numDistanse);
+            groupBox3.Location = new System.Drawing.Point(178, 299);
+            groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Size = new System.Drawing.Size(184, 80);
+            groupBox3.TabIndex = 3;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "відстань від лінії різу";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(98, 31);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(23, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "мм";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(114, 36);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(25, 15);
+            label2.TabIndex = 2;
+            label2.Text = "мм";
             // 
             // numDistanse
             // 
-            this.numDistanse.DecimalPlaces = 1;
-            this.numDistanse.Location = new System.Drawing.Point(33, 29);
-            this.numDistanse.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numDistanse.Name = "numDistanse";
-            this.numDistanse.Size = new System.Drawing.Size(59, 20);
-            this.numDistanse.TabIndex = 0;
-            this.numDistanse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numDistanse.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numDistanse.Click += new System.EventHandler(this.numDistanse_Enter);
-            this.numDistanse.Enter += new System.EventHandler(this.numDistanse_Enter);
+            numDistanse.DecimalPlaces = 1;
+            numDistanse.Location = new System.Drawing.Point(38, 33);
+            numDistanse.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numDistanse.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numDistanse.Name = "numDistanse";
+            numDistanse.Size = new System.Drawing.Size(69, 23);
+            numDistanse.TabIndex = 0;
+            numDistanse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numDistanse.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numDistanse.Click += numDistanse_Enter;
+            numDistanse.Enter += numDistanse_Enter;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.label3);
-            this.groupBox4.Controls.Add(this.numBleed);
-            this.groupBox4.Location = new System.Drawing.Point(12, 259);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(135, 69);
-            this.groupBox4.TabIndex = 4;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "поля на підрізку";
+            groupBox4.Controls.Add(label3);
+            groupBox4.Controls.Add(numBleed);
+            groupBox4.Location = new System.Drawing.Point(14, 299);
+            groupBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox4.Size = new System.Drawing.Size(158, 80);
+            groupBox4.TabIndex = 4;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "поля на підрізку";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(93, 31);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(23, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "мм";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(108, 36);
+            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(25, 15);
+            label3.TabIndex = 2;
+            label3.Text = "мм";
             // 
             // numBleed
             // 
-            this.numBleed.DecimalPlaces = 1;
-            this.numBleed.Location = new System.Drawing.Point(25, 29);
-            this.numBleed.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numBleed.Name = "numBleed";
-            this.numBleed.Size = new System.Drawing.Size(61, 20);
-            this.numBleed.TabIndex = 0;
-            this.numBleed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numBleed.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.numBleed.Click += new System.EventHandler(this.numDistanse_Enter);
-            this.numBleed.Enter += new System.EventHandler(this.numDistanse_Enter);
+            numBleed.DecimalPlaces = 1;
+            numBleed.Location = new System.Drawing.Point(29, 33);
+            numBleed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numBleed.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numBleed.Name = "numBleed";
+            numBleed.Size = new System.Drawing.Size(71, 23);
+            numBleed.TabIndex = 0;
+            numBleed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numBleed.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            numBleed.Click += numDistanse_Enter;
+            numBleed.Enter += numDistanse_Enter;
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.btn_add_to_center);
-            this.groupBox5.Controls.Add(this.textBoxBigovky);
-            this.groupBox5.Location = new System.Drawing.Point(12, 174);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(299, 79);
-            this.groupBox5.TabIndex = 5;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Біговки (числа через пробіл)";
+            groupBox5.Controls.Add(btn_add_to_center);
+            groupBox5.Controls.Add(textBoxBigovky);
+            groupBox5.Location = new System.Drawing.Point(14, 201);
+            groupBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox5.Size = new System.Drawing.Size(349, 91);
+            groupBox5.TabIndex = 5;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Біговки (числа через пробіл)";
             // 
             // btn_add_to_center
             // 
-            this.btn_add_to_center.Location = new System.Drawing.Point(7, 45);
-            this.btn_add_to_center.Name = "btn_add_to_center";
-            this.btn_add_to_center.Size = new System.Drawing.Size(75, 28);
-            this.btn_add_to_center.TabIndex = 1;
-            this.btn_add_to_center.Text = "+ по центру";
-            this.btn_add_to_center.UseVisualStyleBackColor = true;
-            this.btn_add_to_center.Click += new System.EventHandler(this.btn_add_to_center_Click);
+            btn_add_to_center.Location = new System.Drawing.Point(127, 51);
+            btn_add_to_center.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btn_add_to_center.Name = "btn_add_to_center";
+            btn_add_to_center.Size = new System.Drawing.Size(88, 32);
+            btn_add_to_center.TabIndex = 1;
+            btn_add_to_center.Text = "+ по центру";
+            btn_add_to_center.UseVisualStyleBackColor = true;
+            btn_add_to_center.Click += btn_add_to_center_Click;
             // 
             // textBoxBigovky
             // 
-            this.textBoxBigovky.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxBigovky.Location = new System.Drawing.Point(6, 19);
-            this.textBoxBigovky.Name = "textBoxBigovky";
-            this.textBoxBigovky.Size = new System.Drawing.Size(286, 20);
-            this.textBoxBigovky.TabIndex = 0;
-            this.textBoxBigovky.TextChanged += new System.EventHandler(this.textBoxBigovky_TextChanged);
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.cb_b);
-            this.groupBox6.Controls.Add(this.cb_y);
-            this.groupBox6.Controls.Add(this.cb_m);
-            this.groupBox6.Controls.Add(this.cb_c);
-            this.groupBox6.Controls.Add(this.numK);
-            this.groupBox6.Controls.Add(this.numY);
-            this.groupBox6.Controls.Add(this.numM);
-            this.groupBox6.Controls.Add(this.numC);
-            this.groupBox6.Location = new System.Drawing.Point(108, 334);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(203, 72);
-            this.groupBox6.TabIndex = 6;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Колір";
-            // 
-            // cb_b
-            // 
-            this.cb_b.Appearance = System.Windows.Forms.Appearance.Button;
-            this.cb_b.AutoSize = true;
-            this.cb_b.Location = new System.Drawing.Point(162, 19);
-            this.cb_b.Name = "cb_b";
-            this.cb_b.Size = new System.Drawing.Size(24, 23);
-            this.cb_b.TabIndex = 10;
-            this.cb_b.Text = "K";
-            this.cb_b.UseVisualStyleBackColor = true;
-            this.cb_b.CheckedChanged += new System.EventHandler(this.cb_b_CheckedChanged);
-            // 
-            // cb_y
-            // 
-            this.cb_y.Appearance = System.Windows.Forms.Appearance.Button;
-            this.cb_y.AutoSize = true;
-            this.cb_y.Location = new System.Drawing.Point(113, 19);
-            this.cb_y.Name = "cb_y";
-            this.cb_y.Size = new System.Drawing.Size(24, 23);
-            this.cb_y.TabIndex = 9;
-            this.cb_y.Text = "Y";
-            this.cb_y.UseVisualStyleBackColor = true;
-            this.cb_y.CheckedChanged += new System.EventHandler(this.cb_y_CheckedChanged);
-            // 
-            // cb_m
-            // 
-            this.cb_m.Appearance = System.Windows.Forms.Appearance.Button;
-            this.cb_m.AutoSize = true;
-            this.cb_m.Location = new System.Drawing.Point(64, 19);
-            this.cb_m.Name = "cb_m";
-            this.cb_m.Size = new System.Drawing.Size(26, 23);
-            this.cb_m.TabIndex = 8;
-            this.cb_m.Text = "M";
-            this.cb_m.UseVisualStyleBackColor = true;
-            this.cb_m.CheckedChanged += new System.EventHandler(this.cb_m_CheckedChanged);
-            // 
-            // cb_c
-            // 
-            this.cb_c.Appearance = System.Windows.Forms.Appearance.Button;
-            this.cb_c.AutoSize = true;
-            this.cb_c.Location = new System.Drawing.Point(15, 19);
-            this.cb_c.Name = "cb_c";
-            this.cb_c.Size = new System.Drawing.Size(24, 23);
-            this.cb_c.TabIndex = 7;
-            this.cb_c.Text = "C";
-            this.cb_c.UseVisualStyleBackColor = true;
-            this.cb_c.CheckedChanged += new System.EventHandler(this.cb_c_CheckedChanged);
-            // 
-            // numK
-            // 
-            this.numK.Location = new System.Drawing.Point(153, 46);
-            this.numK.Name = "numK";
-            this.numK.Size = new System.Drawing.Size(43, 20);
-            this.numK.TabIndex = 3;
-            this.numK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numK.Click += new System.EventHandler(this.numDistanse_Enter);
-            this.numK.Enter += new System.EventHandler(this.numDistanse_Enter);
-            // 
-            // numY
-            // 
-            this.numY.Location = new System.Drawing.Point(104, 46);
-            this.numY.Name = "numY";
-            this.numY.Size = new System.Drawing.Size(43, 20);
-            this.numY.TabIndex = 2;
-            this.numY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numY.Click += new System.EventHandler(this.numDistanse_Enter);
-            this.numY.Enter += new System.EventHandler(this.numDistanse_Enter);
-            // 
-            // numM
-            // 
-            this.numM.Location = new System.Drawing.Point(55, 46);
-            this.numM.Name = "numM";
-            this.numM.Size = new System.Drawing.Size(43, 20);
-            this.numM.TabIndex = 1;
-            this.numM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numM.Click += new System.EventHandler(this.numDistanse_Enter);
-            this.numM.Enter += new System.EventHandler(this.numDistanse_Enter);
-            // 
-            // numC
-            // 
-            this.numC.Location = new System.Drawing.Point(6, 46);
-            this.numC.Name = "numC";
-            this.numC.Size = new System.Drawing.Size(43, 20);
-            this.numC.TabIndex = 0;
-            this.numC.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.numC.Click += new System.EventHandler(this.numDistanse_Enter);
-            this.numC.Enter += new System.EventHandler(this.numDistanse_Enter);
+            textBoxBigovky.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            textBoxBigovky.Location = new System.Drawing.Point(7, 22);
+            textBoxBigovky.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            textBoxBigovky.Name = "textBoxBigovky";
+            textBoxBigovky.Size = new System.Drawing.Size(333, 23);
+            textBoxBigovky.TabIndex = 0;
+            textBoxBigovky.TextChanged += textBoxBigovky_TextChanged;
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.cb_files);
-            this.groupBox7.Location = new System.Drawing.Point(12, 120);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(299, 48);
-            this.groupBox7.TabIndex = 8;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "файл";
+            groupBox7.Controls.Add(cb_files);
+            groupBox7.Location = new System.Drawing.Point(14, 138);
+            groupBox7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox7.Size = new System.Drawing.Size(349, 55);
+            groupBox7.TabIndex = 8;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "файл";
             // 
             // cb_files
             // 
-            this.cb_files.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cb_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_files.FormattingEnabled = true;
-            this.cb_files.Location = new System.Drawing.Point(7, 18);
-            this.cb_files.Name = "cb_files";
-            this.cb_files.Size = new System.Drawing.Size(285, 21);
-            this.cb_files.TabIndex = 3;
-            this.cb_files.SelectedIndexChanged += new System.EventHandler(this.cb_files_SelectedIndexChanged);
+            cb_files.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            cb_files.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cb_files.FormattingEnabled = true;
+            cb_files.Location = new System.Drawing.Point(8, 21);
+            cb_files.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            cb_files.Name = "cb_files";
+            cb_files.Size = new System.Drawing.Size(332, 23);
+            cb_files.TabIndex = 3;
+            cb_files.SelectedIndexChanged += cb_files_SelectedIndexChanged;
             // 
             // uc_PreviewBrowserFile1
             // 
-            this.uc_PreviewBrowserFile1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.uc_PreviewBrowserFile1.Location = new System.Drawing.Point(317, 12);
-            this.uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
-            this.uc_PreviewBrowserFile1.Size = new System.Drawing.Size(457, 460);
-            this.uc_PreviewBrowserFile1.TabIndex = 10;
+            uc_PreviewBrowserFile1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            uc_PreviewBrowserFile1.Location = new System.Drawing.Point(370, 14);
+            uc_PreviewBrowserFile1.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
+            uc_PreviewBrowserFile1.Size = new System.Drawing.Size(533, 531);
+            uc_PreviewBrowserFile1.TabIndex = 10;
             // 
             // btn_3d
             // 
-            this.btn_3d.Location = new System.Drawing.Point(107, 431);
-            this.btn_3d.Name = "btn_3d";
-            this.btn_3d.Size = new System.Drawing.Size(91, 35);
-            this.btn_3d.TabIndex = 11;
-            this.btn_3d.Text = "3D";
-            this.btn_3d.UseVisualStyleBackColor = true;
-            this.btn_3d.Click += new System.EventHandler(this.btn_3d_Click);
+            btn_3d.Location = new System.Drawing.Point(125, 497);
+            btn_3d.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btn_3d.Name = "btn_3d";
+            btn_3d.Size = new System.Drawing.Size(106, 40);
+            btn_3d.TabIndex = 11;
+            btn_3d.Text = "3D";
+            btn_3d.UseVisualStyleBackColor = true;
+            btn_3d.Click += btn_3d_Click;
+            // 
+            // uc_PdfColorSelector1
+            // 
+            uc_PdfColorSelector1.Location = new System.Drawing.Point(126, 398);
+            uc_PdfColorSelector1.MarkColor = null;
+            uc_PdfColorSelector1.Name = "uc_PdfColorSelector1";
+            uc_PdfColorSelector1.Size = new System.Drawing.Size(237, 71);
+            uc_PdfColorSelector1.TabIndex = 12;
             // 
             // FormCreateBigovkaMarks
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(786, 484);
-            this.Controls.Add(this.btn_3d);
-            this.Controls.Add(this.uc_PreviewBrowserFile1);
-            this.Controls.Add(this.groupBox7);
-            this.Controls.Add(this.groupBox6);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.buttonCreate);
-            this.Name = "FormCreateBigovkaMarks";
-            this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Створити мітки для біговки";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numLen)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDistanse)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numBleed)).EndInit();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numK)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numM)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numC)).EndInit();
-            this.groupBox7.ResumeLayout(false);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(917, 558);
+            Controls.Add(uc_PdfColorSelector1);
+            Controls.Add(btn_3d);
+            Controls.Add(uc_PreviewBrowserFile1);
+            Controls.Add(groupBox7);
+            Controls.Add(groupBox5);
+            Controls.Add(groupBox4);
+            Controls.Add(groupBox3);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            Controls.Add(buttonCreate);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "FormCreateBigovkaMarks";
+            ShowIcon = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Створити мітки для біговки";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numLen).EndInit();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numDistanse).EndInit();
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numBleed).EndInit();
+            groupBox5.ResumeLayout(false);
+            groupBox5.PerformLayout();
+            groupBox7.ResumeLayout(false);
+            ResumeLayout(false);
 
         }
 
@@ -492,20 +376,12 @@
         private System.Windows.Forms.NumericUpDown numBleed;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TextBox textBoxBigovky;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.NumericUpDown numK;
-        private System.Windows.Forms.NumericUpDown numY;
-        private System.Windows.Forms.NumericUpDown numM;
-        private System.Windows.Forms.NumericUpDown numC;
-        private System.Windows.Forms.CheckBox cb_b;
-        private System.Windows.Forms.CheckBox cb_y;
-        private System.Windows.Forms.CheckBox cb_m;
-        private System.Windows.Forms.CheckBox cb_c;
         private System.Windows.Forms.CheckBox cb_mirrorEven;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.ComboBox cb_files;
         private System.Windows.Forms.Button btn_add_to_center;
         private UC.Uc_FilePreviewControl uc_PreviewBrowserFile1;
         private System.Windows.Forms.Button btn_3d;
+        private UC.PDF.Uc_PdfColorSelector uc_PdfColorSelector1;
     }
 }

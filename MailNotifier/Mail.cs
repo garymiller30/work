@@ -363,9 +363,6 @@ namespace MailNotifier
         /// <returns></returns>
         public List<ToolStripItem> GetMenu(EventHandler ttmClick)
         {
-            //-----------------------------------------------
-            if (_sendMenuItems != null) return _sendMenuItems;
-
             CreateSendMailMenu(ttmClick);
             return _sendMenuItems;
         }

@@ -1,5 +1,4 @@
-﻿using Amazon;
-using BrightIdeasSoftware;
+﻿using BrightIdeasSoftware;
 using ExtensionMethods;
 using Interfaces;
 using Interfaces.MQ;
@@ -11,7 +10,6 @@ using JobSpace.Profiles;
 using JobSpace.Static;
 using JobSpace.UserForms;
 using Logger;
-using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -540,14 +538,19 @@ namespace JobSpace.UC
         {
             if (objectListView_NewWorks.SelectedObjects.Count > 0)
             {
-                TaskDialog td = new TaskDialog();
-                td.Buttons.Add(new TaskDialogButton(ButtonType.Yes));
-                td.Buttons.Add(new TaskDialogButton(ButtonType.Cancel));
-                td.WindowTitle = "Видалення робіт";
-                td.Content = "Видалити вибрані роботи?\nВидаляється тільки запис з бази данних, файли залишаються";
-                var button = td.ShowDialog();
+                var yesButton = System.Windows.Forms.TaskDialogButton.Yes;
+                var cancelButton = System.Windows.Forms.TaskDialogButton.Cancel;
+                var page = new System.Windows.Forms.TaskDialogPage
+                {
+                    Caption = "Видалення робіт",
+                    Text = "Видалити вибрані роботи?\nВидаляється тільки запис з бази данних, файли залишаються",
+                    Icon = System.Windows.Forms.TaskDialogIcon.Warning,
+                    Buttons = { yesButton, cancelButton },
+                    DefaultButton = cancelButton,
+                    AllowCancel = true
+                };
 
-                if (button.ButtonType == ButtonType.Yes)
+                if (System.Windows.Forms.TaskDialog.ShowDialog(this, page, System.Windows.Forms.TaskDialogStartupLocation.CenterOwner) == yesButton)
                 {
                     var jobs = objectListView_NewWorks.SelectedObjects.Cast<IJob>().ToArray();
                     foreach (var job in jobs)
@@ -743,6 +746,13 @@ namespace JobSpace.UC
 
         public void SelectJob(IJob job)
         {
+            if (objectListView_NewWorks.SelectedObject is IJob selJob)
+            {
+                if (selJob.Id.Equals(job.Id))
+                {
+                    return;
+                }
+            }
             objectListView_NewWorks.DeselectAll();
             objectListView_NewWorks.SelectObject(job);
             _profile.Jobs.SetCurrentJob(job);
@@ -788,6 +798,12 @@ namespace JobSpace.UC
         public void ApplyJobListFontSettings()
         {
             objectListView_NewWorks.Font = _profile.Settings.GetJobListSettings().UserFont;
+        }
+
+        public void RefreshStatusPresentation()
+        {
+            InitObjectListviewImageList();
+            objectListView_NewWorks.RefreshObjects(objectListView_NewWorks.Objects?.Cast<object>().ToArray() ?? Array.Empty<object>());
         }
 
         public IEnumerable GetJobList()

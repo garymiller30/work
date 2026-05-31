@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using BackgroundTaskServiceLib;
 using Interfaces.FileBrowser;
 using Interfaces.Plugins;
 using JobSpace.Models.FileBrowser;
@@ -189,6 +190,11 @@ namespace JobSpace.UC
 
         public void PasteFromClipboard(string[] files)
         {
+            PasteFromClipboard(files, CutFromClipboard);
+        }
+
+        public void PasteFromClipboard(string[] files, bool cutFromClipboard)
+        {
 
             foreach (var file in files)
             {
@@ -197,7 +203,7 @@ namespace JobSpace.UC
 
                 if (Directory.Exists(file))
                 {
-                    if (FileManager.CutFromClipboard) //вирізати
+                    if (cutFromClipboard) //вирізати
                     {
                         _moveFileOrDir(info, Path.Combine(Settings.CurFolder, Path.Combine(Settings.CurFolder, Path.GetFileName(file))));
                     }
@@ -217,7 +223,7 @@ namespace JobSpace.UC
                         count++;
                     }
 
-                    if (CutFromClipboard)
+                    if (cutFromClipboard)
                     {
                         _moveFileOrDir(info, target);
                     }
@@ -256,27 +262,15 @@ namespace JobSpace.UC
 
         public void DeleteFilesAndDirectories(IEnumerable<IFileSystemInfoExt> files)
         {
-
             foreach (IFileSystemInfoExt file in files)
             {
-            retry:
-
                 try
                 {
-                    if (file.IsDir) FileSystem.DeleteDirectory(file.FileInfo.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);// Directory.Delete(file.FileInfo.FullName, true);
-                    else FileSystem.DeleteFile(file.FileInfo.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);// File.Delete(file.FileInfo.FullName);
-                }
-                catch (IOException)
-                {
-                    var message = FileUtil.GetNamesWhoBlock(file.FileInfo.FullName);
-                    if (MessageBox.Show($"Файл {file.FileInfo.FullName} заблоковано такими програмами: {message}", "Файл заблоковано", MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning) == DialogResult.Retry)
-                    {
-                        goto retry;
-                    }
+                    DeferredDeleteService.Enqueue(file.FileInfo.FullName, DeferredDeleteMode.RecycleBin);
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, "помилка");
+                    OnError(this, e.Message);
                 }
             }
         }
@@ -408,6 +402,7 @@ namespace JobSpace.UC
                 {
                     var pi = new ProcessStartInfo(fileOrDirectory.FileInfo.FullName)
                     {
+                        UseShellExecute = true,
                         WorkingDirectory = Path.GetDirectoryName(fileOrDirectory.FileInfo.FullName)
                     };
                     Process.Start(pi);

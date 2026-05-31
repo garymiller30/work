@@ -1,28 +1,24 @@
-﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com 
-
-
-using ActiveWorks.Forms;
+﻿using ActiveWorks.Forms;
 using ActiveWorks.Licensing;
 using ActiveWorks.PluginHub;
 using BrightIdeasSoftware;
-using Krypton.Toolkit;
 using Interfaces;
+using Interfaces.Enums;
 using JobSpace;
 using JobSpace.CustomForms;
 using JobSpace.Menus;
 using JobSpace.Profiles;
 using JobSpace.Statuses;
 using JobSpace.UserForms;
+using Krypton.Toolkit;
+using MailNotifier;
+using MailNotifier.Shablons;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using MailNotifier;
-using MailNotifier.Shablons;
-using Interfaces.Enums;
 
 namespace ActiveWorks
 {
@@ -49,8 +45,7 @@ namespace ActiveWorks
             objectListViewProfiles.AddObjects(ProfilesController.GetProfiles());
 
             panelStatusParams.DataBindings.Add("Enabled", checkBoxStatusEnable, "Checked");
-            groupBoxViewer.DataBindings.Add("Enabled", checkBoxUseViewer, "Checked");
-
+            
             olvColumnUsedExplorer0.AspectGetter += r => ((MenuSendTo)r).UsedInExplorer[0];
 
             olvColumnUsedExplorerRight.AspectGetter += r => ((MenuSendTo)r).UsedInExplorer[1];
@@ -108,9 +103,10 @@ namespace ActiveWorks
         /// <param name="e"></param>
         private void Button_WorkFolder_Click(object sender, EventArgs e)
         {
-            if (vistaFolderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            using var dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                textBox_Work.Text = vistaFolderBrowserDialog1.SelectedPath;
+                textBox_Work.Text = dialog.SelectedPath;
             }
         }
 
@@ -177,14 +173,13 @@ namespace ActiveWorks
         {
             listBox_SendEmails.Items.Add(textBox_MailTo.Text);
         }
-
-
-
         private void Button_CustomButtonPath_Click(object sender, EventArgs e)
         {
-            if (vistaFolderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            using var dialog = new FolderBrowserDialog();
+
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                listBox_CustomButtonFolder.Items.Add(vistaFolderBrowserDialog1.SelectedPath);
+                listBox_CustomButtonFolder.Items.Add(dialog.SelectedPath);
             }
         }
 
@@ -193,11 +188,13 @@ namespace ActiveWorks
         {
             if (objectListView_Utils.SelectedObject is MenuSendTo t)
             {
-                vistaOpenFileDialog1.Filter = "*.exe|*.exe";
+                using var dialog = new OpenFileDialog();
 
-                if (vistaOpenFileDialog1.ShowDialog() == DialogResult.OK)
+                dialog.Filter = "*.exe|*.exe";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    t.Path = vistaOpenFileDialog1.FileName;
+                    t.Path = dialog.FileName;
                     t.Image = System.Drawing.Icon.ExtractAssociatedIcon(t.Path)?.ToBitmap();
 
                     objectListView_Utils.RefreshObject(t);
@@ -209,9 +206,10 @@ namespace ActiveWorks
         {
             if (objectListViewSendTo.SelectedObject is MenuSendTo t)
             {
-                if (vistaFolderBrowserDialog1.ShowDialog() == DialogResult.OK)
+                using var dialog = new FolderBrowserDialog();
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    t.Path = vistaFolderBrowserDialog1.SelectedPath;
+                    t.Path = dialog.SelectedPath;
                     objectListViewSendTo.RefreshObject(t);
                 }
             }
@@ -224,9 +222,10 @@ namespace ActiveWorks
         /// <param name="e"></param>
         private void ButtonOpenSignaJobsFolder_Click(object sender, EventArgs e)
         {
-            if (vistaFolderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            using var dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                textBoxFolderSignaJobs.Text = vistaFolderBrowserDialog1.SelectedPath;
+                textBoxFolderSignaJobs.Text = dialog.SelectedPath;
             }
         }
         /// <summary>
@@ -252,23 +251,17 @@ namespace ActiveWorks
             {
                 var param = _currentProfile.StatusManager.OnChangeStatusesParams.GetParam(status.Code);
 
-                var res = vistaOpenFileDialog1.ShowDialog();
+                using var dialog = new OpenFileDialog();
+
+                var res = dialog.ShowDialog();
                 if (res == DialogResult.OK)
                 {
-                    param.ProgramPath = vistaOpenFileDialog1.FileName;
-                    textBoxStatusFileName.Text = vistaOpenFileDialog1.FileName;
+                    param.ProgramPath = dialog.FileName;
+                    textBoxStatusFileName.Text = dialog.FileName;
                 }
             }
         }
 
-        private void buttonSelectViewer_Click(object sender, EventArgs e)
-        {
-            var res = vistaOpenFileDialog1.ShowDialog();
-            if (res == DialogResult.OK)
-            {
-                textBoxViewer.Text = vistaOpenFileDialog1.FileName;
-            }
-        }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -368,17 +361,8 @@ namespace ActiveWorks
             browser.FolderNamesForCreate = new List<string>();
             browser.FolderNamesForCreate.AddRange(listBoxFolderNames.Items.Cast<string>().ToArray());
 
-
             setup.CountExplorers = numericUpDownCountExplorers.Value;
-            //setup.ExplorerInRightPanel = checkBoxExplorerInRightPanel.Checked;
-
-            browser.Viewer = textBoxViewer.Text;
-            browser.ViewerCommandLine = textBoxViewerCommandLine.Text;
-            browser.UseViewer = checkBoxUseViewer.Enabled;
-
-
-
-
+       
             setup.HideCategory = checkBoxHideCategory.Checked;
 
             setup.GetPdfConverterSettings().MoveOriginalsToTrash = checkBoxMoveOriginalFileToTrash.Checked;
@@ -471,10 +455,6 @@ namespace ActiveWorks
             objectListViewStatuses.Objects = _currentProfile.StatusManager?.GetJobStatuses();
 
             checkBoxHideCategory.Checked = setup.HideCategory;
-
-            textBoxViewer.Text = browser.Viewer;
-            textBoxViewerCommandLine.Text = browser.ViewerCommandLine;
-            checkBoxUseViewer.Checked = browser.UseViewer;
 
             checkBoxMoveOriginalFileToTrash.Checked = setup.GetPdfConverterSettings().MoveOriginalsToTrash;
 
@@ -970,10 +950,14 @@ namespace ActiveWorks
 
         private void buttonScriptAdd_Click(object sender, EventArgs e)
         {
-            if (vistaOpenFileDialog1.ShowDialog() == DialogResult.OK)
+            using var dialog = new OpenFileDialog
+            {
+                Filter = "Скрипт|*.py|Всі файли|*.*"
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
                 //
-                var script = _currentProfile.Ftp.FtpScriptController.Create(vistaOpenFileDialog1.FileName);
+                var script = _currentProfile.Ftp.FtpScriptController.Create(dialog.FileName);
                 objectListViewFtpScripts.AddObject(script);
             }
         }
@@ -1089,7 +1073,7 @@ namespace ActiveWorks
 
         private void btn_mail_gmail_settings_sel_secret_file_Click(object sender, EventArgs e)
         {
-            using (var f = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            using (var f = new OpenFileDialog())
             {
                 f.Filter = "*.json|*.json|*.*|*.*";
                 if (f.ShowDialog() == DialogResult.OK)

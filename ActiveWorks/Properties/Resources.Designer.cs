@@ -953,6 +953,16 @@ namespace ActiveWorks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SplashScreen9 {
+            get {
+                object obj = ResourceManager.GetObject("SplashScreen9", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap split_panel {
             get {
                 object obj = ResourceManager.GetObject("split_panel", resourceCulture);

@@ -3,15 +3,9 @@ using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Imposition.Services
@@ -25,6 +19,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         public string MarksPath { get; private set; }
         public string SheetTemplatesPath { get; private set; }
         public string PrintSheetsPath { get; private set; }
+        public string AutoImposPath { get; private set; }
         public string TemplatePlatesPath { get; private set; }
         Profile _profile;
 
@@ -37,6 +32,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             MarksPath = Path.Combine(RootPath, "Marks");
             SheetTemplatesPath = Path.Combine(RootPath, "SheetTemplates");
             PrintSheetsPath = Path.Combine(RootPath, "PrintSheets");
+            AutoImposPath = Path.Combine(RootPath, "AutoImpos");
             TemplatePlatesPath = Path.Combine(RootPath, "TemplatePlates");
 
             if (!Directory.Exists(RootPath)) Directory.CreateDirectory(RootPath);
@@ -44,6 +40,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             if (!Directory.Exists(MarksPath)) Directory.CreateDirectory(MarksPath);
             if (!Directory.Exists(SheetTemplatesPath)) Directory.CreateDirectory(SheetTemplatesPath);
             if (!Directory.Exists(PrintSheetsPath)) Directory.CreateDirectory(PrintSheetsPath);
+            if (!Directory.Exists(AutoImposPath)) Directory.CreateDirectory(AutoImposPath);
             if (!Directory.Exists(TemplatePlatesPath)) Directory.CreateDirectory(TemplatePlatesPath);
 
             Marks = new MarksService(profile);
@@ -161,7 +158,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             List<TemplateSheet> sheets = new List<TemplateSheet>();
 
-            using (var form = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            using (var form = new OpenFileDialog())
             {
                 form.InitialDirectory = SheetTemplatesPath;
                 form.RestoreDirectory = true;
@@ -212,7 +209,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         public  List<PrintSheet> LoadPrintSheets()
         {
-            using (var form = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            using (var form = new OpenFileDialog())
             {
                 form.InitialDirectory = PrintSheetsPath;
                 form.CheckFileExists = true;

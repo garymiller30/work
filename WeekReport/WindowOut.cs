@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using Interfaces;
+using Interfaces.Profile;
 using JobSpace;
 using JobSpace.Profiles;
 using JobManager = JobSpace.Fasades.JobManager;

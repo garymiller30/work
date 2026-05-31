@@ -28,6 +28,7 @@ namespace Interfaces
         void OpenFileOrFolder(IFileSystemInfoExt fileOrDirectory);
         void DeleteFilesAndDirectories(IEnumerable<IFileSystemInfoExt> files);
         void PasteFromClipboard(string[] files);
+        void PasteFromClipboard(string[] files, bool cutFromClipboard);
         void CreateDirectoryInCurrentFolder(string name);
 
         void MoveFileOrDirectoryToCurrentFolder(IFileSystemInfoExt file, string newName);

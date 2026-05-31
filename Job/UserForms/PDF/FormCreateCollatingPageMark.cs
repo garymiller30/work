@@ -1,4 +1,4 @@
-﻿using JobSpace.Static.Pdf.Create.CollatingPageMark;
+﻿using JobSpace.Static.Pdf.Add.CollatingPageMark;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ namespace JobSpace.UserForms
 {
     public partial class FormCreateCollatingPageMark : Form
     {
-        public CreateCollatingPageMarkParams CreatePageCollationMarksParam { get;set;} = new CreateCollatingPageMarkParams();
+        public AddCollatingPageMarkParams CreatePageCollationMarksParam { get;set;} = new AddCollatingPageMarkParams();
         public FormCreateCollatingPageMark()
         {
             InitializeComponent();

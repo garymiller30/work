@@ -1,14 +1,8 @@
 ﻿using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Convert;
-using JobSpace.Static.Pdf.Scale;
 using PDFlib_dotnet;
-using SharpCompress.Common;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.SetTrimBox.ByFormat
 {

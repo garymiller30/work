@@ -180,17 +180,29 @@ namespace ActiveWorks.UpdateHub
                 "updater_runner_" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(updaterRunnerDirectory);
 
+            foreach (var updaterFile in Directory.GetFiles(applicationDirectory, "Updater.*", SearchOption.TopDirectoryOnly))
+            {
+                File.Copy(
+                    updaterFile,
+                    Path.Combine(updaterRunnerDirectory, Path.GetFileName(updaterFile)),
+                    true);
+            }
+
             var updaterRunnerPath = Path.Combine(updaterRunnerDirectory, "Updater.exe");
-            File.Copy(updaterPath, updaterRunnerPath, true);
 
             var currentProcess = Process.GetCurrentProcess();
-            Process.Start(new ProcessStartInfo
+            var startInfo = new ProcessStartInfo
             {
                 FileName = updaterRunnerPath,
-                Arguments = currentProcess.Id + " \"" + updateFolder + "\"",
                 UseShellExecute = false,
                 WorkingDirectory = applicationDirectory
-            });
+            };
+
+            startInfo.ArgumentList.Add(currentProcess.Id.ToString());
+            startInfo.ArgumentList.Add(updateFolder);
+            startInfo.ArgumentList.Add(currentProcess.MainModule.FileName);
+
+            Process.Start(startInfo);
         }
 
         private static void DeleteOldUpdaterRunnerDirectories(string applicationDirectory)

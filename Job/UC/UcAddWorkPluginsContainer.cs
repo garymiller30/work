@@ -22,14 +22,12 @@ namespace JobSpace.UC
             //ThemeController.ThemeChanged += ThemeController_ThemeChanged;
         }
 
-      
-
         private void InitTreeListView()
         {
             treeListView1.CanExpandGetter += CanExpandGetter;
             treeListView1.ChildrenGetter += ChildrenGetter;
         }
-        
+
         private IEnumerable ChildrenGetter(object model)
         {
             if (model is IPluginFormAddWork plugin)
@@ -64,7 +62,7 @@ namespace JobSpace.UC
 
         public void Subscribe(IUserProfile profile, IJob job)
         {
-            var plugins = profile.Plugins.GetPluginFormAddWorks();
+            var plugins = profile.Plugins.GetPluginFormAddWorks().ToList();
 
             if (plugins.Any())
             {
@@ -74,7 +72,7 @@ namespace JobSpace.UC
                     plugin.PropertyChanged += PluginOnPropertyChanged;
                 }
 
-                treeListView1.Roots = plugins;
+                treeListView1.SetObjects(plugins);
                 treeListView1.ExpandAll();
             }
         }

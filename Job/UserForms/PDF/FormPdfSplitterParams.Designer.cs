@@ -40,6 +40,7 @@
             this.numericUpDownBleed = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.buttonOk = new System.Windows.Forms.Button();
+            this.checkBoxSaddleStitchOrder = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFrom)).BeginInit();
@@ -189,7 +190,7 @@
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(132, 168);
+            this.buttonOk.Location = new System.Drawing.Point(132, 196);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(94, 41);
             this.buttonOk.TabIndex = 2;
@@ -197,11 +198,22 @@
             this.buttonOk.UseVisualStyleBackColor = true;
             this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
+            // checkBoxSaddleStitchOrder
+            // 
+            this.checkBoxSaddleStitchOrder.AutoSize = true;
+            this.checkBoxSaddleStitchOrder.Location = new System.Drawing.Point(13, 154);
+            this.checkBoxSaddleStitchOrder.Name = "checkBoxSaddleStitchOrder";
+            this.checkBoxSaddleStitchOrder.Size = new System.Drawing.Size(290, 17);
+            this.checkBoxSaddleStitchOrder.TabIndex = 3;
+            this.checkBoxSaddleStitchOrder.Text = "Розвороти зроблені під скобу (відновити порядок)";
+            this.checkBoxSaddleStitchOrder.UseVisualStyleBackColor = true;
+            // 
             // FormPdfSplitterParams
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(367, 221);
+            this.ClientSize = new System.Drawing.Size(367, 249);
+            this.Controls.Add(this.checkBoxSaddleStitchOrder);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -237,5 +249,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button buttonOk;
+        private System.Windows.Forms.CheckBox checkBoxSaddleStitchOrder;
     }
 }

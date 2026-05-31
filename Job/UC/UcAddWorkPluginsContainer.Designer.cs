@@ -28,65 +28,63 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.treeListView1 = new BrightIdeasSoftware.TreeListView();
-            this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnPrice = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnPay = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            ((System.ComponentModel.ISupportInitialize)(this.treeListView1)).BeginInit();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            treeListView1 = new BrightIdeasSoftware.TreeListView();
+            olvColumnName = new BrightIdeasSoftware.OLVColumn();
+            olvColumnPrice = new BrightIdeasSoftware.OLVColumn();
+            olvColumnPay = new BrightIdeasSoftware.OLVColumn();
+            ((System.ComponentModel.ISupportInitialize)treeListView1).BeginInit();
+            SuspendLayout();
             // 
             // treeListView1
             // 
-            this.treeListView1.AllColumns.Add(this.olvColumnName);
-            this.treeListView1.AllColumns.Add(this.olvColumnPrice);
-            this.treeListView1.AllColumns.Add(this.olvColumnPay);
-            this.treeListView1.CellEditUseWholeCell = false;
-            this.treeListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumnName,
-            this.olvColumnPrice,
-            this.olvColumnPay});
-            this.treeListView1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.treeListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeListView1.FullRowSelect = true;
-            this.treeListView1.HideSelection = false;
-            this.treeListView1.Location = new System.Drawing.Point(0, 0);
-            this.treeListView1.Name = "treeListView1";
-            this.treeListView1.ShowGroups = false;
-            this.treeListView1.Size = new System.Drawing.Size(378, 207);
-            this.treeListView1.TabIndex = 1;
-            this.treeListView1.UseCompatibleStateImageBehavior = false;
-            this.treeListView1.View = System.Windows.Forms.View.Details;
-            this.treeListView1.VirtualMode = true;
-            this.treeListView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.treeListView1_MouseClick);
+            treeListView1.AllColumns.Add(olvColumnName);
+            treeListView1.AllColumns.Add(olvColumnPrice);
+            treeListView1.AllColumns.Add(olvColumnPay);
+            treeListView1.CellEditUseWholeCell = false;
+            treeListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumnName, olvColumnPrice, olvColumnPay });
+            treeListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            treeListView1.FullRowSelect = true;
+            treeListView1.Location = new System.Drawing.Point(0, 0);
+            treeListView1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            treeListView1.Name = "treeListView1";
+            treeListView1.ShowGroups = false;
+            treeListView1.Size = new System.Drawing.Size(441, 239);
+            treeListView1.TabIndex = 1;
+            treeListView1.UseCompatibleStateImageBehavior = false;
+            treeListView1.View = System.Windows.Forms.View.Details;
+            treeListView1.VirtualMode = true;
+            treeListView1.MouseClick += treeListView1_MouseClick;
             // 
             // olvColumnName
             // 
-            this.olvColumnName.AspectName = "ToString";
-            this.olvColumnName.Text = "Назва";
-            this.olvColumnName.Width = 200;
+            olvColumnName.AspectName = "ToString";
+            olvColumnName.IsTileViewColumn = true;
+            olvColumnName.Text = "Назва";
+            olvColumnName.Width = 200;
             // 
             // olvColumnPrice
             // 
-            this.olvColumnPrice.AspectName = "Price";
-            this.olvColumnPrice.Text = "Ціна";
-            this.olvColumnPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            olvColumnPrice.AspectName = "Price";
+            olvColumnPrice.Text = "Ціна";
+            olvColumnPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // olvColumnPay
             // 
-            this.olvColumnPay.AspectName = "Pay";
-            this.olvColumnPay.Text = "Сплачено";
-            this.olvColumnPay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            olvColumnPay.AspectName = "Pay";
+            olvColumnPay.Text = "Сплачено";
+            olvColumnPay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // UcAddWorkPluginsContainer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.treeListView1);
-            this.Name = "UcAddWorkPluginsContainer";
-            this.Size = new System.Drawing.Size(378, 207);
-            ((System.ComponentModel.ISupportInitialize)(this.treeListView1)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(treeListView1);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "UcAddWorkPluginsContainer";
+            Size = new System.Drawing.Size(441, 239);
+            ((System.ComponentModel.ISupportInitialize)treeListView1).EndInit();
+            ResumeLayout(false);
 
         }
 

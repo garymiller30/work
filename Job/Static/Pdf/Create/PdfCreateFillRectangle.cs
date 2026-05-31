@@ -8,7 +8,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Створити","Заливка прямокутника",Icon = "create_rectangle_fill",Order = 10)]
+    [PdfTool("Створити","Заливка прямокутника",Icon = "create_rectangle_fill",Order = 4)]
     public sealed class PdfCreateFillRectangle : IPdfTool
     {
 
@@ -49,11 +49,9 @@ namespace JobSpace.Static.Pdf.Create
 
                     if (_param.Color.IsSpot)
                     {
-                        string[] labstr = _param.Lab.Split(' ');
-
-                        double l = double.Parse(labstr[0], System.Globalization.CultureInfo.InvariantCulture);
-                        double a = double.Parse(labstr[1], System.Globalization.CultureInfo.InvariantCulture);
-                        double b = double.Parse(labstr[2], System.Globalization.CultureInfo.InvariantCulture);
+                        double l = _param.Color.l;
+                        double a = _param.Color.a;
+                        double b = _param.Color.b;
 
                         p.setcolor("fill", "lab", l / 100, a / 100, b / 100, 0);
                         int spot = p.makespotcolor(_param.Color.Name);

@@ -94,7 +94,7 @@ namespace FtpClient
         public void Upload(string file)
         {
             var fn = Path.GetFileName(file);
-            var remotePath = CurrentDirectory.GetFtpPath(fn);
+            var remotePath = CurrentDirectory.AppendFtpPath(fn);
 
             _upload(file, remotePath);
 
@@ -103,7 +103,7 @@ namespace FtpClient
         public void Upload(IFtpFileExt targetFolder, string file)
         {
             var fn = Path.GetFileName(file);
-            var remotePath = targetFolder.FullPath.GetFtpPath(fn);
+            var remotePath = targetFolder.FullPath.AppendFtpPath(fn);
 
             _upload(file, remotePath);
 
@@ -309,7 +309,7 @@ namespace FtpClient
         {
             try
             {
-                var path = CurrentDirectory.GetFtpPath(directoryName);
+                var path = CurrentDirectory.AppendFtpPath(directoryName);
                 
                 _ftpClient.Connect();
                 _ftpClient.CreateDirectory(path);

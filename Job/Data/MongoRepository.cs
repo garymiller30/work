@@ -5,6 +5,8 @@ using FtpClient;
 using Interfaces;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Clusters;
+using MongoDB.Driver.Core.Events;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -35,32 +37,47 @@ namespace JobSpace.Data
             _mongoDatabase = client.GetDatabase(databaseName);
         }
 
-        private void Cluster_DescriptionChanged(object sender, MongoDB.Driver.Core.Clusters.ClusterDescriptionChangedEventArgs e)
+        private void SetConnectionState(bool isConnected)
         {
-            var newState = e.NewClusterDescription.State == MongoDB.Driver.Core.Clusters.ClusterState.Connected;
-            if (newState != IsConnected)
+            if (isConnected == IsConnected)
             {
-                IsConnected = newState;
-                OnChangeConnectionState(this, IsConnected);
+                return;
             }
 
-            Debug.WriteLine($"Mongodb description:{e.NewClusterDescription.State}");
+            IsConnected = isConnected;
+            OnChangeConnectionState(this, IsConnected);
         }
 
-        
+        private bool Ping(int timeout)
+        {
+            try
+            {
+                return _mongoDatabase.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(timeout * 1000);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Mongodb ping failed:{ex.Message}");
+                return false;
+            }
+        }
+
         public void CreateConnection(string connectingString,string databaseName,int timeout = 10)
         {
-            var client = new MongoClient(connectingString);
+            var settings = MongoClientSettings.FromConnectionString(connectingString);
+            settings.ClusterConfigurator = builder =>
+            {
+                builder.Subscribe<ClusterDescriptionChangedEvent>(e =>
+                {
+                    SetConnectionState(e.NewDescription.State == ClusterState.Connected);
+                    Debug.WriteLine($"Mongodb description:{e.NewDescription.State}");
+                });
+            };
 
-            IsConnected = client.Cluster.Description.State == MongoDB.Driver.Core.Clusters.ClusterState.Connected;
-            OnChangeConnectionState(this, IsConnected);
-
-            Debug.WriteLine($"Mongodb description:{client.Cluster.Description.State}");
-            client.Cluster.DescriptionChanged += Cluster_DescriptionChanged;
+            var client = new MongoClient(settings);
             
             _mongoDatabase = client.GetDatabase(databaseName);
 
-            IsConnected = _mongoDatabase.RunCommandAsync((Command<BsonDocument>)"{ping:1}").Wait(timeout * 1000);
+            SetConnectionState(Ping(timeout));
         }
 
         public void Add<T>(T item) where T : class, new()

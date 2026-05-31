@@ -13,7 +13,6 @@ namespace JobSpace.Static.Pdf.Create
         public double Height { get; set; }
         public double Bleeds { get; set; }
         public MarkColor Color { get; set; } = new MarkColor();
-        public string Lab { get;set;}
 
         public override string ToString()
         {

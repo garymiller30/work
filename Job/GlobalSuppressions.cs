@@ -5,7 +5,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Design", "MA0049:Type name should not match containing namespace", Justification = "<Pending>", Scope = "type", Target = "~T:JobSpace.Profiles.ProfileEvents.ProfileEvents")]
 [assembly: SuppressMessage("Design", "MA0049:Type name should not match containing namespace", Justification = "<Pending>", Scope = "type", Target = "~T:JobSpace.Job")]
 [assembly: SuppressMessage("Design", "MA0046:Use EventHandler<T> to declare events", Justification = "<Pending>", Scope = "member", Target = "~E:JobSpace.Fasades.CustomerManager.OnCustomerAdd")]
 [assembly: SuppressMessage("Design", "MA0046:Use EventHandler<T> to declare events", Justification = "<Pending>", Scope = "member", Target = "~E:JobSpace.Fasades.CustomerManager.OnCustomerChange")]
@@ -178,7 +177,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Architecture", "DV2002:Unmapped types", Justification = "<Pending>", Scope = "type", Target = "~T:JobSpace.Profiles.ProfileEvents.BrowserEvents")]
 [assembly: SuppressMessage("Architecture", "DV2002:Unmapped types", Justification = "<Pending>", Scope = "type", Target = "~T:JobSpace.Profiles.ProfileEvents.FtpEvents")]
 [assembly: SuppressMessage("Architecture", "DV2002:Unmapped types", Justification = "<Pending>", Scope = "type", Target = "~T:JobSpace.Profiles.ProfileEvents.JobEvents")]
-[assembly: SuppressMessage("Architecture", "DV2002:Unmapped types", Justification = "<Pending>", Scope = "type", Target = "~T:JobSpace.Profiles.ProfileEvents.ProfileEvents")]
+[assembly: SuppressMessage("Architecture", "DV2002:Unmapped types", Justification = "<Pending>", Scope = "type", Target = "~T:JobSpace.Profiles.ProfileEvents.ProfileEventHub")]
 [assembly: SuppressMessage("Architecture", "DV2002:Unmapped types", Justification = "<Pending>", Scope = "type", Target = "~T:JobSpace.Profiles.ProfilesController")]
 [assembly: SuppressMessage("Architecture", "DV2002:Unmapped types", Justification = "<Pending>", Scope = "type", Target = "~T:JobSpace.Profiles.ProfileSettings")]
 [assembly: SuppressMessage("Architecture", "DV2002:Unmapped types", Justification = "<Pending>", Scope = "type", Target = "~T:JobSpace.Profiles.RabbitMqSettings")]

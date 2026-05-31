@@ -21,10 +21,7 @@ using JobSpace.Models;
 using JobSpace.Static;
 using JobSpace.UC;
 using JobSpace.UserForms;
-using Krypton.Toolkit;
 using Logger;
-using Ookii.Dialogs.WinForms;
-using SharpCompress.Common;
 
 
 namespace JobSpace.Fasades
@@ -231,18 +228,18 @@ namespace JobSpace.Fasades
 
             if (j.Any())
             {
-                var dialog = new TaskDialog
+                var yesButton = System.Windows.Forms.TaskDialogButton.Yes;
+                var noButton = System.Windows.Forms.TaskDialogButton.No;
+                var page = new System.Windows.Forms.TaskDialogPage
                 {
-                    WindowTitle = @"Увага!",
-                    MainIcon = TaskDialogIcon.Custom,
-                    //CustomMainIcon = Properties.Resources.emotion_misdoubt,
-                    MainInstruction =
-                    $"У {job.Customer} робота з номером {job.Number} вже існує. Все одно створити?"
+                    Caption = @"Увага!",
+                    Icon = System.Windows.Forms.TaskDialogIcon.Warning,
+                    Heading = $"У {job.Customer} робота з номером {job.Number} вже існує. Все одно створити?",
+                    Buttons = { yesButton, noButton },
+                    DefaultButton = noButton
                 };
-                dialog.Buttons.Add(new TaskDialogButton(ButtonType.Yes));
-                dialog.Buttons.Add(new TaskDialogButton(ButtonType.No));
 
-                if (dialog.ShowDialog().ButtonType == ButtonType.No)
+                if (System.Windows.Forms.TaskDialog.ShowDialog(page, System.Windows.Forms.TaskDialogStartupLocation.CenterScreen) == noButton)
                 {
                     return false;
                 }
@@ -425,8 +422,14 @@ namespace JobSpace.Fasades
                 .SetPageHeight(format.Item2)
                 .Save();
 
-            Process.Start(destFile);
-            // }
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "explorer.exe",
+                Arguments = $"\"{destFile}\"",
+                UseShellExecute = true
+            };
+
+            Process.Start(startInfo);
         }
 
         private Tuple<decimal, decimal> GetFormatFile(IJob j)
@@ -491,6 +494,11 @@ namespace JobSpace.Fasades
                 {
                     var sourceFile = Extensions.GetSignaFilePath(sourceJob, _profile);
                     var destFile = Extensions.GetSignaFilePath(targetJob, _profile);
+
+                    if (Directory.Exists(Path.GetDirectoryName(destFile)) == false)
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(destFile));
+                    }
 
                     File.Copy(sourceFile, destFile, true);
 
@@ -791,6 +799,8 @@ namespace JobSpace.Fasades
 
         public void DublicateWithNewNumber(IJob job)
         {
+            if (job == null) return;
+
             using (var form = new FormEditText())
             {
                 form.Text = "новий номер замовлення";
@@ -803,10 +813,17 @@ namespace JobSpace.Fasades
                     nj.Date = DateTime.Now;
                     nj.PreviousOrder = nj.Number;
                     nj.Number = form.EditText;
+                    nj.UseCustomFolder = false;
+                    nj.Folder = string.Empty;
+                    nj.DontCreateFolder = false;
+
                     if (nj.PreviousOrder.Equals(nj.Number))
                     {
                         nj.Description += "_(COPY)";
                     }
+
+                    _profile.Plugins.AfterJobChange(nj);
+
                     if (AddJob(nj))
                     {
 
