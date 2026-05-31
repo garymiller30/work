@@ -79,6 +79,19 @@ namespace JobSpace.UC
             if (dirPath != null && _dirContents.TryGetValue(dirPath, out var list))
                 list.Remove(item);
 
+            if (item.IsDir)
+            {
+                EvictDirectory(e.FullPath);
+                var prefix = e.FullPath + Path.DirectorySeparatorChar;
+                var keysToRemove = _dirContents.Keys
+                    .Where(k => k.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+                foreach (var key in keysToRemove)
+                {
+                    EvictDirectory(key);
+                }
+            }
+
             OnDeleted(this, item);
         }
 
@@ -123,6 +136,19 @@ namespace JobSpace.UC
                 var oldDir = Path.GetDirectoryName(e.OldFullPath);
                 if (oldDir != null && _dirContents.TryGetValue(oldDir, out var oldList))
                     oldList.Remove(oldItem);
+
+                if (oldItem.IsDir)
+                {
+                    EvictDirectory(e.OldFullPath);
+                    var prefix = e.OldFullPath + Path.DirectorySeparatorChar;
+                    var keysToRemove = _dirContents.Keys
+                        .Where(k => k.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                    foreach (var key in keysToRemove)
+                    {
+                        EvictDirectory(key);
+                    }
+                }
 
                 OnDeleted(this, oldItem);
             }
@@ -193,6 +219,7 @@ namespace JobSpace.UC
         {
             if (_dirContents.TryGetValue(path, out var cached))
             {
+                SyncCachedDirectory(path, cached);
                 UpdateUsage(path);
                 return cached.Where(x => x.IsDir).ToList();
             }
@@ -263,18 +290,21 @@ namespace JobSpace.UC
 
             // 1. Видаляємо записи, які більше не існують
             var deleted = cached
-                .Where(x => !actualPaths.Contains(x.FileInfo.FullName))
+                .Where(x => x?.FileInfo?.FullName == null || !actualPaths.Contains(x.FileInfo.FullName))
                 .ToList();
 
             foreach (var item in deleted)
             {
                 cached.Remove(item);
-                _fileIndex.Remove(item.FileInfo.FullName);
+                if (item?.FileInfo?.FullName != null)
+                {
+                    _fileIndex.Remove(item.FileInfo.FullName);
+                }
             }
 
             // 2. Додаємо файли, які з'явились
             var cachedPaths = new HashSet<string>(
-                cached.Select(x => x.FileInfo.FullName),
+                cached.Select(x => x?.FileInfo?.FullName).Where(name => name != null),
                 StringComparer.OrdinalIgnoreCase);
 
             foreach (var fullPath in actualPaths)
@@ -296,7 +326,7 @@ namespace JobSpace.UC
             // 3. Оновлюємо FileInfo для файлів, які змінились
             foreach (var item in cached)
             {
-                if (item.IsDir) continue;
+                if (item == null || item.IsDir || item.FileInfo?.FullName == null) continue;
 
                 try
                 {
@@ -311,6 +341,16 @@ namespace JobSpace.UC
                 }
                 catch { /* файл може бути заблокований або видалений між кроками */ }
             }
+
+            // 4. Сортуємо список: спочатку папки, потім файли, обидва списки в натуральному порядку
+            var stringComparer = new NaturalSorting.NaturalStringComparer();
+            var sorted = cached
+                .OrderBy(x => !x.IsDir)
+                .ThenBy(x => x?.FileInfo?.Name ?? string.Empty, stringComparer)
+                .ToList();
+
+            cached.Clear();
+            cached.AddRange(sorted);
         }
 
         // ── LRU ────────────────────────────────────────────────────────────────

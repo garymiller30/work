@@ -1,4 +1,4 @@
-﻿using BackgroundTaskServiceLib;
+using BackgroundTaskServiceLib;
 using BrightIdeasSoftware;
 using ExtensionMethods;
 using FtpClient;
@@ -561,11 +561,14 @@ namespace JobSpace.UC
 
         private void FileManager_OnChangeFile(object sender, IFileSystemInfoExt e)
         {
-            if (_fileManager.Settings.ScanFiles)
+            if (e != null && !e.IsDir && e.FileInfo != null)
             {
-                e.GetExtendedFileInfoFormat();
-                // Оновлюємо кеш, щоб ProcessTaskGetExtendedFileInfo не сканував повторно
-                _metadataCache.MarkUpToDate(e);
+                if (_fileManager.Settings.ScanFiles)
+                {
+                    e.GetExtendedFileInfoFormat();
+                    // Оновлюємо кеш, щоб ProcessTaskGetExtendedFileInfo не сканував повторно
+                    _metadataCache.MarkUpToDate(e);
+                }
             }
 
             objectListView1.RefreshObject(e);
