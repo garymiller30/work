@@ -236,7 +236,15 @@ namespace JobSpace.UC
             if (_fileCache.ContainsKey(path))
             {
                 UpdateUsage(path);
-                return _files; // Повертаємо вже завантажений список
+                var cachedFiles = _files;
+
+                // *** ЗМІНА ДЛЯ СИНХРОНІЗАЦІЇ: ОНОВЛЕННЯ МЕТАДАННИХ ПЕРЕД ПОСТАВЛЕННЯМ В UI ***
+                foreach (var file in cachedFiles)
+                {
+                    file.RefreshParam(path); 
+                }
+
+                return cachedFiles; // Повертаємо вже завантажений список
             }
 
             DisableWatcher();
@@ -285,6 +293,10 @@ namespace JobSpace.UC
             {
                 UpdateUsage(path);
                 var cachedDir = _fileCache[path];
+
+                // *** ЗМІНА ДЛЯ СИНХРОНІЗАЦІЇ: ОНОВЛЕННЯ МЕТАДАННИХ ПЕРЕД ПОСТАВЛЕННЯМ В UI ***
+                cachedDir.RefreshParam(path); 
+
                 return new List<IFileSystemInfoExt> { cachedDir };
             }
 
@@ -320,7 +332,15 @@ namespace JobSpace.UC
             if (_fileCache.ContainsKey(path))
             {
                 UpdateUsage(path);
-                return _files; // Повертаємо вже завантажений список
+                var cachedFiles = _files;
+
+                // *** ЗМІНА ДЛЯ СИНХРОНІЗАЦІЇ: ОНОВЛЕННЯ МЕТАДАННИХ ПЕРЕД ПОСТАВЛЕННЯМ В UI ***
+                foreach (var file in cachedFiles)
+                {
+                    file.RefreshParam(path); 
+                }
+
+                return cachedFiles; // Повертаємо вже завантажений список
             }
 
             DisableWatcher();
