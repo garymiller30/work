@@ -379,15 +379,16 @@ function updateSliderLimit() {{
   if (Number(foldSlider.value) > max) foldSlider.value = String(max);
 }}
 
+
 function transformPoint(source, foldAngles, folds, mode, sideZ) {{
   let p = {{ x: source.x, y: source.y, z: sideZ }};
   const radius = foldRadius(0);
 
   if (mode === 'roll') {{
+    p.z += rollLayerOffset(source.x, foldAngles, folds);
     for (let i = 0; i < folds.length; i++) {{
       p = applyRollArcFold(p, source.x, folds[i], foldAngles[i] || 0, foldRadius(i));
     }}
-    p.z += rollLayerOffset(source.x, foldAngles, folds);
     return p;
   }}
 
@@ -434,7 +435,7 @@ function applyRollArcFold(p, sourceX, foldX, angle, radius) {{
     const centerX = rightBoundary - radius * Math.sin(a);
     const centerZ = arcDirection * radius * (1 - Math.cos(a));
     return {{
-      x: centerX + p.z * Math.sin(a),
+      x: centerX + arcDirection * p.z * Math.sin(a),
       y: p.y,
       z: centerZ + p.z * Math.cos(a)
     }};
@@ -446,7 +447,7 @@ function applyRollArcFold(p, sourceX, foldX, angle, radius) {{
     z: arcDirection * radius * (1 - Math.cos(angle))
   }};
   const sourceBoundary = {{ x: leftBoundary, y: 0, z: 0 }};
-  const rotated = rotatePointY(p, sourceBoundary, -angle);
+  const rotated = rotatePointY(p, sourceBoundary, arcDirection * angle);
 
   return {{
     x: rotated.x + arcEnd.x - sourceBoundary.x,
