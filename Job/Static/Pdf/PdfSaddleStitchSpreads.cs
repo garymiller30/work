@@ -3,6 +3,7 @@ using Interfaces.FileBrowser;
 using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.UserForms.PDF.Visual;
 using PDFlib_dotnet;
 using System;
@@ -98,6 +99,10 @@ namespace JobSpace.Static.Pdf
                     if (p.begin_document(outputPath, "optimize=true") == -1)
                         throw new InvalidOperationException(p.get_errmsg());
 
+                    // Визначаємо шари один раз на рівні документа
+                    int printLayer = p.define_layer("print", "");
+                    int proofLayer = p.define_layer("proof", "");
+
                     double bleed = Math.Max(0, bleedMm) * PdfHelper.mn;
                     double spreadWidth = bleed + firstTrimBox.width + firstTrimBox.width + bleed;
                     double spreadHeight = bleed + firstTrimBox.height + bleed;
@@ -109,6 +114,8 @@ namespace JobSpace.Static.Pdf
                             spreadWidth,
                             spreadHeight,
                             $"trimbox={{{bleed} {bleed} {bleed + firstTrimBox.width * 2} {bleed + firstTrimBox.height}}}");
+
+                        p.begin_layer(printLayer);
 
                         PlaceTrimmedPage(
                             p,
@@ -131,6 +138,10 @@ namespace JobSpace.Static.Pdf
                             0,
                             firstTrimBox.width + bleed,
                             spreadHeight);
+
+                        // ← нові мітки поверх сторінок
+                        p.begin_layer(proofLayer);
+                        DrawFoldAndTrimMarks(p, bleed, firstTrimBox, rootX);
 
                         p.end_page_ext("");
                     }
@@ -169,7 +180,30 @@ namespace JobSpace.Static.Pdf
 
             return spreads;
         }
+        private static void DrawFoldAndTrimMarks(PDFlib p, double bleed, Box trimBox, double foldX)
+        {
+            MarkColor markColor = MarkColor.ProofColor;
 
+            int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
+            p.set_gstate(gstate);
+
+            p.setcolor("fillstroke", "cmyk",
+                markColor.C / 100, markColor.M / 100,
+                markColor.Y / 100, markColor.K / 100);
+
+            int spot = p.makespotcolor(markColor.Name);
+            p.setcolor("stroke", "spot", spot, 1.0, 0.0, 0.0);
+            p.setlinewidth(0.5);
+
+            // Контур TrimBox розвороту
+            p.rect(bleed, bleed, trimBox.width * 2, trimBox.height);
+            p.stroke();
+
+            // Лінія згину по центру розвороту
+            p.moveto(foldX, bleed);
+            p.lineto(foldX, bleed + trimBox.height);
+            p.stroke();
+        }
         private static void PlaceTrimmedPage(
             PDFlib p,
             int indoc,
