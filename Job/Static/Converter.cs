@@ -33,13 +33,6 @@ namespace JobSpace.Static
             PdfUtils.GetFileCreator(file);
         }
 
-        public static void GetExtendedFileInfo(this FileSystemInfoExt file)
-        {
-            FileFormatsUtil.GetFormat(file);
-            PdfUtils.GetColorspaces(file);
-            PdfUtils.GetFileCreator(file);
-        }
-
         public static void GetExtendedFileInfo(this IFileSystemInfoExt file)
         {
             FileFormatsUtil.GetFormat(file);

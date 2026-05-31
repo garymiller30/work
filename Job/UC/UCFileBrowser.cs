@@ -53,6 +53,10 @@ namespace JobSpace.UC
 
         private string[] _customButtonPath;
 
+        // Кеш метаданих живе весь час роботи браузера — не прив'язаний до папки.
+        // Файл повторно не сканується, якщо LastWriteTime і Length не змінились.
+        private readonly FileMetadataCache _metadataCache = new FileMetadataCache();
+
         public string DefaultSettingsFolder { get; set; }
 
         #region [ EVENTS ]
@@ -558,7 +562,11 @@ namespace JobSpace.UC
         private void FileManager_OnChangeFile(object sender, IFileSystemInfoExt e)
         {
             if (_fileManager.Settings.ScanFiles)
+            {
                 e.GetExtendedFileInfoFormat();
+                // Оновлюємо кеш, щоб ProcessTaskGetExtendedFileInfo не сканував повторно
+                _metadataCache.MarkUpToDate(e);
+            }
 
             objectListView1.RefreshObject(e);
             UpdateStatusControl();
@@ -566,6 +574,9 @@ namespace JobSpace.UC
 
         private void FileManager_OnDeleteFile(object sender, IFileSystemInfoExt e)
         {
+            // Видаляємо із кешу метаданих, щоб не накопичувались застарілі записи
+            _metadataCache.Invalidate(e.FileInfo?.FullName);
+
             objectListView1.RemoveObject(e);
             UpdateStatusControl();
         }
@@ -668,8 +679,23 @@ namespace JobSpace.UC
 
             foreach (var ext in list)
             {
-                ext.GetExtendedFileInfoFormat();
                 if (token.IsCancellationRequested) break;
+
+                // Папки та файли без фізичного шляху — пропускаємо
+                if (ext.IsDir || ext.FileInfo == null) continue;
+
+                var path = ext.FileInfo.FullName;
+                var lastWrite = ext.FileInfo.LastWriteTime;
+                var length = ext.FileInfo.Length;
+
+                // Якщо метадані вже актуальні для цієї версії файлу — пропускаємо
+                if (_metadataCache.IsUpToDate(ext))
+                    continue;
+
+                ext.GetExtendedFileInfoFormat();
+
+                // Запам'ятовуємо стан файлу, для якого щойно отримали метадані
+                _metadataCache.MarkUpToDate(ext);
             }
         }
         void StopTaskGetExtendedInfo()
