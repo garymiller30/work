@@ -266,3 +266,4 @@ __pycache__/
 /tmp
 /Web_ActiveWorks/Data/web-access-settings.json
 /Web_ActiveWorks/Data/licenses.json
+.aider*
