@@ -2,7 +2,6 @@ using ActiveWorks.Forms;
 using ActiveWorks.Properties;
 using ActiveWorks.UpdateHub;
 using Logger;
-using Ookii.Dialogs.WinForms;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -97,29 +96,28 @@ namespace ActiveWorks
                 return;
             }
 
-            var dialog = new TaskDialog
-            {
-                WindowTitle = "Оновлення доступне",
-                MainInstruction = $"Доступне рекомендоване оновлення {result.Manifest.Version}",
-                Content = "Доступна нова версія програми.",
-                ExpandedInformation = BuildUpdateSummary(result),
-                ExpandedControlText = "Приховати деталі",
-                CollapsedControlText = "Показати деталі",
-                MainIcon = TaskDialogIcon.Information,
-                AllowDialogCancellation = true
-            };
-
-            var updateButton = new TaskDialogButton("Оновити зараз")
-            {
-                Default = true
-            };
-
+            var updateButton = new TaskDialogButton("Оновити зараз");
             var laterButton = new TaskDialogButton("Пізніше");
 
-            dialog.Buttons.Add(updateButton);
-            dialog.Buttons.Add(laterButton);
+            var page = new TaskDialogPage
+            {
+                Caption = "Оновлення доступне",
+                Heading = $"Доступне рекомендоване оновлення {result.Manifest.Version}",
+                Text = "Доступна нова версія програми.",
+                Icon = TaskDialogIcon.Information,
+                AllowCancel = true,
+                DefaultButton = updateButton,
+                Expander = new TaskDialogExpander(BuildUpdateSummary(result))
+                {
+                    ExpandedButtonText = "Приховати деталі",
+                    CollapsedButtonText = "Показати деталі"
+                }
+            };
 
-            var resultButton = dialog.ShowDialog(this);
+            page.Buttons.Add(updateButton);
+            page.Buttons.Add(laterButton);
+
+            var resultButton = TaskDialog.ShowDialog(this, page, TaskDialogStartupLocation.CenterOwner);
 
             if (resultButton == updateButton)
             {

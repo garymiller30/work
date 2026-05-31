@@ -1,8 +1,8 @@
 ﻿using PluginAddWorkFromPolymix.Model;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -22,8 +22,7 @@ namespace PluginAddWorkFromPolymix
         public PolymixOrder[] GetOrders(IEnumerable<IFilter> filters)
         {
             List<PolymixOrder> orders = new List<PolymixOrder>();
-            var connectionString =
-                $"Server={_addWorkFromPolymixSettings.ServerAddress};Initial Catalog={_addWorkFromPolymixSettings.BaseName};User={_addWorkFromPolymixSettings.User};Password={_addWorkFromPolymixSettings.Password}";
+            var connectionString = CreateConnectionString();
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -132,8 +131,7 @@ namespace PluginAddWorkFromPolymix
         public KindOrder[] GetKindId()
         {
             var kindList = new List<KindOrder>();
-            var connectionString =
-                $"Server={_addWorkFromPolymixSettings.ServerAddress};Initial Catalog={_addWorkFromPolymixSettings.BaseName};User={_addWorkFromPolymixSettings.User};Password={_addWorkFromPolymixSettings.Password}";
+            var connectionString = CreateConnectionString();
 
             try
             {
@@ -178,8 +176,7 @@ namespace PluginAddWorkFromPolymix
         public OrderState[] GetStatuses()
         {
             var statusesList = new List<OrderState>();
-            var connectionString =
-                $"Server={_addWorkFromPolymixSettings.ServerAddress};Initial Catalog={_addWorkFromPolymixSettings.BaseName};User={_addWorkFromPolymixSettings.User};Password={_addWorkFromPolymixSettings.Password}";
+            var connectionString = CreateConnectionString();
 
             try
             {
@@ -223,6 +220,21 @@ namespace PluginAddWorkFromPolymix
 
             return statusesList.ToArray();
         }
+
+        private string CreateConnectionString()
+        {
+            var builder = new SqlConnectionStringBuilder
+            {
+                DataSource = _addWorkFromPolymixSettings.ServerAddress,
+                InitialCatalog = _addWorkFromPolymixSettings.BaseName,
+                UserID = _addWorkFromPolymixSettings.User,
+                Password = _addWorkFromPolymixSettings.Password,
+                Encrypt = false
+            };
+
+            return builder.ConnectionString;
+        }
+
         private static Image GetImageFromOrderStates(byte[] imgBytes)
         {
             Image newImage = null;

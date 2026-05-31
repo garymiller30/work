@@ -21,6 +21,7 @@ namespace BackgroundTaskServiceLib
 
         public static event EventHandler<BackgroundTaskItem> OnAdd = delegate { };
         public static event EventHandler<BackgroundTaskItem> OnFinish = delegate { };
+        public static event EventHandler<BackgroundTaskItem> OnChanged = delegate { };
         public static event EventHandler OnAllFinish = delegate { };
 
         static BackgroundTaskService()
@@ -118,6 +119,7 @@ namespace BackgroundTaskServiceLib
         {
             Interlocked.Increment(ref countThreads);
             taskItem.Finished += OnFinished;
+            taskItem.Changed += TaskItem_Changed;
 
             var tokenSource = new CancellationTokenSource();
             var token = tokenSource.Token;
@@ -125,14 +127,21 @@ namespace BackgroundTaskServiceLib
 
             taskItem.ParentTask = task;
             taskItem.CancelationToken = token;
+            taskItem.CancelationTokenSource = tokenSource;
 
             task.ConfigureAwait(true);
             task.Start();
         }
 
+        private static void TaskItem_Changed(object sender, BackgroundTaskItem e)
+        {
+            OnChanged(null, e);
+        }
+
         private static void OnFinished(object sender, BackgroundTaskItem e)
         {
             Interlocked.Decrement(ref countThreads);
+            e.Changed -= TaskItem_Changed;
 
             var hasTasks = false;
             lock (_lock)

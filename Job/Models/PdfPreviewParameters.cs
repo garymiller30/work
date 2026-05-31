@@ -12,6 +12,7 @@ namespace JobSpace.Models
         public bool FitToWindow { get;set; } = true;
         public float ZoomFactor { get; set; } = 1.0f;
         public PdfPreviewDisplay Display { get; set; } = PdfPreviewDisplay.Single;
+        public int PreviewTargetLongSidePixels { get; set; } = 0;
 
         public Func<int,List<IScreenPrimitive>> GetScreenPrimitives; 
     }

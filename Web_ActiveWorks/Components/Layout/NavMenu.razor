@@ -17,14 +17,26 @@
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="nav flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="jobs">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Роботи
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="about-activeworks">
+                <span class="bi bi-presentation-nav-menu" aria-hidden="true"></span> Про ActiveWorks
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="plugins">
                 <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Плагіни
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="payment-requisites">
+                <span class="bi bi-credit-card-nav-menu" aria-hidden="true"></span> Реквізити
             </NavLink>
         </div>
 
@@ -71,7 +83,7 @@
                     </form>
                 </Authorized>
                 <NotAuthorized>
-                    <a class="login-link" href="/login">Увійти</a>
+                    <a class="login-link" href="/login?returnUrl=%2Fjobs">Увійти</a>
                 </NotAuthorized>
             </AuthorizeView>
         </div>
@@ -128,7 +140,7 @@
         _ = InvokeAsync(StateHasChanged);
     }
 
-    private string GetUserHref(string username) => $"/?user={Uri.EscapeDataString(username)}";
+    private string GetUserHref(string username) => $"/jobs?user={Uri.EscapeDataString(username)}";
 
     private string GetUserLinkClass(string username)
     {

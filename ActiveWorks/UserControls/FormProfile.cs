@@ -8,6 +8,7 @@ namespace ActiveWorks.UserControls
     public sealed partial class FormProfile : KryptonForm, IFormProfile
     {
         private IProfileTab _profileTab;
+        public bool IsInitialized { get; private set; }
 
         public FormProfile()
         {
@@ -16,6 +17,11 @@ namespace ActiveWorks.UserControls
 
         public void InitProfile()
         {
+            if (IsInitialized)
+            {
+                return;
+            }
+
             _profileTab = new UcTabProfile3(kryptonDockingManager) { Tag = Tag, Dock = DockStyle.Fill };
             
             kryptonPanel.Controls.Add((Control)_profileTab);
@@ -26,11 +32,13 @@ namespace ActiveWorks.UserControls
             kryptonDockingManager.ManageFloating(this);
 
             _profileTab.Init();
+            IsInitialized = true;
 
         }
 
         public void ResetLayout()
         {
+            InitProfile();
             _profileTab.ResetLayout();
         }
 
@@ -40,7 +48,7 @@ namespace ActiveWorks.UserControls
             {
                 e.Cancel = true;
             }
-            else
+            else if (IsInitialized)
             {
                 _profileTab.CloseProgram();
             }
@@ -49,6 +57,7 @@ namespace ActiveWorks.UserControls
 
         public void SaveLayout()
         {
+            InitProfile();
             _profileTab.SaveLayout();
         }
     }

@@ -14,7 +14,7 @@ namespace Logger
         {
             _formLogger = new FormLogger();
             _formLogger.CreateControl();
-            _formLogger.Closing += _formLogger_Closing;
+            _formLogger.FormClosing += _formLogger_FormClosing;
 
             Log.OnAdd += Add;
             _formLogger.Show(); // без цього вивалюється з помилкою про thread access
@@ -36,7 +36,7 @@ namespace Logger
 
         }
 
-        private void _formLogger_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void _formLogger_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             _formLogger.Hide();

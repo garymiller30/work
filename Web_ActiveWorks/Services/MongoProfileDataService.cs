@@ -1,6 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Concurrent;
+using System.Globalization;
 using Web_ActiveWorks.Models;
 
 namespace Web_ActiveWorks.Services;
@@ -58,13 +59,13 @@ public sealed class MongoProfileDataService
 
             foreach (var doc in payDocs)
             {
-                if (!decimal.TryParse(doc.Price, out var price))
+                if (!TryReadDecimal(doc.Price, out var price))
                 {
                     continue;
                 }
 
                 var paidSum = doc.Pays
-                    .Select(p => decimal.TryParse(p.Sum, out var sum) ? sum : 0m)
+                    .Select(p => TryReadDecimal(p.Sum, out var sum) ? sum : 0m)
                     .Sum();
 
                 var remaining = price - paidSum;
@@ -139,6 +140,59 @@ public sealed class MongoProfileDataService
         var result = await collection.UpdateManyAsync(filter, update, cancellationToken: cancellationToken);
 
         return (int)result.ModifiedCount;
+    }
+
+    private static bool TryReadDecimal(BsonValue? value, out decimal result)
+    {
+        result = 0m;
+
+        if (value is null || value.IsBsonNull)
+        {
+            return false;
+        }
+
+        try
+        {
+            if (value.IsDecimal128)
+            {
+                result = Decimal128.ToDecimal(value.AsDecimal128);
+                return true;
+            }
+
+            if (value.IsDouble)
+            {
+                result = Convert.ToDecimal(value.AsDouble, CultureInfo.InvariantCulture);
+                return true;
+            }
+
+            if (value.IsInt32)
+            {
+                result = value.AsInt32;
+                return true;
+            }
+
+            if (value.IsInt64)
+            {
+                result = value.AsInt64;
+                return true;
+            }
+
+            if (value.IsString)
+            {
+                return decimal.TryParse(value.AsString, NumberStyles.Number, CultureInfo.InvariantCulture, out result)
+                    || decimal.TryParse(value.AsString, NumberStyles.Number, CultureInfo.CurrentCulture, out result);
+            }
+        }
+        catch (FormatException)
+        {
+            return false;
+        }
+        catch (OverflowException)
+        {
+            return false;
+        }
+
+        return false;
     }
 
     private IMongoDatabase GetDatabase(WebProfileDefinition profile)

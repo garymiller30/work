@@ -3,14 +3,13 @@ using Interfaces;
 using Interfaces.Profile;
 using JobSpace.Controllers;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 
 namespace JobSpace.Ext
@@ -20,12 +19,9 @@ namespace JobSpace.Ext
 
         static T DuplicateBase<T>(T obj)
         {
-            MemoryStream stream = new MemoryStream();
-            IFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, obj);
-
-            stream.Seek(0, SeekOrigin.Begin);
-            var o = formatter.Deserialize(stream);
+            var objectType = obj.GetType();
+            var bson = obj.ToBson(objectType);
+            var o = BsonSerializer.Deserialize(bson, objectType);
             return (T)o;
         }
         /// <summary>

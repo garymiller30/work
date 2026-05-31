@@ -4,19 +4,11 @@ using JobSpace.Licensing;
 using JobSpace.Models.ScreenPrimitives;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Visual.HardCover;
-using JobSpace.UC;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.UserForms.PDF.Visual
 {
@@ -48,10 +40,12 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void CalcSchemaAuto()
         {
-            var pdfPageInfo = uc_PreviewBrowserFile1.GetCurrentPageInfo();
+            var pdfPageInfo = GetPageInfo(1);
+            if (pdfPageInfo?.Trimbox == null)
+                return;
 
-            nud_width.Value = ((decimal)pdfPageInfo.Trimbox.wMM() - (nud_zagyn.Value + nud_rastav.Value) * 2 - nud_root.Value) / 2;
-            nud_height.Value = (decimal)pdfPageInfo.Trimbox.hMM() - (nud_zagyn.Value * 2);
+            SetNumericValue(nud_width, ((decimal)pdfPageInfo.Trimbox.wMM() - (nud_zagyn.Value + nud_rastav.Value) * 2 - nud_root.Value) / 2);
+            SetNumericValue(nud_height, (decimal)pdfPageInfo.Trimbox.hMM() - (nud_zagyn.Value * 2));
         }
         private void nud_width_ValueChanged(object sender, EventArgs e)
         {
@@ -77,7 +71,9 @@ namespace JobSpace.UserForms.PDF.Visual
             float totalW = (float)nud_total_width.Value;
             float totalH = (float)nud_total_height.Value;
 
-            var pdfPageInfo = uc_PreviewBrowserFile1.GetPageInfo(pageNo);
+            var pdfPageInfo = GetPageInfo(pageNo);
+            if (pdfPageInfo?.Trimbox == null)
+                return;
 
             float x = ((float)pdfPageInfo.Trimbox.wMM() - totalW) / 2;
             float y = ((float)pdfPageInfo.Trimbox.hMM() - totalH) / 2;
@@ -105,6 +101,28 @@ namespace JobSpace.UserForms.PDF.Visual
                 // права сторінка
                 _primitives.Add(new ScreenLine(pen, x + zagyn + width + rastav + root + rastav, y + zagyn, x + zagyn + width + rastav + root + rastav, y + totalH - zagyn));
             }
+        }
+
+        private PdfPageInfo GetPageInfo(int pageNo)
+        {
+            var pageInfo = uc_PreviewBrowserFile1.GetPageInfo(pageNo);
+            if (pageInfo?.Trimbox != null)
+                return pageInfo;
+
+            if (_fileInfo?.FileInfo == null)
+                return null;
+
+            return PdfHelper.GetPageInfo(_fileInfo.FileInfo.FullName, pageNo - 1);
+        }
+
+        private void SetNumericValue(NumericUpDown nud, decimal value)
+        {
+            if (value < nud.Minimum)
+                value = nud.Minimum;
+            else if (value > nud.Maximum)
+                value = nud.Maximum;
+
+            nud.Value = value;
         }
 
         private void FormVisualHardCover_Shown(object sender, EventArgs e)
@@ -138,7 +156,7 @@ namespace JobSpace.UserForms.PDF.Visual
         }
         private void btn_load_schema_Click(object sender, EventArgs e)
         {
-            using (Ookii.Dialogs.WinForms.VistaOpenFileDialog ofd = new Ookii.Dialogs.WinForms.VistaOpenFileDialog())
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
                 ofd.Filter = "Hard Cover Schema|*.hcschema";
                 ofd.DefaultExt = ".hcschema";

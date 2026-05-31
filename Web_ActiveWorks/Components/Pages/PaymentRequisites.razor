@@ -1,0 +1,245 @@
+@page "/payment-requisites"
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject WebAccessSettingsStore SettingsStore
+
+<PageTitle>Реквізити</PageTitle>
+
+<div class="page-header">
+    <div>
+        <h1>Реквізити для оплати</h1>
+        <p class="page-subtitle">Актуальні рахунки та картки для переказу коштів.</p>
+    </div>
+    @if (_isAdmin && !_isLoading)
+    {
+        <div class="header-actions">
+            @if (_isEditing)
+            {
+                <button class="secondary-action" type="button" @onclick="AddPaymentRequisite">Додати банк</button>
+                <button class="secondary-action" type="button" @onclick="CancelEditAsync" disabled="@_isSaving">Скасувати</button>
+                <button class="primary-action" type="button" @onclick="SaveAsync" disabled="@_isSaving">
+                    @(_isSaving ? "Збереження..." : "Зберегти")
+                </button>
+            }
+            else
+            {
+                <button class="primary-action" type="button" @onclick="StartEdit">Редагувати</button>
+            }
+        </div>
+    }
+</div>
+
+@if (!string.IsNullOrWhiteSpace(_message))
+{
+    <div class="alert-panel success-panel">@_message</div>
+}
+
+@if (!string.IsNullOrWhiteSpace(_loadError))
+{
+    <div class="alert-panel error-panel">@_loadError</div>
+}
+else if (_isLoading)
+{
+    <div class="empty-state">
+        <h2>Завантаження</h2>
+        <p>Зчитую реквізити для оплати…</p>
+    </div>
+}
+else if (_paymentRequisites.Count == 0)
+{
+    <div class="empty-state">
+        <h2>Реквізити ще не додані</h2>
+        <p>@(_isAdmin ? "Натисніть “Редагувати”, щоб додати перший банк." : "Адміністратор може додати їх на сторінці адміністрування.")</p>
+    </div>
+}
+else if (_isEditing)
+{
+    <div class="requisites-grid">
+        @foreach (var requisite in _paymentRequisites)
+        {
+            <section class="requisite-card">
+                <div class="requisite-card-header edit-header">
+                    <h2>@(string.IsNullOrWhiteSpace(requisite.BankName) ? "Новий банк" : requisite.BankName)</h2>
+                    <button class="danger-action" type="button" @onclick="() => RemovePaymentRequisite(requisite)">Видалити</button>
+                </div>
+
+                <div class="requisite-edit-form">
+                    <label class="field-label">
+                        Назва банку
+                        <input class="text-field" @bind="requisite.BankName" />
+                    </label>
+                    <label class="field-label">
+                        Отримувач
+                        <input class="text-field" @bind="requisite.Recipient" />
+                    </label>
+                    <label class="field-label">
+                        IBAN
+                        <input class="text-field mono" @bind="requisite.Iban" />
+                    </label>
+                    <label class="field-label">
+                        РНОКПП/ЄДРПОУ
+                        <input class="text-field mono" @bind="requisite.TaxId" />
+                    </label>
+                    <label class="field-label">
+                        Номер картки
+                        <input class="text-field mono" @bind="requisite.CardNumber" />
+                    </label>
+                </div>
+            </section>
+        }
+    </div>
+}
+else
+{
+    <div class="requisites-grid">
+        @foreach (var requisite in _paymentRequisites)
+        {
+            <section class="requisite-card">
+                <div class="requisite-card-header">
+                    <h2>@requisite.BankName</h2>
+                </div>
+
+                <dl class="requisite-list">
+                    <div>
+                        <dt>Отримувач</dt>
+                        <dd>@DisplayValue(requisite.Recipient)</dd>
+                    </div>
+                    <div>
+                        <dt>IBAN</dt>
+                        <dd class="mono">@DisplayValue(requisite.Iban)</dd>
+                    </div>
+                    <div>
+                        <dt>РНОКПП/ЄДРПОУ</dt>
+                        <dd class="mono">@DisplayValue(requisite.TaxId)</dd>
+                    </div>
+                    <div>
+                        <dt>Номер картки</dt>
+                        <dd class="mono">@DisplayValue(requisite.CardNumber)</dd>
+                    </div>
+                </dl>
+            </section>
+        }
+    </div>
+}
+
+@code {
+    private bool _isLoading = true;
+    private bool _isAdmin;
+    private bool _isEditing;
+    private bool _isSaving;
+    private string? _message;
+    private string? _loadError;
+    private List<PaymentRequisiteDefinition> _paymentRequisites = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _isAdmin = authState.User.IsInRole(Roles.Admin);
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        _isLoading = true;
+        _loadError = null;
+
+        try
+        {
+            var settings = await SettingsStore.GetAsync();
+            _paymentRequisites = settings.PaymentRequisites
+                .Where(x => !IsEmpty(x))
+                .OrderBy(x => x.BankName)
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            _loadError = $"Не вдалося завантажити реквізити: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void StartEdit()
+    {
+        _message = null;
+        _isEditing = true;
+
+        if (_paymentRequisites.Count == 0)
+        {
+            AddPaymentRequisite();
+        }
+    }
+
+    private async Task CancelEditAsync()
+    {
+        _isEditing = false;
+        _message = null;
+        await LoadAsync();
+    }
+
+    private void AddPaymentRequisite()
+    {
+        _paymentRequisites.Add(new PaymentRequisiteDefinition());
+    }
+
+    private void RemovePaymentRequisite(PaymentRequisiteDefinition requisite)
+    {
+        _paymentRequisites.Remove(requisite);
+    }
+
+    private async Task SaveAsync()
+    {
+        if (!_isAdmin)
+        {
+            return;
+        }
+
+        _isSaving = true;
+        _message = null;
+        _loadError = null;
+
+        try
+        {
+            var settings = await SettingsStore.GetAsync();
+            settings.PaymentRequisites = _paymentRequisites
+                .Where(x => !IsEmpty(x))
+                .Select(x => new PaymentRequisiteDefinition
+                {
+                    BankName = x.BankName.Trim(),
+                    Recipient = x.Recipient.Trim(),
+                    Iban = x.Iban.Trim(),
+                    TaxId = x.TaxId.Trim(),
+                    CardNumber = x.CardNumber.Trim()
+                })
+                .ToList();
+
+            await SettingsStore.SaveAsync(settings);
+            _paymentRequisites = settings.PaymentRequisites
+                .OrderBy(x => x.BankName)
+                .ToList();
+            _isEditing = false;
+            _message = "Реквізити збережено.";
+        }
+        catch (Exception ex)
+        {
+            _loadError = $"Не вдалося зберегти реквізити: {ex.Message}";
+        }
+        finally
+        {
+            _isSaving = false;
+        }
+    }
+
+    private static bool IsEmpty(PaymentRequisiteDefinition requisite) =>
+        string.IsNullOrWhiteSpace(requisite.BankName) &&
+        string.IsNullOrWhiteSpace(requisite.Recipient) &&
+        string.IsNullOrWhiteSpace(requisite.Iban) &&
+        string.IsNullOrWhiteSpace(requisite.TaxId) &&
+        string.IsNullOrWhiteSpace(requisite.CardNumber);
+
+    private static string DisplayValue(string value) =>
+        string.IsNullOrWhiteSpace(value) ? "Не вказано" : value;
+}

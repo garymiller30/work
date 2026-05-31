@@ -15,7 +15,7 @@ namespace JobSpace.UserForms.PDF
 {
     public partial class FormSelectSpotColor : Form
     {
-        const string PANTONE_PATH = "ColorTables";
+        const string PANTONE_PATH = "db\\ColorTables";
         public PdfColorResult SelectedSpotColor { get;set;} = new PdfColorResult();
         List<Models.ColorTable> pantone_tables = new List<Models.ColorTable>();
         public FormSelectSpotColor()

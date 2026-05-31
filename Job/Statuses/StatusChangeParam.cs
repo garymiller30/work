@@ -13,6 +13,7 @@ namespace JobSpace.Statuses
     {
         public bool Enable { get; set; } = false;
         [Obsolete]
+        [System.Xml.Serialization.XmlIgnore]
         public global::JobSpace.Settings.JobStatus Status { get; set; }
 
         public int StatusCode { get; set; }
@@ -20,7 +21,7 @@ namespace JobSpace.Statuses
         public string ProgramPath { get;set; }
         public string CommandLineParams { get; set; } = string.Empty;
 
-        private StatusChangeParam()
+        public StatusChangeParam()
         {
 
         }

@@ -117,6 +117,7 @@ namespace JobSpace.Fasades
             if (_profile.Base.Add(CollectionString,(JobStatus) jobStatus))
             {
                 _statuses.Add((JobStatus)jobStatus);
+                EnsureImage(jobStatus);
                 _imageList.Images.Add(jobStatus.Img);
             }
             else
@@ -151,8 +152,16 @@ namespace JobSpace.Fasades
 
             foreach (var statuse in _statuses)
             {
-                if (statuse.Img != null)
-                    _imageList.Images.Add(statuse.Img);
+                EnsureImage(statuse);
+                _imageList.Images.Add(statuse.Img);
+            }
+        }
+
+        private static void EnsureImage(IJobStatus status)
+        {
+            if (status.Img == null)
+            {
+                status.Img = new Bitmap(16, 16);
             }
         }
 
@@ -182,6 +191,7 @@ namespace JobSpace.Fasades
                 try
                 {
                     _profile.Base.Update(CollectionString, (JobStatus)jobStatus);
+                    CreateImageListFromStatusesList();
                 }
                 catch
                 {
@@ -226,6 +236,7 @@ namespace JobSpace.Fasades
                 _profile.Base.Add(CollectionString, (JobStatus)status);
             }
 
+            CreateImageListFromStatusesList();
         }
 
         public void SetDefaultStatus(IJobStatus status)

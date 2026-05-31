@@ -1,27 +1,24 @@
 ﻿using BrightIdeasSoftware;
 using JobSpace.Dlg;
-using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Models;
-using JobSpace.Static.Pdf.Imposition.Services;
-using Ookii.Dialogs.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class PrintSheetsControl : UserControl
     {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler<PrintSheet> OnPrintSheetsChanged { get; set; } = delegate { };
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler JustReassignPages { get; set; } = delegate { };
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler OnPrintSheetDeleted { get; set; } = delegate { };
         
         //int id = 1;
@@ -170,7 +167,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void tsb_loadFromOrderFolder_Click(object sender, EventArgs e)
         {
-            using (var form = new VistaOpenFileDialog())
+            using (var form = new OpenFileDialog())
             {
                 form.CheckFileExists = true;
                 form.Filter = "JSON files (*.json)|*.json";

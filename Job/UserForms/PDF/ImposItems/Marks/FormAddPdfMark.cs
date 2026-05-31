@@ -135,13 +135,15 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void btn_SelectPdfFile_Click(object sender, EventArgs e)
         {
-            vistaOpenFileDialog1.Filter = "PDF files (*.pdf)|*.pdf";
-            vistaOpenFileDialog1.FileName = _profile.ImposService.GetMarksPath() + "\\";
+            using OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            if (vistaOpenFileDialog1.ShowDialog() == DialogResult.OK)
+            openFileDialog1.Filter = "PDF files (*.pdf)|*.pdf";
+            openFileDialog1.FileName = _profile.ImposService.GetMarksPath() + "\\";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                Mark.File = new PdfFile(vistaOpenFileDialog1.FileName);
-                tb_markPath.Text = vistaOpenFileDialog1.FileName;
+                Mark.File = new PdfFile(openFileDialog1.FileName);
+                tb_markPath.Text = openFileDialog1.FileName;
             }
         }
 

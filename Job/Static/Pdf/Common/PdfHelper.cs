@@ -4,9 +4,11 @@ using iTextSharp.text;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Models.Marks.ColorControl.Primitives;
+using Ghostscript.NET.Rasterizer;
 using PDFiumSharp;
 using PDFlib_dotnet;
 using SharpCompress.Common;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -429,10 +431,128 @@ namespace JobSpace.Static.Pdf.Common
                     }
                 }
             }
+            catch (Exception pdfiumException)
+            {
+                try
+                {
+                    return RenderByTrimBoxWithGhostscript(fsi, pageIndex, dpi, box);
+                }
+                catch (Exception ghostscriptException)
+                {
+                    throw new InvalidOperationException(
+                        $"PDFium failed: {pdfiumException.Message}; Ghostscript fallback failed: {ghostscriptException.Message}",
+                        ghostscriptException);
+                }
+            }
             finally
             {
                 DeleteTempPreviewFile(tempPdfiumPath);
             }
+        }
+
+        private static Bitmap RenderByTrimBoxWithGhostscript(FileInfo fsi, int pageIndex, int dpi, PdfPageInfo pageInfo)
+        {
+            using (var rasterizer = new GhostscriptRasterizer())
+            {
+                rasterizer.Open(fsi.FullName);
+
+                int pageNumber = pageIndex + 1;
+                if (pageNumber < 1 || pageNumber > rasterizer.PageCount)
+                    throw new ArgumentOutOfRangeException(nameof(pageIndex));
+
+                using (SKBitmap skBitmap = rasterizer.GetPage(dpi, pageNumber))
+                using (Bitmap fullBmp = ToBitmap(skBitmap))
+                {
+                    System.Drawing.Rectangle crop = GetGhostscriptTrimCrop(pageInfo, fullBmp.Width, fullBmp.Height);
+                    if (crop.Width <= 0 || crop.Height <= 0)
+                        return new Bitmap(fullBmp);
+
+                    return fullBmp.Clone(crop, fullBmp.PixelFormat);
+                }
+            }
+        }
+
+        private static Bitmap ToBitmap(SKBitmap skBitmap)
+        {
+            using (SKImage image = SKImage.FromBitmap(skBitmap))
+            using (SKData data = image.Encode(SKEncodedImageFormat.Png, 100))
+            using (var stream = new MemoryStream(data.ToArray()))
+            {
+                using (var bitmap = new Bitmap(stream))
+                {
+                    return new Bitmap(bitmap);
+                }
+            }
+        }
+
+        private static System.Drawing.Rectangle GetGhostscriptTrimCrop(PdfPageInfo pageInfo, int bitmapWidth, int bitmapHeight)
+        {
+            if (pageInfo?.Trimbox == null || bitmapWidth <= 0 || bitmapHeight <= 0)
+                return new System.Drawing.Rectangle(0, 0, bitmapWidth, bitmapHeight);
+
+            Box renderBox = pageInfo.Cropbox ?? pageInfo.Mediabox;
+            if (renderBox == null || renderBox.width <= 0 || renderBox.height <= 0)
+                return new System.Drawing.Rectangle(0, 0, bitmapWidth, bitmapHeight);
+
+            double scaleX = bitmapWidth / renderBox.width;
+            double scaleY = bitmapHeight / renderBox.height;
+
+            double l = (pageInfo.Trimbox.left - renderBox.left) * scaleX;
+            double b = (pageInfo.Trimbox.bottom - renderBox.bottom) * scaleY;
+            double w = pageInfo.Trimbox.width * scaleX;
+            double h = pageInfo.Trimbox.height * scaleY;
+
+            int rotation = ((int)pageInfo.Rotate) % 360;
+            if (rotation < 0)
+                rotation += 360;
+
+            System.Drawing.Rectangle crop;
+
+            switch (rotation)
+            {
+                case 0:
+                    crop = new System.Drawing.Rectangle(
+                        (int)Math.Round(l),
+                        (int)Math.Round(bitmapHeight - b - h),
+                        (int)Math.Round(w),
+                        (int)Math.Round(h)
+                    );
+                    break;
+
+                case 90:
+                    crop = new System.Drawing.Rectangle(
+                        (int)Math.Round(b),
+                        (int)Math.Round(l),
+                        (int)Math.Round(h),
+                        (int)Math.Round(w)
+                    );
+                    break;
+
+                case 180:
+                    crop = new System.Drawing.Rectangle(
+                        (int)Math.Round(bitmapWidth - l - w),
+                        (int)Math.Round(b),
+                        (int)Math.Round(w),
+                        (int)Math.Round(h)
+                    );
+                    break;
+
+                case 270:
+                    crop = new System.Drawing.Rectangle(
+                        (int)Math.Round(bitmapWidth - b - h),
+                        (int)Math.Round(bitmapHeight - l - w),
+                        (int)Math.Round(h),
+                        (int)Math.Round(w)
+                    );
+                    break;
+
+                default:
+                    crop = new System.Drawing.Rectangle(0, 0, bitmapWidth, bitmapHeight);
+                    break;
+            }
+
+            System.Drawing.Rectangle bounds = new System.Drawing.Rectangle(0, 0, bitmapWidth, bitmapHeight);
+            return System.Drawing.Rectangle.Intersect(crop, bounds);
         }
 
         private static double LimitPdfPreviewScale(double pageWidth, double pageHeight, double scale)

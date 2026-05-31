@@ -1,20 +1,17 @@
 ﻿using BackgroundTaskServiceLib;
+using Google.Apis.Drive.v3.Data;
 using ImageMagick;
 using Interfaces;
 using Interfaces.Profile;
-using JobSpace.Dlg;
 using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition;
-using JobSpace.Static.Pdf.MergeOddAndEven;
-using JobSpace.Static.Pdf.MergeTemporary;
 using JobSpace.UC;
 using JobSpace.UserForms;
 using JobSpace.UserForms.PDF;
 using Logger;
 using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
-using PDFManipulate.Forms;
 using PythonEngine;
 using System;
 using System.Collections;
@@ -22,12 +19,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -41,7 +36,7 @@ namespace JobSpace.Static
         private static readonly object PreviewCacheLock = new object();
 
         #region PDF
-       
+
         public static void PDF_ShowImposDialog(IList files, ImposInputParam param)
         {
             if (files.Count == 0) return;
@@ -56,7 +51,7 @@ namespace JobSpace.Static
         #endregion
 
         #region FILE
-        
+
         public static void File_MoveFolderContentsToHere(IList files, IFileManager fileManager)
         {
             if (files.Count == 0) return;
@@ -198,6 +193,7 @@ namespace JobSpace.Static
             {
                 var pi = new ProcessStartInfo
                 {
+                    UseShellExecute = true,
                     WorkingDirectory = Path.GetDirectoryName(menu.Path) ?? throw new InvalidOperationException(),
                     FileName = Path.GetDirectoryName(menu.Path),
                 };
@@ -467,8 +463,11 @@ namespace JobSpace.Static
         {
             if (Clipboard.ContainsFileDropList())
             {
-                var filePaths = Clipboard.GetFileDropList();
-                fileManager.PasteFromClipboard(filePaths.Cast<string>().ToArray());
+                var filePaths = Clipboard.GetFileDropList().Cast<string>().ToArray();
+                bool cutFromClipboard = FileManager.CutFromClipboard;
+
+                BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"Paste", 
+                    new Action(() => fileManager.PasteFromClipboard(filePaths, cutFromClipboard))));
             }
         }
         public static void Clipboard_PasteLikeCopyFiles(IFileManager fileManager)
@@ -532,13 +531,17 @@ namespace JobSpace.Static
         {
             if (files.Count == 0) return;
 
-            var filelist = files.Cast<IFileSystemInfoExt>();
+            var filelist = files
+                .Cast<IFileSystemInfoExt>()
+                .Where(x => x != null && !x.IsDir)
+                .ToList();
+
+            if (filelist.Count == 0) return;
 
             BackgroundTaskService.AddTask(new BackgroundTaskItem()
             {
                 Name = $"send mail to {mailAddress}",
                 Files = filelist
-                    .Where(x => x != null && !x.IsDir)
                     .Select(x => x.FileInfo.FullName)
                     .Where(x => !string.IsNullOrWhiteSpace(x))
                     .Distinct(StringComparer.InvariantCultureIgnoreCase)
@@ -547,24 +550,27 @@ namespace JobSpace.Static
                 {
                     foreach (var file in filelist)
                     {
-                        if (!file.IsDir)
-                        {
-                            profile.MailNotifier.SendFile(mailAddress, file.FileInfo.FullName);
-                        }
+                        profile.MailNotifier.SendFile(mailAddress, file.FileInfo.FullName);
                     }
                 },
             });
         }
 
-        public static Image File_GetPreview(IFileSystemInfoExt f, int pageIdx = 0)
+        public static Image File_GetPreview(IFileSystemInfoExt f, int pageIdx = 0, int dpi = 150, bool cacheOnly = false)
         {
+            if (dpi <= 0)
+                dpi = 150;
+
             string ext = f.FileInfo.Extension.ToLowerInvariant();
             if (ext == ".pdf" || ext == ".ai")
             {
                 FileInfo sourceFile = new FileInfo(f.FileInfo.FullName);
-                Image cachedPreview = TryGetCachedPreview(sourceFile, pageIdx);
+                Image cachedPreview = TryGetCachedPreview(sourceFile, pageIdx, dpi);
                 if (cachedPreview != null)
                     return cachedPreview;
+
+                if (cacheOnly)
+                    return null;
 
                 Exception lastException = null;
 
@@ -572,12 +578,13 @@ namespace JobSpace.Static
                 {
                     try
                     {
-                        using (Bitmap preview = PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx))
+                        using (Bitmap preview = PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx, dpi))
                         {
-                            Image savedPreview = TrySaveCachedPreview(sourceFile, pageIdx, preview);
+                            Image savedPreview = TrySaveCachedPreview(sourceFile, pageIdx, dpi, preview);
                             if (savedPreview != null)
                                 return savedPreview;
 
+                            Log.Warning(null, "File_GetPreview", $"Preview rendered but was not saved to cache for {sourceFile.FullName}, page {pageIdx + 1}, dpi {dpi}.");
                             return new Bitmap(preview);
                         }
                     }
@@ -607,7 +614,7 @@ namespace JobSpace.Static
             return null;
         }
 
-        private static Image TryGetCachedPreview(FileInfo sourceFile, int pageIdx)
+        private static Image TryGetCachedPreview(FileInfo sourceFile, int pageIdx, int dpi)
         {
             try
             {
@@ -619,7 +626,8 @@ namespace JobSpace.Static
                     PreviewCacheIndex index = LoadPreviewCacheIndex(sourceFile.DirectoryName);
                     PreviewCacheEntry entry = index?.Files?.FirstOrDefault(x =>
                         string.Equals(x.FileName, sourceFile.Name, StringComparison.InvariantCultureIgnoreCase) &&
-                        x.PageIndex == pageIdx);
+                        x.PageIndex == pageIdx &&
+                        x.Dpi == dpi);
 
                     if (entry == null ||
                         entry.CacheVersion != PreviewCacheVersion ||
@@ -631,7 +639,7 @@ namespace JobSpace.Static
                     }
 
                     string previewPath = Path.Combine(GetPreviewCacheDirectory(sourceFile.DirectoryName, false), entry.PreviewFileName);
-                    if (!File.Exists(previewPath))
+                    if (!System.IO.File.Exists(previewPath))
                         return null;
 
                     return LoadBitmapWithoutFileLock(previewPath);
@@ -644,7 +652,7 @@ namespace JobSpace.Static
             }
         }
 
-        private static Image TrySaveCachedPreview(FileInfo sourceFile, int pageIdx, Bitmap preview)
+        private static Image TrySaveCachedPreview(FileInfo sourceFile, int pageIdx, int dpi, Bitmap preview)
         {
             string tempPreviewPath = null;
 
@@ -662,16 +670,15 @@ namespace JobSpace.Static
 
                     PreviewCacheEntry entry = index.Files.FirstOrDefault(x =>
                         string.Equals(x.FileName, sourceFile.Name, StringComparison.InvariantCultureIgnoreCase) &&
-                        x.PageIndex == pageIdx);
+                        x.PageIndex == pageIdx &&
+                        x.Dpi == dpi);
 
-                    string previewFileName = BuildPreviewFileName(sourceFile, pageIdx);
+                    string previewFileName = BuildPreviewFileName(sourceFile, pageIdx, dpi);
                     string previewPath = Path.Combine(previewDir, previewFileName);
-                    tempPreviewPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.tmp");
+                    tempPreviewPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.png.tmp");
 
-                    preview.Save(tempPreviewPath, System.Drawing.Imaging.ImageFormat.Png);
-                    if (File.Exists(previewPath))
-                        File.Delete(previewPath);
-                    File.Move(tempPreviewPath, previewPath);
+                    SavePngWithoutFileLock(preview, tempPreviewPath);
+                    MoveFileReplacing(tempPreviewPath, previewPath);
                     tempPreviewPath = null;
 
                     if (entry == null)
@@ -684,6 +691,7 @@ namespace JobSpace.Static
                     entry.FullName = sourceFile.FullName;
                     entry.CacheVersion = PreviewCacheVersion;
                     entry.PageIndex = pageIdx;
+                    entry.Dpi = dpi;
                     entry.Length = sourceFile.Length;
                     entry.LastWriteTimeUtcTicks = sourceFile.LastWriteTimeUtc.Ticks;
                     entry.PreviewFileName = previewFileName;
@@ -696,7 +704,7 @@ namespace JobSpace.Static
             }
             catch (Exception e)
             {
-                Log.Error(null, "TrySaveCachedPreview", $"Cannot save cached preview for {sourceFile?.FullName}, page {pageIdx + 1}: {e.Message}");
+                Log.Error(null, "TrySaveCachedPreview", $"Cannot save cached preview for {sourceFile?.FullName}, page {pageIdx + 1}: {e}");
                 return null;
             }
             finally
@@ -716,7 +724,7 @@ namespace JobSpace.Static
                 System.IO.Directory.CreateDirectory(previewDir);
                 try
                 {
-                    File.SetAttributes(previewDir, File.GetAttributes(previewDir) | FileAttributes.Hidden);
+                    System.IO.File.SetAttributes(previewDir, System.IO.File.GetAttributes(previewDir) | FileAttributes.Hidden);
                 }
                 catch
                 {
@@ -733,11 +741,19 @@ namespace JobSpace.Static
                 return new PreviewCacheIndex();
 
             string indexPath = Path.Combine(previewDir, PreviewCacheIndexFileName);
-            if (!File.Exists(indexPath))
+            if (!System.IO.File.Exists(indexPath))
                 return new PreviewCacheIndex();
 
-            string json = File.ReadAllText(indexPath, Encoding.UTF8);
-            return JsonConvert.DeserializeObject<PreviewCacheIndex>(json) ?? new PreviewCacheIndex();
+            try
+            {
+                string json = System.IO.File.ReadAllText(indexPath, Encoding.UTF8);
+                return JsonConvert.DeserializeObject<PreviewCacheIndex>(json) ?? new PreviewCacheIndex();
+            }
+            catch (Exception e)
+            {
+                Log.Error(null, "LoadPreviewCacheIndex", $"Cannot read preview cache index {indexPath}: {e}");
+                return new PreviewCacheIndex();
+            }
         }
 
         private static void SavePreviewCacheIndex(string sourceDirectory, PreviewCacheIndex index)
@@ -749,16 +765,63 @@ namespace JobSpace.Static
 
             try
             {
-                File.WriteAllText(tempIndexPath, json, Encoding.UTF8);
-                if (File.Exists(indexPath))
-                    File.Delete(indexPath);
-                File.Move(tempIndexPath, indexPath);
+                System.IO.File.WriteAllText(tempIndexPath, json, Encoding.UTF8);
+                MoveFileReplacing(tempIndexPath, indexPath);
                 tempIndexPath = null;
             }
             finally
             {
                 DeleteFileQuietly(tempIndexPath);
             }
+        }
+
+        private static void SavePngWithoutFileLock(Bitmap preview, string path)
+        {
+            using (Bitmap normalizedPreview = NormalizeBitmapForPng(preview))
+            using (var stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+            {
+                normalizedPreview.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            }
+        }
+
+        private static Bitmap NormalizeBitmapForPng(Bitmap source)
+        {
+            var normalized = new Bitmap(source.Width, source.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            normalized.SetResolution(source.HorizontalResolution, source.VerticalResolution);
+
+            using (Graphics g = Graphics.FromImage(normalized))
+            {
+                g.Clear(Color.White);
+                g.DrawImage(source, 0, 0, source.Width, source.Height);
+            }
+
+            return normalized;
+        }
+
+        private static void MoveFileReplacing(string sourcePath, string destinationPath)
+        {
+            const int maxAttempts = 3;
+
+            for (int attempt = 1; attempt <= maxAttempts; attempt++)
+            {
+                try
+                {
+                    if (System.IO.File.Exists(destinationPath))
+                        System.IO.File.Delete(destinationPath);
+
+                    System.IO.File.Move(sourcePath, destinationPath);
+                    return;
+                }
+                catch when (attempt < maxAttempts)
+                {
+                    System.Threading.Thread.Sleep(100);
+                }
+            }
+
+            if (System.IO.File.Exists(destinationPath))
+                System.IO.File.Delete(destinationPath);
+
+            System.IO.File.Move(sourcePath, destinationPath);
         }
 
         private static void DeleteFileQuietly(string path)
@@ -768,8 +831,8 @@ namespace JobSpace.Static
 
             try
             {
-                if (File.Exists(path))
-                    File.Delete(path);
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
             }
             catch
             {
@@ -785,13 +848,13 @@ namespace JobSpace.Static
             }
         }
 
-        private static string BuildPreviewFileName(FileInfo sourceFile, int pageIdx)
+        private static string BuildPreviewFileName(FileInfo sourceFile, int pageIdx, int dpi)
         {
             string safeName = SanitizePreviewFileName(Path.GetFileNameWithoutExtension(sourceFile.Name));
             if (safeName.Length > 80)
                 safeName = safeName.Substring(0, 80);
 
-            return $"{safeName}_p{pageIdx + 1}_v{PreviewCacheVersion}_{GetStablePathHash(sourceFile.FullName)}.png";
+            return $"{safeName}_p{pageIdx + 1}_dpi{dpi}_v{PreviewCacheVersion}_{GetStablePathHash(sourceFile.FullName)}.png";
         }
 
         private static string SanitizePreviewFileName(string value)
@@ -830,6 +893,7 @@ namespace JobSpace.Static
             public string FullName { get; set; }
             public int CacheVersion { get; set; }
             public int PageIndex { get; set; }
+            public int Dpi { get; set; }
             public long Length { get; set; }
             public long LastWriteTimeUtcTicks { get; set; }
             public string PreviewFileName { get; set; }

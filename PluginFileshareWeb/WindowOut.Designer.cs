@@ -29,194 +29,207 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowOut));
-            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.kryptonNavigator1 = new Krypton.Navigator.KryptonNavigator();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.tsb_add_tab = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripTextBoxUrl = new System.Windows.Forms.ToolStripTextBox();
-            this.tsb_go = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tstb_zoomFactor = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.tsb_zoomOk = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton_Add = new System.Windows.Forms.ToolStripButton();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.toolStripContainer1.ContentPanel.SuspendLayout();
-            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
-            this.toolStripContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigator1)).BeginInit();
-            this.kryptonNavigator1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
-            this.SuspendLayout();
+            toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            kryptonWorkspace1 = new Krypton.Workspace.KryptonWorkspace();
+            toolStrip1 = new System.Windows.Forms.ToolStrip();
+            toolStripTextBoxUrl = new System.Windows.Forms.ToolStripTextBox();
+            tsb_go = new System.Windows.Forms.ToolStripButton();
+            tsb_paste_go = new System.Windows.Forms.ToolStripButton();
+            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            tstb_zoomFactor = new System.Windows.Forms.ToolStripTextBox();
+            toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            tsb_zoomOk = new System.Windows.Forms.ToolStripButton();
+            toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            tsb_page_links = new System.Windows.Forms.ToolStripButton();
+            toolStripButton_Add = new System.Windows.Forms.ToolStripButton();
+            tabPage1 = new System.Windows.Forms.TabPage();
+            tabPage2 = new System.Windows.Forms.TabPage();
+            toolStripContainer1.ContentPanel.SuspendLayout();
+            toolStripContainer1.TopToolStripPanel.SuspendLayout();
+            toolStripContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)kryptonWorkspace1).BeginInit();
+            toolStrip1.SuspendLayout();
+            SuspendLayout();
             // 
             // toolStripContainer1
             // 
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.kryptonNavigator1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(809, 428);
-            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(809, 453);
-            this.toolStripContainer1.TabIndex = 1;
-            this.toolStripContainer1.Text = "toolStripContainer1";
+            toolStripContainer1.ContentPanel.Controls.Add(kryptonWorkspace1);
+            toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(944, 494);
+            toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            toolStripContainer1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            toolStripContainer1.Name = "toolStripContainer1";
+            toolStripContainer1.Size = new System.Drawing.Size(944, 523);
+            toolStripContainer1.TabIndex = 1;
+            toolStripContainer1.Text = "toolStripContainer1";
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
+            toolStripContainer1.TopToolStripPanel.Controls.Add(toolStrip1);
             // 
-            // kryptonNavigator1
+            // kryptonWorkspace1
             // 
-            this.kryptonNavigator1.ControlKryptonFormFeatures = false;
-            this.kryptonNavigator1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonNavigator1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonNavigator1.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
-            this.kryptonNavigator1.Owner = null;
-            this.kryptonNavigator1.PageBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
-            this.kryptonNavigator1.Size = new System.Drawing.Size(809, 428);
-            this.kryptonNavigator1.TabIndex = 0;
-            this.kryptonNavigator1.Text = "kryptonNavigator1";
-            this.kryptonNavigator1.CloseAction += new System.EventHandler<Krypton.Navigator.CloseActionEventArgs>(this.kryptonNavigator1_CloseAction);
+            kryptonWorkspace1.ActivePage = null;
+            kryptonWorkspace1.CompactFlags = Krypton.Workspace.CompactFlags.RemoveEmptyCells;
+            kryptonWorkspace1.ContainerBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelClient;
+            kryptonWorkspace1.Dock = System.Windows.Forms.DockStyle.Fill;
+            kryptonWorkspace1.Location = new System.Drawing.Point(0, 0);
+            kryptonWorkspace1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            kryptonWorkspace1.Name = "kryptonWorkspace1";
+            // 
+            // 
+            // 
+            kryptonWorkspace1.Root.UniqueName = "daecbd13ec4a49798f23058a37837f96";
+            kryptonWorkspace1.SeparatorStyle = Krypton.Toolkit.SeparatorStyle.HighProfile;
+            kryptonWorkspace1.ShowMaximizeButton = false;
+            kryptonWorkspace1.Size = new System.Drawing.Size(944, 494);
+            kryptonWorkspace1.SplitterWidth = 5;
+            kryptonWorkspace1.TabIndex = 0;
+            kryptonWorkspace1.TabStop = true;
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsb_add_tab,
-            this.toolStripSeparator2,
-            this.toolStripTextBoxUrl,
-            this.tsb_go,
-            this.toolStripSeparator1,
-            this.tstb_zoomFactor,
-            this.toolStripLabel1,
-            this.tsb_zoomOk,
-            this.toolStripSeparator3,
-            this.toolStripButton_Add});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(539, 25);
-            this.toolStrip1.TabIndex = 2;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // tsb_add_tab
-            // 
-            this.tsb_add_tab.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsb_add_tab.Image = ((System.Drawing.Image)(resources.GetObject("tsb_add_tab.Image")));
-            this.tsb_add_tab.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_add_tab.Name = "tsb_add_tab";
-            this.tsb_add_tab.Size = new System.Drawing.Size(73, 22);
-            this.tsb_add_tab.Text = "+ закладку ";
-            this.tsb_add_tab.Click += new System.EventHandler(this.tsb_add_tab_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            toolStrip1.AutoSize = false;
+            toolStrip1.BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripTextBoxUrl, tsb_go, tsb_paste_go, toolStripSeparator1, tstb_zoomFactor, toolStripLabel1, tsb_zoomOk, toolStripSeparator3, tsb_page_links, toolStripButton_Add });
+            toolStrip1.Location = new System.Drawing.Point(0, 0);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Padding = new System.Windows.Forms.Padding(8, 3, 8, 3);
+            toolStrip1.Size = new System.Drawing.Size(944, 29);
+            toolStrip1.Stretch = true;
+            toolStrip1.TabIndex = 2;
+            toolStrip1.Text = "toolStrip1";
             // 
             // toolStripTextBoxUrl
             // 
-            this.toolStripTextBoxUrl.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBoxUrl.Name = "toolStripTextBoxUrl";
-            this.toolStripTextBoxUrl.Size = new System.Drawing.Size(300, 25);
-            this.toolStripTextBoxUrl.Click += new System.EventHandler(this.toolStripTextBoxUrl_Click);
+            toolStripTextBoxUrl.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            toolStripTextBoxUrl.Name = "toolStripTextBoxUrl";
+            toolStripTextBoxUrl.Size = new System.Drawing.Size(160, 23);
+            toolStripTextBoxUrl.ToolTipText = "Адреса сторінки";
+            toolStripTextBoxUrl.Click += toolStripTextBoxUrl_Click;
             // 
             // tsb_go
             // 
-            this.tsb_go.BackColor = System.Drawing.Color.PaleGreen;
-            this.tsb_go.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsb_go.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_go.Name = "tsb_go";
-            this.tsb_go.Size = new System.Drawing.Size(26, 22);
-            this.tsb_go.Text = "Go";
-            this.tsb_go.Click += new System.EventHandler(this.toolStripButtonGo_Click);
+            tsb_go.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            tsb_go.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsb_go.Name = "tsb_go";
+            tsb_go.Size = new System.Drawing.Size(58, 20);
+            tsb_go.Text = "Перейти";
+            tsb_go.ToolTipText = "Відкрити адресу";
+            tsb_go.Click += toolStripButtonGo_Click;
+            // 
+            // tsb_paste_go
+            // 
+            tsb_paste_go.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            tsb_paste_go.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsb_paste_go.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            tsb_paste_go.Name = "tsb_paste_go";
+            tsb_paste_go.Size = new System.Drawing.Size(114, 23);
+            tsb_paste_go.Text = "Вставити і перейти";
+            tsb_paste_go.ToolTipText = "Створити вкладку з посилання з буфера обміну";
+            tsb_paste_go.Click += tsb_paste_go_Click;
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
             // 
             // tstb_zoomFactor
             // 
-            this.tstb_zoomFactor.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.tstb_zoomFactor.Name = "tstb_zoomFactor";
-            this.tstb_zoomFactor.Size = new System.Drawing.Size(40, 25);
-            this.tstb_zoomFactor.Text = "80";
-            this.tstb_zoomFactor.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            tstb_zoomFactor.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            tstb_zoomFactor.Name = "tstb_zoomFactor";
+            tstb_zoomFactor.Size = new System.Drawing.Size(44, 23);
+            tstb_zoomFactor.Text = "80";
+            tstb_zoomFactor.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // toolStripLabel1
             // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(17, 22);
-            this.toolStripLabel1.Text = "%";
+            toolStripLabel1.Name = "toolStripLabel1";
+            toolStripLabel1.Size = new System.Drawing.Size(17, 20);
+            toolStripLabel1.Text = "%";
             // 
             // tsb_zoomOk
             // 
-            this.tsb_zoomOk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsb_zoomOk.Image = ((System.Drawing.Image)(resources.GetObject("tsb_zoomOk.Image")));
-            this.tsb_zoomOk.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsb_zoomOk.Name = "tsb_zoomOk";
-            this.tsb_zoomOk.Size = new System.Drawing.Size(26, 22);
-            this.tsb_zoomOk.Text = "Ok";
-            this.tsb_zoomOk.Click += new System.EventHandler(this.tsb_zoomOk_Click);
+            tsb_zoomOk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            tsb_zoomOk.Image = (System.Drawing.Image)resources.GetObject("tsb_zoomOk.Image");
+            tsb_zoomOk.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsb_zoomOk.Name = "tsb_zoomOk";
+            tsb_zoomOk.Size = new System.Drawing.Size(27, 20);
+            tsb_zoomOk.Text = "OK";
+            tsb_zoomOk.ToolTipText = "Застосувати масштаб";
+            tsb_zoomOk.Click += tsb_zoomOk_Click;
             // 
             // toolStripSeparator3
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new System.Drawing.Size(6, 23);
+            // 
+            // tsb_page_links
+            // 
+            tsb_page_links.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            tsb_page_links.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsb_page_links.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            tsb_page_links.Name = "tsb_page_links";
+            tsb_page_links.Size = new System.Drawing.Size(116, 23);
+            tsb_page_links.Text = "Посилання сторінки";
+            tsb_page_links.ToolTipText = "Показати посилання на активній сторінці та завантажити вибрані";
+            tsb_page_links.Click += tsb_page_links_Click;
             // 
             // toolStripButton_Add
             // 
-            this.toolStripButton_Add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton_Add.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Add.Image")));
-            this.toolStripButton_Add.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_Add.Name = "toolStripButton_Add";
-            this.toolStripButton_Add.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton_Add.Text = "+";
-            this.toolStripButton_Add.Click += new System.EventHandler(this.toolStripButton_Add_Click);
+            toolStripButton_Add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            toolStripButton_Add.Image = (System.Drawing.Image)resources.GetObject("toolStripButton_Add.Image");
+            toolStripButton_Add.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButton_Add.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            toolStripButton_Add.Name = "toolStripButton_Add";
+            toolStripButton_Add.Size = new System.Drawing.Size(84, 23);
+            toolStripButton_Add.Text = "+ Посилання";
+            toolStripButton_Add.ToolTipText = "Додати швидке посилання";
+            toolStripButton_Add.Click += toolStripButton_Add_Click;
             // 
             // tabPage1
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 40);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(795, 378);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            tabPage1.Location = new System.Drawing.Point(4, 40);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            tabPage1.Size = new System.Drawing.Size(795, 378);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "tabPage1";
+            tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 40);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(801, 384);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            tabPage2.Location = new System.Drawing.Point(4, 40);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            tabPage2.Size = new System.Drawing.Size(801, 384);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "tabPage2";
+            tabPage2.UseVisualStyleBackColor = true;
             // 
             // WindowOut
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.toolStripContainer1);
-            this.Name = "WindowOut";
-            this.Size = new System.Drawing.Size(809, 453);
-            this.toolStripContainer1.ContentPanel.ResumeLayout(false);
-            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
-            this.toolStripContainer1.TopToolStripPanel.PerformLayout();
-            this.toolStripContainer1.ResumeLayout(false);
-            this.toolStripContainer1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigator1)).EndInit();
-            this.kryptonNavigator1.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(toolStripContainer1);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "WindowOut";
+            Size = new System.Drawing.Size(944, 523);
+            toolStripContainer1.ContentPanel.ResumeLayout(false);
+            toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+            toolStripContainer1.ResumeLayout(false);
+            toolStripContainer1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)kryptonWorkspace1).EndInit();
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
+            ResumeLayout(false);
 
         }
 
@@ -226,16 +239,16 @@
         private System.Windows.Forms.ToolStripButton toolStripButton_Add;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxUrl;
         private System.Windows.Forms.ToolStripButton tsb_go;
+        private System.Windows.Forms.ToolStripButton tsb_paste_go;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripTextBox tstb_zoomFactor;
         private System.Windows.Forms.ToolStripButton tsb_zoomOk;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripButton tsb_add_tab;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton tsb_page_links;
         
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private Krypton.Navigator.KryptonNavigator kryptonNavigator1;
+        private Krypton.Workspace.KryptonWorkspace kryptonWorkspace1;
     }
 }

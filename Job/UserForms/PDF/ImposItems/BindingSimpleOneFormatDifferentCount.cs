@@ -94,24 +94,52 @@ namespace JobSpace.UserForms.PDF.ImposItems
             _pages.ForEach(p => p.IsAssumed = false);
             var tp = _sheets[0].TemplatePageContainer.TemplatePages;
             int tp_idx = _result.CountOnSheet - 1;
-            int pageIdx = 1;
+
+            foreach (var page in tp)
+            {
+                page.Front.PrintIdx = 0;
+                page.Front.AssignedRunPage = null;
+                page.Back.PrintIdx = 0;
+                page.Back.AssignedRunPage = null;
+            }
+
             foreach (FileResult file in _result.Files)
             {
+                if (tp_idx < 0)
+                {
+                    break;
+                }
+
+                int frontPrintIdx = GetPrintIdx(file.File, 1);
+                if (frontPrintIdx == 0)
+                {
+                    continue;
+                }
+
+                int backPrintIdx = file.Pages > 1
+                    ? GetPrintIdx(file.File, 2)
+                    : 0;
+
                 for (int i = 0; i < file.PagesOnSheet; i++)
                 {
-                    var rp = _pages[pageIdx - 1];
+                    if (tp_idx < 0)
+                    {
+                        break;
+                    }
 
-                    tp[tp_idx].Front.PrintIdx = pageIdx;
+                    var rp = _pages[frontPrintIdx - 1];
+
+                    tp[tp_idx].Front.PrintIdx = frontPrintIdx;
                     rp.IsAssumed = true;
                     rp.IsValidFormat = ValidateFormat(rp, tp[tp_idx]);
                     tp[tp_idx].Front.AssignedRunPage = rp;
 
-                    if (file.Pages > 1)
+                    if (backPrintIdx > 0)
                     {
-                        tp[tp_idx].Back.PrintIdx = pageIdx + 1;
+                        tp[tp_idx].Back.PrintIdx = backPrintIdx;
 
 
-                        rp = _pages[pageIdx];
+                        rp = _pages[backPrintIdx - 1];
                         rp.IsAssumed = true;
                         rp.IsValidFormat = ValidateFormat(rp, tp[tp_idx]);
                         tp[tp_idx].Back.AssignedRunPage = rp;
@@ -119,19 +147,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     }
                     tp_idx--;
                 }
-
-                if (_sheets[0].SheetPlaceType == TemplateSheetPlaceType.SingleSide || file.Pages == 1)
-                {
-                    pageIdx++;
-                }
-                else
-                {
-                    pageIdx += 2;
-                }
-
-
             }
             _sheets[0].Count = _result.SheetCount;
+        }
+
+        int GetPrintIdx(PdfFile file, int pageIdx)
+        {
+            return _pages.FindIndex(p => p.FileId == file.Id && p.PageIdx == pageIdx) + 1;
         }
 
 

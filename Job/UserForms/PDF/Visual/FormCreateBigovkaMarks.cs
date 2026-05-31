@@ -107,10 +107,7 @@ namespace JobSpace.UserForms.PDF
             BigovkaMarksParams.Bleed = (double)numBleed.Value;
             BigovkaMarksParams.Length = (double)numLen.Value;
             BigovkaMarksParams.DistanceFromTrim = (double)numDistanse.Value;
-            BigovkaMarksParams.Color.C = (double)numC.Value;
-            BigovkaMarksParams.Color.M = (double)numM.Value;
-            BigovkaMarksParams.Color.Y = (double)numY.Value;
-            BigovkaMarksParams.Color.K = (double)numK.Value;
+            BigovkaMarksParams.Color = uc_PdfColorSelector1.MarkColor;
             BigovkaMarksParams.MirrorEven = cb_mirrorEven.Checked;
 
             string[] bigovki = textBoxBigovky.Text.Trim(' ').Split(' ');
@@ -131,32 +128,10 @@ namespace JobSpace.UserForms.PDF
             return true;
         }
 
-        private void cb_c_CheckedChanged(object sender, EventArgs e)
-        {
-            numC.Value = cb_c.Checked ? 100 : 0;
-        }
-
-        private void cb_m_CheckedChanged(object sender, EventArgs e)
-        {
-            numM.Value = cb_m.Checked ? 100 : 0;
-        }
-
-        private void cb_y_CheckedChanged(object sender, EventArgs e)
-        {
-            numY.Value = cb_y.Checked ? 100 : 0;
-        }
-
-        private void cb_b_CheckedChanged(object sender, EventArgs e)
-        {
-            numK.Value = cb_b.Checked ? 100 : 0;
-        }
-
         private void numDistanse_Enter(object sender, EventArgs e)
         {
             ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
         }
-
-      
 
         private void DrawVerticalBigovki(int pageNo)
         {
@@ -187,7 +162,7 @@ namespace JobSpace.UserForms.PDF
 
             if (BigovkaMarksParams.MirrorEven && page_idx % 2 == 1)
             {
-                for (int i = BigovkaMarksParams.Bigovki.Length - 1; i >= 0; i--)
+                for (int i = 0; i < BigovkaMarksParams.Bigovki.Length; i++)
                 {
                     x += (float)BigovkaMarksParams.Bigovki[i];
 

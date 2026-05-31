@@ -9,6 +9,7 @@ namespace Interfaces.FileBrowser
         void InitToolStripUtils(int idx);
         void LoadSettings();
         void SetRootFolder(string directory);
+        void ShowFileInFolder(string filePath);
         //IJob CurrentJob { get; set; }
         void LockUI(bool locked);
         //IUserProfile UserProfile { get; set; }

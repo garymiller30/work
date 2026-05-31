@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Створити","порожній PDF шаблон з кількістю",Icon = "create_empty_pdf_template",Order =10)]
+    [PdfTool("Створити","порожній PDF шаблон з кількістю",Icon = "create_empty_pdf_template",Order =4)]
     public sealed class PdfCreateEmptyPdfTemplateWithCount : IPdfTool
     {
         List<EmptyTemplate> _templates;
@@ -83,6 +83,8 @@ namespace JobSpace.Static.Pdf.Create
                         p.rect(trimbox.left, trimbox.bottom, trimbox.width, trimbox.height);
                         p.stroke();
 
+                        DrawTemplateInfo(p, template, width, height);
+
                         p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
                         p.end_document("");
                     }
@@ -93,6 +95,31 @@ namespace JobSpace.Static.Pdf.Create
                     PdfHelper.LogException(e, "PdfCreateEmptyPdfTemplateWithCount");
                 }
             }
+        }
+
+        private static void DrawTemplateInfo(PDFlib p, EmptyTemplate template, double pageWidth, double pageHeight)
+        {
+            const double fontSize = 24;
+            const double leading = 32;
+
+            int font = p.load_font("Arial", "auto", "");
+            p.setfont(font, fontSize);
+            p.setcolor("fill", "cmyk", 0, 0, 0, 1);
+
+            string formatText = $"\u0424\u043e\u0440\u043c\u0430\u0442: {template.Width:0.##} x {template.Height:0.##}";
+            string countText = $"\u0422\u0438\u0440\u0430\u0436: {template.Count}";
+
+            double centerX = pageWidth / 2;
+            double centerY = pageHeight / 2;
+
+            DrawCenteredTextLine(p, font, fontSize, formatText, centerX, centerY + leading / 2);
+            DrawCenteredTextLine(p, font, fontSize, countText, centerX, centerY - leading / 2);
+        }
+
+        private static void DrawCenteredTextLine(PDFlib p, int font, double fontSize, string text, double centerX, double baselineY)
+        {
+            double textWidth = p.stringwidth(text, font, fontSize);
+            p.fit_textline(text, centerX - textWidth / 2, baselineY, "");
         }
     }
 }

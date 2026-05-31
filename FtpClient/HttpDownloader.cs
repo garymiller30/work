@@ -3,24 +3,25 @@
 
 using System;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Windows.Forms;
 
 namespace FtpClient
 {
     public static class HttpDownloader
     {
+        private static readonly HttpClient Client = new HttpClient();
+
         public static void Download(string url, string targetFolder)
         {
 
             try
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                using (var response = Client.GetAsync(url).GetAwaiter().GetResult())
                 {
+                    response.EnsureSuccessStatusCode();
                     var fn = Path.GetFileName(
-                        Uri.UnescapeDataString(new Uri(response.ResponseUri.AbsoluteUri).AbsolutePath));
+                        Uri.UnescapeDataString(response.RequestMessage.RequestUri.AbsolutePath));
 
 
                     var target = Path.Combine(targetFolder, fn);
@@ -30,7 +31,7 @@ namespace FtpClient
                     {
                         //скачали файл зі списком для закачки
 
-                        var responseStream = response.GetResponseStream();
+                        var responseStream = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
                         using (var fileStream = File.Create(target))
                         {
                             responseStream?.CopyTo(fileStream);
@@ -51,7 +52,7 @@ namespace FtpClient
                     }
                     else
                     {
-                        var responseStream = response.GetResponseStream();
+                        var responseStream = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
                         using (var fileStream = File.Create(Path.Combine(targetFolder, fn)))
                         {
                             responseStream?.CopyTo(fileStream);

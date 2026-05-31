@@ -13,6 +13,7 @@ using JobSpace.Static;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.UserForms;
 using JobSpace.UserForms.PDF;
+using Microsoft.Win32;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,11 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -36,12 +39,17 @@ namespace JobSpace.UC
         private const string LOADING = "завантаження...";
         private const string PdfToolUsageMenuItemName = "pdfToolUsageStatsToolStripMenuItem";
         private const string ObjectListViewDragSourceFormat = "JobSpace.UC.UCFileBrowser.ObjectListViewDragSource";
+        private const string InstallFontsMenuItemName = "installFontsToolStripMenuItem";
+        private const int HWND_BROADCAST = 0xffff;
+        private const int WM_FONTCHANGE = 0x001D;
+        private const int SMTO_ABORTIFHUNG = 0x0002;
         private static readonly object PdfToolUsageSync = new object();
         Dictionary<string, ToolStripMenuItem> menuCache = new Dictionary<string, ToolStripMenuItem>(StringComparer.InvariantCultureIgnoreCase);
-        private readonly System.Windows.Forms.Timer _previewTimer = new System.Windows.Forms.Timer { Interval = 150 };
         private IUserProfile UserProfile { get; set; }
 
         private IFileManager _fileManager;
+        private bool _selectFirstPreviewableFileAfterRefresh;
+        private ToolStripMenuItem _installFontsToolStripMenuItem;
 
         private string[] _customButtonPath;
 
@@ -64,14 +72,26 @@ namespace JobSpace.UC
             UserProfile = profile;
 
             InitializeComponent();
-            components?.Add(_previewTimer);
-            _previewTimer.Tick += PreviewTimer_Tick;
 
+            InitInstallFontsContextMenuItem();
             InitFileManager();
             InitListView();
 
             ApplySettings();
         }
+
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern int AddFontResourceEx(string name, uint fl, IntPtr res);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr SendMessageTimeout(
+            IntPtr hWnd,
+            int msg,
+            IntPtr wParam,
+            IntPtr lParam,
+            int flags,
+            int timeout,
+            out IntPtr result);
 
         #region [PDFTool menu]
 
@@ -564,11 +584,69 @@ namespace JobSpace.UC
 
         private void FileManager_OnRefreshDirectory(object sender, List<IFileSystemInfoExt> e)
         {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(() => FileManager_OnRefreshDirectory(sender, e)));
+                return;
+            }
+
             StopTaskGetExtendedInfo();
             objectListView1.EmptyListMsg = null;
             objectListView1.AddObjects(e);
+            SelectFirstPreviewableFileAfterRefresh(e);
             StartTaskGetExtendedInfo(e);
             UpdateStatusControl();
+        }
+
+        private void SelectFirstPreviewableFileAfterRefresh(List<IFileSystemInfoExt> files)
+        {
+            if (!_selectFirstPreviewableFileAfterRefresh) return;
+
+            if (!tsb_preview.Checked)
+            {
+                _selectFirstPreviewableFileAfterRefresh = false;
+                return;
+            }
+
+            sc_list.Panel2Collapsed = false;
+
+            var file = files?.FirstOrDefault(CanPreviewFile);
+            if (file == null)
+            {
+                _selectFirstPreviewableFileAfterRefresh = false;
+                uc_PreviewBrowserFile1.ClearPreview();
+                return;
+            }
+
+            _selectFirstPreviewableFileAfterRefresh = false;
+            objectListView1.SelectObject(file, true);
+            objectListView1.EnsureModelVisible(file);
+        }
+
+        private static bool CanPreviewFile(IFileSystemInfoExt file)
+        {
+            if (file == null || file.IsDir || file.FileInfo == null)
+                return false;
+
+            switch (file.FileInfo.Extension.ToLowerInvariant())
+            {
+                case ".pdf":
+                case ".ai":
+                case ".tif":
+                case ".tiff":
+                case ".png":
+                case ".bmp":
+                case ".jpg":
+                case ".jpeg":
+                case ".psd":
+                case ".eps":
+                case ".ttf":
+                case ".otf":
+                case ".ttc":
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         #endregion
@@ -903,7 +981,14 @@ namespace JobSpace.UC
         {
             try
             {
-                Process.Start(_fileManager.Settings.CurFolder);
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = $"\"{_fileManager.Settings.CurFolder}\"",
+                    UseShellExecute = true
+                };
+
+                Process.Start(startInfo);
             }
             catch (Exception exception)
             {
@@ -940,6 +1025,7 @@ namespace JobSpace.UC
         private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             предварительныйПросмотрToolStripMenuItem.Visible = UserProfile.Settings.GetFileBrowser().UseViewer;
+            UpdateInstallFontsMenuItem();
 
             отправитьВToolStripMenuItem.DropDownItems.Clear();
             отправитьВToolStripMenuItem.DropDownItems.AddRange(UserProfile.MenuManagers.SendTo.Get(SendMenuItem_ClickAsync).ToArray());
@@ -955,6 +1041,165 @@ namespace JobSpace.UC
 
             SetToMoveFolders();
         }
+
+        private void InitInstallFontsContextMenuItem()
+        {
+            if (contextMenuStrip1.Items.ContainsKey(InstallFontsMenuItemName))
+            {
+                _installFontsToolStripMenuItem = contextMenuStrip1.Items[InstallFontsMenuItemName] as ToolStripMenuItem;
+                return;
+            }
+
+            _installFontsToolStripMenuItem = new ToolStripMenuItem
+            {
+                Name = InstallFontsMenuItemName,
+                Text = "встановити шрифт(и)",
+                Visible = false
+            };
+            _installFontsToolStripMenuItem.Click += InstallFontsToolStripMenuItem_Click;
+
+            int insertIndex = contextMenuStrip1.Items.IndexOf(открытьВПрограммеПоУмолчаниюToolStripMenuItem);
+            if (insertIndex < 0)
+                insertIndex = contextMenuStrip1.Items.Count;
+
+            contextMenuStrip1.Items.Insert(insertIndex, _installFontsToolStripMenuItem);
+        }
+
+        private void UpdateInstallFontsMenuItem()
+        {
+            if (_installFontsToolStripMenuItem == null)
+                return;
+
+            var selectedFonts = GetSelectedFontFiles().ToList();
+
+            _installFontsToolStripMenuItem.Visible = selectedFonts.Count > 0
+                && selectedFonts.Count == objectListView1.SelectedObjects.Count;
+            _installFontsToolStripMenuItem.Enabled = selectedFonts.Count > 0;
+        }
+
+        private void InstallFontsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var fontFiles = GetSelectedFontFiles().ToList();
+            if (fontFiles.Count == 0)
+                return;
+
+            var errors = new List<string>();
+            int installed = 0;
+
+            foreach (var fontFile in fontFiles)
+            {
+                try
+                {
+                    InstallFontForCurrentUser(fontFile.FileInfo.FullName);
+                    installed++;
+                }
+                catch (Exception ex)
+                {
+                    errors.Add($"{fontFile.FileInfo.Name}: {ex.Message}");
+                    Logger.Log.Error(null, "UCFileBrowser.InstallFontsToolStripMenuItem_Click", $"{fontFile.FileInfo.FullName}: {ex.Message}");
+                }
+            }
+
+            NotifyFontChange();
+
+            if (errors.Count == 0)
+            {
+                MessageBox.Show(
+                    this,
+                    $"Встановлено шрифтів: {installed}.",
+                    "Встановлення шрифтів",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show(
+                    this,
+                    $"Встановлено шрифтів: {installed}.\nНе вдалося встановити:\n{string.Join("\n", errors)}",
+                    "Встановлення шрифтів",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+        }
+
+        private IEnumerable<IFileSystemInfoExt> GetSelectedFontFiles()
+        {
+            return objectListView1.SelectedObjects
+                .Cast<IFileSystemInfoExt>()
+                .Where(IsFontFile);
+        }
+
+        private static bool IsFontFile(IFileSystemInfoExt file)
+        {
+            if (file == null || file.IsDir || file.FileInfo == null)
+                return false;
+
+            switch (file.FileInfo.Extension.ToLowerInvariant())
+            {
+                case ".ttf":
+                case ".otf":
+                case ".ttc":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private static void InstallFontForCurrentUser(string sourceFontPath)
+        {
+            string fontsDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "Microsoft",
+                "Windows",
+                "Fonts");
+
+            Directory.CreateDirectory(fontsDir);
+
+            string targetPath = Path.Combine(fontsDir, Path.GetFileName(sourceFontPath));
+
+            if (!string.Equals(Path.GetFullPath(sourceFontPath), Path.GetFullPath(targetPath), StringComparison.OrdinalIgnoreCase))
+                File.Copy(sourceFontPath, targetPath, true);
+
+            using (RegistryKey fontsKey = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\Fonts"))
+            {
+                foreach (string fontName in GetFontRegistryNames(targetPath))
+                {
+                    fontsKey.SetValue(fontName, targetPath);
+                }
+            }
+
+            AddFontResourceEx(targetPath, 0, IntPtr.Zero);
+        }
+
+        private static IEnumerable<string> GetFontRegistryNames(string fontPath)
+        {
+            string fontType = Path.GetExtension(fontPath).Equals(".otf", StringComparison.OrdinalIgnoreCase)
+                ? "OpenType"
+                : "TrueType";
+
+            using (PrivateFontCollection fontCollection = new PrivateFontCollection())
+            {
+                fontCollection.AddFontFile(fontPath);
+
+                foreach (FontFamily family in fontCollection.Families)
+                {
+                    yield return $"{family.Name} ({fontType})";
+                }
+            }
+        }
+
+        private static void NotifyFontChange()
+        {
+            SendMessageTimeout(
+                new IntPtr(HWND_BROADCAST),
+                WM_FONTCHANGE,
+                IntPtr.Zero,
+                IntPtr.Zero,
+                SMTO_ABORTIFHUNG,
+                1000,
+                out _);
+        }
+
         private void SetToMoveFolders()
         {
             переміститиДоToolStripMenuItem.Visible = false;
@@ -1170,7 +1415,12 @@ namespace JobSpace.UC
             {
                 foreach (IFileSystemInfoExt selectedObject in objectListView1.SelectedObjects)
                 {
-                    Process.Start(selectedObject.FileInfo.FullName);
+                    var path = selectedObject.FileInfo.FullName;
+                    Process.Start(new ProcessStartInfo(path)
+                    {
+                        UseShellExecute = true,
+                        WorkingDirectory = Path.GetDirectoryName(path) ?? string.Empty
+                    });
                     Thread.Sleep(700);
                 }
             }
@@ -1290,8 +1540,29 @@ namespace JobSpace.UC
         }
         public void SetRootFolder(string directory)
         {
+            _selectFirstPreviewableFileAfterRefresh = tsb_preview.Checked && Directory.Exists(directory);
             _fileManager.SetRootDirectory(directory);
         }
+
+        public void ShowFileInFolder(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+                return;
+
+            var directory = Path.GetDirectoryName(filePath);
+            if (string.IsNullOrWhiteSpace(directory) || !Directory.Exists(directory))
+                return;
+
+            objectListView1.ClearObjects();
+            objectListView1.EmptyListMsg = LOADING;
+
+            _selectFirstPreviewableFileAfterRefresh = false;
+            _fileManager.Settings.RootFolder = directory;
+            _fileManager.Settings.CurFolder = directory;
+            _ = _fileManager.RefreshAsync(Path.GetFileName(filePath));
+            UpdateStatusControl();
+        }
+
         public void LockUI(bool enabled)
         {
             objectListView1.ClearObjects();
@@ -1389,7 +1660,7 @@ namespace JobSpace.UC
         private void ObjectListView1_SelectionChanged(object sender, EventArgs e)
         {
             toolStripStatusLabelSelected.Text = GetSelectedFilesSize();
-            QueueFilePreview();
+            ShowFilePreview();
         }
         private void ОтправитьEmailToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
@@ -1608,28 +1879,10 @@ namespace JobSpace.UC
         private void tsb_preview_Click(object sender, EventArgs e)
         {
             sc_list.Panel2Collapsed = !sc_list.Panel2Collapsed;
-            QueueFilePreview();
+            ShowFilePreview();
         }
         private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            QueueFilePreview();
-        }
-        private void PreviewTimer_Tick(object sender, EventArgs e)
-        {
-            _previewTimer.Stop();
-            ShowFilePreview();
-        }
-        private void QueueFilePreview()
-        {
-            _previewTimer.Stop();
-
-            if (sc_list.Panel2Collapsed)
-            {
-                uc_PreviewBrowserFile1.ClearPreview();
-                return;
-            }
-
-            _previewTimer.Start();
         }
         private void ShowFilePreview()
         {

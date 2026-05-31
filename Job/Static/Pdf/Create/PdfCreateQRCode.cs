@@ -4,7 +4,7 @@ using JobSpace.UserForms.PDF;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Створити","штрих-код QR код",Icon = "create_qr",Order =10)]
+    [PdfTool("Створити","штрих-код QR код",Icon = "create_qr",Order =4)]
     public class PdfCreateQRCode : IPdfTool
     {
         public bool Configure(PdfJobContext context)

@@ -6,6 +6,7 @@ using Krypton.Docking;
 using Krypton.Navigator;
 using Krypton.Workspace;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -86,6 +87,7 @@ namespace ActiveWorks.UserControls
             IsInitializedControl = true;
 
             LoadLayout();
+            AddMissingPluginPagesToFirstCell();
             profile.Jobs?.ApplyViewListFilterStatuses(_profile.StatusManager.GetEnabledViewStatuses());
             ResumeLayout();
         }
@@ -228,6 +230,37 @@ namespace ActiveWorks.UserControls
             {
                 Debug.WriteLine(e);
 
+            }
+        }
+
+        private void AddMissingPluginPagesToFirstCell()
+        {
+            if (_profile?.Plugins == null) return;
+
+            var firstCell = FirstCell();
+            if (firstCell == null)
+            {
+                firstCell = new KryptonWorkspaceCell();
+                firstCell.CloseAction += (sender, args) => args.Action = CloseButtonAction.None;
+                Root.Children.Add(firstCell);
+            }
+
+            var existingPageNames = new HashSet<string>(
+                AllPages()
+                    .Select(page => page.UniqueName)
+                    .Where(name => !string.IsNullOrWhiteSpace(name)),
+                StringComparer.InvariantCultureIgnoreCase);
+
+            foreach (var pluginName in _profile.Plugins.GetPluginNames())
+            {
+                if (existingPageNames.Contains(pluginName)) continue;
+
+                var control = _profile.Plugins.InvokeMethod(pluginName, "GetUserControl") as Control;
+                if (control == null) continue;
+
+                control.Dock = DockStyle.Fill;
+                CreatePluginPage(firstCell, pluginName, pluginName, control);
+                existingPageNames.Add(pluginName);
             }
         }
     }

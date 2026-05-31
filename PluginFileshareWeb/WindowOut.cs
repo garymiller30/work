@@ -1,6 +1,7 @@
 ﻿using Interfaces;
 using Interfaces.Profile;
 using Krypton.Navigator;
+using Krypton.Workspace;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 using System;
@@ -8,9 +9,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.LinkLabel;
@@ -26,62 +32,127 @@ namespace PluginFileshareWeb
         CoreWebView2EnvironmentOptions options;
         WebView2 curwebView2 = null;
         List<ToolStripButton> toolStripButtons = new List<ToolStripButton>();
-        KryptonNavigator _tab_control;
+        KryptonWorkspace _tab_control;
+        Form _ownerForm;
+        bool _isLoadingWorkspaceLayout;
         double zoomFactor = 80;
+        private static readonly HttpClient HttpClient = new HttpClient();
         public IUserProfile UserProfile { get; set; }
 
-        public string PluginName => "Швидкі посилання";
+        public string PluginName => "Simple Web Browser";
 
-        public string PluginDescription => "Популярні файлообмінники v2.0";
+        public string PluginDescription => "вбудований простий веб браузер";
 
         public WindowOut()
         {
             InitializeComponent();
-            _tab_control = kryptonNavigator1;
-            _tab_control.SelectedPageChanged += tControl_SelectedIndexChanged;
-            //_tab_control.MouseDoubleClick += tControl_MouseDoubleClick;
+            ApplyModernChrome();
+            _tab_control = kryptonWorkspace1;
+            _tab_control.ActivePageChanged += tControl_SelectedIndexChanged;
+            _tab_control.WorkspaceCellAdding += KryptonWorkspace1_WorkspaceCellAdding;
+            _tab_control.PageDrop += (s, e) => SaveWorkspaceLayoutSafe();
+            _tab_control.CellCountChanged += (s, e) => SaveWorkspaceLayoutSafe();
+           
             _ = InitializeAsync();
         }
 
-        //private void tControl_MouseDoubleClick(object sender, MouseEventArgs e)
-        //{
-        //    if (e.Button == MouseButtons.Left)
-        //    {
-        //        // Check if the user double-clicked on a tab
-        //        for (int i = 0; i < _tab_control.TabCount; i++)
-        //        {
-        //            Rectangle tabRect = _tab_control.GetTabRect(i);
-        //            if (tabRect.Contains(e.Location))
-        //            {
-        //                var tabPage = _tab_control.TabPages[i];
-        //                if (tabPage.Tag is WebView2 webView2)
-        //                {
-        //                    LinkInfo link = (LinkInfo)webView2.Tag;
-        //                    _settings.OpenOnStart.Remove(link);
-        //                    UserProfile.Plugins.SaveSettings(_settings);
-        //                    // Dispose the WebView2 control
-        //                    webView2.Dispose();
-        //                }
-        //                // Remove the tab
-        //                _tab_control.TabPages.RemoveAt(i);
+        protected override void OnParentChanged(EventArgs e)
+        {
+            base.OnParentChanged(e);
+            AttachOwnerForm();
+        }
 
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            SaveWorkspaceLayoutSafe();
+            DetachOwnerForm();
+            base.OnHandleDestroyed(e);
+        }
+
+        private void AttachOwnerForm()
+        {
+            Form ownerForm = FindForm();
+            if (ReferenceEquals(_ownerForm, ownerForm)) return;
+
+            DetachOwnerForm();
+            _ownerForm = ownerForm;
+
+            if (_ownerForm != null)
+            {
+                _ownerForm.FormClosing += OwnerForm_FormClosing;
+            }
+        }
+
+        private void DetachOwnerForm()
+        {
+            if (_ownerForm != null)
+            {
+                _ownerForm.FormClosing -= OwnerForm_FormClosing;
+                _ownerForm = null;
+            }
+        }
+
+        private void OwnerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveWorkspaceLayoutSafe();
+        }
+
+        private void ApplyModernChrome()
+        {
+            BackColor = Color.FromArgb(248, 250, 252);
+            toolStripContainer1.BackColor = BackColor;
+            toolStripContainer1.TopToolStripPanel.BackColor = Color.FromArgb(245, 247, 250);
+            toolStripContainer1.ContentPanel.BackColor = BackColor;
+
+            toolStrip1.RenderMode = ToolStripRenderMode.Professional;
+            toolStrip1.Renderer = new FileshareToolStripRenderer();
+
+            StyleCommandButton(tsb_go, Color.FromArgb(22, 163, 74), Color.White);
+            StyleCommandButton(tsb_paste_go, Color.FromArgb(14, 165, 233), Color.White);
+            StyleCommandButton(tsb_zoomOk, Color.FromArgb(226, 232, 240), Color.FromArgb(15, 23, 42));
+            StyleCommandButton(toolStripButton_Add, Color.FromArgb(226, 232, 240), Color.FromArgb(15, 23, 42));
+            StyleCommandButton(tsb_page_links, Color.FromArgb(226, 232, 240), Color.FromArgb(15, 23, 42));
+
+            toolStripTextBoxUrl.BorderStyle = BorderStyle.FixedSingle;
+            tstb_zoomFactor.BorderStyle = BorderStyle.FixedSingle;
+
+            Resize += (s, e) => AdjustToolbarLayout();
+            toolStripContainer1.TopToolStripPanel.Resize += (s, e) => AdjustToolbarLayout();
+            AdjustToolbarLayout();
+        }
+
+        private static void StyleCommandButton(ToolStripButton button, Color backColor, Color foreColor)
+        {
+            button.AutoSize = false;
+            button.BackColor = backColor;
+            button.ForeColor = foreColor;
+            button.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            button.TextAlign = ContentAlignment.MiddleCenter;
+        }
+
+        private void AdjustToolbarLayout()
+        {
+            toolStrip1.Width = Math.Max(Width, 809);
+
+            int fixedWidth = toolStrip1.Padding.Horizontal + 560;
+            int urlWidth = toolStrip1.Width - fixedWidth;
+            toolStripTextBoxUrl.Width = Math.Max(150, Math.Min(420, urlWidth));
+        }
 
         private void tControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_tab_control.SelectedPage == null) return;
+            if (_tab_control.ActivePage == null) return;
 
-            if (_tab_control.SelectedPage.Tag is WebView2 webView2)
+            if (_tab_control.ActivePage.Tag is WebView2 webView2)
             {
                 curwebView2 = webView2;
                 if (_curJob != null)
                 {
                     curwebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
                 }
+
+                UpdateAddressBar(webView2);
+                tstb_zoomFactor.Text = (webView2.ZoomFactor * 100).ToString("N0");
 
             }
         }
@@ -100,24 +171,7 @@ namespace PluginFileshareWeb
         {
             LinkInfo link = (LinkInfo)((ToolStripButton)sender).Tag;
 
-            await AddTabAsync();
-            WebView2 webView = (WebView2)_tab_control.SelectedPage.Tag;
-            //збережемо посилання в тег вкладки
-            webView.Tag = link;
-            _tab_control.SelectedPage.Text = link.Name;
-
-
-
-            curwebView2.Source = new Uri("about:blank");
-            curwebView2.Source = new Uri(link.Url);
-            curwebView2.ZoomFactorChanged += (s, ev) =>
-            {
-                link.ZoomFactor = curwebView2.ZoomFactor;
-                tstb_zoomFactor.Text = (link.ZoomFactor * 100).ToString("N0");
-                UserProfile.Plugins.SaveSettings(_settings);
-            };
-            _settings.OpenOnStart.Add(link);
-            UserProfile.Plugins.SaveSettings(_settings);
+            await OpenRememberedLinkAsync(link);
         }
 
 
@@ -133,28 +187,30 @@ namespace PluginFileshareWeb
 
             AddingLinksToToolStrip();
             OpenSavedTabs();
+            AttachOwnerForm();
         }
 
         private async void OpenSavedTabs()
         {
-            foreach (var link in _settings.OpenOnStart)
-            {
-                await AddTabAsync();
-                WebView2 webView = (WebView2)_tab_control.SelectedPage.Tag;
-                //збережемо посилання в тег вкладки
-                webView.Tag = link;
-                _tab_control.SelectedPage.Text = link.Name;
+            _isLoadingWorkspaceLayout = true;
 
-                curwebView2.Source = new Uri("about:blank");
-                curwebView2.Source = new Uri(link.Url);
-                curwebView2.ZoomFactor = link.ZoomFactor;
-                curwebView2.ZoomFactorChanged += (s, ev) =>
+            try
+            {
+                LoadWorkspaceLayoutSafe();
+                InitializeWorkspaceCells();
+                RemoveRestoredPlaceholderPages();
+
+                foreach (var link in _settings.OpenOnStart.ToList())
                 {
-                    link.ZoomFactor = curwebView2.ZoomFactor;
-                    tstb_zoomFactor.Text = (link.ZoomFactor * 100).ToString("N0");
-                    UserProfile.Plugins.SaveSettings(_settings);
-                };
+                    await OpenRememberedLinkAsync(link, GetLinkPageUniqueName(link), remember: false);
+                }
             }
+            finally
+            {
+                _isLoadingWorkspaceLayout = false;
+            }
+
+            SaveWorkspaceLayoutSafe();
         }
 
         private void AddingLinksToToolStrip()
@@ -177,6 +233,8 @@ namespace PluginFileshareWeb
             var button = new ToolStripButton(link.Name);
             button.Tag = link;
             button.ToolTipText = link.Url;
+            button.Margin = new Padding(6, 0, 0, 0);
+            button.Padding = new Padding(8, 0, 8, 0);
             button.Click += toolStripButton1_Click;
 
             return button;
@@ -242,25 +300,75 @@ namespace PluginFileshareWeb
             {
                 try
                 {
-                    if (curwebView2 == null) { await AddTabAsync(); }
+                    await AddTabAsync(); 
 
-                    curwebView2.Source = new Uri(EnsureUrlHasProtocol(toolStripTextBoxUrl.Text));
+                    string url = EnsureUrlHasProtocol(toolStripTextBoxUrl.Text.Trim());
+                    RememberWebViewUrl(curwebView2, url);
+                    curwebView2.Source = new Uri(url);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    
                 }
+            }
+        }
+
+        private async void tsb_paste_go_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!Clipboard.ContainsText())
+                {
+                    MessageBox.Show("У буфері обміну немає тексту з посиланням.");
+                    return;
+                }
+
+                string clipboardText = Clipboard.GetText().Trim();
+                string url = EnsureUrlHasProtocol(clipboardText);
+
+                if (!IsValidWebUrl(url))
+                {
+                    MessageBox.Show("У буфері обміну не схоже на web-посилання.");
+                    return;
+                }
+
+                await AddTabAsync("Нова вкладка");
+                toolStripTextBoxUrl.Text = url;
+                RememberWebViewUrl(curwebView2, url);
+                curwebView2.Source = new Uri(url);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
         string EnsureUrlHasProtocol(string urlWithoutProtocol)
         {
+            urlWithoutProtocol = urlWithoutProtocol.Trim();
             if (!urlWithoutProtocol.StartsWith("http://") && !urlWithoutProtocol.StartsWith("https://"))
             {
                 return "https://" + urlWithoutProtocol;
             }
             return urlWithoutProtocol;
+        }
+
+        private static bool IsValidWebUrl(string url)
+        {
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri uri)) return false;
+
+            return uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps;
+        }
+
+        private void UpdateAddressBar(WebView2 webView)
+        {
+            if (webView?.Source == null) return;
+
+            string source = webView.Source.ToString();
+            if (!string.Equals(source, "about:blank", StringComparison.OrdinalIgnoreCase))
+            {
+                toolStripTextBoxUrl.Text = source;
+            }
         }
 
         private void toolStripTextBoxUrl_Click(object sender, EventArgs e)
@@ -278,12 +386,418 @@ namespace PluginFileshareWeb
             curwebView2.ZoomFactor = zoomFactor/100;
         }
 
+        private async void tsb_page_links_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (curwebView2?.CoreWebView2 == null)
+                {
+                    MessageBox.Show("Немає активної сторінки.");
+                    return;
+                }
+
+                string downloadFolder = GetCurrentDownloadFolder();
+                if (string.IsNullOrWhiteSpace(downloadFolder))
+                {
+                    MessageBox.Show("Спочатку виберіть роботу, щоб плагін знав поточну папку для завантаження.");
+                    return;
+                }
+
+                Directory.CreateDirectory(downloadFolder);
+
+                IReadOnlyList<PageDownloadLink> links = await GetPageLinksAsync();
+                if (links.Count == 0)
+                {
+                    MessageBox.Show("На активній сторінці не знайдено посилань на файли.");
+                    return;
+                }
+
+                await EnrichLinksWithFileInfoAsync(links);
+
+                using (var form = new FormSelectPageLinks(links, downloadFolder))
+                {
+                    if (form.ShowDialog(FindForm()) != DialogResult.OK)
+                    {
+                        return;
+                    }
+
+                    IReadOnlyList<PageDownloadLink> selectedLinks = form.SelectedLinks;
+                    if (selectedLinks.Count == 0)
+                    {
+                        MessageBox.Show("Не вибрано жодного посилання.");
+                        return;
+                    }
+
+                    tsb_page_links.Enabled = false;
+                    DownloadSummary summary = await DownloadSelectedLinksAsync(selectedLinks, downloadFolder);
+                    ShowDownloadSummary(summary, downloadFolder);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                tsb_page_links.Enabled = true;
+            }
+        }
+
+        private string GetCurrentDownloadFolder()
+        {
+            if (!string.IsNullOrWhiteSpace(_curJobDir))
+            {
+                return _curJobDir;
+            }
+
+            return curwebView2?.CoreWebView2?.Profile?.DefaultDownloadFolderPath;
+        }
+
+        private async Task<IReadOnlyList<PageDownloadLink>> GetPageLinksAsync()
+        {
+            const string script = @"
+(() => {
+    const fileExtensionPattern = /\.(7z|ai|avi|bmp|csv|doc|docx|eps|gif|gz|heic|indd|jpeg|jpg|mov|mp3|mp4|pdf|png|ppt|pptx|psd|rar|rtf|svg|tif|tiff|txt|webp|xls|xlsx|xml|zip)$/i;
+    const fileNamePattern = /\b[\wА-Яа-яІіЇїЄєҐґ .,'’(){}\[\]-]+\.(7z|ai|avi|bmp|csv|doc|docx|eps|gif|gz|heic|indd|jpeg|jpg|mov|mp3|mp4|pdf|png|ppt|pptx|psd|rar|rtf|svg|tif|tiff|txt|webp|xls|xlsx|xml|zip)\b/i;
+    const isFileLink = (a, url) => {
+        const text = (a.innerText || a.textContent || a.getAttribute('title') || a.getAttribute('aria-label') || '').trim();
+        const path = decodeURIComponent(url.pathname || '');
+        return Boolean(a.getAttribute('download'))
+            || (url.hostname || '').toLowerCase() === 'files.ukr.net' && path.toLowerCase().includes('/package/item/download')
+            || fileExtensionPattern.test(path)
+            || fileNamePattern.test(text);
+    };
+
+    return Array.from(document.querySelectorAll('a[href]'))
+    .filter(a => {
+        const style = window.getComputedStyle(a);
+        const rect = a.getBoundingClientRect();
+        return style.visibility !== 'hidden'
+            && style.display !== 'none'
+            && rect.width > 0
+            && rect.height > 0;
+    })
+    .map(a => {
+        const url = new URL(a.href, document.baseURI);
+        if (!isFileLink(a, url)) {
+            return null;
+        }
+
+        return {
+            text: (a.innerText || a.textContent || a.getAttribute('title') || a.getAttribute('aria-label') || url.pathname.split('/').pop() || url.href).trim(),
+            url: url.href,
+            host: url.host
+        };
+    })
+    .filter(x => x && x.url && (x.url.startsWith('http://') || x.url.startsWith('https://')));
+})();";
+
+            string json = await curwebView2.CoreWebView2.ExecuteScriptAsync(script);
+            var links = JsonSerializer.Deserialize<List<PageDownloadLink>>(json, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            }) ?? new List<PageDownloadLink>();
+
+            return links
+                .Where(link => IsValidWebUrl(link.Url))
+                .GroupBy(link => link.Url, StringComparer.OrdinalIgnoreCase)
+                .Select(group => group.First())
+                .OrderBy(link => link.Host)
+                .ThenBy(link => link.Text)
+                .ToList();
+        }
+
+        private static async Task EnrichLinksWithFileInfoAsync(IReadOnlyList<PageDownloadLink> links)
+        {
+            var tasks = links.Select(EnrichLinkWithFileInfoAsync).ToArray();
+            await Task.WhenAll(tasks);
+        }
+
+        private static async Task EnrichLinkWithFileInfoAsync(PageDownloadLink link)
+        {
+            try
+            {
+                using (HttpResponseMessage response = await SendHeadersOnlyRequestAsync(HttpMethod.Head, link.Url))
+                {
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        throw new HttpRequestException($"HEAD request failed: {(int)response.StatusCode}");
+                    }
+
+                    ApplyFileInfo(link, response.Content.Headers);
+                }
+            }
+            catch
+            {
+                try
+                {
+                    using (HttpResponseMessage response = await SendHeadersOnlyRequestAsync(HttpMethod.Get, link.Url))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            ApplyFileInfo(link, response.Content.Headers);
+                        }
+                    }
+                }
+                catch
+                {
+                    // Missing metadata should not block showing the links list.
+                }
+            }
+        }
+
+        private static async Task<HttpResponseMessage> SendHeadersOnlyRequestAsync(HttpMethod method, string url)
+        {
+            var request = new HttpRequestMessage(method, url);
+            return await HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+        }
+
+        private static void ApplyFileInfo(PageDownloadLink link, HttpContentHeaders headers)
+        {
+            string fileName = GetDownloadFileName(headers, link.Url);
+            if (!string.IsNullOrWhiteSpace(fileName) && !string.Equals(fileName, "download", StringComparison.OrdinalIgnoreCase))
+            {
+                link.Text = fileName;
+            }
+
+            if (headers.ContentLength.HasValue)
+            {
+                link.SizeBytes = headers.ContentLength.Value;
+            }
+        }
+
+        private static async Task<DownloadSummary> DownloadSelectedLinksAsync(IReadOnlyList<PageDownloadLink> links, string downloadFolder)
+        {
+            var summary = new DownloadSummary();
+
+            foreach (PageDownloadLink link in links)
+            {
+                try
+                {
+                    await DownloadFileAsync(link.Url, downloadFolder);
+                    summary.SuccessCount++;
+                }
+                catch (Exception ex)
+                {
+                    summary.Failures.Add($"{link.Url}\n{ex.Message}");
+                }
+            }
+
+            return summary;
+        }
+
+        private static void ShowDownloadSummary(DownloadSummary summary, string downloadFolder)
+        {
+            if (summary.Failures.Count == 0)
+            {
+                MessageBox.Show($"Завантажено файлів: {summary.SuccessCount}\nПапка: {downloadFolder}");
+                return;
+            }
+
+            string failedLinks = string.Join("\n\n", summary.Failures.Take(5));
+            string moreText = summary.Failures.Count > 5 ? $"\n\nЩе помилок: {summary.Failures.Count - 5}" : string.Empty;
+
+            MessageBox.Show(
+                $"Завантажено файлів: {summary.SuccessCount}\nНе вдалося завантажити: {summary.Failures.Count}\nПапка: {downloadFolder}\n\n{failedLinks}{moreText}");
+        }
+
+        private static async Task DownloadFileAsync(string url, string downloadFolder)
+        {
+            using (var response = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
+            {
+                response.EnsureSuccessStatusCode();
+
+                string fileName = GetDownloadFileName(response.Content.Headers, url);
+                string targetPath = GetUniquePath(Path.Combine(downloadFolder, fileName));
+
+                using (Stream source = await response.Content.ReadAsStreamAsync())
+                using (var destination = new FileStream(targetPath, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+                {
+                    await source.CopyToAsync(destination);
+                }
+            }
+        }
+
+        private static string GetDownloadFileName(HttpContentHeaders headers, string url)
+        {
+            string fileName = headers.ContentDisposition?.FileNameStar;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                fileName = headers.ContentDisposition?.FileName;
+            }
+
+            if (string.IsNullOrWhiteSpace(fileName) && Uri.TryCreate(url, UriKind.Absolute, out Uri uri))
+            {
+                fileName = Path.GetFileName(uri.LocalPath);
+            }
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                fileName = "download";
+            }
+
+            fileName = fileName.Trim().Trim('"');
+            fileName = FixMojibakeFileName(fileName);
+            foreach (char invalidChar in Path.GetInvalidFileNameChars())
+            {
+                fileName = fileName.Replace(invalidChar, '_');
+            }
+
+            return string.IsNullOrWhiteSpace(fileName) ? "download" : fileName;
+        }
+
+        private static string FixMojibakeFileName(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName) || !LooksLikeUtf8Mojibake(fileName))
+            {
+                return fileName;
+            }
+
+            try
+            {
+                byte[] bytes = Encoding.GetEncoding("ISO-8859-1").GetBytes(fileName);
+                string decoded = Encoding.UTF8.GetString(bytes);
+
+                return string.IsNullOrWhiteSpace(decoded) ? fileName : decoded;
+            }
+            catch
+            {
+                return fileName;
+            }
+        }
+
+        private static bool LooksLikeUtf8Mojibake(string value)
+        {
+            return value.IndexOf('Ð') >= 0
+                || value.IndexOf('Ñ') >= 0
+                || value.IndexOf('Ò') >= 0
+                || value.IndexOf('Ó') >= 0
+                || value.IndexOf('Â') >= 0;
+        }
+
+        private static string GetUniquePath(string path)
+        {
+            if (!File.Exists(path))
+            {
+                return path;
+            }
+
+            string directory = Path.GetDirectoryName(path);
+            string name = Path.GetFileNameWithoutExtension(path);
+            string extension = Path.GetExtension(path);
+
+            for (int i = 1; ; i++)
+            {
+                string candidate = Path.Combine(directory, $"{name} ({i}){extension}");
+                if (!File.Exists(candidate))
+                {
+                    return candidate;
+                }
+            }
+        }
+
+        private sealed class DownloadSummary
+        {
+            public int SuccessCount { get; set; }
+            public List<string> Failures { get; } = new List<string>();
+        }
+
         private async void tsb_add_tab_Click(object sender, EventArgs e)
         {
             await AddTabAsync();
         }
 
         private async Task AddTabAsync(string title = "")
+        {
+            curwebView2 = await CreateWebViewTabAsync(title, null);
+        }
+
+        private async Task AddTabAsync(string title, string uniqueName)
+        {
+            curwebView2 = await CreateWebViewTabAsync(title, uniqueName);
+        }
+
+        private async Task OpenRememberedLinkAsync(LinkInfo link, string uniqueName = null, bool remember = true)
+        {
+            await AddTabAsync(link.Name, uniqueName);
+
+            WebView2 webView = (WebView2)_tab_control.ActivePage.Tag;
+            BindLinkToWebView(webView, link);
+            webView.ZoomFactor = link.ZoomFactor;
+
+            curwebView2.Source = new Uri("about:blank");
+            curwebView2.Source = new Uri(link.Url);
+            if (remember)
+            {
+                RememberOpenLink(link);
+            }
+
+            SaveWorkspaceLayoutSafe();
+        }
+
+        private void BindLinkToWebView(WebView2 webView, LinkInfo link)
+        {
+            if (webView == null || link == null) return;
+
+            webView.Tag = link;
+
+            if (_tab_control.ActivePage != null && ReferenceEquals(_tab_control.ActivePage.Tag, webView))
+            {
+                _tab_control.ActivePage.Text = link.Name;
+                _tab_control.ActivePage.TextTitle = link.Name;
+            }
+
+            webView.ZoomFactorChanged += (s, ev) =>
+            {
+                link.ZoomFactor = webView.ZoomFactor;
+                if (ReferenceEquals(curwebView2, webView))
+                {
+                    tstb_zoomFactor.Text = (link.ZoomFactor * 100).ToString("N0");
+                }
+
+                UserProfile.Plugins.SaveSettings(_settings);
+            };
+        }
+
+        private void RememberWebViewUrl(WebView2 webView, string url)
+        {
+            if (webView == null || string.IsNullOrWhiteSpace(url)) return;
+
+            if (webView.Tag is LinkInfo oldLink)
+            {
+                _settings.OpenOnStart.Remove(oldLink);
+            }
+
+            var link = new LinkInfo
+            {
+                Name = GetLinkTitle(url),
+                Url = url,
+                ZoomFactor = webView.ZoomFactor
+            };
+
+            BindLinkToWebView(webView, link);
+            RememberOpenLink(link);
+            SaveWorkspaceLayoutSafe();
+        }
+
+        private void RememberOpenLink(LinkInfo link)
+        {
+            _settings.OpenOnStart.Remove(link);
+            _settings.OpenOnStart.Add(link);
+            UserProfile.Plugins.SaveSettings(_settings);
+        }
+
+        private static string GetLinkTitle(string url)
+        {
+            if (Uri.TryCreate(url, UriKind.Absolute, out Uri uri) && !string.IsNullOrWhiteSpace(uri.Host))
+            {
+                return uri.Host;
+            }
+
+            return url;
+        }
+
+        private async Task<WebView2> CreateWebViewTabAsync(string title = "", string uniqueName = null)
         {
             string userDataFolder = Path.Combine(Path.GetTempPath(), $"{Environment.UserName}\\aw_web\\{UserProfile.Settings.ProfileName}");
             if (!Directory.Exists(userDataFolder)) { Directory.CreateDirectory(userDataFolder); }
@@ -295,54 +809,267 @@ namespace PluginFileshareWeb
                 userDataFolder: Path.Combine(userDataFolder),
                 options);
 
-            curwebView2 = new WebView2();
-            curwebView2.ZoomFactor = zoomFactor / 100;
-             await curwebView2.EnsureCoreWebView2Async(environment);
+            var webView = new WebView2();
+            webView.ZoomFactor = zoomFactor / 100;
+            await webView.EnsureCoreWebView2Async(environment);
 
-            curwebView2.CoreWebView2.ServerCertificateErrorDetected += (s, e) =>
+            webView.CoreWebView2.ServerCertificateErrorDetected += (s, e) =>
             {
                 e.Action = CoreWebView2ServerCertificateErrorAction.AlwaysAllow;
             };
-            curwebView2.CoreWebView2.DocumentTitleChanged += (s, e) =>
+            webView.CoreWebView2.DocumentTitleChanged += (s, e) =>
             {
-                if (curwebView2.CoreWebView2 != null)
+                if (webView.CoreWebView2 != null)
                 {
-                    var tab = (KryptonPage)curwebView2.Parent;
+                    var tab = webView.Parent as KryptonPage;
                     if (tab != null)
                     {
-                        tab.Text = curwebView2.CoreWebView2.DocumentTitle;
+                        tab.Text = webView.CoreWebView2.DocumentTitle;
                     }
                 }
             };
-            curwebView2.CoreWebView2.Settings.IsPasswordAutosaveEnabled = true;
+            webView.CoreWebView2.SourceChanged += (s, e) =>
+            {
+                if (ReferenceEquals(curwebView2, webView))
+                {
+                    UpdateAddressBar(webView);
+                }
+            };
+            webView.CoreWebView2.NewWindowRequested += WebView_NewWindowRequested;
+            webView.CoreWebView2.Settings.IsPasswordAutosaveEnabled = true;
 
             if (_curJob != null)
             {
-                curwebView2.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
+                webView.CoreWebView2.Profile.DefaultDownloadFolderPath = _curJobDir;
             }
 
             KryptonPage tabPage = new KryptonPage(title);
-            tabPage.Tag = curwebView2;
-            curwebView2.Dock = DockStyle.Fill;
-            tabPage.Controls.Add(curwebView2);
-            _tab_control.Pages.Add(tabPage);
-            _tab_control.SelectedPage = tabPage;
+            tabPage.UniqueName = string.IsNullOrWhiteSpace(uniqueName) ? Guid.NewGuid().ToString("N") : uniqueName;
+            tabPage.TextTitle = title;
+            tabPage.Tag = webView;
+            webView.Dock = DockStyle.Fill;
+            tabPage.Controls.Add(webView);
+
+            KryptonWorkspaceCell cell = GetTargetCell();
+            cell.Pages.Add(tabPage);
+            _tab_control.ActivePage = tabPage;
+            if (_tab_control.ActiveCell !=null)
+                _tab_control.ActiveCell.SelectedPage = tabPage;
+
+            SaveWorkspaceLayoutSafe();
+            return webView;
         }
 
+        private KryptonWorkspaceCell GetTargetCell()
+        {
+            if (_tab_control.ActiveCell != null) return _tab_control.ActiveCell;
+
+            KryptonWorkspaceCell firstCell = _tab_control.FirstCell();
+            if (firstCell != null) return firstCell;
+
+            KryptonWorkspaceCell cell = CreateWorkspaceCell();
+            _tab_control.Root.Children.Add(cell);
+            return cell;
+        }
+
+        private KryptonWorkspaceCell CreateWorkspaceCell()
+        {
+            return new KryptonWorkspaceCell();
+        }
+
+        private void InitializeWorkspaceCell(KryptonWorkspaceCell cell)
+        {
+            cell.NavigatorMode = NavigatorMode.BarTabGroup;
+            cell.CloseAction += kryptonWorkspaceCell_CloseAction;
+        }
+
+        private void KryptonWorkspace1_WorkspaceCellAdding(object sender, WorkspaceCellEventArgs e)
+        {
+            InitializeWorkspaceCell(e.Cell);
+        }
+
+        private async void WebView_NewWindowRequested(object sender, CoreWebView2NewWindowRequestedEventArgs e)
+        {
+            var deferral = e.GetDeferral();
+
+            try
+            {
+                var newWebView = await CreateWebViewTabAsync("Нова вкладка");
+                e.NewWindow = newWebView.CoreWebView2;
+                e.Handled = true;
+            }
+            finally
+            {
+                deferral.Complete();
+            }
+        }
        
-        private void kryptonNavigator1_CloseAction(object sender, CloseActionEventArgs e)
+        private void kryptonWorkspaceCell_CloseAction(object sender, CloseActionEventArgs e)
         {
             if (e.Action == CloseButtonAction.RemovePageAndDispose)
             {
                 if (e.Item.Tag is WebView2 webView2)
                 {
-                    LinkInfo link = (LinkInfo)webView2.Tag;
-                    _settings.OpenOnStart.Remove(link);
-                    UserProfile.Plugins.SaveSettings(_settings);
+                    if (webView2.Tag is LinkInfo link)
+                    {
+                        _settings.OpenOnStart.Remove(link);
+                        UserProfile.Plugins.SaveSettings(_settings);
+                    }
+
+                    SaveWorkspaceLayoutSafe();
                     // Dispose the WebView2 control
                     webView2.Dispose();
                 }
             }
+        }
+
+        private string GetWorkspaceLayoutPath()
+        {
+            string settingsPath = Path.Combine(UserProfile.ProfilePath, "Plugins", "Settings");
+            Directory.CreateDirectory(settingsPath);
+            return Path.Combine(settingsPath, "PluginFileshareWeb.workspace.xml");
+        }
+
+        private void SaveWorkspaceLayoutSafe()
+        {
+            if (_isLoadingWorkspaceLayout || _tab_control == null || UserProfile == null) return;
+
+            try
+            {
+                _tab_control.SaveLayoutToFile(GetWorkspaceLayoutPath(), Encoding.UTF8);
+            }
+            catch
+            {
+                // Layout saving must not block browser work or application shutdown.
+            }
+        }
+
+        private void LoadWorkspaceLayoutSafe()
+        {
+            if (_tab_control == null || UserProfile == null) return;
+
+            string layoutPath = GetWorkspaceLayoutPath();
+            if (!File.Exists(layoutPath)) return;
+
+            bool wasLoadingWorkspaceLayout = _isLoadingWorkspaceLayout;
+
+            try
+            {
+                _isLoadingWorkspaceLayout = true;
+                _tab_control.LoadLayoutFromFile(layoutPath);
+            }
+            catch
+            {
+                try
+                {
+                    File.Delete(layoutPath);
+                }
+                catch
+                {
+                }
+            }
+            finally
+            {
+                _isLoadingWorkspaceLayout = wasLoadingWorkspaceLayout;
+            }
+        }
+
+        private void InitializeWorkspaceCells()
+        {
+            KryptonWorkspaceCell cell = _tab_control.FirstCell();
+            while (cell != null)
+            {
+                InitializeWorkspaceCell(cell);
+                cell = _tab_control.NextCell(cell);
+            }
+        }
+
+        private void RemoveRestoredPlaceholderPages()
+        {
+            foreach (KryptonPage page in _tab_control.AllPages().ToList())
+            {
+                if (page.Tag is WebView2) continue;
+
+                _tab_control.ClosePage(page);
+            }
+        }
+
+        private static string GetLinkPageUniqueName(LinkInfo link)
+        {
+            string value = link?.Url ?? string.Empty;
+            using (var sha = SHA256.Create())
+            {
+                byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(value.ToUpperInvariant()));
+                return "fileshare_" + BitConverter.ToString(bytes, 0, 8).Replace("-", string.Empty);
+            }
+        }
+
+        private sealed class FileshareToolStripRenderer : ToolStripProfessionalRenderer
+        {
+            public FileshareToolStripRenderer()
+                : base(new FileshareColorTable())
+            {
+            }
+
+            protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+            {
+                using (var pen = new Pen(Color.FromArgb(226, 232, 240)))
+                {
+                    e.Graphics.DrawLine(pen, 0, e.ToolStrip.Height - 1, e.ToolStrip.Width, e.ToolStrip.Height - 1);
+                }
+            }
+
+            protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
+            {
+                var button = e.Item as ToolStripButton;
+                if (button == null)
+                {
+                    base.OnRenderButtonBackground(e);
+                    return;
+                }
+
+                var bounds = new Rectangle(Point.Empty, e.Item.Size);
+                bounds.Inflate(-1, -3);
+                var fill = button.BackColor;
+
+                if (button.Pressed)
+                {
+                    fill = ControlPaint.Dark(fill, 0.08f);
+                }
+                else if (button.Selected)
+                {
+                    fill = ControlPaint.Light(fill, 0.08f);
+                }
+
+                using (var path = RoundedRectangle(bounds, 6))
+                using (var brush = new SolidBrush(fill))
+                {
+                    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    e.Graphics.FillPath(brush, path);
+                }
+            }
+
+            private static GraphicsPath RoundedRectangle(Rectangle bounds, int radius)
+            {
+                int diameter = radius * 2;
+                var path = new GraphicsPath();
+                path.AddArc(bounds.Left, bounds.Top, diameter, diameter, 180, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Top, diameter, diameter, 270, 90);
+                path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter, diameter, diameter, 0, 90);
+                path.AddArc(bounds.Left, bounds.Bottom - diameter, diameter, diameter, 90, 90);
+                path.CloseFigure();
+                return path;
+            }
+        }
+
+        private sealed class FileshareColorTable : ProfessionalColorTable
+        {
+            public override Color ToolStripGradientBegin => Color.FromArgb(245, 247, 250);
+            public override Color ToolStripGradientMiddle => Color.FromArgb(245, 247, 250);
+            public override Color ToolStripGradientEnd => Color.FromArgb(245, 247, 250);
+            public override Color ButtonSelectedGradientBegin => Color.FromArgb(226, 232, 240);
+            public override Color ButtonSelectedGradientMiddle => Color.FromArgb(226, 232, 240);
+            public override Color ButtonSelectedGradientEnd => Color.FromArgb(226, 232, 240);
         }
     }
 }

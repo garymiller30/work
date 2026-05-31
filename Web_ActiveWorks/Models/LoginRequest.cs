@@ -4,13 +4,13 @@ public sealed class LoginRequest
 {
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
-    public string ReturnUrl { get; set; } = "/";
+    public string ReturnUrl { get; set; } = "/jobs";
 
     public static string NormalizeReturnUrl(string? returnUrl)
     {
         if (string.IsNullOrWhiteSpace(returnUrl) || !returnUrl.StartsWith('/'))
         {
-            return "/";
+            return "/jobs";
         }
 
         return returnUrl;

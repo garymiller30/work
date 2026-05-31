@@ -4,4 +4,5 @@ public sealed class WebAccessSettings
 {
     public List<WebProfileDefinition> Profiles { get; set; } = new();
     public List<WebUserDefinition> Users { get; set; } = new();
+    public List<PaymentRequisiteDefinition> PaymentRequisites { get; set; } = new();
 }

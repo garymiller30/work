@@ -15,8 +15,9 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class MasterPageSelectControl : UserControl
     {
-        //List<PdfFile> _files;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler<PageFormatView> OnMasterPageChanged { get; set; } = delegate { };
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler<PageFormatView> OnMasterPageAdded { get; set; } = delegate { };
         public MasterPageSelectControl()
         {

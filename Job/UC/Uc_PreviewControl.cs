@@ -21,6 +21,8 @@ namespace JobSpace.UC
     public partial class Uc_PreviewControl : UserControl
     {
         private Image image;
+        private Panel _loaderPanel;
+        private PictureBox _loaderPictureBox;
         
         private bool _dragging = false;
         private Point _dragStartPoint;
@@ -69,14 +71,24 @@ namespace JobSpace.UC
         /// <param name="h">The height of the image in device-independent units.</param>
         public void SetImage(Image img, double w, double h)
         {
+            ClearWaitImage();
             Image = img;
             size = new SizeF((float)w, (float)h);
             UpdatePreviewLayout();
         }
 
+        public int GetPreviewTargetLongSidePixels()
+        {
+            int width = panel1.ClientSize.Width;
+            int height = panel1.ClientSize.Height;
+
+            return Math.Max(width, height);
+        }
+
         public Uc_PreviewControl()
         {
             InitializeComponent();
+            InitializeLoaderOverlay();
         }
 
         private void panel1_SizeChanged(object sender, EventArgs e)
@@ -86,14 +98,39 @@ namespace JobSpace.UC
 
         private void pb_preview_Paint(object sender, PaintEventArgs e)
         {
+            Graphics g = e.Graphics;
+            g.Clear(pb_preview.BackColor);
+
             if (image == null) return;
 
-            Graphics g = e.Graphics;
             g.PageUnit = GraphicsUnit.Millimeter;
             g.ScaleTransform(_previewParameters.ZoomFactor, _previewParameters.ZoomFactor);
             
             g.DrawImage(image, 0, 0, size.Width, size.Height);
         }
+
+        private void InitializeLoaderOverlay()
+        {
+            _loaderPictureBox = new PictureBox
+            {
+                Dock = DockStyle.Fill,
+                SizeMode = PictureBoxSizeMode.CenterImage,
+                BackColor = System.Drawing.Color.White
+            };
+
+            _loaderPanel = new Panel
+            {
+                Anchor = panel1.Anchor,
+                BackColor = System.Drawing.Color.White,
+                Location = panel1.Location,
+                Size = panel1.Size,
+                Visible = false
+            };
+            _loaderPanel.Controls.Add(_loaderPictureBox);
+            Controls.Add(_loaderPanel);
+            _loaderPanel.BringToFront();
+        }
+
         private void UpdatePreviewLayout()
         {
             if (image == null) return;
@@ -129,16 +166,33 @@ namespace JobSpace.UC
         public void StartWait(string animationFile)
         {
             Image = null;
+            ClearWaitImage();
 
-            pb_preview.SizeMode = PictureBoxSizeMode.CenterImage;
-            // Спершу показуємо анімований GIF
-            pb_preview.ImageLocation = animationFile;
+            pb_preview.Location = new Point(0, 0);
+            pb_preview.Size = panel1.ClientSize;
+            pb_preview.Invalidate();
+
+            if (File.Exists(animationFile))
+            {
+                _loaderPictureBox.Image = Image.FromFile(animationFile);
+            }
+
+            _loaderPanel.Visible = true;
+            _loaderPanel.BringToFront();
         }
 
         public void StopWait()
         {
-            pb_preview.ImageLocation = null;
-            pb_preview.SizeMode = PictureBoxSizeMode.Normal;
+            ClearWaitImage();
+        }
+
+        private void ClearWaitImage()
+        {
+            _loaderPanel.Visible = false;
+            var waitImage = _loaderPictureBox.Image;
+            _loaderPictureBox.Image = null;
+            waitImage?.Dispose();
+            pb_preview.Invalidate();
         }
 
         public void Redraw()
