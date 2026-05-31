@@ -16,16 +16,22 @@ namespace JobSpace.UC
     public sealed class NoCache : ICache<IFileSystemInfoExt>
     {
         private readonly IWatcher _watcher;
-        private List<string> _ignoreFolders = new List<string>(){"temp",".signa",".preview",".impos" };
+        private readonly List<string> _ignoreFolders = new List<string> { "temp", ".signa", ".preview", ".impos" };
 
-        // Кеш для швидкого доступу до метаданих файлів та папок. Ключ - повний шлях.
-        private Dictionary<string, IFileSystemInfoExt> _fileCache = new Dictionary<string, IFileSystemInfoExt>(StringComparer.InvariantCultureIgnoreCase);
+        // Кеш вмісту директорій: шлях директорії → список файлів/папок у ній.
+        // Повернення до тієї самої директорії повертає ті самі об'єкти зі збереженими метаданими.
+        private readonly Dictionary<string, List<IFileSystemInfoExt>> _dirContents =
+            new Dictionary<string, List<IFileSystemInfoExt>>(StringComparer.OrdinalIgnoreCase);
 
-        // Список для відстеження останніх використаних шляхів (LRU)
-        private readonly LinkedList<string> _recentPaths = new LinkedList<string>();
-        private const int CacheCapacity = 10; // Максимальна кількість кешованих папок/шляхів
+        // Швидкий пошук об'єкта за повним шляхом для обробки подій watcher-а.
+        private readonly Dictionary<string, IFileSystemInfoExt> _fileIndex =
+            new Dictionary<string, IFileSystemInfoExt>(StringComparer.OrdinalIgnoreCase);
 
-        readonly List<IFileSystemInfoExt> _files = new List<IFileSystemInfoExt>();
+        // LRU-список директорій (не файлів).
+        private readonly LinkedList<string> _recentDirs = new LinkedList<string>();
+        private const int CacheCapacity = 10;
+
+        readonly NaturalSorting.NaturalFileInfoNameComparer _naturalComparer = new NaturalSorting.NaturalFileInfoNameComparer();
 
         public event EventHandler<IFileSystemInfoExt> OnChanged = delegate { };
         public event EventHandler<IFileSystemInfoExt> OnDeleted = delegate { };
@@ -49,277 +55,164 @@ namespace JobSpace.UC
             OnError(this, e);
         }
 
-        private void WatcherOnRenamed(object sender, RenamedEventArgs e)
+        private void WatcherOnChanged(object sender, FileSystemEventArgs e)
         {
-            if (e.ChangeType == WatcherChangeTypes.Renamed)
-            {
-                Debug.WriteLine($"- OnRenamed: from {e.OldName} to {e.Name} e.FullPath: {e.FullPath}");
+            if (e.ChangeType != WatcherChangeTypes.Changed) return;
 
-                // 1. Видаляємо старий елемент з кешу та списку
-                if (_fileCache.Remove(e.OldFullPath))
-                {
-                    var oldItem = _files.FirstOrDefault(x => x.FileInfo.FullName.Equals(e.OldFullPath, StringComparison.CurrentCultureIgnoreCase));
-                    if (oldItem != null)
-                    {
-                        _files.Remove(oldItem);
-                        OnDeleted(this, oldItem);
-                    }
-                }
+            Debug.WriteLine($"- OnChanged: {e.FullPath}");
 
-                // 2. Перевіряємо, чи існує новий елемент у кеші (можливо, він був просто перейменований)
-                var newItem = _fileCache.Values.FirstOrDefault(x =>
-                    x.FileInfo.FullName.Equals(e.FullPath, StringComparison.CurrentCultureIgnoreCase));
+            if (!_fileIndex.TryGetValue(e.FullPath, out var item)) return;
 
-                if (newItem == null) 
-                {
-                    // 3. Додаємо новий елемент до кешу та списку
-                    try
-                    {
-                        var newItemInstance = new FileSystemInfoExt(e.FullPath);
-                        _fileCache[e.FullPath] = newItemInstance;
-                        _files.Add(newItemInstance);
-                        OnCreated(this, newItemInstance);
-
-                        // Оновлюємо використання нового шляху
-                        UpdateUsage(_fileCache.Keys.FirstOrDefault(k => k == e.FullPath));
-                    }
-                    catch (Exception ex)
-                    {
-                         Log.Error(this, $"WatcherOnRenamed: Failed to create new item {e.FullPath}", ex.Message);
-                    }
-                }
-                else
-                {
-                    // 4. Оновлюємо метадані і сповіщаємо про зміну
-                    newItem.RefreshParam(e.FullPath);
-                    _files.Remove(newItem); // Видаляємо старий об'єкт зі списку, щоб додати оновлений
-                    _files.Add(newItem);
-                    OnChanged(this, newItem);
-
-                    // Оновлюємо використання шляху, який змінився
-                    UpdateUsage(e.FullPath);
-                }
-            }
-
-        }
-
-        private void WatcherOnCreated(object sender, FileSystemEventArgs e)
-        {
-            if (e.ChangeType == WatcherChangeTypes.Created)
-            {
-                // temp пропускаємо
-                if (!_ignoreFolders.Contains(e.Name.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase)) 
-                {
-                    Debug.WriteLine($"- OnCreated: e.FullPath: {e.FullPath}");
-                    try
-                    {
-                        var fsie = new FileSystemInfoExt(e.FullPath);
-                        _fileCache[e.FullPath] = fsie; // Додаємо до кешу
-                        _files.Add(fsie);
-                        OnCreated(this, fsie);
-
-                        // Оновлюємо використання нового шляху (якщо це папка)
-                        if (fsie.IsDir)
-                        {
-                            UpdateUsage(e.FullPath);
-                        }
-                    }
-                    catch (Exception exception)
-                    {
-                        Log.Error(this, $"WatcherOnCreated : {e.FullPath}", exception.Message);
-                    }
-                }
-            }
+            item.RefreshParam(e.FullPath);
+            OnChanged(this, item);
         }
 
         private void WatcherOnDeleted(object sender, FileSystemEventArgs e)
         {
-            if (e.ChangeType == WatcherChangeTypes.Deleted)
-            {
-                // Видаляємо з кешу та списку
-                if (_fileCache.Remove(e.FullPath))
-                {
-                    var oldItem = _files.FirstOrDefault(x => x.FileInfo.FullName.Equals(e.FullPath, StringComparison.InvariantCultureIgnoreCase));
-                    if (oldItem != null)
-                    {
-                        OnDeleted(this, oldItem);
-                        _files.Remove(oldItem);
-                    }
+            if (e.ChangeType != WatcherChangeTypes.Deleted) return;
 
-                    // Видаляємо шлях з історії використання, оскільки він більше не існує
-                    RemovePathFromUsage(e.FullPath);
-                }
-            }
+            if (!_fileIndex.TryGetValue(e.FullPath, out var item)) return;
 
+            _fileIndex.Remove(e.FullPath);
+
+            var dirPath = Path.GetDirectoryName(e.FullPath);
+            if (dirPath != null && _dirContents.TryGetValue(dirPath, out var list))
+                list.Remove(item);
+
+            OnDeleted(this, item);
         }
 
-        private void WatcherOnChanged(object sender, FileSystemEventArgs e)
+        private void WatcherOnCreated(object sender, FileSystemEventArgs e)
         {
-            if (e.ChangeType == WatcherChangeTypes.Changed)
+            if (e.ChangeType != WatcherChangeTypes.Created) return;
+
+            var name = Path.GetFileName(e.FullPath);
+            if (_ignoreFolders.Contains(name?.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
+                return;
+
+            Debug.WriteLine($"- OnCreated: {e.FullPath}");
+
+            try
             {
-                Debug.WriteLine($"- OnChanged: e.FullPath: {e.FullPath}");
+                var item = new FileSystemInfoExt(e.FullPath);
+                _fileIndex[e.FullPath] = item;
 
-                // Оновлюємо метадані в кеші та списку
-                var cachedItem = _fileCache.Values.FirstOrDefault(x =>
-                    x.FileInfo.FullName.Equals(e.FullPath, StringComparison.InvariantCultureIgnoreCase));
-                
-                if (cachedItem != null)
-                {
-                    // Оновлюємо об'єкт у кеші
-                    cachedItem.RefreshParam(e.FullPath); 
+                var dirPath = Path.GetDirectoryName(e.FullPath);
+                if (dirPath != null && _dirContents.TryGetValue(dirPath, out var list))
+                    list.Add(item);
 
-                    // Перезаписуємо в списку _files для коректного відображення змін
-                    var index = _files.IndexOf(cachedItem);
-                    if (index != -1)
-                    {
-                        _files[index] = cachedItem;
-                        OnChanged(this, cachedItem);
-                    }
-
-                    // Оновлюємо використання шляху, який змінився
-                    UpdateUsage(e.FullPath);
-                }
+                OnCreated(this, item);
             }
-
+            catch (Exception ex)
+            {
+                Log.Error(this, $"WatcherOnCreated: {e.FullPath}", ex.Message);
+            }
         }
 
-
-        NaturalSorting.NaturalFileInfoNameComparer _naturalCompaper = new NaturalSorting.NaturalFileInfoNameComparer();
-
-        /// <summary>
-        /// Оновлює порядок використання шляху (LRU). Переміщує шлях на початок списку, якщо він існує.
-        /// </summary>
-        private void UpdateUsage(string path)
+        private void WatcherOnRenamed(object sender, RenamedEventArgs e)
         {
-            if (path == null || string.IsNullOrWhiteSpace(path)) return;
+            if (e.ChangeType != WatcherChangeTypes.Renamed) return;
 
-            // 1. Видаляємо старий запис, якщо він є
-            var node = _recentPaths.Find(path);
-            if (node != null)
+            Debug.WriteLine($"- OnRenamed: {e.OldFullPath} → {e.FullPath}");
+
+            // Видаляємо старий запис
+            if (_fileIndex.TryGetValue(e.OldFullPath, out var oldItem))
             {
-                _recentPaths.Remove(node);
+                _fileIndex.Remove(e.OldFullPath);
+
+                var oldDir = Path.GetDirectoryName(e.OldFullPath);
+                if (oldDir != null && _dirContents.TryGetValue(oldDir, out var oldList))
+                    oldList.Remove(oldItem);
+
+                OnDeleted(this, oldItem);
             }
 
-            // 2. Додаємо на початок списку
-            _recentPaths.AddFirst(path);
-
-            // 3. Обмежуємо розмір кешу, видаляючи найстаріший елемент (з кінця)
-            while (_recentPaths.Count > CacheCapacity)
+            // Додаємо новий запис
+            try
             {
-                var oldestPath = _recentPaths.Last.Value;
-                _recentPaths.RemoveLast();
+                var newItem = new FileSystemInfoExt(e.FullPath);
+                _fileIndex[e.FullPath] = newItem;
 
-                // Видаляємо відповідний запис з основного кешу, щоб звільнити пам'ять
-                if (_fileCache.ContainsKey(oldestPath))
-                {
-                    _fileCache.Remove(oldestPath);
-                }
+                var newDir = Path.GetDirectoryName(e.FullPath);
+                if (newDir != null && _dirContents.TryGetValue(newDir, out var newList))
+                    newList.Add(newItem);
+
+                OnCreated(this, newItem);
             }
-        }
-
-        /// <summary>
-        /// Видаляє шлях з історії використання (використовується при видаленні файлу/папки).
-        /// </summary>
-        private void RemovePathFromUsage(string path)
-        {
-             var node = _recentPaths.Find(path);
-            if (node != null)
+            catch (Exception ex)
             {
-                _recentPaths.Remove(node);
+                Log.Error(this, $"WatcherOnRenamed: {e.FullPath}", ex.Message);
             }
         }
-
 
         public List<IFileSystemInfoExt> GetFiles(string path)
         {
-            // 1. Перевірка кешу: Якщо шлях є в кеші, повертаємо дані з нього та оновлюємо використання.
-            if (_fileCache.ContainsKey(path))
+            if (_dirContents.TryGetValue(path, out var cached))
             {
+                // Поки watcher не стежив за цією папкою, файли могли змінитись або з'явитись/зникнути.
+                // Швидко звіряємо кеш з реальним станом директорії.
+                SyncCachedDirectory(path, cached);
                 UpdateUsage(path);
-                var cachedFiles = _files;
-
-                // *** ЗМІНА ДЛЯ СИНХРОНІЗАЦІЇ: ОНОВЛЕННЯ МЕТАДАННИХ ПЕРЕД ПОСТАВЛЕННЯМ В UI ***
-                foreach (var file in cachedFiles)
-                {
-                    file.RefreshParam(path); 
-                }
-
-                return cachedFiles; // Повертаємо вже завантажений список
+                return cached;
             }
 
             DisableWatcher();
 
-            // 2. Якщо в кеші немає, виконуємо сканування та заповнюємо кеш/список папок
             if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
-           
-            _files.Clear(); // Очищаємо список для нового шляху
 
-            // Скануємо та заповнюємо кеш/список папок
+            var list = new List<IFileSystemInfoExt>();
+
             var dirs = Directory.GetDirectories(path)
-                .Where(y => !_ignoreFolders.Contains(Path.GetFileName(y).ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
+                .Where(y => !_ignoreFolders.Contains(
+                    Path.GetFileName(y)?.ToLowerInvariant(),
+                    StringComparer.OrdinalIgnoreCase))
                 .Select(x => new FileInfo(x).ToFileSystemInfoExt())
-                .ToList();
+                .ToList(); // List<FileSystemInfoExt>
+            dirs.Sort(_naturalComparer);
 
-            foreach (var dir in dirs)
-            {
-                 _fileCache[dir.FileInfo.FullName] = dir; // Кешуємо знайдені папки
-                 _files.Add(dir);
-            }
-            dirs.Sort(_naturalCompaper);
+            var files = Directory.GetFiles(path)
+                .Select(x => new FileInfo(x).ToFileSystemInfoExt())
+                .ToList(); // List<FileSystemInfoExt>
+            files.Sort(_naturalComparer);
 
+            list.AddRange(dirs);
+            list.AddRange(files);
 
-            // Скануємо та заповнюємо кеш/список файлів
-            var f = Directory.GetFiles(path).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            foreach (var item in list)
+                _fileIndex[item.FileInfo.FullName] = item;
 
-            foreach (var file in f)
-            {
-                _fileCache[file.FileInfo.FullName] = file; // Додаємо до кешу
-                _files.Add(file);
-            }
-            f.Sort(_naturalCompaper);
+            _dirContents[path] = list;
 
-
-            // 3. Встановлюємо спостерігач та оновлюємо використання шляху
             SetWatcher(path);
             UpdateUsage(path);
 
-            return _files;
+            return list;
         }
 
         public List<IFileSystemInfoExt> GetDirs(string path)
         {
-            // 1. Перевірка кешу: Якщо шлях є в кеші, повертаємо дані з нього та оновлюємо використання.
-            if (_fileCache.ContainsKey(path))
+            if (_dirContents.TryGetValue(path, out var cached))
             {
                 UpdateUsage(path);
-                var cachedDir = _fileCache[path];
-
-                // *** ЗМІНА ДЛЯ СИНХРОНІЗАЦІЇ: ОНОВЛЕННЯ МЕТАДАННИХ ПЕРЕД ПОСТАВЛЕННЯМ В UI ***
-                cachedDir.RefreshParam(path); 
-
-                return new List<IFileSystemInfoExt> { cachedDir };
+                return cached.Where(x => x.IsDir).ToList();
             }
 
             DisableWatcher();
 
-            // 2. Якщо в кеші немає, виконуємо сканування та заповнюємо кеш/список папок
             if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
 
-            _files.Clear(); // Очищаємо список для нового шляху
-
             var dirs = Directory.GetDirectories(path)
-                 .Where(y => !_ignoreFolders.Contains(Path.GetFileName(y).ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
-                 .Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
-            
+                .Where(y => !_ignoreFolders.Contains(
+                    Path.GetFileName(y)?.ToLowerInvariant(),
+                    StringComparer.OrdinalIgnoreCase))
+                .Select(x => new FileInfo(x).ToFileSystemInfoExt())
+                .ToList(); // List<FileSystemInfoExt>
+            dirs.Sort(_naturalComparer);
+
+            // Index but don't fully cache directory (GetFiles will do that later)
             foreach (var dir in dirs)
-            {
-                _fileCache[dir.FileInfo.FullName] = dir; // Кешуємо знайдені папки
-                _files.Add(dir);
-            }
+                _fileIndex[dir.FileInfo.FullName] = dir;
 
-            dirs.Sort(_naturalCompaper);
-
-            // 3. Встановлюємо спостерігач та оновлюємо використання шляху
             SetWatcher(path);
             UpdateUsage(path);
 
@@ -328,61 +221,132 @@ namespace JobSpace.UC
 
         public List<IFileSystemInfoExt> GetAllFiles(string path)
         {
-            // 1. Перевірка кешу: Якщо шлях є в кеші, повертаємо дані з нього та оновлюємо використання.
-            if (_fileCache.ContainsKey(path))
-            {
-                UpdateUsage(path);
-                var cachedFiles = _files;
-
-                // *** ЗМІНА ДЛЯ СИНХРОНІЗАЦІЇ: ОНОВЛЕННЯ МЕТАДАННИХ ПЕРЕД ПОСТАВЛЕННЯМ В UI ***
-                foreach (var file in cachedFiles)
-                {
-                    file.RefreshParam(path); 
-                }
-
-                return cachedFiles; // Повертаємо вже завантажений список
-            }
-
+            // For recursive mode don't cache (rare case)
             DisableWatcher();
 
-            // 2. Якщо в кеші немає, виконуємо сканування та заповнюємо кеш/список файлів рекурсивно
             if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
 
-            _files.Clear(); // Очищаємо список для нового шляху
+            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
+                .Select(x => new FileInfo(x).ToFileSystemInfoExt())
+                .ToList(); // List<FileSystemInfoExt>
+            files.Sort(_naturalComparer);
 
-            // Скануємо та заповнюємо кеш/список файлів рекурсивно
-            var f = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
-            
-            foreach (var file in f)
-            {
-                _fileCache[file.FileInfo.FullName] = file; // Додаємо до кешу
-                _files.Add(file);
-            }
-
-            f.Sort(_naturalCompaper);
-
-            // 3. Встановлюємо спостерігач та оновлюємо використання шляху
             SetWatcher(path);
-            UpdateUsage(path);
 
-            return _files;
-        }
-
-
-        private void DisableWatcher()
-        {
-            _watcher.Stop();
-        }
-
-        private void SetWatcher(string path)
-        {
-            _watcher?.SetWatchFolder(path);
+            return files.Cast<IFileSystemInfoExt>().ToList();
         }
 
         public int GetCountFiles()
         {
-            // Використовуємо кеш для швидкого підрахунку, якщо він доступний
-            return _fileCache.Values.Count(x => !x.IsDir);
+            return _fileIndex.Values.Count(x => !x.IsDir);
         }
+
+        // ── Sync ───────────────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Звіряє закешований список із реальним вмістом директорії.
+        /// Видаляє зниклі файли, додає нові, оновлює FileInfo для змінених.
+        /// Не стріляє події — викликається всередині GetFiles, після якого UI
+        /// будується заново через OnRefreshDirectory з повним списком.
+        /// </summary>
+        private void SyncCachedDirectory(string dirPath, List<IFileSystemInfoExt> cached)
+        {
+            if (!Directory.Exists(dirPath)) return;
+
+            var actualPaths = new HashSet<string>(
+                Directory.GetFileSystemEntries(dirPath)
+                    .Where(p => {
+                        var name = Path.GetFileName(p);
+                        return !_ignoreFolders.Contains(name?.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase);
+                    }),
+                StringComparer.OrdinalIgnoreCase);
+
+            // 1. Видаляємо записи, які більше не існують
+            var deleted = cached
+                .Where(x => !actualPaths.Contains(x.FileInfo.FullName))
+                .ToList();
+
+            foreach (var item in deleted)
+            {
+                cached.Remove(item);
+                _fileIndex.Remove(item.FileInfo.FullName);
+            }
+
+            // 2. Додаємо файли, які з'явились
+            var cachedPaths = new HashSet<string>(
+                cached.Select(x => x.FileInfo.FullName),
+                StringComparer.OrdinalIgnoreCase);
+
+            foreach (var fullPath in actualPaths)
+            {
+                if (cachedPaths.Contains(fullPath)) continue;
+
+                try
+                {
+                    var newItem = new FileSystemInfoExt(fullPath);
+                    cached.Add(newItem);
+                    _fileIndex[fullPath] = newItem;
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(this, $"SyncCachedDirectory: {fullPath}", ex.Message);
+                }
+            }
+
+            // 3. Оновлюємо FileInfo для файлів, які змінились
+            foreach (var item in cached)
+            {
+                if (item.IsDir) continue;
+
+                try
+                {
+                    var fi = new FileInfo(item.FileInfo.FullName);
+                    if (!fi.Exists) continue;
+
+                    if (fi.LastWriteTime != item.FileInfo.LastWriteTime ||
+                        fi.Length != item.FileInfo.Length)
+                    {
+                        item.RefreshParam(item.FileInfo.FullName);
+                    }
+                }
+                catch { /* файл може бути заблокований або видалений між кроками */ }
+            }
+        }
+
+        // ── LRU ────────────────────────────────────────────────────────────────
+
+        private void UpdateUsage(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return;
+
+            var node = _recentDirs.Find(path);
+            if (node != null)
+                _recentDirs.Remove(node);
+
+            _recentDirs.AddFirst(path);
+
+            while (_recentDirs.Count > CacheCapacity)
+            {
+                var oldest = _recentDirs.Last.Value;
+                _recentDirs.RemoveLast();
+                EvictDirectory(oldest);
+            }
+        }
+
+        private void EvictDirectory(string dirPath)
+        {
+            if (!_dirContents.TryGetValue(dirPath, out var entries)) return;
+
+            foreach (var entry in entries)
+                _fileIndex.Remove(entry.FileInfo.FullName);
+
+            _dirContents.Remove(dirPath);
+        }
+
+        // ── Watcher helpers ────────────────────────────────────────────────────
+
+        private void DisableWatcher() => _watcher.Stop();
+
+        private void SetWatcher(string path) => _watcher?.SetWatchFolder(path);
     }
 }
