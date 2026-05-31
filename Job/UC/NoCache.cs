@@ -21,6 +21,10 @@ namespace JobSpace.UC
         // Кеш для швидкого доступу до метаданих файлів та папок. Ключ - повний шлях.
         private Dictionary<string, IFileSystemInfoExt> _fileCache = new Dictionary<string, IFileSystemInfoExt>(StringComparer.InvariantCultureIgnoreCase);
 
+        // Список для відстеження останніх використаних шляхів (LRU)
+        private readonly LinkedList<string> _recentPaths = new LinkedList<string>();
+        private const int CacheCapacity = 10; // Максимальна кількість кешованих папок/шляхів
+
         readonly List<IFileSystemInfoExt> _files = new List<IFileSystemInfoExt>();
 
         public event EventHandler<IFileSystemInfoExt> OnChanged = delegate { };
@@ -54,7 +58,7 @@ namespace JobSpace.UC
                 // 1. Видаляємо старий елемент з кешу та списку
                 if (_fileCache.Remove(e.OldFullPath))
                 {
-                    var oldItem = _fileCache.Values.FirstOrDefault(x => x.FileInfo.FullName.Equals(e.OldFullPath, StringComparison.CurrentCultureIgnoreCase));
+                    var oldItem = _files.FirstOrDefault(x => x.FileInfo.FullName.Equals(e.OldFullPath, StringComparison.CurrentCultureIgnoreCase));
                     if (oldItem != null)
                     {
                         _files.Remove(oldItem);
@@ -75,6 +79,9 @@ namespace JobSpace.UC
                         _fileCache[e.FullPath] = newItemInstance;
                         _files.Add(newItemInstance);
                         OnCreated(this, newItemInstance);
+
+                        // Оновлюємо використання нового шляху
+                        UpdateUsage(_fileCache.Keys.FirstOrDefault(k => k == e.FullPath));
                     }
                     catch (Exception ex)
                     {
@@ -88,6 +95,9 @@ namespace JobSpace.UC
                     _files.Remove(newItem); // Видаляємо старий об'єкт зі списку, щоб додати оновлений
                     _files.Add(newItem);
                     OnChanged(this, newItem);
+
+                    // Оновлюємо використання шляху, який змінився
+                    UpdateUsage(e.FullPath);
                 }
             }
 
@@ -108,6 +118,11 @@ namespace JobSpace.UC
                         _files.Add(fsie);
                         OnCreated(this, fsie);
 
+                        // Оновлюємо використання нового шляху (якщо це папка)
+                        if (fsie.IsDir)
+                        {
+                            UpdateUsage(e.FullPath);
+                        }
                     }
                     catch (Exception exception)
                     {
@@ -130,6 +145,9 @@ namespace JobSpace.UC
                         OnDeleted(this, oldItem);
                         _files.Remove(oldItem);
                     }
+
+                    // Видаляємо шлях з історії використання, оскільки він більше не існує
+                    RemovePathFromUsage(e.FullPath);
                 }
             }
 
@@ -157,6 +175,9 @@ namespace JobSpace.UC
                         _files[index] = cachedItem;
                         OnChanged(this, cachedItem);
                     }
+
+                    // Оновлюємо використання шляху, який змінився
+                    UpdateUsage(e.FullPath);
                 }
             }
 
@@ -165,21 +186,66 @@ namespace JobSpace.UC
 
         NaturalSorting.NaturalFileInfoNameComparer _naturalCompaper = new NaturalSorting.NaturalFileInfoNameComparer();
 
+        /// <summary>
+        /// Оновлює порядок використання шляху (LRU). Переміщує шлях на початок списку, якщо він існує.
+        /// </summary>
+        private void UpdateUsage(string path)
+        {
+            if (path == null || string.IsNullOrWhiteSpace(path)) return;
+
+            // 1. Видаляємо старий запис, якщо він є
+            var node = _recentPaths.Find(path);
+            if (node != null)
+            {
+                _recentPaths.Remove(node);
+            }
+
+            // 2. Додаємо на початок списку
+            _recentPaths.AddFirst(path);
+
+            // 3. Обмежуємо розмір кешу, видаляючи найстаріший елемент (з кінця)
+            while (_recentPaths.Count > CacheCapacity)
+            {
+                var oldestPath = _recentPaths.Last.Value;
+                _recentPaths.RemoveLast();
+
+                // Видаляємо відповідний запис з основного кешу, щоб звільнити пам'ять
+                if (_fileCache.ContainsKey(oldestPath))
+                {
+                    _fileCache.Remove(oldestPath);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Видаляє шлях з історії використання (використовується при видаленні файлу/папки).
+        /// </summary>
+        private void RemovePathFromUsage(string path)
+        {
+             var node = _recentPaths.Find(path);
+            if (node != null)
+            {
+                _recentPaths.Remove(node);
+            }
+        }
+
 
         public List<IFileSystemInfoExt> GetFiles(string path)
         {
-            DisableWatcher();
-
-            // Очищаємо кеш та список перед повним скануванням, якщо це не повторний запит до того ж шляху
-            if (!_fileCache.ContainsKey(path)) 
+            // 1. Перевірка кешу: Якщо шлях є в кеші, повертаємо дані з нього та оновлюємо використання.
+            if (_fileCache.ContainsKey(path))
             {
-                _files.Clear();
-                _fileCache.Clear();
+                UpdateUsage(path);
+                return _files; // Повертаємо вже завантажений список
             }
 
+            DisableWatcher();
 
-            if (!Directory.Exists(path)) return _files;
+            // 2. Якщо в кеші немає, виконуємо сканування та заповнюємо кеш/список папок
+            if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
            
+            _files.Clear(); // Очищаємо список для нового шляху
+
             // Скануємо та заповнюємо кеш/список папок
             var dirs = Directory.GetDirectories(path)
                 .Where(y => !_ignoreFolders.Contains(Path.GetFileName(y).ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
@@ -188,7 +254,7 @@ namespace JobSpace.UC
 
             foreach (var dir in dirs)
             {
-                 _fileCache[dir.FileInfo.FullName] = dir;
+                 _fileCache[dir.FileInfo.FullName] = dir; // Кешуємо знайдені папки
                  _files.Add(dir);
             }
             dirs.Sort(_naturalCompaper);
@@ -205,22 +271,29 @@ namespace JobSpace.UC
             f.Sort(_naturalCompaper);
 
 
+            // 3. Встановлюємо спостерігач та оновлюємо використання шляху
             SetWatcher(path);
+            UpdateUsage(path);
 
             return _files;
         }
 
         public List<IFileSystemInfoExt> GetDirs(string path)
         {
-            // Якщо шлях вже в кеші, повертаємо його вміст (якщо він є папкою)
-            if (_fileCache.TryGetValue(path, out var cachedDir) && cachedDir.IsDir)
+            // 1. Перевірка кешу: Якщо шлях є в кеші, повертаємо дані з нього та оновлюємо використання.
+            if (_fileCache.ContainsKey(path))
             {
+                UpdateUsage(path);
+                var cachedDir = _fileCache[path];
                 return new List<IFileSystemInfoExt> { cachedDir };
             }
 
             DisableWatcher();
 
+            // 2. Якщо в кеші немає, виконуємо сканування та заповнюємо кеш/список папок
             if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
+
+            _files.Clear(); // Очищаємо список для нового шляху
 
             var dirs = Directory.GetDirectories(path)
                  .Where(y => !_ignoreFolders.Contains(Path.GetFileName(y).ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
@@ -229,28 +302,33 @@ namespace JobSpace.UC
             foreach (var dir in dirs)
             {
                 _fileCache[dir.FileInfo.FullName] = dir; // Кешуємо знайдені папки
+                _files.Add(dir);
             }
 
             dirs.Sort(_naturalCompaper);
 
+            // 3. Встановлюємо спостерігач та оновлюємо використання шляху
             SetWatcher(path);
+            UpdateUsage(path);
 
             return dirs.Cast<IFileSystemInfoExt>().ToList();
         }
 
         public List<IFileSystemInfoExt> GetAllFiles(string path)
         {
-            DisableWatcher();
-
-            // Очищаємо кеш та список перед повним скануванням, якщо це не повторний запит до того ж шляху
-            if (!_fileCache.ContainsKey(path)) 
+            // 1. Перевірка кешу: Якщо шлях є в кеші, повертаємо дані з нього та оновлюємо використання.
+            if (_fileCache.ContainsKey(path))
             {
-                _files.Clear();
-                _fileCache.Clear();
+                UpdateUsage(path);
+                return _files; // Повертаємо вже завантажений список
             }
 
+            DisableWatcher();
 
-            if (!Directory.Exists(path)) return _files;
+            // 2. Якщо в кеші немає, виконуємо сканування та заповнюємо кеш/список файлів рекурсивно
+            if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
+
+            _files.Clear(); // Очищаємо список для нового шляху
 
             // Скануємо та заповнюємо кеш/список файлів рекурсивно
             var f = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
@@ -263,7 +341,9 @@ namespace JobSpace.UC
 
             f.Sort(_naturalCompaper);
 
+            // 3. Встановлюємо спостерігач та оновлюємо використання шляху
             SetWatcher(path);
+            UpdateUsage(path);
 
             return _files;
         }
