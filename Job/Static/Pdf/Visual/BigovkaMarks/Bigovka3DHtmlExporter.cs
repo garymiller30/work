@@ -173,6 +173,17 @@ const foldSettings = {
   foldedLayerGap: 0.08
 };
 
+let drawRequested = false;
+function requestDraw() {
+  if (!drawRequested) {
+    drawRequested = true;
+    requestAnimationFrame(() => {
+      drawRequested = false;
+      draw();
+    });
+  }
+}
+
 const canvas = document.getElementById('stage');
 const gl = canvas.getContext('webgl', { antialias: true, alpha: false });
 if (!gl) throw new Error('WebGL is not supported.');
@@ -248,7 +259,8 @@ const lineLoc = {
 };
 
 const posBuffer = gl.createBuffer();
-const uvBuffer = gl.createBuffer();
+const uvFrontBuffer = gl.createBuffer();
+const uvBackBuffer = gl.createBuffer();
 const indexBuffer = gl.createBuffer();
 const creaseLineBuffer = gl.createBuffer();
 const foldsPanel = document.getElementById('folds');
@@ -281,7 +293,7 @@ function loadTexture(src) {
     gl.bindTexture(gl.TEXTURE_2D, tex);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-    requestAnimationFrame(draw);
+    requestDraw();
   };
   img.src = src;
   return tex;
@@ -297,6 +309,14 @@ const ys = buildSamples('y');
 const indices = buildIndices(xs.length, ys.length);
 const uvsFront = buildUvs(false);
 const uvsBack = buildUvs(true);
+
+gl.bindBuffer(gl.ARRAY_BUFFER, uvFrontBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, uvsFront, gl.STATIC_DRAW);
+gl.bindBuffer(gl.ARRAY_BUFFER, uvBackBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, uvsBack, gl.STATIC_DRAW);
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+
 initFoldControls();
 syncMaterialControls();
 
@@ -403,7 +423,7 @@ function handleFoldControlChange(event) {
     if (range) range.value = String(value);
     if (number) number.value = String(value);
   }
-  requestAnimationFrame(draw);
+  requestDraw();
 }
 
 function resetFoldControls() {
@@ -417,7 +437,7 @@ function resetFoldControls() {
     if (range) range.value = '0';
     if (number) number.value = '0';
   });
-  requestAnimationFrame(draw);
+  requestDraw();
 }
 
 function syncMaterialControls() {
@@ -774,39 +794,49 @@ function addPoints() {
   return out;
 }
 
-function buildPositions(back) {
-  const foldSteps = currentFoldSteps();
-  const sideZ = back ? -foldSettings.paperHalfThickness : foldSettings.paperHalfThickness;
-  const raw = [];
-  for (const y of ys) {
-    const modelY = config.height * 0.5 - y;
-    for (const x of xs) raw.push(transformPoint({ x, y: modelY }, foldSteps, sideZ));
-  }
-  const center = getModelCenter(foldSteps);
-  const arr = [];
-  for (const p of raw) arr.push(p.x - center.x, p.y - center.y, p.z - center.z);
-  return new Float32Array(arr);
-}
-
-function getModelCenter(foldSteps) {
+function buildPositionsAndCenter(foldSteps) {
+  const sideZFront = foldSettings.paperHalfThickness;
+  const sideZBack = -foldSettings.paperHalfThickness;
+  const rawFront = [];
+  const rawBack = [];
+  
   const min = { x: Infinity, y: Infinity, z: Infinity };
   const max = { x: -Infinity, y: -Infinity, z: -Infinity };
+  
   for (const y of ys) {
     const modelY = config.height * 0.5 - y;
     for (const x of xs) {
-      const p = transformPoint({ x, y: modelY }, foldSteps, 0);
-      min.x = Math.min(min.x, p.x); min.y = Math.min(min.y, p.y); min.z = Math.min(min.z, p.z);
-      max.x = Math.max(max.x, p.x); max.y = Math.max(max.y, p.y); max.z = Math.max(max.z, p.z);
+      const pFront = transformPoint({ x, y: modelY }, foldSteps, sideZFront);
+      const pBack = transformPoint({ x, y: modelY }, foldSteps, sideZBack);
+      rawFront.push(pFront);
+      rawBack.push(pBack);
+      
+      min.x = Math.min(min.x, pFront.x); min.y = Math.min(min.y, pFront.y); min.z = Math.min(min.z, pFront.z);
+      max.x = Math.max(max.x, pFront.x); max.y = Math.max(max.y, pFront.y); max.z = Math.max(max.z, pFront.z);
     }
   }
-  return { x: (min.x + max.x) * 0.5, y: (min.y + max.y) * 0.5, z: (min.z + max.z) * 0.5 };
+  
+  const center = { x: (min.x + max.x) * 0.5, y: (min.y + max.y) * 0.5, z: (min.z + max.z) * 0.5 };
+  const frontArr = [];
+  const backArr = [];
+  
+  for (let i = 0; i < rawFront.length; i++) {
+    const pf = rawFront[i];
+    frontArr.push(pf.x - center.x, pf.y - center.y, pf.z - center.z);
+    const pb = rawBack[i];
+    backArr.push(pb.x - center.x, pb.y - center.y, pb.z - center.z);
+  }
+  
+  return {
+    front: new Float32Array(frontArr),
+    back: new Float32Array(backArr),
+    center: center
+  };
 }
 
-function buildCreaseLinePositions() {
+function buildCreaseLinePositions(foldSteps, center) {
   if (!showCreasesCheckbox.checked) return new Float32Array(0);
 
-  const foldSteps = currentFoldSteps();
-  const center = getModelCenter(foldSteps);
   const arr = [];
   const z = foldSettings.paperHalfThickness + 0.08;
 
@@ -828,20 +858,17 @@ function addLinePoint(arr, point, foldSteps, z, center) {
   arr.push(p.x - center.x, p.y - center.y, p.z - center.z);
 }
 
-function drawMesh(texture, back) {
-  const positions = buildPositions(back);
+function drawMesh(texture, back, positions) {
   gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, positions, gl.DYNAMIC_DRAW);
   gl.enableVertexAttribArray(loc.position);
   gl.vertexAttribPointer(loc.position, 3, gl.FLOAT, false, 0, 0);
 
-  gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, back ? uvsBack : uvsFront, gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, back ? uvBackBuffer : uvFrontBuffer);
   gl.enableVertexAttribArray(loc.uv);
   gl.vertexAttribPointer(loc.uv, 2, gl.FLOAT, false, 0, 0);
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
 
   gl.activeTexture(gl.TEXTURE0);
   gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -857,8 +884,8 @@ function drawMesh(texture, back) {
   gl.disable(gl.CULL_FACE);
 }
 
-function drawCreaseLines(matrix) {
-  const positions = buildCreaseLinePositions();
+function drawCreaseLines(matrix, foldSteps, center) {
+  const positions = buildCreaseLinePositions(foldSteps, center);
   if (!positions.length) return;
 
   gl.useProgram(lineProgram);
@@ -884,6 +911,9 @@ function draw() {
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   gl.enable(gl.DEPTH_TEST);
 
+  const foldSteps = currentFoldSteps();
+  const geometry = buildPositionsAndCenter(foldSteps);
+
   const aspect = canvas.width / Math.max(1, canvas.height);
   const maxDim = Math.max(config.width, config.height);
   const projection = perspective(42 * Math.PI / 180, aspect, 1, maxDim * 10);
@@ -895,9 +925,9 @@ function draw() {
   gl.useProgram(program);
   gl.uniformMatrix4fv(loc.matrix, false, matrix);
 
-  drawMesh(textures.back, true);
-  drawMesh(textures.front, false);
-  drawCreaseLines(matrix);
+  drawMesh(textures.back, true, geometry.back);
+  drawMesh(textures.front, false, geometry.front);
+  drawCreaseLines(matrix, foldSteps, geometry.center);
 }
 
 function resize() {
@@ -967,9 +997,13 @@ canvas.addEventListener('pointermove', e => {
   state.rotY += dx * 0.01;
   state.rotX += dy * 0.01;
   state.rotX = clamp(state.rotX, -1.45, 1.45);
-  requestAnimationFrame(draw);
+  requestDraw();
 });
 canvas.addEventListener('pointerup', e => {
+  state.dragging = false;
+  canvas.releasePointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointercancel', e => {
   state.dragging = false;
   canvas.releasePointerCapture(e.pointerId);
 });
@@ -977,25 +1011,25 @@ canvas.addEventListener('wheel', e => {
   e.preventDefault();
   state.zoom *= Math.exp(-e.deltaY * 0.001);
   state.zoom = clamp(state.zoom, 0.35, 4);
-  requestAnimationFrame(draw);
+  requestDraw();
 }, { passive: false });
 canvas.addEventListener('dblclick', () => {
   state.rotX = -0.58;
   state.rotY = 0.62;
   state.zoom = 1.15;
-  requestAnimationFrame(draw);
+  requestDraw();
 });
-showCreasesCheckbox.addEventListener('change', () => requestAnimationFrame(draw));
+showCreasesCheckbox.addEventListener('change', () => requestDraw());
 baseRadiusSlider.addEventListener('input', () => {
   syncMaterialControls();
-  requestAnimationFrame(draw);
+  requestDraw();
 });
 layerGapSlider.addEventListener('input', () => {
   syncMaterialControls();
-  requestAnimationFrame(draw);
+  requestDraw();
 });
-window.addEventListener('resize', () => requestAnimationFrame(draw));
-requestAnimationFrame(draw);
+window.addEventListener('resize', () => requestDraw());
+requestDraw();
 </script>
 </body>
 </html>";
