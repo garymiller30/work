@@ -146,10 +146,13 @@ namespace JobSpace.UC
         {
             if (file.FileInfo.Name.Equals(newName, StringComparison.InvariantCultureIgnoreCase)) return;
 
-            _moveFileOrDir(file, Path.Combine(Settings.CurFolder, newName));
+            if (_moveFileOrDir(file, Path.Combine(Settings.CurFolder, newName)))
+            {
+                _ = RefreshAsync(newName);
+            }
         }
 
-        private void _moveFileOrDir(IFileSystemInfoExt source, string target)
+        private bool _moveFileOrDir(IFileSystemInfoExt source, string target)
         {
             try
             {
@@ -162,10 +165,12 @@ namespace JobSpace.UC
                     FileSystem.MoveFile(source.FileInfo.FullName, target, UIOption.AllDialogs);
                 }
 
+                return true;
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, @"Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
 
@@ -180,6 +185,7 @@ namespace JobSpace.UC
                 {
                     var dir = Path.Combine(Settings.CurFolder, name);
                     Directory.CreateDirectory(dir);
+                    _ = RefreshAsync(name);
                 }
                 catch (Exception e)
                 {
@@ -205,7 +211,7 @@ namespace JobSpace.UC
                 {
                     if (cutFromClipboard) //вирізати
                     {
-                        _moveFileOrDir(info, Path.Combine(Settings.CurFolder, Path.Combine(Settings.CurFolder, Path.GetFileName(file))));
+                        _moveFileOrDir(info, Path.Combine(Settings.CurFolder, Path.GetFileName(file)));
                     }
 
                     else
@@ -231,6 +237,8 @@ namespace JobSpace.UC
                         FileSystem.CopyFile(file, target, UIOption.AllDialogs);
                 }
             }
+
+            _ = RefreshAsync();
         }
 
         public void PasteFromClipboardLikeCopy(string[] files)
@@ -258,6 +266,8 @@ namespace JobSpace.UC
                     FileSystem.CopyFile(file, target, UIOption.AllDialogs);
                 }
             }
+
+            _ = RefreshAsync();
         }
 
         public void DeleteFilesAndDirectories(IEnumerable<IFileSystemInfoExt> files)
@@ -355,6 +365,8 @@ namespace JobSpace.UC
                 {
                     _moveFileOrDir(file, Path.Combine(tmpPath, file.FileInfo.Name));
                 }
+
+                _ = RefreshAsync();
             }
             catch (Exception e)
             {
@@ -563,7 +575,10 @@ namespace JobSpace.UC
 
         public void MoveTo(IFileSystemInfoExt file, string targetDir)
         {
-            _moveFileOrDir(file, targetDir);
+            if (_moveFileOrDir(file, targetDir))
+            {
+                _ = RefreshAsync();
+            }
         }
 
         public void PasteFromClipboardWithSpecificName(string sourceFile, IFileSystemInfoExt targetfile)
@@ -572,6 +587,7 @@ namespace JobSpace.UC
             try
             {
                 File.Copy(sourceFile, target,false);
+                _ = RefreshAsync(Path.GetFileName(target));
             }
             catch (Exception e)
             {
