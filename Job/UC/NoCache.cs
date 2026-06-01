@@ -77,11 +77,11 @@ namespace JobSpace.UC
 
             var dirPath = Path.GetDirectoryName(e.FullPath);
             if (dirPath != null && _dirContents.TryGetValue(dirPath, out var list))
+            {
                 list.Remove(item);
-
-            // Примусова синхронізація кешу директорії після видалення для гарантії чистоти списку
-            SyncCachedDirectory(dirPath, list); 
-
+                // Примусова синхронізація кешу директорії після видалення для гарантії чистоти списку
+                SyncCachedDirectory(dirPath, list);
+            }
             if (item.IsDir)
             {
                 EvictDirectory(e.FullPath);
@@ -138,10 +138,11 @@ namespace JobSpace.UC
 
                 var oldDir = Path.GetDirectoryName(e.OldFullPath);
                 if (oldDir != null && _dirContents.TryGetValue(oldDir, out var oldList))
+                {
                     oldList.Remove(oldItem);
-
-                // Примусова синхронізація кешу старої директорії після перейменування/переміщення
-                SyncCachedDirectory(oldDir, oldList); 
+                    // Примусова синхронізація кешу старої директорії після перейменування/переміщення
+                    SyncCachedDirectory(oldDir, oldList);
+                }
 
                 if (oldItem.IsDir)
                 {

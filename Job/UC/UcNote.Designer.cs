@@ -49,6 +49,7 @@
             // kryptonRichTextBox1
             // 
             kryptonRichTextBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            kryptonRichTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             kryptonRichTextBox1.Location = new System.Drawing.Point(0, 29);
             kryptonRichTextBox1.Margin = new System.Windows.Forms.Padding(2);
             kryptonRichTextBox1.Name = "kryptonRichTextBox1";
