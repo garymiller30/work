@@ -345,14 +345,25 @@ namespace JobSpace.UC
             {
                 BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask(toolInfo.Meta.MenuPath, new Action(() =>
                 {
-                    TrackPdfToolUsage(toolInfo);
-                    tool.Execute(context);
+                    ExecutePdfToolAndRefresh(toolInfo, tool, context);
                 }), context.ProcessingFiles));
             }
             else
             {
+                ExecutePdfToolAndRefresh(toolInfo, tool, context);
+            }
+        }
+
+        private void ExecutePdfToolAndRefresh(ToolInfo toolInfo, IPdfTool tool, PdfJobContext context)
+        {
+            try
+            {
                 TrackPdfToolUsage(toolInfo);
                 tool.Execute(context);
+            }
+            finally
+            {
+                _ = _fileManager.RefreshAsync();
             }
         }
 
@@ -606,7 +617,7 @@ namespace JobSpace.UC
 
             StopTaskGetExtendedInfo();
             objectListView1.EmptyListMsg = null;
-            objectListView1.AddObjects(e);
+            objectListView1.SetObjects(e);
             SelectFirstPreviewableFileAfterRefresh(e);
             StartTaskGetExtendedInfo(e);
             UpdateStatusControl();
