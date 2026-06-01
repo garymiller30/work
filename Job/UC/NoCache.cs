@@ -31,6 +31,10 @@ namespace JobSpace.UC
         private readonly LinkedList<string> _recentDirs = new LinkedList<string>();
         private const int CacheCapacity = 10;
 
+        private readonly object _lock = new object();
+        private string _lastActiveDirPath;
+        private readonly NaturalSorting.NaturalStringComparer _naturalStringComparer = new NaturalSorting.NaturalStringComparer();
+
         readonly NaturalSorting.NaturalFileInfoNameComparer _naturalComparer = new NaturalSorting.NaturalFileInfoNameComparer();
 
         public event EventHandler<IFileSystemInfoExt> OnChanged = delegate { };
@@ -61,9 +65,13 @@ namespace JobSpace.UC
 
             Debug.WriteLine($"- OnChanged: {e.FullPath}");
 
-            if (!_fileIndex.TryGetValue(e.FullPath, out var item)) return;
+            IFileSystemInfoExt item;
+            lock (_lock)
+            {
+                if (!_fileIndex.TryGetValue(e.FullPath, out item)) return;
+                item.RefreshParam(e.FullPath);
+            }
 
-            item.RefreshParam(e.FullPath);
             OnChanged(this, item);
         }
 
@@ -71,27 +79,38 @@ namespace JobSpace.UC
         {
             if (e.ChangeType != WatcherChangeTypes.Deleted) return;
 
-            if (!_fileIndex.TryGetValue(e.FullPath, out var item)) return;
-
-            _fileIndex.Remove(e.FullPath);
-
-            var dirPath = Path.GetDirectoryName(e.FullPath);
-            if (dirPath != null && _dirContents.TryGetValue(dirPath, out var list))
+            IFileSystemInfoExt item;
+            lock (_lock)
             {
-                list.Remove(item);
-                // Примусова синхронізація кешу директорії після видалення для гарантії чистоти списку
-                SyncCachedDirectory(dirPath, list);
-            }
-            if (item.IsDir)
-            {
-                EvictDirectory(e.FullPath);
-                var prefix = e.FullPath + Path.DirectorySeparatorChar;
-                var keysToRemove = _dirContents.Keys
-                    .Where(k => k.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-                foreach (var key in keysToRemove)
+                if (!_fileIndex.TryGetValue(e.FullPath, out item)) return;
+
+                _fileIndex.Remove(e.FullPath);
+
+                var dirPath = Path.GetDirectoryName(e.FullPath);
+                if (dirPath != null && _dirContents.TryGetValue(dirPath, out var list))
                 {
-                    EvictDirectory(key);
+                    list.Remove(item);
+                    // Примусова синхронізація кешу директорії після видалення для гарантії чистоти списку
+                    try
+                    {
+                        SyncCachedDirectory(dirPath, list);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(this, $"WatcherOnDeleted (Sync): {dirPath}", ex.Message);
+                    }
+                }
+                if (item.IsDir)
+                {
+                    EvictDirectory(e.FullPath);
+                    var prefix = e.FullPath + Path.DirectorySeparatorChar;
+                    var keysToRemove = _dirContents.Keys
+                        .Where(k => k.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                    foreach (var key in keysToRemove)
+                    {
+                        EvictDirectory(key);
+                    }
                 }
             }
 
@@ -108,20 +127,27 @@ namespace JobSpace.UC
 
             Debug.WriteLine($"- OnCreated: {e.FullPath}");
 
+            IFileSystemInfoExt item = null;
             try
             {
-                var item = new FileSystemInfoExt(e.FullPath);
-                _fileIndex[e.FullPath] = item;
+                lock (_lock)
+                {
+                    item = new FileSystemInfoExt(e.FullPath);
+                    _fileIndex[e.FullPath] = item;
 
-                var dirPath = Path.GetDirectoryName(e.FullPath);
-                if (dirPath != null && _dirContents.TryGetValue(dirPath, out var list))
-                    list.Add(item);
-
-                OnCreated(this, item);
+                    var dirPath = Path.GetDirectoryName(e.FullPath);
+                    if (dirPath != null && _dirContents.TryGetValue(dirPath, out var list))
+                        list.Add(item);
+                }
             }
             catch (Exception ex)
             {
                 Log.Error(this, $"WatcherOnCreated: {e.FullPath}", ex.Message);
+            }
+
+            if (item != null)
+            {
+                OnCreated(this, item);
             }
         }
 
@@ -131,62 +157,83 @@ namespace JobSpace.UC
 
             Debug.WriteLine($"- OnRenamed: {e.OldFullPath} → {e.FullPath}");
 
-            // Видаляємо старий запис
-            if (_fileIndex.TryGetValue(e.OldFullPath, out var oldItem))
+            IFileSystemInfoExt oldItem = null;
+            IFileSystemInfoExt newItem = null;
+
+            lock (_lock)
             {
-                _fileIndex.Remove(e.OldFullPath);
-
-                var oldDir = Path.GetDirectoryName(e.OldFullPath);
-                if (oldDir != null && _dirContents.TryGetValue(oldDir, out var oldList))
+                // Видаляємо старий запис
+                if (_fileIndex.TryGetValue(e.OldFullPath, out oldItem))
                 {
-                    oldList.Remove(oldItem);
-                    // Примусова синхронізація кешу старої директорії після перейменування/переміщення
-                    SyncCachedDirectory(oldDir, oldList);
-                }
+                    _fileIndex.Remove(e.OldFullPath);
 
-                if (oldItem.IsDir)
-                {
-                    EvictDirectory(e.OldFullPath);
-                    var prefix = e.OldFullPath + Path.DirectorySeparatorChar;
-                    var keysToRemove = _dirContents.Keys
-                        .Where(k => k.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-                        .ToList();
-                    foreach (var key in keysToRemove)
+                    var oldDir = Path.GetDirectoryName(e.OldFullPath);
+                    if (oldDir != null && _dirContents.TryGetValue(oldDir, out var oldList))
                     {
-                        EvictDirectory(key);
+                        oldList.Remove(oldItem);
+                        // Примусова синхронізація кешу старої директорії після перейменування/переміщення
+                        try
+                        {
+                            SyncCachedDirectory(oldDir, oldList);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error(this, $"WatcherOnRenamed (Sync old): {oldDir}", ex.Message);
+                        }
+                    }
+
+                    if (oldItem.IsDir)
+                    {
+                        EvictDirectory(e.OldFullPath);
+                        var prefix = e.OldFullPath + Path.DirectorySeparatorChar;
+                        var keysToRemove = _dirContents.Keys
+                            .Where(k => k.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        foreach (var key in keysToRemove)
+                        {
+                            EvictDirectory(key);
+                        }
                     }
                 }
 
-                OnDeleted(this, oldItem);
+                // Додаємо новий запис
+                try
+                {
+                    newItem = new FileSystemInfoExt(e.FullPath);
+                    _fileIndex[e.FullPath] = newItem;
+
+                    var newDir = Path.GetDirectoryName(e.FullPath);
+                    if (newDir != null && _dirContents.TryGetValue(newDir, out var newList))
+                    {
+                        newList.Add(newItem);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(this, $"WatcherOnRenamed (Create/Add new): {e.FullPath}", ex.Message);
+                }
             }
 
-            // Додаємо новий запис
-            try
+            // Викликаємо події поза lock, щоб уникнути взаємного блокування (deadlock) з UI-потоком!
+            if (newItem != null)
             {
-                var newItem = new FileSystemInfoExt(e.FullPath);
-                _fileIndex[e.FullPath] = newItem;
-
-                var newDir = Path.GetDirectoryName(e.FullPath);
-                if (newDir != null && _dirContents.TryGetValue(newDir, out var newList))
-                    newList.Add(newItem);
-
-                OnCreated(this, newItem);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(this, $"WatcherOnRenamed: {e.FullPath}", ex.Message);
+                OnRenamed(this, newItem);
             }
         }
 
         public List<IFileSystemInfoExt> GetFiles(string path)
         {
-            if (_dirContents.TryGetValue(path, out var cached))
+            lock (_lock)
             {
-                // Поки watcher не стежив за цією папкою, файли могли змінитись або з'явитись/зникнути.
-                // Швидко звіряємо кеш з реальним станом директорії.
-                SyncCachedDirectory(path, cached);
-                UpdateUsage(path);
-                return cached;
+                _lastActiveDirPath = path;
+                if (_dirContents.TryGetValue(path, out var cached))
+                {
+                    // Поки watcher не стежив за цією папкою, файли могли змінитись або з'явитись/зникнути.
+                    // Швидко звіряємо кеш з реальним станом директорії.
+                    SyncCachedDirectory(path, cached);
+                    UpdateUsage(path);
+                    return cached;
+                }
             }
 
             DisableWatcher();
@@ -211,24 +258,32 @@ namespace JobSpace.UC
             list.AddRange(dirs);
             list.AddRange(files);
 
-            foreach (var item in list)
-                _fileIndex[item.FileInfo.FullName] = item;
+            lock (_lock)
+            {
+                foreach (var item in list)
+                    _fileIndex[item.FileInfo.FullName] = item;
 
-            _dirContents[path] = list;
+                _dirContents[path] = list;
+
+                UpdateUsage(path);
+            }
 
             SetWatcher(path);
-            UpdateUsage(path);
 
             return list;
         }
 
         public List<IFileSystemInfoExt> GetDirs(string path)
         {
-            if (_dirContents.TryGetValue(path, out var cached))
+            lock (_lock)
             {
-                SyncCachedDirectory(path, cached);
-                UpdateUsage(path);
-                return cached.Where(x => x.IsDir).ToList();
+                _lastActiveDirPath = path;
+                if (_dirContents.TryGetValue(path, out var cached))
+                {
+                    SyncCachedDirectory(path, cached);
+                    UpdateUsage(path);
+                    return cached.Where(x => x.IsDir).ToList();
+                }
             }
 
             DisableWatcher();
@@ -243,12 +298,16 @@ namespace JobSpace.UC
                 .ToList(); // List<FileSystemInfoExt>
             dirs.Sort(_naturalComparer);
 
-            // Index but don't fully cache directory (GetFiles will do that later)
-            foreach (var dir in dirs)
-                _fileIndex[dir.FileInfo.FullName] = dir;
+            lock (_lock)
+            {
+                // Index but don't fully cache directory (GetFiles will do that later)
+                foreach (var dir in dirs)
+                    _fileIndex[dir.FileInfo.FullName] = dir;
+
+                UpdateUsage(path);
+            }
 
             SetWatcher(path);
-            UpdateUsage(path);
 
             return dirs.Cast<IFileSystemInfoExt>().ToList();
         }
@@ -272,7 +331,14 @@ namespace JobSpace.UC
 
         public int GetCountFiles()
         {
-            return _fileIndex.Values.Count(x => !x.IsDir);
+            lock (_lock)
+            {
+                if (!string.IsNullOrEmpty(_lastActiveDirPath) && _dirContents.TryGetValue(_lastActiveDirPath, out var list))
+                {
+                    return list.Count(x => !x.IsDir);
+                }
+                return 0;
+            }
         }
 
         // ── Sync ───────────────────────────────────────────────────────────────
@@ -350,10 +416,9 @@ namespace JobSpace.UC
             }
 
             // 4. Сортуємо список: спочатку папки, потім файли, обидва списки в натуральному порядку
-            var stringComparer = new NaturalSorting.NaturalStringComparer();
             var sorted = cached
                 .OrderBy(x => !x.IsDir)
-                .ThenBy(x => x?.FileInfo?.Name ?? string.Empty, stringComparer)
+                .ThenBy(x => x?.FileInfo?.Name ?? string.Empty, _naturalStringComparer)
                 .ToList();
 
             cached.Clear();
@@ -388,6 +453,10 @@ namespace JobSpace.UC
                 _fileIndex.Remove(entry.FileInfo.FullName);
 
             _dirContents.Remove(dirPath);
+
+            var node = _recentDirs.Find(dirPath);
+            if (node != null)
+                _recentDirs.Remove(node);
         }
 
         // ── Watcher helpers ────────────────────────────────────────────────────
