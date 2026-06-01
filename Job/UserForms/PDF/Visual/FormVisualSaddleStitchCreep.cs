@@ -23,12 +23,14 @@ namespace JobSpace.UserForms.PDF.Visual
         IFileSystemInfoExt _fileSystemInfoExt;
         //List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
         //int curPageNo = 0;
+        public decimal SelectedPaperThickness => nud_paper_thickness.Value;
 
-        Dictionary<string,decimal> thicknesses;
+        Dictionary<string, decimal> thicknesses;
 
         public FormVisualSaddleStitchCreep(IFileSystemInfoExt file)
         {
             InitializeComponent();
+            DialogResult = DialogResult.Cancel;
             _fileSystemInfoExt = file;
             uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
 
@@ -118,6 +120,12 @@ namespace JobSpace.UserForms.PDF.Visual
             {
                 nud_paper_thickness.Value = thicknesses[key];
             }
+        }
+
+        private void btn_ok_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            Close();
         }
     }
 }
