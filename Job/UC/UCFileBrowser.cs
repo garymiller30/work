@@ -597,8 +597,21 @@ namespace JobSpace.UC
 
         private void FileManager_OnAddFile(object sender, IFileSystemInfoExt e)
         {
-            objectListView1.AddObject(e);
-            UpdateStatusControl();
+            this.InvokeIfNeeded(() =>
+            {
+                if (e != null && !e.IsDir && e.FileInfo != null)
+                {
+                    if (_fileManager.Settings.ScanFiles)
+                    {
+                        e.GetExtendedFileInfoFormat();
+                        // Додаємо в кеш, щоб ProcessTaskGetExtendedFileInfo не сканував повторно
+                        _metadataCache.MarkUpToDate(e);
+                    }
+                    objectListView1.AddObject(e);
+                    UpdateStatusControl();
+                }
+            });
+           
         }
 
         private void FileManager_OnChangeRootDirectory(object sender, EventArgs e)
