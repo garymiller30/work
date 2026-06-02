@@ -572,13 +572,22 @@ namespace JobSpace.UC
 
         private void FileManager_OnChangeFile(object sender, IFileSystemInfoExt e)
         {
-            if (e != null && !e.IsDir && e.FileInfo != null)
+            Debug.WriteLine($"[OnChangeFile] {e.FileInfo?.FullName} (IsDir={e.IsDir})");
+            
+            if (e != null && e.FileInfo != null)
             {
                 if (_fileManager.Settings.ScanFiles)
                 {
-                    e.GetExtendedFileInfoFormat();
-                    // Оновлюємо кеш, щоб ProcessTaskGetExtendedFileInfo не сканував повторно
-                    _metadataCache.MarkUpToDate(e);
+                    try
+                    {
+                        e.GetExtendedFileInfoFormat();
+                        // Оновлюємо кеш, щоб ProcessTaskGetExtendedFileInfo не сканував повторно
+                        _metadataCache.MarkUpToDate(e);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"[OnChangeFile] GetExtendedFileInfoFormat failed: {ex.Message}");
+                    }
                 }
             }
 
