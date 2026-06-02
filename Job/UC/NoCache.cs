@@ -137,7 +137,13 @@ namespace JobSpace.UC
 
                     var dirPath = Path.GetDirectoryName(e.FullPath);
                     if (dirPath != null && _dirContents.TryGetValue(dirPath, out var list))
-                        list.Add(item);
+                    {
+                        // Defensive duplicate prevention
+                        if (!list.Any(x => string.Equals(x.FileInfo?.FullName, e.FullPath, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            list.Add(item);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -159,65 +165,117 @@ namespace JobSpace.UC
 
             IFileSystemInfoExt oldItem = null;
             IFileSystemInfoExt newItem = null;
+            bool isSameDir = false;
+            bool oldItemExisted = false;
+
+            var oldDir = Path.GetDirectoryName(e.OldFullPath);
+            var newDir = Path.GetDirectoryName(e.FullPath);
+            if (oldDir != null && newDir != null)
+            {
+                isSameDir = string.Equals(oldDir, newDir, StringComparison.OrdinalIgnoreCase);
+            }
 
             lock (_lock)
             {
-                // Видаляємо старий запис
                 if (_fileIndex.TryGetValue(e.OldFullPath, out oldItem))
                 {
+                    oldItemExisted = true;
                     _fileIndex.Remove(e.OldFullPath);
 
-                    var oldDir = Path.GetDirectoryName(e.OldFullPath);
-                    if (oldDir != null && _dirContents.TryGetValue(oldDir, out var oldList))
+                    if (isSameDir)
                     {
-                        oldList.Remove(oldItem);
-                        // Примусова синхронізація кешу старої директорії після перейменування/переміщення
+                        // 1. Rename in same directory: update in-place
                         try
                         {
-                            SyncCachedDirectory(oldDir, oldList);
+                            oldItem.RefreshParam(e.FullPath);
+                            _fileIndex[e.FullPath] = oldItem;
                         }
                         catch (Exception ex)
                         {
-                            Log.Error(this, $"WatcherOnRenamed (Sync old): {oldDir}", ex.Message);
+                            Log.Error(this, $"WatcherOnRenamed (Same dir update): {e.FullPath}", ex.Message);
                         }
                     }
-
-                    if (oldItem.IsDir)
+                    else
                     {
-                        EvictDirectory(e.OldFullPath);
-                        var prefix = e.OldFullPath + Path.DirectorySeparatorChar;
-                        var keysToRemove = _dirContents.Keys
-                            .Where(k => k.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-                            .ToList();
-                        foreach (var key in keysToRemove)
+                        // 2. Moved to a different directory: remove from old directory's cache list
+                        if (oldDir != null && _dirContents.TryGetValue(oldDir, out var oldList))
                         {
-                            EvictDirectory(key);
+                            oldList.Remove(oldItem);
+                            try
+                            {
+                                SyncCachedDirectory(oldDir, oldList);
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Error(this, $"WatcherOnRenamed (Sync old): {oldDir}", ex.Message);
+                            }
+                        }
+
+                        if (oldItem.IsDir)
+                        {
+                            EvictDirectory(e.OldFullPath);
+                            var prefix = e.OldFullPath + Path.DirectorySeparatorChar;
+                            var keysToRemove = _dirContents.Keys
+                                .Where(k => k.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                                .ToList();
+                            foreach (var key in keysToRemove)
+                            {
+                                EvictDirectory(key);
+                            }
                         }
                     }
                 }
 
-                // Додаємо новий запис
-                try
+                if (!isSameDir || !oldItemExisted)
                 {
-                    newItem = new FileSystemInfoExt(e.FullPath);
-                    _fileIndex[e.FullPath] = newItem;
-
-                    var newDir = Path.GetDirectoryName(e.FullPath);
-                    if (newDir != null && _dirContents.TryGetValue(newDir, out var newList))
+                    // 3. Either moved to a different directory, or oldItem was not in cache.
+                    // Create new item for the destination.
+                    try
                     {
-                        newList.Add(newItem);
+                        newItem = new FileSystemInfoExt(e.FullPath);
+                        _fileIndex[e.FullPath] = newItem;
+
+                        if (newDir != null && _dirContents.TryGetValue(newDir, out var newList))
+                        {
+                            // Ensure it's not already in the cache list to prevent duplicates
+                            if (!newList.Any(x => string.Equals(x.FileInfo?.FullName, e.FullPath, StringComparison.OrdinalIgnoreCase)))
+                            {
+                                newList.Add(newItem);
+                            }
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(this, $"WatcherOnRenamed (Create/Add new): {e.FullPath}", ex.Message);
+                    catch (Exception ex)
+                    {
+                        Log.Error(this, $"WatcherOnRenamed (Create/Add new): {e.FullPath}", ex.Message);
+                    }
                 }
             }
 
-            // Викликаємо події поза lock, щоб уникнути взаємного блокування (deadlock) з UI-потоком!
-            if (newItem != null)
+            // Raising events outside of the lock to avoid UI deadlock
+            if (oldItemExisted)
             {
-                OnRenamed(this, newItem);
+                if (isSameDir)
+                {
+                    // Within the same directory, raise OnRenamed (which updates the UI in-place)
+                    OnRenamed(this, oldItem);
+                }
+                else
+                {
+                    // Across directories, raise OnDeleted and OnCreated
+                    OnDeleted(this, oldItem);
+                    if (newItem != null)
+                    {
+                        OnCreated(this, newItem);
+                    }
+                }
+            }
+            else
+            {
+                // Old item was not in the cache, raise OnCreated for the new path
+                if (newItem != null)
+                {
+                    OnCreated(this, newItem);
+                }
             }
         }
 
