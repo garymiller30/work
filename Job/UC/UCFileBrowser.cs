@@ -1761,8 +1761,11 @@ namespace JobSpace.UC
         }
         private void openTrashToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // open trash folder
-            _fileManager.GetTempFolder();
+            using (var form = new JobSpace.UserForms.FormTrash(_fileManager))
+            {
+                form.ShowDialog();
+            }
+            _ = _fileManager.RefreshAsync();
         }
         private void kryptonLabelPath_LinkClicked(object sender, EventArgs e)
         {
