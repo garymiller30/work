@@ -599,15 +599,31 @@ namespace JobSpace.UC
         {
             this.InvokeIfNeeded(() =>
             {
+                Debug.WriteLine($"[OnAddFile] File added: {e.FileInfo?.FullName}");
+                
                 if (e != null && !e.IsDir && e.FileInfo != null)
                 {
                     if (_fileManager.Settings.ScanFiles)
                     {
-                        e.GetExtendedFileInfoFormat();
-                        // Додаємо в кеш, щоб ProcessTaskGetExtendedFileInfo не сканував повторно
-                        _metadataCache.MarkUpToDate(e);
+                        try
+                        {
+                            e.GetExtendedFileInfoFormat();
+                            // Додаємо в кеш, щоб ProcessTaskGetExtendedFileInfo не сканував повторно
+                            _metadataCache.MarkUpToDate(e);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"[OnAddFile] GetExtendedFileInfoFormat failed: {ex.Message}");
+                        }
                     }
                     objectListView1.AddObject(e);
+                    
+                    // Сортуємо список після додавання файлу для коректного відображення
+                    if (objectListView1.ListViewItemSorter != null)
+                    {
+                        objectListView1.Sort();
+                    }
+                    
                     UpdateStatusControl();
                 }
             });
@@ -631,6 +647,13 @@ namespace JobSpace.UC
             StopTaskGetExtendedInfo();
             objectListView1.EmptyListMsg = null;
             objectListView1.SetObjects(e);
+            
+            // Сортуємо список після завантаження файлів для коректного відображення
+            if (objectListView1.ListViewItemSorter != null)
+            {
+                objectListView1.Sort();
+            }
+            
             SelectFirstPreviewableFileAfterRefresh(e);
             StartTaskGetExtendedInfo(e);
             UpdateStatusControl();
@@ -1424,8 +1447,7 @@ namespace JobSpace.UC
             {
                 FileBrowserSevices.Clipboard_CopyFiles(objectListView1.SelectedObjects);
             }
-            else
-            if (e.Control && e.KeyCode == Keys.V)
+            else if (e.Control && e.KeyCode == Keys.V)
             {
                 FileBrowserSevices.Clipboard_PasteFiles(_fileManager);
             }
