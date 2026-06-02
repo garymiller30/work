@@ -177,6 +177,7 @@ namespace JobSpace.UC
 
             lock (_lock)
             {
+                // 1. Знаходимо та видаляємо старий запис з індексу
                 if (_fileIndex.TryGetValue(e.OldFullPath, out oldItem))
                 {
                     oldItemExisted = true;
@@ -187,12 +188,31 @@ namespace JobSpace.UC
                         // 1. Rename in same directory: update in-place
                         try
                         {
-                            oldItem.RefreshParam(e.FullPath);
+                            // Оновлюємо FileInfo з новим шляхом
+                            var newFileInfo = new FileInfo(e.FullPath);
+                            oldItem.FileInfo = newFileInfo;
+                            
+                            // Якщо є RefreshParam — викликаємо його для оновлення метаданих
+                            if (oldItem.RefreshParam != null)
+                            {
+                                oldItem.RefreshParam(e.FullPath);
+                            }
+
                             _fileIndex[e.FullPath] = oldItem;
                         }
                         catch (Exception ex)
                         {
                             Log.Error(this, $"WatcherOnRenamed (Same dir update): {e.FullPath}", ex.Message);
+                            // Якщо оновлення не вдалося — створюємо новий об'єкт
+                            try
+                            {
+                                newItem = new FileSystemInfoExt(e.FullPath);
+                                _fileIndex[e.FullPath] = newItem;
+                            }
+                            catch (Exception ex2)
+                            {
+                                Log.Error(this, $"WatcherOnRenamed (Create new): {e.FullPath}", ex2.Message);
+                            }
                         }
                     }
                     else
@@ -223,13 +243,31 @@ namespace JobSpace.UC
                                 EvictDirectory(key);
                             }
                         }
+
+                        // 3. Create new item for the destination
+                        try
+                        {
+                            newItem = new FileSystemInfoExt(e.FullPath);
+                            _fileIndex[e.FullPath] = newItem;
+
+                            if (newDir != null && _dirContents.TryGetValue(newDir, out var newList))
+                            {
+                                // Ensure it's not already in the cache list to prevent duplicates
+                                if (!newList.Any(x => string.Equals(x.FileInfo?.FullName, e.FullPath, StringComparison.OrdinalIgnoreCase)))
+                                {
+                                    newList.Add(newItem);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error(this, $"WatcherOnRenamed (Create/Add new): {e.FullPath}", ex.Message);
+                        }
                     }
                 }
-
-                if (!isSameDir || !oldItemExisted)
+                else
                 {
-                    // 3. Either moved to a different directory, or oldItem was not in cache.
-                    // Create new item for the destination.
+                    // 4. Old item was not in cache — create new for destination
                     try
                     {
                         newItem = new FileSystemInfoExt(e.FullPath);
@@ -256,7 +294,7 @@ namespace JobSpace.UC
             {
                 if (isSameDir)
                 {
-                    // Within the same directory, raise OnRenamed (which updates the UI in-place)
+                    // Within the same directory, raise OnRenamed with UPDATED item
                     OnRenamed(this, oldItem);
                 }
                 else
@@ -271,7 +309,7 @@ namespace JobSpace.UC
             }
             else
             {
-                // Old item was not in the cache, raise OnCreated for the new path
+                // Old item was not in cache, raise OnCreated for the new path
                 if (newItem != null)
                 {
                     OnCreated(this, newItem);

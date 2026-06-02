@@ -1,4 +1,4 @@
-﻿using Interfaces;
+using Interfaces;
 using BackgroundTaskServiceLib;
 using Interfaces.FileBrowser;
 using Interfaces.Plugins;
@@ -67,6 +67,8 @@ namespace JobSpace.UC
 
         private void CacheOnOnRenamed(object sender, IFileSystemInfoExt e)
         {
+            Debug.WriteLine($"[CacheOnOnRenamed] Path: {e.FileInfo?.FullName}, IsDir: {e.IsDir}");
+            
             OnChangeFile(this, e);
         }
 

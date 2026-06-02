@@ -576,6 +576,13 @@ namespace JobSpace.UC
             
             if (e != null && e.FileInfo != null)
             {
+                // Перевірка: чи шлях дійсно оновлений
+                var expectedPath = sender as FileManager;
+                if (expectedPath != null && expectedPath.Settings.CurFolder != null)
+                {
+                    Debug.WriteLine($"[OnChangeFile] Current Folder: {expectedPath.Settings.CurFolder}");
+                }
+
                 if (_fileManager.Settings.ScanFiles)
                 {
                     try
