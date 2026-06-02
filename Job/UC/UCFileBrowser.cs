@@ -601,7 +601,12 @@ namespace JobSpace.UC
             {
                 Debug.WriteLine($"[OnAddFile] File added: {e.FileInfo?.FullName}");
                 
-                if (e != null && !e.IsDir && e.FileInfo != null)
+                if (e== null)
+                {
+                    Debug.WriteLine("[OnAddFile] Warning: e is null");
+                    return;
+                }
+                else if (!e.IsDir && e.FileInfo != null)
                 {
                     if (_fileManager.Settings.ScanFiles)
                     {
@@ -616,16 +621,17 @@ namespace JobSpace.UC
                             Debug.WriteLine($"[OnAddFile] GetExtendedFileInfoFormat failed: {ex.Message}");
                         }
                     }
-                    objectListView1.AddObject(e);
-                    
-                    // Сортуємо список після додавання файлу для коректного відображення
-                    if (objectListView1.ListViewItemSorter != null)
-                    {
-                        objectListView1.Sort();
-                    }
-                    
-                    UpdateStatusControl();
                 }
+                    
+                objectListView1.AddObject(e);
+                    
+                // Сортуємо список після додавання файлу для коректного відображення
+                if (objectListView1.ListViewItemSorter != null)
+                {
+                    objectListView1.Sort();
+                }
+                    
+                UpdateStatusControl();
             });
            
         }
