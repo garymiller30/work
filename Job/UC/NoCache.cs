@@ -17,6 +17,7 @@ namespace JobSpace.UC
     {
         private readonly IWatcher _watcher;
         private List<string> _ignoreFolders = new List<string>() { "temp", ".signa", ".preview", ".impos" };
+        private readonly System.Timers.Timer _debounceTimer;
 
         readonly List<IFileSystemInfoExt> _files = new List<IFileSystemInfoExt>();
 
@@ -35,6 +36,21 @@ namespace JobSpace.UC
             _watcher.OnCreated += WatcherOnCreated;
             _watcher.OnRenamed += WatcherOnRenamed;
             _watcher.OnError += WatcherOnError;
+
+            _debounceTimer = new System.Timers.Timer(300);
+            _debounceTimer.AutoReset = false;
+            _debounceTimer.Elapsed += DebounceTimer_Elapsed;
+        }
+
+        private void DebounceTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            OnChanged(this, null);
+        }
+
+        private void TriggerDebounce()
+        {
+            _debounceTimer.Stop();
+            _debounceTimer.Start();
         }
 
         private void WatcherOnError(object sender, ErrorEventArgs e)
@@ -46,68 +62,18 @@ namespace JobSpace.UC
         {
             if (e.ChangeType == WatcherChangeTypes.Renamed)
             {
-                Debug.WriteLine($"- OnRenamed: from {e.OldName} to {e.Name} e.FullPath: {e.FullPath}");
-
-                // Remove the old item(s) if they exist
-                var oldItems = _files.Where(x =>
-                    x.FileInfo.FullName.Equals(e.OldFullPath, StringComparison.OrdinalIgnoreCase)).ToList();
-
-                foreach (var oldItem in oldItems)
-                {
-                    _files.Remove(oldItem);
-                    OnDeleted(this, oldItem);
-                }
-
-                // Add or update the new item
-                var newItem = _files.FirstOrDefault(x =>
-                    x.FileInfo.FullName.Equals(e.FullPath, StringComparison.OrdinalIgnoreCase));
-
-                if (newItem == null)
-                {
-                    newItem = new FileSystemInfoExt(e.FullPath);
-                    _files.Add(newItem);
-                    OnCreated(this, newItem);
-                }
-                else
-                {
-                    newItem.RefreshParam(e.FullPath);
-                    OnChanged(this, newItem);
-                }
+                TriggerDebounce();
             }
-
         }
 
         private void WatcherOnCreated(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
-                // temp пропускаємо
                 if (!_ignoreFolders.Contains(e.Name.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
                 {
-                    Debug.WriteLine($"- OnCreated: e.FullPath: {e.FullPath}");
-                    try
-                    {
-                        var newItem = _files.FirstOrDefault(x =>
-                            x.FileInfo.FullName.Equals(e.FullPath, StringComparison.OrdinalIgnoreCase));
-
-                        if (newItem == null)
-                        {
-                            var fsie = new FileSystemInfoExt(e.FullPath);
-                            _files.Add(fsie);
-                            OnCreated(this, fsie);
-                        }
-                        else
-                        {
-                            newItem.RefreshParam(e.FullPath);
-                            OnChanged(this, newItem);
-                        }
-                    }
-                    catch (Exception exception)
-                    {
-                        Log.Error(this, $"WatcherOnCreated : {e.FullPath}", exception.Message);
-                    }
+                    TriggerDebounce();
                 }
-
             }
         }
 
@@ -115,33 +81,21 @@ namespace JobSpace.UC
         {
             if (e.ChangeType == WatcherChangeTypes.Deleted)
             {
-                //Debug.WriteLine($"- OnDeleted: e.FullPath: {e.FullPath}");
-                var oldItems = _files.Where(x => x.FileInfo.FullName.Equals(e.FullPath, StringComparison.OrdinalIgnoreCase)).ToList();
-                foreach (var oldItem in oldItems)
-                {
-                    OnDeleted(this, oldItem);
-                    _files.Remove(oldItem);
-                }
+                TriggerDebounce();
             }
-
         }
 
         private void WatcherOnChanged(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                Debug.WriteLine($"- OnChanged: e.FullPath: {e.FullPath}");
-
-                var oldItem = _files.FirstOrDefault(x =>
-                    x.FileInfo.FullName.Equals(e.FullPath, StringComparison.OrdinalIgnoreCase));
-                if (oldItem != null)
-                {
-                    oldItem.RefreshParam(e.FullPath);
-                    OnChanged(this, oldItem);
-                }
-
+                TriggerDebounce();
             }
+        }
 
+        ~NoCache()
+        {
+            _debounceTimer?.Dispose();
         }
 
 
