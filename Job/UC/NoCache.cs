@@ -48,26 +48,29 @@ namespace JobSpace.UC
             {
                 Debug.WriteLine($"- OnRenamed: from {e.OldName} to {e.Name} e.FullPath: {e.FullPath}");
 
-                var newItem = _files.FirstOrDefault(x =>
-                    x.FileInfo.FullName.Equals(e.FullPath, StringComparison.CurrentCultureIgnoreCase));
+                // Remove the old item(s) if they exist
+                var oldItems = _files.Where(x =>
+                    x.FileInfo.FullName.Equals(e.OldFullPath, StringComparison.OrdinalIgnoreCase)).ToList();
 
-                if (newItem == null) // такого нема
+                foreach (var oldItem in oldItems)
                 {
-                    var oldItem = _files.FirstOrDefault(x =>
-                        x.FileInfo.FullName.Equals(e.OldFullPath, StringComparison.CurrentCultureIgnoreCase));
+                    _files.Remove(oldItem);
+                    OnDeleted(this, oldItem);
+                }
 
-                    if (oldItem != null)
-                    {
-                        _files.Remove(oldItem);
-                        OnDeleted(this, oldItem);
-                    }
+                // Add or update the new item
+                var newItem = _files.FirstOrDefault(x =>
+                    x.FileInfo.FullName.Equals(e.FullPath, StringComparison.OrdinalIgnoreCase));
 
+                if (newItem == null)
+                {
                     newItem = new FileSystemInfoExt(e.FullPath);
                     _files.Add(newItem);
                     OnCreated(this, newItem);
                 }
                 else
                 {
+                    newItem.RefreshParam(e.FullPath);
                     OnChanged(this, newItem);
                 }
             }
@@ -78,17 +81,26 @@ namespace JobSpace.UC
         {
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
-
                 // temp пропускаємо
                 if (!_ignoreFolders.Contains(e.Name.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
                 {
                     Debug.WriteLine($"- OnCreated: e.FullPath: {e.FullPath}");
                     try
                     {
-                        var fsie = new FileSystemInfoExt(e.FullPath);
-                        _files.Add(fsie);
-                        OnCreated(this, fsie);
+                        var newItem = _files.FirstOrDefault(x =>
+                            x.FileInfo.FullName.Equals(e.FullPath, StringComparison.OrdinalIgnoreCase));
 
+                        if (newItem == null)
+                        {
+                            var fsie = new FileSystemInfoExt(e.FullPath);
+                            _files.Add(fsie);
+                            OnCreated(this, fsie);
+                        }
+                        else
+                        {
+                            newItem.RefreshParam(e.FullPath);
+                            OnChanged(this, newItem);
+                        }
                     }
                     catch (Exception exception)
                     {
@@ -104,8 +116,8 @@ namespace JobSpace.UC
             if (e.ChangeType == WatcherChangeTypes.Deleted)
             {
                 //Debug.WriteLine($"- OnDeleted: e.FullPath: {e.FullPath}");
-                var oldItem = _files.FirstOrDefault(x => x.FileInfo.FullName.Equals(e.FullPath, StringComparison.InvariantCultureIgnoreCase));
-                if (oldItem != null)
+                var oldItems = _files.Where(x => x.FileInfo.FullName.Equals(e.FullPath, StringComparison.OrdinalIgnoreCase)).ToList();
+                foreach (var oldItem in oldItems)
                 {
                     OnDeleted(this, oldItem);
                     _files.Remove(oldItem);
@@ -121,7 +133,7 @@ namespace JobSpace.UC
                 Debug.WriteLine($"- OnChanged: e.FullPath: {e.FullPath}");
 
                 var oldItem = _files.FirstOrDefault(x =>
-                    x.FileInfo.FullName.Equals(e.FullPath, StringComparison.InvariantCultureIgnoreCase));
+                    x.FileInfo.FullName.Equals(e.FullPath, StringComparison.OrdinalIgnoreCase));
                 if (oldItem != null)
                 {
                     oldItem.RefreshParam(e.FullPath);
