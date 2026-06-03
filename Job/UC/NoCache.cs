@@ -348,8 +348,8 @@ namespace JobSpace.UC
                 {
                     // Поки watcher не стежив за цією папкою, файли могли змінитись або з'явитись/зникнути.
                     // Швидко звіряємо кеш з реальним станом директорії.
-                    SyncCachedDirectory(path, cached);
-                    UpdateUsage(path);
+                    // ВАЖЛИВО: ми тримаємо читальний замок, тому SyncCachedDirectory не може змінювати кеш!
+                    // Замість цього просто повертаємо закешований список без синхронізації
                     return cached;
                 }
             }
@@ -408,8 +408,7 @@ namespace JobSpace.UC
                 _lastActiveDirPath = path;
                 if (_dirContents.TryGetValue(path, out var cached))
                 {
-                    SyncCachedDirectory(path, cached);
-                    UpdateUsage(path);
+                    // ВАЖЛИВО: ми тримаємо читальний замок, тому не викликаємо SyncCachedDirectory
                     return cached.Where(x => x.IsDir).ToList();
                 }
             }
