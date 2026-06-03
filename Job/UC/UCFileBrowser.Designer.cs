@@ -477,7 +477,7 @@ namespace JobSpace.UC
             uc_PreviewBrowserFile1.Location = new System.Drawing.Point(0, 0);
             uc_PreviewBrowserFile1.Margin = new System.Windows.Forms.Padding(0);
             uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
-            uc_PreviewBrowserFile1.Size = new System.Drawing.Size(112, 115);
+            uc_PreviewBrowserFile1.Size = new System.Drawing.Size(96, 100);
             uc_PreviewBrowserFile1.TabIndex = 0;
             // 
             // toolStripLeft
@@ -505,7 +505,7 @@ namespace JobSpace.UC
             toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripButton_Up, toolStripSeparator4, toolStripButton_Refresh, toolStripSeparator5, toolStripButton_NewFolder, toolStripSplitButton1, toolStripSeparator12, toolStripButtonCopyToClipboard, toolStripButtonCut, tsddb_paste, toolStripSplitButtonTrash, toolStripSeparator6, toolStripButtonCopyPathToClipboard, toolStripSeparator13, toolStripButtonFileInfo, toolStripButton_Custom, toolStripTextBox_Filter, toolStripButton_ClearFilter, toolStripSeparator11, tsb_preview, toolStripSeparator20, toolStripButtonSettings });
             toolStrip1.Location = new System.Drawing.Point(3, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new System.Drawing.Size(509, 25);
+            toolStrip1.Size = new System.Drawing.Size(540, 25);
             toolStrip1.TabIndex = 1;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -567,7 +567,8 @@ namespace JobSpace.UC
             toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripSplitButton1.Name = "toolStripSplitButton1";
             toolStripSplitButton1.Size = new System.Drawing.Size(32, 22);
-            toolStripSplitButton1.Text = "toolStripSplitButton1";
+            toolStripSplitButton1.Text = "перейменувати";
+            toolStripSplitButton1.ToolTipText = "перейменувати файл або папку";
             toolStripSplitButton1.Click += ПереименоватьToolStripMenuItem_Click;
             // 
             // пошукзамінаТиражівToolStripMenuItem
@@ -664,7 +665,7 @@ namespace JobSpace.UC
             // openTrashToolStripMenuItem
             // 
             openTrashToolStripMenuItem.Name = "openTrashToolStripMenuItem";
-            openTrashToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            openTrashToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             openTrashToolStripMenuItem.Text = "відкрити кошик";
             openTrashToolStripMenuItem.Click += openTrashToolStripMenuItem_Click;
             // 

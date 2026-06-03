@@ -13,8 +13,8 @@ using JobSpace.Static;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.UserForms;
 using JobSpace.UserForms.PDF;
-using Microsoft.Win32;
 using Microsoft.VisualBasic.FileIO;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -29,7 +29,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using static JobSpace.Static.NaturalSorting;
 
 namespace JobSpace.UC
@@ -52,10 +51,6 @@ namespace JobSpace.UC
         private ToolStripMenuItem _installFontsToolStripMenuItem;
 
         private string[] _customButtonPath;
-
-        // Кеш метаданих живе весь час роботи браузера — не прив'язаний до папки.
-        // Файл повторно не сканується, якщо LastWriteTime і Length не змінились.
-        private readonly FileMetadataCache _metadataCache = new FileMetadataCache();
 
         public string DefaultSettingsFolder { get; set; }
 
@@ -99,7 +94,7 @@ namespace JobSpace.UC
 
         #region [PDFTool menu]
 
-        
+
         ContextMenuStrip toolbarMenu = new ContextMenuStrip();
         private void AddRightContextMenuToPdfTools()
         {
@@ -128,7 +123,7 @@ namespace JobSpace.UC
 
             int idx = 1;
 
-            foreach (var tool in allTools.OrderBy(o=>o.Meta.Order).ThenBy(t => t.ToolType.Name))
+            foreach (var tool in allTools.OrderBy(o => o.Meta.Order).ThenBy(t => t.ToolType.Name))
             {
                 var item = new ToolStripMenuItem($"{idx++}. {tool.Meta.MenuPath} {tool.Meta.Name}");
 
@@ -151,7 +146,7 @@ namespace JobSpace.UC
             usageItem.Click += PdfToolUsageMenuItem_Click;
             toolbarMenu.Items.Add(usageItem);
         }
-        
+
         void BuildToolbar(List<ToolInfo> tools, IToolbarSettings settings)
         {
             var panel = toolStripPDF.Parent;
@@ -337,33 +332,22 @@ namespace JobSpace.UC
                 }
             }
             else
-            
-            if (!tool.Configure(context))
-                return;
+
+                if (!tool.Configure(context))
+                    return;
 
             if (toolInfo.Meta.IsBackgroundTask)
             {
                 BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask(toolInfo.Meta.MenuPath, new Action(() =>
                 {
-                    ExecutePdfToolAndRefresh(toolInfo, tool, context);
+                    TrackPdfToolUsage(toolInfo);
+                    tool.Execute(context);
                 }), context.ProcessingFiles));
             }
             else
             {
-                ExecutePdfToolAndRefresh(toolInfo, tool, context);
-            }
-        }
-
-        private void ExecutePdfToolAndRefresh(ToolInfo toolInfo, IPdfTool tool, PdfJobContext context)
-        {
-            try
-            {
                 TrackPdfToolUsage(toolInfo);
                 tool.Execute(context);
-            }
-            finally
-            {
-                _ = _fileManager.RefreshAsync();
             }
         }
 
@@ -572,31 +556,8 @@ namespace JobSpace.UC
 
         private void FileManager_OnChangeFile(object sender, IFileSystemInfoExt e)
         {
-            Debug.WriteLine($"[OnChangeFile] {e.FileInfo?.FullName} (IsDir={e.IsDir})");
-            
-            if (e != null && e.FileInfo != null)
-            {
-                // Перевірка: чи шлях дійсно оновлений
-                var expectedPath = sender as FileManager;
-                if (expectedPath != null && expectedPath.Settings.CurFolder != null)
-                {
-                    Debug.WriteLine($"[OnChangeFile] Current Folder: {expectedPath.Settings.CurFolder}");
-                }
-
-                if (_fileManager.Settings.ScanFiles)
-                {
-                    try
-                    {
-                        e.GetExtendedFileInfoFormat();
-                        // Оновлюємо кеш, щоб ProcessTaskGetExtendedFileInfo не сканував повторно
-                        _metadataCache.MarkUpToDate(e);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine($"[OnChangeFile] GetExtendedFileInfoFormat failed: {ex.Message}");
-                    }
-                }
-            }
+            if (_fileManager.Settings.ScanFiles)
+                e.GetExtendedFileInfoFormat();
 
             objectListView1.RefreshObject(e);
             UpdateStatusControl();
@@ -604,9 +565,6 @@ namespace JobSpace.UC
 
         private void FileManager_OnDeleteFile(object sender, IFileSystemInfoExt e)
         {
-            // Видаляємо із кешу метаданих, щоб не накопичувались застарілі записи
-            _metadataCache.Invalidate(e.FileInfo?.FullName);
-
             objectListView1.RemoveObject(e);
             UpdateStatusControl();
         }
@@ -615,41 +573,13 @@ namespace JobSpace.UC
         {
             this.InvokeIfNeeded(() =>
             {
-                Debug.WriteLine($"[OnAddFile] File added: {e.FileInfo?.FullName}");
-                
-                if (e== null)
-                {
-                    Debug.WriteLine("[OnAddFile] Warning: e is null");
-                    return;
-                }
-                else if (!e.IsDir && e.FileInfo != null)
-                {
-                    if (_fileManager.Settings.ScanFiles)
-                    {
-                        try
-                        {
-                            e.GetExtendedFileInfoFormat();
-                            // Додаємо в кеш, щоб ProcessTaskGetExtendedFileInfo не сканував повторно
-                            _metadataCache.MarkUpToDate(e);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine($"[OnAddFile] GetExtendedFileInfoFormat failed: {ex.Message}");
-                        }
-                    }
-                }
-                    
+                if (_fileManager.Settings.ScanFiles)
+                    e.GetExtendedFileInfoFormat();
+
                 objectListView1.AddObject(e);
-                    
-                // Сортуємо список після додавання файлу для коректного відображення
-                if (objectListView1.ListViewItemSorter != null)
-                {
-                    objectListView1.Sort();
-                }
-                    
                 UpdateStatusControl();
+
             });
-           
         }
 
         private void FileManager_OnChangeRootDirectory(object sender, EventArgs e)
@@ -668,14 +598,7 @@ namespace JobSpace.UC
 
             StopTaskGetExtendedInfo();
             objectListView1.EmptyListMsg = null;
-            objectListView1.SetObjects(e);
-            
-            // Сортуємо список після завантаження файлів для коректного відображення
-            if (objectListView1.ListViewItemSorter != null)
-            {
-                objectListView1.Sort();
-            }
-            
+            objectListView1.AddObjects(e);
             SelectFirstPreviewableFileAfterRefresh(e);
             StartTaskGetExtendedInfo(e);
             UpdateStatusControl();
@@ -751,23 +674,8 @@ namespace JobSpace.UC
 
             foreach (var ext in list)
             {
-                if (token.IsCancellationRequested) break;
-
-                // Папки та файли без фізичного шляху — пропускаємо
-                if (ext.IsDir || ext.FileInfo == null) continue;
-
-                var path = ext.FileInfo.FullName;
-                var lastWrite = ext.FileInfo.LastWriteTime;
-                var length = ext.FileInfo.Length;
-
-                // Якщо метадані вже актуальні для цієї версії файлу — пропускаємо
-                if (_metadataCache.IsUpToDate(ext))
-                    continue;
-
                 ext.GetExtendedFileInfoFormat();
-
-                // Запам'ятовуємо стан файлу, для якого щойно отримали метадані
-                _metadataCache.MarkUpToDate(ext);
+                if (token.IsCancellationRequested) break;
             }
         }
         void StopTaskGetExtendedInfo()
@@ -1469,33 +1377,34 @@ namespace JobSpace.UC
             {
                 FileBrowserSevices.Clipboard_CopyFiles(objectListView1.SelectedObjects);
             }
-            else if (e.Control && e.KeyCode == Keys.V)
-            {
-                FileBrowserSevices.Clipboard_PasteFiles(_fileManager);
-            }
-            else if (e.Control && e.KeyCode == Keys.X)
-            {
-                FileBrowserSevices.Clipboard_CutFiles(objectListView1.SelectedObjects);
-            }
-            else if (e.KeyCode == Keys.Delete)
-            {
-                DeleteFilesAndDirectories();
-            }
-            else if (e.KeyCode == Keys.Add)
-            {
-                objectListView1.SelectObjects(FileBrowserSevices.File_SelectByExt(objectListView1.SelectedObjects, objectListView1.Objects));
-            }
-            else if (e.KeyCode == Keys.Enter)
-            {
-                if (objectListView1.SelectedObject is IFileSystemInfoExt file)
-                {
-                    _fileManager.OpenFileOrFolder(file);
-                }
-            }
             else
-            {
-                handled = false;
-            }
+                if (e.Control && e.KeyCode == Keys.V)
+                {
+                    FileBrowserSevices.Clipboard_PasteFiles(_fileManager);
+                }
+                else if (e.Control && e.KeyCode == Keys.X)
+                {
+                    FileBrowserSevices.Clipboard_CutFiles(objectListView1.SelectedObjects);
+                }
+                else if (e.KeyCode == Keys.Delete)
+                {
+                    DeleteFilesAndDirectories();
+                }
+                else if (e.KeyCode == Keys.Add)
+                {
+                    objectListView1.SelectObjects(FileBrowserSevices.File_SelectByExt(objectListView1.SelectedObjects, objectListView1.Objects));
+                }
+                else if (e.KeyCode == Keys.Enter)
+                {
+                    if (objectListView1.SelectedObject is IFileSystemInfoExt file)
+                    {
+                        _fileManager.OpenFileOrFolder(file);
+                    }
+                }
+                else
+                {
+                    handled = false;
+                }
             if (handled)
             {
                 e.Handled = true;
@@ -1752,7 +1661,7 @@ namespace JobSpace.UC
         }
         private void SetTrimBoxToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
         }
         private void ObjectListView1_SelectionChanged(object sender, EventArgs e)
         {
@@ -1774,7 +1683,7 @@ namespace JobSpace.UC
         }
         private void ConvertToPDFToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
         }
         private Action CreateMoveToTrashAction(List<IFileSystemInfoExt> files)
         {
@@ -1818,11 +1727,8 @@ namespace JobSpace.UC
         }
         private void openTrashToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var form = new JobSpace.UserForms.FormTrash(_fileManager))
-            {
-                form.ShowDialog();
-            }
-            _ = _fileManager.RefreshAsync();
+            // open trash folder
+            _fileManager.GetTempFolder();
         }
         private void kryptonLabelPath_LinkClicked(object sender, EventArgs e)
         {
