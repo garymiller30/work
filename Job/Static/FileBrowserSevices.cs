@@ -603,11 +603,19 @@ namespace JobSpace.Static
             {
                 return Image.FromFile(f.FileInfo.FullName);
             }
-            else if (ext == ".psd" || ext == ".eps")
+            else if (ext == ".psd" || ext == ".eps" || ext == ".heic")
             {
-                using (var psd = new MagickImage(f.FileInfo.FullName))
+                try
                 {
-                    return psd.ToBitmap();
+                    using (var image = new MagickImage(f.FileInfo.FullName))
+                    {
+                        return image.ToBitmap();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Error(null, "File_GetPreview", $"Cannot load preview for {f.FileInfo.FullName}: {e.Message}");
+                    return null;
                 }
             }
 
