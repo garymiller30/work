@@ -31,7 +31,7 @@ namespace JobSpace.UC
         private readonly LinkedList<string> _recentDirs = new LinkedList<string>();
         private const int CacheCapacity = 10;
 
-        private readonly object _lock = new object();
+        private readonly ReaderWriterLockSlim _rwLock = new ReaderWriterLockSlim();
         private string _lastActiveDirPath;
         private readonly NaturalSorting.NaturalStringComparer _naturalStringComparer = new NaturalSorting.NaturalStringComparer();
 
@@ -66,10 +66,15 @@ namespace JobSpace.UC
             Debug.WriteLine($"- OnChanged: {e.FullPath}");
 
             IFileSystemInfoExt item;
-            lock (_lock)
+            _rwLock.EnterWriteLock();
+            try
             {
                 if (!_fileIndex.TryGetValue(e.FullPath, out item)) return;
                 item.RefreshParam(e.FullPath);
+            }
+            finally
+            {
+                _rwLock.ExitWriteLock();
             }
 
             OnChanged(this, item);
@@ -80,7 +85,8 @@ namespace JobSpace.UC
             if (e.ChangeType != WatcherChangeTypes.Deleted) return;
 
             IFileSystemInfoExt item;
-            lock (_lock)
+            _rwLock.EnterWriteLock();
+            try
             {
                 if (!_fileIndex.TryGetValue(e.FullPath, out item)) return;
 
@@ -113,6 +119,10 @@ namespace JobSpace.UC
                     }
                 }
             }
+            finally
+            {
+                _rwLock.ExitWriteLock();
+            }
 
             OnDeleted(this, item);
         }
@@ -130,7 +140,8 @@ namespace JobSpace.UC
             IFileSystemInfoExt item = null;
             try
             {
-                lock (_lock)
+                _rwLock.EnterWriteLock();
+                try
                 {
                     item = new FileSystemInfoExt(e.FullPath);
                     _fileIndex[e.FullPath] = item;
@@ -144,6 +155,10 @@ namespace JobSpace.UC
                             list.Add(item);
                         }
                     }
+                }
+                finally
+                {
+                    _rwLock.ExitWriteLock();
                 }
             }
             catch (Exception ex)
@@ -175,7 +190,8 @@ namespace JobSpace.UC
                 isSameDir = string.Equals(oldDir, newDir, StringComparison.OrdinalIgnoreCase);
             }
 
-            lock (_lock)
+            _rwLock.EnterWriteLock();
+            try
             {
                 // 1. Знаходимо та видаляємо старий запис з індексу
                 if (_fileIndex.TryGetValue(e.OldFullPath, out oldItem))
@@ -288,6 +304,10 @@ namespace JobSpace.UC
                     }
                 }
             }
+            finally
+            {
+                _rwLock.ExitWriteLock();
+            }
 
             // Raising events outside of the lock to avoid UI deadlock
             if (oldItemExisted)
@@ -319,7 +339,8 @@ namespace JobSpace.UC
 
         public List<IFileSystemInfoExt> GetFiles(string path)
         {
-            lock (_lock)
+            _rwLock.EnterReadLock();
+            try
             {
                 _lastActiveDirPath = path;
                 if (_dirContents.TryGetValue(path, out var cached))
@@ -330,6 +351,10 @@ namespace JobSpace.UC
                     UpdateUsage(path);
                     return cached;
                 }
+            }
+            finally
+            {
+                _rwLock.ExitReadLock();
             }
 
             DisableWatcher();
@@ -354,7 +379,8 @@ namespace JobSpace.UC
             list.AddRange(dirs);
             list.AddRange(files);
 
-            lock (_lock)
+            _rwLock.EnterWriteLock();
+            try
             {
                 foreach (var item in list)
                     _fileIndex[item.FileInfo.FullName] = item;
@@ -362,6 +388,10 @@ namespace JobSpace.UC
                 _dirContents[path] = list;
 
                 UpdateUsage(path);
+            }
+            finally
+            {
+                _rwLock.ExitWriteLock();
             }
 
             SetWatcher(path);
@@ -371,7 +401,8 @@ namespace JobSpace.UC
 
         public List<IFileSystemInfoExt> GetDirs(string path)
         {
-            lock (_lock)
+            _rwLock.EnterReadLock();
+            try
             {
                 _lastActiveDirPath = path;
                 if (_dirContents.TryGetValue(path, out var cached))
@@ -380,6 +411,10 @@ namespace JobSpace.UC
                     UpdateUsage(path);
                     return cached.Where(x => x.IsDir).ToList();
                 }
+            }
+            finally
+            {
+                _rwLock.ExitReadLock();
             }
 
             DisableWatcher();
@@ -394,13 +429,18 @@ namespace JobSpace.UC
                 .ToList(); // List<FileSystemInfoExt>
             dirs.Sort(_naturalComparer);
 
-            lock (_lock)
+            _rwLock.EnterWriteLock();
+            try
             {
                 // Index but don't fully cache directory (GetFiles will do that later)
                 foreach (var dir in dirs)
                     _fileIndex[dir.FileInfo.FullName] = dir;
 
                 UpdateUsage(path);
+            }
+            finally
+            {
+                _rwLock.ExitWriteLock();
             }
 
             SetWatcher(path);
@@ -427,13 +467,18 @@ namespace JobSpace.UC
 
         public int GetCountFiles()
         {
-            lock (_lock)
+            _rwLock.EnterReadLock();
+            try
             {
                 if (!string.IsNullOrEmpty(_lastActiveDirPath) && _dirContents.TryGetValue(_lastActiveDirPath, out var list))
                 {
                     return list.Count(x => !x.IsDir);
                 }
                 return 0;
+            }
+            finally
+            {
+                _rwLock.ExitReadLock();
             }
         }
 
