@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -109,6 +109,20 @@ namespace JobSpace.Models
             var handler = PropertyChanged;
 
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is FileSystemInfoExt other)
+            {
+                return string.Equals(FullName, other.FullName, StringComparison.OrdinalIgnoreCase);
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return FullName != null ? StringComparer.OrdinalIgnoreCase.GetHashCode(FullName) : 0;
         }
     }
 }

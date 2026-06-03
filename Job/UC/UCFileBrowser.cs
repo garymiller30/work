@@ -574,7 +574,7 @@ namespace JobSpace.UC
             this.InvokeIfNeeded(() =>
             {
                 if (_fileManager.Settings.ScanFiles)
-                    e.GetExtendedFileInfoFormat();
+                    StartTaskGetExtendedInfo(new List<IFileSystemInfoExt>() { e });
 
                 objectListView1.AddObject(e);
                 UpdateStatusControl();
@@ -596,9 +596,8 @@ namespace JobSpace.UC
                 return;
             }
 
-            StopTaskGetExtendedInfo();
             objectListView1.EmptyListMsg = null;
-            objectListView1.AddObjects(e);
+            objectListView1.SetObjects(e);
             SelectFirstPreviewableFileAfterRefresh(e);
             StartTaskGetExtendedInfo(e);
             UpdateStatusControl();
@@ -663,7 +662,7 @@ namespace JobSpace.UC
         void StartTaskGetExtendedInfo(List<IFileSystemInfoExt> e)
         {
             if (!_fileManager.Settings.ScanFiles) return;
-
+            StopTaskGetExtendedInfo();
             _cts = new CancellationTokenSource();
             _taskGetExtendedFileInfo = Task.Run(() => { ProcessTaskGetExtendedFileInfo(e, _cts.Token); }, _cts.Token);
         }
