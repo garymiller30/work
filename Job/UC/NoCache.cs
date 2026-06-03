@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using Interfaces;
 using JobSpace.Models;
 using JobSpace.Static;
@@ -17,26 +16,9 @@ namespace JobSpace.UC
     public sealed class NoCache : ICache<IFileSystemInfoExt>
     {
         private readonly IWatcher _watcher;
-        private readonly List<string> _ignoreFolders = new List<string> { "temp", ".signa", ".preview", ".impos" };
+        private List<string> _ignoreFolders = new List<string>() { "temp", ".signa", ".preview", ".impos" };
 
-        // Кеш вмісту директорій: шлях директорії → список файлів/папок у ній.
-        // Повернення до тієї самої директорії повертає ті самі об'єкти зі збереженими метаданими.
-        private readonly Dictionary<string, List<IFileSystemInfoExt>> _dirContents =
-            new Dictionary<string, List<IFileSystemInfoExt>>(StringComparer.OrdinalIgnoreCase);
-
-        // Швидкий пошук об'єкта за повним шляхом для обробки подій watcher-а.
-        private readonly Dictionary<string, IFileSystemInfoExt> _fileIndex =
-            new Dictionary<string, IFileSystemInfoExt>(StringComparer.OrdinalIgnoreCase);
-
-        // LRU-список директорій (не файлів).
-        private readonly LinkedList<string> _recentDirs = new LinkedList<string>();
-        private const int CacheCapacity = 10;
-
-        private readonly ReaderWriterLockSlim _rwLock = new ReaderWriterLockSlim();
-        private string _lastActiveDirPath;
-        private readonly NaturalSorting.NaturalStringComparer _naturalStringComparer = new NaturalSorting.NaturalStringComparer();
-
-        readonly NaturalSorting.NaturalFileInfoNameComparer _naturalComparer = new NaturalSorting.NaturalFileInfoNameComparer();
+        readonly List<IFileSystemInfoExt> _files = new List<IFileSystemInfoExt>();
 
         public event EventHandler<IFileSystemInfoExt> OnChanged = delegate { };
         public event EventHandler<IFileSystemInfoExt> OnDeleted = delegate { };
@@ -60,550 +42,171 @@ namespace JobSpace.UC
             OnError(this, e);
         }
 
-        private void WatcherOnChanged(object sender, FileSystemEventArgs e)
+        private void WatcherOnRenamed(object sender, RenamedEventArgs e)
         {
-            if (e.ChangeType != WatcherChangeTypes.Changed) return;
-
-            Debug.WriteLine($"- OnChanged: {e.FullPath}");
-
-            IFileSystemInfoExt item;
-            _rwLock.EnterWriteLock();
-            try
+            if (e.ChangeType == WatcherChangeTypes.Renamed)
             {
-                if (!_fileIndex.TryGetValue(e.FullPath, out item)) return;
-                item.RefreshParam(e.FullPath);
-            }
-            finally
-            {
-                _rwLock.ExitWriteLock();
-            }
+                Debug.WriteLine($"- OnRenamed: from {e.OldName} to {e.Name} e.FullPath: {e.FullPath}");
 
-            OnChanged(this, item);
-        }
+                var newItem = _files.FirstOrDefault(x =>
+                    x.FileInfo.FullName.Equals(e.FullPath, StringComparison.CurrentCultureIgnoreCase));
 
-        private void WatcherOnDeleted(object sender, FileSystemEventArgs e)
-        {
-            if (e.ChangeType != WatcherChangeTypes.Deleted) return;
-
-            IFileSystemInfoExt item;
-            _rwLock.EnterWriteLock();
-            try
-            {
-                if (!_fileIndex.TryGetValue(e.FullPath, out item)) return;
-
-                _fileIndex.Remove(e.FullPath);
-
-                var dirPath = Path.GetDirectoryName(e.FullPath);
-                if (dirPath != null && _dirContents.TryGetValue(dirPath, out var list))
+                if (newItem == null) // такого нема
                 {
-                    list.Remove(item);
-                    // Примусова синхронізація кешу директорії після видалення для гарантії чистоти списку
-                    try
+                    var oldItem = _files.FirstOrDefault(x =>
+                        x.FileInfo.FullName.Equals(e.OldFullPath, StringComparison.CurrentCultureIgnoreCase));
+
+                    if (oldItem != null)
                     {
-                        SyncCachedDirectory(dirPath, list);
+                        _files.Remove(oldItem);
+                        OnDeleted(this, oldItem);
                     }
-                    catch (Exception ex)
-                    {
-                        Log.Error(this, $"WatcherOnDeleted (Sync): {dirPath}", ex.Message);
-                    }
+
+                    newItem = new FileSystemInfoExt(e.FullPath);
+                    _files.Add(newItem);
+                    OnCreated(this, newItem);
                 }
-                if (item.IsDir)
+                else
                 {
-                    EvictDirectory(e.FullPath);
-                    var prefix = e.FullPath + Path.DirectorySeparatorChar;
-                    var keysToRemove = _dirContents.Keys
-                        .Where(k => k.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-                        .ToList();
-                    foreach (var key in keysToRemove)
-                    {
-                        EvictDirectory(key);
-                    }
+                    OnChanged(this, newItem);
                 }
             }
-            finally
-            {
-                _rwLock.ExitWriteLock();
-            }
 
-            OnDeleted(this, item);
         }
 
         private void WatcherOnCreated(object sender, FileSystemEventArgs e)
         {
-            if (e.ChangeType != WatcherChangeTypes.Created) return;
-
-            var name = Path.GetFileName(e.FullPath);
-            if (_ignoreFolders.Contains(name?.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
-                return;
-
-            Debug.WriteLine($"- OnCreated: {e.FullPath}");
-
-            IFileSystemInfoExt item = null;
-            try
+            if (e.ChangeType == WatcherChangeTypes.Created)
             {
-                _rwLock.EnterWriteLock();
-                try
+
+                // temp пропускаємо
+                if (!_ignoreFolders.Contains(e.Name.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
                 {
-                    item = new FileSystemInfoExt(e.FullPath);
-                    _fileIndex[e.FullPath] = item;
-
-                    var dirPath = Path.GetDirectoryName(e.FullPath);
-                    if (dirPath != null && _dirContents.TryGetValue(dirPath, out var list))
-                    {
-                        // Defensive duplicate prevention
-                        if (!list.Any(x => string.Equals(x.FileInfo?.FullName, e.FullPath, StringComparison.OrdinalIgnoreCase)))
-                        {
-                            list.Add(item);
-                        }
-                    }
-                }
-                finally
-                {
-                    _rwLock.ExitWriteLock();
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(this, $"WatcherOnCreated: {e.FullPath}", ex.Message);
-            }
-
-            if (item != null)
-            {
-                OnCreated(this, item);
-            }
-        }
-
-        private void WatcherOnRenamed(object sender, RenamedEventArgs e)
-        {
-            if (e.ChangeType != WatcherChangeTypes.Renamed) return;
-
-            Debug.WriteLine($"- OnRenamed: {e.OldFullPath} → {e.FullPath}");
-
-            IFileSystemInfoExt oldItem = null;
-            IFileSystemInfoExt newItem = null;
-            bool isSameDir = false;
-            bool oldItemExisted = false;
-
-            var oldDir = Path.GetDirectoryName(e.OldFullPath);
-            var newDir = Path.GetDirectoryName(e.FullPath);
-            if (oldDir != null && newDir != null)
-            {
-                isSameDir = string.Equals(oldDir, newDir, StringComparison.OrdinalIgnoreCase);
-            }
-
-            _rwLock.EnterWriteLock();
-            try
-            {
-                // 1. Знаходимо та видаляємо старий запис з індексу
-                if (_fileIndex.TryGetValue(e.OldFullPath, out oldItem))
-                {
-                    oldItemExisted = true;
-                    _fileIndex.Remove(e.OldFullPath);
-
-                    if (isSameDir)
-                    {
-                        // 1. Rename in same directory: update in-place
-                        try
-                        {
-                            // Оновлюємо FileInfo з новим шляхом
-                            var newFileInfo = new FileInfo(e.FullPath).ToFileSystemInfoExt();
-                            oldItem.FileInfo = newFileInfo.FileInfo;
-                            
-                            // Якщо є RefreshParam — викликаємо його для оновлення метаданих
-                            if (oldItem.RefreshParam != null)
-                            {
-                                oldItem.RefreshParam(e.FullPath);
-                            }
-
-                            _fileIndex[e.FullPath] = oldItem;
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Error(this, $"WatcherOnRenamed (Same dir update): {e.FullPath}", ex.Message);
-                            // Якщо оновлення не вдалося — створюємо новий об'єкт
-                            try
-                            {
-                                newItem = new FileSystemInfoExt(e.FullPath);
-                                _fileIndex[e.FullPath] = newItem;
-                            }
-                            catch (Exception ex2)
-                            {
-                                Log.Error(this, $"WatcherOnRenamed (Create new): {e.FullPath}", ex2.Message);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // 2. Moved to a different directory: remove from old directory's cache list
-                        if (oldDir != null && _dirContents.TryGetValue(oldDir, out var oldList))
-                        {
-                            oldList.Remove(oldItem);
-                            try
-                            {
-                                SyncCachedDirectory(oldDir, oldList);
-                            }
-                            catch (Exception ex)
-                            {
-                                Log.Error(this, $"WatcherOnRenamed (Sync old): {oldDir}", ex.Message);
-                            }
-                        }
-
-                        if (oldItem.IsDir)
-                        {
-                            EvictDirectory(e.OldFullPath);
-                            var prefix = e.OldFullPath + Path.DirectorySeparatorChar;
-                            var keysToRemove = _dirContents.Keys
-                                .Where(k => k.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-                                .ToList();
-                            foreach (var key in keysToRemove)
-                            {
-                                EvictDirectory(key);
-                            }
-                        }
-
-                        // 3. Create new item for the destination
-                        try
-                        {
-                            newItem = new FileSystemInfoExt(e.FullPath);
-                            _fileIndex[e.FullPath] = newItem;
-
-                            if (newDir != null && _dirContents.TryGetValue(newDir, out var newList))
-                            {
-                                // Ensure it's not already in the cache list to prevent duplicates
-                                if (!newList.Any(x => string.Equals(x.FileInfo?.FullName, e.FullPath, StringComparison.OrdinalIgnoreCase)))
-                                {
-                                    newList.Add(newItem);
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Error(this, $"WatcherOnRenamed (Create/Add new): {e.FullPath}", ex.Message);
-                        }
-                    }
-                }
-                else
-                {
-                    // 4. Old item was not in cache — create new for destination
+                    Debug.WriteLine($"- OnCreated: e.FullPath: {e.FullPath}");
                     try
                     {
-                        newItem = new FileSystemInfoExt(e.FullPath);
-                        _fileIndex[e.FullPath] = newItem;
+                        var fsie = new FileSystemInfoExt(e.FullPath);
+                        _files.Add(fsie);
+                        OnCreated(this, fsie);
 
-                        if (newDir != null && _dirContents.TryGetValue(newDir, out var newList))
-                        {
-                            // Ensure it's not already in the cache list to prevent duplicates
-                            if (!newList.Any(x => string.Equals(x.FileInfo?.FullName, e.FullPath, StringComparison.OrdinalIgnoreCase)))
-                            {
-                                newList.Add(newItem);
-                            }
-                        }
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        Log.Error(this, $"WatcherOnRenamed (Create/Add new): {e.FullPath}", ex.Message);
+                        Log.Error(this, $"WatcherOnCreated : {e.FullPath}", exception.Message);
                     }
                 }
-            }
-            finally
-            {
-                _rwLock.ExitWriteLock();
-            }
 
-            // Raising events outside of the lock to avoid UI deadlock
-            if (oldItemExisted)
-            {
-                if (isSameDir)
-                {
-                    // Within the same directory, raise OnRenamed with UPDATED item
-                    OnRenamed(this, oldItem);
-                }
-                else
-                {
-                    // Across directories, raise OnDeleted and OnCreated
-                    OnDeleted(this, oldItem);
-                    if (newItem != null)
-                    {
-                        OnCreated(this, newItem);
-                    }
-                }
-            }
-            else
-            {
-                // Old item was not in cache, raise OnCreated for the new path
-                if (newItem != null)
-                {
-                    OnCreated(this, newItem);
-                }
             }
         }
+
+        private void WatcherOnDeleted(object sender, FileSystemEventArgs e)
+        {
+            if (e.ChangeType == WatcherChangeTypes.Deleted)
+            {
+                //Debug.WriteLine($"- OnDeleted: e.FullPath: {e.FullPath}");
+                var oldItem = _files.FirstOrDefault(x => x.FileInfo.FullName.Equals(e.FullPath, StringComparison.InvariantCultureIgnoreCase));
+                if (oldItem != null)
+                {
+                    OnDeleted(this, oldItem);
+                    _files.Remove(oldItem);
+                }
+            }
+
+        }
+
+        private void WatcherOnChanged(object sender, FileSystemEventArgs e)
+        {
+            if (e.ChangeType == WatcherChangeTypes.Changed)
+            {
+                Debug.WriteLine($"- OnChanged: e.FullPath: {e.FullPath}");
+
+                var oldItem = _files.FirstOrDefault(x =>
+                    x.FileInfo.FullName.Equals(e.FullPath, StringComparison.InvariantCultureIgnoreCase));
+                if (oldItem != null)
+                {
+                    oldItem.RefreshParam(e.FullPath);
+                    OnChanged(this, oldItem);
+                }
+
+            }
+
+        }
+
+
+        NaturalSorting.NaturalFileInfoNameComparer _naturalCompaper = new NaturalSorting.NaturalFileInfoNameComparer();
+
 
         public List<IFileSystemInfoExt> GetFiles(string path)
         {
-            _rwLock.EnterReadLock();
-            try
-            {
-                _lastActiveDirPath = path;
-                if (_dirContents.TryGetValue(path, out var cached))
-                {
-                    // Поки watcher не стежив за цією папкою, файли могли змінитись або з'явитись/зникнути.
-                    // Швидко звіряємо кеш з реальним станом директорії.
-                    // ВАЖЛИВО: ми тримаємо читальний замок, тому SyncCachedDirectory не може змінювати кеш!
-                    // Замість цього просто повертаємо закешований список без синхронізації
-                    return cached;
-                }
-            }
-            finally
-            {
-                _rwLock.ExitReadLock();
-            }
-
             DisableWatcher();
 
-            if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
+            _files.Clear();
 
-            var list = new List<IFileSystemInfoExt>();
+            if (!Directory.Exists(path)) return _files;
 
             var dirs = Directory.GetDirectories(path)
-                .Where(y => !_ignoreFolders.Contains(
-                    Path.GetFileName(y)?.ToLowerInvariant(),
-                    StringComparer.OrdinalIgnoreCase))
-                .Select(x => new FileInfo(x).ToFileSystemInfoExt())
-                .ToList(); // List<FileSystemInfoExt>
-            dirs.Sort(_naturalComparer);
+                .Where(y => !_ignoreFolders.Contains(Path.GetFileName(y).ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
+                .Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            dirs.Sort(_naturalCompaper);
 
-            var files = Directory.GetFiles(path)
-                .Select(x => new FileInfo(x).ToFileSystemInfoExt())
-                .ToList(); // List<FileSystemInfoExt>
-            files.Sort(_naturalComparer);
 
-            list.AddRange(dirs);
-            list.AddRange(files);
+            _files.AddRange(dirs);
+            var f = Directory.GetFiles(path).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            f.Sort(_naturalCompaper);
 
-            _rwLock.EnterWriteLock();
-            try
-            {
-                foreach (var item in list)
-                    _fileIndex[item.FileInfo.FullName] = item;
+            _files.AddRange(f);
 
-                _dirContents[path] = list;
-
-                UpdateUsage(path);
-            }
-            finally
-            {
-                _rwLock.ExitWriteLock();
-            }
 
             SetWatcher(path);
 
-            return list;
+            return _files;
         }
 
         public List<IFileSystemInfoExt> GetDirs(string path)
         {
-            _rwLock.EnterReadLock();
-            try
-            {
-                _lastActiveDirPath = path;
-                if (_dirContents.TryGetValue(path, out var cached))
-                {
-                    // ВАЖЛИВО: ми тримаємо читальний замок, тому не викликаємо SyncCachedDirectory
-                    return cached.Where(x => x.IsDir).ToList();
-                }
-            }
-            finally
-            {
-                _rwLock.ExitReadLock();
-            }
-
-            DisableWatcher();
 
             if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
 
             var dirs = Directory.GetDirectories(path)
-                .Where(y => !_ignoreFolders.Contains(
-                    Path.GetFileName(y)?.ToLowerInvariant(),
-                    StringComparer.OrdinalIgnoreCase))
-                .Select(x => new FileInfo(x).ToFileSystemInfoExt())
-                .ToList(); // List<FileSystemInfoExt>
-            dirs.Sort(_naturalComparer);
-
-            _rwLock.EnterWriteLock();
-            try
-            {
-                // Index but don't fully cache directory (GetFiles will do that later)
-                foreach (var dir in dirs)
-                    _fileIndex[dir.FileInfo.FullName] = dir;
-
-                UpdateUsage(path);
-            }
-            finally
-            {
-                _rwLock.ExitWriteLock();
-            }
-
-            SetWatcher(path);
+                 .Where(y => !_ignoreFolders.Contains(Path.GetFileName(y).ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
+                 .Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            dirs.Sort(_naturalCompaper);
 
             return dirs.Cast<IFileSystemInfoExt>().ToList();
         }
 
         public List<IFileSystemInfoExt> GetAllFiles(string path)
         {
-            // For recursive mode don't cache (rare case)
             DisableWatcher();
 
-            if (!Directory.Exists(path)) return new List<IFileSystemInfoExt>();
+            _files.Clear();
 
-            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
-                .Select(x => new FileInfo(x).ToFileSystemInfoExt())
-                .ToList(); // List<FileSystemInfoExt>
-            files.Sort(_naturalComparer);
+            if (!Directory.Exists(path)) return _files;
+
+            var f = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).Select(x => new FileInfo(x).ToFileSystemInfoExt()).ToList();
+            f.Sort(_naturalCompaper);
+
+            _files.AddRange(f);
 
             SetWatcher(path);
 
-            return files.Cast<IFileSystemInfoExt>().ToList();
+            return _files;
+        }
+
+
+        private void DisableWatcher()
+        {
+            _watcher.Stop();
+        }
+
+        private void SetWatcher(string path)
+        {
+            _watcher?.SetWatchFolder(path);
         }
 
         public int GetCountFiles()
         {
-            _rwLock.EnterReadLock();
-            try
-            {
-                if (!string.IsNullOrEmpty(_lastActiveDirPath) && _dirContents.TryGetValue(_lastActiveDirPath, out var list))
-                {
-                    return list.Count(x => !x.IsDir);
-                }
-                return 0;
-            }
-            finally
-            {
-                _rwLock.ExitReadLock();
-            }
+            return _files.Count(x => !x.IsDir);
         }
-
-        // ── Sync ───────────────────────────────────────────────────────────────
-
-        /// <summary>
-        /// Звіряє закешований список із реальним вмістом директорії.
-        /// Видаляє зниклі файли, додає нові, оновлює FileInfo для змінених.
-        /// Не стріляє події — викликається всередині GetFiles, після якого UI
-        /// будується заново через OnRefreshDirectory з повним списком.
-        /// </summary>
-        private void SyncCachedDirectory(string dirPath, List<IFileSystemInfoExt> cached)
-        {
-            if (!Directory.Exists(dirPath)) return;
-
-            var actualPaths = new HashSet<string>(
-                Directory.GetFileSystemEntries(dirPath)
-                    .Where(p => {
-                        var name = Path.GetFileName(p);
-                        return !_ignoreFolders.Contains(name?.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase);
-                    }),
-                StringComparer.OrdinalIgnoreCase);
-
-            // 1. Видаляємо записи, які більше не існують
-            var deleted = cached
-                .Where(x => x?.FileInfo?.FullName == null || !actualPaths.Contains(x.FileInfo.FullName))
-                .ToList();
-
-            foreach (var item in deleted)
-            {
-                cached.Remove(item);
-                if (item?.FileInfo?.FullName != null)
-                {
-                    _fileIndex.Remove(item.FileInfo.FullName);
-                }
-            }
-
-            // 2. Додаємо файли, які з'явились
-            var cachedPaths = new HashSet<string>(
-                cached.Select(x => x?.FileInfo?.FullName).Where(name => name != null),
-                StringComparer.OrdinalIgnoreCase);
-
-            foreach (var fullPath in actualPaths)
-            {
-                if (cachedPaths.Contains(fullPath)) continue;
-
-                try
-                {
-                    var newItem = new FileSystemInfoExt(fullPath);
-                    cached.Add(newItem);
-                    _fileIndex[fullPath] = newItem;
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(this, $"SyncCachedDirectory: {fullPath}", ex.Message);
-                }
-            }
-
-            // 3. Оновлюємо FileInfo для файлів, які змінились
-            foreach (var item in cached)
-            {
-                if (item == null || item.IsDir || item.FileInfo?.FullName == null) continue;
-
-                try
-                {
-                    var fi = new FileInfo(item.FileInfo.FullName);
-                    if (!fi.Exists) continue;
-
-                    if (fi.LastWriteTime != item.FileInfo.LastWriteTime ||
-                        fi.Length != item.FileInfo.Length)
-                    {
-                        item.RefreshParam(item.FileInfo.FullName);
-                    }
-                }
-                catch { /* файл може бути заблокований або видалений між кроками */ }
-            }
-
-            // 4. Сортуємо список: спочатку папки, потім файли, обидва списки в натуральному порядку
-            var sorted = cached
-                .OrderBy(x => !x.IsDir)
-                .ThenBy(x => x?.FileInfo?.Name ?? string.Empty, _naturalStringComparer)
-                .ToList();
-
-            cached.Clear();
-            cached.AddRange(sorted);
-        }
-
-        // ── LRU ────────────────────────────────────────────────────────────────
-
-        private void UpdateUsage(string path)
-        {
-            if (string.IsNullOrWhiteSpace(path)) return;
-
-            var node = _recentDirs.Find(path);
-            if (node != null)
-                _recentDirs.Remove(node);
-
-            _recentDirs.AddFirst(path);
-
-            while (_recentDirs.Count > CacheCapacity)
-            {
-                var oldest = _recentDirs.Last.Value;
-                _recentDirs.RemoveLast();
-                EvictDirectory(oldest);
-            }
-        }
-
-        private void EvictDirectory(string dirPath)
-        {
-            if (!_dirContents.TryGetValue(dirPath, out var entries)) return;
-
-            foreach (var entry in entries)
-                _fileIndex.Remove(entry.FileInfo.FullName);
-
-            _dirContents.Remove(dirPath);
-
-            var node = _recentDirs.Find(dirPath);
-            if (node != null)
-                _recentDirs.Remove(node);
-        }
-
-        // ── Watcher helpers ────────────────────────────────────────────────────
-
-        private void DisableWatcher() => _watcher.Stop();
-
-        private void SetWatcher(string path) => _watcher?.SetWatchFolder(path);
     }
 }

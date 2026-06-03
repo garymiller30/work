@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using ImageMagick;
@@ -41,12 +42,51 @@ namespace JobSpace.Static
                 case ".png":
                     GetTif(sfi);
                     break;
+                case ".heic":
+                    GetHeic(sfi);
+                    break;
                 case ".ai":
                 case ".pdf":
                     GetPdf(sfi);
                     break;
             }
 
+        }
+
+        private static void GetHeic(IFileSystemInfoExt sfi)
+        {
+            try
+            {
+                using (var image = new MagickImage(sfi.FileInfo.FullName))
+                {
+                    // 2. Get the width and height in pixels
+                    int pixelWidth = (int)image.Width;
+                    int pixelHeight = (int)image.Height;
+
+                    // 3. Get the X and Y density (Resolution in Pixels Per Inch)
+                    // Note: If your image reports DensityUnits.PixelsPerCentimeter, adjust the math accordingly
+                    double dpiX = image.Density.X;
+                    double dpiY = image.Density.Y;
+
+                    if (dpiX > 0 && dpiY > 0)
+                    {
+                        sfi.Format = new FileFormat
+                        {
+                            Width = (decimal)((pixelWidth / dpiX) * 25.4),
+                            Height = (decimal)((pixelHeight / dpiY) * 25.4),
+                            Bleeds = (decimal)((dpiX + dpiY) / 2),
+                        };
+                    }
+                    else
+                    {
+                        Console.WriteLine("DPI density not found in the HEIC metadata.");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Log.Error(null, "GetHeic", $"Error getting format for file {sfi.FileInfo.FullName}: {e.Message}");
+            }
         }
 
         private static void GetPsd(IFileSystemInfoExt sfi)
@@ -162,14 +202,15 @@ namespace JobSpace.Static
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
+                Logger.Log.Error(null, "GetTif", $"Error getting format for file {sfi.FileInfo.FullName}: {e.Message}");
             }
         }
 
-        
 
-     
+
+
 
     }
 }
