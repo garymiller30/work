@@ -556,17 +556,23 @@ namespace JobSpace.UC
 
         private void FileManager_OnChangeFile(object sender, IFileSystemInfoExt e)
         {
-            if (_fileManager.Settings.ScanFiles)
-                e.GetExtendedFileInfoFormat();
+            this.InvokeIfNeeded(() =>
+            {
+                if (_fileManager.Settings.ScanFiles)
+                    StartTaskGetExtendedInfo(new List<IFileSystemInfoExt>() { e });
 
-            objectListView1.RefreshObject(e);
-            UpdateStatusControl();
+                objectListView1.RefreshObject(e);
+                UpdateStatusControl();
+            });
         }
 
         private void FileManager_OnDeleteFile(object sender, IFileSystemInfoExt e)
         {
-            objectListView1.RemoveObject(e);
-            UpdateStatusControl();
+            this.InvokeIfNeeded(() =>
+            {
+                objectListView1.RemoveObject(e);
+                UpdateStatusControl();
+            });
         }
 
         private void FileManager_OnAddFile(object sender, IFileSystemInfoExt e)
@@ -681,24 +687,8 @@ namespace JobSpace.UC
         {
             if (_cts == null) return;
             _cts.Cancel();
-            _cts.Dispose();
             _cts = null;
-
-            if (_taskGetExtendedFileInfo == null) return;
-
-            try
-            {
-                // Wait for the task to finish (with timeout to avoid UI freeze)
-                if (!_taskGetExtendedFileInfo.IsCompleted)
-                {
-                    _taskGetExtendedFileInfo.Wait(TimeSpan.FromSeconds(5));
-                }
-            }
-            catch (AggregateException) { /* log if needed */ }
-            finally
-            {
-                _taskGetExtendedFileInfo = null;
-            }
+            _taskGetExtendedFileInfo = null;
         }
         private void UpdateStatusControl()
         {

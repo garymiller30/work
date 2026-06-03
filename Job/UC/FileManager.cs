@@ -57,40 +57,22 @@ namespace JobSpace.UC
         public FileManager()
         {
             _cache = new NoCache(new FileWatcher());
-            _cache.OnDeleted += _cache_OnDeleted;
+            _cache.OnDeleted += CacheEventTriggered;
             _cache.OnError += CacheOnOnError;
-            _cache.OnChanged += CacheOnOnChanged;
-            _cache.OnCreated += CacheOnOnCreated;
-            _cache.OnRenamed += CacheOnOnRenamed;
+            _cache.OnChanged += CacheEventTriggered;
+            _cache.OnCreated += CacheEventTriggered;
+            _cache.OnRenamed += CacheEventTriggered;
 
         }
 
-        private void CacheOnOnRenamed(object sender, IFileSystemInfoExt e)
+        private void CacheEventTriggered(object sender, IFileSystemInfoExt e)
         {
-            Debug.WriteLine($"[CacheOnOnRenamed] Path: {e.FileInfo?.FullName}, IsDir: {e.IsDir}");
-            
-            OnChangeFile(this, e);
-        }
-
-        private void CacheOnOnCreated(object sender, IFileSystemInfoExt e)
-        {
-
-            OnAddFile(this, e);
-        }
-
-        private void CacheOnOnChanged(object sender, IFileSystemInfoExt e)
-        {
-            OnChangeFile(this, e);
+            _ = RefreshAsync();
         }
 
         private void CacheOnOnError(object sender, ErrorEventArgs e)
         {
             OnError(this, e.GetException().Message);
-        }
-
-        private void _cache_OnDeleted(object sender, IFileSystemInfoExt e)
-        {
-            OnDeleteFile(this, e);
         }
 
         public async Task RefreshAsync(string selectFileName = null)
