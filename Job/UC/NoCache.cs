@@ -189,8 +189,8 @@ namespace JobSpace.UC
                         try
                         {
                             // Оновлюємо FileInfo з новим шляхом
-                            var newFileInfo = new FileInfo(e.FullPath);
-                            oldItem.FileInfo = newFileInfo;
+                            var newFileInfo = new FileInfo(e.FullPath).ToFileSystemInfoExt();
+                            oldItem.FileInfo = newFileInfo.FileInfo;
                             
                             // Якщо є RefreshParam — викликаємо його для оновлення метаданих
                             if (oldItem.RefreshParam != null)
