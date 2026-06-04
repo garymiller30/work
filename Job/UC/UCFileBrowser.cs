@@ -48,6 +48,9 @@ namespace JobSpace.UC
 
         private IFileManager _fileManager;
         private bool _selectFirstPreviewableFileAfterRefresh;
+        private bool _isRefreshing;
+        private string _lastPreviewedFilePath;
+        private DateTime? _lastPreviewedFileDate;
         private ToolStripMenuItem _installFontsToolStripMenuItem;
 
         private string[] _customButtonPath;
@@ -602,11 +605,38 @@ namespace JobSpace.UC
                 return;
             }
 
-            objectListView1.EmptyListMsg = null;
-            objectListView1.SetObjects(e);
-            SelectFirstPreviewableFileAfterRefresh(e);
-            StartTaskGetExtendedInfo(e);
-            UpdateStatusControl();
+            // Зберегти поточне виділення
+            var selectedPaths = objectListView1.SelectedObjects
+                .Cast<IFileSystemInfoExt>()
+                .Select(x => x.FileInfo?.FullName)
+                .Where(x => !string.IsNullOrEmpty(x))
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            _isRefreshing = true;
+            try
+            {
+                StopTaskGetExtendedInfo();
+                objectListView1.EmptyListMsg = null;
+                objectListView1.SetObjects(e);
+
+                // Відновити виділення
+                if (selectedPaths.Count > 0)
+                {
+                    var toSelect = e.Where(x => selectedPaths.Contains(x.FileInfo?.FullName)).ToList();
+                    if (toSelect.Count > 0)
+                    {
+                        objectListView1.SelectObjects(toSelect);
+                    }
+                }
+
+                SelectFirstPreviewableFileAfterRefresh(e);
+                StartTaskGetExtendedInfo(e);
+                UpdateStatusControl();
+            }
+            finally
+            {
+                _isRefreshing = false;
+            }
         }
 
         private void SelectFirstPreviewableFileAfterRefresh(List<IFileSystemInfoExt> files)
@@ -1654,6 +1684,8 @@ namespace JobSpace.UC
         }
         private void ObjectListView1_SelectionChanged(object sender, EventArgs e)
         {
+            if (_isRefreshing) return;
+
             toolStripStatusLabelSelected.Text = GetSelectedFilesSize();
             ShowFilePreview();
         }
@@ -1900,6 +1932,12 @@ namespace JobSpace.UC
         }
         private void ShowPreviewInControl(IFileSystemInfoExt f)
         {
+            var path = f?.FileInfo?.FullName;
+            if (string.Equals(_lastPreviewedFilePath, path, StringComparison.OrdinalIgnoreCase) && _lastPreviewedFileDate.Equals(f?.FileInfo?.LastWriteTime))
+                return;
+
+            _lastPreviewedFilePath = path;
+            _lastPreviewedFileDate =f?.FileInfo?.LastWriteTime;
             uc_PreviewBrowserFile1.Show(f);
         }
 

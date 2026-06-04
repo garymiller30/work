@@ -603,7 +603,7 @@ namespace JobSpace.Static
             {
                 return Image.FromFile(f.FileInfo.FullName);
             }
-            else if (ext == ".psd" || ext == ".eps" || ext == ".heic")
+            else if (ext == ".psd" || ext == ".eps" || ext == ".heic" || ext == ".ps")
             {
                 try
                 {
