@@ -104,6 +104,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
                     {
                         sheet.SheetPlaceType = (TemplateSheetPlaceType)item.Tag;
                         objectListView1.RefreshObject(sheet);
+                        OnSheetEdited(this, sheet);
                     }
                 };
                 cms_SheetSideType.Items.Add(item);
