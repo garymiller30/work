@@ -49,14 +49,24 @@ namespace JobSpace.UserForms.PDF
 
         private void SubscribeSheetEvents()
         {
-            addTemplateSheetControl1.OnSheetSelected += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetsChanged += OnTemplateSheetSelected;
             printSheetsControl1.OnPrintSheetDeleted += OnPrintSheetDeleted;
             printSheetsControl1.JustReassignPages += NeedCheckRunListPages;
 
+            addTemplateSheetControl1.OnSheetSelected += OnTemplateSheetSelected;
             addTemplateSheetControl1.OnSheetAddToPrint += OnAddSheetToPrintEvent;
             addTemplateSheetControl1.OnSheetAddManyToPrint += OnSheetAddManyToPrintEvent;
+            addTemplateSheetControl1.OnSheetEdited += OnTemplateSheetEdited;
             PrintSheet.ResetId();
+        }
+
+        private void OnTemplateSheetEdited(object sender, TemplateSheet e)
+        {
+            // потрібно в сторінках, що знаходяться в TemplatePageContainer  виправити зворот.
+            // Якщо спочатку лист (TemplateSheet) був "без зворота", а потім став "чужий зворот",
+            // то потрібно перерахувати звороти в сторінках, бо вони залежать від типу листа
+
+            ProcessFixPageBackPosition.FixPosition(e,e.TemplatePageContainer);
         }
 
         private void BindExportControls()
