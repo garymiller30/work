@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -53,7 +54,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-
+            Debug.WriteLine($"Property changed: {e.PropertyName}");
         }
 
         private void b_0_Click(object sender, EventArgs e)

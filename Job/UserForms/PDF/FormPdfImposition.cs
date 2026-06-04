@@ -7,6 +7,7 @@ using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.AutoImpos;
 using JobSpace.Static.Pdf.Imposition.Models.View;
 using JobSpace.Static.Pdf.Imposition.Services;
+using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Sheetwise;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using Krypton.Toolkit;
 using System;
@@ -65,19 +66,9 @@ namespace JobSpace.UserForms.PDF
             // потрібно в сторінках, що знаходяться в TemplatePageContainer  виправити зворот.
             // Якщо спочатку лист (TemplateSheet) був "без зворота", а потім став "чужий зворот",
             // то потрібно перерахувати звороти в сторінках, бо вони залежать від типу листа
-
-            if (e.TemplatePageContainer != null)
-            {
-                foreach (var page in e.TemplatePageContainer.Pages)
-                {
-                    // Припускаємо, що існує метод для перерахунку налаштувань зворотності сторінки
-                    // залежно від нового типу листа (e).
-                    page.RecalculateDuplexSettings(e); 
-                }
-            }
-
-            // Після оновлення всіх сторінок необхідно перемалювати макет, щоб відобразити зміни.
-            _controlBindParameters_NeedRearangePages(this, null);
+            _imposParam.ControlsBind.Sheet = null;
+            e.TemplatePageContainer.TemplatePages.Clear();
+            _imposParam.ControlsBind.Sheet = e;
         }
 
         private void BindExportControls()
