@@ -1,4 +1,4 @@
-﻿using ExtensionMethods;
+using ExtensionMethods;
 using JobSpace.CustomForms;
 using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition;
@@ -66,7 +66,18 @@ namespace JobSpace.UserForms.PDF
             // Якщо спочатку лист (TemplateSheet) був "без зворота", а потім став "чужий зворот",
             // то потрібно перерахувати звороти в сторінках, бо вони залежать від типу листа
 
-            ProcessFixPageBackPosition.FixPosition(e,e.TemplatePageContainer);
+            if (e.TemplatePageContainer != null)
+            {
+                foreach (var page in e.TemplatePageContainer.Pages)
+                {
+                    // Припускаємо, що існує метод для перерахунку налаштувань зворотності сторінки
+                    // залежно від нового типу листа (e).
+                    page.RecalculateDuplexSettings(e); 
+                }
+            }
+
+            // Після оновлення всіх сторінок необхідно перемалювати макет, щоб відобразити зміни.
+            _controlBindParameters_NeedRearangePages(this, null);
         }
 
         private void BindExportControls()
