@@ -13,6 +13,7 @@ namespace JobSpace.UC
 {
     public sealed partial class UcNote : UserControl, INoteControl
     {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler OnLeaveControl { get; set; } = delegate { };
 
         public UcNote()

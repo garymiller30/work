@@ -50,10 +50,10 @@
             // 
             kryptonRichTextBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             kryptonRichTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            kryptonRichTextBox1.Location = new System.Drawing.Point(0, 29);
+            kryptonRichTextBox1.Location = new System.Drawing.Point(0, 27);
             kryptonRichTextBox1.Margin = new System.Windows.Forms.Padding(2);
             kryptonRichTextBox1.Name = "kryptonRichTextBox1";
-            kryptonRichTextBox1.Size = new System.Drawing.Size(340, 258);
+            kryptonRichTextBox1.Size = new System.Drawing.Size(368, 114);
             kryptonRichTextBox1.TabIndex = 0;
             kryptonRichTextBox1.Text = "";
             kryptonRichTextBox1.LinkClicked += kryptonRichTextBox1_LinkClicked;
@@ -66,7 +66,7 @@
             toolStrip1.Location = new System.Drawing.Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            toolStrip1.Size = new System.Drawing.Size(340, 25);
+            toolStrip1.Size = new System.Drawing.Size(370, 25);
             toolStrip1.TabIndex = 1;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -187,7 +187,7 @@
             Controls.Add(kryptonRichTextBox1);
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "UcNote";
-            Size = new System.Drawing.Size(340, 289);
+            Size = new System.Drawing.Size(370, 143);
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             ResumeLayout(false);
