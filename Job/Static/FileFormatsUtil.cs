@@ -14,23 +14,17 @@ namespace JobSpace.Static
 
     public static class FileFormatsUtil
     {
-        public const decimal Mn = (decimal)2.83465;
-
-
-        private static readonly string[] Extension = { ".tif", ".tiff", ".pdf" };
-
-        public static bool IsExistExtension(string ext)
-        {
-            var lowEx = ext.ToLower(CultureInfo.InvariantCulture);
-            return Extension.FirstOrDefault(x => x.Equals(lowEx)) != null;
-        }
+        // Константа для конвертації точок (pt) у міліметри (mm)
+        // 1 pt = 1/72 inch, 1 inch = 25.4 mm => 1 pt = 25.4 / 72 ≈ 0.35277 mm
+        // Mn (2.83465) це фактично 72 / 25.4
+        public const decimal Mn = 2.83465M;
 
 
         public static void GetFormat(IFileSystemInfoExt sfi)
         {
-            var ext = sfi.FileInfo.Extension.ToLower(CultureInfo.InvariantCulture);
+            var ext = sfi.FileInfo.Extension;
 
-            switch (ext)
+            switch (ext.ToLowerInvariant())
             {
                 case ".psd":
                 case ".eps":
