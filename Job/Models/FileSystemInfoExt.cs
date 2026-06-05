@@ -9,25 +9,21 @@ using Interfaces.PdfUtils;
 namespace JobSpace.Models
 {
     [Serializable]
-    public  class FileSystemInfoExt : INotifyPropertyChanged, IFileSystemInfoExt
+    public class FileSystemInfoExt : INotifyPropertyChanged, IFileSystemInfoExt
     {
         private IFileSystemInfo _fileInfo = new Interfaces.Classes.FileInfo();
         private ColorSpaces _usedColorSpace;
         private string _creatorApp;
         private FileFormat _format = new FileFormat();
 
-
-        public FileSystemInfoExt()
-        {
-
-        }
+        public FileSystemInfoExt() { }
 
         public FileSystemInfoExt(FileSystemInfo systemInfo)
         {
             CopyParams(systemInfo);
-            //_fileInfo = systemInfo;
-            
         }
+
+        public FileSystemInfoExt(string fullPath) : this(new FileInfo(fullPath)) { }
 
         private void CopyParams(FileSystemInfo si)
         {
@@ -35,95 +31,85 @@ namespace JobSpace.Models
             _fileInfo.Exists = si.Exists;
             _fileInfo.Name = si.Name;
             _fileInfo.Attributes = si.Attributes;
-            SetIsDir();
             _fileInfo.FullName = si.FullName;
             _fileInfo.LastWriteTime = si.LastWriteTime;
-            if (!IsDir)
-                _fileInfo.Length = ((System.IO.FileInfo)si).Length;
-        }
 
-        public FileSystemInfoExt(string fullPath)
-        {
-            CopyParams(new FileInfo(fullPath));
-           
-        }
-
-        private void SetIsDir()
-        {
             IsDir = (_fileInfo.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
+
+            if (!IsDir && si is System.IO.FileInfo fileSi)
+                _fileInfo.Length = fileSi.Length;
         }
 
         public IFileSystemInfo FileInfo
         {
             get => _fileInfo;
-            set
-            {
-                _fileInfo = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _fileInfo, value);
         }
 
         public FileFormat Format
         {
             get => _format;
-            set { _format = value; OnPropertyChanged(); }
+            set => SetProperty(ref _format, value);
         }
 
         public ColorSpaces UsedColorSpace
         {
             get => _usedColorSpace;
-            set { _usedColorSpace = value; OnPropertyChanged(); }
+            set => SetProperty(ref _usedColorSpace, value);
         }
 
-        public bool IsDir { get; set; }
-        public string CreatorApp { get=>_creatorApp ; set{ _creatorApp = value; OnPropertyChanged();} }
+        public string CreatorApp
+        {
+            get => _creatorApp;
+            set => SetProperty(ref _creatorApp, value);
+        }
 
+        public bool IsDir { get; private set; }
         public string FullName => _fileInfo?.FullName;
         public string Name => _fileInfo?.Name;
-
         public HashSet<string> UsedColors { get; set; } = new HashSet<string>();
 
         public void RefreshParam(string fullPath)
         {
-            var fsie = new FileSystemInfoExt(fullPath);
-            if (fsie.FileInfo.Exists)
+            var si = new FileInfo(fullPath);
+            if (si.Exists)
             {
-                RefreshParam(fsie);
-                OnPropertyChanged("FileInfo");
+                CopyParams(si);
+                OnPropertyChanged(nameof(FileInfo));
+                OnPropertyChanged(nameof(FullName));
+                OnPropertyChanged(nameof(Name));
             }
+        }
+
+        public void RefreshParam(FileSystemInfoExt other)
+        {
+            if (other == null) return;
+
+            FileInfo = other.FileInfo;
+            Format = other.Format;
+            UsedColorSpace = other.UsedColorSpace;
+            CreatorApp = other.CreatorApp;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void RefreshParam(FileSystemInfoExt newFileSystemInfoExt)
+        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
-            _fileInfo = newFileSystemInfoExt.FileInfo;
-            _format = newFileSystemInfoExt.Format;
-            _usedColorSpace = newFileSystemInfoExt.UsedColorSpace;
-            CreatorApp = newFileSystemInfoExt.CreatorApp;
-
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj is FileSystemInfoExt other)
-            {
-                return string.Equals(FullName, other.FullName, StringComparison.OrdinalIgnoreCase);
-            }
-            return false;
-        }
+        public override bool Equals(object obj) =>
+            obj is FileSystemInfoExt other && string.Equals(FullName, other.FullName, StringComparison.OrdinalIgnoreCase);
 
-        public override int GetHashCode()
-        {
-            return FullName != null ? StringComparer.OrdinalIgnoreCase.GetHashCode(FullName) : 0;
-        }
+        public override int GetHashCode() =>
+            StringComparer.OrdinalIgnoreCase.GetHashCode(FullName ?? string.Empty);
     }
 }
-
