@@ -123,12 +123,16 @@ namespace JobSpace.UC
 
             var settings = _fileManager.LoadToolbarSettings();
             var allTools = _fileManager.LoadPdfTools();
-
-            int idx = 1;
+            var toolbarMenuCache = new Dictionary<string, ToolStripMenuItem>(StringComparer.InvariantCultureIgnoreCase);
 
             foreach (var tool in allTools.OrderBy(o => o.Meta.Order).ThenBy(t => t.ToolType.Name))
             {
-                var item = new ToolStripMenuItem($"{idx++}. {tool.Meta.MenuPath} {tool.Meta.Name}");
+                var parent = GetOrCreateToolbarMenu(tool.Meta.MenuPath, toolbarMenuCache);
+
+                if (tool.Meta.SeparatorBefore)
+                    parent.Add(new ToolStripSeparator());
+
+                var item = new ToolStripMenuItem(tool.Meta.Name);
 
                 item.Checked = settings.Tools.Contains(tool.ToolType.Name);
                 if (item.Checked) item.Font = new Font(item.Font, FontStyle.Bold);
@@ -138,7 +142,10 @@ namespace JobSpace.UC
 
                 item.Click += ToolbarMenu_Click;
 
-                toolbarMenu.Items.Add(item);
+                parent.Add(item);
+
+                if (tool.Meta.SeparatorAfter)
+                    parent.Add(new ToolStripSeparator());
             }
 
             if (toolbarMenu.Items.Count > 0)
@@ -148,6 +155,39 @@ namespace JobSpace.UC
             usageItem.Name = PdfToolUsageMenuItemName;
             usageItem.Click += PdfToolUsageMenuItem_Click;
             toolbarMenu.Items.Add(usageItem);
+        }
+
+        private ToolStripItemCollection GetOrCreateToolbarMenu(string path, Dictionary<string, ToolStripMenuItem> cache)
+        {
+            if (string.IsNullOrEmpty(path))
+                return toolbarMenu.Items;
+
+            var parts = path.Split('/');
+            ToolStripMenuItem parent = null;
+            string currentPath = "";
+
+            foreach (var part in parts)
+            {
+                if (currentPath == "")
+                    currentPath = part;
+                else
+                    currentPath += "/" + part;
+
+                if (!cache.TryGetValue(currentPath, out var item))
+                {
+                    item = new ToolStripMenuItem(part);
+                    cache[currentPath] = item;
+
+                    if (parent == null)
+                        toolbarMenu.Items.Add(item);
+                    else
+                        parent.DropDownItems.Add(item);
+                }
+
+                parent = item;
+            }
+
+            return parent.DropDownItems;
         }
 
         void BuildToolbar(List<ToolInfo> tools, IToolbarSettings settings)
