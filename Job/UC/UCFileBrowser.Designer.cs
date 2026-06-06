@@ -150,7 +150,7 @@ namespace JobSpace.UC
             toolStripContainer1.ContentPanel.AutoScroll = true;
             toolStripContainer1.ContentPanel.Controls.Add(sc_list);
             toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(778, 253);
+            toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(772, 253);
             // 
             // toolStripContainer1.LeftToolStripPanel
             // 
@@ -194,7 +194,7 @@ namespace JobSpace.UC
             // 
             sc_list.Panel2.Controls.Add(uc_PreviewBrowserFile1);
             sc_list.Panel2Collapsed = true;
-            sc_list.Size = new System.Drawing.Size(778, 253);
+            sc_list.Size = new System.Drawing.Size(772, 253);
             sc_list.SplitterDistance = 518;
             sc_list.SplitterWidth = 5;
             sc_list.TabIndex = 1;
@@ -225,7 +225,7 @@ namespace JobSpace.UC
             objectListView1.Name = "objectListView1";
             objectListView1.ShowGroups = false;
             objectListView1.ShowItemToolTips = true;
-            objectListView1.Size = new System.Drawing.Size(778, 253);
+            objectListView1.Size = new System.Drawing.Size(772, 253);
             objectListView1.SmallImageList = imageList1;
             objectListView1.TabIndex = 0;
             objectListView1.UseCompatibleStateImageBehavior = false;
@@ -495,7 +495,7 @@ namespace JobSpace.UC
             toolStripPDF.Font = new System.Drawing.Font("Segoe UI", 9F);
             toolStripPDF.Location = new System.Drawing.Point(0, 3);
             toolStripPDF.Name = "toolStripPDF";
-            toolStripPDF.Size = new System.Drawing.Size(26, 111);
+            toolStripPDF.Size = new System.Drawing.Size(32, 30);
             toolStripPDF.TabIndex = 0;
             // 
             // toolStrip1
@@ -505,7 +505,7 @@ namespace JobSpace.UC
             toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripButton_Up, toolStripSeparator4, toolStripButton_Refresh, toolStripSeparator5, toolStripButton_NewFolder, toolStripSplitButton1, toolStripSeparator12, toolStripButtonCopyToClipboard, toolStripButtonCut, tsddb_paste, toolStripSplitButtonTrash, toolStripSeparator6, toolStripButtonCopyPathToClipboard, toolStripSeparator13, toolStripButtonFileInfo, toolStripButton_Custom, toolStripTextBox_Filter, toolStripButton_ClearFilter, toolStripSeparator11, tsb_preview, toolStripSeparator20, toolStripButtonSettings });
             toolStrip1.Location = new System.Drawing.Point(3, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new System.Drawing.Size(540, 25);
+            toolStrip1.Size = new System.Drawing.Size(509, 25);
             toolStrip1.TabIndex = 1;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -665,7 +665,7 @@ namespace JobSpace.UC
             // openTrashToolStripMenuItem
             // 
             openTrashToolStripMenuItem.Name = "openTrashToolStripMenuItem";
-            openTrashToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            openTrashToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             openTrashToolStripMenuItem.Text = "відкрити кошик";
             openTrashToolStripMenuItem.Click += openTrashToolStripMenuItem_Click;
             // 
