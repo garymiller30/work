@@ -36,6 +36,7 @@
             btn_create = new Krypton.Toolkit.KryptonButton();
             btn_add_order = new Krypton.Toolkit.KryptonButton();
             btn_paste = new Krypton.Toolkit.KryptonButton();
+            btn_edit_text = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)cb_customers).BeginInit();
             ((System.ComponentModel.ISupportInitialize)kryptonGroupBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)kryptonGroupBox1.Panel).BeginInit();
@@ -136,11 +137,23 @@
             btn_paste.Values.Text = "вставити з буфера";
             btn_paste.Click += btn_paste_Click;
             // 
+            // btn_edit_text
+            // 
+            btn_edit_text.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            btn_edit_text.Location = new System.Drawing.Point(607, 36);
+            btn_edit_text.Name = "btn_edit_text";
+            btn_edit_text.Size = new System.Drawing.Size(148, 46);
+            btn_edit_text.TabIndex = 9;
+            btn_edit_text.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            btn_edit_text.Values.Text = "редагувати";
+            btn_edit_text.Click += btn_edit_text_Click;
+            // 
             // FormAddWorkMany
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(933, 519);
+            Controls.Add(btn_edit_text);
             Controls.Add(btn_paste);
             Controls.Add(btn_add_order);
             Controls.Add(btn_create);
@@ -170,5 +183,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumn_description;
         private Krypton.Toolkit.KryptonButton btn_add_order;
         private Krypton.Toolkit.KryptonButton btn_paste;
+        private Krypton.Toolkit.KryptonButton btn_edit_text;
     }
 }
