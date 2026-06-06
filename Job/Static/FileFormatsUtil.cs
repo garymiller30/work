@@ -18,6 +18,7 @@ namespace JobSpace.Static
         // 1 pt = 1/72 inch, 1 inch = 25.4 mm => 1 pt = 25.4 / 72 ≈ 0.35277 mm
         // Mn (2.83465) це фактично 72 / 25.4
         public const decimal Mn = 2.83465M;
+        private const decimal MmPerInch = 25.4m;
 
 
         public static void GetFormat(IFileSystemInfoExt sfi)
@@ -46,40 +47,42 @@ namespace JobSpace.Static
             }
 
         }
+         
 
         private static void GetHeic(IFileSystemInfoExt sfi)
         {
             try
             {
-                using (var image = new MagickImage(sfi.FileInfo.FullName))
+                using var image = new MagickImage(sfi.FileInfo.FullName);
+
+                // Використовуємо Tuple для чистоти коду
+                var (pixelWidth, pixelHeight) = ((int)image.Width, (int)image.Height);
+                var (dpiX, dpiY) = (image.Density.X, image.Density.Y);
+
+                // Сучасний паттерн-матчінг (C# 9+)
+                if (dpiX is > 0 && dpiY is > 0)
                 {
-                    // 2. Get the width and height in pixels
-                    int pixelWidth = (int)image.Width;
-                    int pixelHeight = (int)image.Height;
+                    // Виносимо множник в decimal константу, щоб зменшити кількість дужок і приведень типів
+                    decimal resX = (decimal)dpiX;
+                    decimal resY = (decimal)dpiY;
 
-                    // 3. Get the X and Y density (Resolution in Pixels Per Inch)
-                    // Note: If your image reports DensityUnits.PixelsPerCentimeter, adjust the math accordingly
-                    double dpiX = image.Density.X;
-                    double dpiY = image.Density.Y;
-
-                    if (dpiX > 0 && dpiY > 0)
+                    // Target-typed new (C# 9+): замість new FileFormat пишемо просто new()
+                    sfi.Format = new()
                     {
-                        sfi.Format = new FileFormat
-                        {
-                            Width = (decimal)((pixelWidth / dpiX) * 25.4),
-                            Height = (decimal)((pixelHeight / dpiY) * 25.4),
-                            Bleeds = (decimal)((dpiX + dpiY) / 2),
-                        };
-                    }
-                    else
-                    {
-                        Console.WriteLine("DPI density not found in the HEIC metadata.");
-                    }
+                        Width = (pixelWidth / resX) * MmPerInch,
+                        Height = (pixelHeight / resY) * MmPerInch,
+                        Bleeds = (resX + resY) / 2m
+                    };
+                }
+                else
+                {
+                    Console.WriteLine("DPI density not found in the HEIC metadata.");
                 }
             }
             catch (Exception e)
             {
-                Logger.Log.Error(null, "GetHeic", $"Error getting format for file {sfi.FileInfo.FullName}: {e.Message}");
+                // Сучасна інтерполяція рядків безпосередньо підтримує виклики методів та властивостей
+                Logger.Log.Error(null, nameof(GetHeic), $"Error getting format for file {sfi.FileInfo.FullName}: {e.Message}");
             }
         }
 
