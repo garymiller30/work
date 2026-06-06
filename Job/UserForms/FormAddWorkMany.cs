@@ -54,12 +54,14 @@ namespace JobSpace.UserForms
             bool allValid = true;
             foreach (var job in CreatedJobs)
             {
-                if (string.IsNullOrEmpty(job.Number)) {
+                if (string.IsNullOrEmpty(job.Number))
+                {
                     allValid = false;
                 }
                 job.Customer = customer.Name;
             }
-            if (!allValid) {
+            if (!allValid)
+            {
                 MessageBox.Show("У всіх замовленнях має бути заповнений номер");
                 return;
             }
@@ -77,11 +79,26 @@ namespace JobSpace.UserForms
         private void btn_paste_Click(object sender, EventArgs e)
         {
             var strings = Clipboard.GetText();
-            if (string.IsNullOrEmpty(strings)) {
+            if (string.IsNullOrEmpty(strings))
+            {
                 MessageBox.Show("Буфер обміну пустий");
                 return;
             }
-            var lines = strings.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            AddJobsFromText(strings);
+        }
+
+        private void btn_edit_text_Click(object sender, EventArgs e)
+        {
+            using var form = new FormAddWorkManyTextEditor();
+            if (form.ShowDialog(this) == DialogResult.OK)
+            {
+                AddJobsFromText(form.EditText);
+            }
+        }
+
+        private void AddJobsFromText(string text)
+        {
+            var lines = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var line in lines)
             {
                 string[] jobstr = line.Split(new[] { "\t" }, StringSplitOptions.None);
