@@ -84,14 +84,16 @@ namespace JobSpace.Static
             profile.MailNotifier.SetAttachmentsList(new List<string>());
 
         }
-        public static void File_DeleteFilesAndDirectories(IList files, IFileManager fileManager)
+        public static void File_DeleteFilesAndDirectories(IEnumerable<IFileSystemInfoExt> files, IFileManager fileManager)
         {
-            if (files.Count == 0) return;
+            if (files == null || !files.Any()) return;
 
             if (MessageBox.Show("Видалити?", "Видалити файл чи папку?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                 DialogResult.Yes)
             {
+
                 fileManager.DeleteFilesAndDirectories(files.Cast<IFileSystemInfoExt>());
+
             }
         }
         public static Tuple<int, int, long> File_GetSelectedFileSize(IList files)
@@ -556,117 +558,138 @@ namespace JobSpace.Static
             });
         }
 
+
         public static Image? File_GetPreview(IFileSystemInfoExt f, int pageIdx = 0, int dpi = 150, bool cacheOnly = false)
         {
-            if (dpi <= 0)
-                dpi = 150;
-
+            int finalDpi = dpi <= 0 ? 150 : dpi;
             string ext = f.FileInfo.Extension.ToLowerInvariant();
+
+            // 1. Кеш для PDF/AI (якщо потрібно обмежити лише цими типами, або зробити загальним)
             if (ext == ".pdf" || ext == ".ai")
             {
-                FileInfo sourceFile = new FileInfo(f.FileInfo.FullName);
-                Image? cachedPreview = TryGetCachedPreview(sourceFile, pageIdx, dpi);
-                if (cachedPreview != null)
-                    return cachedPreview;
-
-                if (cacheOnly)
-                    return null;
-
-                Exception? lastException = null;
-
-                for (int attempt = 1; attempt <= 2; attempt++)
-                {
-                    try
-                    {
-                        using (Bitmap preview = PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx, dpi))
-                        {
-                            if (preview == null)
-                            {
-                                Log.Warning(null, "File_GetPreview", $"Preview rendering returned null for {sourceFile.FullName}, page {pageIdx + 1}, dpi {dpi}.");
-                                return null;
-                            }
-
-                            Image? savedPreview = TrySaveCachedPreview(sourceFile, pageIdx, dpi, preview);
-                            if (savedPreview != null)
-                                return savedPreview;
-
-                            Log.Warning(null, "File_GetPreview", $"Preview rendered but was not saved to cache for {sourceFile.FullName}, page {pageIdx + 1}, dpi {dpi}.");
-                            var copy = new Bitmap(preview);
-                            return copy;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        lastException = e;
-                        if (attempt == 1)
-                            System.Threading.Thread.Sleep(100);
-                    }
-                }
-
-                Log.Error(null, "File_GetPreview", $"Cannot render preview for {f.FileInfo.FullName}, page {pageIdx + 1}: {lastException?.Message}");
-                return null;
+                return GetPreviewForVector(f, pageIdx, finalDpi, cacheOnly);
             }
-            else if (ext == ".tif" || ext == ".tiff" || ext == ".png" || ext == ".bmp" || ext == ".jpg" || ext == ".jpeg")
+
+            // 2. Прямі типи зображень
+            if (IsStandardImageFormat(ext))
             {
                 return Image.FromFile(f.FileInfo.FullName);
             }
-            else if (ext == ".psd" || ext == ".eps" || ext == ".heic" || ext == ".ps")
+
+            // 3. Складні формати (Magick.NET)
+            if (IsComplexFormat(ext))
+            {
+                return GetPreviewForComplexFormat(f, finalDpi);
+            }
+
+            // 4. Спеціальні формати (.cf2)
+            if (ext == ".cf2")
+            {
+                return Cf2UltraRenderer.RenderFullLayout(f.FullName, finalDpi);
+            }
+
+            Log.Warning(null, "File_GetPreview", $"Unsupported file format: {ext}");
+            return null;
+        }
+
+        private static bool IsStandardImageFormat(string ext) =>
+            new[] { ".tif", ".tiff", ".png", ".bmp", ".jpg", ".jpeg" }.Contains(ext);
+
+        private static bool IsComplexFormat(string ext) =>
+            new[] { ".psd", ".eps", ".heic", ".ps" }.Contains(ext);
+
+        private static Image? GetPreviewForVector(IFileSystemInfoExt f, int pageIdx, int dpi, bool cacheOnly)
+        {
+            FileInfo sourceFile = new FileInfo(f.FileInfo.FullName);
+            Image? cached = TryGetCachedPreview(sourceFile, pageIdx, dpi);
+            if (cached != null) return cached;
+
+            if (cacheOnly) return null;
+
+            for (int attempt = 1; attempt <= 2; attempt++)
             {
                 try
                 {
-                    using (var image = new MagickImage(f.FileInfo.FullName))
+                    using var preview = PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx, dpi);
+                    if (preview == null)
                     {
-                        return image.ToBitmap();
+                        Log.Warning(null, "File_GetPreview", $"Rendering returned null for {sourceFile.FullName}");
+                        return null;
                     }
+
+                    var saved = TrySaveCachedPreview(sourceFile, pageIdx, dpi, preview);
+                    if (saved != null)
+                        return saved; // Тут логіка залежить від того як працює ваш TrySave
+
+                    // Якщо не в кеш — повертаємо копію, щоб уникнути витоку пам'яті після Dispose()
+                    var copy = new Bitmap(preview);
+                    Log.Warning(null, "File_GetPreview", $"Saved to cache failed for {sourceFile.FullName}");
+                    return copy;
                 }
                 catch (Exception e)
                 {
-                    Log.Error(null, "File_GetPreview", $"Cannot load preview for {f.FileInfo.FullName}: {e.Message}");
-                    return null;
+                    if (attempt == 1) System.Threading.Thread.Sleep(100);
+                    Log.Error(null, "File_GetPreview", $"Attempt {attempt} failed for {f.FileInfo.FullName}: {e.Message}");
                 }
-            }
-            else if (ext == ".cf2")
-            {
-                return Cf2UltraRenderer.RenderFullLayout(f.FullName, dpi);
             }
 
             return null;
         }
 
-        private static Image? TryGetCachedPreview(FileInfo sourceFile, int pageIdx, int dpi)
+        private static Image? GetPreviewForComplexFormat(IFileSystemInfoExt f, int dpi)
         {
             try
             {
-                if (sourceFile == null || pageIdx < 0 || !sourceFile.Exists)
-                    return null;
+                using var image = new MagickImage(f.FileInfo.FullName);
+                return image.ToBitmap();
+            }
+            catch (Exception e)
+            {
+                Log.Error(null, "File_GetPreview", $"Magick conversion failed for {f.FileInfo.FullName}: {e.Message}");
+                return null;
+            }
+        }
+        private static Image? TryGetCachedPreview(FileInfo sourceFile, int pageIdx, int dpi)
+        {
+            // 1. Guard Clauses - швидкі перевірки без блокувань
+            if (sourceFile == null || !sourceFile.Exists || pageIdx < 0)
+                return null;
 
+            try
+            {
+                PreviewCacheEntry? entry = null;
+                string? previewPath = null;
+
+                // 2. Мінімальний блок lock тільки для отримання даних з індексу/кешу
                 lock (PreviewCacheLock)
                 {
-                    PreviewCacheIndex index = LoadPreviewCacheIndex(sourceFile.DirectoryName);
-                    PreviewCacheEntry entry = index?.Files?.FirstOrDefault(x =>
+                    var index = LoadPreviewCacheIndex(sourceFile.DirectoryName);
+                    entry = index?.Files?.FirstOrDefault(x =>
                         string.Equals(x.FileName, sourceFile.Name, StringComparison.InvariantCultureIgnoreCase) &&
                         x.PageIndex == pageIdx &&
                         x.Dpi == dpi);
 
-                    if (entry == null ||
-                        entry.CacheVersion != PreviewCacheVersion ||
-                        entry.Length != sourceFile.Length ||
-                        entry.LastWriteTimeUtcTicks != sourceFile.LastWriteTimeUtc.Ticks ||
-                        string.IsNullOrWhiteSpace(entry.PreviewFileName))
+                    if (entry != null)
                     {
-                        return null;
+                        string? previewDir = GetPreviewCacheDirectory(sourceFile.DirectoryName, false);
+                        previewPath = string.IsNullOrWhiteSpace(previewDir) ? null : Path.Combine(previewDir, entry.PreviewFileName);
                     }
-
-                    string? previewDir = GetPreviewCacheDirectory(sourceFile.DirectoryName, false);
-                    if (string.IsNullOrWhiteSpace(previewDir))
-                        return null;
-
-                    string previewPath = Path.Combine(previewDir, entry.PreviewFileName);
-                    if (!System.IO.File.Exists(previewPath))
-                        return null;
-
-                    return LoadBitmapWithoutFileLock(previewPath);
                 }
+
+                // 3. Валідація даних поза замком (не блокуємо інших потоків під час перевірок диска/метaданих)
+                if (entry == null || string.IsNullOrWhiteSpace(previewPath))
+                    return null;
+
+                bool isCacheValid = entry.CacheVersion == PreviewCacheVersion &&
+                                    entry.Length == sourceFile.Length &&
+                                    entry.LastWriteTimeUtcTicks == sourceFile.LastWriteTimeUtc.Ticks &&
+                                    !string.IsNullOrWhiteSpace(entry.PreviewFileName);
+
+                if (!isCacheValid || !System.IO.File.Exists(previewPath))
+                    return null;
+
+                // 4. Повільний I/O (читання бітмапи) виконується поза замком
+                return LoadBitmapWithoutFileLock(previewPath);
             }
             catch (Exception e)
             {
@@ -674,7 +697,6 @@ namespace JobSpace.Static
                 return null;
             }
         }
-
         private static Image? TrySaveCachedPreview(FileInfo sourceFile, int pageIdx, int dpi, Bitmap preview)
         {
             string? tempPreviewPath = null;
@@ -694,10 +716,8 @@ namespace JobSpace.Static
                     if (index.Files == null)
                         index.Files = new List<PreviewCacheEntry>();
 
-                    PreviewCacheEntry entry = index.Files.FirstOrDefault(x =>
-                        string.Equals(x.FileName, sourceFile.Name, StringComparison.InvariantCultureIgnoreCase) &&
-                        x.PageIndex == pageIdx &&
-                        x.Dpi == dpi);
+                    PreviewCacheEntry? entry = index?.Files?.FirstOrDefault(x =>
+                        string.Equals(x.FileName, sourceFile.Name, StringComparison.InvariantCultureIgnoreCase) && x.PageIndex == pageIdx && x.Dpi == dpi);
 
                     string previewFileName = BuildPreviewFileName(sourceFile, pageIdx, dpi);
                     string previewPath = Path.Combine(previewDir, previewFileName);
