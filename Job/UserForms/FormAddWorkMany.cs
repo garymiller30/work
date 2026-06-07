@@ -89,11 +89,24 @@ namespace JobSpace.UserForms
 
         private void btn_edit_text_Click(object sender, EventArgs e)
         {
-            using var form = new FormAddWorkManyTextEditor();
+            using var form = new FormAddWorkManyTextEditor(GetJobsText());
             if (form.ShowDialog(this) == DialogResult.OK)
             {
+                objectListView1.ClearObjects();
                 AddJobsFromText(form.EditText);
             }
+        }
+
+        private string GetJobsText()
+        {
+            if (objectListView1.Objects == null)
+                return string.Empty;
+
+            return string.Join(
+                Environment.NewLine,
+                objectListView1.Objects
+                    .Cast<Job>()
+                    .Select(job => $"{job.Number}\t{job.Description}"));
         }
 
         private void AddJobsFromText(string text)
