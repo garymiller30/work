@@ -166,10 +166,10 @@ namespace JobSpace.Static
                     {
                         await Task.Run(() => FileSystem.CopyDirectory(info1.FileInfo.FullName, fn, UIOption.AllDialogs)).ConfigureAwait(false);
                     }
-                    catch
+                    catch (Exception e)
                     {
+                        Log.Error(null, "File_CopyToAsync", $"Failed to copy directory {info1.FileInfo.FullName}: {e.Message}");
                     }
-
                 }
                 else
                 {
@@ -177,13 +177,13 @@ namespace JobSpace.Static
                     {
                         await Task.Run(() => FileSystem.CopyFile(info1.FileInfo.FullName, fn, UIOption.AllDialogs)).ConfigureAwait(false);
                     }
-                    catch
+                    catch (Exception e)
                     {
+                        Log.Error(null, "File_CopyToAsync", $"Failed to copy directory {info1.FileInfo.FullName}: {e.Message}");
                     }
                 }
             }
         }
-
         #endregion
 
         #region PROCESS
@@ -580,12 +580,19 @@ namespace JobSpace.Static
                     {
                         using (Bitmap preview = PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx, dpi))
                         {
+                            if (preview == null)
+                            {
+                                Log.Warning(null, "File_GetPreview", $"Preview rendering returned null for {sourceFile.FullName}, page {pageIdx + 1}, dpi {dpi}.");
+                                return null;
+                            }
+
                             Image? savedPreview = TrySaveCachedPreview(sourceFile, pageIdx, dpi, preview);
                             if (savedPreview != null)
                                 return savedPreview;
 
                             Log.Warning(null, "File_GetPreview", $"Preview rendered but was not saved to cache for {sourceFile.FullName}, page {pageIdx + 1}, dpi {dpi}.");
-                            return new Bitmap(preview);
+                            var copy = new Bitmap(preview);
+                            return copy;
                         }
                     }
                     catch (Exception e)
