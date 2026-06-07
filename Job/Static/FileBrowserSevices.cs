@@ -466,7 +466,7 @@ namespace JobSpace.Static
                 var filePaths = Clipboard.GetFileDropList().Cast<string>().ToArray();
                 bool cutFromClipboard = FileManager.CutFromClipboard;
 
-                BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"Paste", 
+                BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask($"Paste",
                     new Action(() => fileManager.PasteFromClipboard(filePaths, cutFromClipboard))));
             }
         }
@@ -556,7 +556,7 @@ namespace JobSpace.Static
             });
         }
 
-        public static Image File_GetPreview(IFileSystemInfoExt f, int pageIdx = 0, int dpi = 150, bool cacheOnly = false)
+        public static Image? File_GetPreview(IFileSystemInfoExt f, int pageIdx = 0, int dpi = 150, bool cacheOnly = false)
         {
             if (dpi <= 0)
                 dpi = 150;
@@ -565,14 +565,14 @@ namespace JobSpace.Static
             if (ext == ".pdf" || ext == ".ai")
             {
                 FileInfo sourceFile = new FileInfo(f.FileInfo.FullName);
-                Image cachedPreview = TryGetCachedPreview(sourceFile, pageIdx, dpi);
+                Image? cachedPreview = TryGetCachedPreview(sourceFile, pageIdx, dpi);
                 if (cachedPreview != null)
                     return cachedPreview;
 
                 if (cacheOnly)
                     return null;
 
-                Exception lastException = null;
+                Exception? lastException = null;
 
                 for (int attempt = 1; attempt <= 2; attempt++)
                 {
@@ -580,7 +580,7 @@ namespace JobSpace.Static
                     {
                         using (Bitmap preview = PdfHelper.RenderByTrimBox(f.FileInfo.FullName, pageIdx, dpi))
                         {
-                            Image savedPreview = TrySaveCachedPreview(sourceFile, pageIdx, dpi, preview);
+                            Image? savedPreview = TrySaveCachedPreview(sourceFile, pageIdx, dpi, preview);
                             if (savedPreview != null)
                                 return savedPreview;
 
@@ -618,11 +618,15 @@ namespace JobSpace.Static
                     return null;
                 }
             }
+            else if (ext == ".cf2")
+            {
+                return Cf2UltraRenderer.RenderFullLayout(f.FullName, dpi);
+            }
 
             return null;
         }
 
-        private static Image TryGetCachedPreview(FileInfo sourceFile, int pageIdx, int dpi)
+        private static Image? TryGetCachedPreview(FileInfo sourceFile, int pageIdx, int dpi)
         {
             try
             {
@@ -646,7 +650,11 @@ namespace JobSpace.Static
                         return null;
                     }
 
-                    string previewPath = Path.Combine(GetPreviewCacheDirectory(sourceFile.DirectoryName, false), entry.PreviewFileName);
+                    string? previewDir = GetPreviewCacheDirectory(sourceFile.DirectoryName, false);
+                    if (string.IsNullOrWhiteSpace(previewDir))
+                        return null;
+
+                    string previewPath = Path.Combine(previewDir, entry.PreviewFileName);
                     if (!System.IO.File.Exists(previewPath))
                         return null;
 
@@ -660,9 +668,9 @@ namespace JobSpace.Static
             }
         }
 
-        private static Image TrySaveCachedPreview(FileInfo sourceFile, int pageIdx, int dpi, Bitmap preview)
+        private static Image? TrySaveCachedPreview(FileInfo sourceFile, int pageIdx, int dpi, Bitmap preview)
         {
-            string tempPreviewPath = null;
+            string? tempPreviewPath = null;
 
             try
             {
@@ -671,7 +679,10 @@ namespace JobSpace.Static
 
                 lock (PreviewCacheLock)
                 {
-                    string previewDir = GetPreviewCacheDirectory(sourceFile.DirectoryName, true);
+                    string? previewDir = GetPreviewCacheDirectory(sourceFile.DirectoryName, true);
+                    if (string.IsNullOrWhiteSpace(previewDir))
+                        return null;
+
                     PreviewCacheIndex index = LoadPreviewCacheIndex(sourceFile.DirectoryName) ?? new PreviewCacheIndex();
                     if (index.Files == null)
                         index.Files = new List<PreviewCacheEntry>();
@@ -721,7 +732,7 @@ namespace JobSpace.Static
             }
         }
 
-        private static string GetPreviewCacheDirectory(string sourceDirectory, bool create)
+        private static string? GetPreviewCacheDirectory(string? sourceDirectory, bool create)
         {
             if (string.IsNullOrWhiteSpace(sourceDirectory))
                 return null;
@@ -744,7 +755,7 @@ namespace JobSpace.Static
 
         private static PreviewCacheIndex LoadPreviewCacheIndex(string sourceDirectory)
         {
-            string previewDir = GetPreviewCacheDirectory(sourceDirectory, false);
+            string? previewDir = GetPreviewCacheDirectory(sourceDirectory, false);
             if (string.IsNullOrWhiteSpace(previewDir))
                 return new PreviewCacheIndex();
 
@@ -766,9 +777,12 @@ namespace JobSpace.Static
 
         private static void SavePreviewCacheIndex(string sourceDirectory, PreviewCacheIndex index)
         {
-            string previewDir = GetPreviewCacheDirectory(sourceDirectory, true);
+            string? previewDir = GetPreviewCacheDirectory(sourceDirectory, true);
+            if (string.IsNullOrWhiteSpace(previewDir))
+                return;
+
             string indexPath = Path.Combine(previewDir, PreviewCacheIndexFileName);
-            string tempIndexPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.json.tmp");
+            string? tempIndexPath = Path.Combine(previewDir, $"{Guid.NewGuid():N}.json.tmp");
             string json = JsonConvert.SerializeObject(index, Formatting.Indented);
 
             try
@@ -832,11 +846,10 @@ namespace JobSpace.Static
             System.IO.File.Move(sourcePath, destinationPath);
         }
 
-        private static void DeleteFileQuietly(string path)
+        private static void DeleteFileQuietly(string? path)
         {
             if (string.IsNullOrWhiteSpace(path))
                 return;
-
             try
             {
                 if (System.IO.File.Exists(path))

@@ -10,63 +10,48 @@ using iTextSharp.text.pdf;
 
 namespace JobSpace.Static
 {
-
-
     public static class FileFormatsUtil
     {
-        // Константа для конвертації точок (pt) у міліметри (mm)
-        // 1 pt = 1/72 inch, 1 inch = 25.4 mm => 1 pt = 25.4 / 72 ≈ 0.35277 mm
-        // Mn (2.83465) це фактично 72 / 25.4
         public const decimal Mn = 2.83465M;
         private const decimal MmPerInch = 25.4m;
 
-
         public static void GetFormat(IFileSystemInfoExt sfi)
         {
-            var ext = sfi.FileInfo.Extension;
+            if (sfi == null || sfi.FileInfo == null)
+                return;
 
-            switch (ext.ToLowerInvariant())
+            var ext = sfi.FileInfo.Extension?.ToLowerInvariant() ?? string.Empty;
+
+            Action<IFileSystemInfoExt>? action = ext switch
             {
-                case ".psd":
-                case ".eps":
-                    GetPsd(sfi);
-                    break;
-                case ".jpg":
-                case ".tif":
-                case ".tiff":
-                case ".png":
-                    GetTif(sfi);
-                    break;
-                case ".heic":
-                    GetHeic(sfi);
-                    break;
-                case ".ai":
-                case ".pdf":
-                    GetPdf(sfi);
-                    break;
-            }
+                ".psd" or ".eps" => GetPsd,
+                ".jpg" or ".tif" or ".tiff" or ".png" => GetTif,
+                ".heic" => GetHeic,
+                ".ai" or ".pdf" => GetPdf,
+                _ => null
+            };
 
+            action?.Invoke(sfi);
         }
-         
 
         private static void GetHeic(IFileSystemInfoExt sfi)
         {
+            if (sfi == null || string.IsNullOrEmpty(sfi.FileInfo?.FullName))
+                return;
+
             try
             {
                 using var image = new MagickImage(sfi.FileInfo.FullName);
 
-                // Використовуємо Tuple для чистоти коду
                 var (pixelWidth, pixelHeight) = ((int)image.Width, (int)image.Height);
-                var (dpiX, dpiY) = (image.Density.X, image.Density.Y);
 
-                // Сучасний паттерн-матчінг (C# 9+)
-                if (dpiX is > 0 && dpiY is > 0)
+                // Density may be nullable on some Magick types; guard it.
+                var density = image.Density;
+                if (density != null && density.X > 0 && density.Y > 0)
                 {
-                    // Виносимо множник в decimal константу, щоб зменшити кількість дужок і приведень типів
-                    decimal resX = (decimal)dpiX;
-                    decimal resY = (decimal)dpiY;
+                    decimal resX = (decimal)density.X;
+                    decimal resY = (decimal)density.Y;
 
-                    // Target-typed new (C# 9+): замість new FileFormat пишемо просто new()
                     sfi.Format = new()
                     {
                         Width = (pixelWidth / resX) * MmPerInch,
@@ -77,51 +62,54 @@ namespace JobSpace.Static
                 else
                 {
                     Console.WriteLine("DPI density not found in the HEIC metadata.");
+                    // leave Format unset or set to empty struct
+                    sfi.Format = new FileFormat();
                 }
             }
             catch (Exception e)
             {
-                // Сучасна інтерполяція рядків безпосередньо підтримує виклики методів та властивостей
-                Logger.Log.Error(null, nameof(GetHeic), $"Error getting format for file {sfi.FileInfo.FullName}: {e.Message}");
+                Logger.Log.Error(null, nameof(GetHeic), $"Error getting format for file {sfi.FullName}: {e.Message}");
             }
         }
 
         private static void GetPsd(IFileSystemInfoExt sfi)
         {
+            if (sfi == null || string.IsNullOrEmpty(sfi.FileInfo?.FullName))
+                return;
+
             try
             {
                 MagickImageInfo info = new MagickImageInfo(sfi.FileInfo.FullName);
 
-                sfi.Format = new FileFormat
+                var density = info.Density;
+                if (density != null && density.X > 0 && density.Y > 0)
                 {
-                    Width = info.Width * 25.4M / (decimal)info.Density.X,
-                    Height = info.Height * 25.4M / (decimal)info.Density.Y,
-                    Bleeds = (decimal)(info.Density.X + info.Density.Y) / 2,
-                };
+                    sfi.Format = new FileFormat
+                    {
+                        Width = info.Width * MmPerInch / (decimal)density.X,
+                        Height = info.Height * MmPerInch / (decimal)density.Y,
+                        Bleeds = (decimal)(density.X + density.Y) / 2m,
+                    };
+                }
+                else
+                {
+                    // Can't compute without density; provide empty format to avoid null deref
+                    sfi.Format = new FileFormat();
+                }
             }
             catch
             {
+                sfi.Format = new FileFormat();
             }
         }
 
         private static void GetPdf(IFileSystemInfoExt sfi)
         {
-            #region [USING PDFLIB]
-            //var boxes = PdfHelper.GetPagesInfo(sfi.FileInfo.FullName);
-            //if (boxes.Count == 0) return;
-            //var box = boxes[0];
-            //sfi.Format = new FileFormat
-            //{
-            //    Width = (decimal)box.Trimbox.wMM(),
-            //    Height = (decimal)box.Trimbox.hMM(),
-            //    Bleeds = (decimal)((box.Mediabox.wMM() - box.Trimbox.wMM()) / 2),
-            //    cntPages = boxes.Count(),
-            //};
-            #endregion
-            #region [USING ITEXT]
-            Rectangle media = null;
+            if (sfi == null || string.IsNullOrEmpty(sfi.FileInfo?.FullName))
+                return;
 
-            PdfReader pdfReader = null;
+            Rectangle? media = null;
+            PdfReader? pdfReader = null;
             int pages = 0;
 
             try
@@ -130,25 +118,36 @@ namespace JobSpace.Static
                 pages = pdfReader.NumberOfPages;
                 media = pdfReader.GetBoxSize(1, "media");
                 var rect = pdfReader.GetBoxSize(1, "trim");
-                pdfReader.Dispose();
 
                 if (rect == null)
                 {
-                    sfi.Format = new FileFormat
+                    if (media != null)
                     {
-                        Width = (decimal)media.Width / Mn,
-                        Height = (decimal)media.Height / Mn,
-                        Bleeds = 0,
-                        cntPages = pages,
-                    };
+                        sfi.Format = new FileFormat
+                        {
+                            Width = (decimal)media.Width / Mn,
+                            Height = (decimal)media.Height / Mn,
+                            Bleeds = 0,
+                            cntPages = pages,
+                        };
+                    }
+                    else
+                    {
+                        sfi.Format = new FileFormat();
+                    }
                 }
                 else
                 {
+                    // media can be null; fallback to rect.Width when computing bleeds
+                    decimal bleedWidth = 0;
+                    if (media != null)
+                        bleedWidth = (decimal)(media.Width - rect.Width) / 2m / Mn;
+
                     sfi.Format = new FileFormat
                     {
                         Width = (decimal)rect.Width / Mn,
                         Height = (decimal)rect.Height / Mn,
-                        Bleeds = (decimal)(media.Width - rect.Width) / 2 / Mn,
+                        Bleeds = bleedWidth,
                         cntPages = pages,
                     };
                 }
@@ -174,40 +173,37 @@ namespace JobSpace.Static
             {
                 pdfReader?.Dispose();
             }
-            #endregion
         }
 
         private static void GetTif(IFileSystemInfoExt sfi)
         {
+            if (sfi == null || string.IsNullOrEmpty(sfi.FileInfo?.FullName))
+                return;
+
             try
             {
                 using (var stream = new FileStream(sfi.FileInfo.FullName, FileMode.Open, FileAccess.Read))
                 {
                     using (var tif = System.Drawing.Image.FromStream(stream, false, false))
                     {
-                        var width = tif.PhysicalDimension.Width;
-                        var height = tif.PhysicalDimension.Height;
-                        var hresolution = tif.HorizontalResolution;
-                        var vresolution = tif.VerticalResolution;
+                        var width = (decimal)tif.PhysicalDimension.Width;
+                        var height = (decimal)tif.PhysicalDimension.Height;
+                        var hresolution = (decimal)tif.HorizontalResolution;
+                        var vresolution = (decimal)tif.VerticalResolution;
 
                         sfi.Format = new FileFormat
                         {
-                            Width = (decimal)(width / (hresolution / 25.4F)),
-                            Height = (decimal)(height / (vresolution / 25.4F)),
-                            Bleeds = (decimal)hresolution,
+                            Width = (width / (hresolution / MmPerInch)),
+                            Height = (height / (vresolution / MmPerInch)),
+                            Bleeds = hresolution,
                         };
                     }
                 }
             }
             catch (Exception e)
             {
-                Logger.Log.Error(null, "GetTif", $"Error getting format for file {sfi.FileInfo.FullName}: {e.Message}");
+                Logger.Log.Error(null, nameof(GetTif), $"Error getting format for file {sfi.FullName}: {e.Message}");
             }
         }
-
-
-
-
-
     }
 }

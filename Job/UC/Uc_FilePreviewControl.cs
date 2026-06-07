@@ -19,7 +19,7 @@ namespace JobSpace.UC
     {
         int _currentPage = 1;
 
-        PdfDrawerPageCache pdfDrawerPageCache;
+        PdfDrawerPageCache? pdfDrawerPageCache;
 
         PdfPreviewParameters previewParameters;
 

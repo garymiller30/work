@@ -54,13 +54,13 @@ namespace JobSpace.Models.PdfDrawer
             imageDpis = new int[TotalPages];
         }
 
-        public async Task<Tuple<Image, double, double>> GetPreviewAsync(PdfPreviewParameters parameters, int pageNo)
+        public async Task<Tuple<Image, double, double>?> GetPreviewAsync(PdfPreviewParameters parameters, int pageNo)
         {
 
             double wMM = 100;
             double hMM = 100;
 
-            Image preview = null;
+            Image? preview = null;
             int pageIdx = pageNo - 1;
 
             if (pageIdx < 0 || pageIdx >= TotalPages || boxes_pages == null || images == null)
