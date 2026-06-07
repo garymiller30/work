@@ -21,7 +21,7 @@ namespace JobSpace.UserForms
 
         public string EditText { get; private set; } = string.Empty;
 
-        public FormAddWorkManyTextEditor()
+        public FormAddWorkManyTextEditor(string initialText)
         {
             Text = "Редагувати список замовлень";
             ShowIcon = false;
@@ -39,6 +39,7 @@ namespace JobSpace.UserForms
                 HideSelection = false,
                 Multiline = true,
                 ScrollBars = RichTextBoxScrollBars.Both,
+                Text = ToVisibleText(initialText),
                 WordWrap = false
             };
 
