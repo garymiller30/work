@@ -324,7 +324,7 @@ namespace JobSpace.Static.Pdf.Common
                 throw new InvalidOperationException($"Cannot read TrimBox for page {pageIndex + 1}.");
 
             string pdfiumPath = fsi.FullName;
-            string tempPdfiumPath = null;
+            string? tempPdfiumPath = null;
 
             if (!IsPdfiumSafePath(pdfiumPath))
             {
