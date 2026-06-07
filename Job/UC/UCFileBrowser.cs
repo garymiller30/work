@@ -999,10 +999,12 @@ namespace JobSpace.UC
 
         private void DeleteFilesAndDirectories()
         {
-            FileBrowserSevices.File_DeleteFilesAndDirectories(objectListView1.SelectedObjects, _fileManager);
+            if (objectListView1.SelectedObjects.Count == 0) return;
+            FileBrowserSevices.File_DeleteFilesAndDirectories(objectListView1.SelectedObjects.Cast<IFileSystemInfoExt>(), _fileManager);
         }
         private void КопирвоатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (objectListView1.SelectedObjects.Count == 0) return;
             FileBrowserSevices.Clipboard_CopyFiles(objectListView1.SelectedObjects);
         }
         private void ВставитьToolStripMenuItem_Click(object sender, EventArgs e)
