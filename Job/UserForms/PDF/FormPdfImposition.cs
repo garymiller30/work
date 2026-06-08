@@ -28,7 +28,7 @@ namespace JobSpace.UserForms.PDF
         private const string ImpositionFileName = "imposition.json";
 
         private readonly GlobalImposParameters _imposParam;
-        private PdfDrawer _drawer;
+        private PdfDrawer? _drawer;
 
         public FormPdfImposition(Profile profile)
         {
@@ -121,15 +121,15 @@ namespace JobSpace.UserForms.PDF
             return exportParameters;
         }
 
-        private void OnPrintSheetDeleted(object sender, EventArgs e)
+        private void OnPrintSheetDeleted(object? sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Alt)
             {
-                NeedCheckRunListPages(this, null);
+                NeedCheckRunListPages(this, EventArgs.Empty);
             }
             else
             {
-                _controlBindParameters_NeedRearangePages(this, null);
+                _controlBindParameters_NeedRearangePages(this, EventArgs.Empty);
             }
         }
 
@@ -173,12 +173,12 @@ namespace JobSpace.UserForms.PDF
             }
         }
 
-        private void OnAddSheetToPrintEvent(object sender, TemplateSheet e)
+        private void OnAddSheetToPrintEvent(object? sender, TemplateSheet e)
         {
             AddPrintSheet(e);
         }
 
-        private void OnTemplateSheetSelected(object sender, TemplateSheet e)
+        private void OnTemplateSheetSelected(object? sender, TemplateSheet e)
         {
             _imposParam.ControlsBind.SetSheet(e);
         }
@@ -825,17 +825,17 @@ namespace JobSpace.UserForms.PDF
             }
         }
 
-        private void finishEvent(object sender, EventArgs e)
+        private void finishEvent(object? sender, EventArgs e)
         {
             progressBar1.Invoke(new MethodInvoker(delegate { progressBar1.Value = 0; }));
         }
 
-        private void processingEvent(object sender, int e)
+        private void processingEvent(object? sender, int e)
         {
             progressBar1.Invoke(new MethodInvoker(delegate { progressBar1.Value = e; }));
         }
 
-        private void startEvent(object sender, int e)
+        private void startEvent(object? sender, int e)
         {
             progressBar1.Invoke(new MethodInvoker(delegate { progressBar1.Maximum = e; }));
         }
