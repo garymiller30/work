@@ -22,6 +22,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public MasterPageSelectControl()
         {
             InitializeComponent();
+
+            var tt = new ToolTip();
+            tt.SetToolTip(nud_page_w, "ширина сторінки");
+            tt.SetToolTip(nud_page_h, "висота сторінки");
+            tt.SetToolTip(nud_page_bleed, "поля сторінки");
+
         }
 
         public void SetFormats(List<PdfFile> pdfFiles)

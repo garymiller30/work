@@ -60,9 +60,9 @@
             addTemplateSheetControl1 = new JobSpace.UserForms.PDF.ImposItems.AddTemplateSheetControl();
             splitContainer4 = new System.Windows.Forms.SplitContainer();
             panel1 = new System.Windows.Forms.Panel();
+            masterPageSelectControl1 = new JobSpace.UserForms.PDF.ImposItems.MasterPageSelectControl();
             imposBindingControl1 = new JobSpace.UserForms.PDF.ImposItems.ImposBindingControl();
             printSheetsControl1 = new JobSpace.UserForms.PDF.ImposItems.PrintSheetsControl();
-            masterPageSelectControl1 = new JobSpace.UserForms.PDF.ImposItems.MasterPageSelectControl();
             tabControl1.SuspendLayout();
             tabPageSimple.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -183,7 +183,7 @@
             previewControl1.Location = new System.Drawing.Point(561, 3);
             previewControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             previewControl1.Name = "previewControl1";
-            previewControl1.Size = new System.Drawing.Size(686, 929);
+            previewControl1.Size = new System.Drawing.Size(684, 929);
             previewControl1.TabIndex = 8;
             // 
             // runListControl1
@@ -198,7 +198,7 @@
             // splitContainer5
             // 
             splitContainer5.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            splitContainer5.Location = new System.Drawing.Point(1251, 3);
+            splitContainer5.Location = new System.Drawing.Point(1249, 3);
             splitContainer5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             splitContainer5.Name = "splitContainer5";
             splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -448,7 +448,7 @@
             // 
             splitContainer2.Panel2.Controls.Add(splitContainer4);
             splitContainer2.Size = new System.Drawing.Size(397, 725);
-            splitContainer2.SplitterDistance = 280;
+            splitContainer2.SplitterDistance = 174;
             splitContainer2.SplitterWidth = 5;
             splitContainer2.TabIndex = 8;
             // 
@@ -459,7 +459,7 @@
             addTemplateSheetControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             addTemplateSheetControl1.MinimumSize = new System.Drawing.Size(391, 0);
             addTemplateSheetControl1.Name = "addTemplateSheetControl1";
-            addTemplateSheetControl1.Size = new System.Drawing.Size(397, 280);
+            addTemplateSheetControl1.Size = new System.Drawing.Size(397, 174);
             addTemplateSheetControl1.TabIndex = 0;
             // 
             // splitContainer4
@@ -477,8 +477,8 @@
             // splitContainer4.Panel2
             // 
             splitContainer4.Panel2.Controls.Add(printSheetsControl1);
-            splitContainer4.Size = new System.Drawing.Size(397, 440);
-            splitContainer4.SplitterDistance = 208;
+            splitContainer4.Size = new System.Drawing.Size(397, 546);
+            splitContainer4.SplitterDistance = 313;
             splitContainer4.SplitterWidth = 5;
             splitContainer4.TabIndex = 8;
             // 
@@ -491,16 +491,24 @@
             panel1.Location = new System.Drawing.Point(0, 0);
             panel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(397, 208);
+            panel1.Size = new System.Drawing.Size(397, 313);
             panel1.TabIndex = 1;
+            // 
+            // masterPageSelectControl1
+            // 
+            masterPageSelectControl1.Location = new System.Drawing.Point(0, 0);
+            masterPageSelectControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            masterPageSelectControl1.Name = "masterPageSelectControl1";
+            masterPageSelectControl1.Size = new System.Drawing.Size(393, 69);
+            masterPageSelectControl1.TabIndex = 0;
             // 
             // imposBindingControl1
             // 
             imposBindingControl1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            imposBindingControl1.Location = new System.Drawing.Point(0, 88);
+            imposBindingControl1.Location = new System.Drawing.Point(0, 75);
             imposBindingControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             imposBindingControl1.Name = "imposBindingControl1";
-            imposBindingControl1.Size = new System.Drawing.Size(397, 120);
+            imposBindingControl1.Size = new System.Drawing.Size(397, 235);
             imposBindingControl1.TabIndex = 0;
             // 
             // printSheetsControl1
@@ -509,17 +517,8 @@
             printSheetsControl1.Location = new System.Drawing.Point(0, 0);
             printSheetsControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             printSheetsControl1.Name = "printSheetsControl1";
-            printSheetsControl1.Size = new System.Drawing.Size(397, 227);
+            printSheetsControl1.Size = new System.Drawing.Size(397, 228);
             printSheetsControl1.TabIndex = 0;
-            // 
-            // masterPageSelectControl1
-            // 
-            masterPageSelectControl1.Location = new System.Drawing.Point(0, 0);
-            masterPageSelectControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            masterPageSelectControl1.Name = "masterPageSelectControl1";
-            masterPageSelectControl1.Size = new System.Drawing.Size(393, 82);
-            masterPageSelectControl1.TabIndex = 0;
-            
             // 
             // FormPdfImposition
             // 
