@@ -12,12 +12,12 @@ using System.Text.RegularExpressions;
 
 namespace JobSpace.Static.Pdf.Create.BigovkaMarks
 {
-    [PdfTool("Візуалізація", "Біговка",Description ="Перевірити лінії біговок",Icon ="visual_bigovka",Order = 1)]
+    [PdfTool("Візуалізація", "Біговка", Description = "Перевірити лінії біговок", Icon = "visual_bigovka", Order = 1)]
     public class CreateBigovkaMarks : IPdfTool
     {
         const double COEF_DIMENSION = 0.3;
 
-        CreateBigovkaMarksParams _param;
+        CreateBigovkaMarksParams? _param;
         int curPage = 1;
 
         public void Execute(PdfJobContext context)
@@ -43,68 +43,68 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
         }
         public void CreateBigovkaMark(string filePath)
         {
-            using ( PDFlib p = new PDFlib())
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+                return;
+
+            using var p = new PDFlib();
+            try
             {
-                try
+                var filename = Path.GetFileName(filePath);
+
+                var reg = new Regex(@"#(\d+)\.");
+                var match = reg.Match(filename);
+                string targetFile;
+
+                var directory = Path.GetDirectoryName(filePath);
+                if (string.IsNullOrEmpty(directory)) return;
+
+                if (match.Success)
                 {
-                    var filename = Path.GetFileName(filePath);
+                    int len = match.Groups[1].Value.Length + 1;
+                    var filenameWithoutExt = Path.GetFileNameWithoutExtension(filename);
+                    filenameWithoutExt = filenameWithoutExt.Substring(0, filenameWithoutExt.Length - len);
 
-                    var reg = new Regex(@"#(\d+)\.");
-                    var match = reg.Match(filename);
-                    string targetFile;
-                    if (match.Success)
-                    {
-                        int len = match.Groups[1].Value.Length + 1;
-                        var filenameWithoutExt = Path.GetFileNameWithoutExtension(filename);
-                        filenameWithoutExt = filenameWithoutExt.Substring(0, filenameWithoutExt.Length - len);
-
-                        targetFile = Path.Combine(
-                            Path.GetDirectoryName(filePath), filenameWithoutExt + "_big_" + CreateBigovkaName() + "_#" + match.Groups[1].Value + Path.GetExtension(filePath));
-                    }
-                    else
-                    {
-                        targetFile =
-                        Path.Combine(
-                            Path.GetDirectoryName(filePath),
-                            Path.GetFileNameWithoutExtension(filePath) +
-                            "_big_" + CreateBigovkaName() +
-                            Path.GetExtension(filePath));
-                    }
-
-                    p.begin_document(targetFile, "optimize=true");
-
-                    int doc = p.open_pdi_document(filePath, "");
-                    int page_count = (int)p.pcos_get_number(doc, "length:pages");
-
-                    for (int i = 1; i <= page_count; i++)
-                    {
-                        curPage = i;
-                        var page = p.open_pdi_page(doc, i, "cloneboxes");
-                        p.begin_page_ext(0, 0, "");
-
-                        int p_layer = p.define_layer("print", "");
-                        int v_layer = p.define_layer("visual", "");
-
-                        Boxes trimbox = PdfHelper.GetBoxes(p, doc, i - 1);
-                        p.begin_layer(p_layer);
-                        p.fit_pdi_page(page, 0, 0, "cloneboxes");
-                        DrawPrintBigovkaMarks(p, trimbox);
-                        p.end_layer();
-                        p.close_pdi_page(page);
-                        p.begin_layer(v_layer);
-                        DrawBigovkaSchema(p, trimbox);
-                        p.end_layer();
-                        p.end_page_ext("");
-                    }
-
-                    p.close_pdi_document(doc);
-                    p.end_document("");
+                    targetFile = Path.Combine(
+                        directory, filenameWithoutExt + "_big_" + CreateBigovkaName() + "_#" + match.Groups[1].Value + Path.GetExtension(filePath));
                 }
-                catch (PDFlibException e)
+                else
                 {
-                    PdfHelper.LogException(e, "CreateBigovkaMarks");
+                    targetFile = Path.Combine(
+                        directory, Path.GetFileNameWithoutExtension(filePath) + "_big_" + CreateBigovkaName() + Path.GetExtension(filePath));
                 }
+
+                p.begin_document(targetFile, "optimize=true");
+
+                int p_layer = p.define_layer("print", "");
+                int v_layer = p.define_layer("visual", "");
+
+                int doc = p.open_pdi_document(filePath, "");
+                int page_count = (int)p.pcos_get_number(doc, "length:pages");
+
+                for (int i = 1; i <= page_count; i++)
+                {
+                    curPage = i;
+                    var page = p.open_pdi_page(doc, i, "cloneboxes");
+                    p.begin_page_ext(0, 0, "");
+
+                    Boxes trimbox = PdfHelper.GetBoxes(p, doc, i - 1);
+                    p.begin_layer(p_layer);
+                    p.fit_pdi_page(page, 0, 0, "cloneboxes");
+                    DrawPrintBigovkaMarks(p, trimbox);
+
+                    p.close_pdi_page(page);
+                    p.begin_layer(v_layer);
+                    DrawBigovkaSchema(p, trimbox);
+                    p.end_page_ext("");
+                }
+                p.close_pdi_document(doc);
+                p.end_document("");
             }
+            catch (PDFlibException e)
+            {
+                PdfHelper.LogException(e, "CreateBigovkaMarks");
+            }
+
         }
 
         private void DrawPrintBigovkaMarks(PDFlib p, Boxes boxes)
@@ -219,7 +219,7 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
 
             foreach (double width in GetHorizontalDimensionParts(boxes))
             {
-                PdfHelper.DrawDimensionsX(p, spot, x, y, Math.Round( width,1));
+                PdfHelper.DrawDimensionsX(p, spot, x, y, Math.Round(width, 1));
                 x += width;
             }
         }
@@ -234,7 +234,7 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
 
             foreach (double height in GetVerticalDimensionParts(boxes))
             {
-                PdfHelper.DrawDimensionsY(p, spot, x, y, Math.Round( height,1));
+                PdfHelper.DrawDimensionsY(p, spot, x, y, Math.Round(height, 1));
                 y += height;
             }
         }
