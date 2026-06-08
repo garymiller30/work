@@ -15,16 +15,19 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 {
     public class PdfDrawer
     {
+        private const string PDF_LAYER_PRINT = "Print";
+        private const string PDF_LAYER_PROOF = "Proof";
+        private const string PDF_OPTIMIZE_PARAM = "optimize=true";
 
-        public EventHandler<int> StartEvent { get; set; } = delegate { };
-        public EventHandler<int> ProcessingEvent { get; set; } = delegate { };
-        public EventHandler FinishEvent { get; set; } = delegate { };
+        public event EventHandler<int>? StartEvent;
+        public event EventHandler<int>? ProcessingEvent;
+        public event EventHandler? FinishEvent;
 
-        public int[] CustomSheets { get; set; } = null;
+        public int[]? CustomSheets { get; set; } = null;
 
         public bool IsCancelled { get; set; } = false;
 
-        GlobalImposParameters _imposParam;
+        private readonly GlobalImposParameters _imposParam;
 
         public PdfDrawer(GlobalImposParameters imposParam)
         {
@@ -33,75 +36,61 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
         public void Draw(ProductPart impos)
         {
-            PDFlib p = new PDFlib();
+            if (impos == null)
+                throw new ArgumentNullException(nameof(impos));
+
+            using PDFlib p = new PDFlib();
 
             try
             {
                 impos.ExportParameters.CreateOutputFileName(_imposParam.TextVariables);
                 var targetFile = impos.ExportParameters.OutputFilePath;
 
-                int[] range;
+                int[] range = GetSheetIndices(impos);
 
-                if (CustomSheets == null)
-                {
-                    range = Enumerable.Range(0, impos.PrintSheets.Count).ToArray();
-                }
-                else
-                {
-                    range = CustomSheets;
-                }
+                p.begin_document(targetFile, PDF_OPTIMIZE_PARAM);
 
+                StartEvent?.Invoke(this, range.Length);
 
-                p.begin_document(targetFile, "optimize=true");
+                InitializeLayers(p);
 
-                StartEvent(this, range.Length);
-
-                _imposParam.PdfDrawParameters.LayerPrint = p.define_layer("Print", "");
-                _imposParam.PdfDrawParameters.LayerProof = p.define_layer("Proof", "");
-
-                foreach (var i in range)
+                for (int idx = 0; idx < range.Length; idx++)
                 {
 
-                    if (IsCancelled)
-                        break;
+                    if (IsCancelled) break;
 
-                    int pos = Array.IndexOf(range, i) + 1;
-                    // 
-                    ProcessingEvent(this, pos);
+                    int sheetIndex = range[idx];
 
-                    var sheet = impos.PrintSheets[i];
+                    ProcessingEvent?.Invoke(this, idx + 1);
 
-                    _imposParam.TextVariables.SetValue(ValueList.SheetIdx, i + 1);
+                    var sheet = impos.PrintSheets[sheetIndex];
+
+                    _imposParam.TextVariables.SetValue(ValueList.SheetIdx, sheetIndex + 1);
                     _imposParam.TextVariables.SetValue(ValueList.SheetFormat, $"{sheet.W}x{sheet.H}");
                     _imposParam.TextVariables.SetValue(ValueList.SheetDesc, sheet.Description);
                     _imposParam.TextVariables.SetValue(ValueList.CurDate, DateTime.Now.ToString());
                     _imposParam.TextVariables.SetValue(ValueList.SheetCount, sheet.Count);
 
-                    //CropMarksService.FixCropMarks(sheet, _imposParam);
-
                     switch (sheet.SheetPlaceType)
                     {
                         case TemplateSheetPlaceType.SingleSide:
-                            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Без звороту");
-                            DrawSheet.Front(p, impos, sheet,_imposParam);
+                            DrawSingleSide(p, impos, sheet);
+
                             break;
 
                         case TemplateSheetPlaceType.Sheetwise:
+                            DrawSheetwise(p, impos, sheet);
 
-                            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Лице");
-                            DrawSheet.Front(p, impos, sheet,_imposParam);
-                            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Зворот");
-                            DrawSheet.Back(p, impos, sheet,_imposParam);
                             break;
 
                         case TemplateSheetPlaceType.WorkAndTurn:
-                            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Свій зворот");
-                            DrawSheet.WorkAndTurn(p, impos, sheet, _imposParam);
+                            DrawWorkAndTurn(p, impos, sheet);
+
                             break;
 
                         case TemplateSheetPlaceType.WorkAndTumble:
-                            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Клапан-хвіст");
-                            DrawSheet.WorkAndTumble(p, impos, sheet, _imposParam);
+                            DrawWorkAndTumble(p, impos, sheet);
+
                             break;
                         default:
                             throw new NotImplementedException();
@@ -109,26 +98,61 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
                 }
                 p.end_document("");
             }
-            catch (PDFlibException)
+            catch (PDFlibException ex)
             {
+                Logger.Log.Error(null, nameof(PdfDrawer), ex.Message);
             }
             finally
             {
-                p?.Dispose();
-
-                FinishEvent(this, null);
-
-                if (impos.ExportParameters.SavePrintSheetToOrderFolder)
-                {
-                    var orderFolder = impos.ExportParameters.OutputFolder;
-                    var orderFileName = Path.GetFileNameWithoutExtension(impos.ExportParameters.OutputFilePath);
-
-                    var orderFile = Path.Combine(orderFolder, Path.GetFileNameWithoutExtension(orderFileName) + ".json");
-                    _imposParam.Profile.ImposService.SavePrintSheets(impos.PrintSheets, orderFile);
-                }
+                FinishEvent?.Invoke(this, EventArgs.Empty);
+                SavePrintSheetsIfNeeded(impos);
             }
         }
 
+        private void DrawWorkAndTumble(PDFlib p, ProductPart impos, PrintSheet sheet)
+        {
+            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Клапан-хвіст");
+            DrawSheet.WorkAndTumble(p, impos, sheet, _imposParam);
+        }
+
+        private void DrawWorkAndTurn(PDFlib p, ProductPart impos, PrintSheet sheet)
+        {
+            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Свій зворот");
+            DrawSheet.WorkAndTurn(p, impos, sheet, _imposParam);
+        }
+
+        private void DrawSheetwise(PDFlib p, ProductPart impos, PrintSheet sheet)
+        {
+            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Лице");
+            DrawSheet.Front(p, impos, sheet, _imposParam);
+            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Зворот");
+            DrawSheet.Back(p, impos, sheet, _imposParam);
+        }
+
+        private void DrawSingleSide(PDFlib p, ProductPart impos, PrintSheet sheet)
+        {
+            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Без звороту");
+            DrawSheet.Front(p, impos, sheet, _imposParam);
+        }
+
+        private void InitializeLayers(PDFlib p)
+        {
+            _imposParam.PdfDrawParameters.LayerPrint = p.define_layer(PDF_LAYER_PRINT, "");
+            _imposParam.PdfDrawParameters.LayerProof = p.define_layer(PDF_LAYER_PROOF, "");
+        }
+
+        private int[] GetSheetIndices(ProductPart impos) => CustomSheets ?? Enumerable.Range(0, impos.PrintSheets.Count).ToArray();
+        private void SavePrintSheetsIfNeeded(ProductPart impos)
+        {
+            if (!impos.ExportParameters.SavePrintSheetToOrderFolder) return;
+
+            var orderFolder = impos.ExportParameters.OutputFolder;
+            var orderFileName = Path.GetFileNameWithoutExtension(impos.ExportParameters.OutputFilePath);
+
+            var orderFile = Path.Combine(orderFolder, Path.GetFileNameWithoutExtension(orderFileName) + ".json");
+            _imposParam.Profile.ImposService.SavePrintSheets(impos.PrintSheets, orderFile);
+
+        }
         public void Cancel()
         {
             IsCancelled = true;
