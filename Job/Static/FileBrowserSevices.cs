@@ -199,7 +199,8 @@ namespace JobSpace.Static
                     WorkingDirectory = Path.GetDirectoryName(menu.Path) ?? throw new InvalidOperationException(),
                     FileName = Path.GetDirectoryName(menu.Path),
                 };
-                Process.Start(pi);
+                var p = Process.Start(pi);
+                p?.Dispose();
             }
             catch (Exception e)
             {
@@ -267,6 +268,8 @@ namespace JobSpace.Static
                     profile.Jobs.ChangeStatusCode(number, menu.StatusCode);
                 }
             }
+
+            p?.Dispose();
         }
         private static void ProcessAppFolder(IUserProfile profile, IFileManager manager, IMenuSendTo menu)
         {
@@ -290,8 +293,14 @@ namespace JobSpace.Static
             var p = Process.Start(processStartInfo);
             Log.Info(profile, "Utils", $"process: {menu.Path} cmd: {processStartInfo.Arguments}");
 
-            if (!menu.EventOnFinish) return;
+            if (!menu.EventOnFinish)
+            {
+                p?.Dispose();
+                return;
+            }
+
             p?.WaitForExit();
+            p?.Dispose();
         }
         private static void ProcessScript(IUserProfile profile, IFileManager fileManager, IMenuSendTo menu, IList files)
         {
@@ -382,7 +391,8 @@ namespace JobSpace.Static
                 pi.Verb = "edit";
             }
 
-            Process.Start(pi);
+            var p = Process.Start(pi);
+            p?.Dispose();
         }
         #endregion
 

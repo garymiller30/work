@@ -134,102 +134,92 @@ namespace JobSpace.Static.Pdf.Common
 
         public static List<PdfPageInfo> GetPagesInfo(string filePath)
         {
-            List<PdfPageInfo> list = new List<PdfPageInfo>();
+            var pages = new List<PdfPageInfo>();
 
-            PDFlib p = null;
-
+            using var p = new PDFlib();
             try
             {
-                p = new PDFlib();
                 p.begin_document("", "");
                 int indoc = p.open_pdi_document(filePath, "");
                 int pageCnt = (int)p.pcos_get_number(indoc, "length:pages");
 
                 for (int i = 0; i < pageCnt; i++)
                 {
-                    var info = new PdfPageInfo();
-
-                    int page = p.open_pdi_page(indoc, i + 1, "");
-
-                    string rotated = p.pcos_get_string(indoc, $"type:pages[{i}]/Rotate");
-
-                    if (string.Equals(rotated, "number", System.StringComparison.OrdinalIgnoreCase))
-                    {
-                        info.Rotate = p.pcos_get_number(indoc, $"pages[{i}]/Rotate");
-                    }
-
-                    Boxes boxes = GetBoxes(p, indoc, i);
-                    info.Mediabox = boxes.Media;
-                    info.Cropbox = boxes.Crop;
-                    info.Trimbox = boxes.Trim;
-
-                    list.Add(info);
-
-                    p.close_pdi_page(page);
-
+                    pages.Add(ReadPageInfo(p, indoc, i));
                 }
 
                 p.close_pdi_document(indoc);
-
             }
             catch (PDFlibException e)
             {
-
-                LogException(e, "GetPagesInfo");
-            }
-            finally
-            {
-                p?.Dispose();
+                LogException(e, nameof(GetPagesInfo));
             }
 
-            return list;
+            return pages;
         }
 
         public static PdfPageInfo GetPageInfo(string path, int pageIdx = 0)
         {
-            PdfPageInfo pdfPageInfo = new PdfPageInfo();
-            PDFlib p = null;
+            if (pageIdx < 0)
+                throw new ArgumentOutOfRangeException(nameof(pageIdx));
 
+            using var p = new PDFlib();
             try
             {
-                p = new PDFlib();
                 p.begin_document("", "");
                 int indoc = p.open_pdi_document(path, "");
                 int pageCnt = (int)p.pcos_get_number(indoc, "length:pages");
 
-                int i = pageIdx;
-                //var info = new PdfPageInfo();
+                if (pageIdx >= pageCnt)
+                    throw new ArgumentOutOfRangeException(nameof(pageIdx), pageIdx, $"Page index must be between 0 and {pageCnt - 1}.");
 
-                int page = p.open_pdi_page(indoc, i + 1, "");
-
-                string rotated = p.pcos_get_string(indoc, $"type:pages[{i}]/Rotate");
-
-                if (string.Equals(rotated, "number", System.StringComparison.OrdinalIgnoreCase))
-                {
-                    pdfPageInfo.Rotate = p.pcos_get_number(indoc, $"pages[{i}]/Rotate");
-                }
-
-                Boxes boxes = GetBoxes(p, indoc, pageIdx);
-                pdfPageInfo.Mediabox = boxes.Media;
-                pdfPageInfo.Cropbox = boxes.Crop;
-                pdfPageInfo.Trimbox = boxes.Trim;
-
-                p.close_pdi_page(page);
-
+                var pageInfo = ReadPageInfo(p, indoc, pageIdx);
                 p.close_pdi_document(indoc);
-
+                return pageInfo;
             }
             catch (PDFlibException e)
             {
+                LogException(e, nameof(GetPageInfo));
+                return new PdfPageInfo();
+            }
+        }
 
-                LogException(e, "GetPagesInfo");
+        private static PdfPageInfo ReadPageInfo(PDFlib p, int doc, int pageIndex)
+        {
+            var pageInfo = new PdfPageInfo();
+
+            int page = p.open_pdi_page(doc, pageIndex + 1, "");
+            try
+            {
+                if (TryGetPageRotation(p, doc, pageIndex, out double rotation))
+                {
+                    pageInfo.Rotate = rotation;
+                }
+
+                Boxes boxes = GetBoxes(p, doc, pageIndex);
+                pageInfo.Mediabox = boxes.Media;
+                pageInfo.Cropbox = boxes.Crop;
+                pageInfo.Trimbox = boxes.Trim;
             }
             finally
             {
-                p?.Dispose();
-
+                p.close_pdi_page(page);
             }
-            return pdfPageInfo;
+
+            return pageInfo;
+        }
+
+        private static bool TryGetPageRotation(PDFlib p, int doc, int pageIndex, out double rotation)
+        {
+            rotation = 0;
+            string rotatedType = p.pcos_get_string(doc, $"type:pages[{pageIndex}]/Rotate");
+            if (string.Equals(rotatedType, "number", StringComparison.OrdinalIgnoreCase))
+            {
+                rotation = p.pcos_get_number(doc, $"pages[{pageIndex}]/Rotate");
+                return true;
+            }
+
+            return false;
         }
 
         public static void SetFillStroke(PDFlib p, ColorPalette palette, PrimitiveAbstract primitive)
@@ -648,25 +638,20 @@ namespace JobSpace.Static.Pdf.Common
         public static int GetPageCount(string fullName)
         {
             // отримати кількість сторінок в pdf файлі
-            int pageCount = 0;
-            PDFlib p = null;
+            using var p = new PDFlib();
             try
             {
-                p = new PDFlib();
                 p.begin_document("", "");
                 int indoc = p.open_pdi_document(fullName, "");
-                pageCount = (int)p.pcos_get_number(indoc, "length:pages");
+                int pageCount = (int)p.pcos_get_number(indoc, "length:pages");
                 p.close_pdi_document(indoc);
+                return pageCount;
             }
             catch (PDFlibException e)
             {
-                LogException(e, "GetPageCount");
+                LogException(e, nameof(GetPageCount));
+                return 0;
             }
-            finally
-            {
-                p?.Dispose();
-            }
-            return pageCount;
         }
 
         public static void GetPdfCreatorApp(IFileSystemInfoExt file)
