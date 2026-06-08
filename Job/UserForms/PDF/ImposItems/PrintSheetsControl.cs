@@ -20,13 +20,13 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public EventHandler JustReassignPages { get; set; } = delegate { };
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public EventHandler OnPrintSheetDeleted { get; set; } = delegate { };
-        
+
         //int id = 1;
         GlobalImposParameters _imposParam;
         public PrintSheetsControl()
         {
             InitializeComponent();
-            olvColumnId.AspectGetter += (r) => objectListView1.Objects?.Cast<PrintSheet>().ToList().IndexOf( (PrintSheet)r)+1;
+            olvColumnId.AspectGetter += (r) => objectListView1.Objects?.Cast<PrintSheet>().ToList().IndexOf((PrintSheet)r) + 1;
             olvColumnFormat.AspectGetter += (r) => ((PrintSheet)r).GetFormatStr();
             olvColumnDesc.AspectGetter += (r) => ((PrintSheet)r).Description;
             olvColumnPlaceType.AspectGetter += (r) => ((PrintSheet)r).SheetPlaceType;
@@ -110,11 +110,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void tsb_loadPrintSheet_Click(object sender, EventArgs e)
         {
-             List<PrintSheet> list = _imposParam.Profile.ImposService.LoadPrintSheets();
+            List<PrintSheet> list = _imposParam.Profile.ImposService.LoadPrintSheets();
 
             objectListView1.AddObjects(list);
 
-            JustReassignPages(this,null);
+            JustReassignPages(this, null);
 
         }
 
@@ -134,7 +134,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                     objectListView1.RefreshObjects(objectListView1.SelectedObjects.Cast<object>().ToList());
                 }
-                
+
             }
         }
 
@@ -171,7 +171,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 form.CheckFileExists = true;
                 form.Filter = "JSON files (*.json)|*.json";
-                form.FileName = Path.GetDirectoryName(_imposParam.ProductPart.PdfFiles[0].FileName)+ "\\";
+                form.FileName = Path.GetDirectoryName(_imposParam.ProductPart.PdfFiles[0].FileName) + "\\";
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -182,13 +182,18 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
         }
 
-        public int[] GetSheetsIdxForPrint()
+        public int[]? GetSheetsIdxForPrint()
         {
             if (objectListView1.SelectedObjects.Count != 0)
             {
-               return objectListView1.SelectedIndices.Cast<int>().ToArray();
+                return objectListView1.SelectedIndices.Cast<int>().ToArray();
             }
             return null;
+        }
+
+        private void tsb_select_all_Click(object sender, EventArgs e)
+        {
+            objectListView1.SelectAll();
         }
     }
 }
