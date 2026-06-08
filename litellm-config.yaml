@@ -1,0 +1,13 @@
+model_list:
+  - model_name: google/gemma-4-12b-qat
+    litellm_params:
+      model: openai/google/gemma-4-12b-qat
+      api_base: http://127.0.0.1:1234/v1
+      api_key: lm-studio
+
+general_settings:
+  master_key: sk-1234  # Цей ключ авторизує Codex без бази даних
+
+litellm_settings:
+  disable_user_auth: true
+  drop_params: true

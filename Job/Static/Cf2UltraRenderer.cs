@@ -16,26 +16,26 @@ public class Cf2UltraRenderer
 
     private class CadSubBlock
     {
-        public string Name;
+        public string? Name;
         public List<CadLine> Lines = new List<CadLine>();
     }
 
     private class CadInstance
     {
-        public string SubName;
+        public string? SubName;
         public float X;
         public float Y;
         public float Angle;
     }
 
-    public static Bitmap RenderFullLayout(string filePath, float dpi)
+    public static Bitmap? RenderFullLayout(string filePath, float dpi)
     {
         var lines = File.ReadAllLines(filePath);
 
         var subBlocks = new Dictionary<string, CadSubBlock>();
         var instances = new List<CadInstance>();
 
-        CadSubBlock currentSub = null;
+        CadSubBlock? currentSub = null;
         bool inMain = false;
 
         // Крок 1: Парсинг файлу
