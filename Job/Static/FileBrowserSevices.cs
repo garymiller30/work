@@ -575,7 +575,7 @@ namespace JobSpace.Static
             string ext = f.FileInfo.Extension.ToLowerInvariant();
 
             // 1. Кеш для PDF/AI (якщо потрібно обмежити лише цими типами, або зробити загальним)
-            if (ext == ".pdf" || ext == ".ai")
+            if (IsPortableDocumentFormat(ext))
             {
                 return GetPreviewForVector(f, pageIdx, finalDpi, cacheOnly);
             }
@@ -602,11 +602,13 @@ namespace JobSpace.Static
             return null;
         }
 
+        private static bool IsPortableDocumentFormat(string ext) => ((ReadOnlySpan<string>)[".pdf", ".ai"]).Contains(ext);
+
         private static bool IsStandardImageFormat(string ext) =>
-            new[] { ".tif", ".tiff", ".png", ".bmp", ".jpg", ".jpeg" }.Contains(ext);
+            ((ReadOnlySpan<string>)[".tif", ".tiff", ".png", ".bmp", ".jpg", ".jpeg"]).Contains(ext);
 
         private static bool IsComplexFormat(string ext) =>
-            new[] { ".psd", ".eps", ".heic", ".ps" }.Contains(ext);
+            ((ReadOnlySpan<string>)[".psd", ".eps", ".heic", ".ps", ".svg"]).Contains(ext);
 
         private static Image? GetPreviewForVector(IFileSystemInfoExt f, int pageIdx, int dpi, bool cacheOnly)
         {
