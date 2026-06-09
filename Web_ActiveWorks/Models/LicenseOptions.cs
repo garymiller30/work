@@ -12,5 +12,5 @@ public sealed class LicenseOptions
 
     public int TokenLifetimeDays { get; set; } = 7;
 
-    public int GracePeriodDays { get; set; } = 7;
+    public int GracePeriodDays { get; set; } = 3;
 }
