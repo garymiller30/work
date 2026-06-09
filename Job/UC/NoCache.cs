@@ -10,13 +10,14 @@ using Interfaces;
 using JobSpace.Models;
 using JobSpace.Static;
 using Logger;
+using RtfPipe.Tokens;
 
 namespace JobSpace.UC
 {
     public sealed class NoCache : ICache<IFileSystemInfoExt>
     {
         private readonly IWatcher _watcher;
-        private List<string> _ignoreFolders = new List<string>() { "temp", ".signa", ".preview", ".impos" };
+        private HashSet<string> _ignoreFolders = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "temp", ".signa", ".preview", ".impos" };
         private readonly System.Timers.Timer _debounceTimer;
 
         readonly List<IFileSystemInfoExt> _files = new List<IFileSystemInfoExt>();
@@ -62,7 +63,11 @@ namespace JobSpace.UC
         {
             if (e.ChangeType == WatcherChangeTypes.Renamed)
             {
-                TriggerDebounce();
+                if (!IsIgnored(e.FullPath))
+                {
+                    TriggerDebounce();
+                }
+                    
             }
         }
 
@@ -70,7 +75,7 @@ namespace JobSpace.UC
         {
             if (e.ChangeType == WatcherChangeTypes.Created)
             {
-                if (!_ignoreFolders.Contains(e.Name.ToLowerInvariant(), StringComparer.OrdinalIgnoreCase))
+                if (!IsIgnored(e.FullPath))
                 {
                     TriggerDebounce();
                 }
@@ -81,7 +86,8 @@ namespace JobSpace.UC
         {
             if (e.ChangeType == WatcherChangeTypes.Deleted)
             {
-                TriggerDebounce();
+                if (!IsIgnored(e.FullPath))
+                    TriggerDebounce();
             }
         }
 
@@ -89,8 +95,27 @@ namespace JobSpace.UC
         {
             if (e.ChangeType == WatcherChangeTypes.Changed)
             {
-                TriggerDebounce();
+                if (!IsIgnored(e.FullPath))
+                {
+                    TriggerDebounce();
+                }
+                    
             }
+        }
+
+        private bool IsIgnored(string fullPath)
+        {
+            // Розділяємо шлях на компоненти (папки та файл)
+            var pathParts = fullPath.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+            foreach (var part in pathParts)
+            {
+                if (_ignoreFolders.Contains(part))
+                {
+                    return true; // Знайдено ігноровану папку в шляху
+                }
+            }
+            return false; // Не знайдено ігнорованих папок у шляху
         }
 
         ~NoCache()
