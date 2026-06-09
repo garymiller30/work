@@ -318,8 +318,30 @@ namespace ActiveWorks
             }
 
             var daysLeft = Math.Max(0, (int)Math.Ceiling((paidUntilUtc - DateTime.UtcNow).TotalDays));
-            toolStripStatusLabelUpdate.Text = $"Ліцензія активна: залишилось {daysLeft} {FormatDays(daysLeft)}.";
-            toolStripStatusLabelUpdate.ToolTipText = "Підписка оплачена до " + paidUntilUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm");
+
+            if (daysLeft == 0)
+            {
+
+                DateTime expired;
+                if (DateTime.TryParse(state.Payload.ExpiresAtUtc, null, System.Globalization.DateTimeStyles.RoundtripKind, out expired))
+                {
+                    if (expired.Kind != DateTimeKind.Utc)
+                    {
+                        expired = expired.ToUniversalTime();
+                    }
+                }
+                var daysLeftExpired = Math.Max(0, (int)Math.Ceiling((expired - DateTime.UtcNow).TotalDays));
+
+                toolStripStatusLabelUpdate.Text = $"Термін дії ліцензії закінчився. Пільговий період {daysLeftExpired} {FormatDays(daysLeftExpired)}.";
+                toolStripStatusLabelUpdate.ToolTipText = string.Empty;
+            }
+            else
+            {
+                toolStripStatusLabelUpdate.Text = $"Ліцензія активна: залишилось {daysLeft} {FormatDays(daysLeft)}.";
+                toolStripStatusLabelUpdate.ToolTipText = "Підписка оплачена до " + paidUntilUtc.ToLocalTime().ToString("dd.MM.yyyy HH:mm");
+            }
+
+           
         }
 
         private static string FormatDays(int days)

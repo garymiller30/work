@@ -17,13 +17,20 @@ public sealed class LicenseTokenService
 
     public string CreateToken(LicenseSubscription license, string machineId)
     {
+
+        var status = GetRuntimeStatus(license); // Отримуємо статус
+
+        // якщо статус "grace" і поточна дата більша або рівна за дату оплати, то потрібно ExpiresAtUtc встановити на дату оплати + GracePeriodDays
+
         var payload = new LicenseTokenPayload
         {
             LicenseId = license.LicenseId,
             CustomerId = license.CustomerId,
             MachineId = machineId,
             Status = GetRuntimeStatus(license),
-            ExpiresAtUtc = DateTimeOffset.UtcNow.AddDays(Math.Max(_options.TokenLifetimeDays, 1)).ToString("O"),
+            ExpiresAtUtc = status == "grace" 
+            ? license.PaidUntilUtc.AddDays(_options.GracePeriodDays).ToString("O")
+            : DateTimeOffset.UtcNow.AddDays(Math.Max(_options.TokenLifetimeDays, 1)).ToString("O"),
             PaidUntilUtc = license.PaidUntilUtc.ToString("O"),
             Features = BuildRuntimeFeatures(license)
         };
