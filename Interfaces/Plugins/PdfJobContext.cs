@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Interfaces.Plugins
 {
@@ -13,5 +14,6 @@ namespace Interfaces.Plugins
         public List<string> ProcessingFiles { get; set; } = new List<string>();
         public IFileManager FileManager { get; set; }
         public IUserProfile UserProfile { get; set; }
+        public string CurrentDir { get; set; }
     }
 }

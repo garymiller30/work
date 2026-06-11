@@ -32,7 +32,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
         /// ширина корінця (root)
         /// </summary>
         public double Root { get; set; }
-        public string FolderOutput { get; set; }
+        
         public bool CreateSchema { get; set; }
         public bool SaveSchema { get; set; }
         public bool CreateFilePlusSchema { get; set; }
