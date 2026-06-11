@@ -39,9 +39,9 @@
     <PackageReference Include="itext.commons" Version="9.6.0" />
     <PackageReference Include="iTextSharp" Version="5.5.13.5" />
     <PackageReference Include="Krypton.Toolkit" Version="105.26.4.110" />
-    <PackageReference Include="Magick.NET.Core" Version="14.13.1" />
-    <PackageReference Include="Magick.NET.SystemDrawing" Version="8.0.22" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.13.1" />
+    <PackageReference Include="Magick.NET.Core" Version="14.14.0" />
+    <PackageReference Include="Magick.NET.SystemDrawing" Version="8.0.23" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.14.0" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.7" />
@@ -50,13 +50,13 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.7" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="10.0.7" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
-    <PackageReference Include="MongoDB.Bson" Version="3.8.1" />
-    <PackageReference Include="MongoDB.Driver" Version="3.8.1" />
+    <PackageReference Include="MongoDB.Bson" Version="3.9.0" />
+    <PackageReference Include="MongoDB.Driver" Version="3.9.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="ObjectListView.Repack.NET6Plus" Version="2.9.5" />
     <PackageReference Include="PDFiumSharpV2" Version="1.1.4" />
     <PackageReference Include="QRCoder" Version="1.8.0" />
-    <PackageReference Include="SharpCompress" Version="0.48.0" />
+    <PackageReference Include="SharpCompress" Version="0.49.1" />
     <PackageReference Include="SkiaSharp" Version="3.119.2" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.2" />
     <PackageReference Include="SkiaSharp.NativeAssets.macOS" Version="3.119.2" />

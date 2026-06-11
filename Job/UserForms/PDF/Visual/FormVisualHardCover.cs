@@ -14,16 +14,35 @@ namespace JobSpace.UserForms.PDF.Visual
 {
     public partial class FormVisualHardCover : Form
     {
-        IFileSystemInfoExt _fileInfo;
+        IFileSystemInfoExt? _fileInfo;
+        bool _previewEnabled = false;
+
         public HardCoverParams CoverParams { get; set; }
         List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
-        public FormVisualHardCover(IFileSystemInfoExt f)
+        public FormVisualHardCover(IFileSystemInfoExt? f)
         {
             InitializeComponent();
 
             _fileInfo = f;
 
-            uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
+            _previewEnabled = f != null;
+            if (_previewEnabled)
+                uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
+
+            DisableUIIfNoFile();
+        }
+
+        private void DisableUIIfNoFile()
+        {
+            if (_previewEnabled) return;
+
+            cb_create_schema.Checked = true;
+            
+            cb_create_file_plus_chema.Checked = false;
+            cb_create_file_plus_chema.Enabled = false;
+
+            btn_load_schema.Enabled = false;
+
 
         }
 
@@ -36,7 +55,9 @@ namespace JobSpace.UserForms.PDF.Visual
             return _primitives;
         }
 
-        void Redraw() => uc_PreviewBrowserFile1.Redraw();
+        void Redraw() {
+            if (_previewEnabled) uc_PreviewBrowserFile1.Redraw();
+        } 
 
         private void CalcSchemaAuto()
         {
@@ -127,8 +148,11 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void FormVisualHardCover_Shown(object sender, EventArgs e)
         {
-            uc_PreviewBrowserFile1.Show(_fileInfo);
-            CalcSchemaAuto();
+            if (_previewEnabled)
+            {
+                uc_PreviewBrowserFile1.Show(_fileInfo!);
+                CalcSchemaAuto();
+            }
             ShowTotalCoverSize();
         }
         HardCoverParams CreateParameters()
@@ -145,15 +169,9 @@ namespace JobSpace.UserForms.PDF.Visual
                 Zagyn = (double)nud_zagyn.Value,
                 Rastav = (double)nud_rastav.Value,
                 Root = (double)nud_root.Value,
-                FolderOutput = Path.GetDirectoryName(_fileInfo.FileInfo.FullName)
             };
         }
-        void SaveSchema(HardCoverParams coverParams)
-        {
-            var targetFile = Path.Combine(Path.GetDirectoryName(_fileInfo.FullName), $"{Path.GetFileNameWithoutExtension(_fileInfo.FullName)}.hcschema");
-            var strJson = System.Text.Json.JsonSerializer.Serialize<HardCoverParams>(coverParams, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(targetFile, strJson);
-        }
+        
         private void btn_load_schema_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -201,10 +219,6 @@ namespace JobSpace.UserForms.PDF.Visual
             }
 
             CoverParams = CreateParameters();
-            if (CoverParams.SaveSchema)
-            {
-                SaveSchema(CoverParams);
-            }
 
             DialogResult = DialogResult.OK;
             Close();

@@ -459,7 +459,8 @@ namespace JobSpace.UC
                     .Distinct(StringComparer.InvariantCultureIgnoreCase)
                     .ToList(),
                 FileManager = _fileManager,
-                UserProfile = UserProfile
+                UserProfile = UserProfile,
+                CurrentDir = _fileManager.Settings.CurFolder
             };
         }
 
