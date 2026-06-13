@@ -413,119 +413,119 @@ namespace JobSpace.UserForms.PDF
             // colEnabled
             // 
             colEnabled.HeaderText = "✓";
-            colEnabled.Name = "colEnabled";
+            colEnabled.Name = "Enabled";
             colEnabled.Width = 28;
             // 
             // colType
             // 
             colType.HeaderText = "Шар";
             colType.Items.AddRange(new object[] { "Основа PDF", "PDF", "Текст", "Код" });
-            colType.Name = "colType";
+            colType.Name = "Type";
             colType.Width = 88;
             // 
             // colSource
             // 
             colSource.HeaderText = "Файл/колонка/текст";
-            colSource.Name = "colSource";
+            colSource.Name = "Source";
             colSource.Width = 150;
             // 
             // colX
             // 
             colX.HeaderText = "X мм";
-            colX.Name = "colX";
+            colX.Name = "X";
             colX.Width = 58;
             // 
             // colYmm
             // 
             colYmm.HeaderText = "Y мм";
-            colYmm.Name = "colYmm";
+            colYmm.Name = "Ymm";
             colYmm.Width = 58;
             // 
             // colBaseAnchor
             // 
             colBaseAnchor.HeaderText = "Від основи";
             colBaseAnchor.Items.AddRange(new object[] { "лівий нижній", "лівий центр", "лівий верхній", "центр нижній", "центр", "центр верхній", "правий нижній", "правий центр", "правий верхній" });
-            colBaseAnchor.Name = "colBaseAnchor";
+            colBaseAnchor.Name = "BaseAnchor";
             colBaseAnchor.Width = 112;
             // 
             // colAnchor
             // 
             colAnchor.HeaderText = "Прив'язка";
             colAnchor.Items.AddRange(new object[] { "лівий нижній", "лівий центр", "лівий верхній", "центр нижній", "центр", "центр верхній", "правий нижній", "правий центр", "правий верхній" });
-            colAnchor.Name = "colAnchor";
+            colAnchor.Name = "Anchor";
             colAnchor.Width = 112;
             // 
             // colRotation
             // 
             colRotation.HeaderText = "°";
-            colRotation.Name = "colRotation";
+            colRotation.Name = "Rotation";
             colRotation.Width = 44;
             // 
             // colScale
             // 
             colScale.HeaderText = "%";
-            colScale.Name = "colScale";
+            colScale.Name = "Scale";
             colScale.Width = 46;
             // 
             // colCodeType
             // 
             colCodeType.HeaderText = "Тип коду";
             colCodeType.Items.AddRange(new object[] { "Code-128", "EAN-13", "EAN-8", "QR" });
-            colCodeType.Name = "colCodeType";
+            colCodeType.Name = "CodeType";
             colCodeType.Width = 82;
             // 
             // colTargetWidth
             // 
             colTargetWidth.HeaderText = "Ш код мм";
-            colTargetWidth.Name = "colTargetWidth";
+            colTargetWidth.Name = "TargetWidth";
             colTargetWidth.Width = 70;
             // 
             // colTargetHeight
             // 
             colTargetHeight.HeaderText = "В код мм";
-            colTargetHeight.Name = "colTargetHeight";
+            colTargetHeight.Name = "TargetHeight";
             colTargetHeight.Width = 70;
             // 
             // colShowText
             // 
             colShowText.HeaderText = "текст";
-            colShowText.Name = "colShowText";
+            colShowText.Name = "ShowText";
             colShowText.Width = 46;
             // 
             // colFont
             // 
             colFont.HeaderText = "Шрифт";
-            colFont.Name = "colFont";
+            colFont.Name = "Font";
             colFont.Width = 120;
             // 
             // colFontSize
             // 
             colFontSize.HeaderText = "pt";
-            colFontSize.Name = "colFontSize";
+            colFontSize.Name = "FontSize";
             colFontSize.Width = 44;
             // 
             // colC
             // 
             colC.HeaderText = "C";
-            colC.Name = "colC";
+            colC.Name = "C";
             colC.Width = 38;
             // 
             // colM
             // 
             colM.HeaderText = "M";
-            colM.Name = "colM";
+            colM.Name = "M";
             colM.Width = 38;
             // 
             // colColorY
             // 
             colColorY.HeaderText = "Y";
-            colColorY.Name = "colColorY";
+            colColorY.Name = "ColorY";
             colColorY.Width = 38;
             // 
             // colK
             // 
             colK.HeaderText = "K";
-            colK.Name = "colK";
+            colK.Name = "K";
             colK.Width = 38;
             // 
             // _layerButtonsPanel
