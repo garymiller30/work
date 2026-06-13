@@ -759,7 +759,7 @@ namespace JobSpace.UserForms.PDF
             {
                 _basePdfTextBox.Text = settings.BasePdfPath ?? string.Empty;
                 _dataTextBox.Text = settings.DataFilePath ?? string.Empty;
-                _outputTextBox.Text = settings.OutputFolder ?? string.Empty;
+                //_outputTextBox.Text = settings.OutputFolder ?? string.Empty;
                 _exportModeComboBox.SelectedItem = ExportModes.FirstOrDefault(x => x.Value == settings.ExportMode).Key ?? "Все окремими файлами";
                 _exportRowsTextBox.Text = settings.ExportRows ?? string.Empty;
                 _layersGrid.Rows.Clear();
