@@ -10,10 +10,9 @@ namespace Interfaces.Plugins
 {
     public class PdfJobContext
     {
-        public List<IFileSystemInfoExt> InputFiles {get;set;} = new List<IFileSystemInfoExt>();
+        public List<IFileSystemInfoExt> InputFiles { get; set; } = new List<IFileSystemInfoExt>();
         public List<string> ProcessingFiles { get; set; } = new List<string>();
         public IFileManager FileManager { get; set; }
         public IUserProfile UserProfile { get; set; }
-        public string CurrentDir { get; set; }
     }
 }

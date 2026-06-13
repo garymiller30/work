@@ -460,7 +460,6 @@ namespace JobSpace.UC
                     .ToList(),
                 FileManager = _fileManager,
                 UserProfile = UserProfile,
-                CurrentDir = _fileManager.Settings.CurFolder
             };
         }
 

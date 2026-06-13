@@ -61,7 +61,7 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
 
             if (context.InputFiles.Count == 0)
             {
-                var file = Path.Combine(context.CurrentDir, "hard_cover.pdf");
+                var file = Path.Combine(context.FileManager.Settings.CurFolder, "hard_cover.pdf");
 
                 if (_coverParams.CreateSchema)
                 {

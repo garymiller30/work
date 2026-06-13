@@ -22,7 +22,8 @@ namespace JobSpace.Static.Pdf.Merge
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     files = form.ConvertFiles.Select(x=>x.FullName).ToList();
-                    return true;
+
+                    return files.Any() ? true : false;
                 }
             }
             return false;
@@ -30,9 +31,14 @@ namespace JobSpace.Static.Pdf.Merge
 
         public void Execute(PdfJobContext context)
         {
-            string fileName = Path.Combine(Path.GetDirectoryName(files[0]), $"{Path.GetFileNameWithoutExtension(files[0])}_merged.pdf");
 
-            PDFlib p = new PDFlib();
+            string? directory = files.Any() ? Path.GetDirectoryName(files[0]) : null;
+
+            if (string.IsNullOrEmpty(directory)) return;
+
+            string fileName = Path.Combine(directory, $"{Path.GetFileNameWithoutExtension(files[0])}_merged.pdf");
+
+            using PDFlib p = new PDFlib();
 
             try
             {
@@ -74,10 +80,6 @@ namespace JobSpace.Static.Pdf.Merge
             {
                 PdfHelper.LogException(e, "PdfMerger");
             }
-            finally { p?.Dispose(); }
-
-
-            
         }
     }
 }
