@@ -16,7 +16,7 @@ using Interfaces.Licensing;
 
 namespace JobSpace.Static.Pdf.Convert
 {
-    [PdfTool("", "Конвертувати в PDF", Order = 0, Icon = "convert", Description = "Конвертувати в PDF файли з розширенням jpg, png, jpeg, tif, tiff, svg, psd, ai", SeparatorAfter = true, IsBackgroundTask = true)]
+    [PdfTool("", "Конвертувати в PDF", Order = 0, Icon = "convert", Description = "Конвертувати файли з розширенням jpg, png, jpeg, tif, tiff, svg, psd, ai в PDF", SeparatorAfter = true, IsBackgroundTask = true)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfConvert : IPdfTool
     {

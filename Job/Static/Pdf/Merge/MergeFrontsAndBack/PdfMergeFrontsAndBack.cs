@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Merge.MergeFrontsAndBack
 {
-    [PdfTool("З'єднати", "Лице + Зворот",Description ="З'єднати файли в один, де лице - різні сторінки, а зворот загальний - один для всіх",Icon = "merge_front_and_back",Order = 3)]
+    [PdfTool("З'єднати", "з'єднати Лице + Зворот",Description ="З'єднати файли в один, де лице - різні сторінки, а зворот загальний - один для всіх",Icon = "merge_front_and_back",Order = 3)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfMergeFrontsAndBack : IPdfTool
     {

@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace JobSpace.Static.Pdf.Create.BigovkaMarks
 {
-    [PdfTool("Візуалізація", "Біговка", Description = "Перевірити лінії біговок, візуалізація біговок, перевірити згинання", Icon = "visual_bigovka", Order = 1)]
+    [PdfTool("Візуалізація", "візуалізація біговки", Description = "Перевірити лінії біговок, візуалізація біговок, перевірити згинання", Icon = "visual_bigovka", Order = 1)]
     public class CreateBigovkaMarks : IPdfTool
     {
         const double COEF_DIMENSION = 0.3;

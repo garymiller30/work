@@ -7,7 +7,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Add
 {
-    [PdfTool("Додати", "Прямокутник (Cut)", Icon = "create_rectangle_cut", Order = 2,Description ="Додати прямокутник (cut) до файлу")]
+    [PdfTool("Додати", "додати прямокутник (Cut)", Icon = "create_rectangle_cut", Order = 2,Description ="Додати прямокутник (cut) по обрізному формату до файлу")]
     public sealed class PdfAddCutRectangle : IPdfTool
     {
         public bool Configure(PdfJobContext context)

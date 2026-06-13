@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Створити", "нумеровані файли (1. 2. 3...)",Description ="Створити нумеровані файли (1. 2. 3...)", Order = 4, Icon = "numeric_files")]
+    [PdfTool("Створити", "створити нумеровані файли (1. 2. 3...)",Description ="Створити нумеровані файли (1. 2. 3...)", Order = 4, Icon = "numeric_files")]
     public class PdfNumericFiles : IPdfTool
     {
         List<IFileSystemInfoExt> sortedFiles;
