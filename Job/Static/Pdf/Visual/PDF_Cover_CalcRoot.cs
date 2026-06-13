@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Visual
 {
-    [PdfTool("Візуалізація","Розрахунок товщини корінця для палітурки",Order = 20,Icon = "visual_cover_spine")]
+    [PdfTool("Візуалізація","Розрахунок товщини корінця для палітурки",Description = "Розрахунок товщини корінця для палітурки/обкладинки в залежності від кількості сторінок і щільності паперу",Order = 20,Icon = "visual_cover_spine")]
     public class PDF_Cover_CalcRoot : IPdfTool
     {
         public bool Configure(PdfJobContext context)

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Split
 {
-    [PdfTool("Розділити", "розвороти", Description = "Розділити розвороти сторінок", Icon = "split_razvorot", Order = 30)]
+    [PdfTool("Розділити", "розвороти", Description = "Розділити сторінки, які зібрані як на скобу - розворотом", Icon = "split_razvorot", Order = 30)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfSpliter : IPdfTool
     {

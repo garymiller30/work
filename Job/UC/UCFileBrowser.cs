@@ -39,6 +39,7 @@ namespace JobSpace.UC
         private const string PdfToolUsageMenuItemName = "pdfToolUsageStatsToolStripMenuItem";
         private const string ObjectListViewDragSourceFormat = "JobSpace.UC.UCFileBrowser.ObjectListViewDragSource";
         private const string InstallFontsMenuItemName = "installFontsToolStripMenuItem";
+        private const string PdfAssistantMenuItemName = "pdfAssistantToolStripMenuItem";
         private const int HWND_BROADCAST = 0xffff;
         private const int WM_FONTCHANGE = 0x001D;
         private const int SMTO_ABORTIFHUNG = 0x0002;
@@ -76,6 +77,7 @@ namespace JobSpace.UC
             InitializeComponent();
 
             InitInstallFontsContextMenuItem();
+            InitPdfAssistantContextMenuItem();
             InitFileManager();
             InitListView();
 
@@ -1130,6 +1132,46 @@ namespace JobSpace.UC
                 insertIndex = contextMenuStrip1.Items.Count;
 
             contextMenuStrip1.Items.Insert(insertIndex, _installFontsToolStripMenuItem);
+        }
+
+        private void InitPdfAssistantContextMenuItem()
+        {
+            if (contextMenuStrip1.Items.ContainsKey(PdfAssistantMenuItemName))
+                return;
+
+            var assistantItem = new ToolStripMenuItem
+            {
+                Name = PdfAssistantMenuItemName,
+                Text = "Запитати асистента...",
+                Image = System.Drawing.SystemIcons.Question.ToBitmap()
+            };
+            assistantItem.Click += PdfAssistantItem_Click;
+
+            int insertIndex = contextMenuStrip1.Items.IndexOf(утилітиДляPDFToolStripMenuItem);
+            if (insertIndex >= 0)
+            {
+                contextMenuStrip1.Items.Insert(insertIndex + 1, assistantItem);
+            }
+            else
+            {
+                contextMenuStrip1.Items.Add(assistantItem);
+            }
+        }
+
+        private void PdfAssistantItem_Click(object sender, EventArgs e)
+        {
+            var context = CreateContext();
+            if (context.ProcessingFiles.Count == 0)
+            {
+                MessageBox.Show(this, "Будь ласка, виберіть файли для обробки перед зверненням до асистента.", "Файли не вибрано", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var availableTools = _fileManager.LoadPdfTools();
+            using (var assistantForm = new JobSpace.UserForms.PDF.FormPdfAssistant(context, availableTools))
+            {
+                assistantForm.ShowDialog(this);
+            }
         }
 
         private void UpdateInstallFontsMenuItem()

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.ToJpg
 {
-    [PdfTool("", "Конвертувати PDF в JPG", Icon = "convert_to_jpg")]
+    [PdfTool("", "Конвертувати PDF в JPG", Icon = "convert_to_jpg", Description = "зберегти як прев'ю, зберегти як jpeg")]
     public sealed class PdfToJpg : IPdfTool
     {
         PdfToJpgParams _params;

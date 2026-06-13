@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Додати","Додати формат до імені файлу",Icon = "add_page_size", Order =2)]
+    [PdfTool("Додати","Додати формат до імені файлу",Icon = "add_page_size", Order =2,Description ="додати формат сторінки (ширину і висоту) до імені файлу")]
     public class PdfAddFormatToFileName : IPdfTool
     {
         public bool Configure(PdfJobContext context)

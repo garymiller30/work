@@ -8,7 +8,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Split
 {
-    [PdfTool("Розділити", "парні і непарні сторінки",Icon = "split_odd_even",Order =30)]
+    [PdfTool("Розділити", "парні і непарні сторінки",Description ="документ розділяється на парні і непарні сторінки. Ростворюється два документи: в одному парні, в іншому непарні сторінки",Icon = "split_odd_even",Order =30)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfSplitOddAndEven : IPdfTool
     {

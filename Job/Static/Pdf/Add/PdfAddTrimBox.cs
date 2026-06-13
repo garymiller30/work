@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Add
 {
-    [PdfTool("Додати", "Додати TrimBox до PDF",Icon = "add_trimbox",Order = 2)]
+    [PdfTool("Додати", "Додати TrimBox до PDF",Icon = "add_trimbox",Description = "додати/змінити обрізне поле (trimbox)", Order = 2)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfAddTrimBox : IPdfTool
     {

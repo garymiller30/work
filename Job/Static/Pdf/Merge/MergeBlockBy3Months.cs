@@ -8,7 +8,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Merge
 {
-    [PdfTool("Квартальний календар","З'єднати блок по 3 місяці",Order = 40)]
+    [PdfTool("Квартальний календар","З'єднати блок по 3 місяці",Order = 40,Description ="об'єднує блок календарної сітки по 3 місяці на одну сторінку")]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class MergeBlockBy3Months : IPdfTool
     {

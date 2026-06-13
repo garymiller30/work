@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Visual
 {
-    [PdfTool("Візуалізація", "Виштовхування при кріпленні на скобу", Icon = "visual_saddle_stitch_creep", Order = 20)]
+    [PdfTool("Візуалізація", "Виштовхування при кріпленні на скобу",Description ="створюється новий документ з урахуванням виштовхування при кріпленні на скобу. Враховується щільність/товщина паперу", Icon = "visual_saddle_stitch_creep", Order = 20)]
     public class PDF_VisualSaddleStitchCreep : IPdfTool
     {
         decimal _thickness;

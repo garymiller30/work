@@ -17,7 +17,7 @@ using System.Text;
 
 namespace JobSpace.Static.Pdf.Manipulation
 {
-    [PdfTool("Маніпуляції з файлом", "Перейменувати Spot колір", Icon = "spot_color_change", Order =5)]
+    [PdfTool("Маніпуляції з файлом", "Перейменувати Spot колір",Description ="замінити/перейменувати Spot колір на інший в PDF", Icon = "spot_color_change", Order =5)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfSpotColorRenamer : IPdfTool
     {

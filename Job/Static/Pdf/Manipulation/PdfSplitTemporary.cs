@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace JobSpace.Static.Pdf.Manipulation
 {
-    [PdfTool("Маніпуляції з файлом", "• Розділити тимчасово зібраний файл",Icon = "split_temporary_file",Order =5)]
+    [PdfTool("Маніпуляції з файлом", "• Розділити тимчасово зібраний файл", Description ="розділяє файл, що був збережениий у тимчасовому режимі з додатковим файлом .json",Icon = "split_temporary_file",Order =5)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfSplitTemporary : IPdfTool
     {
