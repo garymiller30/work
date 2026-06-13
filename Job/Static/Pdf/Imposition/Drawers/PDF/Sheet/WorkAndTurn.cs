@@ -106,7 +106,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
             // draw foreground marks
             DrawFrontMarks(p, impos, sheet, foreground: true, imposParameters);
             DrawBackMarks(p, impos, sheet, foreground: true, imposParameters);
-            p.end_layer();
+            
             p.end_page_ext($"mediabox={{{GetMediabox(impos, sheet)}}}");
         }
     }

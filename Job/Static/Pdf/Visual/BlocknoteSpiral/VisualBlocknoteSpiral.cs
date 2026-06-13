@@ -57,8 +57,8 @@ namespace JobSpace.Static.Pdf.Visual.BlocknoteSpiral
                     int doc = p.open_pdi_document(file, "");
                     double pagecount = p.pcos_get_number(doc, "length:pages");
 
-                    int l_print = p.define_layer("print", "");
-                    int v_layer = p.define_layer("ProofColor", "");
+                    int l_print = p.define_layer(Constants.PRINT_STRING, "");
+                    int v_layer = p.define_layer(Constants.PROOF_STRING, "");
 
                     for (int i = 1; i <= pagecount; i++)
                     {

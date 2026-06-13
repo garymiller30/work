@@ -73,8 +73,8 @@ namespace JobSpace.Static.Pdf.Create.Falc
 
                 p.begin_document(targetfile, "optimize=true");
 
-                int l_print = p.define_layer("print", "");
-                int v_layer = p.define_layer("visual", "");
+                int l_print = p.define_layer(Constants.PRINT_STRING, "");
+                int v_layer = p.define_layer(Constants.PROOF_STRING, "");
 
                 int doc = -1;
                 if (fileAndSchema)

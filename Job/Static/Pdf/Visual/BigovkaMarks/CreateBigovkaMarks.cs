@@ -75,8 +75,8 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
 
                 p.begin_document(targetFile, "optimize=true");
 
-                int p_layer = p.define_layer("print", "");
-                int v_layer = p.define_layer("visual", "");
+                int p_layer = p.define_layer(Constants.PRINT_STRING, "");
+                int v_layer = p.define_layer(Constants.PROOF_STRING, "");
 
                 int doc = p.open_pdi_document(filePath, "");
                 int page_count = (int)p.pcos_get_number(doc, "length:pages");

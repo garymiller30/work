@@ -126,8 +126,8 @@ namespace JobSpace.Static.Pdf.Visual.HardCover
 
                 p.begin_page_ext(totalWidth, totalHeight, "");
 
-                int l_print = p.define_layer("print", "");
-                int v_layer = p.define_layer("visual", "");
+                int l_print = p.define_layer(Constants.PRINT_STRING, "");
+                int v_layer = p.define_layer(Constants.PROOF_STRING, "");
 
                 if (filePlusSchema)
                 {

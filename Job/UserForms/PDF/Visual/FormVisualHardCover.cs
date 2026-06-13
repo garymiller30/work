@@ -37,7 +37,7 @@ namespace JobSpace.UserForms.PDF.Visual
             if (_previewEnabled) return;
 
             cb_create_schema.Checked = true;
-            
+
             cb_create_file_plus_chema.Checked = false;
             cb_create_file_plus_chema.Enabled = false;
 
@@ -55,9 +55,10 @@ namespace JobSpace.UserForms.PDF.Visual
             return _primitives;
         }
 
-        void Redraw() {
+        void Redraw()
+        {
             if (_previewEnabled) uc_PreviewBrowserFile1.Redraw();
-        } 
+        }
 
         private void CalcSchemaAuto()
         {
@@ -171,7 +172,7 @@ namespace JobSpace.UserForms.PDF.Visual
                 Root = (double)nud_root.Value,
             };
         }
-        
+
         private void btn_load_schema_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -250,6 +251,17 @@ namespace JobSpace.UserForms.PDF.Visual
             {
                 Cursor = Cursors.Default;
             }
+        }
+
+        private void nud_block_w_ValueChanged(object sender, EventArgs e)
+        {
+            if (nud_block_w.Value > 2)
+                nud_width.Value = nud_block_w.Value - 2;
+        }
+
+        private void nud_block_h_ValueChanged(object sender, EventArgs e)
+        {
+            nud_height.Value = nud_block_h.Value + 6;
         }
     }
 }

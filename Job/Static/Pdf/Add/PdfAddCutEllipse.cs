@@ -47,8 +47,8 @@ namespace JobSpace.Static.Pdf.Add
 
                     p.begin_document(outfile, "optimize=true");
 
-                    var layer_print = p.define_layer("print", "");
-                    var layer_cut = p.define_layer("cut", "");
+                    var layer_print = p.define_layer(Constants.PRINT_STRING, "");
+                    var layer_cut = p.define_layer(Constants.CUT_STRING, "");
 
                     for (int i = 1; i <= page_count; i++)
                     {
@@ -68,7 +68,7 @@ namespace JobSpace.Static.Pdf.Add
                         p.set_gstate(gstate);
 
                         p.setcolor("fillstroke", "cmyk", 0, 1, 1, 0);
-                        int spot = p.makespotcolor("cut");
+                        int spot = p.makespotcolor(Constants.CUT_STRING);
 
                         p.setlinewidth(1.0);
 
@@ -77,7 +77,7 @@ namespace JobSpace.Static.Pdf.Add
                         p.stroke();
 
                         p.close_pdi_page(pagehdl);
-                        p.end_layer();
+                        
                         p.end_page_ext($"trimbox {{{trimbox.left} {trimbox.bottom} {trimbox.left + trimbox.width} {trimbox.height + trimbox.bottom}}}");
                     }
                     p.end_document("");

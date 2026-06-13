@@ -15,8 +15,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 {
     public class PdfDrawer
     {
-        private const string PDF_LAYER_PRINT = "Print";
-        private const string PDF_LAYER_PROOF = "Proof";
         private const string PDF_OPTIMIZE_PARAM = "optimize=true";
 
         public event EventHandler<int>? StartEvent;
@@ -137,8 +135,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
         private void InitializeLayers(PDFlib p)
         {
-            _imposParam.PdfDrawParameters.LayerPrint = p.define_layer(PDF_LAYER_PRINT, "");
-            _imposParam.PdfDrawParameters.LayerProof = p.define_layer(PDF_LAYER_PROOF, "");
+            _imposParam.PdfDrawParameters.LayerPrint = p.define_layer(Constants.PRINT_STRING, "");
+            _imposParam.PdfDrawParameters.LayerProof = p.define_layer(Constants.PROOF_STRING, "");
         }
 
         private int[] GetSheetIndices(ProductPart impos) => CustomSheets ?? Enumerable.Range(0, impos.PrintSheets.Count).ToArray();

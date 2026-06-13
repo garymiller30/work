@@ -100,8 +100,8 @@ namespace JobSpace.Static.Pdf
                         throw new InvalidOperationException(p.get_errmsg());
 
                     // Визначаємо шари один раз на рівні документа
-                    int printLayer = p.define_layer("print", "");
-                    int proofLayer = p.define_layer("proof", "");
+                    int printLayer = p.define_layer(Constants.PRINT_STRING, "");
+                    int proofLayer = p.define_layer(Constants.PROOF_STRING, "");
 
                     double bleed = Math.Max(0, bleedMm) * PdfHelper.mn;
                     double spreadWidth = bleed + firstTrimBox.width + firstTrimBox.width + bleed;
