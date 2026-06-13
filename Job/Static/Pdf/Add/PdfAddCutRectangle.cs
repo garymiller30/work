@@ -50,8 +50,8 @@ namespace JobSpace.Static.Pdf.Add
 
                         Boxes boxes = PdfHelper.GetBoxes(p, indoc, i - 1);
 
-                        var layer_print = p.define_layer("print", "");
-                        var layer_cut = p.define_layer("cut", "");
+                        var layer_print = p.define_layer(Constants.PRINT_STRING, "");
+                        var layer_cut = p.define_layer(Constants.PRINT_STRING, "");
 
                         p.begin_page_ext(0, 0, "");
                         p.begin_layer(layer_print);
@@ -62,7 +62,7 @@ namespace JobSpace.Static.Pdf.Add
                         p.set_gstate(gstate);
 
                         p.setcolor("fillstroke", "cmyk", 0, 1, 1, 0);
-                        int spot = p.makespotcolor("cut");
+                        int spot = p.makespotcolor(Constants.CUT_STRING);
 
                         p.setlinewidth(1.0);
 
@@ -77,7 +77,6 @@ namespace JobSpace.Static.Pdf.Add
                         p.stroke();
 
                         p.close_pdi_page(pagehdl);
-                        p.end_layer();
                         p.end_page_ext("");
                     }
                     p.end_document("");

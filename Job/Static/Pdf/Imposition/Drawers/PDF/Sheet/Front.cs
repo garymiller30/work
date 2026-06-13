@@ -68,15 +68,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 }
                 DrawCropMarks.Front(p, templatePage);
 
-                
-
                 Proof.DrawPage(p, templatePage, templatePage.Front, impos.Proof,imposParameters);
             }
             
             // draw foreground marks
             DrawFrontMarks(p, impos, sheet, foreground: true, imposParameters);
 
-            p.end_layer();
+           
             p.end_page_ext($"mediabox={{{GetMediabox(impos, sheet)}}}");
         }
 

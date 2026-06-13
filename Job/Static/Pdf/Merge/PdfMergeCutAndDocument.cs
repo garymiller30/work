@@ -64,8 +64,8 @@ namespace JobSpace.Static.Pdf.Merge
                     int doc = p.open_pdi_document(file.FullName, "");
                     double pagecount = p.pcos_get_number(doc, "length:pages");
 
-                    int l_print = p.define_layer("print", "");
-                    int v_layer = p.define_layer("cut", "");
+                    int l_print = p.define_layer(Constants.PRINT_STRING, "");
+                    int v_layer = p.define_layer(Constants.CUT_STRING, "");
 
                     int doc_cut = p.open_pdi_document(cutFile.FullName, "");
                     int p_cut = p.open_pdi_page(doc_cut, 1, "");
@@ -88,7 +88,7 @@ namespace JobSpace.Static.Pdf.Merge
                         p.fit_pdi_page(p_cut, 0, 0, "");
 
                         p.close_pdi_page(page_handle);
-                        p.end_layer();
+                       
                         p.end_page_ext($"trimbox {{{boxes.Trim.left} {boxes.Trim.bottom} {boxes.Trim.width + boxes.Trim.left} {boxes.Trim.bottom + boxes.Trim.height}}}");
                     }
                     p.close_pdi_document(doc);
@@ -98,7 +98,7 @@ namespace JobSpace.Static.Pdf.Merge
                 }
                 catch (PDFlibException e)
                 {
-                    PdfHelper.LogException(e, "VisualBlocknoteSpiral");
+                    PdfHelper.LogException(e, "PdfMergeCutAndDocument");
                 }
             }
         }
