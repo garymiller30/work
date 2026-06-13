@@ -7,7 +7,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Rearange
 {
-    [PdfTool("Квартальний календар", "14 -> 36", Order = 40)]
+    [PdfTool("Квартальний календар", "14 -> 36",Description ="підготувати квартальну календарну сітку для друку 12 листів. На вхідному файлі має бути 14 сторінок: грудень попереднього року, 12 місяців нового року, січень, що наступний за новим роком. На виході буде файл 12 сторінок, де на сторінці буде три місяці: попередній, поточний і наступний", Order = 40)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class RearangePagesForQuartalCalendar : IPdfTool
     {

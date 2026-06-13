@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Manipulation.Repeat.Document
 {
-    [PdfTool("Маніпуляції з файлом", "Повторити документ (123-123-123)",Icon = "duplicate_document",Order =5)]
+    [PdfTool("Маніпуляції з файлом", "Повторити документ (123-123-123)",Description ="повторити/дублювати документ вказану кількість разів (123-123-123)",Icon = "duplicate_document",Order =5)]
     public class PdfRepeatDocument : IPdfTool
     {
         PdfRepeatDocumentParams _params;

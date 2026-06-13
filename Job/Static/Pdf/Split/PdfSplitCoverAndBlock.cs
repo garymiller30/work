@@ -7,7 +7,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Split
 {
-    [PdfTool("Розділити", "на обкладинку та блок",Icon = "split_cover_and_block",Order = 30)]
+    [PdfTool("Розділити", "на обкладинку та блок",Description ="Розділити документ на обкладинку та блок. Перші 2 сторінки і останні - обкладинка, все інше - внутрішній блок",Icon = "split_cover_and_block",Order = 30)]
     public sealed class PdfSplitCoverAndBlock : IPdfTool
     {
         public bool Configure(PdfJobContext context)

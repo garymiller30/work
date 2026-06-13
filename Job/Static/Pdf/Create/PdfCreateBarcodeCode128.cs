@@ -15,7 +15,7 @@ using Interfaces.FileBrowser;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Створити", "штрих-код Code128", Icon = "create_barcode_code128",Order =4)]
+    [PdfTool("Створити", "штрих-код Code128", Icon = "create_barcode_code128",Description ="створити шрихкод Code128",Order =4)]
     public class PdfCreateBarcodeCode128 : IPdfTool
     {
 

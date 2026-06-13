@@ -7,7 +7,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Manipulation
 {
-    [PdfTool("Маніпуляції з файлом", "Розвернути сторінки на 90° дзеркально", Icon = "rotate_page_90_mirror", Order = 5)]
+    [PdfTool("Маніпуляції з файлом", "Розвернути сторінки на 90° дзеркально",Description ="Розвернути непарні сторінки на 90° проти годинникової стрілки, а парні - на 90° по годинникової стрілці", Icon = "rotate_page_90_mirror", Order = 5)]
     public class PdfRotateMirrorFrontAndBack : IPdfTool
     {
 

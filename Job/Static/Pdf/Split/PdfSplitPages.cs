@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Divide
 {
-    [PdfTool("Розділити", "файл на частини", Icon = "split", Description = "Розділити файл на частини", Order = 30)]
+    [PdfTool("Розділити", "файл на частини", Icon = "split", Description = "Розділити файл на задані частини. Ствоюється кілька файлів з вказаною кількістю сторінок", Order = 30)]
     public class PdfSplitPages : IPdfTool
     {
         PdfSplitPagesParams _param;

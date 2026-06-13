@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Manipulation.Scale
 {
-    [PdfTool("Маніпуляції з файлом", "Масштабувати PDF",Icon ="scale",Order = 5)]
+    [PdfTool("Маніпуляції з файлом", "Масштабувати PDF",Description ="змінити/масштабувати розмір/формат документа",Icon ="scale",Order = 5)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfScaler : IPdfTool
     {

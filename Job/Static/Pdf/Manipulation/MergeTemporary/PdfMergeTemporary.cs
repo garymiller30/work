@@ -9,7 +9,8 @@ using System.Text.Json;
 
 namespace JobSpace.Static.Pdf.Manipulation.MergeTemporary
 {
-    [PdfTool("Маніпуляції з файлом", "• З'єднати файли в один (тимчасово)", Icon = "merge_in_temporary_file", Order = 5)]
+    [PdfTool("Маніпуляції з файлом", "• З'єднати файли в один (тимчасово)",
+        Description ="з'єднує вибрані файли у один зі збереженням інформації про файли у окремому файлі .json для можливості потім розділення", Icon = "merge_in_temporary_file", Order = 5)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfMergeTemporary : IPdfTool
     {

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Visual.BlocknoteSpiral
 {
-    [PdfTool("Візуалізація","Пружина",Icon = "visual_spiral",Order = 1)]
+    [PdfTool("Візуалізація","Пружина",Description ="перевірка/візуалізація пружини на сторінках",Icon = "visual_spiral",Order = 1)]
     public sealed class VisualBlocknoteSpiral : IPdfTool
     {
         SpiralSettings _spiralSettings;

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Manipulation.ExtractPages
 {
-    [PdfTool("Маніпуляції з файлом", "Витягти сторінки",Icon = "extract_page",Description = "Витягти сторінки з PDF документа", Order = 5)]
+    [PdfTool("Маніпуляції з файлом", "Витягти сторінки",Icon = "extract_page",Description = "Витягти (дістати/взяти) окремі сторінки з PDF документа", Order = 5)]
     public sealed class PdfExtractPages : IPdfTool
     {
         PdfExtractPagesParams _params;

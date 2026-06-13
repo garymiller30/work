@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace JobSpace.Static.Pdf.Manipulation
 {
-    [PdfTool("Маніпуляції з файлом", "Видалити ICC-профілі з PDF", Icon = "remove_icc_profile", Order = 5)]
+    [PdfTool("Маніпуляції з файлом", "Видалити ICC-профілі з PDF",Description = "Видалити ICC-профілі з PDF", Icon = "remove_icc_profile", Order = 5)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfRemoveICCProfiles : IPdfTool
     {

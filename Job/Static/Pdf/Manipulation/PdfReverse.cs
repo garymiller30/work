@@ -7,7 +7,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Manipulation
 {
-    [PdfTool("Маніпуляції з файлом", "Сторінки в зворотньому напрямку", Icon = "reverse_pages", Order = 5)]
+    [PdfTool("Маніпуляції з файлом", "Сторінки в зворотньому напрямку",Description ="створити новий файл з сторінками в зворотньому напрямку", Icon = "reverse_pages", Order = 5)]
     public sealed class PdfReverse : IPdfTool
     {
         public bool Configure(PdfJobContext context)
