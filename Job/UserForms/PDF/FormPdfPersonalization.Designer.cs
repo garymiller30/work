@@ -396,6 +396,7 @@ namespace JobSpace.UserForms.PDF
             // _layersGrid
             // 
             _layersGrid.AllowUserToAddRows = false;
+            _layersGrid.Columns.AddRange(new DataGridViewColumn[] { colEnabled, colType, colSource, colX, colYmm, colBaseAnchor, colAnchor, colRotation, colScale, colCodeType, colTargetWidth, colTargetHeight, colShowText, colFont, colFontSize, colC, colM, colColorY, colK });
             _leftLayout.SetColumnSpan(_layersGrid, 3);
             _layersGrid.Dock = DockStyle.Fill;
             _layersGrid.Location = new Point(11, 239);
@@ -412,121 +413,120 @@ namespace JobSpace.UserForms.PDF
             // colEnabled
             // 
             colEnabled.HeaderText = "✓";
-            colEnabled.Name = "Enabled";
+            colEnabled.Name = "colEnabled";
             colEnabled.Width = 28;
             // 
             // colType
             // 
             colType.HeaderText = "Шар";
             colType.Items.AddRange(new object[] { "Основа PDF", "PDF", "Текст", "Код" });
-            colType.Name = "Type";
+            colType.Name = "colType";
             colType.Width = 88;
             // 
             // colSource
             // 
             colSource.HeaderText = "Файл/колонка/текст";
-            colSource.Name = "Source";
+            colSource.Name = "colSource";
             colSource.Width = 150;
             // 
             // colX
             // 
             colX.HeaderText = "X мм";
-            colX.Name = "X";
+            colX.Name = "colX";
             colX.Width = 58;
             // 
             // colYmm
             // 
             colYmm.HeaderText = "Y мм";
-            colYmm.Name = "Ymm";
+            colYmm.Name = "colYmm";
             colYmm.Width = 58;
             // 
             // colBaseAnchor
             // 
             colBaseAnchor.HeaderText = "Від основи";
             colBaseAnchor.Items.AddRange(new object[] { "лівий нижній", "лівий центр", "лівий верхній", "центр нижній", "центр", "центр верхній", "правий нижній", "правий центр", "правий верхній" });
-            colBaseAnchor.Name = "BaseAnchor";
+            colBaseAnchor.Name = "colBaseAnchor";
             colBaseAnchor.Width = 112;
             // 
             // colAnchor
             // 
             colAnchor.HeaderText = "Прив'язка";
             colAnchor.Items.AddRange(new object[] { "лівий нижній", "лівий центр", "лівий верхній", "центр нижній", "центр", "центр верхній", "правий нижній", "правий центр", "правий верхній" });
-            colAnchor.Name = "Anchor";
+            colAnchor.Name = "colAnchor";
             colAnchor.Width = 112;
             // 
             // colRotation
             // 
             colRotation.HeaderText = "°";
-            colRotation.Name = "Rotation";
+            colRotation.Name = "colRotation";
             colRotation.Width = 44;
             // 
             // colScale
             // 
             colScale.HeaderText = "%";
-            colScale.Name = "Scale";
+            colScale.Name = "colScale";
             colScale.Width = 46;
             // 
             // colCodeType
             // 
             colCodeType.HeaderText = "Тип коду";
             colCodeType.Items.AddRange(new object[] { "Code-128", "EAN-13", "EAN-8", "QR" });
-            colCodeType.Name = "CodeType";
+            colCodeType.Name = "colCodeType";
             colCodeType.Width = 82;
             // 
             // colTargetWidth
             // 
             colTargetWidth.HeaderText = "Ш код мм";
-            colTargetWidth.Name = "TargetWidth";
+            colTargetWidth.Name = "colTargetWidth";
             colTargetWidth.Width = 70;
             // 
             // colTargetHeight
             // 
             colTargetHeight.HeaderText = "В код мм";
-            colTargetHeight.Name = "TargetHeight";
+            colTargetHeight.Name = "colTargetHeight";
             colTargetHeight.Width = 70;
             // 
             // colShowText
             // 
             colShowText.HeaderText = "текст";
-            colShowText.Name = "ShowText";
+            colShowText.Name = "colShowText";
             colShowText.Width = 46;
             // 
             // colFont
             // 
             colFont.HeaderText = "Шрифт";
-            colFont.Name = "Font";
+            colFont.Name = "colFont";
             colFont.Width = 120;
             // 
             // colFontSize
             // 
             colFontSize.HeaderText = "pt";
-            colFontSize.Name = "FontSize";
+            colFontSize.Name = "colFontSize";
             colFontSize.Width = 44;
             // 
             // colC
             // 
             colC.HeaderText = "C";
-            colC.Name = "C";
+            colC.Name = "colC";
             colC.Width = 38;
             // 
             // colM
             // 
             colM.HeaderText = "M";
-            colM.Name = "M";
+            colM.Name = "colM";
             colM.Width = 38;
             // 
             // colColorY
             // 
             colColorY.HeaderText = "Y";
-            colColorY.Name = "ColorY";
+            colColorY.Name = "colColorY";
             colColorY.Width = 38;
             // 
             // colK
             // 
             colK.HeaderText = "K";
-            colK.Name = "K";
+            colK.Name = "colK";
             colK.Width = 38;
-            _layersGrid.Columns.AddRange(new DataGridViewColumn[] { colEnabled, colType, colSource, colX, colYmm, colBaseAnchor, colAnchor, colRotation, colScale, colCodeType, colTargetWidth, colTargetHeight, colShowText, colFont, colFontSize, colC, colM, colColorY, colK });
             // 
             // _layerButtonsPanel
             // 
