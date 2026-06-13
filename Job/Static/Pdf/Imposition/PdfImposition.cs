@@ -14,7 +14,7 @@ namespace JobSpace.Static.Pdf.Imposition
     public class PdfImposition : IPdfTool
     {
         ImposInputParam Parameters { get; set; } = new ImposInputParam();
-        AutoImposMatch AutoImposMatch { get; set; }
+        AutoImposMatch? AutoImposMatch { get; set; }
 
         public bool Configure(PdfJobContext context)
         {

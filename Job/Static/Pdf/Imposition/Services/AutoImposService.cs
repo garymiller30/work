@@ -58,13 +58,13 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             return File.Exists(Path.Combine(jobFolder, ".impos", "imposition.json"));
         }
 
-        public AutoImposMatch TryFindBestMatch(ImposInputParam parameters, IEnumerable<IFileSystemInfoExt> inputFiles)
+        public AutoImposMatch? TryFindBestMatch(ImposInputParam parameters, IEnumerable<IFileSystemInfoExt> inputFiles)
         {
             if (parameters == null || inputFiles == null)
                 return null;
 
-            if (HasSavedImposition(parameters.JobFolder))
-                return null;
+            //if (HasSavedImposition(parameters.JobFolder))
+            //    return null;
 
             var rules = LoadRules();
             if (rules.Count == 0)
