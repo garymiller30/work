@@ -67,15 +67,38 @@ namespace JobSpace.UserForms.PDF
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", settings.ApiKey);
             }
 
+            // ОБОВ'ЯЗКОВО для OpenRouter (захищає від 403/401 помилок на деяких моделях)
+            _httpClient.DefaultRequestHeaders.Add("HTTP-Referer", "https://localhost");
+            _httpClient.DefaultRequestHeaders.Add("X-Title", "PrepressJobSpaceAssistant");
+
             try
             {
+                // Переконайтеся, що settings.ApiUrl закінчується на /chat/completions
                 var response = await _httpClient.PostAsync(settings.ApiUrl, requestContent);
-                response.EnsureSuccessStatusCode();
+
+                // Зчитуємо сирий текст відповіді ДО перевірки на помилку status code
                 var jsonResponse = await response.Content.ReadAsStringAsync();
-                
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    // Якщо OpenRouter повернув помилку (наприклад, 400 чи 401), ми побачимо її JSON-опис
+                    return $"Помилка API ({response.StatusCode}): {jsonResponse}";
+                }
+
+                // Якщо все успішно, парсимо JSON
                 dynamic result = JsonConvert.DeserializeObject(jsonResponse);
+
+                if (result?.choices == null || result.choices.Count == 0)
+                {
+                    return "Помилка: OpenRouter повернув порожню відповідь (choices відсутні).";
+                }
+
                 string reply = result.choices[0].message.content;
                 return reply.Trim();
+            }
+            catch (JsonReaderException)
+            {
+                return $"Помилка: Сервер повернув HTML замість JSON. Перевірте, чи правильний API URL вказано: {settings.ApiUrl}";
             }
             catch (Exception ex)
             {

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Manipulation
 {
-    [PdfTool("Маніпуляції з файлом", "MediaBox = TrimBox", Icon = "pdf_trimbox", Description = "Створити копію PDF, у якій MediaBox кожної сторінки дорівнює TrimBox", Order = 5, IsBackgroundTask = true)]
+    [PdfTool("Маніпуляції з файлом", "встановити MediaBox = TrimBox", Icon = "pdf_trimbox", Description = "Створити копію PDF, у якій MediaBox кожної сторінки дорівнює TrimBox", Order = 5, IsBackgroundTask = true)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfSetMediaBoxToTrimBox : IPdfTool
     {

@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Visual.SoftCover
 {
-    [PdfTool("Візуалізація", "М'яка обкладинка",Description ="перевірка розмірів/схеми м'якої обкладники.", Icon = "visual_soft_cover", Order = 1)]
+    [PdfTool("Візуалізація", "візуалізація м'якої обкладинки",Description ="перевірка розмірів/схеми м'якої обкладники.", Icon = "visual_soft_cover", Order = 1)]
     public class SoftCover : IPdfTool
     {
         const double COEF_DIMENSION = 0.3;

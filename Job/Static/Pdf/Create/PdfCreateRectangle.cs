@@ -7,7 +7,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Створити", "Прямокутник (ProofColor)", Icon = "create_rectangle",Description ="створити файл з прямокутником на основі обрізного формату сторінки", Order = 4)]
+    [PdfTool("Створити", "створити файл з прямокутником (ProofColor)", Icon = "create_rectangle",Description ="створити файл з прямокутником на основі обрізного формату сторінки", Order = 4)]
     public sealed class PdfCreateRectangle : IPdfTool
     {
         public bool Configure(PdfJobContext context)

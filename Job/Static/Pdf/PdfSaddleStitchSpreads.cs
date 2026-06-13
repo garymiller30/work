@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf
 {
-    [PdfTool("Маніпуляції з файлом", "Макет розворотами на скобу", Description ="створити файл розворотами як для шиття скобою (на скобу) для друку", Icon = "saddle_stitch", Order = 5)]
+    [PdfTool("Маніпуляції з файлом", "створення файлу розворотами на скобу", Description ="створити файл розворотами як для шиття скобою (на скобу) для друку", Icon = "saddle_stitch", Order = 5)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfSaddleStitchSpreads : IPdfTool
     {

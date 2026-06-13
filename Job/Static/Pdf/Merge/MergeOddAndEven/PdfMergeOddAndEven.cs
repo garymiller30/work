@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Merge.MergeOddAndEven
 {
-    [PdfTool("З'єднати", "парні і непарні сторінки",Order = 3, Description = "З'єднати парні і непарні сторінки в один документ. Має бути вибрано два файли і один з них мати в імені 'odd' чи 'even'", Icon = "merge_odd_even")]
+    [PdfTool("З'єднати", "з'єднати парні і непарні сторінки",Order = 3, Description = "З'єднати парні і непарні сторінки в один документ. Має бути вибрано два файли і один з них мати в імені 'odd' чи 'even'", Icon = "merge_odd_even")]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public sealed class PdfMergeOddAndEven : IPdfTool
     {

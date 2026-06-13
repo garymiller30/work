@@ -12,7 +12,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace JobSpace.Static.Pdf.Add
 {
-    [PdfTool("Додати","Еліпс (Cut)",Icon = "create_ellipse_cut",Order = 2,Description ="Додати контур (Cut) до файлу")]
+    [PdfTool("Додати","додати контур Еліпс (Cut)",Icon = "create_ellipse_cut",Order = 2,Description ="Додати контур еліпс (Cut) по обрізному формату до файлу")]
     public sealed class PdfAddCutEllipse : IPdfTool
     {
         public bool Configure(PdfJobContext context)
