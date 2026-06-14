@@ -15,6 +15,7 @@ namespace JobSpace.UserForms.PDF
             txtApiUrl.Text = settings.ApiUrl;
             txtApiKey.Text = settings.ApiKey;
             txtModelName.Text = settings.ModelName;
+            txtAudioModel.Text = settings.AudioModel;
         }
 
         private void btnSave_Click(object sender, System.EventArgs e)
@@ -22,6 +23,7 @@ namespace JobSpace.UserForms.PDF
             Settings.ApiUrl = txtApiUrl.Text.Trim();
             Settings.ApiKey = txtApiKey.Text.Trim();
             Settings.ModelName = txtModelName.Text.Trim();
+            Settings.AudioModel = txtAudioModel.Text.Trim();
         }
     }
 }

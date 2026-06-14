@@ -114,6 +114,9 @@
     <None Update="db\ColorTables\PANTONE Solid Uncoated-V4.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="db\models\ggml-base.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="db\paper_thickness.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="db\resources\pdftool_icons\add_page_size.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -66,6 +66,8 @@
     <PackageReference Include="TestableIO.System.IO.Abstractions" Version="22.1.1" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="22.1.1" />
     <PackageReference Include="Testably.Abstractions.FileSystem.Interface" Version="10.2.0" />
+    <PackageReference Include="Whisper.net" Version="1.9.1" />
+    <PackageReference Include="Whisper.net.Runtime" Version="1.9.1" />
     <PackageReference Include="ZstdSharp.Port" Version="0.8.8" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3912.50" />
   </ItemGroup>

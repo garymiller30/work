@@ -194,7 +194,11 @@ function hideThinking() {
                 btnRecord.Text = "🎙";
                 btnRecord.Enabled = false;
 
-                _lastWavPath = Path.Combine(Path.GetTempPath(), $"assistant_{Guid.NewGuid():N}.wav");
+                // Зберігаємо в папку запуску програми, тут назва файлу буде суто з англійських літер і цифр
+                string tempDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp");
+                if (!Directory.Exists(tempDir)) Directory.CreateDirectory(tempDir);
+                _lastWavPath = Path.Combine(tempDir, $"rec_{Guid.NewGuid():N}.wav");
+
                 _recorder.StopAndSave(_lastWavPath);
 
                 await ShowThinkingAsync();

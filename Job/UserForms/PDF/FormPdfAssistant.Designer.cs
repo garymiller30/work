@@ -28,186 +28,194 @@ namespace JobSpace.UserForms.PDF
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
-            this.panelInput = new System.Windows.Forms.Panel();
-            this.btnSettings = new System.Windows.Forms.Button();
-            this.btnRecord = new System.Windows.Forms.Button();
-            this.btnSend = new System.Windows.Forms.Button();
-            this.txtInput = new System.Windows.Forms.TextBox();
-            this.panelSuggestedTool = new System.Windows.Forms.Panel();
-            this.btnRunTool = new System.Windows.Forms.Button();
-            this.lblToolSuggestion = new System.Windows.Forms.Label();
-            this.panelHeader = new System.Windows.Forms.Panel();
-            this.lblSelectedFiles = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.webView21)).BeginInit();
-            this.panelInput.SuspendLayout();
-            this.panelSuggestedTool.SuspendLayout();
-            this.panelHeader.SuspendLayout();
-            this.SuspendLayout();
+            webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
+            panelInput = new System.Windows.Forms.Panel();
+            txtInput = new System.Windows.Forms.TextBox();
+            btnRecord = new System.Windows.Forms.Button();
+            btnSend = new System.Windows.Forms.Button();
+            btnSettings = new System.Windows.Forms.Button();
+            panelSuggestedTool = new System.Windows.Forms.Panel();
+            btnRunTool = new System.Windows.Forms.Button();
+            lblToolSuggestion = new System.Windows.Forms.Label();
+            panelHeader = new System.Windows.Forms.Panel();
+            lblSelectedFiles = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
+            panelInput.SuspendLayout();
+            panelSuggestedTool.SuspendLayout();
+            panelHeader.SuspendLayout();
+            SuspendLayout();
             // 
             // webView21
             // 
-            this.webView21.CreationProperties = null;
-            this.webView21.DefaultBackgroundColor = System.Drawing.Color.White;
-            this.webView21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webView21.Location = new System.Drawing.Point(0, 40);
-            this.webView21.Name = "webView21";
-            this.webView21.Size = new System.Drawing.Size(560, 331);
-            this.webView21.TabIndex = 0;
-            this.webView21.ZoomFactor = 1D;
+            webView21.AllowExternalDrop = true;
+            webView21.CreationProperties = null;
+            webView21.DefaultBackgroundColor = System.Drawing.Color.White;
+            webView21.Dock = System.Windows.Forms.DockStyle.Fill;
+            webView21.Location = new System.Drawing.Point(0, 46);
+            webView21.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            webView21.Name = "webView21";
+            webView21.Size = new System.Drawing.Size(653, 381);
+            webView21.TabIndex = 0;
+            webView21.ZoomFactor = 1D;
             // 
             // panelInput
             // 
-            this.panelInput.Controls.Add(this.txtInput);
-            this.panelInput.Controls.Add(this.btnRecord);
-            this.panelInput.Controls.Add(this.btnSend);
-            this.panelInput.Controls.Add(this.btnSettings);
-            this.panelInput.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelInput.Location = new System.Drawing.Point(0, 421);
-            this.panelInput.Name = "panelInput";
-            this.panelInput.Padding = new System.Windows.Forms.Padding(8);
-            this.panelInput.Size = new System.Drawing.Size(560, 50);
-            this.panelInput.TabIndex = 1;
-            // 
-            // btnSettings
-            // 
-            this.btnSettings.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettings.Location = new System.Drawing.Point(8, 8);
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(30, 34);
-            this.btnSettings.TabIndex = 2;
-            this.btnSettings.Text = "⚙";
-            this.btnSettings.UseVisualStyleBackColor = true;
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
-            // 
-            // btnRecord
-            // 
-            this.btnRecord.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.btnRecord.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnRecord.FlatAppearance.BorderSize = 0;
-            this.btnRecord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRecord.Font = new System.Drawing.Font("Segoe UI", 13F);
-            this.btnRecord.Location = new System.Drawing.Point(467, 8);
-            this.btnRecord.Name = "btnRecord";
-            this.btnRecord.Size = new System.Drawing.Size(36, 34);
-            this.btnRecord.TabIndex = 3;
-            this.btnRecord.Text = "🎙";
-            this.btnRecord.UseVisualStyleBackColor = false;
-            this.btnRecord.Click += new System.EventHandler(this.btnRecord_Click);
-            // 
-            // btnSend
-            // 
-            this.btnSend.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnSend.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnSend.FlatAppearance.BorderSize = 0;
-            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSend.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnSend.ForeColor = System.Drawing.Color.White;
-            this.btnSend.Location = new System.Drawing.Point(388, 8);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(79, 34);
-            this.btnSend.TabIndex = 1;
-            this.btnSend.Text = "Надіслати";
-            this.btnSend.UseVisualStyleBackColor = false;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            panelInput.Controls.Add(txtInput);
+            panelInput.Controls.Add(btnRecord);
+            panelInput.Controls.Add(btnSend);
+            panelInput.Controls.Add(btnSettings);
+            panelInput.Dock = System.Windows.Forms.DockStyle.Bottom;
+            panelInput.Location = new System.Drawing.Point(0, 485);
+            panelInput.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            panelInput.Name = "panelInput";
+            panelInput.Padding = new System.Windows.Forms.Padding(9);
+            panelInput.Size = new System.Drawing.Size(653, 58);
+            panelInput.TabIndex = 1;
             // 
             // txtInput
             // 
-            this.txtInput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInput.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtInput.Location = new System.Drawing.Point(44, 12);
-            this.txtInput.Name = "txtInput";
-            this.txtInput.Size = new System.Drawing.Size(338, 25);
-            this.txtInput.TabIndex = 0;
-            this.txtInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInput_KeyDown);
+            txtInput.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtInput.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 204);
+            txtInput.Location = new System.Drawing.Point(51, 14);
+            txtInput.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtInput.Name = "txtInput";
+            txtInput.Size = new System.Drawing.Size(394, 25);
+            txtInput.TabIndex = 0;
+            txtInput.KeyDown += txtInput_KeyDown;
+            // 
+            // btnRecord
+            // 
+            btnRecord.BackColor = System.Drawing.Color.WhiteSmoke;
+            btnRecord.Dock = System.Windows.Forms.DockStyle.Right;
+            btnRecord.FlatAppearance.BorderSize = 0;
+            btnRecord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnRecord.Font = new System.Drawing.Font("Segoe UI", 13F);
+            btnRecord.Location = new System.Drawing.Point(510, 9);
+            btnRecord.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnRecord.Name = "btnRecord";
+            btnRecord.Size = new System.Drawing.Size(42, 40);
+            btnRecord.TabIndex = 3;
+            btnRecord.Text = "🎙";
+            btnRecord.UseVisualStyleBackColor = false;
+            btnRecord.Click += btnRecord_Click;
+            // 
+            // btnSend
+            // 
+            btnSend.BackColor = System.Drawing.Color.DodgerBlue;
+            btnSend.Dock = System.Windows.Forms.DockStyle.Right;
+            btnSend.FlatAppearance.BorderSize = 0;
+            btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnSend.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 204);
+            btnSend.ForeColor = System.Drawing.Color.White;
+            btnSend.Location = new System.Drawing.Point(552, 9);
+            btnSend.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnSend.Name = "btnSend";
+            btnSend.Size = new System.Drawing.Size(92, 40);
+            btnSend.TabIndex = 1;
+            btnSend.Text = "Надіслати";
+            btnSend.UseVisualStyleBackColor = false;
+            btnSend.Click += btnSend_Click;
+            // 
+            // btnSettings
+            // 
+            btnSettings.Dock = System.Windows.Forms.DockStyle.Left;
+            btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnSettings.Location = new System.Drawing.Point(9, 9);
+            btnSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnSettings.Name = "btnSettings";
+            btnSettings.Size = new System.Drawing.Size(35, 40);
+            btnSettings.TabIndex = 2;
+            btnSettings.Text = "⚙";
+            btnSettings.UseVisualStyleBackColor = true;
+            btnSettings.Click += btnSettings_Click;
             // 
             // panelSuggestedTool
             // 
-            this.panelSuggestedTool.BackColor = System.Drawing.Color.Honeydew;
-            this.panelSuggestedTool.Controls.Add(this.btnRunTool);
-            this.panelSuggestedTool.Controls.Add(this.lblToolSuggestion);
-            this.panelSuggestedTool.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelSuggestedTool.Location = new System.Drawing.Point(0, 371);
-            this.panelSuggestedTool.Name = "panelSuggestedTool";
-            this.panelSuggestedTool.Size = new System.Drawing.Size(560, 50);
-            this.panelSuggestedTool.TabIndex = 2;
+            panelSuggestedTool.BackColor = System.Drawing.Color.Honeydew;
+            panelSuggestedTool.Controls.Add(btnRunTool);
+            panelSuggestedTool.Controls.Add(lblToolSuggestion);
+            panelSuggestedTool.Dock = System.Windows.Forms.DockStyle.Bottom;
+            panelSuggestedTool.Location = new System.Drawing.Point(0, 427);
+            panelSuggestedTool.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            panelSuggestedTool.Name = "panelSuggestedTool";
+            panelSuggestedTool.Size = new System.Drawing.Size(653, 58);
+            panelSuggestedTool.TabIndex = 2;
             // 
             // btnRunTool
             // 
-            this.btnRunTool.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRunTool.BackColor = System.Drawing.Color.ForestGreen;
-            this.btnRunTool.FlatAppearance.BorderSize = 0;
-            this.btnRunTool.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRunTool.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRunTool.ForeColor = System.Drawing.Color.White;
-            this.btnRunTool.Location = new System.Drawing.Point(420, 9);
-            this.btnRunTool.Name = "btnRunTool";
-            this.btnRunTool.Size = new System.Drawing.Size(128, 32);
-            this.btnRunTool.TabIndex = 1;
-            this.btnRunTool.Text = "▶  Запустити";
-            this.btnRunTool.UseVisualStyleBackColor = false;
-            this.btnRunTool.Click += new System.EventHandler(this.btnRunTool_Click);
+            btnRunTool.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            btnRunTool.BackColor = System.Drawing.Color.ForestGreen;
+            btnRunTool.FlatAppearance.BorderSize = 0;
+            btnRunTool.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnRunTool.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 204);
+            btnRunTool.ForeColor = System.Drawing.Color.White;
+            btnRunTool.Location = new System.Drawing.Point(490, 10);
+            btnRunTool.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnRunTool.Name = "btnRunTool";
+            btnRunTool.Size = new System.Drawing.Size(149, 37);
+            btnRunTool.TabIndex = 1;
+            btnRunTool.Text = "▶  Запустити";
+            btnRunTool.UseVisualStyleBackColor = false;
+            btnRunTool.Click += btnRunTool_Click;
             // 
             // lblToolSuggestion
             // 
-            this.lblToolSuggestion.AutoSize = true;
-            this.lblToolSuggestion.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblToolSuggestion.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lblToolSuggestion.Location = new System.Drawing.Point(12, 16);
-            this.lblToolSuggestion.Name = "lblToolSuggestion";
-            this.lblToolSuggestion.Size = new System.Drawing.Size(189, 17);
-            this.lblToolSuggestion.TabIndex = 0;
-            this.lblToolSuggestion.Text = "Рекомендовано запустити: ...";
+            lblToolSuggestion.AutoSize = true;
+            lblToolSuggestion.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 204);
+            lblToolSuggestion.ForeColor = System.Drawing.Color.DarkGreen;
+            lblToolSuggestion.Location = new System.Drawing.Point(14, 18);
+            lblToolSuggestion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblToolSuggestion.Name = "lblToolSuggestion";
+            lblToolSuggestion.Size = new System.Drawing.Size(196, 17);
+            lblToolSuggestion.TabIndex = 0;
+            lblToolSuggestion.Text = "Рекомендовано запустити: ...";
             // 
             // panelHeader
             // 
-            this.panelHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(55)))));
-            this.panelHeader.Controls.Add(this.lblSelectedFiles);
-            this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelHeader.Location = new System.Drawing.Point(0, 0);
-            this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(560, 40);
-            this.panelHeader.TabIndex = 3;
+            panelHeader.BackColor = System.Drawing.Color.FromArgb(40, 40, 55);
+            panelHeader.Controls.Add(lblSelectedFiles);
+            panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
+            panelHeader.Location = new System.Drawing.Point(0, 0);
+            panelHeader.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            panelHeader.Name = "panelHeader";
+            panelHeader.Size = new System.Drawing.Size(653, 46);
+            panelHeader.TabIndex = 3;
             // 
             // lblSelectedFiles
             // 
-            this.lblSelectedFiles.AutoSize = true;
-            this.lblSelectedFiles.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblSelectedFiles.ForeColor = System.Drawing.Color.Silver;
-            this.lblSelectedFiles.Location = new System.Drawing.Point(12, 12);
-            this.lblSelectedFiles.Name = "lblSelectedFiles";
-            this.lblSelectedFiles.Size = new System.Drawing.Size(107, 15);
-            this.lblSelectedFiles.TabIndex = 0;
-            this.lblSelectedFiles.Text = "Вибрано файлів: 0";
+            lblSelectedFiles.AutoSize = true;
+            lblSelectedFiles.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 204);
+            lblSelectedFiles.ForeColor = System.Drawing.Color.Silver;
+            lblSelectedFiles.Location = new System.Drawing.Point(14, 14);
+            lblSelectedFiles.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lblSelectedFiles.Name = "lblSelectedFiles";
+            lblSelectedFiles.Size = new System.Drawing.Size(108, 15);
+            lblSelectedFiles.TabIndex = 0;
+            lblSelectedFiles.Text = "Вибрано файлів: 0";
             // 
             // FormPdfAssistant
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 471);
-            this.Controls.Add(this.webView21);
-            this.Controls.Add(this.panelHeader);
-            this.Controls.Add(this.panelSuggestedTool);
-            this.Controls.Add(this.panelInput);
-            this.MaximizeBox = true;
-            this.MinimizeBox = true;
-            this.MinimumSize = new System.Drawing.Size(420, 400);
-            this.Name = "FormPdfAssistant";
-            this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "🤖 Асистент PDF-утиліт";
-            ((System.ComponentModel.ISupportInitialize)(this.webView21)).EndInit();
-            this.panelInput.ResumeLayout(false);
-            this.panelInput.PerformLayout();
-            this.panelSuggestedTool.ResumeLayout(false);
-            this.panelSuggestedTool.PerformLayout();
-            this.panelHeader.ResumeLayout(false);
-            this.panelHeader.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(653, 543);
+            Controls.Add(webView21);
+            Controls.Add(panelHeader);
+            Controls.Add(panelSuggestedTool);
+            Controls.Add(panelInput);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MinimumSize = new System.Drawing.Size(487, 456);
+            Name = "FormPdfAssistant";
+            ShowIcon = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "🤖 Асистент PDF-утиліт";
+            ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
+            panelInput.ResumeLayout(false);
+            panelInput.PerformLayout();
+            panelSuggestedTool.ResumeLayout(false);
+            panelSuggestedTool.PerformLayout();
+            panelHeader.ResumeLayout(false);
+            panelHeader.PerformLayout();
+            ResumeLayout(false);
 
         }
 

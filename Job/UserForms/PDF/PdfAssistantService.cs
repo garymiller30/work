@@ -1,10 +1,12 @@
+using Interfaces.FileBrowser;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Interfaces.FileBrowser;
+using Whisper.net;
 
 namespace JobSpace.UserForms.PDF
 {
@@ -112,42 +114,52 @@ namespace JobSpace.UserForms.PDF
         /// </summary>
         public async Task<string> TranscribeAudioAsync(PdfAssistantSettings settings, string wavFilePath)
         {
-            var url = string.IsNullOrWhiteSpace(settings.SttUrl)
-                ? settings.ApiUrl.Replace("/chat/completions", "/audio/transcriptions")
-                : settings.SttUrl;
+            // Шлях до файлу моделі. Можна винести в налаштування settings.ModelPath
+            // Наприклад, "models/ggml-base.bin" або просто "ggml-base.bin"
 
-            using (var content = new MultipartFormDataContent())
+            if (string.IsNullOrEmpty(settings.AudioModel))
             {
-                var fileBytes = System.IO.File.ReadAllBytes(wavFilePath);
-                var fileContent = new ByteArrayContent(fileBytes);
-                fileContent.Headers.ContentType =
-                    System.Net.Http.Headers.MediaTypeHeaderValue.Parse("audio/wav");
-                content.Add(fileContent, "file", "audio.wav");
-                content.Add(new StringContent("whisper-1"), "model");
+                return "Помилка транскрипції: Не вказано модель для розпізнавання";
+            }
 
-                _httpClient.DefaultRequestHeaders.Clear();
-                if (!string.IsNullOrEmpty(settings.ApiKey))
+            string modelPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"db\\models", settings.AudioModel);
+
+            if (!File.Exists(modelPath))
+            {
+                return $"Помилка транскрипції: Не знайдено файл моделі Whisper за шляхом {modelPath}";
+            }
+
+            if (!File.Exists(wavFilePath))
+            {
+                return "Помилка транскрипції: Тимчасовий аудіофайл не знайдено.";
+            }
+
+            try
+            {
+                // 1. Ініціалізуємо фабрику Whisper, завантажуючи модель у пам'ять
+                using var whisperFactory = WhisperFactory.FromPath(modelPath);
+
+                // 2. Створюємо процесор для розпізнавання
+                using var processor = whisperFactory.CreateBuilder()
+                    .WithLanguage("uk") // Жорстко задаємо українську (або беремо з settings, якщо треба)
+                    .Build();
+
+                // 3. Відкриваємо файл для читання
+                using var fileStream = File.OpenRead(wavFilePath);
+
+                var resultText = new StringBuilder();
+
+                // 4. Локально розпізнаємо аудіо (працює потоково по сегментах)
+                await foreach (var segment in processor.ProcessAsync(fileStream))
                 {
-                    _httpClient.DefaultRequestHeaders.Authorization =
-                        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", settings.ApiKey);
+                    resultText.Append(segment.Text);
                 }
 
-                try
-                {
-                    var response = await _httpClient.PostAsync(url, content);
-                    var json = await response.Content.ReadAsStringAsync();
-
-                    if (!response.IsSuccessStatusCode)
-                        return $"Помилка транскрипції ({response.StatusCode}): {json}";
-
-                    dynamic result = JsonConvert.DeserializeObject(json);
-                    string text = result.text;
-                    return text?.Trim() ?? string.Empty;
-                }
-                catch (Exception ex)
-                {
-                    return $"Помилка транскрипції аудіо: {ex.Message}";
-                }
+                return resultText.ToString().Trim();
+            }
+            catch (Exception ex)
+            {
+                return $"Помилка локальної транскрипції аудіо: {ex.Message}";
             }
         }
     }

@@ -17,110 +17,141 @@ namespace JobSpace.UserForms.PDF
 
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtApiUrl = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtApiKey = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtModelName = new System.Windows.Forms.TextBox();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            label1 = new System.Windows.Forms.Label();
+            txtApiUrl = new System.Windows.Forms.TextBox();
+            label2 = new System.Windows.Forms.Label();
+            txtApiKey = new System.Windows.Forms.TextBox();
+            label3 = new System.Windows.Forms.Label();
+            txtModelName = new System.Windows.Forms.TextBox();
+            btnSave = new System.Windows.Forms.Button();
+            btnCancel = new System.Windows.Forms.Button();
+            txtAudioModel = new System.Windows.Forms.TextBox();
+            label4 = new System.Windows.Forms.Label();
+            SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "API URL:";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(14, 17);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(52, 15);
+            label1.TabIndex = 0;
+            label1.Text = "API URL:";
             // 
             // txtApiUrl
             // 
-            this.txtApiUrl.Location = new System.Drawing.Point(100, 12);
-            this.txtApiUrl.Name = "txtApiUrl";
-            this.txtApiUrl.Size = new System.Drawing.Size(272, 20);
-            this.txtApiUrl.TabIndex = 1;
+            txtApiUrl.Location = new System.Drawing.Point(117, 14);
+            txtApiUrl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtApiUrl.Name = "txtApiUrl";
+            txtApiUrl.Size = new System.Drawing.Size(317, 23);
+            txtApiUrl.TabIndex = 1;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(48, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "API Key:";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(14, 47);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(50, 15);
+            label2.TabIndex = 2;
+            label2.Text = "API Key:";
             // 
             // txtApiKey
             // 
-            this.txtApiKey.Location = new System.Drawing.Point(100, 38);
-            this.txtApiKey.Name = "txtApiKey";
-            this.txtApiKey.Size = new System.Drawing.Size(272, 20);
-            this.txtApiKey.TabIndex = 3;
-            this.txtApiKey.UseSystemPasswordChar = true;
+            txtApiKey.Location = new System.Drawing.Point(117, 44);
+            txtApiKey.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtApiKey.Name = "txtApiKey";
+            txtApiKey.Size = new System.Drawing.Size(317, 23);
+            txtApiKey.TabIndex = 3;
+            txtApiKey.UseSystemPasswordChar = true;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 67);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Model Name:";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(14, 77);
+            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(79, 15);
+            label3.TabIndex = 4;
+            label3.Text = "Model Name:";
             // 
             // txtModelName
             // 
-            this.txtModelName.Location = new System.Drawing.Point(100, 64);
-            this.txtModelName.Name = "txtModelName";
-            this.txtModelName.Size = new System.Drawing.Size(272, 20);
-            this.txtModelName.TabIndex = 5;
+            txtModelName.Location = new System.Drawing.Point(117, 74);
+            txtModelName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtModelName.Name = "txtModelName";
+            txtModelName.Size = new System.Drawing.Size(317, 23);
+            txtModelName.TabIndex = 5;
             // 
             // btnSave
             // 
-            this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSave.Location = new System.Drawing.Point(216, 99);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 6;
-            this.btnSave.Text = "Зберегти";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
+            btnSave.Location = new System.Drawing.Point(253, 194);
+            btnSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new System.Drawing.Size(88, 27);
+            btnSave.TabIndex = 6;
+            btnSave.Text = "Зберегти";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // btnCancel
             // 
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(297, 99);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 7;
-            this.btnCancel.Text = "Скасувати";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            btnCancel.Location = new System.Drawing.Point(347, 194);
+            btnCancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new System.Drawing.Size(88, 27);
+            btnCancel.TabIndex = 7;
+            btnCancel.Text = "Скасувати";
+            btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // txtAudioModel
+            // 
+            txtAudioModel.Location = new System.Drawing.Point(117, 137);
+            txtAudioModel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtAudioModel.Name = "txtAudioModel";
+            txtAudioModel.Size = new System.Drawing.Size(317, 23);
+            txtAudioModel.TabIndex = 9;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(117, 119);
+            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(187, 15);
+            label4.TabIndex = 8;
+            label4.Text = "модель для розпізнавання мови:";
             // 
             // FormPdfAssistantSettings
             // 
-            this.AcceptButton = this.btnSave;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 134);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.txtModelName);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtApiKey);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtApiUrl);
-            this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FormPdfAssistantSettings";
-            this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Налаштування ШІ асистента";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AcceptButton = btnSave;
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            CancelButton = btnCancel;
+            ClientSize = new System.Drawing.Size(448, 233);
+            Controls.Add(txtAudioModel);
+            Controls.Add(label4);
+            Controls.Add(btnCancel);
+            Controls.Add(btnSave);
+            Controls.Add(txtModelName);
+            Controls.Add(label3);
+            Controls.Add(txtApiKey);
+            Controls.Add(label2);
+            Controls.Add(txtApiUrl);
+            Controls.Add(label1);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FormPdfAssistantSettings";
+            ShowIcon = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Налаштування ШІ асистента";
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
@@ -134,5 +165,7 @@ namespace JobSpace.UserForms.PDF
         private System.Windows.Forms.TextBox txtModelName;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.TextBox txtAudioModel;
+        private System.Windows.Forms.Label label4;
     }
 }
