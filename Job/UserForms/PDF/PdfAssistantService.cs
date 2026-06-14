@@ -105,5 +105,50 @@ namespace JobSpace.UserForms.PDF
                 return $"Помилка підключення до ШІ: {ex.Message}";
             }
         }
+
+        /// <summary>
+        /// Sends a WAV audio file to a Whisper-compatible transcription endpoint
+        /// and returns the recognised text.
+        /// </summary>
+        public async Task<string> TranscribeAudioAsync(PdfAssistantSettings settings, string wavFilePath)
+        {
+            var url = string.IsNullOrWhiteSpace(settings.SttUrl)
+                ? settings.ApiUrl.Replace("/chat/completions", "/audio/transcriptions")
+                : settings.SttUrl;
+
+            using (var content = new MultipartFormDataContent())
+            {
+                var fileBytes = System.IO.File.ReadAllBytes(wavFilePath);
+                var fileContent = new ByteArrayContent(fileBytes);
+                fileContent.Headers.ContentType =
+                    System.Net.Http.Headers.MediaTypeHeaderValue.Parse("audio/wav");
+                content.Add(fileContent, "file", "audio.wav");
+                content.Add(new StringContent("whisper-1"), "model");
+
+                _httpClient.DefaultRequestHeaders.Clear();
+                if (!string.IsNullOrEmpty(settings.ApiKey))
+                {
+                    _httpClient.DefaultRequestHeaders.Authorization =
+                        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", settings.ApiKey);
+                }
+
+                try
+                {
+                    var response = await _httpClient.PostAsync(url, content);
+                    var json = await response.Content.ReadAsStringAsync();
+
+                    if (!response.IsSuccessStatusCode)
+                        return $"Помилка транскрипції ({response.StatusCode}): {json}";
+
+                    dynamic result = JsonConvert.DeserializeObject(json);
+                    string text = result.text;
+                    return text?.Trim() ?? string.Empty;
+                }
+                catch (Exception ex)
+                {
+                    return $"Помилка транскрипції аудіо: {ex.Message}";
+                }
+            }
+        }
     }
 }
