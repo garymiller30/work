@@ -267,3 +267,4 @@ __pycache__/
 /Web_ActiveWorks/Data/web-access-settings.json
 /Web_ActiveWorks/Data/licenses.json
 .aider*
+/ActiveWorks/db/models/ggml-base.bin
