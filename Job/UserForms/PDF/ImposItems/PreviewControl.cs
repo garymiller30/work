@@ -61,9 +61,18 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void Pb_preview_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right && _imposParam.ImposTools.CurTool == ImposToolEnum.Select)
+            if (_imposParam.ImposTools.CurTool == ImposToolEnum.Select)
             {
-                _imposParam.ControlsBind.SelectedPreviewPage = null;
+                if (e.Button == MouseButtons.Right)
+                {
+                    _imposParam.ControlsBind.SelectedPreviewPage = null;
+                }
+                else
+                {
+                    // виправити bleeds
+                    ProcessFixBleeds.Front(_imposParam.ControlsBind.Sheet.TemplatePageContainer);
+                }
+                
             }
             else if (_imposParam.ImposTools.CurTool == ImposToolEnum.AddPageToGroup)
             {
@@ -99,6 +108,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                 _imposParam.ControlsBind.UpdateSheet();
             }
+            
             isDragMode = false;
         }
 

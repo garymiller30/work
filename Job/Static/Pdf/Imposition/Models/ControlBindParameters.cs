@@ -19,12 +19,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public TemplatePage HoverPage { get;set;}
 
-        TemplatePage selectedPreviewPage;
+        TemplatePage? selectedPreviewPage;
 
         /// <summary>
         /// стрінка, що вибрана у прев'ю
         /// </summary>
-        public TemplatePage SelectedPreviewPage
+        public TemplatePage? SelectedPreviewPage
         {
             get => selectedPreviewPage;
             set
