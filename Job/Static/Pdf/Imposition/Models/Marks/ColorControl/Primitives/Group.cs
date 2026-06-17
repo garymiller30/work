@@ -31,7 +31,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks.ColorControl.Primitives
             new Rectangle() 
             { 
                 FillId = x, 
-                Coord = new PointD { X = 0, Y = 0 }, 
+                Coord = new PointD ( 0, 0 ), 
                 W = Width, 
                 H = Height 
                 }
@@ -43,7 +43,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks.ColorControl.Primitives
             {
                 FillId = baseColorId,
                 Tint = tint,
-                Coord = new PointD { X = 0, Y = 0 },
+                Coord = new PointD ( 0,  0 ),
                 W = Width,
                 H = Height
             });

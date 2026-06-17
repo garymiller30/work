@@ -31,14 +31,33 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
         SizeF GetSize(TextVariablesService textVariablesService)
         {
-            using (var graphics = System.Drawing.Graphics.FromImage(new System.Drawing.Bitmap(1, 1)))
-            {
-                graphics.PageUnit = System.Drawing.GraphicsUnit.Millimeter;
-                var font = new System.Drawing.Font(FontName, (float)FontSize);
-                var txt = new StringToken(this, textVariablesService).GetRawString();
-                var size = graphics.MeasureString(txt, font);
-                return size; 
-            }
+            var txt = new StringToken(this, textVariablesService).GetRawString();
+            if (string.IsNullOrEmpty(txt)) return SizeF.Empty;
+
+            // Використовуємо стандартний Font
+            using var font = new Font(FontName, (float)FontSize, FontStyle.Regular, GraphicsUnit.Point);
+            using var bitmap = new Bitmap(1, 1);
+            using var graphics = Graphics.FromImage(bitmap);
+
+            // Рахуємо суто в пікселях (Pixel), щоб GDI+ не округлював міліметри з похибкою
+            graphics.PageUnit = GraphicsUnit.Pixel;
+
+            // Антиаліасинг та GenericTypographic ПРИБИРАЮТЬ магічні відступи по боках
+            graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            var stringFormat = StringFormat.GenericTypographic;
+
+            // Отримуємо чистий розмір символів у пікселях
+            SizeF pixelSize = graphics.MeasureString(txt, font, PointF.Empty, stringFormat);
+
+            // Переводимо пікселі в міліметри вручну на основі системного DPI (зазвичай 96)
+            // Формула: (пікселі / DPI) * 25.4 мм в одному дюймі
+            float dpi = graphics.DpiX;
+            const float mmPerInch = 25.4f;
+
+            float widthInMm = (pixelSize.Width / dpi) * mmPerInch;
+            float heightInMm = (pixelSize.Height / dpi) * mmPerInch;
+
+            return new SizeF(widthInMm, heightInMm);
         }
     }
 }

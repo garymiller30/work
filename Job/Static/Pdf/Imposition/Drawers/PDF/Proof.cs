@@ -13,23 +13,16 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
     public static class Proof
     {
 
-        public static void DrawPage(PDFlib p, TemplatePage templatePage,PageSide side, ProofParameters proof, GlobalImposParameters imposParameters)
+        public static void DrawPage(PDFlib p, TemplatePage templatePage, PageSide side, ProofParameters proof, GlobalImposParameters imposParameters)
         {
 
             if (!proof.Enable) return;
 
             p.begin_layer(imposParameters.PdfDrawParameters.LayerProof);
 
-            (double x,double y, double w,double h) = ScreenDrawCommons.GetPageDraw(templatePage, side);
+            (double x, double y, double w, double h) = ScreenDrawCommons.GetPageDraw(templatePage, side);
 
-            DrawStrokeRect(p, MarkColor.ProofColor,
-                new RectangleD
-                {
-                    X1 = x,
-                    Y1 = y,
-                    X2 = x + w,
-                    Y2 = y + h
-                });
+            DrawStrokeRect(p, MarkColor.ProofColor, new RectangleD(x1: x, y1: y, x2: x + w, y2: y + h));
 
             p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
 
@@ -40,15 +33,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
             p.begin_layer(imposParameters.PdfDrawParameters.LayerProof);
 
-            (double x, double y, double w, double h) = ScreenDrawCommons.GetPageDrawBack(sheet,templatePage, side);
-            DrawStrokeRect(p, MarkColor.ProofColor,
-               new RectangleD
-               {
-                   X1 = x,
-                   Y1 = y,
-                   X2 = x + w,
-                   Y2 = y + h
-               });
+            (double x, double y, double w, double h) = ScreenDrawCommons.GetPageDrawBack(sheet, templatePage, side);
+            DrawStrokeRect(p, MarkColor.ProofColor, new RectangleD(x1: x, y1: y, x2: x + w, y2: y + h));
 
             p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
         }
@@ -75,18 +61,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
             p.begin_layer(imposParameters.PdfDrawParameters.LayerProof);
 
-            DrawStrokeRect(p, MarkColor.ProofColor,
-               new RectangleD
-               {
-                   X1 = 0,
-                   Y1 = 0,
-                   X2 = sheet.W,
-                   Y2 = sheet.H
-               });
+            DrawStrokeRect(p, MarkColor.ProofColor, new RectangleD(x1: 0, y1: 0, x2: sheet.W, y2: sheet.H));
 
             p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
         }
 
-       
+
     }
 }

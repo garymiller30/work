@@ -13,12 +13,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
         public static RectangleD GetSubjectRect(TemplateSheet sheet)
         {
             return new RectangleD
-            {
-                X1 = sheet.SafeFields.Left,
-                Y1 = sheet.SafeFields.Bottom,
-                X2 = sheet.W - sheet.SafeFields.Right,
-                Y2 = sheet.H - sheet.SafeFields.Top,
-            };
+            (
+                x1 : sheet.SafeFields.Left,
+                y1 : sheet.SafeFields.Bottom,
+                x2 : sheet.W - sheet.SafeFields.Right,
+                y2 : sheet.H - sheet.SafeFields.Top
+            );
         }
 
         public static RectangleD GetSubjectRect(TemplateSheet sheet, bool ignoreSheetFields)
@@ -26,12 +26,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
             if (ignoreSheetFields)
             {
                 return new RectangleD
-                {
-                    X1 = 0,
-                    Y1 = 0,
-                    X2 = sheet.W,
-                    Y2 = sheet.H,
-                };
+                (
+                    x1 : 0,
+                    y1 : 0,
+                    x2 : sheet.W,
+                    y2 : sheet.H
+                );
             }
             else
             {
@@ -72,7 +72,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
             }
 
 
-            return new RectangleD { X1 = x1, Y1 = y1, X2 = x2, Y2 = y2 };
+            return new RectangleD (x1: x1, y1: y1, x2: x2, y2: y2);
         }
     }
 }

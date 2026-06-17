@@ -19,15 +19,15 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
     public static class ScreenDrawSingleSideService
     {
-        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService, ProductPart productPart = null)
+        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService, ProductPart? productPart = null)
         {
             var zoom = ScreenDrawer.ZoomFactor;
 
             var templateContainer = sheet.TemplatePageContainer;
 
             Bitmap bitmap = new Bitmap(
-                (int)((sheet.W + 1)*zoom), 
-                (int)((sheet.H + 1)*zoom));
+                (int)((sheet.W + 1) * zoom),
+                (int)((sheet.H + 1) * zoom));
 
             Graphics g = Graphics.FromImage(bitmap);
             g.SmoothingMode = SmoothingMode.HighQuality;
@@ -59,7 +59,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawContainerMarksFront(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h, TextVariablesService textVariablesService)
         {
-            DrawPdfMarksFront(g,sheet, container, foreground, h);
+            DrawPdfMarksFront(g, sheet, container, foreground, h);
             DrawTextMarksFront(g, container, foreground, h, textVariablesService);
 
         }
@@ -69,18 +69,20 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             Brush brush = new SolidBrush(Color.MidnightBlue);
             foreach (var mark in container.Text.Where(x => x.Parameters.IsFront && x.Enable && x.IsForeground == foreground))
             {
+                string markText = textVariablesService.ReplaceToRealValues(mark.Text);
+
                 var previewPoints = (mark.FontSize / 72.0) * 25.4;
-                Font font = new Font(mark.FontName, (float)(previewPoints* ScreenDrawer.ZoomFactor));
-                SizeF size = g.MeasureString(mark.Text, font);
+                Font font = new Font(mark.FontName, (float)(previewPoints * ScreenDrawer.ZoomFactor));
+                SizeF size = g.MeasureString(markText, font);
                 var state = g.Save();
                 g.TranslateTransform(
-                    (float)(mark.Front.X*ScreenDrawer.ZoomFactor), 
-                    (float)((h - mark.Front.Y - mark.GetH(textVariablesService))* ScreenDrawer.ZoomFactor));
+                    (float)(mark.Front.X * ScreenDrawer.ZoomFactor),
+                    (float)((h - mark.Front.Y - mark.GetH(textVariablesService)) * ScreenDrawer.ZoomFactor));
 
                 float angle = mark.Angle == 90 || mark.Angle == 270 ? (float)(mark.Angle + 180) : (float)mark.Angle;
 
                 g.RotateTransform((angle));
-                g.DrawString(mark.Text, font, brush, 0, 0);
+                g.DrawString(markText, font, brush, 0, 0);
                 g.Restore(state);
                 font.Dispose();
             }
@@ -96,7 +98,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             {
 
                 System.Drawing.Image bitmap = MarksService.GetBitmapFront(mark);
-                
+
                 var rect = new RectangleF
                 {
                     X = (float)mark.Front.X,
@@ -109,7 +111,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 if (bitmap == null)
                 {
                     Brush brush = new SolidBrush(Color.Aqua);
-                    ScreenDrawer.DrawFillRectangle(g,rect,brush);
+                    ScreenDrawer.DrawFillRectangle(g, rect, brush);
                     //g.FillRectangle(brush, rect);
                     brush.Dispose();
 
@@ -119,13 +121,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     var mc = mark.ClipBoxFront;
 
                     Rectangle clipRect = new Rectangle(
-                        (int)(mc.Left * ScreenDrawer.ZoomFactor), 
-                        (int)(mc.Bottom * ScreenDrawer.ZoomFactor), 
-                        (int)((mc.Right - mc.Left) * ScreenDrawer.ZoomFactor), 
+                        (int)(mc.Left * ScreenDrawer.ZoomFactor),
+                        (int)(mc.Bottom * ScreenDrawer.ZoomFactor),
+                        (int)((mc.Right - mc.Left) * ScreenDrawer.ZoomFactor),
                         (int)((mc.Top - mc.Bottom) * ScreenDrawer.ZoomFactor));
                     Bitmap croppedBitmap = new Bitmap(
-                       (clipRect.Width), 
-                       (clipRect.Height)); 
+                       (clipRect.Width),
+                       (clipRect.Height));
 
                     using (Graphics gc = Graphics.FromImage(croppedBitmap))
                     {
@@ -139,10 +141,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                     var i = RotateImage(bitmap, (float)mark.Angle);
                     i.MakeTransparent(Color.White);
 
-                    ScreenDrawer.DrawImage(g,i,rect);
+                    ScreenDrawer.DrawImage(g, i, rect);
 
                     //g.DrawImage(i, rect);
-                    
+
                     croppedBitmap.Dispose();
                     //cropped.Dispose();
                     i.Dispose();
@@ -183,7 +185,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawSheetSafeField(Graphics g, TemplateSheet sheet)
         {
-            
+
 
             if (sheet.SafeFields.Left != 0)
                 // left
@@ -316,7 +318,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawTextFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH)
         {
-           var zoom = ScreenDrawer.ZoomFactor;
+            var zoom = ScreenDrawer.ZoomFactor;
 
             var drawFormat = new StringFormat
             {
@@ -331,7 +333,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             var x = (float)(page_x + page_w / 2);
             var y = sH - page_y - page_h / 2;
             var state = g.Save();
-            g.TranslateTransform((float)(x*zoom), (float)(y*zoom));
+            g.TranslateTransform((float)(x * zoom), (float)(y * zoom));
 
             double angle = page.Front.Angle;
 
@@ -349,7 +351,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             }
 
             var path = new GraphicsPath();
-            Font font = new Font("Arial",(float)(12*zoom));
+            Font font = new Font("Arial", (float)(12 * zoom));
             FontFamily family = font.FontFamily;
             Pen pen = new Pen(Color.Black);
 
@@ -380,23 +382,23 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 }
             }
             else
-            if (sheet is TemplateSheet)
-            {
-                if ((page.Front.MasterIdx == 0 && page.Back.MasterIdx == 0))
+                if (sheet is TemplateSheet)
                 {
-                    txt = "пуста";
+                    if ((page.Front.MasterIdx == 0 && page.Back.MasterIdx == 0))
+                    {
+                        txt = "пуста";
+                    }
+                    else if (page.Back.MasterIdx == 0)
+                    {
+                        txt = $"{page.Front.MasterIdx}";
+                    }
+                    else
+                    {
+                        txt = $"{page.Front.MasterIdx}•{page.Back.MasterIdx}";
+                    }
                 }
-                else if (page.Back.MasterIdx == 0)
-                {
-                    txt = $"{page.Front.MasterIdx}";
-                }
-                else
-                {
-                    txt = $"{page.Front.MasterIdx}•{page.Back.MasterIdx}";
-                }
-            }
 
-            path.AddString(txt, family, 0, (float)(12*zoom), new PointF { X = 0, Y = 0 }, drawFormat);
+            path.AddString(txt, family, 0, (float)(12 * zoom), new PointF { X = 0, Y = 0 }, drawFormat);
             g.DrawPath(pen, path);
             family.Dispose();
             pen.Dispose();

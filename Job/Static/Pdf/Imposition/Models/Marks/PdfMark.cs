@@ -36,12 +36,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
             File = new PdfFile(filePath);
         }
 
-        public override double GetW(TextVariablesService textVariablesService)
+        public override double GetW(TextVariablesService? textVariablesService)
         {
             return File?.Pages[0].Media.W ?? 0;
         }
 
-        public override double GetH(TextVariablesService textVariablesService)
+        public override double GetH(TextVariablesService? textVariablesService)
         {
             return File?.Pages[0].Media.H ?? 0;
         }

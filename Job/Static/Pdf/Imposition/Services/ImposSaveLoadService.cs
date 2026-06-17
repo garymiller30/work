@@ -106,6 +106,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             if (!File.Exists(filePath)) return new List<MarksContainer>();
 
             string marksStr = File.ReadAllText(filePath);
+
             return JsonSerializer.Deserialize<List<MarksContainer>>(marksStr);
         }
 

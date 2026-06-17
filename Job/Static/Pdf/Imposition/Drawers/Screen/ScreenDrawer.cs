@@ -17,10 +17,27 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
     {
         public static double ZoomFactor = 1.0;
 
-        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService, ProductPart productPart = null)
+        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService, ProductPart? productPart = null)
         {
 
-            //CropMarksService.FixCropMarks(sheet);
+            if (sheet is PrintSheet printSheet)
+            {
+
+                if (productPart != null)
+                {
+                    var sheetIndex = productPart.PrintSheets.IndexOf(printSheet);
+                    if (sheetIndex >= 0)
+                    {
+                        textVariablesService.SetValue(ValueList.SheetIdx, sheetIndex + 1);
+                    }
+                }
+                textVariablesService.SetValue(ValueList.SheetSide, GetPrintSide(sheet));
+                textVariablesService.SetValue(ValueList.SheetFormat, $"{printSheet.W}x{printSheet.H}");
+                textVariablesService.SetValue(ValueList.SheetDesc, printSheet.Description);
+                textVariablesService.SetValue(ValueList.CurDate, DateTime.Now.ToString());
+                textVariablesService.SetValue(ValueList.SheetCount, printSheet.Count);
+            }
+
 
             switch (sheet.SheetPlaceType)
             {
@@ -38,6 +55,23 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
             }
         }
 
+        private static string GetPrintSide(TemplateSheet sheet)
+        {
+            switch (sheet.SheetPlaceType)
+            {
+                case TemplateSheetPlaceType.SingleSide:
+                    return Constants.SINGLE_SIDE_STRING;
+                case TemplateSheetPlaceType.Sheetwise:
+                    return Constants.FRONT_SIDE_STRING;
+                case TemplateSheetPlaceType.WorkAndTurn:
+                    return Constants.WORK_AND_TURN_STRING;
+                case TemplateSheetPlaceType.WorkAndTumble:
+                    return Constants.WORK_AND_TUMBLE_STRING;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         public static void DrawText(Graphics g, string text, PointF point, Font font, Brush brush)
         {
             g.DrawString(text, font, brush, new PointF((float)(point.X * ZoomFactor), (float)(point.Y * ZoomFactor)));
@@ -45,11 +79,11 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
 
         public static void DrawFillRectangle(Graphics g, RectangleF rect, Brush brush)
         {
-            g.FillRectangle(brush, 
-                (float)(rect.X*ZoomFactor), 
-                (float)(rect.Y*ZoomFactor), 
-                (float)(rect.Width*ZoomFactor), 
-                (float)(rect.Height*ZoomFactor));
+            g.FillRectangle(brush,
+                (float)(rect.X * ZoomFactor),
+                (float)(rect.Y * ZoomFactor),
+                (float)(rect.Width * ZoomFactor),
+                (float)(rect.Height * ZoomFactor));
         }
 
         public static void DrawRectangle(Graphics g, RectangleF rect, Pen pen)
@@ -68,7 +102,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
                 new PointF((float)(p2.X * ZoomFactor), (float)(p2.Y * ZoomFactor)));
         }
 
-       public static void DrawImage(Graphics g,Bitmap bitmap,RectangleF rect)
+        public static void DrawImage(Graphics g, Bitmap bitmap, RectangleF rect)
         {
             g.DrawImage(bitmap, new RectangleF
             {
@@ -81,7 +115,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
 
         public static void DrawText(Graphics g, string str, PointF pointF, string font, int fontH)
         {
-            g.DrawString(str, new Font(font, (float)(fontH * ZoomFactor)),  Brushes.Yellow, new PointF((float)(pointF.X * ZoomFactor), (float)(pointF.Y * ZoomFactor)));
+            g.DrawString(str, new Font(font, (float)(fontH * ZoomFactor)), Brushes.Yellow, new PointF((float)(pointF.X * ZoomFactor), (float)(pointF.Y * ZoomFactor)));
         }
     }
 }

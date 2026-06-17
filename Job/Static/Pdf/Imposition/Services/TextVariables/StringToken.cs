@@ -1,71 +1,68 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 
-namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables
+namespace JobSpace.Static.Pdf.Imposition.Services.TextVariables;
+
+// Використовуємо Primary Constructor для C# 12
+public class StringToken(TextMark mark, TextVariablesService textVariablesService)
 {
-    public class StringToken
+    private readonly TextMark _mark = mark ?? throw new ArgumentNullException(nameof(mark));
+
+    public List<TextToken> Tokens { get; } = ParseString(mark.Text, mark, textVariablesService);
+
+    // Статичний метод парсингу полегшує тестування та запобігає витоку "this" під час ініціалізації
+    private static List<TextToken> ParseString(string str, TextMark mark, TextVariablesService textVariablesService)
     {
-        public List<TextToken> Tokens { get; set; } = new List<TextToken>();
-        TextMark Mark { get; set; }
+        var tokens = new List<TextToken>();
+        if (string.IsNullOrEmpty(str)) return tokens;
 
+        int length = str.Length;
+        int start = 0;
 
-
-        public StringToken(TextMark mark, TextVariablesService textVariablesService)
+        for (int i = 0; i < length; i++)
         {
-            Mark = mark;
-            ParseSting(mark.Text, textVariablesService);
-        }
-
-        public void ParseSting(string str, TextVariablesService textVariablesService)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < str.Length; i++)
+            // Безпечна перевірка на початок токена $[
+            if (i < length - 1 && str[i] == '$' && str[i + 1] == '[')
             {
-                if (str[i] == '$' && str[i + 1] == '[')
+                // Якщо перед токеном був звичайний текст, обробляємо його
+                if (i > start)
                 {
-                    if (sb.Length > 0)
-                    {
-                        Tokens.AddRange(ProcessStr(sb, textVariablesService));
-                        sb.Clear();
-                    }
-                    //початок ключючового слова
-                    while (str[i] != ']')
-                    {
-                        sb.Append(str[i]);
-                        i++;
-                    }
-                    sb.Append(str[i]);
-
-                    Tokens.AddRange(ProcessStr(sb, textVariablesService));
-                    sb.Clear();
+                    tokens.AddRange(ProcessChunk(str.AsSpan(start, i - start), mark, textVariablesService));
                 }
-                else
+
+                start = i;
+                // Шукаємо закриваючу дужку з безпечною межею циклу
+                while (i < length && str[i] != ']')
                 {
-                    sb.Append(str[i]);
+                    i++;
                 }
+
+                // Включаємо саму дужку ']' в токен, якщо знайшли її
+                if (i < length) i++;
+
+                tokens.AddRange(ProcessChunk(str.AsSpan(start, i - start), mark, textVariablesService));
+                start = i;
+                i--; // Компенсуємо інкремент циклу for
             }
-
-            if (sb.Length > 0) Tokens.AddRange(ProcessStr(sb, textVariablesService));
         }
 
-        List<TextToken> ProcessStr(StringBuilder sb, TextVariablesService textVariablesService)
+        // Обробляємо залишок рядка
+        if (start < length)
         {
-            return textVariablesService.TextVariableCommand.HandleKeyword(Mark, sb.ToString(), textVariablesService);
+            tokens.AddRange(ProcessChunk(str.AsSpan(start, length - start), mark, textVariablesService));
         }
 
-        public string GetRawString()
-        {
-            StringBuilder rawString = new StringBuilder();
-            foreach (var token in Tokens)
-            {
-                rawString.Append(token.Text);
-            }
-            return rawString.ToString();
-        }
+        return tokens;
     }
+
+    // Використовуємо ReadOnlySpan<char> замість StringBuilder, щоб уникнути зайвих алокацій
+    private static IEnumerable<TextToken> ProcessChunk(ReadOnlySpan<char> chunk, TextMark mark, TextVariablesService service)
+    {
+        return service.TextVariableCommand.HandleKeyword(mark, chunk.ToString(), service);
+    }
+
+    // Сучасний та швидкий спосіб зшити рядки через LINQ/String.Concat
+    public string GetRawString() => string.Concat(Tokens.Select(t => t.Text));
 }

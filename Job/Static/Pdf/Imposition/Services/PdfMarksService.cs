@@ -15,7 +15,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         {
             //Потрібно перерахувати координати міток для листа і сюжету
 
-            RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
+            RectangleD sheetRect = new RectangleD (x1: 0, y1: 0, x2: sheet.W, y2: sheet.H);
             RectangleD subjectRect = ProcessSubject.GetSubjectRect(sheet, sheet.TemplatePageContainer);
             PdfMarksService.RecalcMarkCoordFront(sheet, sheet.Marks, sheetRect, subjectRect);
         }
@@ -41,7 +41,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         public static void RecalcMarkCoordBack(TemplateSheet sheet)
         {
-            RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
+            RectangleD sheetRect = new RectangleD (x1: 0, y1: 0, x2: sheet.W, y2: sheet.H);
             RectangleD subjectRect = sheet.TemplatePageContainer.GetSubjectRectBack(sheet);
             PdfMarksService.RecalcMarkCoordBack(sheet, sheet.Marks, sheetRect, subjectRect);
         }

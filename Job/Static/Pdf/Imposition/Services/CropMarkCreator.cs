@@ -33,8 +33,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         {
             return new CropMark
             {
-                From = new PointD { X = xFrom, Y = yFrom },
-                To = new PointD { X = xFrom + xOfs, Y = yFrom + yOfs }
+                From = new PointD (xFrom, yFrom ),
+                To = new PointD ( xFrom + xOfs,  yFrom + yOfs )
             };
         }
     }

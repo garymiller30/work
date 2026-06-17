@@ -1,5 +1,6 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models.Marks;
+﻿using Amazon.Runtime.Internal.Transform;
 using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,229 +11,69 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 {
     public static class PositioningService
     {
+
+        // Універсальний метод, який замінює два словника і гігантський switch
+        private static (double pX, double pY) GetAnchorCoefficientsFront(AnchorPoint anchor) => anchor switch
+        {
+            AnchorPoint.TopLeft => (0.0, 1.0),
+            AnchorPoint.TopCenter => (0.5, 1.0),
+            AnchorPoint.TopRight => (1.0, 1.0),
+
+            AnchorPoint.LeftCenter => (0.0, 0.5),
+            AnchorPoint.Center => (0.5, 0.5),
+            AnchorPoint.RightCenter => (1.0, 0.5),
+
+            AnchorPoint.BottomLeft => (0.0, 0.0),
+            AnchorPoint.BottomCenter => (0.5, 0.0),
+            AnchorPoint.BottomRight => (1.0, 0.0),
+            _ => (0.0, 0.0)
+        };
+
         public static void AnchorToAbsoluteCoordFront(RectangleD subject, PdfMark mark)
         {
-            double x = 0;
-            double y = 0;
-
-            switch (mark.Parameters.ParentAnchorPoint)
-            {
-                case AnchorPoint.BottomLeft:
-                    x = subject.X1;
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.BottomCenter:
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.BottomRight:
-                    x = subject.X2;
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.Center:
-
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y1 + subject.H / 2;
-
-                    break;
-                case AnchorPoint.TopLeft:
-
-                    x = subject.X1;
-                    y = subject.Y2;
-
-                    break;
-                case AnchorPoint.TopCenter:
-
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y2;
-
-                    break;
-                case AnchorPoint.TopRight:
-
-                    x = subject.X2;
-                    y = subject.Y2;
-
-                    break;
-                case AnchorPoint.LeftCenter:
-
-                    x = subject.X1;
-                    y = subject.Y1 + subject.H / 2;
-
-                    break;
-
-                case AnchorPoint.RightCenter:
-
-                    x = subject.X2;
-                    y = subject.Y1 + subject.H / 2;
-                    break;
-            }
-
-            double xMark = 0;
-            double yMark = 0;
-
             double w = mark.GetW(null);
             double h = mark.GetH(null);
 
-            switch (mark.Parameters.MarkAnchorPoint)
-            {
-                case AnchorPoint.BottomLeft:
-                    xMark = 0;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.BottomCenter:
-                    xMark = -w / 2;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.BottomRight:
-                    xMark = -w;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.Center:
-                    xMark = -w / 2;
-                    yMark = -h / 2;
-                    break;
-                case AnchorPoint.TopLeft:
-                    xMark = 0;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.TopCenter:
-                    xMark = -w / 2;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.TopRight:
-                    xMark = -w;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.LeftCenter:
-                    xMark = 0;
-                    yMark = -h / 2;
-                    break;
-                case AnchorPoint.RightCenter:
-                    xMark = -w;
-                    yMark = -h / 2;
-                    break;
-                default:
-                    break;
-            }
+            // 1. Отримуємо координати точки прив'язки на батьківському об'єкті
+            (double px, double py) = GetAnchorCoefficientsFront(mark.Parameters.ParentAnchorPoint);
 
-            mark.Front = new PointD()
-            {
-                X = x + xMark + mark.Parameters.Xofs,
-                Y = y + yMark + mark.Parameters.Yofs
-            };
+            double x = subject.X1 + subject.W * px;
+            double y = subject.Y1 + subject.H * py;
+
+            // 2. Отримуємо коефіцієнти для зміщення самої марки
+            (double mx, double my) = GetAnchorCoefficientsFront(mark.Parameters.MarkAnchorPoint);
+            double xMark = -w * mx;
+            double yMark = -h * my;
+
+            mark.Front = new PointD
+            (
+                x: x + xMark + mark.Parameters.Xofs,
+                y: y + yMark + mark.Parameters.Yofs
+            );
 
         }
 
         public static void AnchorToAbsoluteCoordFront(RectangleD subject, TextMark mark, TextVariablesService textVariablesService)
         {
-            double x = 0;
-            double y = 0;
-
-            switch (mark.Parameters.ParentAnchorPoint)
-            {
-                case AnchorPoint.BottomLeft:
-                    x = subject.X1;
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.BottomCenter:
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.BottomRight:
-                    x = subject.X2;
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.Center:
-
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y1 + subject.H / 2;
-
-                    break;
-                case AnchorPoint.TopLeft:
-
-                    x = subject.X1;
-                    y = subject.Y2;
-
-                    break;
-                case AnchorPoint.TopCenter:
-
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y2;
-
-                    break;
-                case AnchorPoint.TopRight:
-
-                    x = subject.X2;
-                    y = subject.Y2;
-
-                    break;
-                case AnchorPoint.LeftCenter:
-
-                    x = subject.X1;
-                    y = subject.Y1 + subject.H / 2;
-
-                    break;
-
-                case AnchorPoint.RightCenter:
-
-                    x = subject.X2;
-                    y = subject.Y1 + subject.H / 2;
-                    break;
-            }
-
-            double xMark = 0;
-            double yMark = 0;
-
             double w = mark.GetW(textVariablesService);
             double h = mark.GetH(textVariablesService);
 
-            switch (mark.Parameters.MarkAnchorPoint)
-            {
-                case AnchorPoint.BottomLeft:
-                    xMark = 0;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.BottomCenter:
-                    xMark = -w / 2;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.BottomRight:
-                    xMark = -w;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.Center:
-                    xMark = -w / 2;
-                    yMark = -h / 2;
-                    break;
-                case AnchorPoint.TopLeft:
-                    xMark = 0;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.TopCenter:
-                    xMark = -w / 2;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.TopRight:
-                    xMark = -w;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.LeftCenter:
-                    xMark = 0;
-                    yMark = -h / 2;
-                    break;
-                case AnchorPoint.RightCenter:
-                    xMark = -w;
-                    yMark = -h / 2;
-                    break;
-                default:
-                    break;
-            }
+            // 1. Отримуємо координати точки прив'язки на батьківському об'єкті
+            (double px, double py) = GetAnchorCoefficientsFront(mark.Parameters.ParentAnchorPoint);
 
-            mark.Front = new PointD()
-            {
-                X = x + xMark + mark.Parameters.Xofs,
-                Y = y + yMark + mark.Parameters.Yofs
-            };
+            double x = subject.X1 + subject.W * px;
+            double y = subject.Y1 + subject.H * py;
+
+            // 2. Отримуємо коефіцієнти для зміщення самої марки
+            (double mx, double my) = GetAnchorCoefficientsFront(mark.Parameters.MarkAnchorPoint);
+            double xMark = -w * mx;
+            double yMark = -h * my;
+
+            mark.Front = new PointD
+            (
+                x: x + xMark + mark.Parameters.Xofs,
+                y: y + yMark + mark.Parameters.Yofs
+            );
 
         }
 
@@ -246,227 +87,123 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             AnchorToToAbsoluteCoordBackTextMark(subject, mark, textVariablesService);
         }
 
-        static void AnchorToToAbsoluteCoordBackTextMark(RectangleD subject, TextMark mark,TextVariablesService textVariablesService)
+        private static (double pX, double pY) GetAnchorCoefficientsBack(AnchorPoint anchor, bool isMirrored)
         {
-            double x = 0;
-            double y = 0;
-
-            switch (mark.Parameters.ParentAnchorPoint)
+            if (isMirrored)
             {
-                case AnchorPoint.BottomLeft:
+                return anchor switch
+                {
+                    AnchorPoint.TopLeft => (0.0, 1.0),
+                    AnchorPoint.TopCenter => (0.5, 1.0),
+                    AnchorPoint.TopRight => (1.0, 1.0),
 
-                    x = subject.X1 + subject.W;
-                    if (mark.Parameters.IsBackMirrored)
-                    {
-                        x = subject.X1;
-                    }
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.BottomCenter:
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.BottomRight:
-                    x = subject.X1;
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.Center:
+                    AnchorPoint.LeftCenter => (0.0, 0.5),
+                    AnchorPoint.Center => (0.5, 0.5),
+                    AnchorPoint.RightCenter => (1.0, 0.5),
 
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y1 + subject.H / 2;
+                    AnchorPoint.BottomLeft => (0.0, 0.0),
+                    AnchorPoint.BottomCenter => (0.5, 0.0),
+                    AnchorPoint.BottomRight => (1.0, 0.0),
+                    _ => (0.0, 0.0)
+                };
 
-                    break;
-                case AnchorPoint.TopLeft:
-
-                    x = subject.X2;
-                    y = subject.Y2;
-
-                    break;
-                case AnchorPoint.TopCenter:
-
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y2;
-
-                    break;
-                case AnchorPoint.TopRight:
-
-                    x = subject.X1;
-                    y = subject.Y2;
-
-                    break;
-                case AnchorPoint.LeftCenter:
-
-                    x = subject.X2;
-                    y = subject.Y1 + subject.H / 2;
-
-                    break;
-
-                case AnchorPoint.RightCenter:
-
-                    x = subject.X1;
-                    y = subject.Y1 + subject.H / 2;
-                    break;
             }
+            else
+            {
+                return anchor switch
+                {
+                    AnchorPoint.TopLeft => (1.0, 1.0),
+                    AnchorPoint.TopCenter => (0.5, 1.0),
+                    AnchorPoint.TopRight => (0.0, 1.0),
 
-            double xMark = 0;
-            double yMark = 0;
+                    AnchorPoint.LeftCenter => (1.0, 0.5),
+                    AnchorPoint.Center => (0.5, 0.5),
+                    AnchorPoint.RightCenter => (0.0, 0.5),
+
+                    AnchorPoint.BottomLeft => (1.0, 0.0),
+                    AnchorPoint.BottomCenter => (0.5, 0.0),
+                    AnchorPoint.BottomRight => (0.0, 0.0),
+                    _ => (0.0, 0.0)
+                };
+            }
+        }
+
+        private static (double pX, double pY) GetParentAnchorCoefficientsBack(AnchorPoint anchor)
+        {
+                return anchor switch
+                {
+                    AnchorPoint.TopLeft => (1.0, 1.0),
+                    AnchorPoint.TopCenter => (0.5, 1.0),
+                    AnchorPoint.TopRight => (0.0, 1.0),
+
+                    AnchorPoint.LeftCenter => (1.0, 0.5),
+                    AnchorPoint.Center => (0.5, 0.5),
+                    AnchorPoint.RightCenter => (0.0, 0.5),
+
+                    AnchorPoint.BottomLeft => (1.0, 0.0),
+                    AnchorPoint.BottomCenter => (0.5, 0.0),
+                    AnchorPoint.BottomRight => (0.0, 0.0),
+                    _ => (0.0, 0.0)
+                };
+        }
+
+        static void AnchorToToAbsoluteCoordBackTextMark(RectangleD subject, TextMark mark, TextVariablesService textVariablesService)
+        {
 
             double w = mark.GetW(textVariablesService);
             double h = mark.GetH(textVariablesService);
 
-            switch (mark.Parameters.MarkAnchorPoint)
-            {
-                case AnchorPoint.BottomLeft:
-                    xMark = 0;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.BottomCenter:
-                    xMark = -w / 2;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.BottomRight:
-                    xMark = -w;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.Center:
-                    xMark = -w / 2;
-                    yMark = -h / 2;
-                    break;
-                case AnchorPoint.TopLeft:
-                    xMark = 0;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.TopCenter:
-                    xMark = -w / 2;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.TopRight:
-                    xMark = -w;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.LeftCenter:
-                    xMark = 0;
-                    yMark = -h / 2;
-                    break;
-                case AnchorPoint.RightCenter:
-                    xMark = -w;
-                    yMark = -h / 2;
-                    break;
-                default:
-                    break;
-            }
+            // 2. Отримуємо коефіцієнти для зміщення самої марки
+            (double px, double py) = GetParentAnchorCoefficientsBack(mark.Parameters.ParentAnchorPoint);
+
+            double x = subject.X1 + subject.W * px;
+            double y = subject.Y1 + subject.H * py;
+
+            (double mx, double my) = GetAnchorCoefficientsBack(mark.Parameters.MarkAnchorPoint, mark.Parameters.IsBackMirrored);
+            double xMark = -w * mx;
+            double yMark = -h * my;
 
             double xOfs = -mark.Parameters.Xofs;
             if (mark.Parameters.IsBackMirrored)
             {
                 xOfs = mark.Parameters.Xofs;
             }
-            mark.Back = new PointD()
-            {
-                X = x + xMark + xOfs,
-                Y = y + yMark + mark.Parameters.Yofs
-            };
+
+            mark.Back = new PointD
+            (
+                x: x + xMark + xOfs,
+                y: y + yMark + mark.Parameters.Yofs
+            );
+
         }
 
         static void AnchorToToAbsoluteCoordBackPdfMark(RectangleD subject, PdfMark mark)
         {
-            double x = 0;
-            double y = 0;
-
-            switch (mark.Parameters.ParentAnchorPoint)
-            {
-                case AnchorPoint.BottomLeft:
-                    x = subject.X1 + subject.W;
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.BottomCenter:
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.BottomRight:
-                    x = subject.X1;
-                    y = subject.Y1;
-                    break;
-                case AnchorPoint.Center:
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y1 + subject.H / 2;
-                    break;
-                case AnchorPoint.TopLeft:
-                    x = subject.X2;
-                    y = subject.Y2;
-                    break;
-                case AnchorPoint.TopCenter:
-                    x = subject.X1 + subject.W / 2;
-                    y = subject.Y2;
-                    break;
-                case AnchorPoint.TopRight:
-                    x = subject.X1;
-                    y = subject.Y2;
-                    break;
-                case AnchorPoint.LeftCenter:
-                    x = subject.X2;
-                    y = subject.Y1 + subject.H / 2;
-                    break;
-                case AnchorPoint.RightCenter:
-                    x = subject.X1;
-                    y = subject.Y1 + subject.H / 2;
-                    break;
-            }
-
-            double xMark = 0;
-            double yMark = 0;
-
             double w = mark.GetW(null);
             double h = mark.GetH(null);
 
-            switch (mark.Parameters.MarkAnchorPoint)
+            // 2. Отримуємо коефіцієнти для зміщення самої марки
+            (double px, double py) = GetParentAnchorCoefficientsBack(mark.Parameters.ParentAnchorPoint);
+
+            double x = subject.X1 + subject.W * px;
+            double y = subject.Y1 + subject.H * py;
+
+            (double mx, double my) = GetAnchorCoefficientsBack(mark.Parameters.MarkAnchorPoint, mark.Parameters.IsBackMirrored);
+            double xMark = -w * mx;
+            double yMark = -h * my;
+
+
+            double xOfs = -mark.Parameters.Xofs;
+            if (mark.Parameters.IsBackMirrored)
             {
-                case AnchorPoint.BottomLeft:
-                    xMark = 0;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.BottomCenter:
-                    xMark = -w / 2;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.BottomRight:
-                    xMark = -w;
-                    yMark = 0;
-                    break;
-                case AnchorPoint.Center:
-                    xMark = -w / 2;
-                    yMark = -h / 2;
-                    break;
-                case AnchorPoint.TopLeft:
-                    xMark = 0;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.TopCenter:
-                    xMark = -w / 2;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.TopRight:
-                    xMark = -w;
-                    yMark = -h;
-                    break;
-                case AnchorPoint.LeftCenter:
-                    xMark = 0;
-                    yMark = -h / 2;
-                    break;
-                case AnchorPoint.RightCenter:
-                    xMark = -w;
-                    yMark = -h / 2;
-                    break;
-                default:
-                    break;
+                xOfs = mark.Parameters.Xofs;
             }
 
-
-            mark.Back = new PointD()
-            {
-                X = x + xMark - mark.Parameters.Xofs,
-                Y = y + yMark + mark.Parameters.Yofs
-            };
+            mark.Back = new PointD
+            (
+                x: x + xMark - xOfs,
+                y: y + yMark + mark.Parameters.Yofs
+            );
         }
 
         public static void CalcClipMarkCoordFront(TemplateSheet sheet, RectangleD sheetRect, RectangleD subjectRect, PdfMark mark)
@@ -477,9 +214,6 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             double y1 = param.ClipBox.Bottom;
             double x2 = param.ClipBox.Left + mark.GetClippedW();
             double y2 = param.ClipBox.Bottom + mark.GetClippedH();
-
-
-
 
             if (param.IsAutoClipX)
             {
@@ -493,7 +227,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
                     if (mark_w > subjectRect.W)
                     {
-                        double left = subjectRect.X1 - mark.Front.X ;
+                        double left = subjectRect.X1 - mark.Front.X;
                         double right = mark_w + mark.Front.X - subjectRect.X2;
 
                         x1 = left;
@@ -517,22 +251,14 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 }
             }
 
-            mark.ClipBoxFront = new RectangleD()
-            {
-                X1 = x1,
-                Y1 = y1,
-                X2 = x2,
-                Y2 = y2
-            };
+            mark.ClipBoxFront = new RectangleD(x1: x1, y1: y1, x2: x2, y2: y2);
 
 
 
             double mark_x = mark.Front.X + mark.GetClippedLeftByAngleFront();
             double mark_y = mark.Front.Y + mark.GetClippedBottomByAngleFront();
 
-            mark.Front.X = mark_x;
-            mark.Front.Y = mark_y;
-
+            mark.Front = new PointD(mark_x, mark_y);
         }
 
         public static void CalcClipMarkCoordBack(TemplateSheet sheet, RectangleD sheetRect, RectangleD subjectRect, PdfMark mark)
@@ -581,19 +307,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 }
             }
 
-            mark.ClipBoxBack = new RectangleD()
-            {
-                X1 = x1,
-                Y1 = y1,
-                X2 = x2,
-                Y2 = y2
-            };
+            mark.ClipBoxBack = new RectangleD(x1: x1, y1: y1, x2: x2, y2: y2);
 
             double mark_x = mark.Back.X + mark.GetClippedLeftByAngleBack(sheet.SheetPlaceType);
             double mark_y = mark.Back.Y + mark.GetClippedBottomByAngleBack(sheet.SheetPlaceType);
 
-            mark.Back.X = mark_x;
-            mark.Back.Y = mark_y;
+            mark.Back = new PointD(mark_x, mark_y);
         }
     }
 }

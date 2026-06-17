@@ -71,7 +71,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 
         public void Add(string colorId)
         {
-           
+
             var rect = Palette.CreateRectangle(colorId);
 
             RowElementsId.Add(rect.Id);
@@ -147,19 +147,19 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
                 {
                     new Line()
                     {
-                        From = new PointD { X = 0, Y = ccb.Palette.DefaultHeight / 2 },
-                        To = new PointD { X = ccb.Palette.DefaultWidth, Y = ccb.Palette.DefaultHeight / 2 },
+                        From = new PointD ( x : 0, y : ccb.Palette.DefaultHeight / 2 ),
+                        To = new PointD ( x : ccb.Palette.DefaultWidth, y: ccb.Palette.DefaultHeight / 2 ),
                         StrokeId = colorReg
                     },
                     new Line()
                     {
-                        From = new PointD { X = ccb.Palette.DefaultWidth / 2, Y = 0 },
-                        To = new PointD { X = ccb.Palette.DefaultWidth / 2, Y = ccb.Palette.DefaultHeight },
+                        From = new PointD (ccb.Palette.DefaultWidth / 2,  0 ),
+                        To = new PointD (ccb.Palette.DefaultWidth / 2, ccb.Palette.DefaultHeight ),
                         StrokeId = colorReg
                     },
                      new Circle
                      {
-                         Center = new PointD { X = ccb.Palette.DefaultWidth / 2, Y = ccb.Palette.DefaultHeight / 2 },
+                         Center = new PointD (ccb.Palette.DefaultWidth / 2, ccb.Palette.DefaultHeight / 2 ),
                          Radius = 2,
                          StrokeId = colorReg
                      }
@@ -169,34 +169,34 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
             Figure darkGrey = ccb.Palette.CreateFigure(new Triangle()
             {
                 FillId = colorDarkGrey,
-                Point1 = new PointD { X = 0, Y = 0 },
-                Point2 = new PointD { X = ccb.Palette.DefaultWidth, Y = 0 },
-                Point3 = new PointD { X = 0, Y = ccb.Palette.DefaultHeight - 0.5 }
+                Point1 = new PointD ( 0,  0 ),
+                Point2 = new PointD (ccb.Palette.DefaultWidth,  0 ),
+                Point3 = new PointD (  0,  ccb.Palette.DefaultHeight - 0.5 )
             },
                     new Triangle()
                     {
                         FillId = colorK,
                         Tint = 50,
-                        Point1 = new PointD { X = 0, Y = ccb.Palette.DefaultHeight - 0.5 },
-                        Point2 = new PointD { X = ccb.Palette.DefaultWidth, Y = 0 },
-                        Point3 = new PointD { X = ccb.Palette.DefaultWidth, Y = ccb.Palette.DefaultHeight - 0.5 }
+                        Point1 = new PointD (0, ccb.Palette.DefaultHeight - 0.5 ),
+                        Point2 = new PointD (ccb.Palette.DefaultWidth,  0 ),
+                        Point3 = new PointD (ccb.Palette.DefaultWidth, ccb.Palette.DefaultHeight - 0.5 )
                     });
 
             Figure lightGrey = ccb.Palette.CreateFigure(
                 new Triangle()
                 {
                     FillId = colorLightGrey,
-                    Point1 = new PointD { X = 0, Y = 0 },
-                    Point2 = new PointD { X = ccb.Palette.DefaultWidth, Y = 0 },
-                    Point3 = new PointD { X = ccb.Palette.DefaultWidth, Y = ccb.Palette.DefaultHeight - 0.5 }
+                    Point1 = new PointD (0, 0),
+                    Point2 = new PointD (ccb.Palette.DefaultWidth, 0 ),
+                    Point3 = new PointD (ccb.Palette.DefaultWidth, ccb.Palette.DefaultHeight - 0.5 )
                 },
                 new Triangle()
                 {
                     FillId = colorK,
                     Tint = 25,
-                    Point1 = new PointD { X = 0, Y = 0 },
-                    Point2 = new PointD { X = 0, Y = ccb.Palette.DefaultHeight - 0.5 },
-                    Point3 = new PointD { X = ccb.Palette.DefaultWidth, Y = ccb.Palette.DefaultHeight - 0.5 }
+                    Point1 = new PointD (0,  0 ),
+                    Point2 = new PointD (0, ccb.Palette.DefaultHeight - 0.5 ),
+                    Point3 = new PointD (ccb.Palette.DefaultWidth, ccb.Palette.DefaultHeight - 0.5 )
                 }
             );
             Figure rozetkaC = ccb.Palette.CreateFigure(
@@ -271,7 +271,7 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
             ccb.Add(colorW);
             ccb.Add(registration);
 
-            ccb.Palette.ReplaceColor(colorC,MarkColor.ProofColor);
+            ccb.Palette.ReplaceColor(colorC, MarkColor.ProofColor);
 
             ccb.SaveToJson("!test.json");
             var ccb_copy = ccb.LoadFromJson("!test.json");

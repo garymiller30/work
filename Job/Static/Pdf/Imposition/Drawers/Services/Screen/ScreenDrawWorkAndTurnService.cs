@@ -16,7 +16,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 {
     public static class ScreenDrawWorkAndTurnService
     {
-        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService, ProductPart productPart = null)
+        public static Bitmap Draw(TemplateSheet sheet, TextVariablesService textVariablesService, ProductPart? productPart = null)
         {
             var templateContainer = sheet.TemplatePageContainer;
             Bitmap bitmap = new Bitmap(
@@ -62,7 +62,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawTextMarkBack(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)
         {
-
+            // реалівувати малювання текстових міток на звороті
         }
 
         private static void DrawPdfMarkBack(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)
@@ -150,7 +150,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             pen.Dispose();
         }
 
-        public static void DrawPageBack(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart productPart = null)
+        public static void DrawPageBack(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart? productPart = null)
         {
             DrawBleeds(g, page, page.Back, sH);
 
@@ -355,7 +355,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             g.Restore(state);
         }
 
-        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart productPart = null)
+        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart? productPart = null)
         {
             PageSide side = page.Front;
 

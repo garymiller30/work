@@ -65,12 +65,12 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             var rect = ProcessSubject.GetSubjectRect(sheet,this);//  GetSubjectRectFront();
 
             return new RectangleD
-            {
-                X1 = sheet.W - rect.X2,
-                Y1 = rect.Y1,
-                X2 = sheet.W - rect.X1,
-                Y2 = rect.Y2
-            };
+            (
+                x1 : sheet.W - rect.X2,
+                y1 : rect.Y1,
+                x2 : sheet.W - rect.X1,
+                y2 : rect.Y2
+            );
         }
 
         public static void Save(TemplatePageContainer templatePageContainer, string filePath)

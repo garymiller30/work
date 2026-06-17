@@ -256,12 +256,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             double verticalBleed = GetVerticalBleed(page, page.Front);
 
             return new RectangleD
-            {
-                X1 = rect.page_x - left - delta,
-                Y1 = rect.page_y - bottom - delta,
-                X2 = rect.page_x + rect.page_w + horizontalBleed - left + delta,
-                Y2 = rect.page_y + rect.page_h + verticalBleed - bottom + delta
-            };
+            (
+                x1 : rect.page_x - left - delta,
+                y1 : rect.page_y - bottom - delta,
+                x2 : rect.page_x + rect.page_w + horizontalBleed - left + delta,
+                y2 : rect.page_y + rect.page_h + verticalBleed - bottom + delta
+            );
         }
 
         private static RectangleD GetPageRectWithBleedsBack(TemplateSheet sheet, TemplatePage page)
@@ -274,12 +274,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             double verticalBleed = GetVerticalBleed(page, page.Back);
 
             return new RectangleD
-            {
-                X1 = rect.page_x - left - delta,
-                Y1 = rect.page_y - bottom - delta,
-                X2 = rect.page_x + rect.page_w + horizontalBleed - left + delta,
-                Y2 = rect.page_y + rect.page_h + verticalBleed - bottom + delta
-            };
+            (
+                x1 : rect.page_x - left - delta,
+                y1 : rect.page_y - bottom - delta,
+                x2 : rect.page_x + rect.page_w + horizontalBleed - left + delta,
+                y2 : rect.page_y + rect.page_h + verticalBleed - bottom + delta
+            );
         }
 
         private static double GetHorizontalBleed(TemplatePage page, PageSide side)
@@ -392,11 +392,10 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         private static PointD Interpolate(PointD from, PointD to, double t)
         {
-            return new PointD
-            {
-                X = from.X + (to.X - from.X) * t,
-                Y = from.Y + (to.Y - from.Y) * t
-            };
+            return new PointD(            
+                x : from.X + (to.X - from.X) * t,
+                y : from.Y + (to.Y - from.Y) * t
+            );
         }
 
 

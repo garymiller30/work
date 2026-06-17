@@ -30,12 +30,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
                         (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(pageTarget, pageTarget.Front);
 
                         RectangleD pageRect = new RectangleD
-                        {
-                            X1 = page_x,
-                            Y1 = page_y,
-                            X2 = page_x + page_w,
-                            Y2 = page_y + page_h
-                        };
+                        (
+                            x1 : page_x,
+                            y1 : page_y,
+                            x2 : page_x + page_w,
+                            y2 : page_y + page_h
+                        );
 
                         List<RectangleD> rects = new List<RectangleD>() {
                             ScreenDrawCommons.GetDrawBleedLeftFront(pageTarget),
@@ -84,12 +84,12 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
                         (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(pageTarget, pageTarget.Back);
 
                         RectangleD pageRect = new RectangleD
-                        {
-                            X1 = page_x,
-                            Y1 = page_y,
-                            X2 = page_x + page_w,
-                            Y2 = page_y + page_h
-                        };
+                        (
+                            x1 : page_x,
+                            y1 : page_y,
+                            x2 : page_x + page_w,
+                            y2 : page_y + page_h
+                        );
 
                         List<RectangleD> rects = new List<RectangleD>(){
                             ScreenDrawCommons.GetDrawBleedLeftFront(pageTarget),

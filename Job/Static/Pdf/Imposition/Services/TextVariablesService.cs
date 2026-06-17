@@ -47,16 +47,19 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         }
 
 
-        public string ReplaceToRealValues(string str)
+        public string ReplaceToRealValues(string? str)
         {
-            string output = str;
+            if (string.IsNullOrEmpty( str)) return string.Empty;
 
-            foreach (var key in Values)
+            // Ініціалізуємо StringBuilder початковим рядком
+            var sb = new StringBuilder(str);
+
+            foreach (var (key, value) in Values)
             {
-                output = output.Replace(key.Key, key.Value);
+                sb.Replace(key, value);
             }
 
-            return output;
+            return sb.ToString();
         }
     }
 

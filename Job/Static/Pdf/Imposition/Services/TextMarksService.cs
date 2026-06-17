@@ -13,7 +13,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
     {
         public static void RecalcMarkCoordFront(TemplateSheet sheet, TextVariablesService textVariablesService)
         {
-            RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
+            RectangleD sheetRect = new RectangleD (x1: 0, y1: 0, x2: sheet.W, y2: sheet.H);
             RectangleD subjectRect = ProcessSubject.GetSubjectRect(sheet, sheet.TemplatePageContainer);
             TextMarksService.RecalcMarkCoordFront(sheet.Marks, sheetRect, subjectRect, textVariablesService);
         }
@@ -35,7 +35,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         }
         public static void RecalcMarkCoordBack(TemplateSheet sheet, TextVariablesService textVariablesService)
         {
-            RectangleD sheetRect = new RectangleD { X1 = 0, Y1 = 0, X2 = sheet.W, Y2 = sheet.H };
+            RectangleD sheetRect = new RectangleD (x1: 0, y1: 0, x2: sheet.W, y2: sheet.H);
             RectangleD subjectRect = sheet.TemplatePageContainer.GetSubjectRectBack(sheet);
             TextMarksService.RecalcMarkCoordBack(sheet.Marks, sheetRect, subjectRect, textVariablesService);
         }

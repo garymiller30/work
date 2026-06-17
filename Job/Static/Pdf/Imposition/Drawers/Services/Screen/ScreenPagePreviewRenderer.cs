@@ -14,17 +14,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
         private const int PreviewDpi = 96;
         private static readonly Dictionary<string, Bitmap> PreviewCache = new Dictionary<string, Bitmap>();
 
-        public static bool DrawFront(Graphics g, ProductPart productPart, TemplatePage page, RectangleF rect)
+        public static bool DrawFront(Graphics g, ProductPart? productPart, TemplatePage page, RectangleF rect)
         {
             return Draw(g, productPart, page.Front.AssignedRunPage, page.Front, page.W, page.H, rect);
         }
 
-        public static bool DrawBack(Graphics g, ProductPart productPart, TemplatePage page, RectangleF rect)
+        public static bool DrawBack(Graphics g, ProductPart? productPart, TemplatePage page, RectangleF rect)
         {
             return Draw(g, productPart, page.Back.AssignedRunPage, page.Back, page.W, page.H, rect);
         }
 
-        private static bool Draw(Graphics g, ProductPart productPart, ImposRunPage runPage, PageSide side, double pageW, double pageH, RectangleF rect)
+        private static bool Draw(Graphics g, ProductPart? productPart, ImposRunPage runPage, PageSide side, double pageW, double pageH, RectangleF rect)
         {
             if (productPart == null || runPage == null || runPage.FileId == 0 || runPage.PageIdx == 0) return false;
 

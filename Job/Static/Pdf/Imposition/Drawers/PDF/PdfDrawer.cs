@@ -109,27 +109,27 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF
 
         private void DrawWorkAndTumble(PDFlib p, ProductPart impos, PrintSheet sheet)
         {
-            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Клапан-хвіст");
+            _imposParam.TextVariables.SetValue(ValueList.SheetSide, Constants.WORK_AND_TUMBLE_STRING);
             DrawSheet.WorkAndTumble(p, impos, sheet, _imposParam);
         }
 
         private void DrawWorkAndTurn(PDFlib p, ProductPart impos, PrintSheet sheet)
         {
-            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Свій зворот");
+            _imposParam.TextVariables.SetValue(ValueList.SheetSide, Constants.WORK_AND_TURN_STRING);
             DrawSheet.WorkAndTurn(p, impos, sheet, _imposParam);
         }
 
         private void DrawSheetwise(PDFlib p, ProductPart impos, PrintSheet sheet)
         {
-            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Лице");
+            _imposParam.TextVariables.SetValue(ValueList.SheetSide, Constants.FRONT_SIDE_STRING);
             DrawSheet.Front(p, impos, sheet, _imposParam);
-            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Зворот");
+            _imposParam.TextVariables.SetValue(ValueList.SheetSide, Constants.BACK_SIDE_STRING);
             DrawSheet.Back(p, impos, sheet, _imposParam);
         }
 
         private void DrawSingleSide(PDFlib p, ProductPart impos, PrintSheet sheet)
         {
-            _imposParam.TextVariables.SetValue(ValueList.SheetSide, "Без звороту");
+            _imposParam.TextVariables.SetValue(ValueList.SheetSide, Constants.SINGLE_SIDE_STRING);
             DrawSheet.Front(p, impos, sheet, _imposParam);
         }
 

@@ -325,52 +325,25 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                         break;
 
                     case 90:
-                        g.TranslateTransform((sx)*zoom, (sy+page_h-dist*2)*zoom);
+                        g.TranslateTransform((sx) * zoom, (sy + page_h - dist * 2) * zoom);
                         g.RotateTransform(270);
                         ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
                         break;
 
                     case 180:
-                        g.TranslateTransform((sx + page_w - dist - 5)*zoom, (sy + dist*2-2 )*zoom);
+                        g.TranslateTransform((sx + page_w - dist - 5) * zoom, (sy + dist * 2 - 2) * zoom);
                         g.RotateTransform(180);
                         ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
                         break;
 
                     case 270:
-                        g.TranslateTransform((sx+dist+5-2)*zoom, (sy)*zoom);
+                        g.TranslateTransform((sx + dist + 5 - 2) * zoom, (sy) * zoom);
                         g.RotateTransform(90);
                         ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
                         break;
                 }
 
                 g.Restore(state);
-                //var state = g.Save();
-                //// малювати в кутку в залежності від кута сторінки. 
-                //switch(side.Angle)
-                //{
-                //    case 0:
-                //        sx = x + 6;
-                //        sy = y + dist;
-                //        g.RotateTransform(0);
-                //        break;
-                //    case 90:
-                //        sx = x + dist;
-                //        sy = y + page_h - dist - 10;
-                //        g.RotateTransform(90);
-                //        break;
-                //    case 180:
-                //        sx = x + dist;
-                //        sy = y + page_h - dist - 10;
-                //        g.RotateTransform(180);
-                //        break;
-                //    case 270:
-                //        sx = x + page_w - dist - 20;
-                //        sy = y + dist;
-                //        g.RotateTransform(270);
-                //        break;
-                //}
-                //ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(sx, sy), "Arial", 5);
-                //g.Restore(state);
             }
 
 
@@ -407,50 +380,28 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             switch (side.Angle)
             {
                 case 0:
-
-                    return new RectangleD()
-                    {
-                        X1 = page_x - getLeft(),
-                        Y1 = page_y,
-                        X2 = page_x,
-                        Y2 = page_y + page_h,
-                    }
-                        ;
+                    return new RectangleD(x1: page_x - getLeft(), y1: page_y, x2: page_x, y2: page_y + page_h);
                 case 90:
-                    return new RectangleD()
-                    {
-                        X1 = page_x,
-                        Y1 = page_y - getLeft(),
-                        X2 = page_x + page_w,
-                        Y2 = page_y
-                    };
+                    return new RectangleD(x1: page_x, y1: page_y - getLeft(), x2: page_x + page_w, y2: page_y);
                 case 180:
-                    return new RectangleD()
-                    {
-                        X1 = page_x + page_w,
-                        Y1 = page_y,
-                        X2 = page_x + page_w + getLeft(),
-                        Y2 = page_y + page_h,
-                    };
+                    return new RectangleD(x1: page_x + page_w, y1: page_y, x2: page_x + page_w + getLeft(), y2: page_y + page_h);
                 case 270:
-                    return new RectangleD()
-                    {
-                        X1 = page_x,
-                        Y1 = page_y + page_h,
-                        X2 = page_x + page_w,
-                        Y2 = page_y + page_h + getLeft(),
-                    };
+                    return new RectangleD
+                    (
+                        x1: page_x,
+                        y1: page_y + page_h,
+                        x2: page_x + page_w,
+                        y2: page_y + page_h + getLeft()
+                    );
                 default:
                     throw new NotImplementedException();
             }
 
             double getLeft()
             {
-                //if (b.Left > m.Left) return m.Left;
                 return b.Left;
 
             }
-            ;// => b.Left;// m.Left < b.Left ? m.Left : b.Left;
         }
 
         public static RectangleD GetDrawBleedRightFront(TemplatePage page)
@@ -464,50 +415,46 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             switch (side.Angle)
             {
                 case 0:
-                    return new RectangleD()
-                    {
-                        X1 = page_x + page_w,
-                        Y1 = page_y,
-                        X2 = page_x + page_w + getRight(),
-                        Y2 = page_y + page_h,
-                    };
+                    return new RectangleD
+                    (
+                        x1 : page_x + page_w,
+                        y1 : page_y,
+                        x2 : page_x + page_w + getRight(),
+                        y2 : page_y + page_h
+                    );
                 case 90:
-                    return new RectangleD()
-                    {
-                        X1 = page_x,
-                        Y1 = page_y + page_h,
-                        X2 = page_x + page_w,
-                        Y2 = page_y + page_h + getRight()
-                    };
+                    return new RectangleD
+                    (
+                        x1 : page_x,
+                        y1 : page_y + page_h,
+                        x2 : page_x + page_w,
+                        y2 : page_y + page_h + getRight()
+                    );
                 case 180:
-                    return new RectangleD()
-                    {
-                        X1 = page_x - getRight(),
-                        Y1 = page_y,
-                        X2 = page_x,
-                        Y2 = page_y + page_h
-                    };
+                    return new RectangleD
+                    (
+                        x1 : page_x - getRight(),
+                        y1 : page_y,
+                        x2 : page_x,
+                        y2 : page_y + page_h
+                    );
                 case 270:
-                    return new RectangleD()
-                    {
-                        X1 = page_x,
-                        Y1 = page_y - getRight(),
-                        X2 = page_x + page_w,
-                        Y2 = page_y
-                    };
+                    return new RectangleD
+                    (
+                        x1 : page_x,
+                        y1 : page_y - getRight(),
+                        x2 : page_x + page_w,
+                        y2 : page_y
+                    );
                 default:
                     throw new NotImplementedException();
             }
 
             double getRight()
             {
-                //if (b.Right > m.Right) return m.Right;
-
+             
                 return b.Right;
-
-
-            } // m.Right < b.Right ? m.Right : b.Right;
-
+            } 
         }
 
         public static RectangleD GetDrawBleedTopFront(TemplatePage page)
@@ -521,51 +468,45 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             switch (side.Angle)
             {
                 case 0:
-                    return new RectangleD()
-                    {
-                        X1 = page_x,
-                        Y1 = page_y + page_h,
-                        X2 = page_x + page_w,
-                        Y2 = page_y + page_h + getTop()
-                    };
+                    return new RectangleD
+                    (
+                        x1: page_x,
+                        y1: page_y + page_h,
+                        x2: page_x + page_w,
+                        y2: page_y + page_h + getTop()
+                    );
                 case 90:
-                    return new RectangleD()
-                    {
-                        X1 = page_x - getTop(),
-                        Y1 = page_y,
-                        X2 = page_x,
-                        Y2 = page_y + page_h
-                    };
+                    return new RectangleD
+                    (
+                        x1: page_x - getTop(),
+                        y1: page_y,
+                        x2: page_x,
+                        y2: page_y + page_h
+                    );
                 case 180:
-                    return new RectangleD()
-                    {
-                        X1 = page_x,
-                        Y1 = page_y - getTop(),
-                        X2 = page_x + page_w,
-                        Y2 = page_y
-                    };
+                    return new RectangleD
+                    (
+                        x1: page_x,
+                        y1: page_y - getTop(),
+                        x2: page_x + page_w,
+                        y2: page_y
+                    );
                 case 270:
-                    return new RectangleD()
-                    {
-                        X1 = page_x + page_w,
-                        Y1 = page_y,
-                        X2 = page_x + page_w + getTop(),
-                        Y2 = page_y + page_h
-                    };
+                    return new RectangleD
+                    (
+                        x1: page_x + page_w,
+                        y1: page_y,
+                        x2: page_x + page_w + getTop(),
+                        y2: page_y + page_h
+                    );
                 default:
                     throw new NotImplementedException();
             }
 
             double getTop()
             {
-
-                //if (b.Top > m.Top) return m.Top;
-
                 return b.Top;
-
             }
-            //b.Top;// m.Top < b.Top ? m.Top : b.Top;
-
         }
 
         public static RectangleD GetDrawBleedBottomFront(TemplatePage page)
@@ -579,47 +520,39 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             switch (side.Angle)
             {
                 case 0:
-                    return new RectangleD()
-                    {
-                        X1 = page_x,
-                        Y1 = page_y - getBottom(),
-                        X2 = page_x + page_w,
-                        Y2 = page_y
-                    };
+                    return new RectangleD
+                    (
+                        x1: page_x,
+                        y1: page_y - getBottom(),
+                        x2: page_x + page_w,
+                        y2: page_y
+                    );
                 case 90:
-                    return new RectangleD()
-                    {
-                        X1 = page_x + page_w,
-                        Y1 = page_y,
-                        X2 = page_x + page_w + getBottom(),
-                        Y2 = page_y + page_h
-                    };
+                    return new RectangleD
+                    (
+                        x1: page_x + page_w,
+                        y1: page_y,
+                        x2: page_x + page_w + getBottom(),
+                        y2: page_y + page_h
+                    );
                 case 180:
-                    return new RectangleD()
-                    {
-                        X1 = page_x,
-                        Y1 = page_y + page_h,
-                        X2 = page_x + page_w,
-                        Y2 = page_y + page_h + getBottom(),
-                    };
+                    return new RectangleD
+                    (
+                        x1: page_x,
+                        y1: page_y + page_h,
+                        x2: page_x + page_w,
+                        y2: page_y + page_h + getBottom()
+                    );
                 case 270:
-                    return new RectangleD()
-                    {
-                        X1 = page_x - getBottom(),
-                        Y1 = page_y,
-                        X2 = page_x,
-                        Y2 = page_y + page_h
-                    };
+                    return new RectangleD(x1: page_x - getBottom(), y1: page_y, x2: page_x, y2: page_y + page_h);
                 default:
                     throw new NotImplementedException();
             }
 
             double getBottom()
             {
-
-                //if (b.Bottom > m.Bottom) return m.Bottom;
                 return b.Bottom;
-            }// => b.Bottom;// m.Bottom < b.Bottom ? m.Bottom : b.Bottom;
+            }
         }
 
         public static (double page_x, double page_y, double page_w, double page_h) GetPageDrawBack(TemplateSheet sheet, TemplatePage page, PageSide side)

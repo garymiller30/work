@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace JobSpace.Static.Pdf.Imposition.Models
 {
@@ -11,17 +7,17 @@ namespace JobSpace.Static.Pdf.Imposition.Models
     /// </summary>
     public sealed class PointD
     {
+        [JsonConstructor]
+        public PointD(double x,double y)
+        {
+            X = x; Y = y;
+        }
         public PointD()
         {
             
         }
 
-        public PointD(double x,double y)
-        {
-            X = x; Y = y;
-        }
-
-        public double X { get; set; }
-        public double Y { get; set; }
+        public  double X { get; set; }
+        public  double Y { get; set; }
     }
 }
