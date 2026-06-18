@@ -12,116 +12,107 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 {
     public class CropMarksController
     {
+
+
+
         public CropMarksParam Parameters { get; set; } = new CropMarksParam();
 
         public List<CropMark> CropMarks { get; set; } = new List<CropMark>();
 
-        public CropDirection[] GetDrawDirectionFront(double angle)
+        public CropDirection[] GetDrawDirectionFront(double angle) => angle switch
         {
-            Dictionary<double, CropDirection[]> drawDirectionFront = new Dictionary<double, CropDirection[]>
-            {
-                {000, new CropDirection[]{
-                    new CropDirection{X=-1},new CropDirection{Y=-1}, //BL
-                    new CropDirection{X=-1},new CropDirection{Y= 1}, //Tl
-                    new CropDirection{X= 1},new CropDirection{Y= 1}, //TR
-                    new CropDirection{X= 1},new CropDirection{Y=-1}, //BR
-                }},
-                {090, new CropDirection[]
-                {
-                    new CropDirection{Y=-1},new CropDirection{X= 1}, //BL
-                    new CropDirection{Y=-1},new CropDirection{X=-1}, //Tl
-                    new CropDirection{Y= 1},new CropDirection{X=-1}, //TR
-                    new CropDirection{Y= 1},new CropDirection{X= 1}, //BR
-                }},
-                {180, new CropDirection[]{
-                    new CropDirection{X= 1},new CropDirection{Y= 1}, //BL
-                    new CropDirection{X= 1},new CropDirection{Y=-1}, //Tl
-                    new CropDirection{X=-1},new CropDirection{Y=-1}, //TR
-                    new CropDirection{X=-1},new CropDirection{Y= 1}, //BR
-                }},
-                 {270, new CropDirection[]
-                {
-                    new CropDirection{Y= 1},new CropDirection{X=-1}, //BL
-                    new CropDirection{Y= 1},new CropDirection{X= 1}, //Tl
-                    new CropDirection{Y=-1},new CropDirection{X= 1}, //TR
-                    new CropDirection{Y=-1},new CropDirection{X=-1}, //BR
-                }},
-            };
-
-
-
-            return drawDirectionFront[angle];
-        }
-
-        public CropDirection[] GetDrawDirectionBack(double angle)
-        {
-            Dictionary<double, CropDirection[]> drawDirectionBack = new Dictionary<double, CropDirection[]>
-            {
-                {000, new CropDirection[]{
-                    new CropDirection{X=1},new CropDirection{Y=-1}, //BL
-                    new CropDirection{X=1},new CropDirection{Y= 1}, //Tl
-                    new CropDirection{X=-1},new CropDirection{Y= 1}, //TR
-                    new CropDirection{X=-1},new CropDirection{Y=-1}, //BR
-                }},
-                {090, new CropDirection[]
-                {
-                    new CropDirection{Y= 1},new CropDirection{X=-1}, //BL
-                    new CropDirection{Y= 1},new CropDirection{X= 1}, //Tl
-                    new CropDirection{Y=-1},new CropDirection{X= 1}, //TR
-                    new CropDirection{Y=-1},new CropDirection{X=-1}, //BR
-                }},
-                {180, new CropDirection[]{
-                    new CropDirection{X= 1},new CropDirection{Y= 1}, //BL
-                    new CropDirection{X= 1},new CropDirection{Y=-1}, //Tl
-                    new CropDirection{X=-1},new CropDirection{Y=-1}, //TR
-                    new CropDirection{X=-1},new CropDirection{Y= 1}, //BR
-                }},
-                 {270, new CropDirection[]
-                {
-                    new CropDirection{Y=-1},new CropDirection{X= 1}, //BL
-                    new CropDirection{Y=-1},new CropDirection{X=-1}, //Tl
-                    new CropDirection{Y= 1},new CropDirection{X=-1}, //TR
-                    new CropDirection{Y= 1},new CropDirection{X= 1}, //BR
-                }},
+            000 => [
+                new() { X = -1 }, new() { Y = -1 }, // BL
+                new() { X = -1 }, new() { Y =  1 }, // TL
+                new() { X =  1 }, new() { Y =  1 }, // TR
+                new() { X =  1 }, new() { Y = -1 }  // BR
+            ],
+            090 => [
+                new() { Y = -1 }, new() { X =  1 }, // BL
+                new() { Y = -1 }, new() { X = -1 }, // TL
+                new() { Y =  1 }, new() { X = -1 }, // TR
+                new() { Y =  1 }, new() { X =  1 }  // BR
+            ],
+            180 => [
+                new() { X =  1 }, new() { Y =  1 }, // BL
+                new() { X =  1 }, new() { Y = -1 }, // TL
+                new() { X = -1 }, new() { Y = -1 }, // TR
+                new() { X = -1 }, new() { Y =  1 }  // BR
+            ],
+            270 => [
+                new() { Y =  1 }, new() { X = -1 }, // BL
+                new() { Y =  1 }, new() { X =  1 }, // TL
+                new() { Y = -1 }, new() { X =  1 }, // TR
+                new() { Y = -1 }, new() { X = -1 }  // BR
+            ],
+            _ => throw new ArgumentException($"Непідтримуваний кут: {angle}", nameof(angle))
         };
 
-            return drawDirectionBack[angle];
-        }
-
-        public CropDirection[] GetDrawDirectionWorkandTumbleBack(double angle)
+        public CropDirection[] GetDrawDirectionBack(double angle) => angle switch
         {
-            Dictionary<double, CropDirection[]> drawDirectionBack = new Dictionary<double, CropDirection[]>
-            {
-                {0, new CropDirection[]{
-                    new CropDirection{X=-1},new CropDirection{Y=-1}, //BL
-                    new CropDirection{X=-1},new CropDirection{Y= 1}, //Tl
-                    new CropDirection{X=1},new CropDirection{Y= 1}, //TR
-                    new CropDirection{X=1},new CropDirection{Y=-1}, //BR
-                }},
-                {090, new CropDirection[]
-                {
-                    new CropDirection{Y=-1},new CropDirection{X= 1}, //BL
-                    new CropDirection{Y=-1},new CropDirection{X=-1}, //Tl
-                    new CropDirection{Y= 1},new CropDirection{X=-1}, //TR
-                    new CropDirection{Y= 1},new CropDirection{X= 1}, //BR
-                }},
-                {180, new CropDirection[]{
-                    new CropDirection{X= 1},new CropDirection{Y= 1}, //BL
-                    new CropDirection{X= 1},new CropDirection{Y=-1}, //Tl
-                    new CropDirection{X=-1},new CropDirection{Y=-1}, //TR
-                    new CropDirection{X=-1},new CropDirection{Y= 1}, //BR
-                }},
-                 {270, new CropDirection[]
-                {
-                    new CropDirection{Y= 1},new CropDirection{X=-1}, //BL
-                    new CropDirection{Y= 1},new CropDirection{X= 1}, //Tl
-                    new CropDirection{Y=-1},new CropDirection{X= 1}, //TR
-                    new CropDirection{Y=-1},new CropDirection{X=-1}, //BR
-                }},
+
+            000 => [
+                    new (){X=1}, new (){Y=-1}, //BL
+                    new (){X=1}, new (){Y= 1}, //Tl
+                    new (){X=-1},new (){Y= 1}, //TR
+                    new (){X=-1},new (){Y=-1}, //BR
+                ],
+            090 => [
+                    new (){Y= 1},new (){X=-1}, //BL
+                    new (){Y= 1},new (){X= 1}, //Tl
+                    new (){Y=-1},new (){X= 1}, //TR
+                    new (){Y=-1},new (){X=-1}, //BR
+            ],
+            180 => [
+                    new (){X= 1},new (){Y= 1}, //BL
+                    new (){X= 1},new (){Y=-1}, //Tl
+                    new (){X=-1},new (){Y=-1}, //TR
+                    new (){X=-1},new (){Y= 1}, //BR
+                ],
+            270 => [
+
+                    new (){Y=-1},new (){X= 1}, //BL
+                    new (){Y=-1},new (){X=-1}, //Tl
+                    new (){Y= 1},new (){X=-1}, //TR
+                    new (){Y= 1},new (){X= 1}, //BR
+           ],
+            _ => throw new ArgumentException($"Непідтримуваний кут: {angle}", nameof(angle))
+
+
         };
 
-            return drawDirectionBack[angle];
-        }
+        public CropDirection[] GetDrawDirectionWorkandTumbleBack(double angle) => angle switch
+        {
+
+            0 => [
+                    new(){X=-1}, new(){Y=-1}, //BL
+                    new(){X=-1}, new(){Y= 1}, //Tl
+                    new(){X= 1}, new(){Y= 1}, //TR
+                    new(){X= 1}, new(){Y=-1}, //BR
+                ],
+            090 => [
+                    new (){Y=-1},new (){X= 1}, //BL
+                    new (){Y=-1},new (){X=-1}, //Tl
+                    new (){Y= 1},new (){X=-1}, //TR
+                    new (){Y= 1},new (){X= 1}, //BR
+            ],
+            180 => [
+                    new (){X= 1},new (){Y= 1}, //BL
+                    new (){X= 1},new (){Y=-1}, //Tl
+                    new (){X=-1},new (){Y=-1}, //TR
+                    new (){X=-1},new (){Y= 1}, //BR
+                ],
+            270 => [
+           
+                    new (){Y= 1},new (){X=-1}, //BL
+                    new (){Y= 1},new (){X= 1}, //Tl
+                    new (){Y=-1},new (){X= 1}, //TR
+                    new (){Y=-1},new (){X=-1}, //BR
+           ],
+            _ => throw new ArgumentException($"Непідтримуваний кут: {angle}", nameof(angle))
+        };
+
+
 
 
 
@@ -130,8 +121,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             PageSide side = page.Front;
 
-            double llx = ScreenDrawCommons.GetPageDrawX(page,side);// page.Front.X;
-            double lly = ScreenDrawCommons.GetPageDrawY(page,side);// page.Front.Y;
+            double llx = ScreenDrawCommons.GetPageDrawX(page, side);
+            double lly = ScreenDrawCommons.GetPageDrawY(page, side);
 
             CropMarksController crops = page.CropMarksController;
             double len = crops.Parameters.Len;

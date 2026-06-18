@@ -105,18 +105,16 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         static void RecalcCropsFront(TemplatePageContainer templateContainer, GlobalImposParameters imposParam)
         {
+            double len = imposParam.ImposTools.CropMarksParameters.Len;
+            double dist = imposParam.ImposTools.CropMarksParameters.Distance;
+
             foreach (var page in templateContainer.TemplatePages)
             {
+                var crops = page.CropMarksController;
+                // 1. Спочатку ЗАВЖДИ видаляємо старі мітки
+                crops.CropMarks.RemoveAll(c => c.IsFront);
 
-                CropMarksController crops = page.CropMarksController;
-
-                var delList = crops.CropMarks.Where(c => c.IsFront).ToList();
-
-                crops.CropMarks = crops.CropMarks.Except(delList).ToList();
-
-                double len = imposParam.ImposTools.CropMarksParameters.Len;
-                double dist = imposParam.ImposTools.CropMarksParameters.Distance;
-
+                // 2. Якщо довжина 0, нові мітки не створюємо, переходимо до наступної сторінки
                 if (len == 0) continue;
                 
                 CropDirection[] direction = crops.GetDrawDirectionFront(page.Front.Angle);
@@ -130,32 +128,36 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                     x += ofsets[i].X;
                     y += ofsets[i].Y;
 
-                    for (int j = 0; j < 2; j++)
-                    {
-                        int idx = i * 2 + j;
+                    int idx = i * 2;
 
-                        CropMark cropMark = new CropMarkCreator(x, y).From(direction[idx].X * dist, direction[idx].Y * dist).To(direction[idx].X * len, direction[idx].Y * len);
-                        crops.CropMarks.Add(cropMark);
-
-                    }
+                    // Розгорнутий внутрішній цикл для j=0 та j=1
+                    crops.CropMarks.Add(CreateCropMark(x, y, direction[idx], dist, len));
+                    crops.CropMarks.Add(CreateCropMark(x, y, direction[idx + 1], dist, len));
                 }
             }
         }
 
+        private static CropMark CreateCropMark(double x, double y, CropDirection dir, double dist, double len, bool isFront = true)
+        {
+            var cropMark = new CropMarkCreator(x, y)
+                .From(dir.X * dist, dir.Y * dist)
+                .To(dir.X * len, dir.Y * len);
+
+            cropMark.IsFront = isFront;
+            cropMark.IsBack = !isFront;
+
+            return cropMark;
+        }
+
         static void RecalcCropsBack(TemplateSheet sheet, GlobalImposParameters imposParam)
         {
+            double len = imposParam.ImposTools.CropMarksParameters.Len;
+            double dist = imposParam.ImposTools.CropMarksParameters.Distance;
 
             foreach (var page in sheet.TemplatePageContainer.TemplatePages)
             {
-
                 CropMarksController crops = page.CropMarksController;
-
-                var delList = crops.CropMarks.Where(c => c.IsBack).ToList();
-
-                crops.CropMarks = crops.CropMarks.Except(delList).ToList();
-
-                double len = imposParam.ImposTools.CropMarksParameters.Len;
-                double dist = imposParam.ImposTools.CropMarksParameters.Distance;
+                crops.CropMarks.RemoveAll(c => c.IsBack);
 
                 if (len == 0) continue;
 
@@ -170,15 +172,10 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                     x += ofsets[i].X;
                     y += ofsets[i].Y;
 
-                    for (int j = 0; j < 2; j++)
-                    {
-                        int idx = i * 2 + j;
+                    int idx = i * 2;
 
-                        var cropMark = new CropMarkCreator(x, y).From(direction[idx].X * dist, direction[idx].Y * dist).To(direction[idx].X * len, direction[idx].Y * len);
-                        cropMark.IsFront = false;
-                        cropMark.IsBack = true;
-                        crops.CropMarks.Add(cropMark);
-                    }
+                    crops.CropMarks.Add(CreateCropMark(x, y, direction[idx], dist, len,false));
+                    crops.CropMarks.Add(CreateCropMark(x, y, direction[idx + 1], dist, len, false));
                 }
             }
         }
@@ -189,9 +186,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             {
                 CropMarksController crops = page.CropMarksController;
 
-                var delList = crops.CropMarks.Where(c => c.IsBack).ToList();
-
-                crops.CropMarks = crops.CropMarks.Except(delList).ToList();
+                crops.CropMarks.RemoveAll(c => c.IsBack);
 
                 double len = crops.Parameters.Len;
                 double dist = crops.Parameters.Distance;

@@ -18,8 +18,6 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
     {
         public static void DrawSheet(TemplateSheet sheet, Graphics g)
         {
-
-
             Pen pen = new Pen(Color.Black);
             var rect = new RectangleF(0, 0, (float)sheet.W, (float)sheet.H);
 
@@ -412,39 +410,40 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             var m = page.Margins;
             var b = page.Bleeds;
 
+
             switch (side.Angle)
             {
                 case 0:
                     return new RectangleD
                     (
-                        x1 : page_x + page_w,
-                        y1 : page_y,
-                        x2 : page_x + page_w + getRight(),
-                        y2 : page_y + page_h
+                        x1: page_x + page_w,
+                        y1: page_y,
+                        x2: page_x + page_w + getRight(),
+                        y2: page_y + page_h
                     );
                 case 90:
                     return new RectangleD
                     (
-                        x1 : page_x,
-                        y1 : page_y + page_h,
-                        x2 : page_x + page_w,
-                        y2 : page_y + page_h + getRight()
+                        x1: page_x,
+                        y1: page_y + page_h,
+                        x2: page_x + page_w,
+                        y2: page_y + page_h + getRight()
                     );
                 case 180:
                     return new RectangleD
                     (
-                        x1 : page_x - getRight(),
-                        y1 : page_y,
-                        x2 : page_x,
-                        y2 : page_y + page_h
+                        x1: page_x - getRight(),
+                        y1: page_y,
+                        x2: page_x,
+                        y2: page_y + page_h
                     );
                 case 270:
                     return new RectangleD
                     (
-                        x1 : page_x,
-                        y1 : page_y - getRight(),
-                        x2 : page_x + page_w,
-                        y2 : page_y
+                        x1: page_x,
+                        y1: page_y - getRight(),
+                        x2: page_x + page_w,
+                        y2: page_y
                     );
                 default:
                     throw new NotImplementedException();
@@ -452,9 +451,9 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             double getRight()
             {
-             
+
                 return b.Right;
-            } 
+            }
         }
 
         public static RectangleD GetDrawBleedTopFront(TemplatePage page)
