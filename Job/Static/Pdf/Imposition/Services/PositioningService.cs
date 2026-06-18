@@ -87,7 +87,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             AnchorToToAbsoluteCoordBackTextMark(subject, mark, textVariablesService);
         }
 
-        private static (double pX, double pY) GetAnchorCoefficientsBack(AnchorPoint anchor, bool isMirrored)
+        private static (double pX, double pY) GetMarkAnchorCoefficientsBack(AnchorPoint anchor, bool isMirrored)
         {
             if (isMirrored)
             {
@@ -159,7 +159,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             double x = subject.X1 + subject.W * px;
             double y = subject.Y1 + subject.H * py;
 
-            (double mx, double my) = GetAnchorCoefficientsBack(mark.Parameters.MarkAnchorPoint, mark.Parameters.IsBackMirrored);
+            (double mx, double my) = GetMarkAnchorCoefficientsBack(mark.Parameters.MarkAnchorPoint, mark.Parameters.IsBackMirrored);
             double xMark = -w * mx;
             double yMark = -h * my;
 
@@ -188,7 +188,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             double x = subject.X1 + subject.W * px;
             double y = subject.Y1 + subject.H * py;
 
-            (double mx, double my) = GetAnchorCoefficientsBack(mark.Parameters.MarkAnchorPoint, mark.Parameters.IsBackMirrored);
+            (double mx, double my) = GetMarkAnchorCoefficientsBack(mark.Parameters.MarkAnchorPoint, mark.Parameters.IsBackMirrored);
             double xMark = -w * mx;
             double yMark = -h * my;
 
