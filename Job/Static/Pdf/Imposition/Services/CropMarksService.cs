@@ -15,7 +15,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         public static double delta = 0.3;
         private const double ClipEpsilon = 0.000001;
 
-        public static void FixCropMarks(TemplateSheet sheet,GlobalImposParameters imposParam)
+        public static void FixCropMarks(TemplateSheet sheet, GlobalImposParameters imposParam)
         {
             if (sheet == null) return;
 
@@ -69,17 +69,25 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         private static void RemoveCropsBack(TemplateSheet sheet)
         {
-            foreach (TemplatePage page in sheet.TemplatePageContainer.TemplatePages)
+            var pages = sheet.TemplatePageContainer.TemplatePages;
+            if (pages == null || pages.Count <= 1 ) return;
+
+            // 1. Кешуємо прямокутники для всіх сторінок за один прохід: O(N)
+            int count = pages.Count;
+            RectangleD[] pageRects = new RectangleD[count]; // Пам'ять виділяється один раз, чітко під розмір
+
+            for (int i = 0; i < count; i++)
             {
-                CropMarksController crops = page.CropMarksController;
-
-                foreach (TemplatePage pageToCompare in sheet.TemplatePageContainer.TemplatePages)
+                pageRects[i] = GetPageRectWithBleedsBack(sheet, pages[i]); // Найшвидший спосіб заповнення
+            }
+            for (int i = 0; i < count; i++)
+            {
+                CropMarksController crops = pages[i].CropMarksController;
+                for (int j = 0; j < count; j++)
                 {
-                    if (page != pageToCompare)
+                    if (i != j)
                     {
-
-                        RectangleD pageRect = GetPageRectWithBleedsBack(sheet, pageToCompare);
-                        ClipCrops(crops, cropMark => cropMark.IsBack, pageRect);
+                        ClipCrops(crops, cropMark => cropMark.IsBack, pageRects[j]);
                     }
                 }
             }
@@ -87,17 +95,28 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         static void RemoveCropsFront(TemplatePageContainer templateContainer)
         {
+            var pages = templateContainer.TemplatePages;
+            if (pages == null || pages.Count <= 1) return;
 
-            foreach (TemplatePage page in templateContainer.TemplatePages)
+            // 1. Кешуємо прямокутники для всіх сторінок за один прохід: O(N)
+            int count = pages.Count;
+            RectangleD[] pageRects = new RectangleD[count]; // Пам'ять виділяється один раз, чітко під розмір
+
+            for (int i = 0; i < count; i++)
             {
-                CropMarksController crops = page.CropMarksController;
+                pageRects[i] = GetPageRectWithBleedsFront(pages[i]); // Найшвидший спосіб заповнення
+            }
 
-                foreach (TemplatePage pageToCompare in templateContainer.TemplatePages)
+            // 2. Виконуємо фільтрацію: O(N^2), але тепер без повторних обчислень геометрії
+            for (int i = 0; i < count; i++)
+            {
+                CropMarksController crops = pages[i].CropMarksController;
+
+                for (int j = 0; j < count; j++)
                 {
-                    if (page != pageToCompare)
+                    if (i != j) // Пропускаємо порівняння сторінки з самою собою
                     {
-                        RectangleD pageRect = GetPageRectWithBleedsFront(pageToCompare);
-                        ClipCrops(crops, cropMark => cropMark.IsFront, pageRect);
+                        ClipCrops(crops, cropMark => cropMark.IsFront, pageRects[j]);
                     }
                 }
             }
@@ -116,7 +135,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
                 // 2. Якщо довжина 0, нові мітки не створюємо, переходимо до наступної сторінки
                 if (len == 0) continue;
-                
+
                 CropDirection[] direction = crops.GetDrawDirectionFront(page.Front.Angle);
                 AnchorOfset[] ofsets = crops.GetAnchorOfsetsFront(page, page.Front.Angle);
 
@@ -174,7 +193,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
                     int idx = i * 2;
 
-                    crops.CropMarks.Add(CreateCropMark(x, y, direction[idx], dist, len,false));
+                    crops.CropMarks.Add(CreateCropMark(x, y, direction[idx], dist, len, false));
                     crops.CropMarks.Add(CreateCropMark(x, y, direction[idx + 1], dist, len, false));
                 }
             }
@@ -203,14 +222,11 @@ namespace JobSpace.Static.Pdf.Imposition.Services
                 {
                     x += ofsets[i].X;
                     y += ofsets[i].Y;
-                    for (int j = 0; j < 2; j++)
-                    {
-                        int idx = i * 2 + j;
-                        var cropMark = new CropMarkCreator(x, y).From(direction[idx].X * dist, direction[idx].Y * dist).To(direction[idx].X * len, direction[idx].Y * len);
-                        cropMark.IsFront = false;
-                        cropMark.IsBack = true;
-                        crops.CropMarks.Add(cropMark);
-                    }
+
+                    int idx = i * 2;
+
+                    crops.CropMarks.Add(CreateCropMark(x, y, direction[idx], dist, len, false));
+                    crops.CropMarks.Add(CreateCropMark(x, y, direction[idx + 1], dist, len, false));
                 }
             }
         }
@@ -252,10 +268,10 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             return new RectangleD
             (
-                x1 : rect.page_x - left - delta,
-                y1 : rect.page_y - bottom - delta,
-                x2 : rect.page_x + rect.page_w + horizontalBleed - left + delta,
-                y2 : rect.page_y + rect.page_h + verticalBleed - bottom + delta
+                x1: rect.page_x - left - delta,
+                y1: rect.page_y - bottom - delta,
+                x2: rect.page_x + rect.page_w + horizontalBleed - left + delta,
+                y2: rect.page_y + rect.page_h + verticalBleed - bottom + delta
             );
         }
 
@@ -270,10 +286,10 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             return new RectangleD
             (
-                x1 : rect.page_x - left - delta,
-                y1 : rect.page_y - bottom - delta,
-                x2 : rect.page_x + rect.page_w + horizontalBleed - left + delta,
-                y2 : rect.page_y + rect.page_h + verticalBleed - bottom + delta
+                x1: rect.page_x - left - delta,
+                y1: rect.page_y - bottom - delta,
+                x2: rect.page_x + rect.page_w + horizontalBleed - left + delta,
+                y2: rect.page_y + rect.page_h + verticalBleed - bottom + delta
             );
         }
 
@@ -387,9 +403,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         private static PointD Interpolate(PointD from, PointD to, double t)
         {
-            return new PointD(            
-                x : from.X + (to.X - from.X) * t,
-                y : from.Y + (to.Y - from.Y) * t
+            return new PointD(
+                x: from.X + (to.X - from.X) * t,
+                y: from.Y + (to.Y - from.Y) * t
             );
         }
 
