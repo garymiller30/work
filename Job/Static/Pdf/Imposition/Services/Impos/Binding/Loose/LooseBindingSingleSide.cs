@@ -11,23 +11,14 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
     {
         public static TemplatePageContainer Impos(LooseBindingParameters parameters)
         {
-             switch (parameters.BindingPlace)
+            return parameters.BindingPlace switch
             {
-                case Binding.BindingPlaceEnum.Normal:
-                    return LooseBindingNormal(parameters);
-
-                case Binding.BindingPlaceEnum.Rotated:
-                    return LooseBindingRotated(parameters);
-
-                case Binding.BindingPlaceEnum.MaxNormal:
-                    return LooseBindingMaxNormal(parameters);
-
-                case Binding.BindingPlaceEnum.MaxRotated:
-                    return LooseBindingMaxRotated(parameters);
-
-                default:
-                    throw new NotImplementedException();
-            }
+                Binding.BindingPlaceEnum.Normal => LooseBindingNormal(parameters),
+                Binding.BindingPlaceEnum.Rotated => LooseBindingRotated(parameters),
+                Binding.BindingPlaceEnum.MaxNormal => LooseBindingMaxNormal(parameters),
+                Binding.BindingPlaceEnum.MaxRotated => LooseBindingMaxRotated(parameters),
+                _ => throw new NotImplementedException($"Binding place {parameters.BindingPlace} is not implemented.")
+            };
         }
 
         public static TemplatePageContainer LooseBindingNormal(LooseBindingParameters parameters)
@@ -67,6 +58,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
             double blockWidth = CntX * pageW;
             double blockHeight = CntY * pageH;
 
+            templatePageContainer.TemplatePages = new List<TemplatePage>(CntX*CntY);
+
             GetStartCoord(parameters, parameters.Sheet, blockWidth, blockHeight, out double x, out double y);
             PlacePages(templatePageContainer, masterPage, CntX, CntY, x, y, angle, 1, 0);
             ApplyFixes(parameters, templatePageContainer);
@@ -93,6 +86,8 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 
             bool isExtraRight = CalculateExtraBlocks(printFieldFormat.W - blockWidth, printFieldFormat.H, pageH, pageW, out int extraCntRightX, out int extraCntRightY);
             bool isExtraBottom = CalculateExtraBlocks(printFieldFormat.W, printFieldFormat.H - blockHeight, pageH, pageW, out int extraCntBottomX, out int extraCntBottomY);
+
+            templatePageContainer.TemplatePages = new List<TemplatePage>(CntX * CntY + (isExtraRight ? extraCntRightX * extraCntRightY : 0) + (isExtraBottom ? extraCntBottomX * extraCntBottomY : 0));
 
             GetStartCoord(parameters, parameters.Sheet, blockWidth, blockHeight, out double x, out double y, isExtraRight, isExtraBottom, extraCntRightX, extraCntBottomY, pageH, pageW);
             PlacePages(templatePageContainer, masterPage, CntX, CntY, x, y, angle, 1, 0);

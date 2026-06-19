@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImageMagick.Drawing;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
@@ -73,6 +74,17 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         public ClipBox()
         {
+
+        }
+
+        public ClipBox(ClipBox source)
+        {
+            Default = source.Default;
+            Right = source.Right;
+            Left = source.Left;
+            Top = source.Top;
+            Bottom = source.Bottom;
+
 
         }
     }

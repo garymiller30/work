@@ -70,7 +70,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         private static void RemoveCropsBack(TemplateSheet sheet)
         {
             var pages = sheet.TemplatePageContainer.TemplatePages;
-            if (pages == null || pages.Count <= 1 ) return;
+            if (pages == null || pages.Count <= 1) return;
 
             // 1. Кешуємо прямокутники для всіх сторінок за один прохід: O(N)
             int count = pages.Count;
@@ -129,14 +129,16 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             foreach (var page in templateContainer.TemplatePages)
             {
+                page.CropMarksController.CropMarks.RemoveAll(c => c.IsFront);
+            }
+
+            if (len == 0) return;
+
+            foreach (var page in templateContainer.TemplatePages)
+            {
                 var crops = page.CropMarksController;
-                // 1. Спочатку ЗАВЖДИ видаляємо старі мітки
-                crops.CropMarks.RemoveAll(c => c.IsFront);
 
-                // 2. Якщо довжина 0, нові мітки не створюємо, переходимо до наступної сторінки
-                if (len == 0) continue;
-
-                CropDirection[] direction = crops.GetDrawDirectionFront(page.Front.Angle);
+                var direction = crops.GetDrawDirectionFront(page.Front.Angle);
                 AnchorOfset[] ofsets = crops.GetAnchorOfsetsFront(page, page.Front.Angle);
 
                 double x = 0;
@@ -175,12 +177,16 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             foreach (var page in sheet.TemplatePageContainer.TemplatePages)
             {
+                page.CropMarksController.CropMarks.RemoveAll(c => c.IsBack);
+            }
+
+            if (len == 0) return;
+
+            foreach (var page in sheet.TemplatePageContainer.TemplatePages)
+            {
                 CropMarksController crops = page.CropMarksController;
-                crops.CropMarks.RemoveAll(c => c.IsBack);
 
-                if (len == 0) continue;
-
-                CropDirection[] direction = crops.GetDrawDirectionBack(page.Front.Angle);
+                var direction = crops.GetDrawDirectionBack(page.Front.Angle);
                 AnchorOfset[] ofsets = crops.GetAnchorOfsetsBack(page, sheet, page.Back.Angle);
 
                 double x = 0;
@@ -201,18 +207,24 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         static void RecalcCropsWorkandTumbleBack(TemplateSheet sheet)
         {
+            double crop_len = 0;
+
+            foreach (var page in sheet.TemplatePageContainer.TemplatePages)
+            {
+                page.CropMarksController.CropMarks.RemoveAll(c => c.IsBack);
+                crop_len += page.CropMarksController.Parameters.Len;
+            }
+
+            if (crop_len == 0) return;
+
             foreach (var page in sheet.TemplatePageContainer.TemplatePages)
             {
                 CropMarksController crops = page.CropMarksController;
 
-                crops.CropMarks.RemoveAll(c => c.IsBack);
-
                 double len = crops.Parameters.Len;
                 double dist = crops.Parameters.Distance;
 
-                if (len == 0) continue;
-
-                CropDirection[] direction = crops.GetDrawDirectionWorkandTumbleBack(page.Back.Angle);
+                var direction = crops.GetDrawDirectionWorkandTumbleBack(page.Back.Angle);
                 AnchorOfset[] ofsets = crops.GetAnchorOfsetsWorkandTumbleBack(page, sheet, page.Back.Angle);
 
                 double x = 0;

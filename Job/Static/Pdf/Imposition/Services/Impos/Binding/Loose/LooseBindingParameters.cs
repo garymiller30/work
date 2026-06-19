@@ -10,7 +10,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos
 {
     public class LooseBindingParameters
     {
-        public TemplateSheet Sheet { get; set; }
+        public TemplateSheet? Sheet { get; set; }
 
         public double Xofs { get; set; } = 0;
         public double Yofs { get; set; } = 0;

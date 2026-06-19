@@ -15,11 +15,26 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         [JsonIgnore] // This attribute requires the System.Text.Json.Serialization namespace
         [TypeConverter(typeof(ExpandableObjectConverter))]
-        public ImposRunPage AssignedRunPage { get; set; }
+        public ImposRunPage? AssignedRunPage { get; set; }
 
         public double Angle { get; set; } = 0;
         public double X { get; set; } = 0;
         public double Y { get; set; } = 0;
+
+        public PageSide()
+        {
+            
+        }
+
+        public PageSide(PageSide source)
+        {
+            MasterIdx = source.MasterIdx;
+            PrintIdx = source.PrintIdx;
+            Angle = source.Angle;
+            X = source.X;
+            Y = source.Y;
+        }
+
 
         public override string ToString()
         {

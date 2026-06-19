@@ -9,11 +9,25 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
 {
     public sealed class CropMark
     {
-        public PointD From { get; set; }
-        public PointD To { get; set; }
+        public PointD? From { get; set; }
+        public PointD? To { get; set; }
         public bool Enable { get; set; }
 
         public bool IsFront { get; set; } = true;
         public bool IsBack { get; set; }
+
+        public CropMark()
+        {
+            
+        }
+
+        public CropMark(CropMark source)
+        {
+            From = source.From;
+            To = source.To;
+            Enable = source.Enable;
+            IsFront = source.IsFront;
+            IsBack = source.IsBack;
+        }
     }
 }

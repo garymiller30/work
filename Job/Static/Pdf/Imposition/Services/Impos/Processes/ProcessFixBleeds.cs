@@ -10,120 +10,114 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
 {
     public static class ProcessFixBleeds
     {
+        // Допоміжний запис (Record) для кешування
+        private record struct PageGeometry(
+            TemplatePage Page,
+            RectangleD PageRect,
+            RectangleD BleedLeft,
+            RectangleD BleedRight,
+            RectangleD BleedTop,
+            RectangleD BleedBottom
+        );
+
+
         public static void Front(TemplatePageContainer templatePageContainer)
         {
-            templatePageContainer.TemplatePages.ForEach(x => x.Bleeds.Set(x.Bleeds.Default));
+            var pages = templatePageContainer.TemplatePages;
+            if (pages.Count <= 1) return;
 
-            foreach (var page in templatePageContainer.TemplatePages)
+            // 1. Скидаємо бліди до дефолтних значень
+            foreach (var page in pages)
             {
-                PageSide side = page.Front;
+                page.Bleeds.Set(page.Bleeds.Default);
+            }
+
+            // 2. Кешуємо геометрію всіх сторінок за 1 прохід, щоб не обчислювати в O(N^2)
+            var pageGeometries = new PageGeometry[pages.Count];
+            for (int i = 0; i < pages.Count; i++)
+            {
+                var p = pages[i];
+                (double x, double y, double w, double h) = ScreenDrawCommons.GetPageDraw(p, p.Front);
+
+                pageGeometries[i] = new PageGeometry(
+                    Page: p,
+                    PageRect: new RectangleD(x, y, x + w, y + h),
+                    BleedLeft: ScreenDrawCommons.GetDrawBleedLeftFront(p),
+                    BleedRight: ScreenDrawCommons.GetDrawBleedRightFront(p),
+                    BleedTop: ScreenDrawCommons.GetDrawBleedTopFront(p),
+                    BleedBottom: ScreenDrawCommons.GetDrawBleedBottomFront(p)
+                );
+            }
+
+            // 3. Обчислюємо перетини
+            for (int i = 0; i < pageGeometries.Length; i++)
+            {
+                var current = pageGeometries[i];
+                var page = current.Page;
                 var m = page.Margins;
 
+                // Отримуємо бліди поточної сторінки
                 (RectangleD left, RectangleD right, RectangleD top, RectangleD bottom) = ScreenDrawCommons.GetDrawBleedsFront(page);
 
-                foreach (var pageTarget in templatePageContainer.TemplatePages)
+                // Прапори, щоб не перевизначати бліди кілька разів, якщо знайшли перетин
+                bool hasLeft = false, hasRight = false, hasTop = false, hasBottom = false;
+
+                for (int j = 0; j < pageGeometries.Length; j++)
                 {
+                    if (i == j) continue; // Пропускаємо саму себе
 
-                    if (page != pageTarget)
+                    var target = pageGeometries[j];
+
+                    // Перевірка для Left
+                    if (!hasLeft && (left.IntersectsWith(target.PageRect) ||
+                                     left.IntersectsWith(target.BleedLeft) ||
+                                     left.IntersectsWith(target.BleedRight) ||
+                                     left.IntersectsWith(target.BleedTop) ||
+                                     left.IntersectsWith(target.BleedBottom)))
                     {
-                        // координати сторінки в готовому вигляді
-                        (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(pageTarget, pageTarget.Front);
-
-                        RectangleD pageRect = new RectangleD
-                        (
-                            x1 : page_x,
-                            y1 : page_y,
-                            x2 : page_x + page_w,
-                            y2 : page_y + page_h
-                        );
-
-                        List<RectangleD> rects = new List<RectangleD>() {
-                            ScreenDrawCommons.GetDrawBleedLeftFront(pageTarget),
-                            ScreenDrawCommons.GetDrawBleedRightFront(pageTarget),
-                            ScreenDrawCommons.GetDrawBleedTopFront(pageTarget),
-                            ScreenDrawCommons.GetDrawBleedBottomFront(pageTarget),
-                        };
-
-                        foreach (var rect in rects)
-                        {
-                            if (left.IntersectsWith(rect) || left.IntersectsWith(pageRect))// 
-                            {
-                                page.Bleeds.Left = m.Left;
-                            }
-                            if (right.IntersectsWith(rect) || right.IntersectsWith(pageRect))  //
-                            {
-                                page.Bleeds.Right = m.Right;
-                            }
-                            if (top.IntersectsWith(rect) || top.IntersectsWith(pageRect))// 
-                            {
-                                page.Bleeds.Top = m.Top;
-                            }
-                            if (bottom.IntersectsWith(rect) || bottom.IntersectsWith(pageRect))// 
-                            {
-                                page.Bleeds.Bottom = m.Bottom;
-                            }
-                        }
+                        page.Bleeds.Left = m.Left;
+                        hasLeft = true;
                     }
+
+                    // Перевірка для Right
+                    if (!hasRight && (right.IntersectsWith(target.PageRect) ||
+                                      right.IntersectsWith(target.BleedLeft) ||
+                                      right.IntersectsWith(target.BleedRight) ||
+                                      right.IntersectsWith(target.BleedTop) ||
+                                      right.IntersectsWith(target.BleedBottom)))
+                    {
+                        page.Bleeds.Right = m.Right;
+                        hasRight = true;
+                    }
+
+                    // Перевірка для Top
+                    if (!hasTop && (top.IntersectsWith(target.PageRect) ||
+                                    top.IntersectsWith(target.BleedLeft) ||
+                                    top.IntersectsWith(target.BleedRight) ||
+                                    top.IntersectsWith(target.BleedTop) ||
+                                    top.IntersectsWith(target.BleedBottom)))
+                    {
+                        page.Bleeds.Top = m.Top;
+                        hasTop = true;
+                    }
+
+                    // Перевірка для Bottom
+                    if (!hasBottom && (bottom.IntersectsWith(target.PageRect) ||
+                                       bottom.IntersectsWith(target.BleedLeft) ||
+                                       bottom.IntersectsWith(target.BleedRight) ||
+                                       bottom.IntersectsWith(target.BleedTop) ||
+                                       bottom.IntersectsWith(target.BleedBottom)))
+                    {
+                        page.Bleeds.Bottom = m.Bottom;
+                        hasBottom = true;
+                    }
+
+                    // Якщо всі бліди вже змінено, далі target-сторінки можна не перевіряти для цієї сторінки
+                    if (hasLeft && hasRight && hasTop && hasBottom)
+                        break;
                 }
             }
-        }
 
-        public static void Back(TemplatePageContainer templatePageContainer)
-        {
-            templatePageContainer.TemplatePages.ForEach(x => x.Bleeds.Set(x.Bleeds.Default));
-
-            foreach (var page in templatePageContainer.TemplatePages)
-            {
-
-                (RectangleD left, RectangleD right, RectangleD top, RectangleD bottom) = ScreenDrawCommons.GetDrawBleedsFront(page);
-
-                foreach (var pageTarget in templatePageContainer.TemplatePages)
-                {
-                    if (page != pageTarget)
-                    {
-                        (double page_x, double page_y, double page_w, double page_h) = ScreenDrawCommons.GetPageDraw(pageTarget, pageTarget.Back);
-
-                        RectangleD pageRect = new RectangleD
-                        (
-                            x1 : page_x,
-                            y1 : page_y,
-                            x2 : page_x + page_w,
-                            y2 : page_y + page_h
-                        );
-
-                        List<RectangleD> rects = new List<RectangleD>(){
-                            ScreenDrawCommons.GetDrawBleedLeftFront(pageTarget),
-                             ScreenDrawCommons.GetDrawBleedRightFront(pageTarget),
-                              ScreenDrawCommons.GetDrawBleedTopFront(pageTarget),
-                               ScreenDrawCommons.GetDrawBleedBottomFront(pageTarget),
-
-                        };
-
-                        foreach (var rect in rects)
-                        {
-                            if (left.IntersectsWith(rect) || left.IntersectsWith(pageRect))
-                            {
-                                page.Bleeds.Left = 0;
-
-                            }
-                            if (right.IntersectsWith(rect) || right.IntersectsWith(pageRect))
-                            {
-                                page.Bleeds.Right = 0;
-
-                            }
-                            if (top.IntersectsWith(rect) || top.IntersectsWith(pageRect))
-                            {
-                                page.Bleeds.Top = 0;
-                            }
-                            if (bottom.IntersectsWith(rect) || bottom.IntersectsWith(pageRect))
-                            {
-                                page.Bleeds.Bottom = 0;
-                            }
-                        }
-                    }
-                }
-
-            }
         }
     }
 }

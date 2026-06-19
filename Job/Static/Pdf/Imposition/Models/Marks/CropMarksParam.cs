@@ -11,5 +11,18 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
         public double Len { get; set; } = 5;
         public double Distance { get; set; } = 2;
         public double Height { get; set; } = 0.5;
+
+
+        public CropMarksParam()
+        {
+            
+        }
+
+        public CropMarksParam(CropMarksParam source)
+        {
+            Len = source.Len;
+            Distance = source.Distance;
+            Height = source.Height;
+        }
     }
 }

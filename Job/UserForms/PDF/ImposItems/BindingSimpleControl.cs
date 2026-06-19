@@ -177,40 +177,41 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             if (_imposParam.ControlsBind.Sheet == null || _imposParam.ControlsBind.MasterPage == null) return;
 
-            TemplatePageContainer sel;
+            TemplatePageContainer? sel;
 
-            // Normal
-            var par = CreateParameters();
-            par.BindingPlace = BindingPlaceEnum.Normal;
-            variantNormal = BindingService.Impos(par);
+            var paramNormal = CreateParameters();
+            paramNormal.BindingPlace = BindingPlaceEnum.Normal;
+            
+            var paramRotated = CreateParameters();
+            paramRotated.BindingPlace = BindingPlaceEnum.Rotated;
+
+            var paramMaxNormal = CreateParameters();
+            paramMaxNormal.BindingPlace = BindingPlaceEnum.MaxNormal;
+
+            var paramMaxRotated = CreateParameters();
+            paramMaxRotated.BindingPlace = BindingPlaceEnum.MaxRotated;
+
+
+            Parallel.Invoke(
+                ()=> variantNormal = BindingService.Impos(paramNormal),
+                ()=> variantRotated = BindingService.Impos(paramRotated),
+                ()=> variantMaxNormal = BindingService.Impos(paramMaxNormal),
+                ()=> variantMaxRotated = BindingService.Impos(paramMaxRotated)
+                );
+
             label_0.Text = variantNormal.TemplatePages.Count().ToString();
-
-            sel = variantNormal;
-
-            //Rotated
-            par.BindingPlace = BindingPlaceEnum.Rotated;
-            variantRotated = BindingService.Impos(par);
             label_90.Text = variantRotated.TemplatePages.Count().ToString();
-
-            if (sel.TemplatePages.Count() < variantRotated.TemplatePages.Count())
-                sel = variantRotated;
-
-
-            //Max Normal
-            par.BindingPlace = BindingPlaceEnum.MaxNormal;
-            variantMaxNormal = BindingService.Impos(par);
             label_max_0.Text = variantMaxNormal.TemplatePages.Count().ToString();
-
-            if (sel.TemplatePages.Count() < variantMaxNormal.TemplatePages.Count())
-                sel = variantMaxNormal;
-
-            //Max Rotated
-            par.BindingPlace = BindingPlaceEnum.MaxRotated;
-            variantMaxRotated = BindingService.Impos(par);
             label_max_90.Text = variantMaxRotated.TemplatePages.Count().ToString();
 
-            if (sel.TemplatePages.Count() < variantMaxRotated.TemplatePages.Count())
-                sel = variantMaxRotated;
+            var containers = new TemplatePageContainer?[] { variantNormal, variantRotated, variantMaxNormal, variantMaxRotated };
+
+            // Обираємо контейнер, у якому Count сторінок є найбільшим
+            sel = containers
+                .Where(c => c != null)
+                .OrderByDescending(c => c.TemplatePages.Count) // Припускаю, що у вас є властивість Pages або Count
+                .FirstOrDefault();
+
 
             _imposParam.ControlsBind.Sheet.TemplatePageContainer.SetTemplatePages(sel.TemplatePages);
 

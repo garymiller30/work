@@ -55,6 +55,19 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         }
 
+        public TemplatePage(TemplatePage source)
+        {
+            CropMarksController = new CropMarksController(source.CropMarksController);
+            Front = new PageSide(source.Front);
+            Back = new PageSide(source.Back);
+            Bleeds = new ClipBox(source.Bleeds);
+            W = source.W;
+            H = source.H;
+            Margins = new ClipBox(source.Margins);
+           
+            Group = source.Group;
+        }
+
         public TemplatePage(double width, double height)
         {
             W = width;
@@ -106,12 +119,6 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         }
 
         public void SetMarginsLikeBleed() => Margins.Set(Bleeds);
-
-        public TemplatePage Copy()
-        {
-            var str = JsonSerializer.Serialize(this);
-            return JsonSerializer.Deserialize<TemplatePage>(str);
-        }
 
         public void SwitchWH(TemplateSheetPlaceType sheetPlaceType)
         {

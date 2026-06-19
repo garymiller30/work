@@ -17,6 +17,14 @@ namespace JobSpace.Static.Pdf.Imposition.Models
 
         }
 
+        public ImposRunPage(ImposRunPage source)
+        {
+            FileId = source.FileId;
+            PageIdx = source.PageIdx;
+            IsAssumed = source.IsAssumed;
+            IsValidFormat = source.IsValidFormat;
+        }
+
         public ImposRunPage(PdfFile pdfFile, int pageIdx)
         {
             FileId = pdfFile.Id;

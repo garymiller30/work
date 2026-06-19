@@ -29,7 +29,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
             InitSheets();
             DialogResult = DialogResult.Cancel;
             Sheet = TemplateSheet.Create();
-            Sheet.MasterPage = parameters.MasterPage.Copy();
+            Sheet.MasterPage = new TemplatePage(parameters.MasterPage);
             
             SetSheetToIU();
             InitUIEvents();

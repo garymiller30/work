@@ -136,7 +136,14 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         public void SetTemplatePages(List<TemplatePage> templatePages)
         {
             TemplatePages.Clear();
-            TemplatePages.AddRange(JsonSerializer.Deserialize<List<TemplatePage>>(JsonSerializer.Serialize(templatePages)));
+            TemplatePages.Capacity = templatePages.Count;
+
+            foreach (var templatePage in templatePages)
+            {
+                TemplatePages.Add(new TemplatePage(templatePage));
+            }
+
+            //TemplatePages.AddRange(JsonSerializer.Deserialize<List<TemplatePage>>(JsonSerializer.Serialize(templatePages)));
         }
     }
 }

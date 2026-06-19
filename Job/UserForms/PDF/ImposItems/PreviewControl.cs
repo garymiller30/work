@@ -131,7 +131,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
                 if (ModifierKeys.HasFlag(Keys.Alt))
                 {
-                    var clonePage = _imposParam.ControlsBind.HoverPage.Copy();
+                    var clonePage = new TemplatePage(_imposParam.ControlsBind.HoverPage);
                     _imposParam.ControlsBind.Sheet.TemplatePageContainer.AddPage(clonePage);
                     _imposParam.ControlsBind.HoverPage = clonePage;
                 }
