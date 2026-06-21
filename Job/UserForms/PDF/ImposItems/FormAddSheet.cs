@@ -13,7 +13,7 @@ namespace JobSpace.UserForms.PDF.ImposItems
 {
     public partial class FormAddSheet : Form
     {
-        public TemplateSheet Sheet { get; set; }
+        public TemplateSheet? Sheet { get; set; }
         public FormAddSheet()
         {
             InitializeComponent();
@@ -52,6 +52,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void nud_Width_Enter(object sender, EventArgs e)
+        {
+            ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
         }
     }
 }

@@ -28,287 +28,290 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.nud_Width = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nud_Height = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.nud_FieldRight = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
-            this.nud_FieldLeft = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
-            this.nud_FieldBottom = new System.Windows.Forms.NumericUpDown();
-            this.label6 = new System.Windows.Forms.Label();
-            this.nud_FileldTop = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.nud_ExtraSpace = new System.Windows.Forms.NumericUpDown();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.tb_Description = new System.Windows.Forms.TextBox();
-            this.btn_Save = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Width)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Height)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_FieldRight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_FieldLeft)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_FieldBottom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_FileldTop)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ExtraSpace)).BeginInit();
-            this.groupBox4.SuspendLayout();
-            this.SuspendLayout();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            nud_Width = new System.Windows.Forms.NumericUpDown();
+            label1 = new System.Windows.Forms.Label();
+            nud_Height = new System.Windows.Forms.NumericUpDown();
+            label2 = new System.Windows.Forms.Label();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            nud_FieldRight = new System.Windows.Forms.NumericUpDown();
+            label8 = new System.Windows.Forms.Label();
+            nud_FieldLeft = new System.Windows.Forms.NumericUpDown();
+            label7 = new System.Windows.Forms.Label();
+            nud_FieldBottom = new System.Windows.Forms.NumericUpDown();
+            label6 = new System.Windows.Forms.Label();
+            nud_FileldTop = new System.Windows.Forms.NumericUpDown();
+            label5 = new System.Windows.Forms.Label();
+            groupBox3 = new System.Windows.Forms.GroupBox();
+            nud_ExtraSpace = new System.Windows.Forms.NumericUpDown();
+            groupBox4 = new System.Windows.Forms.GroupBox();
+            tb_Description = new System.Windows.Forms.TextBox();
+            btn_Save = new System.Windows.Forms.Button();
+            groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nud_Width).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nud_Height).BeginInit();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nud_FieldRight).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nud_FieldLeft).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nud_FieldBottom).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nud_FileldTop).BeginInit();
+            groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nud_ExtraSpace).BeginInit();
+            groupBox4.SuspendLayout();
+            SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.nud_Width);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.nud_Height);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(12, 53);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(152, 100);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Формат, мм";
+            groupBox1.Controls.Add(nud_Width);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(nud_Height);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Location = new System.Drawing.Point(14, 61);
+            groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox1.Size = new System.Drawing.Size(177, 115);
+            groupBox1.TabIndex = 0;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Формат, мм";
             // 
             // nud_Width
             // 
-            this.nud_Width.DecimalPlaces = 1;
-            this.nud_Width.Location = new System.Drawing.Point(62, 25);
-            this.nud_Width.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_Width.Name = "nud_Width";
-            this.nud_Width.Size = new System.Drawing.Size(74, 20);
-            this.nud_Width.TabIndex = 2;
+            nud_Width.DecimalPlaces = 1;
+            nud_Width.Location = new System.Drawing.Point(72, 29);
+            nud_Width.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nud_Width.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nud_Width.Name = "nud_Width";
+            nud_Width.Size = new System.Drawing.Size(86, 23);
+            nud_Width.TabIndex = 0;
+            nud_Width.Enter += nud_Width_Enter;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Ширина";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(12, 31);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(52, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Ширина";
             // 
             // nud_Height
             // 
-            this.nud_Height.DecimalPlaces = 1;
-            this.nud_Height.Location = new System.Drawing.Point(62, 52);
-            this.nud_Height.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_Height.Name = "nud_Height";
-            this.nud_Height.Size = new System.Drawing.Size(74, 20);
-            this.nud_Height.TabIndex = 3;
+            nud_Height.DecimalPlaces = 1;
+            nud_Height.Location = new System.Drawing.Point(72, 60);
+            nud_Height.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nud_Height.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nud_Height.Name = "nud_Height";
+            nud_Height.Size = new System.Drawing.Size(86, 23);
+            nud_Height.TabIndex = 1;
+            nud_Height.Enter += nud_Width_Enter;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 52);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Висота";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(12, 60);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(45, 15);
+            label2.TabIndex = 1;
+            label2.Text = "Висота";
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.nud_FieldRight);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.nud_FieldLeft);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.nud_FieldBottom);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.nud_FileldTop);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Location = new System.Drawing.Point(170, 53);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(268, 100);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Поля, що не задруковуються, мм";
+            groupBox2.Controls.Add(nud_FieldRight);
+            groupBox2.Controls.Add(label8);
+            groupBox2.Controls.Add(nud_FieldLeft);
+            groupBox2.Controls.Add(label7);
+            groupBox2.Controls.Add(nud_FieldBottom);
+            groupBox2.Controls.Add(label6);
+            groupBox2.Controls.Add(nud_FileldTop);
+            groupBox2.Controls.Add(label5);
+            groupBox2.Location = new System.Drawing.Point(198, 61);
+            groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox2.Size = new System.Drawing.Size(313, 115);
+            groupBox2.TabIndex = 1;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Поля, що не задруковуються, мм";
             // 
             // nud_FieldRight
             // 
-            this.nud_FieldRight.DecimalPlaces = 1;
-            this.nud_FieldRight.Location = new System.Drawing.Point(185, 52);
-            this.nud_FieldRight.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_FieldRight.Name = "nud_FieldRight";
-            this.nud_FieldRight.Size = new System.Drawing.Size(74, 20);
-            this.nud_FieldRight.TabIndex = 13;
-            this.nud_FieldRight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nud_FieldRight.DecimalPlaces = 1;
+            nud_FieldRight.Location = new System.Drawing.Point(216, 60);
+            nud_FieldRight.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nud_FieldRight.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nud_FieldRight.Name = "nud_FieldRight";
+            nud_FieldRight.Size = new System.Drawing.Size(86, 23);
+            nud_FieldRight.TabIndex = 1;
+            nud_FieldRight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nud_FieldRight.Enter += nud_Width_Enter;
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(196, 36);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(44, 13);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "Справа";
+            label8.AutoSize = true;
+            label8.Location = new System.Drawing.Point(229, 42);
+            label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(47, 15);
+            label8.TabIndex = 12;
+            label8.Text = "Справа";
             // 
             // nud_FieldLeft
             // 
-            this.nud_FieldLeft.DecimalPlaces = 1;
-            this.nud_FieldLeft.Location = new System.Drawing.Point(6, 51);
-            this.nud_FieldLeft.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_FieldLeft.Name = "nud_FieldLeft";
-            this.nud_FieldLeft.Size = new System.Drawing.Size(74, 20);
-            this.nud_FieldLeft.TabIndex = 11;
-            this.nud_FieldLeft.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nud_FieldLeft.DecimalPlaces = 1;
+            nud_FieldLeft.Location = new System.Drawing.Point(7, 59);
+            nud_FieldLeft.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nud_FieldLeft.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nud_FieldLeft.Name = "nud_FieldLeft";
+            nud_FieldLeft.Size = new System.Drawing.Size(86, 23);
+            nud_FieldLeft.TabIndex = 3;
+            nud_FieldLeft.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nud_FieldLeft.Enter += nud_Width_Enter;
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(17, 35);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(34, 13);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Зліва";
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(20, 40);
+            label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(36, 15);
+            label7.TabIndex = 10;
+            label7.Text = "Зліва";
             // 
             // nud_FieldBottom
             // 
-            this.nud_FieldBottom.DecimalPlaces = 1;
-            this.nud_FieldBottom.Location = new System.Drawing.Point(96, 74);
-            this.nud_FieldBottom.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_FieldBottom.Name = "nud_FieldBottom";
-            this.nud_FieldBottom.Size = new System.Drawing.Size(74, 20);
-            this.nud_FieldBottom.TabIndex = 9;
-            this.nud_FieldBottom.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nud_FieldBottom.DecimalPlaces = 1;
+            nud_FieldBottom.Location = new System.Drawing.Point(112, 85);
+            nud_FieldBottom.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nud_FieldBottom.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nud_FieldBottom.Name = "nud_FieldBottom";
+            nud_FieldBottom.Size = new System.Drawing.Size(86, 23);
+            nud_FieldBottom.TabIndex = 2;
+            nud_FieldBottom.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nud_FieldBottom.Enter += nud_Width_Enter;
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(107, 58);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(37, 13);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "Знизу";
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(125, 67);
+            label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(39, 15);
+            label6.TabIndex = 8;
+            label6.Text = "Знизу";
             // 
             // nud_FileldTop
             // 
-            this.nud_FileldTop.DecimalPlaces = 1;
-            this.nud_FileldTop.Location = new System.Drawing.Point(96, 32);
-            this.nud_FileldTop.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_FileldTop.Name = "nud_FileldTop";
-            this.nud_FileldTop.Size = new System.Drawing.Size(74, 20);
-            this.nud_FileldTop.TabIndex = 7;
-            this.nud_FileldTop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nud_FileldTop.DecimalPlaces = 1;
+            nud_FileldTop.Location = new System.Drawing.Point(112, 37);
+            nud_FileldTop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nud_FileldTop.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nud_FileldTop.Name = "nud_FileldTop";
+            nud_FileldTop.Size = new System.Drawing.Size(86, 23);
+            nud_FileldTop.TabIndex = 0;
+            nud_FileldTop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nud_FileldTop.Enter += nud_Width_Enter;
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(107, 16);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(42, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Зверху";
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(125, 18);
+            label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(45, 15);
+            label5.TabIndex = 6;
+            label5.Text = "Зверху";
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.nud_ExtraSpace);
-            this.groupBox3.Location = new System.Drawing.Point(12, 159);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(235, 49);
-            this.groupBox3.TabIndex = 2;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Додаткове поле навколо сторінки, мм";
+            groupBox3.Controls.Add(nud_ExtraSpace);
+            groupBox3.Location = new System.Drawing.Point(14, 183);
+            groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox3.Size = new System.Drawing.Size(274, 57);
+            groupBox3.TabIndex = 2;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Додаткове поле навколо сторінки, мм";
             // 
             // nud_ExtraSpace
             // 
-            this.nud_ExtraSpace.DecimalPlaces = 1;
-            this.nud_ExtraSpace.Location = new System.Drawing.Point(78, 19);
-            this.nud_ExtraSpace.Maximum = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.nud_ExtraSpace.Name = "nud_ExtraSpace";
-            this.nud_ExtraSpace.Size = new System.Drawing.Size(74, 20);
-            this.nud_ExtraSpace.TabIndex = 12;
-            this.nud_ExtraSpace.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nud_ExtraSpace.DecimalPlaces = 1;
+            nud_ExtraSpace.Location = new System.Drawing.Point(91, 22);
+            nud_ExtraSpace.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nud_ExtraSpace.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            nud_ExtraSpace.Name = "nud_ExtraSpace";
+            nud_ExtraSpace.Size = new System.Drawing.Size(86, 23);
+            nud_ExtraSpace.TabIndex = 0;
+            nud_ExtraSpace.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            nud_ExtraSpace.Enter += nud_Width_Enter;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.tb_Description);
-            this.groupBox4.Location = new System.Drawing.Point(12, 4);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(426, 43);
-            this.groupBox4.TabIndex = 3;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Опис";
+            groupBox4.Controls.Add(tb_Description);
+            groupBox4.Location = new System.Drawing.Point(14, 5);
+            groupBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBox4.Size = new System.Drawing.Size(497, 50);
+            groupBox4.TabIndex = 3;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Опис";
             // 
             // tb_Description
             // 
-            this.tb_Description.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tb_Description.Location = new System.Drawing.Point(3, 16);
-            this.tb_Description.Name = "tb_Description";
-            this.tb_Description.Size = new System.Drawing.Size(420, 20);
-            this.tb_Description.TabIndex = 0;
+            tb_Description.Dock = System.Windows.Forms.DockStyle.Fill;
+            tb_Description.Location = new System.Drawing.Point(4, 19);
+            tb_Description.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            tb_Description.Name = "tb_Description";
+            tb_Description.Size = new System.Drawing.Size(489, 23);
+            tb_Description.TabIndex = 0;
             // 
             // btn_Save
             // 
-            this.btn_Save.Location = new System.Drawing.Point(266, 159);
-            this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(172, 49);
-            this.btn_Save.TabIndex = 4;
-            this.btn_Save.Text = "Зберегти";
-            this.btn_Save.UseVisualStyleBackColor = true;
-            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
+            btn_Save.Location = new System.Drawing.Point(310, 183);
+            btn_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btn_Save.Name = "btn_Save";
+            btn_Save.Size = new System.Drawing.Size(201, 57);
+            btn_Save.TabIndex = 0;
+            btn_Save.Text = "Зберегти";
+            btn_Save.UseVisualStyleBackColor = true;
+            btn_Save.Click += btn_Save_Click;
             // 
             // FormAddSheet
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(445, 213);
-            this.Controls.Add(this.btn_Save);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FormAddSheet";
-            this.ShowIcon = false;
-            this.Text = "Додати лист";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Width)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Height)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_FieldRight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_FieldLeft)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_FieldBottom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_FileldTop)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.nud_ExtraSpace)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(519, 246);
+            Controls.Add(btn_Save);
+            Controls.Add(groupBox4);
+            Controls.Add(groupBox3);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FormAddSheet";
+            ShowIcon = false;
+            Text = "Додати лист";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nud_Width).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nud_Height).EndInit();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nud_FieldRight).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nud_FieldLeft).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nud_FieldBottom).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nud_FileldTop).EndInit();
+            groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)nud_ExtraSpace).EndInit();
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
+            ResumeLayout(false);
 
         }
 
