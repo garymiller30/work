@@ -29,625 +29,582 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddTextMark));
-            this.label8 = new System.Windows.Forms.Label();
-            this.tb_markName = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.tb_text = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cb_foreground = new System.Windows.Forms.CheckBox();
-            this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.nud_fontSize = new System.Windows.Forms.NumericUpDown();
-            this.label15 = new System.Windows.Forms.Label();
-            this.bnt_fontSelect = new System.Windows.Forms.Button();
-            this.tb_fontName = new System.Windows.Forms.TextBox();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.rb_parentSubject = new System.Windows.Forms.RadioButton();
-            this.rb_parentSheet = new System.Windows.Forms.RadioButton();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.nud_yOfs = new System.Windows.Forms.NumericUpDown();
-            this.nud_xOfs = new System.Windows.Forms.NumericUpDown();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.cb_Angle = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cb_backMirror = new System.Windows.Forms.CheckBox();
-            this.cb_back = new System.Windows.Forms.CheckBox();
-            this.cb_front = new System.Windows.Forms.CheckBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.btn_ok = new System.Windows.Forms.Button();
-            this.fontDialog1 = new System.Windows.Forms.FontDialog();
-            this.kryptonContextMenu1 = new Krypton.Toolkit.KryptonContextMenu();
-            this.kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
-            this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuHeading3 = new Krypton.Toolkit.KryptonContextMenuHeading();
-            this.kryptonContextMenuItems3 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItem5 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItem9 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItem10 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuHeading4 = new Krypton.Toolkit.KryptonContextMenuHeading();
-            this.kryptonContextMenuItems4 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItem6 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItem7 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuHeading6 = new Krypton.Toolkit.KryptonContextMenuHeading();
-            this.kryptonContextMenuItems5 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuItem8 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
-            this.kryptonContextMenuHeading2 = new Krypton.Toolkit.KryptonContextMenuHeading();
-            this.btn_ReplaceMenu = new Krypton.Toolkit.KryptonButton();
-            this.kryptonContextMenuHeading5 = new Krypton.Toolkit.KryptonContextMenuHeading();
-            this.kryptonContextMenuItem11 = new Krypton.Toolkit.KryptonContextMenuItem();
-            this.markColorControl1 = new JobSpace.UserForms.PDF.ImposItems.MarkColorControl();
-            this.apc_parent = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
-            this.apc_mark = new JobSpace.UserForms.PDF.ImposItems.AnchorPointControl();
-            this.groupBox1.SuspendLayout();
-            this.groupBox12.SuspendLayout();
-            this.groupBox11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_fontSize)).BeginInit();
-            this.groupBox10.SuspendLayout();
-            this.groupBox13.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_yOfs)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_xOfs)).BeginInit();
-            this.groupBox9.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.SuspendLayout();
+            label8 = new System.Windows.Forms.Label();
+            tb_markName = new System.Windows.Forms.TextBox();
+            label9 = new System.Windows.Forms.Label();
+            tb_text = new System.Windows.Forms.TextBox();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            cb_foreground = new System.Windows.Forms.CheckBox();
+            groupBox12 = new System.Windows.Forms.GroupBox();
+            markColorControl1 = new MarkColorControl();
+            groupBox11 = new System.Windows.Forms.GroupBox();
+            label16 = new System.Windows.Forms.Label();
+            nud_fontSize = new System.Windows.Forms.NumericUpDown();
+            label15 = new System.Windows.Forms.Label();
+            bnt_fontSelect = new System.Windows.Forms.Button();
+            tb_fontName = new System.Windows.Forms.TextBox();
+            groupBox10 = new System.Windows.Forms.GroupBox();
+            groupBox13 = new System.Windows.Forms.GroupBox();
+            rb_parentSubject = new System.Windows.Forms.RadioButton();
+            rb_parentSheet = new System.Windows.Forms.RadioButton();
+            groupBox8 = new System.Windows.Forms.GroupBox();
+            label11 = new System.Windows.Forms.Label();
+            label12 = new System.Windows.Forms.Label();
+            nud_yOfs = new System.Windows.Forms.NumericUpDown();
+            nud_xOfs = new System.Windows.Forms.NumericUpDown();
+            label13 = new System.Windows.Forms.Label();
+            label14 = new System.Windows.Forms.Label();
+            apc_parent = new AnchorPointControl();
+            groupBox9 = new System.Windows.Forms.GroupBox();
+            apc_mark = new AnchorPointControl();
+            cb_Angle = new System.Windows.Forms.ComboBox();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            cb_backMirror = new System.Windows.Forms.CheckBox();
+            cb_back = new System.Windows.Forms.CheckBox();
+            cb_front = new System.Windows.Forms.CheckBox();
+            label10 = new System.Windows.Forms.Label();
+            btn_ok = new System.Windows.Forms.Button();
+            fontDialog1 = new System.Windows.Forms.FontDialog();
+            kryptonContextMenu1 = new Krypton.Toolkit.KryptonContextMenu();
+            kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
+            kryptonContextMenuItem1 = new Krypton.Toolkit.KryptonContextMenuItem();
+            kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
+            kryptonContextMenuItem3 = new Krypton.Toolkit.KryptonContextMenuItem();
+            kryptonContextMenuHeading3 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            kryptonContextMenuItems3 = new Krypton.Toolkit.KryptonContextMenuItems();
+            kryptonContextMenuItem4 = new Krypton.Toolkit.KryptonContextMenuItem();
+            kryptonContextMenuItem5 = new Krypton.Toolkit.KryptonContextMenuItem();
+            kryptonContextMenuItem11 = new Krypton.Toolkit.KryptonContextMenuItem();
+            kryptonContextMenuItem10 = new Krypton.Toolkit.KryptonContextMenuItem();
+            kryptonContextMenuItem9 = new Krypton.Toolkit.KryptonContextMenuItem();
+            kryptonContextMenuHeading4 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            kryptonContextMenuItems4 = new Krypton.Toolkit.KryptonContextMenuItems();
+            kryptonContextMenuItem6 = new Krypton.Toolkit.KryptonContextMenuItem();
+            kryptonContextMenuItem7 = new Krypton.Toolkit.KryptonContextMenuItem();
+            kryptonContextMenuHeading6 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            kryptonContextMenuItems5 = new Krypton.Toolkit.KryptonContextMenuItems();
+            kryptonContextMenuItem8 = new Krypton.Toolkit.KryptonContextMenuItem();
+            kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
+            kryptonContextMenuHeading2 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            btn_ReplaceMenu = new Krypton.Toolkit.KryptonButton();
+            kryptonContextMenuHeading5 = new Krypton.Toolkit.KryptonContextMenuHeading();
+            groupBox1.SuspendLayout();
+            groupBox12.SuspendLayout();
+            groupBox11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nud_fontSize).BeginInit();
+            groupBox10.SuspendLayout();
+            groupBox13.SuspendLayout();
+            groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nud_yOfs).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nud_xOfs).BeginInit();
+            groupBox9.SuspendLayout();
+            groupBox2.SuspendLayout();
+            SuspendLayout();
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 9);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(39, 13);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Назва";
+            label8.AutoSize = true;
+            label8.Location = new System.Drawing.Point(12, 9);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(39, 15);
+            label8.TabIndex = 0;
+            label8.Text = "Назва";
             // 
             // tb_markName
             // 
-            this.tb_markName.Location = new System.Drawing.Point(57, 6);
-            this.tb_markName.Name = "tb_markName";
-            this.tb_markName.Size = new System.Drawing.Size(146, 20);
-            this.tb_markName.TabIndex = 1;
+            tb_markName.Location = new System.Drawing.Point(57, 6);
+            tb_markName.Name = "tb_markName";
+            tb_markName.Size = new System.Drawing.Size(146, 23);
+            tb_markName.TabIndex = 1;
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(209, 9);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(37, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "Текст";
+            label9.AutoSize = true;
+            label9.Location = new System.Drawing.Point(209, 9);
+            label9.Name = "label9";
+            label9.Size = new System.Drawing.Size(36, 15);
+            label9.TabIndex = 2;
+            label9.Text = "Текст";
             // 
             // tb_text
             // 
-            this.tb_text.Location = new System.Drawing.Point(252, 6);
-            this.tb_text.Name = "tb_text";
-            this.tb_text.Size = new System.Drawing.Size(388, 20);
-            this.tb_text.TabIndex = 3;
+            tb_text.Location = new System.Drawing.Point(252, 6);
+            tb_text.Name = "tb_text";
+            tb_text.Size = new System.Drawing.Size(462, 23);
+            tb_text.TabIndex = 3;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.cb_foreground);
-            this.groupBox1.Controls.Add(this.groupBox12);
-            this.groupBox1.Controls.Add(this.groupBox11);
-            this.groupBox1.Controls.Add(this.groupBox10);
-            this.groupBox1.Controls.Add(this.cb_Angle);
-            this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Location = new System.Drawing.Point(12, 32);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(656, 341);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Параметри";
+            groupBox1.Controls.Add(cb_foreground);
+            groupBox1.Controls.Add(groupBox12);
+            groupBox1.Controls.Add(groupBox11);
+            groupBox1.Controls.Add(groupBox10);
+            groupBox1.Controls.Add(cb_Angle);
+            groupBox1.Controls.Add(groupBox2);
+            groupBox1.Controls.Add(label10);
+            groupBox1.Location = new System.Drawing.Point(12, 32);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new System.Drawing.Size(729, 367);
+            groupBox1.TabIndex = 4;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Параметри";
             // 
             // cb_foreground
             // 
-            this.cb_foreground.AutoSize = true;
-            this.cb_foreground.Location = new System.Drawing.Point(502, 257);
-            this.cb_foreground.Name = "cb_foreground";
-            this.cb_foreground.Size = new System.Drawing.Size(60, 17);
-            this.cb_foreground.TabIndex = 10;
-            this.cb_foreground.Text = "зверху";
-            this.cb_foreground.UseVisualStyleBackColor = true;
+            cb_foreground.AutoSize = true;
+            cb_foreground.Location = new System.Drawing.Point(503, 290);
+            cb_foreground.Name = "cb_foreground";
+            cb_foreground.Size = new System.Drawing.Size(62, 19);
+            cb_foreground.TabIndex = 10;
+            cb_foreground.Text = "зверху";
+            cb_foreground.UseVisualStyleBackColor = true;
             // 
             // groupBox12
             // 
-            this.groupBox12.Controls.Add(this.markColorControl1);
-            this.groupBox12.Location = new System.Drawing.Point(336, 19);
-            this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(311, 184);
-            this.groupBox12.TabIndex = 9;
-            this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "Колір";
-            // 
-            // groupBox11
-            // 
-            this.groupBox11.Controls.Add(this.label16);
-            this.groupBox11.Controls.Add(this.nud_fontSize);
-            this.groupBox11.Controls.Add(this.label15);
-            this.groupBox11.Controls.Add(this.bnt_fontSelect);
-            this.groupBox11.Controls.Add(this.tb_fontName);
-            this.groupBox11.Location = new System.Drawing.Point(6, 196);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(324, 78);
-            this.groupBox11.TabIndex = 8;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "Шрифт";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(117, 51);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(16, 13);
-            this.label16.TabIndex = 4;
-            this.label16.Text = "pt";
-            // 
-            // nud_fontSize
-            // 
-            this.nud_fontSize.Location = new System.Drawing.Point(55, 49);
-            this.nud_fontSize.Name = "nud_fontSize";
-            this.nud_fontSize.Size = new System.Drawing.Size(55, 20);
-            this.nud_fontSize.TabIndex = 3;
-            this.nud_fontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(7, 51);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(42, 13);
-            this.label15.TabIndex = 2;
-            this.label15.Text = "Розмір";
-            // 
-            // bnt_fontSelect
-            // 
-            this.bnt_fontSelect.Location = new System.Drawing.Point(263, 17);
-            this.bnt_fontSelect.Name = "bnt_fontSelect";
-            this.bnt_fontSelect.Size = new System.Drawing.Size(44, 23);
-            this.bnt_fontSelect.TabIndex = 1;
-            this.bnt_fontSelect.Text = "...";
-            this.bnt_fontSelect.UseVisualStyleBackColor = true;
-            this.bnt_fontSelect.Click += new System.EventHandler(this.bnt_fontSelect_Click);
-            // 
-            // tb_fontName
-            // 
-            this.tb_fontName.Location = new System.Drawing.Point(6, 19);
-            this.tb_fontName.Name = "tb_fontName";
-            this.tb_fontName.ReadOnly = true;
-            this.tb_fontName.Size = new System.Drawing.Size(249, 20);
-            this.tb_fontName.TabIndex = 0;
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.Controls.Add(this.groupBox13);
-            this.groupBox10.Controls.Add(this.groupBox8);
-            this.groupBox10.Controls.Add(this.groupBox9);
-            this.groupBox10.Location = new System.Drawing.Point(6, 19);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(324, 171);
-            this.groupBox10.TabIndex = 3;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Положення відносно";
-            // 
-            // groupBox13
-            // 
-            this.groupBox13.Controls.Add(this.rb_parentSubject);
-            this.groupBox13.Controls.Add(this.rb_parentSheet);
-            this.groupBox13.Location = new System.Drawing.Point(6, 126);
-            this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(312, 38);
-            this.groupBox13.TabIndex = 3;
-            this.groupBox13.TabStop = false;
-            // 
-            // rb_parentSubject
-            // 
-            this.rb_parentSubject.AutoSize = true;
-            this.rb_parentSubject.Location = new System.Drawing.Point(161, 15);
-            this.rb_parentSubject.Name = "rb_parentSubject";
-            this.rb_parentSubject.Size = new System.Drawing.Size(110, 17);
-            this.rb_parentSubject.TabIndex = 1;
-            this.rb_parentSubject.TabStop = true;
-            this.rb_parentSubject.Text = "відносно сюжету";
-            this.rb_parentSubject.UseVisualStyleBackColor = true;
-            // 
-            // rb_parentSheet
-            // 
-            this.rb_parentSheet.AutoSize = true;
-            this.rb_parentSheet.Location = new System.Drawing.Point(40, 15);
-            this.rb_parentSheet.Name = "rb_parentSheet";
-            this.rb_parentSheet.Size = new System.Drawing.Size(101, 17);
-            this.rb_parentSheet.TabIndex = 0;
-            this.rb_parentSheet.TabStop = true;
-            this.rb_parentSheet.Text = "відносно листа";
-            this.rb_parentSheet.UseVisualStyleBackColor = true;
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.label11);
-            this.groupBox8.Controls.Add(this.label12);
-            this.groupBox8.Controls.Add(this.nud_yOfs);
-            this.groupBox8.Controls.Add(this.nud_xOfs);
-            this.groupBox8.Controls.Add(this.label13);
-            this.groupBox8.Controls.Add(this.label14);
-            this.groupBox8.Controls.Add(this.apc_parent);
-            this.groupBox8.Location = new System.Drawing.Point(102, 20);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(216, 100);
-            this.groupBox8.TabIndex = 1;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "батьківського елемента";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(181, 64);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(23, 13);
-            this.label11.TabIndex = 7;
-            this.label11.Text = "мм";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(182, 30);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(23, 13);
-            this.label12.TabIndex = 6;
-            this.label12.Text = "мм";
-            // 
-            // nud_yOfs
-            // 
-            this.nud_yOfs.DecimalPlaces = 1;
-            this.nud_yOfs.Location = new System.Drawing.Point(132, 62);
-            this.nud_yOfs.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.nud_yOfs.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.nud_yOfs.Name = "nud_yOfs";
-            this.nud_yOfs.Size = new System.Drawing.Size(43, 20);
-            this.nud_yOfs.TabIndex = 5;
-            // 
-            // nud_xOfs
-            // 
-            this.nud_xOfs.DecimalPlaces = 1;
-            this.nud_xOfs.Location = new System.Drawing.Point(132, 28);
-            this.nud_xOfs.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.nud_xOfs.Minimum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.nud_xOfs.Name = "nud_xOfs";
-            this.nud_xOfs.Size = new System.Drawing.Size(43, 20);
-            this.nud_xOfs.TabIndex = 4;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(92, 64);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(34, 13);
-            this.label13.TabIndex = 3;
-            this.label13.Text = "Y ofs:";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(92, 30);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(34, 13);
-            this.label14.TabIndex = 2;
-            this.label14.Text = "X ofs:";
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Controls.Add(this.apc_mark);
-            this.groupBox9.Location = new System.Drawing.Point(6, 20);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(90, 100);
-            this.groupBox9.TabIndex = 0;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "мітки";
-            // 
-            // cb_Angle
-            // 
-            this.cb_Angle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_Angle.FormattingEnabled = true;
-            this.cb_Angle.Location = new System.Drawing.Point(502, 217);
-            this.cb_Angle.Name = "cb_Angle";
-            this.cb_Angle.Size = new System.Drawing.Size(62, 21);
-            this.cb_Angle.TabIndex = 7;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.cb_backMirror);
-            this.groupBox2.Controls.Add(this.cb_back);
-            this.groupBox2.Controls.Add(this.cb_front);
-            this.groupBox2.Location = new System.Drawing.Point(6, 280);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(402, 55);
-            this.groupBox2.TabIndex = 4;
-            this.groupBox2.TabStop = false;
-            // 
-            // cb_backMirror
-            // 
-            this.cb_backMirror.Appearance = System.Windows.Forms.Appearance.Button;
-            this.cb_backMirror.Location = new System.Drawing.Point(175, 17);
-            this.cb_backMirror.Name = "cb_backMirror";
-            this.cb_backMirror.Size = new System.Drawing.Size(219, 31);
-            this.cb_backMirror.TabIndex = 2;
-            this.cb_backMirror.Text = "дзеркальне положення на звороті";
-            this.cb_backMirror.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.cb_backMirror.UseVisualStyleBackColor = true;
-            // 
-            // cb_back
-            // 
-            this.cb_back.Appearance = System.Windows.Forms.Appearance.Button;
-            this.cb_back.Location = new System.Drawing.Point(92, 15);
-            this.cb_back.Name = "cb_back";
-            this.cb_back.Size = new System.Drawing.Size(77, 33);
-            this.cb_back.TabIndex = 1;
-            this.cb_back.Text = "зворот";
-            this.cb_back.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.cb_back.UseVisualStyleBackColor = true;
-            // 
-            // cb_front
-            // 
-            this.cb_front.Appearance = System.Windows.Forms.Appearance.Button;
-            this.cb_front.Location = new System.Drawing.Point(6, 15);
-            this.cb_front.Name = "cb_front";
-            this.cb_front.Size = new System.Drawing.Size(80, 33);
-            this.cb_front.TabIndex = 0;
-            this.cb_front.Text = "лице";
-            this.cb_front.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.cb_front.UseVisualStyleBackColor = true;
-            // 
-            // label10
-            // 
-            this.label10.Image = ((System.Drawing.Image)(resources.GetObject("label10.Image")));
-            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label10.Location = new System.Drawing.Point(423, 215);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(73, 23);
-            this.label10.TabIndex = 6;
-            this.label10.Text = "Поворот";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btn_ok
-            // 
-            this.btn_ok.Location = new System.Drawing.Point(281, 405);
-            this.btn_ok.Name = "btn_ok";
-            this.btn_ok.Size = new System.Drawing.Size(110, 39);
-            this.btn_ok.TabIndex = 5;
-            this.btn_ok.Text = "OK";
-            this.btn_ok.UseVisualStyleBackColor = true;
-            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
-            // 
-            // kryptonContextMenu1
-            // 
-            this.kryptonContextMenu1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuHeading1,
-            this.kryptonContextMenuItems2,
-            this.kryptonContextMenuHeading3,
-            this.kryptonContextMenuItems3,
-            this.kryptonContextMenuHeading4,
-            this.kryptonContextMenuItems4,
-            this.kryptonContextMenuHeading6,
-            this.kryptonContextMenuItems5});
-            // 
-            // kryptonContextMenuHeading1
-            // 
-            this.kryptonContextMenuHeading1.ExtraText = "";
-            this.kryptonContextMenuHeading1.Text = "Замовлення";
-            // 
-            // kryptonContextMenuItems2
-            // 
-            this.kryptonContextMenuItems2.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItem1,
-            this.kryptonContextMenuItem2,
-            this.kryptonContextMenuItem3});
-            // 
-            // kryptonContextMenuItem1
-            // 
-            this.kryptonContextMenuItem1.Tag = "$[orderNo]";
-            this.kryptonContextMenuItem1.Text = "Номер замовлення";
-            this.kryptonContextMenuItem1.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
-            // 
-            // kryptonContextMenuItem2
-            // 
-            this.kryptonContextMenuItem2.Tag = "$[customer]";
-            this.kryptonContextMenuItem2.Text = "Замовник";
-            this.kryptonContextMenuItem2.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
-            // 
-            // kryptonContextMenuItem3
-            // 
-            this.kryptonContextMenuItem3.Tag = "$[orderDesc]";
-            this.kryptonContextMenuItem3.Text = "Опис замовлення";
-            this.kryptonContextMenuItem3.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
-            // 
-            // kryptonContextMenuHeading3
-            // 
-            this.kryptonContextMenuHeading3.ExtraText = "";
-            this.kryptonContextMenuHeading3.Text = "Друкарський лист";
-            // 
-            // kryptonContextMenuItems3
-            // 
-            this.kryptonContextMenuItems3.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItem4,
-            this.kryptonContextMenuItem5,
-            this.kryptonContextMenuItem11,
-            this.kryptonContextMenuItem10,
-            this.kryptonContextMenuItem9});
-            // 
-            // kryptonContextMenuItem4
-            // 
-            this.kryptonContextMenuItem4.Tag = "$[sheetIdx]";
-            this.kryptonContextMenuItem4.Text = "Номер листа";
-            this.kryptonContextMenuItem4.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
-            // 
-            // kryptonContextMenuItem5
-            // 
-            this.kryptonContextMenuItem5.Tag = "$[sheetSide]";
-            this.kryptonContextMenuItem5.Text = "Сторона листа";
-            this.kryptonContextMenuItem5.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
-            // 
-            // kryptonContextMenuItem9
-            // 
-            this.kryptonContextMenuItem9.Tag = "$[sheetFormat]";
-            this.kryptonContextMenuItem9.Text = "Формат листа";
-            this.kryptonContextMenuItem9.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
-            // 
-            // kryptonContextMenuItem10
-            // 
-            this.kryptonContextMenuItem10.Tag = "$[sheetCount]";
-            this.kryptonContextMenuItem10.Text = "Тираж листа";
-            this.kryptonContextMenuItem10.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
-            // 
-            // kryptonContextMenuHeading4
-            // 
-            this.kryptonContextMenuHeading4.ExtraText = "";
-            this.kryptonContextMenuHeading4.Text = "Колір";
-            // 
-            // kryptonContextMenuItems4
-            // 
-            this.kryptonContextMenuItems4.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItem6,
-            this.kryptonContextMenuItem7});
-            // 
-            // kryptonContextMenuItem6
-            // 
-            this.kryptonContextMenuItem6.Tag = "$[cmyk]";
-            this.kryptonContextMenuItem6.Text = "CMYK";
-            this.kryptonContextMenuItem6.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
-            // 
-            // kryptonContextMenuItem7
-            // 
-            this.kryptonContextMenuItem7.Tag = "$[usedColor]";
-            this.kryptonContextMenuItem7.Text = "Кольори спуску";
-            this.kryptonContextMenuItem7.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
-            // 
-            // kryptonContextMenuHeading6
-            // 
-            this.kryptonContextMenuHeading6.ExtraText = "";
-            this.kryptonContextMenuHeading6.Text = "Різне";
-            // 
-            // kryptonContextMenuItems5
-            // 
-            this.kryptonContextMenuItems5.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItem8});
-            // 
-            // kryptonContextMenuItem8
-            // 
-            this.kryptonContextMenuItem8.Tag = "$[dateTime]";
-            this.kryptonContextMenuItem8.Text = "Дата і час";
-            this.kryptonContextMenuItem8.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
-            // 
-            // kryptonContextMenuHeading2
-            // 
-            this.kryptonContextMenuHeading2.ExtraText = "";
-            // 
-            // btn_ReplaceMenu
-            // 
-            this.btn_ReplaceMenu.Location = new System.Drawing.Point(647, 6);
-            this.btn_ReplaceMenu.Name = "btn_ReplaceMenu";
-            this.btn_ReplaceMenu.Size = new System.Drawing.Size(21, 20);
-            this.btn_ReplaceMenu.TabIndex = 6;
-            this.btn_ReplaceMenu.Values.Text = "...";
-            this.btn_ReplaceMenu.Click += new System.EventHandler(this.btn_ReplaceMenu_Click);
-            // 
-            // kryptonContextMenuHeading5
-            // 
-            this.kryptonContextMenuHeading5.ExtraText = "";
-            // 
-            // kryptonContextMenuItem11
-            // 
-            this.kryptonContextMenuItem11.Tag = "$[sheetDesc]";
-            this.kryptonContextMenuItem11.Text = "Опис листа";
-            this.kryptonContextMenuItem11.Click += new System.EventHandler(this.kryptonContextMenuItem1_Click);
+            groupBox12.Controls.Add(markColorControl1);
+            groupBox12.Location = new System.Drawing.Point(367, 19);
+            groupBox12.Name = "groupBox12";
+            groupBox12.Size = new System.Drawing.Size(356, 192);
+            groupBox12.TabIndex = 9;
+            groupBox12.TabStop = false;
+            groupBox12.Text = "Колір";
             // 
             // markColorControl1
             // 
-            this.markColorControl1.Location = new System.Drawing.Point(7, 34);
-            this.markColorControl1.Name = "markColorControl1";
-            this.markColorControl1.Size = new System.Drawing.Size(298, 146);
-            this.markColorControl1.TabIndex = 0;
+            markColorControl1.Location = new System.Drawing.Point(7, 20);
+            markColorControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            markColorControl1.Name = "markColorControl1";
+            markColorControl1.Size = new System.Drawing.Size(348, 166);
+            markColorControl1.TabIndex = 0;
+            // 
+            // groupBox11
+            // 
+            groupBox11.Controls.Add(label16);
+            groupBox11.Controls.Add(nud_fontSize);
+            groupBox11.Controls.Add(label15);
+            groupBox11.Controls.Add(bnt_fontSelect);
+            groupBox11.Controls.Add(tb_fontName);
+            groupBox11.Location = new System.Drawing.Point(6, 217);
+            groupBox11.Name = "groupBox11";
+            groupBox11.Size = new System.Drawing.Size(324, 78);
+            groupBox11.TabIndex = 8;
+            groupBox11.TabStop = false;
+            groupBox11.Text = "Шрифт";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new System.Drawing.Point(117, 51);
+            label16.Name = "label16";
+            label16.Size = new System.Drawing.Size(18, 15);
+            label16.TabIndex = 4;
+            label16.Text = "pt";
+            // 
+            // nud_fontSize
+            // 
+            nud_fontSize.Location = new System.Drawing.Point(55, 49);
+            nud_fontSize.Name = "nud_fontSize";
+            nud_fontSize.Size = new System.Drawing.Size(55, 23);
+            nud_fontSize.TabIndex = 3;
+            nud_fontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new System.Drawing.Point(7, 51);
+            label15.Name = "label15";
+            label15.Size = new System.Drawing.Size(45, 15);
+            label15.TabIndex = 2;
+            label15.Text = "Розмір";
+            // 
+            // bnt_fontSelect
+            // 
+            bnt_fontSelect.Location = new System.Drawing.Point(263, 17);
+            bnt_fontSelect.Name = "bnt_fontSelect";
+            bnt_fontSelect.Size = new System.Drawing.Size(44, 23);
+            bnt_fontSelect.TabIndex = 1;
+            bnt_fontSelect.Text = "...";
+            bnt_fontSelect.UseVisualStyleBackColor = true;
+            bnt_fontSelect.Click += bnt_fontSelect_Click;
+            // 
+            // tb_fontName
+            // 
+            tb_fontName.Location = new System.Drawing.Point(6, 19);
+            tb_fontName.Name = "tb_fontName";
+            tb_fontName.ReadOnly = true;
+            tb_fontName.Size = new System.Drawing.Size(249, 23);
+            tb_fontName.TabIndex = 0;
+            // 
+            // groupBox10
+            // 
+            groupBox10.Controls.Add(groupBox13);
+            groupBox10.Controls.Add(groupBox8);
+            groupBox10.Controls.Add(groupBox9);
+            groupBox10.Location = new System.Drawing.Point(6, 19);
+            groupBox10.Name = "groupBox10";
+            groupBox10.Size = new System.Drawing.Size(355, 192);
+            groupBox10.TabIndex = 3;
+            groupBox10.TabStop = false;
+            groupBox10.Text = "Положення відносно";
+            // 
+            // groupBox13
+            // 
+            groupBox13.Controls.Add(rb_parentSubject);
+            groupBox13.Controls.Add(rb_parentSheet);
+            groupBox13.Location = new System.Drawing.Point(6, 136);
+            groupBox13.Name = "groupBox13";
+            groupBox13.Size = new System.Drawing.Size(312, 38);
+            groupBox13.TabIndex = 3;
+            groupBox13.TabStop = false;
+            // 
+            // rb_parentSubject
+            // 
+            rb_parentSubject.AutoSize = true;
+            rb_parentSubject.Location = new System.Drawing.Point(161, 15);
+            rb_parentSubject.Name = "rb_parentSubject";
+            rb_parentSubject.Size = new System.Drawing.Size(119, 19);
+            rb_parentSubject.TabIndex = 1;
+            rb_parentSubject.TabStop = true;
+            rb_parentSubject.Text = "відносно сюжету";
+            rb_parentSubject.UseVisualStyleBackColor = true;
+            // 
+            // rb_parentSheet
+            // 
+            rb_parentSheet.AutoSize = true;
+            rb_parentSheet.Location = new System.Drawing.Point(40, 15);
+            rb_parentSheet.Name = "rb_parentSheet";
+            rb_parentSheet.Size = new System.Drawing.Size(108, 19);
+            rb_parentSheet.TabIndex = 0;
+            rb_parentSheet.TabStop = true;
+            rb_parentSheet.Text = "відносно листа";
+            rb_parentSheet.UseVisualStyleBackColor = true;
+            // 
+            // groupBox8
+            // 
+            groupBox8.Controls.Add(label11);
+            groupBox8.Controls.Add(label12);
+            groupBox8.Controls.Add(nud_yOfs);
+            groupBox8.Controls.Add(nud_xOfs);
+            groupBox8.Controls.Add(label13);
+            groupBox8.Controls.Add(label14);
+            groupBox8.Controls.Add(apc_parent);
+            groupBox8.Location = new System.Drawing.Point(117, 20);
+            groupBox8.Name = "groupBox8";
+            groupBox8.Size = new System.Drawing.Size(232, 110);
+            groupBox8.TabIndex = 1;
+            groupBox8.TabStop = false;
+            groupBox8.Text = "батьківського елемента";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new System.Drawing.Point(194, 69);
+            label11.Name = "label11";
+            label11.Size = new System.Drawing.Size(25, 15);
+            label11.TabIndex = 7;
+            label11.Text = "мм";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new System.Drawing.Point(195, 35);
+            label12.Name = "label12";
+            label12.Size = new System.Drawing.Size(25, 15);
+            label12.TabIndex = 6;
+            label12.Text = "мм";
+            // 
+            // nud_yOfs
+            // 
+            nud_yOfs.DecimalPlaces = 1;
+            nud_yOfs.Location = new System.Drawing.Point(145, 67);
+            nud_yOfs.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            nud_yOfs.Minimum = new decimal(new int[] { 1000000, 0, 0, int.MinValue });
+            nud_yOfs.Name = "nud_yOfs";
+            nud_yOfs.Size = new System.Drawing.Size(43, 23);
+            nud_yOfs.TabIndex = 5;
+            // 
+            // nud_xOfs
+            // 
+            nud_xOfs.DecimalPlaces = 1;
+            nud_xOfs.Location = new System.Drawing.Point(145, 33);
+            nud_xOfs.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            nud_xOfs.Minimum = new decimal(new int[] { 1000000, 0, 0, int.MinValue });
+            nud_xOfs.Name = "nud_xOfs";
+            nud_xOfs.Size = new System.Drawing.Size(43, 23);
+            nud_xOfs.TabIndex = 4;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new System.Drawing.Point(105, 69);
+            label13.Name = "label13";
+            label13.Size = new System.Drawing.Size(36, 15);
+            label13.TabIndex = 3;
+            label13.Text = "Y ofs:";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new System.Drawing.Point(105, 35);
+            label14.Name = "label14";
+            label14.Size = new System.Drawing.Size(36, 15);
+            label14.TabIndex = 2;
+            label14.Text = "X ofs:";
             // 
             // apc_parent
             // 
-            this.apc_parent.AnchorPointChanged = null;
-            this.apc_parent.Location = new System.Drawing.Point(6, 14);
-            this.apc_parent.Name = "apc_parent";
-            this.apc_parent.Size = new System.Drawing.Size(80, 80);
-            this.apc_parent.TabIndex = 1;
+            apc_parent.AnchorPointChanged = null;
+            apc_parent.Location = new System.Drawing.Point(6, 14);
+            apc_parent.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            apc_parent.Name = "apc_parent";
+            apc_parent.Size = new System.Drawing.Size(92, 90);
+            apc_parent.TabIndex = 1;
+            // 
+            // groupBox9
+            // 
+            groupBox9.Controls.Add(apc_mark);
+            groupBox9.Location = new System.Drawing.Point(6, 20);
+            groupBox9.Name = "groupBox9";
+            groupBox9.Size = new System.Drawing.Size(104, 110);
+            groupBox9.TabIndex = 0;
+            groupBox9.TabStop = false;
+            groupBox9.Text = "мітки";
             // 
             // apc_mark
             // 
-            this.apc_mark.AnchorPointChanged = null;
-            this.apc_mark.Location = new System.Drawing.Point(6, 14);
-            this.apc_mark.Name = "apc_mark";
-            this.apc_mark.Size = new System.Drawing.Size(80, 80);
-            this.apc_mark.TabIndex = 0;
+            apc_mark.AnchorPointChanged = null;
+            apc_mark.Location = new System.Drawing.Point(6, 14);
+            apc_mark.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            apc_mark.Name = "apc_mark";
+            apc_mark.Size = new System.Drawing.Size(96, 96);
+            apc_mark.TabIndex = 0;
+            // 
+            // cb_Angle
+            // 
+            cb_Angle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cb_Angle.FormattingEnabled = true;
+            cb_Angle.Location = new System.Drawing.Point(503, 250);
+            cb_Angle.Name = "cb_Angle";
+            cb_Angle.Size = new System.Drawing.Size(62, 23);
+            cb_Angle.TabIndex = 7;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(cb_backMirror);
+            groupBox2.Controls.Add(cb_back);
+            groupBox2.Controls.Add(cb_front);
+            groupBox2.Location = new System.Drawing.Point(6, 301);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new System.Drawing.Size(402, 55);
+            groupBox2.TabIndex = 4;
+            groupBox2.TabStop = false;
+            // 
+            // cb_backMirror
+            // 
+            cb_backMirror.Appearance = System.Windows.Forms.Appearance.Button;
+            cb_backMirror.Location = new System.Drawing.Point(175, 17);
+            cb_backMirror.Name = "cb_backMirror";
+            cb_backMirror.Size = new System.Drawing.Size(219, 31);
+            cb_backMirror.TabIndex = 2;
+            cb_backMirror.Text = "дзеркальне положення на звороті";
+            cb_backMirror.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            cb_backMirror.UseVisualStyleBackColor = true;
+            // 
+            // cb_back
+            // 
+            cb_back.Appearance = System.Windows.Forms.Appearance.Button;
+            cb_back.Location = new System.Drawing.Point(92, 15);
+            cb_back.Name = "cb_back";
+            cb_back.Size = new System.Drawing.Size(77, 33);
+            cb_back.TabIndex = 1;
+            cb_back.Text = "зворот";
+            cb_back.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            cb_back.UseVisualStyleBackColor = true;
+            // 
+            // cb_front
+            // 
+            cb_front.Appearance = System.Windows.Forms.Appearance.Button;
+            cb_front.Location = new System.Drawing.Point(6, 15);
+            cb_front.Name = "cb_front";
+            cb_front.Size = new System.Drawing.Size(80, 33);
+            cb_front.TabIndex = 0;
+            cb_front.Text = "лице";
+            cb_front.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            cb_front.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            label10.Image = (System.Drawing.Image)resources.GetObject("label10.Image");
+            label10.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label10.Location = new System.Drawing.Point(424, 248);
+            label10.Name = "label10";
+            label10.Size = new System.Drawing.Size(73, 23);
+            label10.TabIndex = 6;
+            label10.Text = "Поворот";
+            label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btn_ok
+            // 
+            btn_ok.Location = new System.Drawing.Point(329, 405);
+            btn_ok.Name = "btn_ok";
+            btn_ok.Size = new System.Drawing.Size(110, 39);
+            btn_ok.TabIndex = 5;
+            btn_ok.Text = "OK";
+            btn_ok.UseVisualStyleBackColor = true;
+            btn_ok.Click += btn_ok_Click;
+            // 
+            // kryptonContextMenu1
+            // 
+            kryptonContextMenu1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] { kryptonContextMenuHeading1, kryptonContextMenuItems2, kryptonContextMenuHeading3, kryptonContextMenuItems3, kryptonContextMenuHeading4, kryptonContextMenuItems4, kryptonContextMenuHeading6, kryptonContextMenuItems5 });
+            // 
+            // kryptonContextMenuHeading1
+            // 
+            kryptonContextMenuHeading1.Text = "Замовлення";
+            // 
+            // kryptonContextMenuItems2
+            // 
+            kryptonContextMenuItems2.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] { kryptonContextMenuItem1, kryptonContextMenuItem2, kryptonContextMenuItem3 });
+            // 
+            // kryptonContextMenuItem1
+            // 
+            kryptonContextMenuItem1.Tag = "$[orderNo]";
+            kryptonContextMenuItem1.Text = "Номер замовлення";
+            kryptonContextMenuItem1.Click += kryptonContextMenuItem1_Click;
+            // 
+            // kryptonContextMenuItem2
+            // 
+            kryptonContextMenuItem2.Tag = "$[customer]";
+            kryptonContextMenuItem2.Text = "Замовник";
+            kryptonContextMenuItem2.Click += kryptonContextMenuItem1_Click;
+            // 
+            // kryptonContextMenuItem3
+            // 
+            kryptonContextMenuItem3.Tag = "$[orderDesc]";
+            kryptonContextMenuItem3.Text = "Опис замовлення";
+            kryptonContextMenuItem3.Click += kryptonContextMenuItem1_Click;
+            // 
+            // kryptonContextMenuHeading3
+            // 
+            kryptonContextMenuHeading3.Text = "Друкарський лист";
+            // 
+            // kryptonContextMenuItems3
+            // 
+            kryptonContextMenuItems3.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] { kryptonContextMenuItem4, kryptonContextMenuItem5, kryptonContextMenuItem11, kryptonContextMenuItem10, kryptonContextMenuItem9 });
+            // 
+            // kryptonContextMenuItem4
+            // 
+            kryptonContextMenuItem4.Tag = "$[sheetIdx]";
+            kryptonContextMenuItem4.Text = "Номер листа";
+            kryptonContextMenuItem4.Click += kryptonContextMenuItem1_Click;
+            // 
+            // kryptonContextMenuItem5
+            // 
+            kryptonContextMenuItem5.Tag = "$[sheetSide]";
+            kryptonContextMenuItem5.Text = "Сторона листа";
+            kryptonContextMenuItem5.Click += kryptonContextMenuItem1_Click;
+            // 
+            // kryptonContextMenuItem11
+            // 
+            kryptonContextMenuItem11.Tag = "$[sheetDesc]";
+            kryptonContextMenuItem11.Text = "Опис листа";
+            kryptonContextMenuItem11.Click += kryptonContextMenuItem1_Click;
+            // 
+            // kryptonContextMenuItem10
+            // 
+            kryptonContextMenuItem10.Tag = "$[sheetCount]";
+            kryptonContextMenuItem10.Text = "Тираж листа";
+            kryptonContextMenuItem10.Click += kryptonContextMenuItem1_Click;
+            // 
+            // kryptonContextMenuItem9
+            // 
+            kryptonContextMenuItem9.Tag = "$[sheetFormat]";
+            kryptonContextMenuItem9.Text = "Формат листа";
+            kryptonContextMenuItem9.Click += kryptonContextMenuItem1_Click;
+            // 
+            // kryptonContextMenuHeading4
+            // 
+            kryptonContextMenuHeading4.Text = "Колір";
+            // 
+            // kryptonContextMenuItems4
+            // 
+            kryptonContextMenuItems4.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] { kryptonContextMenuItem6, kryptonContextMenuItem7 });
+            // 
+            // kryptonContextMenuItem6
+            // 
+            kryptonContextMenuItem6.Tag = "$[cmyk]";
+            kryptonContextMenuItem6.Text = "CMYK";
+            kryptonContextMenuItem6.Click += kryptonContextMenuItem1_Click;
+            // 
+            // kryptonContextMenuItem7
+            // 
+            kryptonContextMenuItem7.Tag = "$[usedColor]";
+            kryptonContextMenuItem7.Text = "Кольори спуску";
+            kryptonContextMenuItem7.Click += kryptonContextMenuItem1_Click;
+            // 
+            // kryptonContextMenuHeading6
+            // 
+            kryptonContextMenuHeading6.Text = "Різне";
+            // 
+            // kryptonContextMenuItems5
+            // 
+            kryptonContextMenuItems5.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] { kryptonContextMenuItem8 });
+            // 
+            // kryptonContextMenuItem8
+            // 
+            kryptonContextMenuItem8.Tag = "$[dateTime]";
+            kryptonContextMenuItem8.Text = "Дата і час";
+            kryptonContextMenuItem8.Click += kryptonContextMenuItem1_Click;
+            // 
+            // btn_ReplaceMenu
+            // 
+            btn_ReplaceMenu.Location = new System.Drawing.Point(720, 9);
+            btn_ReplaceMenu.Name = "btn_ReplaceMenu";
+            btn_ReplaceMenu.Size = new System.Drawing.Size(21, 20);
+            btn_ReplaceMenu.TabIndex = 6;
+            btn_ReplaceMenu.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            btn_ReplaceMenu.Values.Text = "...";
+            btn_ReplaceMenu.Click += btn_ReplaceMenu_Click;
             // 
             // FormAddTextMark
             // 
-            this.ClientSize = new System.Drawing.Size(676, 456);
-            this.Controls.Add(this.btn_ReplaceMenu);
-            this.Controls.Add(this.btn_ok);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.tb_text);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.tb_markName);
-            this.Controls.Add(this.label8);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FormAddTextMark";
-            this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Текстова мітка";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox12.ResumeLayout(false);
-            this.groupBox11.ResumeLayout(false);
-            this.groupBox11.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_fontSize)).EndInit();
-            this.groupBox10.ResumeLayout(false);
-            this.groupBox13.ResumeLayout(false);
-            this.groupBox13.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_yOfs)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_xOfs)).EndInit();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            ClientSize = new System.Drawing.Size(753, 453);
+            Controls.Add(btn_ReplaceMenu);
+            Controls.Add(btn_ok);
+            Controls.Add(groupBox1);
+            Controls.Add(tb_text);
+            Controls.Add(label9);
+            Controls.Add(tb_markName);
+            Controls.Add(label8);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FormAddTextMark";
+            ShowIcon = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Текстова мітка";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox12.ResumeLayout(false);
+            groupBox11.ResumeLayout(false);
+            groupBox11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nud_fontSize).EndInit();
+            groupBox10.ResumeLayout(false);
+            groupBox13.ResumeLayout(false);
+            groupBox13.PerformLayout();
+            groupBox8.ResumeLayout(false);
+            groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nud_yOfs).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nud_xOfs).EndInit();
+            groupBox9.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
         #endregion
-       
+
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox tb_markName;
         private System.Windows.Forms.Label label9;
