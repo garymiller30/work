@@ -22,16 +22,37 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Rendering
         public static readonly Color ColorPrintAreaBorder = Color.FromArgb(0, 122, 204); // Cyan/blue print area outline
 
         // Products Palette
-        public static readonly Color ColorProdBgNormal = Color.FromArgb(43, 43, 43); // Dark theme product card
-        public static readonly Color ColorProdBorderNormal = Color.FromArgb(100, 100, 100);
-        public static readonly Color ColorProdTextNormal = Color.FromArgb(220, 220, 220);
+        public static readonly Color ColorProdTextNormal = Color.FromArgb(240, 240, 240);
 
-        public static readonly Color ColorProdBgSelected = Color.FromArgb(0, 75, 140); // Highlighted selection
-        public static readonly Color ColorProdBorderSelected = Color.FromArgb(0, 162, 232);
-        
-        public static readonly Color ColorProdBgLocked = Color.FromArgb(35, 35, 35);
-        public static readonly Color ColorProdBorderLocked = Color.FromArgb(70, 70, 70);
-        public static readonly Color ColorProdTextLocked = Color.FromArgb(130, 130, 130);
+        private static readonly Color[] ProductBgColors = new Color[]
+        {
+            Color.FromArgb(28, 80, 110),   // Dark Teal
+            Color.FromArgb(38, 76, 112),   // Dark Blue
+            Color.FromArgb(85, 48, 110),   // Dark Purple
+            Color.FromArgb(105, 63, 115),  // Dark Lavender
+            Color.FromArgb(128, 51, 92),   // Dark Pink
+            Color.FromArgb(128, 59, 73),   // Dark Rose
+            Color.FromArgb(138, 54, 30),   // Dark Red/Coral
+            Color.FromArgb(133, 72, 23),   // Dark Orange
+            Color.FromArgb(120, 85, 10),   // Dark Amber
+            Color.FromArgb(87, 102, 12),   // Dark Yellow-Green
+            Color.FromArgb(25, 105, 50),   // Dark Green
+            Color.FromArgb(10, 81, 61),    // Dark Forest
+            Color.FromArgb(9, 92, 102)     // Dark Cyan
+        };
+
+        public static void GetProductColors(Guid productId, out Color bg, out Color border)
+        {
+            int index = Math.Abs(productId.GetHashCode()) % ProductBgColors.Length;
+            bg = ProductBgColors[index];
+            
+            // Generate a lighter border color dynamically
+            border = Color.FromArgb(
+                Math.Min(255, bg.R + 40),
+                Math.Min(255, bg.G + 40),
+                Math.Min(255, bg.B + 40)
+            );
+        }
 
         public static readonly Color ColorCollisionOverlay = Color.FromArgb(80, 220, 50, 50); // Red highlight for overlaps
         public static readonly Color ColorTechBorder = Color.FromArgb(120, 180, 120); // Soft green for technological margins
@@ -219,32 +240,32 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Rendering
                     hasCollision = true;
                 }
 
-                // 1. Draw Technological Margin (Bleed) outline
-                using (var techPen = new Pen(ColorTechBorder, 1) { DashStyle = DashStyle.Dot })
-                {
-                    g.DrawRectangle(techPen, techScreen.X, techScreen.Y, techScreen.Width, techScreen.Height);
-                }
+                // Get the unique per-product base color
+                GetProductColors(prod.Id, out Color productBg, out Color productBorder);
 
-                // 2. Choose styling based on state
-                Color fillCol = ColorProdBgNormal;
-                Color borderCol = ColorProdBorderNormal;
+                // 3. Choose styling based on state
+                Color fillCol;
+                Color borderCol;
                 Color textCol = ColorProdTextNormal;
                 int borderThickness = 1;
 
-                if (isSelected)
+                if (item.IsLocked)
                 {
-                    fillCol = ColorProdBgSelected;
-                    borderCol = ColorProdBorderSelected;
-                    borderThickness = 2;
+                    // Locked: dark overlay preserving a muted tint of the product color
+                    fillCol = Color.FromArgb(
+                        (productBg.R / 4),
+                        (productBg.G / 4),
+                        (productBg.B / 4));
+                    borderCol = Color.FromArgb(60, 60, 60);
+                    textCol = Color.FromArgb(110, 110, 110);
                 }
-                else if (item.IsLocked)
+                else
                 {
-                    fillCol = ColorProdBgLocked;
-                    borderCol = ColorProdBorderLocked;
-                    textCol = ColorProdTextLocked;
+                    fillCol = productBg;
+                    borderCol = productBorder;
                 }
 
-                // 3. Draw Product Card
+                // 4. Draw Product Card with product-unique color
                 using (var fillBrush = new SolidBrush(fillCol))
                 using (var borderPen = new Pen(borderCol, borderThickness))
                 {
@@ -252,7 +273,19 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Rendering
                     g.DrawRectangle(borderPen, prodScreen.X, prodScreen.Y, prodScreen.Width, prodScreen.Height);
                 }
 
-                // 4. Collision Overlay
+                // 5. Selection Glow Overlay (drawn on top of the product color)
+                if (isSelected)
+                {
+                    // Semi-transparent blue fill
+                    using (var selBrush = new SolidBrush(Color.FromArgb(90, 0, 140, 255)))
+                    using (var selPen = new Pen(Color.FromArgb(0, 162, 232), 2))
+                    {
+                        g.FillRectangle(selBrush, prodScreen);
+                        g.DrawRectangle(selPen, prodScreen.X, prodScreen.Y, prodScreen.Width, prodScreen.Height);
+                    }
+                }
+
+                // 6. Collision Overlay (drawn last so it always shows through)
                 if (hasCollision)
                 {
                     using (var collBrush = new SolidBrush(ColorCollisionOverlay))
@@ -261,6 +294,15 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Rendering
                         g.FillRectangle(collBrush, prodScreen);
                         g.DrawRectangle(collPen, prodScreen.X, prodScreen.Y, prodScreen.Width, prodScreen.Height);
                     }
+                }
+
+                // 7. Tech margin border tinted to match product color
+                using (var techPen = new Pen(Color.FromArgb(160,
+                    Math.Min(255, productBg.R + 60),
+                    Math.Min(255, productBg.G + 60),
+                    Math.Min(255, productBg.B + 60)), 1) { DashStyle = DashStyle.Dot })
+                {
+                    g.DrawRectangle(techPen, techScreen.X, techScreen.Y, techScreen.Width, techScreen.Height);
                 }
 
                 // 5. Draw Info Texts (Name, Size, Angle, Lock status)
