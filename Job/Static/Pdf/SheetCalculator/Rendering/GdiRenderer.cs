@@ -43,7 +43,7 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Rendering
 
         public static void GetProductColors(Guid productId, out Color bg, out Color border)
         {
-            int index = Math.Abs(productId.GetHashCode()) % ProductBgColors.Length;
+            int index = (productId.GetHashCode() & 0x7FFFFFFF) % ProductBgColors.Length;
             bg = ProductBgColors[index];
             
             // Generate a lighter border color dynamically

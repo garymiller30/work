@@ -4,6 +4,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Interfaces.FileBrowser;
+using Interfaces.Plugins;
 using JobSpace.Static.Pdf.SheetCalculator.Models;
 using JobSpace.Static.Pdf.SheetCalculator.Services;
 using JobSpace.Static.Pdf.SheetCalculator.Utilities;
@@ -15,8 +17,19 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Views
     {
         private MainViewModel _viewModel;
 
-        public FormSheetCalculator()
+        /// <summary>Context passed from the PDF tool runner (may be null).</summary>
+        private PdfJobContext _context;
+
+        public FormSheetCalculator() : this(null) { }
+
+        /// <summary>
+        /// Creates the form. If <paramref name="context"/> contains selected files
+        /// they are automatically imported as new products (features 11 &amp; 12).
+        /// </summary>
+        public FormSheetCalculator(PdfJobContext context)
         {
+            _context = context;
+
             InitializeComponent();
             _viewModel = new MainViewModel();
 
@@ -38,6 +51,10 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Views
             OnProjectChanged(this, EventArgs.Empty);
             OnSelectionChanged(this, EventArgs.Empty);
             OnHistoryChanged(this, EventArgs.Empty);
+
+            // Auto-import files selected in FileBrowser (features 11 & 12)
+            if (_context?.InputFiles?.Count > 0)
+                ImportProductsFromContext();
         }
 
         private void BindUiEvents()
@@ -110,17 +127,19 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Views
             dgvSheets.Columns[2].FillWeight = 30;
 
             // Columns for Products
-            dgvProducts.Columns.Add("Name", "Виріб");
-            dgvProducts.Columns.Add("Format", "Розмір");
+            dgvProducts.Columns.Add("Name",     "Виріб");
+            dgvProducts.Columns.Add("Format",   "Розмір");
+            dgvProducts.Columns.Add("OnSheets", "На листах");   // feature 10
             dgvProducts.Columns.Add("Required", "Потрібно");
-            dgvProducts.Columns.Add("Actual", "Фактично");
-            dgvProducts.Columns.Add("Remaining", "Залишок");
+            dgvProducts.Columns.Add("Actual",   "Фактично");
+            dgvProducts.Columns.Add("Remaining","Залишок");
 
-            dgvProducts.Columns[0].FillWeight = 28;
-            dgvProducts.Columns[1].FillWeight = 22;
-            dgvProducts.Columns[2].FillWeight = 16;
-            dgvProducts.Columns[3].FillWeight = 17;
-            dgvProducts.Columns[4].FillWeight = 17;
+            dgvProducts.Columns[0].FillWeight = 26;
+            dgvProducts.Columns[1].FillWeight = 19;
+            dgvProducts.Columns[2].FillWeight = 14;
+            dgvProducts.Columns[3].FillWeight = 14;
+            dgvProducts.Columns[4].FillWeight = 14;
+            dgvProducts.Columns[5].FillWeight = 13;
         }
 
         private void StyleGrid(DataGridView dgv)
@@ -180,34 +199,47 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Views
             }
             dgvSheets.SelectionChanged += OnSheetListSelectionChanged;
 
-            // 2. Sync Products List
+            // 2. Sync Products List — preserve the currently selected product
+            Guid? previouslySelectedProductId = GetSelectedProduct()?.Id;
+
+            dgvProducts.SelectionChanged -= OnProductsGridSelectionChanged;
             dgvProducts.Rows.Clear();
             var results = CalculationService.GetCirculationResults(_viewModel.Project);
+            int restoreRowIndex = -1;
             foreach (var res in results)
             {
                 var prod = _viewModel.Project.Products.FirstOrDefault(x => x.Id == res.ProductId);
                 if (prod != null)
                 {
                     int rIdx = dgvProducts.Rows.Add(
-                        prod.Name, 
-                        $"{prod.Width}x{prod.Height}", 
-                        res.Required, 
-                        res.Actual, 
+                        prod.Name,
+                        $"{prod.Width}x{prod.Height}",
+                        res.PlacedCount,           // "На листах"
+                        res.Required,
+                        res.Actual,
                         res.Remaining
                     );
                     dgvProducts.Rows[rIdx].Tag = prod;
 
-                    // Color remaining/overproduction cells
+                    // Restore previous selection
+                    if (prod.Id == previouslySelectedProductId)
+                        restoreRowIndex = rIdx;
+
+                    // Color remaining/overproduction cells (column index 5 after adding "На листах")
                     if (res.Remaining > 0)
-                    {
-                        dgvProducts.Rows[rIdx].Cells[4].Style.ForeColor = Color.Salmon; // Shortage
-                    }
+                        dgvProducts.Rows[rIdx].Cells[5].Style.ForeColor = Color.Salmon;      // Shortage
                     else if (res.Remaining < 0)
-                    {
-                        dgvProducts.Rows[rIdx].Cells[4].Style.ForeColor = Color.LightGreen; // Overproduction
-                    }
+                        dgvProducts.Rows[rIdx].Cells[5].Style.ForeColor = Color.LightGreen;  // Overproduction
                 }
             }
+
+            // Restore row focus without firing selection-changed recursively
+            if (restoreRowIndex >= 0 && restoreRowIndex < dgvProducts.Rows.Count)
+                dgvProducts.Rows[restoreRowIndex].Selected = true;
+            else if (dgvProducts.Rows.Count > 0)
+                dgvProducts.Rows[0].Selected = true;
+
+            dgvProducts.SelectionChanged += OnProductsGridSelectionChanged;
 
             // 3. Sync Active Sheet Properties Panel
             if (_viewModel.ActiveSheet != null)
@@ -421,10 +453,61 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Views
         private Product GetSelectedProduct()
         {
             if (dgvProducts.SelectedRows.Count > 0)
-            {
                 return dgvProducts.SelectedRows[0].Tag as Product;
-            }
             return null;
+        }
+
+        // Stub handler so we can subscribe/unsubscribe safely around list rebuilds.
+        private void OnProductsGridSelectionChanged(object sender, EventArgs e) { }
+
+        // ─── Feature 11 & 12: Auto-import products from FileBrowser context ───
+
+        /// <summary>
+        /// Imports files from <see cref="_context"/>.<see cref="PdfJobContext.InputFiles"/>.
+        /// For each file:
+        ///   • Parses product name and circulation from the filename (feature 12).
+        ///   • Reads PDF page dimensions via iTextSharp (feature 11).
+        ///   • Skips files whose base name is already in the product list.
+        /// </summary>
+        private void ImportProductsFromContext()
+        {
+            if (_context?.InputFiles == null || _context.InputFiles.Count == 0) return;
+
+            var existingNames = new HashSet<string>(
+                _viewModel.Project.Products.Select(p => p.Name),
+                StringComparer.OrdinalIgnoreCase);
+
+            foreach (var fileInfo in _context.InputFiles)
+            {
+                string filePath = fileInfo?.FullName;
+                if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath)) continue;
+
+                string fileNameNoExt = Path.GetFileNameWithoutExtension(filePath);
+
+                // Feature 12: extract name and circulation from filename
+                var (productName, circulation) = FileImportHelper.ParseFileName(fileNameNoExt);
+
+                // Skip if already imported (by product name)
+                if (existingNames.Contains(productName)) continue;
+
+                // Feature 11: read PDF page dimensions
+                double width  = 0;
+                double height = 0;
+                string ext = FileImportHelper.GetExtension(filePath);
+                if (ext == "pdf")
+                    FileImportHelper.TryReadPdfDimensions(filePath, out width, out height);
+
+                // If dimensions could not be determined, leave them at 0 (default will apply in AddProduct)
+                _viewModel.AddProduct(
+                    productName,
+                    width  > 0 ? width  : 90,
+                    height > 0 ? height : 50,
+                    circulation,
+                    2.0  // default tech margin
+                );
+
+                existingNames.Add(productName);
+            }
         }
 
         // Placed Item Events

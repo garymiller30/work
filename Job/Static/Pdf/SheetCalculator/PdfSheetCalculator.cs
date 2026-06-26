@@ -15,7 +15,7 @@ namespace JobSpace.Static.Pdf.SheetCalculator
 
         public void Execute(PdfJobContext context)
         {
-            var form = new FormSheetCalculator();
+            var form = new FormSheetCalculator(context);
             form.Show();
         }
     }

@@ -30,23 +30,23 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Services
             });
 
             // Add some default products
-            project.Products.Add(new Product
-            {
-                Name = "Візитка",
-                Width = 90,
-                Height = 50,
-                RequiredCirculation = 1000,
-                TechMargin = 2
-            });
+            //project.Products.Add(new Product
+            //{
+            //    Name = "Візитка",
+            //    Width = 90,
+            //    Height = 50,
+            //    RequiredCirculation = 1000,
+            //    TechMargin = 2
+            //});
 
-            project.Products.Add(new Product
-            {
-                Name = "Листівка А6",
-                Width = 105,
-                Height = 148,
-                RequiredCirculation = 500,
-                TechMargin = 2
-            });
+            //project.Products.Add(new Product
+            //{
+            //    Name = "Листівка А6",
+            //    Width = 105,
+            //    Height = 148,
+            //    RequiredCirculation = 500,
+            //    TechMargin = 2
+            //});
 
             return project;
         }

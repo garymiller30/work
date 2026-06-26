@@ -11,6 +11,13 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Services
         public int Required { get; set; }
         public int Actual { get; set; }
         public int Remaining => Required - Actual;
+
+        /// <summary>
+        /// Total number of copies of this product placed on all sheets
+        /// (sum of PlacedItem count across all sheets, not multiplied by sheet run).
+        /// This is the "На листах: X шт." display value.
+        /// </summary>
+        public int PlacedCount { get; set; }
     }
 
     public static class CalculationService
@@ -106,18 +113,35 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Services
             // First run recalculate to ensure data is up to date
             Recalculate(project);
 
-            var productMap = project.Products.ToDictionary(p => p.Id);
+            // Actual printed copies: sheetRun * count_on_sheet (sum across all sheets)
             var actualCounts = project.Products.ToDictionary(p => p.Id, p => 0);
+
+            // Raw placed count: how many copies of a product sit on all sheets combined
+            var placedCounts = project.Products.ToDictionary(p => p.Id, p => 0);
 
             foreach (var sheet in project.Sheets)
             {
                 int sheetRun = sheet.CalculatedCirculation;
+
+                // Count per product on this sheet
+                var sheetCounts = new Dictionary<Guid, int>();
                 foreach (var item in sheet.PlacedItems)
                 {
-                    if (actualCounts.ContainsKey(item.ProductId))
-                    {
-                        actualCounts[item.ProductId] += sheetRun;
-                    }
+                    if (!sheetCounts.ContainsKey(item.ProductId))
+                        sheetCounts[item.ProductId] = 0;
+                    sheetCounts[item.ProductId]++;
+                }
+
+                foreach (var kvp in sheetCounts)
+                {
+                    Guid prodId = kvp.Key;
+                    int countOnSheet = kvp.Value;
+
+                    if (actualCounts.ContainsKey(prodId))
+                        actualCounts[prodId] += sheetRun * countOnSheet;
+
+                    if (placedCounts.ContainsKey(prodId))
+                        placedCounts[prodId] += countOnSheet;
                 }
             }
 
@@ -127,7 +151,8 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Services
                 {
                     ProductId = prod.Id,
                     Required = prod.RequiredCirculation,
-                    Actual = actualCounts[prod.Id]
+                    Actual = actualCounts[prod.Id],
+                    PlacedCount = placedCounts[prod.Id]
                 });
             }
 
