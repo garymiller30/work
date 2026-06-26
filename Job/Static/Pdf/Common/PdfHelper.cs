@@ -30,7 +30,7 @@ namespace JobSpace.Static.Pdf.Common
     int doc,
     int pageIdx,
     string boxName,
-    double[] fallbackRaw = null)
+    double[]? fallbackRaw = null)
         {
             var raw = new double[4];
 

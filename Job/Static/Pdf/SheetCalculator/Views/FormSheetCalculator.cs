@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Interfaces.FileBrowser;
 using Interfaces.Plugins;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.SheetCalculator.Models;
 using JobSpace.Static.Pdf.SheetCalculator.Services;
 using JobSpace.Static.Pdf.SheetCalculator.Utilities;
@@ -491,11 +492,17 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Views
                 if (existingNames.Contains(productName)) continue;
 
                 // Feature 11: read PDF page dimensions
-                double width  = 0;
+
+                var page_info = PdfHelper.GetPageInfo(filePath);
+
+                double width = 0;
                 double height = 0;
-                string ext = FileImportHelper.GetExtension(filePath);
-                if (ext == "pdf")
-                    FileImportHelper.TryReadPdfDimensions(filePath, out width, out height);
+
+                if (page_info != null)
+                {
+                    width = page_info.Trimbox.wMM();
+                    height = page_info.Trimbox.hMM();
+                }
 
                 // If dimensions could not be determined, leave them at 0 (default will apply in AddProduct)
                 _viewModel.AddProduct(
