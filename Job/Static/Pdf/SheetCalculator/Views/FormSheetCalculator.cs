@@ -19,7 +19,7 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Views
         private MainViewModel _viewModel;
 
         /// <summary>Context passed from the PDF tool runner (may be null).</summary>
-        private PdfJobContext _context;
+        private PdfJobContext? _context;
 
         public FormSheetCalculator() : this(null) { }
 
@@ -27,7 +27,7 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Views
         /// Creates the form. If <paramref name="context"/> contains selected files
         /// they are automatically imported as new products (features 11 &amp; 12).
         /// </summary>
-        public FormSheetCalculator(PdfJobContext context)
+        public FormSheetCalculator(PdfJobContext? context)
         {
             _context = context;
 
