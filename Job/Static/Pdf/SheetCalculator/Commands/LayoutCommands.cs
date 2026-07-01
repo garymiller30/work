@@ -47,6 +47,8 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
         private readonly Project _project;
         private readonly Sheet _sheet;
         private readonly List<PlacedItem> _items;
+        private readonly List<PlacedItemGroup> _removedGroups;
+        private readonly Dictionary<Guid, Guid?> _oldGroupIds;
         private readonly Action _onChanged;
 
         public string Name => "Видалити розкладені вироби";
@@ -57,6 +59,17 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
             _sheet = sheet;
             _items = items;
             _onChanged = onChanged;
+
+            var removedItemIds = new HashSet<Guid>(_items.Select(x => x.Id));
+            _removedGroups = _project.Groups
+                .Where(g => g.PlacedItemIds.Any(id => removedItemIds.Contains(id)))
+                .ToList();
+
+            var affectedGroupIds = new HashSet<Guid>(_removedGroups.Select(g => g.Id));
+            _oldGroupIds = _project.Sheets
+                .SelectMany(s => s.PlacedItems)
+                .Where(i => i.GroupId.HasValue && affectedGroupIds.Contains(i.GroupId.Value))
+                .ToDictionary(i => i.Id, i => i.GroupId);
         }
 
         public void Execute()
@@ -65,6 +78,20 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
             {
                 _sheet.PlacedItems.Remove(item);
             }
+
+            foreach (var group in _removedGroups)
+            {
+                _project.Groups.Remove(group);
+            }
+
+            foreach (var item in _project.Sheets.SelectMany(s => s.PlacedItems))
+            {
+                if (_oldGroupIds.ContainsKey(item.Id))
+                {
+                    item.GroupId = null;
+                }
+            }
+
             CalculationService.Recalculate(_project);
             _onChanged?.Invoke();
         }
@@ -72,11 +99,27 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
         public void Undo()
         {
             _sheet.PlacedItems.AddRange(_items);
+
+            foreach (var group in _removedGroups)
+            {
+                if (!_project.Groups.Any(g => g.Id == group.Id))
+                {
+                    _project.Groups.Add(group);
+                }
+            }
+
+            foreach (var item in _project.Sheets.SelectMany(s => s.PlacedItems))
+            {
+                if (_oldGroupIds.TryGetValue(item.Id, out var groupId))
+                {
+                    item.GroupId = groupId;
+                }
+            }
+
             CalculationService.Recalculate(_project);
             _onChanged?.Invoke();
         }
     }
-
     public class MoveItemsCommand : ICommand
     {
         private readonly Project _project;

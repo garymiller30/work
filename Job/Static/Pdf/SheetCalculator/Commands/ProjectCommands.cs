@@ -40,6 +40,8 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
     {
         private readonly Project _project;
         private readonly Sheet _sheet;
+        private readonly List<PlacedItemGroup> _removedGroups;
+        private readonly Dictionary<Guid, Guid?> _oldGroupIds;
         private readonly Action _onChanged;
 
         public string Name => "Видалити лист";
@@ -49,11 +51,36 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
             _project = project;
             _sheet = sheet;
             _onChanged = onChanged;
+
+            var removedItemIds = new HashSet<Guid>(_sheet.PlacedItems.Select(x => x.Id));
+            _removedGroups = _project.Groups
+                .Where(g => g.PlacedItemIds.Any(id => removedItemIds.Contains(id)))
+                .ToList();
+
+            var affectedGroupIds = new HashSet<Guid>(_removedGroups.Select(g => g.Id));
+            _oldGroupIds = _project.Sheets
+                .SelectMany(s => s.PlacedItems)
+                .Where(i => i.GroupId.HasValue && affectedGroupIds.Contains(i.GroupId.Value))
+                .ToDictionary(i => i.Id, i => i.GroupId);
         }
 
         public void Execute()
         {
             _project.Sheets.Remove(_sheet);
+
+            foreach (var group in _removedGroups)
+            {
+                _project.Groups.Remove(group);
+            }
+
+            foreach (var item in _project.Sheets.SelectMany(s => s.PlacedItems))
+            {
+                if (_oldGroupIds.ContainsKey(item.Id))
+                {
+                    item.GroupId = null;
+                }
+            }
+
             CalculationService.Recalculate(_project);
             _onChanged?.Invoke();
         }
@@ -61,11 +88,27 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
         public void Undo()
         {
             _project.Sheets.Add(_sheet);
+
+            foreach (var group in _removedGroups)
+            {
+                if (!_project.Groups.Any(g => g.Id == group.Id))
+                {
+                    _project.Groups.Add(group);
+                }
+            }
+
+            foreach (var item in _project.Sheets.SelectMany(s => s.PlacedItems))
+            {
+                if (_oldGroupIds.TryGetValue(item.Id, out var groupId))
+                {
+                    item.GroupId = groupId;
+                }
+            }
+
             CalculationService.Recalculate(_project);
             _onChanged?.Invoke();
         }
     }
-
     public class UpdateSheetCommand : ICommand
     {
         private readonly Sheet _sheet;
@@ -108,7 +151,6 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
             dst.MarginRight = src.MarginRight;
             dst.MarginTop = src.MarginTop;
             dst.MarginBottom = src.MarginBottom;
-            dst.PlacedItems = src.PlacedItems.Select(x => x.Clone()).ToList();
         }
     }
 
@@ -146,8 +188,9 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
     {
         private readonly Project _project;
         private readonly Product _product;
-        private readonly List<PlacedItem> _removedPlacements = new List<PlacedItem>();
         private readonly Dictionary<Guid, List<PlacedItem>> _sheetPlacements = new Dictionary<Guid, List<PlacedItem>>();
+        private readonly List<PlacedItemGroup> _removedGroups;
+        private readonly Dictionary<Guid, Guid?> _oldGroupIds;
         private readonly Action _onChanged;
 
         public string Name => "Видалити виріб";
@@ -158,7 +201,7 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
             _product = product;
             _onChanged = onChanged;
 
-            // Remember all placed instances of this product across all sheets
+            // Remember all placed instances of this product across all sheets.
             foreach (var sheet in _project.Sheets)
             {
                 var matches = sheet.PlacedItems.Where(x => x.ProductId == product.Id).ToList();
@@ -167,6 +210,17 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
                     _sheetPlacements[sheet.Id] = matches;
                 }
             }
+
+            var removedItemIds = new HashSet<Guid>(_sheetPlacements.Values.SelectMany(x => x).Select(x => x.Id));
+            _removedGroups = _project.Groups
+                .Where(g => g.PlacedItemIds.Any(id => removedItemIds.Contains(id)))
+                .ToList();
+
+            var affectedGroupIds = new HashSet<Guid>(_removedGroups.Select(g => g.Id));
+            _oldGroupIds = _project.Sheets
+                .SelectMany(s => s.PlacedItems)
+                .Where(i => i.GroupId.HasValue && affectedGroupIds.Contains(i.GroupId.Value))
+                .ToDictionary(i => i.Id, i => i.GroupId);
         }
 
         public void Execute()
@@ -182,6 +236,20 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
                     }
                 }
             }
+
+            foreach (var group in _removedGroups)
+            {
+                _project.Groups.Remove(group);
+            }
+
+            foreach (var item in _project.Sheets.SelectMany(s => s.PlacedItems))
+            {
+                if (_oldGroupIds.ContainsKey(item.Id))
+                {
+                    item.GroupId = null;
+                }
+            }
+
             CalculationService.Recalculate(_project);
             _onChanged?.Invoke();
         }
@@ -196,11 +264,27 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Commands
                     sheet.PlacedItems.AddRange(items);
                 }
             }
+
+            foreach (var group in _removedGroups)
+            {
+                if (!_project.Groups.Any(g => g.Id == group.Id))
+                {
+                    _project.Groups.Add(group);
+                }
+            }
+
+            foreach (var item in _project.Sheets.SelectMany(s => s.PlacedItems))
+            {
+                if (_oldGroupIds.TryGetValue(item.Id, out var groupId))
+                {
+                    item.GroupId = groupId;
+                }
+            }
+
             CalculationService.Recalculate(_project);
             _onChanged?.Invoke();
         }
     }
-
     public class UpdateProductCommand : ICommand
     {
         private readonly Product _product;

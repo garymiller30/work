@@ -51,7 +51,10 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Services
                 sheetProductCounts[sheet.Id] = counts;
             }
 
-            // Step 2 & 3: For each sheet, find the maximum required circulation from its products
+            // Step 2 & 3: Walk sheets in project order and produce only the remaining
+            // quantity for products that are still short. This prevents the same
+            // product from being fully produced again on every sheet where it appears.
+            var remainingCounts = project.Products.ToDictionary(p => p.Id, p => p.RequiredCirculation);
             foreach (var sheet in project.Sheets)
             {
                 var counts = sheetProductCounts[sheet.Id];
@@ -69,8 +72,13 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Services
 
                     if (productMap.TryGetValue(prodId, out var product))
                     {
-                        // ceil(Required / CountOnSheet)
-                        int requiredSheetRun = (int)Math.Ceiling((double)product.RequiredCirculation / countOnSheet);
+                        int remaining = remainingCounts.TryGetValue(prodId, out int value)
+                            ? value
+                            : product.RequiredCirculation;
+                        if (remaining <= 0) continue;
+
+                        // ceil(Remaining / CountOnSheet)
+                        int requiredSheetRun = (int)Math.Ceiling((double)remaining / countOnSheet);
                         if (requiredSheetRun > maxSheetRun)
                         {
                             maxSheetRun = requiredSheetRun;
@@ -78,6 +86,17 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Services
                     }
                 }
                 sheet.CalculatedCirculation = maxSheetRun;
+
+                if (maxSheetRun > 0)
+                {
+                    foreach (var kvp in counts)
+                    {
+                        if (remainingCounts.ContainsKey(kvp.Key))
+                        {
+                            remainingCounts[kvp.Key] -= maxSheetRun * kvp.Value;
+                        }
+                    }
+                }
             }
 
             // Step 4 & 5: Recalculate actual circulation for each product across all sheets

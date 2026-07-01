@@ -246,6 +246,8 @@ namespace JobSpace.Static.Pdf.SheetCalculator.ViewModels
                 Angle = 0
             };
 
+            if (!CanPlaceItems(new[] { item }, Enumerable.Empty<Guid>())) return;
+
             History.Execute(new PlaceItemsCommand(Project, ActiveSheet, new List<PlacedItem> { item }, () =>
             {
                 SelectedPlacedItemIds.Clear();
@@ -261,6 +263,7 @@ namespace JobSpace.Static.Pdf.SheetCalculator.ViewModels
 
             var items = NestingService.AutoLayout(product, ActiveSheet);
             if (!items.Any()) return;
+            if (!CanPlaceItems(items, Enumerable.Empty<Guid>())) return;
 
             History.Execute(new PlaceItemsCommand(Project, ActiveSheet, items, () =>
             {
@@ -293,6 +296,17 @@ namespace JobSpace.Static.Pdf.SheetCalculator.ViewModels
             if (ActiveSheet == null || !SelectedPlacedItemIds.Any()) return;
 
             var itemsToRotate = ActiveSheet.PlacedItems.Where(x => SelectedPlacedItemIds.Contains(x.Id)).ToList();
+            var rotatedItems = itemsToRotate
+                .Where(x => !x.IsLocked)
+                .Select(x =>
+                {
+                    var clone = x.Clone();
+                    clone.Angle = (clone.Angle + angleDelta) % 360;
+                    return clone;
+                })
+                .ToList();
+            if (!CanPlaceItems(rotatedItems, rotatedItems.Select(x => x.Id))) return;
+
             History.Execute(new RotateItemsCommand(Project, itemsToRotate, angleDelta, OnProjectChanged));
         }
 
@@ -380,6 +394,20 @@ namespace JobSpace.Static.Pdf.SheetCalculator.ViewModels
                     return;
             }
 
+            var alignedItems = items
+                .Select(x =>
+                {
+                    var clone = x.Clone();
+                    if (newPositions.TryGetValue(x.Id, out var pos))
+                    {
+                        clone.X = pos.X;
+                        clone.Y = pos.Y;
+                    }
+                    return clone;
+                })
+                .ToList();
+            if (!CanPlaceItems(alignedItems, items.Select(x => x.Id))) return;
+
             History.Execute(new MoveItemsToPositionsCommand(Project, items, newPositions, commandName, OnProjectChanged));
         }
 
@@ -416,6 +444,7 @@ namespace JobSpace.Static.Pdf.SheetCalculator.ViewModels
             }
 
             if (!newItems.Any()) return;
+            if (!CanPlaceItems(newItems, Enumerable.Empty<Guid>())) return;
 
             History.Execute(new PlaceItemsCommand(Project, ActiveSheet, newItems, () =>
             {
@@ -435,7 +464,65 @@ namespace JobSpace.Static.Pdf.SheetCalculator.ViewModels
             if (ActiveSheet == null || !SelectedPlacedItemIds.Any() || (dx == 0 && dy == 0)) return;
 
             var itemsToMove = ActiveSheet.PlacedItems.Where(x => SelectedPlacedItemIds.Contains(x.Id)).ToList();
+            var movedItems = itemsToMove
+                .Where(x => !x.IsLocked)
+                .Select(x =>
+                {
+                    var clone = x.Clone();
+                    clone.X += dx;
+                    clone.Y += dy;
+                    return clone;
+                })
+                .ToList();
+            if (!CanPlaceItems(movedItems, movedItems.Select(x => x.Id))) return;
+
             History.Execute(new MoveItemsCommand(Project, itemsToMove, dx, dy, OnProjectChanged));
+        }
+
+        public bool CanPlaceItems(IEnumerable<PlacedItem> candidateItems, IEnumerable<Guid> ignoredExistingItemIds)
+        {
+            if (!StrictCollision) return true;
+            if (ActiveSheet == null) return false;
+
+            var candidates = candidateItems?.ToList() ?? new List<PlacedItem>();
+            if (!candidates.Any()) return true;
+
+            var ignoredIds = new HashSet<Guid>(ignoredExistingItemIds ?? Enumerable.Empty<Guid>());
+            var productMap = Project.Products.ToDictionary(p => p.Id);
+
+            foreach (var item in candidates)
+            {
+                if (!productMap.TryGetValue(item.ProductId, out var product)) return false;
+                if (GeometryHelper.IsOutsideSheet(item, product, ActiveSheet)) return false;
+                if (GeometryHelper.IsOutsidePrintableArea(item, product, ActiveSheet)) return false;
+            }
+
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                var item = candidates[i];
+                var product = productMap[item.ProductId];
+
+                for (int j = i + 1; j < candidates.Count; j++)
+                {
+                    var other = candidates[j];
+                    if (GeometryHelper.CheckCollision(item, product, other, productMap[other.ProductId]))
+                    {
+                        return false;
+                    }
+                }
+
+                foreach (var existing in ActiveSheet.PlacedItems)
+                {
+                    if (ignoredIds.Contains(existing.Id)) continue;
+                    if (!productMap.TryGetValue(existing.ProductId, out var existingProduct)) continue;
+                    if (GeometryHelper.CheckCollision(item, product, existing, existingProduct))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

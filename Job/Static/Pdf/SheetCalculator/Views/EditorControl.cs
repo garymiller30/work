@@ -390,6 +390,19 @@ namespace JobSpace.Static.Pdf.SheetCalculator.Views
                     newPositions[item.Id] = (item.X, item.Y);
                 }
 
+                if (actuallyMoved && !ViewModel.CanPlaceItems(itemsMoved.Select(x => x.Clone()).ToList(), itemsMoved.Select(x => x.Id)))
+                {
+                    foreach (var item in itemsMoved)
+                    {
+                        if (_dragStartItemPositions.TryGetValue(item.Id, out var startPos))
+                        {
+                            item.X = startPos.X;
+                            item.Y = startPos.Y;
+                        }
+                    }
+                    actuallyMoved = false;
+                }
+
                 if (actuallyMoved)
                 {
                     // Restore original positions first so Command.Execute works cleanly and supports Redo
