@@ -10,7 +10,7 @@ namespace JobSpace.UserForms
 {
     public partial class FormEnterTirag : Form
     {
-        public List<FileTirag> fileTirags { get;set;} = new List<FileTirag>();
+        public List<FileTirag> fileTirags { get; set; } = new List<FileTirag>();
 
         public FormEnterTirag()
         {
@@ -19,7 +19,7 @@ namespace JobSpace.UserForms
 
         public FormEnterTirag(IEnumerable<IFileSystemInfoExt> files) : this()
         {
-          
+
             AddToList(files);
 
             //вибрати всі елементи
@@ -45,9 +45,8 @@ namespace JobSpace.UserForms
                 {
                     int.TryParse(match.Groups[1].Value, out tirag);
                 }
-                var ft = new FileTirag
+                var ft = new FileTirag(file)
                 {
-                    FileInfo = file,
                     Tirag = tirag
                 };
 
@@ -63,6 +62,15 @@ namespace JobSpace.UserForms
         {
             public IFileSystemInfoExt FileInfo { get; set; }
             public int Tirag { get; set; }
+
+            public FileTirag(IFileSystemInfoExt fileInfo)
+            {
+                FileInfo = fileInfo;
+            }
+            public FileTirag(IFileSystemInfoExt fileInfo, int tirag):this(fileInfo)
+            {
+                Tirag = tirag;
+            }
         }
 
         private void objectListView1_CellEditFinished(object sender, BrightIdeasSoftware.CellEditEventArgs e)
@@ -96,19 +104,6 @@ namespace JobSpace.UserForms
             fileTirags = objectListView1.Objects.Cast<FileTirag>().ToList();
             DialogResult = DialogResult.OK;
             Close();
-
-            //BackgroundTaskService.AddTask(BackgroundTaskService.CreateTask("Міняємо тиражі на файлах", new Action(
-            //   () =>
-            //   {
-            //       foreach (FileTirag ft in objectListView1.Objects)
-            //       {
-            //           _renameAction(_fileManager,ft.Tirag, ft.FileInfo);
-                       
-            //       }
-            //   }
-            //   )));
-            //DialogResult = DialogResult.OK;
-            //Close();
         }
 
         private void btn_paste_Click(object sender, EventArgs e)
@@ -117,7 +112,7 @@ namespace JobSpace.UserForms
             {
                 var text = Clipboard.GetText();
                 var files = text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                
+
                 int idx = 0;
 
                 if (objectListView1.SelectedObjects.Count == 0)
@@ -139,13 +134,14 @@ namespace JobSpace.UserForms
             SetTotalLabel();
         }
 
-   
+
 
         private void SetTotalLabel()
         {
             //set to label t_total sum of tirag
             int total = 0;
-            if (objectListView1.Objects == null) {
+            if (objectListView1.Objects == null)
+            {
             }
             else
             {
@@ -160,11 +156,21 @@ namespace JobSpace.UserForms
 
         private void txt_filter_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty( txt_filter.Text))            {
+            if (string.IsNullOrEmpty(txt_filter.Text))
+            {
                 objectListView1.ModelFilter = null;
             }
             else
                 objectListView1.ModelFilter = new BrightIdeasSoftware.TextMatchFilter(objectListView1, txt_filter.Text);
+        }
+
+        private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // показати прев'ю файла в uc_FilePreviewControl1
+            if (objectListView1.SelectedObject is FileTirag fileTirag)
+            {
+                uc_FilePreviewControl1.Show(fileTirag.FileInfo);
+            }
         }
     }
 }

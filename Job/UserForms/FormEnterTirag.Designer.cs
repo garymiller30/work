@@ -28,178 +28,214 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumn_name = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn_tirag = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.btn_ok = new System.Windows.Forms.Button();
-            this.btn_set_tirag = new System.Windows.Forms.Button();
-            this.nud_tirag = new System.Windows.Forms.NumericUpDown();
-            this.btn_paste = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.l_total = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txt_filter = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_tirag)).BeginInit();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.SuspendLayout();
+            objectListView1 = new BrightIdeasSoftware.ObjectListView();
+            olvColumn_name = new BrightIdeasSoftware.OLVColumn();
+            olvColumn_tirag = new BrightIdeasSoftware.OLVColumn();
+            btn_ok = new System.Windows.Forms.Button();
+            btn_set_tirag = new System.Windows.Forms.Button();
+            nud_tirag = new System.Windows.Forms.NumericUpDown();
+            btn_paste = new System.Windows.Forms.Button();
+            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            l_total = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
+            txt_filter = new System.Windows.Forms.TextBox();
+            label2 = new System.Windows.Forms.Label();
+            uc_FilePreviewControl1 = new JobSpace.UC.Uc_FilePreviewControl();
+            splitContainer1 = new System.Windows.Forms.SplitContainer();
+            ((System.ComponentModel.ISupportInitialize)objectListView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nud_tirag).BeginInit();
+            flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
+            SuspendLayout();
             // 
             // objectListView1
             // 
-            this.objectListView1.AllColumns.Add(this.olvColumn_name);
-            this.objectListView1.AllColumns.Add(this.olvColumn_tirag);
-            this.objectListView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.objectListView1.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.SingleClick;
-            this.objectListView1.CellEditUseWholeCell = false;
-            this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn_name,
-            this.olvColumn_tirag});
-            this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.objectListView1.FullRowSelect = true;
-            this.objectListView1.GridLines = true;
-            this.objectListView1.HideSelection = false;
-            this.objectListView1.Location = new System.Drawing.Point(12, 44);
-            this.objectListView1.Name = "objectListView1";
-            this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(667, 424);
-            this.objectListView1.TabIndex = 2;
-            this.objectListView1.UseCompatibleStateImageBehavior = false;
-            this.objectListView1.UseFiltering = true;
-            this.objectListView1.View = System.Windows.Forms.View.Details;
-            this.objectListView1.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.objectListView1_CellEditFinished);
+            objectListView1.AllColumns.Add(olvColumn_name);
+            objectListView1.AllColumns.Add(olvColumn_tirag);
+            objectListView1.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.SingleClick;
+            objectListView1.CellEditUseWholeCell = false;
+            objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumn_name, olvColumn_tirag });
+            objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            objectListView1.FullRowSelect = true;
+            objectListView1.GridLines = true;
+            objectListView1.Location = new System.Drawing.Point(0, 0);
+            objectListView1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            objectListView1.Name = "objectListView1";
+            objectListView1.ShowGroups = false;
+            objectListView1.Size = new System.Drawing.Size(577, 491);
+            objectListView1.TabIndex = 2;
+            objectListView1.UseCompatibleStateImageBehavior = false;
+            objectListView1.UseFiltering = true;
+            objectListView1.View = System.Windows.Forms.View.Details;
+            objectListView1.CellEditFinished += objectListView1_CellEditFinished;
+            objectListView1.SelectedIndexChanged += objectListView1_SelectedIndexChanged;
             // 
             // olvColumn_name
             // 
-            this.olvColumn_name.AspectName = "FileInfo.FileInfo.Name";
-            this.olvColumn_name.IsEditable = false;
-            this.olvColumn_name.Text = "Ім\'я файлу";
-            this.olvColumn_name.Width = 300;
+            olvColumn_name.AspectName = "FileInfo.FileInfo.Name";
+            olvColumn_name.IsEditable = false;
+            olvColumn_name.Text = "Ім'я файлу";
+            olvColumn_name.Width = 300;
             // 
             // olvColumn_tirag
             // 
-            this.olvColumn_tirag.AspectName = "Tirag";
-            this.olvColumn_tirag.CellEditUseWholeCell = true;
-            this.olvColumn_tirag.Text = "Тираж";
-            this.olvColumn_tirag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.olvColumn_tirag.Width = 108;
+            olvColumn_tirag.AspectName = "Tirag";
+            olvColumn_tirag.CellEditUseWholeCell = true;
+            olvColumn_tirag.Text = "Тираж";
+            olvColumn_tirag.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            olvColumn_tirag.Width = 108;
             // 
             // btn_ok
             // 
-            this.btn_ok.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btn_ok.Location = new System.Drawing.Point(291, 511);
-            this.btn_ok.Name = "btn_ok";
-            this.btn_ok.Size = new System.Drawing.Size(116, 37);
-            this.btn_ok.TabIndex = 3;
-            this.btn_ok.Text = "OK";
-            this.btn_ok.UseVisualStyleBackColor = true;
-            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
+            btn_ok.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            btn_ok.Location = new System.Drawing.Point(401, 590);
+            btn_ok.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btn_ok.Name = "btn_ok";
+            btn_ok.Size = new System.Drawing.Size(135, 43);
+            btn_ok.TabIndex = 3;
+            btn_ok.Text = "OK";
+            btn_ok.UseVisualStyleBackColor = true;
+            btn_ok.Click += btn_ok_Click;
             // 
             // btn_set_tirag
             // 
-            this.btn_set_tirag.Location = new System.Drawing.Point(103, 15);
-            this.btn_set_tirag.Name = "btn_set_tirag";
-            this.btn_set_tirag.Size = new System.Drawing.Size(145, 23);
-            this.btn_set_tirag.TabIndex = 1;
-            this.btn_set_tirag.Text = "примінити до вибраних";
-            this.btn_set_tirag.UseVisualStyleBackColor = true;
-            this.btn_set_tirag.Click += new System.EventHandler(this.btn_set_tirag_Click);
+            btn_set_tirag.Location = new System.Drawing.Point(120, 17);
+            btn_set_tirag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btn_set_tirag.Name = "btn_set_tirag";
+            btn_set_tirag.Size = new System.Drawing.Size(169, 27);
+            btn_set_tirag.TabIndex = 1;
+            btn_set_tirag.Text = "примінити до вибраних";
+            btn_set_tirag.UseVisualStyleBackColor = true;
+            btn_set_tirag.Click += btn_set_tirag_Click;
             // 
             // nud_tirag
             // 
-            this.nud_tirag.Location = new System.Drawing.Point(12, 16);
-            this.nud_tirag.Maximum = new decimal(new int[] {
-            276447232,
-            23283,
-            0,
-            0});
-            this.nud_tirag.Name = "nud_tirag";
-            this.nud_tirag.Size = new System.Drawing.Size(85, 20);
-            this.nud_tirag.TabIndex = 0;
+            nud_tirag.Location = new System.Drawing.Point(14, 18);
+            nud_tirag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            nud_tirag.Maximum = new decimal(new int[] { 276447232, 23283, 0, 0 });
+            nud_tirag.Name = "nud_tirag";
+            nud_tirag.Size = new System.Drawing.Size(99, 23);
+            nud_tirag.TabIndex = 0;
             // 
             // btn_paste
             // 
-            this.btn_paste.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_paste.Location = new System.Drawing.Point(551, 12);
-            this.btn_paste.Name = "btn_paste";
-            this.btn_paste.Size = new System.Drawing.Size(128, 23);
-            this.btn_paste.TabIndex = 4;
-            this.btn_paste.Text = "вставити з буфера";
-            this.btn_paste.UseVisualStyleBackColor = true;
-            this.btn_paste.Click += new System.EventHandler(this.btn_paste_Click);
+            btn_paste.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            btn_paste.Location = new System.Drawing.Point(766, 14);
+            btn_paste.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btn_paste.Name = "btn_paste";
+            btn_paste.Size = new System.Drawing.Size(149, 27);
+            btn_paste.TabIndex = 4;
+            btn_paste.Text = "вставити з буфера";
+            btn_paste.UseVisualStyleBackColor = true;
+            btn_paste.Click += btn_paste_Click;
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.Controls.Add(this.l_total);
-            this.flowLayoutPanel1.Controls.Add(this.label1);
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 474);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(667, 31);
-            this.flowLayoutPanel1.TabIndex = 5;
+            flowLayoutPanel1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            flowLayoutPanel1.Controls.Add(l_total);
+            flowLayoutPanel1.Controls.Add(label1);
+            flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            flowLayoutPanel1.Location = new System.Drawing.Point(14, 547);
+            flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new System.Drawing.Size(903, 36);
+            flowLayoutPanel1.TabIndex = 5;
             // 
             // l_total
             // 
-            this.l_total.AutoSize = true;
-            this.l_total.Location = new System.Drawing.Point(651, 0);
-            this.l_total.Name = "l_total";
-            this.l_total.Size = new System.Drawing.Size(13, 13);
-            this.l_total.TabIndex = 1;
-            this.l_total.Text = "0";
+            l_total.AutoSize = true;
+            l_total.Location = new System.Drawing.Point(886, 0);
+            l_total.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            l_total.Name = "l_total";
+            l_total.Size = new System.Drawing.Size(13, 15);
+            l_total.TabIndex = 1;
+            l_total.Text = "0";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(602, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Всього:";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(834, 0);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(48, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Всього:";
             // 
             // txt_filter
             // 
-            this.txt_filter.Location = new System.Drawing.Point(334, 17);
-            this.txt_filter.Name = "txt_filter";
-            this.txt_filter.Size = new System.Drawing.Size(100, 20);
-            this.txt_filter.TabIndex = 6;
-            this.txt_filter.TextChanged += new System.EventHandler(this.txt_filter_TextChanged);
+            txt_filter.Location = new System.Drawing.Point(390, 20);
+            txt_filter.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txt_filter.Name = "txt_filter";
+            txt_filter.Size = new System.Drawing.Size(116, 23);
+            txt_filter.TabIndex = 6;
+            txt_filter.TextChanged += txt_filter_TextChanged;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(288, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "фільтр";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(336, 25);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(44, 15);
+            label2.TabIndex = 7;
+            label2.Text = "фільтр";
+            // 
+            // uc_FilePreviewControl1
+            // 
+            uc_FilePreviewControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            uc_FilePreviewControl1.Location = new System.Drawing.Point(0, 0);
+            uc_FilePreviewControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            uc_FilePreviewControl1.Name = "uc_FilePreviewControl1";
+            uc_FilePreviewControl1.Size = new System.Drawing.Size(322, 491);
+            uc_FilePreviewControl1.TabIndex = 8;
+            // 
+            // splitContainer1
+            // 
+            splitContainer1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            splitContainer1.Location = new System.Drawing.Point(14, 50);
+            splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(objectListView1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.Controls.Add(uc_FilePreviewControl1);
+            splitContainer1.Size = new System.Drawing.Size(903, 491);
+            splitContainer1.SplitterDistance = 577;
+            splitContainer1.TabIndex = 9;
             // 
             // FormEnterTirag
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(691, 560);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txt_filter);
-            this.Controls.Add(this.flowLayoutPanel1);
-            this.Controls.Add(this.btn_paste);
-            this.Controls.Add(this.nud_tirag);
-            this.Controls.Add(this.btn_set_tirag);
-            this.Controls.Add(this.btn_ok);
-            this.Controls.Add(this.objectListView1);
-            this.Name = "FormEnterTirag";
-            this.ShowIcon = false;
-            this.Text = "Виставити тиражі";
-            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_tirag)).EndInit();
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(929, 646);
+            Controls.Add(splitContainer1);
+            Controls.Add(label2);
+            Controls.Add(txt_filter);
+            Controls.Add(flowLayoutPanel1);
+            Controls.Add(btn_paste);
+            Controls.Add(nud_tirag);
+            Controls.Add(btn_set_tirag);
+            Controls.Add(btn_ok);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "FormEnterTirag";
+            ShowIcon = false;
+            Text = "Виставити тиражі";
+            ((System.ComponentModel.ISupportInitialize)objectListView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nud_tirag).EndInit();
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
@@ -217,5 +253,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txt_filter;
         private System.Windows.Forms.Label label2;
+        private UC.Uc_FilePreviewControl uc_FilePreviewControl1;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }

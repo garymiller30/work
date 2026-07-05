@@ -17,46 +17,22 @@ using static JobSpace.UserForms.FormEnterTirag;
 
 namespace JobSpace.Static.Pdf.Create
 {
-    [PdfTool("Додати", "Додати тираж до імені файлу", Order = 2, Icon = "add_tirag", Description = "Додати тираж до імені файлу",IsBackgroundTask =true)]
-    public class PdfAddTirag : IPdfTool,IPdfToolAsync
+    [PdfTool("Додати", "Додати тираж до імені файлу", Order = 2, Icon = "add_tirag", Description = "Додати тираж до імені файлу", IsBackgroundTask = true)]
+    public class PdfAddTirag : IPdfTool, IPdfToolAsync
     {
-        List<FileTirag> fileTirags;
-
+        List<FileTirag>? fileTirags;
+        private static readonly Regex TiragRegex = new Regex(@"#(\d+)\.", RegexOptions.Compiled);
         public bool Configure(PdfJobContext context)
         {
-            if (context.InputFiles.Count > 1)
-            {
- 
-                using (var form = new FormEnterTirag(context.InputFiles))
-                {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        fileTirags = form.fileTirags;
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                using (var form = new FormTirag())
-                {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        fileTirags = new List<FileTirag>();
-                        fileTirags.Add(new FileTirag { FileInfo = context.InputFiles[0], Tirag = form.Tirag });
-                        return true;
-                    }
-                }
-            }
-            return false;
+            return ConfigureTool(context);
         }
 
-        public async Task<bool> ConfigureAsync(PdfJobContext context)
+        private bool ConfigureTool(PdfJobContext context)
         {
             if (context.InputFiles.Count > 1)
             {
-                var form = new FormEnterTirag(context.InputFiles);
-                if (await form.ShowDialogAsync() == DialogResult.OK)
+                using var form = new FormEnterTirag(context.InputFiles);
+                if (form.ShowDialog() == DialogResult.OK)
                 {
                     fileTirags = form.fileTirags;
                     return true;
@@ -64,35 +40,37 @@ namespace JobSpace.Static.Pdf.Create
             }
             else
             {
-                using (var form = new FormTirag())
+                using var form = new FormTirag();
+                if (form.ShowDialog() == DialogResult.OK)
                 {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        fileTirags = new List<FileTirag>();
-                        fileTirags.Add(new FileTirag { FileInfo = context.InputFiles[0], Tirag = form.Tirag });
-                        return true;
-                    }
+                    fileTirags = new List<FileTirag>();
+                    fileTirags.Add(new FileTirag(context.InputFiles[0], form.Tirag));
+                    return true;
                 }
             }
             return false;
         }
 
+        public async Task<bool> ConfigureAsync(PdfJobContext context)
+        {
+            return ConfigureTool(context);
+        }
+
         public void Execute(PdfJobContext context)
         {
+            if (fileTirags == null || !fileTirags.Any()) return;
+
             foreach (var file in fileTirags)
             {
-                var reg = new Regex(@"#(\d+)\.");
-                var match = reg.Match(file.FileInfo.Name);
-                string targetFile;
-                if (match.Success)
-                {
-                    targetFile =
-                        $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name).Substring(0, match.Index)}#{file.Tirag}{file.FileInfo.FileInfo.Extension}";
-                }
-                else
-                {
-                    targetFile = $"{Path.GetFileNameWithoutExtension(file.FileInfo.Name)}#{file.Tirag}{file.FileInfo.FileInfo.Extension}";
-                }
+                //var reg = new Regex(@"#(\d+)\.");
+                var match = TiragRegex.Match(file.FileInfo.Name);
+
+                string fileNameWithoutExt = Path.GetFileNameWithoutExtension(file.FileInfo.Name);
+                string extension = file.FileInfo.FileInfo.Extension;
+                string baseName = match.Success
+                    ? fileNameWithoutExt.Substring(0, match.Index)
+                    : fileNameWithoutExt;
+                var targetFile = $"{baseName}#{file.Tirag}{extension}";
 
                 context.FileManager.MoveFileOrDirectoryToCurrentFolder(file.FileInfo, targetFile);
             }
