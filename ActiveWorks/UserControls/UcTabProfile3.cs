@@ -75,7 +75,7 @@ namespace ActiveWorks.UserControls
             // асинхронно ініціалізуємо профіль
 
             var saveStatus = SplashScreen.Splash.GetStatus();
-            SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладку зі списком робіт");
+            SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладку зі списком замовлень");
             CreateJobListTab();
             SplashScreen.Splash.SetStatus($"{saveStatus}створюю закладки з провідниками");
             CreateBrowserTab();
@@ -96,7 +96,7 @@ namespace ActiveWorks.UserControls
         {
             if (_profile.Jobs == null) return;
 
-            var page = new KryptonPage(@"Список робіт") { TextTitle = @"JobList", UniqueName = "Список робіт" };
+            var page = new KryptonPage(@"Список замовлень") { TextTitle = @"JobList", UniqueName = "Список робіт" };
 
             page.ClearFlags(KryptonPageFlags.DockingAllowAutoHidden | KryptonPageFlags.DockingAllowDocked);
 
@@ -105,7 +105,7 @@ namespace ActiveWorks.UserControls
             {
                 jobListControl.OnChangeCountJobs += (sender, i) =>
                 {
-                    page.Text = $"Список робіт ({i})";
+                    page.Text = $"Список замовлень ({i})";
                 };
 
                 page.Controls.Add((Control)jobListControl);
