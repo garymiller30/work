@@ -115,7 +115,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
         private static ImposRunPage GetRunPage(ProductPart impos, int runListPageIdx)
         {
-            return runListPageIdx < impos.RunList.RunPages.Count
+            return (runListPageIdx < impos.RunList.RunPages.Count && runListPageIdx >= 0) 
         ? impos.RunList.RunPages[runListPageIdx]
         : new ImposRunPage { FileId = 0, PageIdx = 0 };
         }
