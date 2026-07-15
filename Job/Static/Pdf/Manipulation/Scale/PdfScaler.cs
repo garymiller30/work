@@ -1,4 +1,5 @@
-﻿using Interfaces.FileBrowser;
+﻿using Interfaces;
+using Interfaces.FileBrowser;
 using Interfaces.Licensing;
 using Interfaces.Plugins;
 using JobSpace.Static.Pdf.Common;
@@ -6,6 +7,7 @@ using JobSpace.Static.PdfScale;
 using JobSpace.UserForms;
 using PDFlib_dotnet;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -17,11 +19,25 @@ namespace JobSpace.Static.Pdf.Manipulation.Scale
     public class PdfScaler : IPdfTool
     {
 
-        private PdfScaleParams _params;
+        private PdfScaleParams? _params;
+        List<IFileSystemInfoExt>? _inputFiles;
 
         public bool Configure(PdfJobContext context)
         {
-            var file = context.InputFiles.FirstOrDefault();
+            if (!context.InputFiles.Any())
+                return false;
+
+            // отримати файли з розширенням pdf
+            _inputFiles = context.InputFiles.Where(f => f.FileInfo.Extension.ToLower() == ".pdf").ToList();
+
+            if (_inputFiles.Count == 0)
+            {
+                MessageBox.Show("Виберіть файли з розширенням .pdf");
+                return false;
+            }
+                
+
+            var file = _inputFiles[0];
             if (file != null)
             {
                 using (var form = new FormSelectPdfNewSize(file))
@@ -38,7 +54,9 @@ namespace JobSpace.Static.Pdf.Manipulation.Scale
 
         public void Execute(PdfJobContext context)
         {
-            foreach (var file in context.InputFiles)
+            if (_params == null || _inputFiles == null) return;
+
+            foreach (var file in _inputFiles)
             {
                 Scaler(file.FullName);
             }
