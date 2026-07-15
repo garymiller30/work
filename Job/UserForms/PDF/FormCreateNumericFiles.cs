@@ -15,12 +15,16 @@ namespace JobSpace.UserForms.PDF
     public partial class FormCreateNumericFiles : Form
     {
         public List<IFileSystemInfoExt> SortedFiles { get; internal set; }
-        public int StartFrom { get; internal set; } = 2;
-        public int CntNumbers { get; internal set; } = 1;
+        public int StartFrom { get; internal set; } = 1;
+        public int CntNumbers { get; internal set; } = 2;
 
         public FormCreateNumericFiles(List<Interfaces.IFileSystemInfoExt> inputFiles)
         {
             InitializeComponent();
+
+            // зчитати фактичні значення з контролів (бо ValueChanged спрацює пізніше)
+            StartFrom = (int)nud_start_num.Value;
+            CntNumbers = (int)nud_cnt_numbers.Value;
 
             objectListView1.DragSource = new SimpleDragSource();
             objectListView1.DropSink = new RearrangingDropSink(false);

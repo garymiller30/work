@@ -12,7 +12,7 @@ namespace JobSpace.Static.Pdf.Create
     [PdfTool("Створити", "створити нумеровані файли (1. 2. 3...)",Description ="Створити нумеровані файли (1. 2. 3...)", Order = 4, Icon = "numeric_files")]
     public class PdfNumericFiles : IPdfTool
     {
-        List<IFileSystemInfoExt> sortedFiles;
+        List<IFileSystemInfoExt>? sortedFiles;
         int startNumber = 1;
         int cntNumbers = 1;
         public bool Configure(PdfJobContext context)
@@ -24,7 +24,7 @@ namespace JobSpace.Static.Pdf.Create
                     if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         sortedFiles = form.SortedFiles;
-                        startNumber = form.StartFrom - 1;
+                        startNumber = form.StartFrom;
                         cntNumbers = form.CntNumbers;
                         return true;
                     }
