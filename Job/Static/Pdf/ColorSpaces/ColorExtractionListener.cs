@@ -1,4 +1,4 @@
-﻿using iText.Kernel.Colors;
+using iText.Kernel.Colors;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
 using iText.Kernel.Pdf.Canvas.Parser.Data;
@@ -128,7 +128,15 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                     {
                         _uniqueColors.Add(iccProfileLabel);
                     }
-                    if (components == 1)
+                    if (components == 4)
+                    {
+                        _uniqueColors.Add("CMYK");
+                    }
+                    else if (components == 3)
+                    {
+                        _uniqueColors.Add("RGB");
+                    }
+                    else if (components == 1)
                     {
                         _uniqueColors.Add("K");
                     }
@@ -153,6 +161,9 @@ namespace JobSpace.Static.Pdf.ColorSpaces
                         {
                             _uniqueColors.Add("RGB");
                         }
+                        break;
+                    case "/DeviceCMYK":
+                        _uniqueColors.Add("CMYK");
                         break;
                     case "/DeviceGray":
                         _uniqueColors.Add("K");

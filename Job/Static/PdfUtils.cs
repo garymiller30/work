@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Imaging;
@@ -291,6 +291,9 @@ namespace JobSpace.Static
                 {
                     case "DeviceRGB":
                         colorList.Add("RGB");
+                        break;
+                    case "DeviceCMYK":
+                        colorList.Add("CMYK");
                         break;
                     case "DeviceGray":
                     case "Gray":
