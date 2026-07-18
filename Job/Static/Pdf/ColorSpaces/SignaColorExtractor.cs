@@ -1,165 +1,139 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using iText.Kernel.Pdf;
 
 namespace JobSpace.Static.Pdf.ColorSpaces
 {
     public class SignaColorExtractor
     {
-        private HashSet<int> visited = new HashSet<int>();
-
-        public List<string> Extract(string file)
+        public List<string> Extract(string filePath)
         {
-            visited.Clear();
-            HashSet<string> colors = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-            PdfDocument pdf = new PdfDocument(new PdfReader(file));
-
-            int count = pdf.GetNumberOfPdfObjects();
-
-            for (int i = 1; i <= count; i++)
+            // Використання using гарантує звільнення ресурсів
+            using (PdfReader reader = new PdfReader(filePath))
+            using (PdfDocument pdf = new PdfDocument(reader))
             {
-                PdfObject obj = pdf.GetPdfObject(i);
-                ExtractFromObject(obj, colors);
+                var visited = new HashSet<int>();
+                var colors = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+                int count = pdf.GetNumberOfPdfObjects();
+
+                for (int i = 1; i <= count; i++)
+                {
+                    PdfObject obj = pdf.GetPdfObject(i);
+                    ExtractFromObject(obj, colors, visited);
+                }
+
+                // Видалення специфічного тегу PANTONE
+                var result = new List<string>();
+                foreach (var c in colors)
+                {
+                    result.Add(c.Replace("#20", " "));
+                }
+
+                return result;
             }
-
-            pdf.Close();
-
-            // Розкодування PANTONE (#20 → пробіл)
-            List<string> result = new List<string>();
-            foreach (var c in colors)
-                result.Add(c.Replace("#20", " "));
-
-            return result;
         }
 
-
-        // ===================================================
-        //     Універсальний рекурсивний аналіз PDF-об’єкта
-        // ===================================================
-        private void ExtractFromObject(PdfObject obj, HashSet<string> colors)
+        private void ExtractFromObject(PdfObject obj, HashSet<string> colors, HashSet<int> visited)
         {
-            if (obj == null)
-                return;
+            if (obj == null) return;
 
-            // ---- Захист від зациклення ----
-            int objNum = obj.GetIndirectReference() != null
-                            ? obj.GetIndirectReference().GetObjNumber()
-                            : -1;
-
-            if (objNum > 0)
+            // Перевірка на зациклення
+            var refObj = obj.GetIndirectReference();
+            if (refObj != null)
             {
-                if (visited.Contains(objNum))
-                    return;
-
+                int objNum = refObj.GetObjNumber();
+                if (visited.Contains(objNum)) return;
                 visited.Add(objNum);
             }
 
-            // ---- Обробка за типом об’єкта ----
             switch (obj.GetObjectType())
             {
                 case PdfObject.DICTIONARY:
-                    ExtractFromDictionary((PdfDictionary)obj, colors);
+                    ExtractFromDictionary((PdfDictionary)obj, colors, visited);
                     break;
 
                 case PdfObject.ARRAY:
-                    ExtractFromArray((PdfArray)obj, colors);
+                    ExtractFromArray((PdfArray)obj, colors, visited);
                     break;
 
+                // Виправлено: Stream не є Dictionary, тому не кастимо його так
                 case PdfObject.STREAM:
-                    ExtractFromDictionary(((PdfStream)obj), colors);
+                    // Якщо потрібно обробляти контент потоку, це робиться інакше.
                     break;
             }
         }
 
-
-        private void ExtractFromDictionary(PdfDictionary dict, HashSet<string> colors)
+        private void ExtractFromDictionary(PdfDictionary dict, HashSet<string> colors, HashSet<int> visited)
         {
             foreach (PdfName key in dict.KeySet())
             {
                 PdfObject value = dict.Get(key);
-                string k = key.GetValue();
+                string keyName = key.GetValue();
 
-                // ======================================
-                //     SIGNA: HDAG_ColorantNames
-                // ======================================
-                if (k == "HDAG_ColorantNames" && value is PdfArray names)
+                // HDAG_ColorantNames
+                if (keyName == "HDAG_ColorantNames" && value is PdfArray names)
                 {
                     for (int i = 0; i < names.Size(); i++)
                     {
                         PdfName nm = names.GetAsName(i);
                         if (nm != null)
                         {
-                            string col = nm.GetValue().TrimStart('/');
-                            colors.Add(col);
+                            colors.Add(nm.GetValue().TrimStart('/'));
                         }
                     }
                 }
 
-                // ======================================
-                //     ColorSpace та SignaMark-поля
-                // ======================================
-                if (k == "ColorSpace" || k.StartsWith("CS") || k.StartsWith("CSS"))
+                // ColorSpace та суміжні поля
+                if (keyName == "ColorSpace" || keyName.StartsWith("CS") || keyName.StartsWith("CSS"))
                 {
                     ExtractColorFromColorSpaceObject(value, colors);
                 }
 
-                // Рекурсивний обхід
-                ExtractFromObject(value, colors);
+                // Рекурсивний виклик
+                ExtractFromObject(value, colors, visited);
             }
         }
 
-
-        private void ExtractFromArray(PdfArray arr, HashSet<string> colors)
+        private void ExtractFromArray(PdfArray arr, HashSet<string> colors, HashSet<int> visited)
         {
-            foreach (PdfObject itm in arr)
+            foreach (PdfObject item in arr)
             {
-                ExtractFromObject(itm, colors);
+                ExtractFromObject(item, colors, visited);
             }
         }
 
-
-        // ===================================================
-        //    Розпізнавання Separation і DeviceN
-        // ===================================================
         private void ExtractColorFromColorSpaceObject(PdfObject obj, HashSet<string> colors)
         {
-            if (obj == null)
-                return;
+            if (obj == null || !obj.IsArray()) return;
 
-            if (obj.IsArray())
+            PdfArray arr = (PdfArray)obj;
+            if (arr.Size() == 0) return;
+
+            PdfObject first = arr.Get(0);
+
+            // Separation
+            if (first is PdfName sep && sep.Equals(PdfName.Separation))
             {
-                PdfArray arr = (PdfArray)obj;
-                if (arr.Size() == 0) return;
-
-                PdfObject first = arr.Get(0);
-
-                // Separation
-                if (first is PdfName sep && sep.Equals(PdfName.Separation))
+                PdfName name = arr.GetAsName(1);
+                if (name != null)
                 {
-                    PdfName name = arr.GetAsName(1);
-                    if (name != null)
-                    {
-                        string col = name.GetValue().TrimStart('/');
-                        colors.Add(col);
-                    }
+                    colors.Add(name.GetValue().TrimStart('/'));
                 }
+            }
 
-                // DeviceN
-                if (first is PdfName dev && dev.Equals(PdfName.DeviceN))
+            // DeviceN
+            if (first is PdfName dev && dev.Equals(PdfName.DeviceN))
+            {
+                PdfArray comps = arr.GetAsArray(1);
+                if (comps != null)
                 {
-                    PdfArray comps = arr.GetAsArray(1);
-                    if (comps != null)
+                    for (int i = 0; i < comps.Size(); i++)
                     {
-                        for (int i = 0; i < comps.Size(); i++)
+                        PdfName nm = comps.GetAsName(i);
+                        if (nm != null)
                         {
-                            PdfName nm = comps.GetAsName(i);
-                            if (nm != null)
-                            {
-                                string col = nm.GetValue().TrimStart('/');
-                                colors.Add(col);
-                            }
+                            colors.Add(nm.GetValue().TrimStart('/'));
                         }
                     }
                 }
