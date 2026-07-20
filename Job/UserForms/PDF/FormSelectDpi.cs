@@ -14,7 +14,7 @@ namespace JobSpace.Dlg
     {
 
         public int Dpi { get; set; }
-        public long Quality { get;set; }
+        public long Quality { get; set; }
 
         public FormSelectDpi()
         {
@@ -25,13 +25,28 @@ namespace JobSpace.Dlg
         private void buttonOk_Click(object sender, EventArgs e)
         {
             Dpi = (int)numericUpDown1.Value;
-            Quality = (long) numericUpDown2.Value;
+            Quality = (long)numericUpDown2.Value;
             Close();
         }
 
         private void numericUpDown1_Click(object sender, EventArgs e)
         {
             ((NumericUpDown)sender).Select(0, ((NumericUpDown)sender).Text.Length);
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            numericUpDown1.Value = decimal.Parse(((Button)sender).Text);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            numericUpDown2.Value = decimal.Parse(((Button)sender).Text);
         }
     }
 }

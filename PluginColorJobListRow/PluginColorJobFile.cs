@@ -62,7 +62,7 @@ namespace PluginColorJobListRow
                     {
                         var jobList = UserProfile.Jobs.JobListControl.GetJobList();
                         //знайти замовлення з таким номером
-                        var job = jobList.Cast<IJob>().FirstOrDefault(j => j.Number == jobNumber);
+                        var job = jobList.Cast<IJob>().LastOrDefault(j => j.Number == jobNumber);
                         if (job != null)
                             UserProfile.Jobs.JobListControl.SelectJob(job);
                     }

@@ -13,16 +13,15 @@ namespace JobSpace.Static.Pdf.ToJpg
     [PdfTool("", "Конвертувати/зберегти PDF в JPG", Icon = "convert_to_jpg", Description = "зберегти як прев'ю, зберегти як jpeg")]
     public sealed class PdfToJpg : IPdfTool
     {
-        PdfToJpgParams _params;
+        PdfToJpgParams? _params;
         public bool Configure(PdfJobContext context)
         {
-            using (var form = new FormSelectDpi())
+            using var form = new FormSelectDpi();
+
+            if (form.ShowDialog() == DialogResult.OK)
             {
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    _params = new PdfToJpgParams { Dpi = form.Dpi, Quality = form.Quality };
-                    return true;
-                }
+                _params = new PdfToJpgParams { Dpi = form.Dpi, Quality = form.Quality };
+                return true;
             }
             return false;
         }
@@ -32,13 +31,11 @@ namespace JobSpace.Static.Pdf.ToJpg
                 ToJpg(file.FullName);
         }
 
-
-
         public void ToJpg(string filePath)
         {
             try
             {
-                string directory = Path.GetDirectoryName(filePath);
+                string directory = Path.GetDirectoryName(filePath) ?? string.Empty;
                 string baseName = Path.GetFileNameWithoutExtension(filePath);
 
                 using var rasterizer = new GhostscriptRasterizer();
