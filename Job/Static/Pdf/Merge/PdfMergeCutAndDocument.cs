@@ -19,8 +19,8 @@ namespace JobSpace.Static.Pdf.Merge
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfMergeCutAndDocument : IPdfTool
     {
-        IFileSystemInfoExt cutFile;
-        List<IFileSystemInfoExt> doc;
+        IFileSystemInfoExt? cutFile;
+        List<IFileSystemInfoExt>? doc;
 
         public bool Configure(PdfJobContext context)
         {
@@ -36,12 +36,6 @@ namespace JobSpace.Static.Pdf.Merge
                 return true;
             }
 
-            //// перевірити, чи є в списку файл, що містить cut в назві
-            //cutFile = context.InputFiles.FirstOrDefault(x => x.Name.IndexOf("cut", StringComparison.InvariantCultureIgnoreCase) != -1);
-            //if (cutFile == null) { return false; }
-            //doc = context.InputFiles.Where(x => x != cutFile).ToList();
-            //if (doc.Count() == 0) return false;
-            //return true;
         }
 
         public void Execute(PdfJobContext context)
@@ -84,8 +78,8 @@ namespace JobSpace.Static.Pdf.Merge
                         p.fit_pdi_page(page_handle, 0, 0, "");
 
                         p.begin_layer(v_layer);
-                        // Додавання спіралі
-                        p.fit_pdi_page(p_cut, 0, 0, "");
+                        
+                        p.fit_pdi_page(p_cut, boxes.Media.width/2, boxes.Media.height/2, "position=center");
 
                         p.close_pdi_page(page_handle);
                        
