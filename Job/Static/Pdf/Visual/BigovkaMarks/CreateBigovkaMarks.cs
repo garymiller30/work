@@ -287,12 +287,9 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
         {
             double remaining = boxes.Trim.width / PdfHelper.mn - _param.Bigovki.Sum();
 
-            if (remaining <= 0)
-            {
-                return _param.Bigovki;
-            }
+            var widths = remaining >0 ? _param.Bigovki.Concat(new[] { remaining }).ToArray() : _param.Bigovki.ToArray();
 
-            return _param.Bigovki.Concat(new[] { remaining }).ToArray();
+            return IsMirroredHorizontalPage() ? widths.Reverse().ToArray() : widths;
         }
 
         private double[] GetVerticalDimensionParts(Boxes boxes)
