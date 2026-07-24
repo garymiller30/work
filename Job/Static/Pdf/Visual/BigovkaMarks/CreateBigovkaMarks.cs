@@ -274,7 +274,7 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
         private double GetHorizontalStartX(Boxes boxes)
         {
             return IsMirroredHorizontalPage()
-                ? boxes.Media.width - boxes.Trim.right
+                ? boxes.Media.width - boxes.Trim.right + boxes.Media.left
                 : boxes.Trim.left + boxes.Media.left;
         }
 
