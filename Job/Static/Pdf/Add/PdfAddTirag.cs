@@ -70,7 +70,7 @@ namespace JobSpace.Static.Pdf.Create
                 string baseName = match.Success
                     ? fileNameWithoutExt.Substring(0, match.Index)
                     : fileNameWithoutExt;
-                var targetFile = $"{baseName}#{file.Tirag}{extension}";
+                var targetFile = file.Tirag>0 ? $"{baseName}#{file.Tirag}{extension}" : $"{baseName}{extension}";
 
                 context.FileManager.MoveFileOrDirectoryToCurrentFolder(file.FileInfo, targetFile);
             }
