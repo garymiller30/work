@@ -18,7 +18,8 @@ namespace JobSpace.Static.Pdf.Add.CollatingPageMark
     [PdfTool("Додати","мітки для підбору",Icon = "create_page_mark",Order =2,Description ="додати мітки підбору до файлу")]
     public class AddCollatingPageMark : IPdfTool
     {
-        AddCollatingPageMarkParams? _param;
+        private AddCollatingPageMarkParams? _param;
+
        
 
         public bool Configure(PdfJobContext context)
@@ -36,13 +37,16 @@ namespace JobSpace.Static.Pdf.Add.CollatingPageMark
 
         public void Execute(PdfJobContext context)
         {
+            if (_param == null)
+                throw new InvalidOperationException("Tool is not configured. Call Configure() before Execute().");
+
             foreach (var file in context.InputFiles)
             {
-                CollatingPageMark(file.FileInfo.FullName);
+                CollatingPageMark(file.FileInfo.FullName, _param);
             }
         }
 
-        public void CollatingPageMark(string filePath)
+        public void CollatingPageMark(string filePath, AddCollatingPageMarkParams param)
         {
             PDFlib p = null;
             try
@@ -60,33 +64,33 @@ namespace JobSpace.Static.Pdf.Add.CollatingPageMark
                 int page_count = (int)p.pcos_get_number(doc, "length:pages");
 
 
-                double x = _param.X;
-                double y = _param.Y;
+                double x = param.X;
+                double y = param.Y;
 
-                double step = _param.PathLen / page_count;
+                double step = param.PathLen / page_count;
 
                 double xOfs = 0;
                 double yOfs = 0;
 
-                if (_param.Position == PageCollatingMarkPositionEnum.LEFT)
+                if (param.Position == PageCollatingMarkPositionEnum.LEFT)
                 {
                     yOfs = step;
                 }
-                else if (_param.Position == PageCollatingMarkPositionEnum.RIGHT)
+                else if (param.Position == PageCollatingMarkPositionEnum.RIGHT)
                 {
                     //get width of first page
                     var width = p.pcos_get_number(doc, "pages[0]/width");
-                    x = width / PdfHelper.mn - _param.X - _param.MarkWidth;
+                    x = width / PdfHelper.mn - param.X - param.MarkWidth;
                     yOfs = step;
                 }
-                else if (_param.Position == PageCollatingMarkPositionEnum.TOP)
+                else if (param.Position == PageCollatingMarkPositionEnum.TOP)
                 {
                     //get height of first page
                     var height = p.pcos_get_number(doc, "pages[0]/height");
-                    y = height / PdfHelper.mn - _param.Y - _param.MarkHeight;
+                    y = height / PdfHelper.mn - param.Y - param.MarkHeight;
                     xOfs = step;
                 }
-                else if (_param.Position == PageCollatingMarkPositionEnum.BOTTOM)
+                else if (param.Position == PageCollatingMarkPositionEnum.BOTTOM)
                 {
                     xOfs = step;
                 }
@@ -103,7 +107,7 @@ namespace JobSpace.Static.Pdf.Add.CollatingPageMark
                     // draw mark
 
                     p.setcolor("fill", "cmyk", 0, 0, 0, 1);
-                    p.rect(x * PdfHelper.mn, y * PdfHelper.mn, _param.MarkWidth * PdfHelper.mn, _param.MarkHeight * PdfHelper.mn);
+                    p.rect(x * PdfHelper.mn, y * PdfHelper.mn, param.MarkWidth * PdfHelper.mn, param.MarkHeight * PdfHelper.mn);
                     p.fill();
                     p.end_page_ext("");
                     
