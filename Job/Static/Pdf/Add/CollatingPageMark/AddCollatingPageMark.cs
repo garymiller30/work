@@ -18,7 +18,7 @@ namespace JobSpace.Static.Pdf.Add.CollatingPageMark
     [PdfTool("Додати","мітки для підбору",Icon = "create_page_mark",Order =2,Description ="додати мітки підбору до файлу")]
     public class AddCollatingPageMark : IPdfTool
     {
-        AddCollatingPageMarkParams _param;
+        AddCollatingPageMarkParams? _param;
        
 
         public bool Configure(PdfJobContext context)
