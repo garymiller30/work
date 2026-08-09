@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using JobSpace.Static.Pdf.Add;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Convert;
 using PDFlib_dotnet;
 using System;
@@ -6,20 +7,15 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
 {
-    public sealed class PdfSetTrimBoxByBleed : SetTrimBoxBase
+    public sealed class PdfSetTrimBoxByBleed(PdfSetTrimBoxByBleedParams _params) : SetTrimBoxBase, IPdfTrimTool
     {
-        PdfSetTrimBoxByBleedParams _params;
-
-        public PdfSetTrimBoxByBleed(PdfSetTrimBoxByBleedParams param)
-        {
-            _params = param;
-        }
 
         public void Run(string filePath)
         {
             string fileExt = Path.GetExtension(filePath);
 
-            if (string.Equals(fileExt, ".pdf", StringComparison.OrdinalIgnoreCase)){
+            if (string.Equals(fileExt, ".pdf", StringComparison.OrdinalIgnoreCase))
+            {
                 var tmpFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.pdf");
 
                 try
@@ -62,7 +58,7 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
             }
         }
 
-        void SetTrimToPdf(PDFlib p,string filePath)
+        void SetTrimToPdf(PDFlib p, string filePath)
         {
             var indoc = p.open_pdi_document(filePath, "");
             var endpage = (int)p.pcos_get_number(indoc, "length:pages");
@@ -72,7 +68,7 @@ namespace JobSpace.Static.Pdf.SetTrimBox.ByBleed
                 var page = p.open_pdi_page(indoc, pageno, "");
 
                 Box media = new Box();
-                media.GetMediabox(p, indoc, pageno-1);
+                media.GetMediabox(p, indoc, pageno - 1);
 
                 double bleed = _params.Bleed * PdfHelper.mn;
 

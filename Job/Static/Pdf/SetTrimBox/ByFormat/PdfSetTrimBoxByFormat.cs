@@ -1,4 +1,5 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using JobSpace.Static.Pdf.Add;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Convert;
 using PDFlib_dotnet;
 using System;
@@ -6,7 +7,7 @@ using System.IO;
 
 namespace JobSpace.Static.Pdf.SetTrimBox.ByFormat
 {
-    public sealed class PdfSetTrimBoxByFormat : SetTrimBoxBase
+    public sealed class PdfSetTrimBoxByFormat : SetTrimBoxBase, IPdfTrimTool
     {
         PdfSetTrimBoxByFormatParams _params;
 

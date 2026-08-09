@@ -1,12 +1,12 @@
 ﻿using Interfaces.FileBrowser;
 using Interfaces.Licensing;
+using Interfaces.Pdf;
 using Interfaces.Plugins;
 using JobSpace.Models;
 using JobSpace.Static.Pdf.SetTrimBox.ByBleed;
 using JobSpace.Static.Pdf.SetTrimBox.ByFormat;
 using JobSpace.Static.Pdf.SetTrimBox.BySpread;
 using JobSpace.UserForms;
-using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace JobSpace.Static.Pdf.Add
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfAddTrimBox : IPdfTool
     {
-        TrimBoxResult _result;
+        TrimBoxResult? _result;
 
         public bool Configure(PdfJobContext context)
         {
@@ -39,46 +39,28 @@ namespace JobSpace.Static.Pdf.Add
 
         public void Execute(PdfJobContext context)
         {
-            Action<string> action = null;
+            if (_result == null) return;
 
-            switch (_result.ResultType)
+            IPdfTrimTool? tool = _result switch
             {
-                case TrimBoxResultEnum.byBleed:
-                    var bleedParam = new PdfSetTrimBoxByBleedParams { Bleed = _result.Bleed };
-                    var bleedTool = new PdfSetTrimBoxByBleed(bleedParam);
-                    action = file => bleedTool.Run(file);
-                    break;
+                { ResultType: TrimBoxResultEnum.byBleed } r =>
+                    new PdfSetTrimBoxByBleed(new() { Bleed = r.Bleed }),
 
-                case TrimBoxResultEnum.byTrimbox:
-                    var formatParam = new PdfSetTrimBoxByFormatParams
-                    {
-                        Width = _result.TrimBox.Width,
-                        Height = _result.TrimBox.Height
-                    };
-                    var formatTool = new PdfSetTrimBoxByFormat(formatParam);
-                    action = file => formatTool.Run(file);
-                    break;
+                { ResultType: TrimBoxResultEnum.byTrimbox, TrimBox: var t } =>
+                    new PdfSetTrimBoxByFormat(new() { Width = t.Width, Height = t.Height }),
 
-                case TrimBoxResultEnum.bySpread:
-                    var spreadParam = new PdfSetTrimBoxBySpreadParams
-                    {
-                        Top = _result.Spread.Top,
-                        Bottom = _result.Spread.Bottom,
-                        Inside = _result.Spread.Inside,
-                        Outside = _result.Spread.Outside
-                    };
-                    var spreadTool = new PdfSetTrimBoxBySpread(spreadParam);
-                    action = file => spreadTool.Run(file);
-                    break;
-            }
-            if (action == null)
-                return;
+                { ResultType: TrimBoxResultEnum.bySpread, Spread: var s } =>
+                    new PdfSetTrimBoxBySpread(new() { Top = s.Top, Bottom = s.Bottom, Inside = s.Inside, Outside = s.Outside }),
+
+                _ => null
+            };
+
+            if (tool == null) return;
 
             foreach (var ext in context.InputFiles)
             {
-                action(ext.FileInfo.FullName);
+                tool.Run(ext.FileInfo.FullName);
             }
-
         }
     }
 }

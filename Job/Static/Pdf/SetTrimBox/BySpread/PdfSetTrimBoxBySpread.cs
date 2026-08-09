@@ -1,11 +1,12 @@
-﻿using JobSpace.Static.Pdf.Common;
+﻿using JobSpace.Static.Pdf.Add;
+using JobSpace.Static.Pdf.Common;
 using PDFlib_dotnet;
 using System;
 using System.IO;
 
 namespace JobSpace.Static.Pdf.SetTrimBox.BySpread
 {
-    public sealed class PdfSetTrimBoxBySpread : SetTrimBoxBase
+    public sealed class PdfSetTrimBoxBySpread : SetTrimBoxBase, IPdfTrimTool
     {
         PdfSetTrimBoxBySpreadParams _params;
         public PdfSetTrimBoxBySpread(PdfSetTrimBoxBySpreadParams param)
