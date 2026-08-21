@@ -9,7 +9,7 @@ namespace JobSpace.Static.Pdf.Visual
     [PdfTool("Візуалізація","візуалізація настільного календаря",Description ="перевірка настільного календаря, як накладається календарна сітка, як згинається основа",Icon = "visual_table_calendar",Order = 20)]
     public class PDF_VisualTableCalendar : IPdfTool
     {
-        IFileSystemInfoExt file;
+        IFileSystemInfoExt? file;
 
         public bool Configure(PdfJobContext context)
         {

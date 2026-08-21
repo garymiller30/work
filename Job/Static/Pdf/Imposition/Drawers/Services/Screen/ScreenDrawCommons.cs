@@ -1,4 +1,4 @@
-﻿using Interfaces.Pdf.Imposition;
+using Interfaces.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
 using System;
@@ -18,161 +18,113 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
     {
         public static void DrawSheet(TemplateSheet sheet, Graphics g)
         {
-            Pen pen = new Pen(Color.Black);
+            Pen pen = Pens.Black;
             var rect = new RectangleF(0, 0, (float)sheet.W, (float)sheet.H);
-
             ScreenDrawer.DrawRectangle(g, rect, pen);
-            //g.DrawRectangle(pen, rect);
-            pen.Dispose();
         }
 
         public static double GetPageDrawX(TemplatePage page, PageSide side)
         {
             // проти годинникової стрілки
-            switch (side.Angle)
+            return side.Angle switch
             {
-                case 0:
-                    return side.X + page.Margins.Left;
-                case 90:
-                    return side.X + page.Margins.Top;
-                case 180:
-                    return side.X + page.Margins.Right;
-                case 270:
-                    return side.X + page.Margins.Bottom;
-                default:
-                    throw new NotImplementedException();
-            }
+                0 => side.X + page.Margins.Left,
+                90 => side.X + page.Margins.Top,
+                180 => side.X + page.Margins.Right,
+                270 => side.X + page.Margins.Bottom,
+                _ => throw new NotImplementedException()
+            };
         }
-
         public static double GetPageDrawXBack(TemplateSheet sheet, TemplatePage page, PageSide side)
         {
-
-            switch (sheet.SheetPlaceType)
+            // 1. Перевіряємо, чи підтримується тип аркуша (використовуємо pattern matching)
+            if (sheet.SheetPlaceType is not (TemplateSheetPlaceType.SingleSide or
+                                           TemplateSheetPlaceType.Sheetwise or
+                                           TemplateSheetPlaceType.WorkAndTurn or
+                                           TemplateSheetPlaceType.WorkAndTumble))
             {
-                case TemplateSheetPlaceType.SingleSide:
-                case TemplateSheetPlaceType.Sheetwise:
-                case TemplateSheetPlaceType.WorkAndTurn:
-                    switch (side.Angle)
-                    {
-                        case 0:
-                            return side.X + page.Margins.Right;
-                        case 90:
-                            return side.X + page.Margins.Top;
-                        case 180:
-                            return side.X + page.Margins.Left;
-                        case 270:
-                            return side.X + page.Margins.Bottom;
-                        default:
-                            throw new NotImplementedException();
-                    }
-
-                case TemplateSheetPlaceType.WorkAndTumble:
-                    switch (side.Angle)
-                    {
-                        case 0:
-                            return side.X + page.Margins.Right;
-                        case 90:
-                            return side.X + page.Margins.Top;
-                        case 180:
-                            return side.X + page.Margins.Left;
-                        case 270:
-                            return side.X + page.Margins.Bottom;
-                        default:
-                            throw new NotImplementedException();
-                    }
-
-                default:
-                    throw new NotImplementedException();
+                throw new NotImplementedException();
             }
 
-            // проти годинникової стрілки
-        }
-
-        public static double GetPageDrawY(TemplatePage page, PageSide side)
-        {
-            // проти годинникової стрілки
-            switch (side.Angle)
+            // 2. Використовуємо switch expression для вибору відступу залежно від кута
+            return side.Angle switch
             {
-                case 0:
-                    return side.Y + page.Margins.Bottom;
-                case 90:
-                    return side.Y + page.Margins.Left;
-                case 180:
-                    return side.Y + page.Margins.Top;
-                case 270:
-                    return side.Y + page.Margins.Right;
-                default:
-                    throw new NotImplementedException();
-            }
+                0 => side.X + page.Margins.Right,
+                90 => side.X + page.Margins.Top,
+                180 => side.X + page.Margins.Left,
+                270 => side.X + page.Margins.Bottom,
+                _ => throw new NotImplementedException()
+            };
         }
+        public static double GetPageDrawY(TemplatePage page, PageSide side) =>
+            side.Angle switch
+            {
+                0 => side.Y + page.Margins.Bottom,
+                90 => side.Y + page.Margins.Left,
+                180 => side.Y + page.Margins.Top,
+                270 => side.Y + page.Margins.Right,
+                _ => throw new NotImplementedException()
+            };
 
         public static double GetPageDrawYBack(TemplateSheet sheet, TemplatePage page, PageSide side)
         {
-            switch (sheet.SheetPlaceType)
+            // 1. Визначаємо, яку саме межу (Margin) нам потрібно взяти
+            double margin = sheet.SheetPlaceType switch
             {
-                case TemplateSheetPlaceType.SingleSide:
-                case TemplateSheetPlaceType.Sheetwise:
-                case TemplateSheetPlaceType.WorkAndTurn:
-                    switch (side.Angle)
-                    {
-                        case 0:
-                            return side.Y + page.Margins.Bottom;
-                        case 90:
-                            return side.Y + page.Margins.Right;
-                        case 180:
-                            return side.Y + page.Margins.Top;
-                        case 270:
-                            return side.Y + page.Margins.Left;
-                        default:
-                            throw new NotImplementedException();
-                    }
-                case TemplateSheetPlaceType.WorkAndTumble:
-                    switch (side.Angle)
-                    {
-                        case 0:
-                            return side.Y + page.Margins.Bottom;
-                        case 90:
-                            return side.Y + page.Margins.Left;
-                        case 180:
-                            return side.Y + page.Margins.Top;
-                        case 270:
-                            return side.Y + page.Margins.Right;
-                        default:
-                            throw new NotImplementedException();
-                    }
-                default:
-                    throw new NotImplementedException();
-            }
+                TemplateSheetPlaceType.WorkAndTumble => side.Angle switch
+                {
+                    0 => page.Margins.Bottom,
+                    90 => page.Margins.Left,
+                    180 => page.Margins.Top,
+                    270 => page.Margins.Right,
+                    _ => throw new NotImplementedException($"Недопустимий кут: {side.Angle}")
+                },
+
+                // Для всіх інших типів (SingleSide, Sheetwise, WorkAndTurn) логіка інша
+                TemplateSheetPlaceType.SingleSide or
+                TemplateSheetPlaceType.Sheetwise or
+                TemplateSheetPlaceType.WorkAndTurn => side.Angle switch
+                {
+                    0 => page.Margins.Bottom,
+                    90 => page.Margins.Right,
+                    180 => page.Margins.Top,
+                    270 => page.Margins.Left,
+                    _ => throw new NotImplementedException($"Недопустимий кут: {side.Angle}")
+                },
+
+                _ => throw new NotImplementedException($"Недопустимий тип аркуша: {sheet.SheetPlaceType}")
+            };
+
+            // 2. Виконуємо єдиний математичний розрахунок
+            return side.Y + margin;
         }
 
         public static double GetBottomBleedByAngleFront(TemplatePage page, PageSide side)
         {
             var b = page.Bleeds;
-
-            switch (side.Angle)
+            return side.Angle switch
             {
-                case 0: return b.Bottom;
-                case 90: return b.Left;
-                case 180: return b.Top;
-                case 270: return b.Right;
-                default:
-                    throw new NotImplementedException();
-            }
+                0 => b.Bottom,
+                90 => b.Left,
+                180 => b.Top,
+                270 => b.Right,
+                _ => throw new NotImplementedException() // Використання discard pattern (_)
+            };
         }
+
 
         public static double GetLeftBleedByAngleFront(TemplatePage page, PageSide side)
         {
             var b = page.Bleeds;
 
-            switch (side.Angle)
+            return side.Angle switch
             {
-                case 0: return b.Left;
-                case 90: return b.Top;
-                case 180: return b.Right;
-                case 270: return b.Bottom;
-                default:
-                    throw new NotImplementedException();
-            }
+                0 => b.Left,
+                90 => b.Top,
+                180 => b.Right,
+                270 => b.Bottom,
+                _ => throw new NotImplementedException()
+            };
         }
 
         public static double GetLeftBleedByAngleBack(TemplateSheet sheet, TemplatePage page, PageSide side)
@@ -244,108 +196,59 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         }
 
-        public static double GetPageDrawW(TemplatePage page, PageSide side)
-        {
-            if (side.Angle == 0 || side.Angle == 180) return page.W;
-            return page.H;
-        }
-
-        public static double GetPageDrawH(TemplatePage page, PageSide side)
-        {
-            if (side.Angle == 0 || side.Angle == 180) return page.H;
-            return page.W;
-        }
+        public static double GetPageDrawW(TemplatePage page, PageSide side) => side.Angle is 0 or 180 ? page.W : page.H;
+        public static double GetPageDrawH(TemplatePage page, PageSide side) => side.Angle is 0 or 180 ? page.H : page.W;
 
         public static void DrawPageRotateMarker(Graphics g, TemplatePage page, PageSide side, RectangleF rect, int sH)
         {
-            var dist = 5;
-            var height = 7;
+            const float dist = 5f;
+            const float markerHeight = 7f;
             float zoom = (float)ScreenDrawer.ZoomFactor;
-            var brush = new SolidBrush(Color.Gray);
 
-            var x = rect.X;
-            var y = rect.Y;
+            float pageW = (float)GetPageDrawW(page, side);
+            float pageH = (float)GetPageDrawH(page, side);
 
-            float sx = 0;
-            float sy = 0;
-            float sw = 0;
-            float sh = 0;
-
-            var page_w = (float)GetPageDrawW(page, side);
-            var page_h = (float)GetPageDrawH(page, side);
-
-            switch (side.Angle)
+            // Явно вказуємо типи в кортежі, щоб уникнути помилки CS8506
+            (RectangleF marker, PointF textTransform, float rotation) = side.Angle switch
             {
-                case 0:
-                    sx = x + dist;
-                    sy = y + dist;
-                    sw = page_w - dist * 2;
-                    sh = height;
-                    break;
-                case 90:
-                    sx = x + dist;
-                    sy = y + dist;
-                    sw = height;
-                    sh = page_h - dist * 2;
-                    break;
-                case 180:
-                    sx = x + dist;
-                    sy = y + page_h - dist - height;
-                    sw = page_w - dist * 2;
-                    sh = height;
-                    break;
-                case 270:
+                0 => (
+                    new RectangleF(rect.X + dist, rect.Y + dist, pageW - dist * 2, markerHeight),
+                    new PointF(rect.X + dist, rect.Y + dist),
+                    0f),
+                90 => (
+                    new RectangleF(rect.X + dist, rect.Y + dist, markerHeight, pageH - dist * 2),
+                    new PointF(rect.X + dist, rect.Y + pageH - dist),
+                    270f),
+                180 => (
+                    new RectangleF(rect.X + dist, rect.Y + pageH - dist - markerHeight, pageW - dist * 2, markerHeight),
+                    new PointF(rect.X + pageW - 5, rect.Y + pageH + dist - markerHeight - 2),
+                    180f),
+                270 => (
+                    new RectangleF(rect.X + pageW - dist - markerHeight, rect.Y + dist, markerHeight, (int)pageH - dist * 2),
+                    new PointF(rect.X + pageW - markerHeight + 3, rect.Y + dist),
+                    90f),
+                _ => (RectangleF.Empty, PointF.Empty, 0f)
+            };
 
-                    sx = x + page_w - dist - height;
-                    sy = y + dist;
-                    sw = height;
-                    sh = (int)page_h - dist * 2;
-                    break;
-
-                default:
-                    break;
+            // 1. Малюємо маркер
+            if (marker.Width > 0 && marker.Height > 0)
+            {
+                using var brush = new SolidBrush(Color.Gray);
+                ScreenDrawer.DrawFillRectangle(g, marker, brush);
             }
-            ScreenDrawer.DrawFillRectangle(g, new RectangleF(sx, sy, sw, sh), brush);
 
+            // 2. Малюємо текст групи
             if (page.Group > 0)
             {
                 var state = g.Save();
-                // точка, від якої будемо крутити (кут сторінки)
-                //float cx = x;
-                //float cy = y;
 
-                switch (side.Angle)
-                {
-                    case 0:
-                        g.TranslateTransform(sx * zoom, sy * zoom);
-                        g.RotateTransform(0);
-                        ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
-                        break;
+                g.TranslateTransform(textTransform.X * zoom, textTransform.Y * zoom);
+                g.RotateTransform(rotation);
 
-                    case 90:
-                        g.TranslateTransform((sx) * zoom, (sy + page_h - dist * 2) * zoom);
-                        g.RotateTransform(270);
-                        ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
-                        break;
-
-                    case 180:
-                        g.TranslateTransform((sx + page_w - dist - 5) * zoom, (sy + dist * 2 - 2) * zoom);
-                        g.RotateTransform(180);
-                        ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
-                        break;
-
-                    case 270:
-                        g.TranslateTransform((sx + dist + 5 - 2) * zoom, (sy) * zoom);
-                        g.RotateTransform(90);
-                        ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
-                        break;
-                }
+                ScreenDrawer.DrawText(g, $"група {page.Group}", new PointF(0, 0), "Arial", 5);
 
                 g.Restore(state);
             }
-
-
-            brush.Dispose();
         }
 
         public static (RectangleD left, RectangleD right, RectangleD top, RectangleD bottom) GetDrawBleedsFront(TemplatePage page)
@@ -372,34 +275,18 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
             (double page_x, double page_y, double page_w, double page_h) = GetPageDraw(page, side);
 
-            var m = page.Margins;
-            var b = page.Bleeds;
+            // Використовуємо константу замість локальної функції для простих значень
+            double bleedLeft = page.Bleeds.Left;
 
-            switch (side.Angle)
+            // Застосовуємо pattern matching та умовні оператори для компактності
+            return side.Angle switch
             {
-                case 0:
-                    return new RectangleD(x1: page_x - getLeft(), y1: page_y, x2: page_x, y2: page_y + page_h);
-                case 90:
-                    return new RectangleD(x1: page_x, y1: page_y - getLeft(), x2: page_x + page_w, y2: page_y);
-                case 180:
-                    return new RectangleD(x1: page_x + page_w, y1: page_y, x2: page_x + page_w + getLeft(), y2: page_y + page_h);
-                case 270:
-                    return new RectangleD
-                    (
-                        x1: page_x,
-                        y1: page_y + page_h,
-                        x2: page_x + page_w,
-                        y2: page_y + page_h + getLeft()
-                    );
-                default:
-                    throw new NotImplementedException();
-            }
-
-            double getLeft()
-            {
-                return b.Left;
-
-            }
+                0 => new RectangleD(page_x - bleedLeft, page_y, page_x, page_y + page_h),
+                90 => new RectangleD(page_x, page_y - bleedLeft, page_x + page_w, page_y),
+                180 => new RectangleD(page_x + page_w, page_y, page_x + page_w + bleedLeft, page_y + page_h),
+                270 => new RectangleD(page_x, page_y + page_h, page_x + page_w, page_y + page_h + bleedLeft),
+                _ => throw new NotImplementedException($"Не підтримується кут {side.Angle}")
+            };
         }
 
         public static RectangleD GetDrawBleedRightFront(TemplatePage page)
@@ -407,53 +294,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             PageSide side = page.Front;
             (double page_x, double page_y, double page_w, double page_h) = GetPageDraw(page, side);
 
-            var m = page.Margins;
             var b = page.Bleeds;
+            double bleedRight = b.Right;
 
-
-            switch (side.Angle)
+            return side.Angle switch
             {
-                case 0:
-                    return new RectangleD
-                    (
-                        x1: page_x + page_w,
-                        y1: page_y,
-                        x2: page_x + page_w + getRight(),
-                        y2: page_y + page_h
-                    );
-                case 90:
-                    return new RectangleD
-                    (
-                        x1: page_x,
-                        y1: page_y + page_h,
-                        x2: page_x + page_w,
-                        y2: page_y + page_h + getRight()
-                    );
-                case 180:
-                    return new RectangleD
-                    (
-                        x1: page_x - getRight(),
-                        y1: page_y,
-                        x2: page_x,
-                        y2: page_y + page_h
-                    );
-                case 270:
-                    return new RectangleD
-                    (
-                        x1: page_x,
-                        y1: page_y - getRight(),
-                        x2: page_x + page_w,
-                        y2: page_y
-                    );
-                default:
-                    throw new NotImplementedException();
-            }
-
-            double getRight()
-            {
-
-                return b.Right;
-            }
+                0 => new RectangleD(page_x + page_w, page_y, page_x + page_w + bleedRight, page_y + page_h),
+                90 => new RectangleD(page_x, page_y + page_h, page_x + page_w, page_y + page_h + bleedRight),
+                180 => new RectangleD(page_x - bleedRight, page_y, page_x, page_y + page_h),
+                270 => new RectangleD(page_x, page_y - bleedRight, page_x + page_w, page_y),
+                _ => throw new NotImplementedException($"Не підтримується кут {side.Angle}")
+            };
         }
 
         public static RectangleD GetDrawBleedTopFront(TemplatePage page)
@@ -461,51 +312,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             PageSide side = page.Front;
             (double page_x, double page_y, double page_w, double page_h) = GetPageDraw(page, side);
 
-            var m = page.Margins;
             var b = page.Bleeds;
+            double bleedTop = b.Top;
 
-            switch (side.Angle)
+            return side.Angle switch
             {
-                case 0:
-                    return new RectangleD
-                    (
-                        x1: page_x,
-                        y1: page_y + page_h,
-                        x2: page_x + page_w,
-                        y2: page_y + page_h + getTop()
-                    );
-                case 90:
-                    return new RectangleD
-                    (
-                        x1: page_x - getTop(),
-                        y1: page_y,
-                        x2: page_x,
-                        y2: page_y + page_h
-                    );
-                case 180:
-                    return new RectangleD
-                    (
-                        x1: page_x,
-                        y1: page_y - getTop(),
-                        x2: page_x + page_w,
-                        y2: page_y
-                    );
-                case 270:
-                    return new RectangleD
-                    (
-                        x1: page_x + page_w,
-                        y1: page_y,
-                        x2: page_x + page_w + getTop(),
-                        y2: page_y + page_h
-                    );
-                default:
-                    throw new NotImplementedException();
-            }
-
-            double getTop()
-            {
-                return b.Top;
-            }
+                0=> new RectangleD(page_x, page_y + page_h, page_x + page_w, page_y + page_h + bleedTop),
+                90=>new RectangleD(page_x - bleedTop,page_y,page_x, page_y + page_h),
+                180=> new RectangleD( page_x, page_y - bleedTop, page_x + page_w,page_y),
+                270=> new RectangleD(page_x + page_w,page_y, page_x + page_w + bleedTop,page_y + page_h),
+                _ => throw new NotImplementedException($"Не підтримується кут {side.Angle}")
+            };
         }
 
         public static RectangleD GetDrawBleedBottomFront(TemplatePage page)
@@ -513,45 +330,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             PageSide side = page.Front;
             (double page_x, double page_y, double page_w, double page_h) = GetPageDraw(page, side);
 
-            var m = page.Margins;
             var b = page.Bleeds;
+            double bleedBottom = b.Bottom;
 
-            switch (side.Angle)
+            return side.Angle switch
             {
-                case 0:
-                    return new RectangleD
-                    (
-                        x1: page_x,
-                        y1: page_y - getBottom(),
-                        x2: page_x + page_w,
-                        y2: page_y
-                    );
-                case 90:
-                    return new RectangleD
-                    (
-                        x1: page_x + page_w,
-                        y1: page_y,
-                        x2: page_x + page_w + getBottom(),
-                        y2: page_y + page_h
-                    );
-                case 180:
-                    return new RectangleD
-                    (
-                        x1: page_x,
-                        y1: page_y + page_h,
-                        x2: page_x + page_w,
-                        y2: page_y + page_h + getBottom()
-                    );
-                case 270:
-                    return new RectangleD(x1: page_x - getBottom(), y1: page_y, x2: page_x, y2: page_y + page_h);
-                default:
-                    throw new NotImplementedException();
-            }
-
-            double getBottom()
-            {
-                return b.Bottom;
-            }
+                0=> new RectangleD(page_x,page_y - bleedBottom,page_x + page_w,page_y),
+                90=>new RectangleD(page_x + page_w,page_y,page_x + page_w + bleedBottom, page_y + page_h),
+                180=>new RectangleD(page_x,page_y + page_h,page_x + page_w, page_y + page_h + bleedBottom),
+                270=>new RectangleD(page_x - bleedBottom, page_y, page_x,  page_y + page_h),
+                _ => throw new NotImplementedException($"Не підтримується кут {side.Angle}")
+            };
         }
 
         public static (double page_x, double page_y, double page_w, double page_h) GetPageDrawBack(TemplateSheet sheet, TemplatePage page, PageSide side)

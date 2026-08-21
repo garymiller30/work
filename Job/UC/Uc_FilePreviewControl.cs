@@ -255,12 +255,12 @@ namespace JobSpace.UC
             uc_PreviewControl1.SetFitAndResetZoom(tsb_fit_to_window.Checked);
         }
 
-        public PdfPageInfo GetCurrentPageInfo()
+        public PdfPageInfo? GetCurrentPageInfo()
         {
             return pdfDrawerPageCache?.GetPageInfo(_currentPage);
         }
 
-        public PdfPageInfo GetPageInfo(int pageNo)
+        public PdfPageInfo? GetPageInfo(int pageNo)
         {
             return pdfDrawerPageCache?.GetPageInfo(pageNo);
         }

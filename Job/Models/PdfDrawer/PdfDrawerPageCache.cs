@@ -152,7 +152,7 @@ namespace JobSpace.Models.PdfDrawer
             return Math.Max(defaultDpi, dpi);
         }
 
-        public PdfPageInfo GetPageInfo(int pageNo)
+        public PdfPageInfo? GetPageInfo(int pageNo)
         {
             return boxes_pages != null ? boxes_pages[pageNo - 1] : null;
         }

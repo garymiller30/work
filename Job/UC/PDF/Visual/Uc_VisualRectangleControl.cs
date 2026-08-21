@@ -20,7 +20,7 @@ namespace JobSpace.UC.PDF.Visual
 
         Dictionary<int, List<Control>> rows = new Dictionary<int, List<Control>>();
 
-        PdfPageInfo _pageInfo;
+        PdfPageInfo? _pageInfo;
         public bool RectEnabled
         {
             get { return cb_rect.Checked; }
@@ -31,7 +31,7 @@ namespace JobSpace.UC.PDF.Visual
         public decimal W { get; set; }
         public decimal H { get; set; }
 
-        public void SetPdfPageInfo(PdfPageInfo pageInfo)
+        public void SetPdfPageInfo(PdfPageInfo? pageInfo)
         {
             _pageInfo = pageInfo;
         }
@@ -84,6 +84,8 @@ namespace JobSpace.UC.PDF.Visual
 
         private void btn_top_center_Click(object sender, EventArgs e)
         {
+            if (_pageInfo?.Trimbox == null) return;
+
             X = (((decimal)_pageInfo.Trimbox.wMM() - W) / 2);
             Y = 0;
             nud_rect_x.Value = X;
@@ -93,6 +95,8 @@ namespace JobSpace.UC.PDF.Visual
 
         private void bnt_top_right_Click(object sender, EventArgs e)
         {
+            if (_pageInfo?.Trimbox == null) return;
+
             X = ((decimal)_pageInfo.Trimbox.wMM() - W);
             Y = 0;
             nud_rect_x.Value = X;
@@ -102,6 +106,8 @@ namespace JobSpace.UC.PDF.Visual
 
         private void btn_left_center_Click(object sender, EventArgs e)
         {
+            if (_pageInfo?.Trimbox == null) return;
+
             X = 0;
             Y = (((decimal)_pageInfo.Trimbox.hMM() - H) / 2);
             nud_rect_x.Value = X;
@@ -111,6 +117,8 @@ namespace JobSpace.UC.PDF.Visual
 
         private void btn_center_Click(object sender, EventArgs e)
         {
+            if (_pageInfo?.Trimbox == null) return;
+
             X = (((decimal)_pageInfo.Trimbox.wMM() - W) / 2);
             Y = (((decimal)_pageInfo.Trimbox.hMM() - H) / 2);
             nud_rect_x.Value = X;
@@ -120,6 +128,8 @@ namespace JobSpace.UC.PDF.Visual
 
         private void btn_right_center_Click(object sender, EventArgs e)
         {
+            if (_pageInfo?.Trimbox == null) return;
+
             X = ((decimal)_pageInfo.Trimbox.wMM() - W);
             Y = (((decimal)_pageInfo.Trimbox.hMM() - H) / 2);
             nud_rect_x.Value = X;
@@ -129,6 +139,8 @@ namespace JobSpace.UC.PDF.Visual
 
         private void bnt_bottom_left_Click(object sender, EventArgs e)
         {
+            if (_pageInfo?.Trimbox == null) return;
+
             X = 0;
             Y = ((decimal)_pageInfo.Trimbox.hMM() - H);
             nud_rect_x.Value = X;
@@ -138,6 +150,8 @@ namespace JobSpace.UC.PDF.Visual
 
         private void btn_bottom_center_Click(object sender, EventArgs e)
         {
+            if (_pageInfo?.Trimbox == null) return;
+
             X = (((decimal)_pageInfo.Trimbox.wMM() - W) / 2);
             Y = ((decimal)_pageInfo.Trimbox.hMM() - H);
             nud_rect_x.Value = X;
@@ -147,6 +161,8 @@ namespace JobSpace.UC.PDF.Visual
 
         private void btn_bottom_right_Click(object sender, EventArgs e)
         {
+            if (_pageInfo?.Trimbox == null) return;
+
             X = ((decimal)_pageInfo.Trimbox.wMM() - W);
             Y = ((decimal)_pageInfo.Trimbox.hMM() - H);
             nud_rect_x.Value = X;

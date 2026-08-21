@@ -30,6 +30,7 @@ namespace JobSpace.UserForms.PDF.Visual
             uc_VisualRectangleControl_top.DisableRows(1,2);
             uc_VisualRectangleControl_bottom.DisableRows(0,1);
 
+           
             uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
         }
 
@@ -49,8 +50,13 @@ namespace JobSpace.UserForms.PDF.Visual
             {
                 uc_PreviewBrowserFile1.Show(_file);
 
-                uc_VisualRectangleControl_top.SetPdfPageInfo(uc_PreviewBrowserFile1.GetCurrentPageInfo());
-                uc_VisualRectangleControl_bottom.SetPdfPageInfo(uc_PreviewBrowserFile1.GetCurrentPageInfo());
+                var boxes = PdfHelper.GetPageInfo(_file.FileInfo.FullName);
+                if (boxes != null)
+                {
+                    uc_VisualRectangleControl_top.SetPdfPageInfo(boxes);
+                    uc_VisualRectangleControl_bottom.SetPdfPageInfo(boxes);
+                }
+
 
                 uc_SelectSpiralControl1.OnSpiralChanged += (s, ee) => Redraw();
                 uc_VisualRectangleControl_top.OnRectPositionChanged += (s, ee) => Redraw();
@@ -71,6 +77,7 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void Draw(int pageNo)
         {
+
             DrawRectangles();
             DrawSpiral();
             DrawOsnova();
