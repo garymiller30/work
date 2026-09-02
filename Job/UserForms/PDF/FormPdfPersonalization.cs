@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace JobSpace.UserForms.PDF
 {
@@ -78,7 +79,7 @@ namespace JobSpace.UserForms.PDF
         {
         }
 
-        public FormPdfPersonalization(string basePdfPath)
+        public FormPdfPersonalization(string? basePdfPath)
         {
             _fontNames = new InstalledFontCollection()
                 .Families
@@ -92,11 +93,20 @@ namespace JobSpace.UserForms.PDF
             colFont.Items.AddRange(_fontNames.Cast<object>().ToArray());
             UpdateDataInfo();
 
+
             if (!string.IsNullOrWhiteSpace(basePdfPath))
             {
-                _basePdfTextBox.Text = basePdfPath;
-                _outputTextBox.Text = Path.GetDirectoryName(basePdfPath);
-                AddLayerRow(PersonalizationLayerType.BasePdf, basePdfPath);
+                var ext = Path.GetExtension(basePdfPath);
+                if (string.Equals(ext, ".json", StringComparison.OrdinalIgnoreCase) && File.Exists(basePdfPath))
+                {
+                    LoadTemplateFromFile(basePdfPath);
+                }
+                else
+                {
+                    _basePdfTextBox.Text = basePdfPath;
+                    _outputTextBox.Text = Path.GetDirectoryName(basePdfPath);
+                    AddLayerRow(PersonalizationLayerType.BasePdf, basePdfPath);
+                }
             }
             else
             {
@@ -117,8 +127,8 @@ namespace JobSpace.UserForms.PDF
 
                 if (_layersGrid.Rows.Count == 0)
                     AddLayerRow(PersonalizationLayerType.BasePdf, dialog.FileName);
-                else if (LayerTypes[Convert.ToString(_layersGrid.Rows[0].Cells["Type"].Value)] == PersonalizationLayerType.BasePdf)
-                    _layersGrid.Rows[0].Cells["Source"].Value = dialog.FileName;
+                else if (LayerTypes[Convert.ToString(_layersGrid.Rows[0].Cells["colType"].Value)] == PersonalizationLayerType.BasePdf)
+                    _layersGrid.Rows[0].Cells["colSource"].Value = dialog.FileName;
 
                 SchedulePreviewUpdate();
             }
@@ -210,25 +220,25 @@ namespace JobSpace.UserForms.PDF
         {
             int row = _layersGrid.Rows.Add();
             var gridRow = _layersGrid.Rows[row];
-            gridRow.Cells["Enabled"].Value = true;
-            gridRow.Cells["Type"].Value = LayerTypes.First(x => x.Value == type).Key;
-            gridRow.Cells["Source"].Value = source;
-            gridRow.Cells["X"].Value = "0";
-            gridRow.Cells["Ymm"].Value = "0";
-            gridRow.Cells["BaseAnchor"].Value = "лівий нижній";
-            gridRow.Cells["Anchor"].Value = "лівий нижній";
-            gridRow.Cells["Rotation"].Value = "0";
-            gridRow.Cells["Scale"].Value = "100";
-            gridRow.Cells["CodeType"].Value = "Code-128";
-            gridRow.Cells["TargetWidth"].Value = type == PersonalizationLayerType.Code ? "40" : "0";
-            gridRow.Cells["TargetHeight"].Value = type == PersonalizationLayerType.Code ? "15" : "0";
-            gridRow.Cells["ShowText"].Value = true;
-            gridRow.Cells["Font"].Value = _fontNames.Contains("Arial") ? "Arial" : _fontNames.FirstOrDefault();
-            gridRow.Cells["FontSize"].Value = "12";
-            gridRow.Cells["C"].Value = "0";
-            gridRow.Cells["M"].Value = "0";
-            gridRow.Cells["ColorY"].Value = "0";
-            gridRow.Cells["K"].Value = "100";
+            gridRow.Cells["colEnabled"].Value = true;
+            gridRow.Cells["colType"].Value = LayerTypes.First(x => x.Value == type).Key;
+            gridRow.Cells["colSource"].Value = source;
+            gridRow.Cells["colX"].Value = "0";
+            gridRow.Cells["colYmm"].Value = "0";
+            gridRow.Cells["colBaseAnchor"].Value = "лівий нижній";
+            gridRow.Cells["colAnchor"].Value = "лівий нижній";
+            gridRow.Cells["colRotation"].Value = "0";
+            gridRow.Cells["colScale"].Value = "100";
+            gridRow.Cells["colCodeType"].Value = "Code-128";
+            gridRow.Cells["colTargetWidth"].Value = type == PersonalizationLayerType.Code ? "40" : "0";
+            gridRow.Cells["colTargetHeight"].Value = type == PersonalizationLayerType.Code ? "15" : "0";
+            gridRow.Cells["colShowText"].Value = true;
+            gridRow.Cells["colFont"].Value = _fontNames.Contains("Arial") ? "Arial" : _fontNames.FirstOrDefault();
+            gridRow.Cells["colFontSize"].Value = "12";
+            gridRow.Cells["colC"].Value = "0";
+            gridRow.Cells["colM"].Value = "0";
+            gridRow.Cells["colColorY"].Value = "0";
+            gridRow.Cells["colK"].Value = "100";
             SchedulePreviewUpdate();
         }
 
@@ -337,32 +347,32 @@ namespace JobSpace.UserForms.PDF
 
             foreach (DataGridViewRow row in _layersGrid.Rows)
             {
-                string typeText = Convert.ToString(row.Cells["Type"].Value);
-                string codeTypeText = Convert.ToString(row.Cells["CodeType"].Value);
-                string baseAnchorText = Convert.ToString(row.Cells["BaseAnchor"].Value);
-                string anchorText = Convert.ToString(row.Cells["Anchor"].Value);
+                string typeText = Convert.ToString(row.Cells["colType"].Value);
+                string codeTypeText = Convert.ToString(row.Cells["colCodeType"].Value);
+                string baseAnchorText = Convert.ToString(row.Cells["colBaseAnchor"].Value);
+                string anchorText = Convert.ToString(row.Cells["colAnchor"].Value);
 
                 settings.Layers.Add(new PdfPersonalizationLayer
                 {
-                    Enabled = Convert.ToBoolean(row.Cells["Enabled"].Value ?? true),
+                    Enabled = Convert.ToBoolean(row.Cells["colEnabled"].Value ?? true),
                     Type = LayerTypes.TryGetValue(typeText ?? string.Empty, out PersonalizationLayerType type) ? type : PersonalizationLayerType.Text,
-                    Source = Convert.ToString(row.Cells["Source"].Value),
-                    Xmm = PdfPersonalizationData.ParseDouble(row.Cells["X"].Value, 0),
-                    Ymm = PdfPersonalizationData.ParseDouble(row.Cells["Ymm"].Value, 0),
+                    Source = Convert.ToString(row.Cells["colSource"].Value),
+                    Xmm = PdfPersonalizationData.ParseDouble(row.Cells["colX"].Value, 0),
+                    Ymm = PdfPersonalizationData.ParseDouble(row.Cells["colYmm"].Value, 0),
                     BaseAnchor = Anchors.TryGetValue(baseAnchorText ?? string.Empty, out PersonalizationAnchorPoint baseAnchor) ? baseAnchor : PersonalizationAnchorPoint.BottomLeft,
                     Anchor = Anchors.TryGetValue(anchorText ?? string.Empty, out PersonalizationAnchorPoint anchor) ? anchor : PersonalizationAnchorPoint.BottomLeft,
-                    Rotation = PdfPersonalizationData.ParseDouble(row.Cells["Rotation"].Value, 0),
-                    ScalePercent = PdfPersonalizationData.ParseDouble(row.Cells["Scale"].Value, 100),
+                    Rotation = PdfPersonalizationData.ParseDouble(row.Cells["colRotation"].Value, 0),
+                    ScalePercent = PdfPersonalizationData.ParseDouble(row.Cells["colScale"].Value, 100),
                     CodeType = CodeTypes.TryGetValue(codeTypeText ?? string.Empty, out PersonalizationCodeType codeType) ? codeType : PersonalizationCodeType.Code128,
-                    TargetWidthMm = PdfPersonalizationData.ParseDouble(row.Cells["TargetWidth"].Value, 0),
-                    TargetHeightMm = PdfPersonalizationData.ParseDouble(row.Cells["TargetHeight"].Value, 0),
-                    ShowHumanReadableText = Convert.ToBoolean(row.Cells["ShowText"].Value ?? true),
-                    FontName = Convert.ToString(row.Cells["Font"].Value) ?? "Arial",
-                    FontSize = PdfPersonalizationData.ParseDouble(row.Cells["FontSize"].Value, 12),
-                    C = PdfPersonalizationData.ParseDouble(row.Cells["C"].Value, 0),
-                    M = PdfPersonalizationData.ParseDouble(row.Cells["M"].Value, 0),
-                    Y = PdfPersonalizationData.ParseDouble(row.Cells["ColorY"].Value, 0),
-                    K = PdfPersonalizationData.ParseDouble(row.Cells["K"].Value, 100)
+                    TargetWidthMm = PdfPersonalizationData.ParseDouble(row.Cells["colTargetWidth"].Value, 0),
+                    TargetHeightMm = PdfPersonalizationData.ParseDouble(row.Cells["colTargetHeight"].Value, 0),
+                    ShowHumanReadableText = Convert.ToBoolean(row.Cells["colShowText"].Value ?? true),
+                    FontName = Convert.ToString(row.Cells["colFont"].Value) ?? "Arial",
+                    FontSize = PdfPersonalizationData.ParseDouble(row.Cells["colFontSize"].Value, 12),
+                    C = PdfPersonalizationData.ParseDouble(row.Cells["colC"].Value, 0),
+                    M = PdfPersonalizationData.ParseDouble(row.Cells["colM"].Value, 0),
+                    Y = PdfPersonalizationData.ParseDouble(row.Cells["colColorY"].Value, 0),
+                    K = PdfPersonalizationData.ParseDouble(row.Cells["colK"].Value, 100)
                 });
             }
 
@@ -663,8 +673,8 @@ namespace JobSpace.UserForms.PDF
             if (_layersGrid.CurrentRow == null)
                 return;
 
-            _layersGrid.CurrentRow.Cells["X"].Value = xMm.ToString("0.###", CultureInfo.InvariantCulture);
-            _layersGrid.CurrentRow.Cells["Ymm"].Value = yMm.ToString("0.###", CultureInfo.InvariantCulture);
+            _layersGrid.CurrentRow.Cells["colX"].Value = xMm.ToString("0.###", CultureInfo.InvariantCulture);
+            _layersGrid.CurrentRow.Cells["colYmm"].Value = yMm.ToString("0.###", CultureInfo.InvariantCulture);
 
             if (refreshPreview)
                 ScheduleInteractivePreviewUpdate();
@@ -736,21 +746,27 @@ namespace JobSpace.UserForms.PDF
                 if (dialog.ShowDialog(this) != DialogResult.OK)
                     return;
 
-                try
-                {
-                    var settings = JsonSerializer.Deserialize<PdfPersonalizationSettings>(File.ReadAllText(dialog.FileName));
-                    if (settings == null)
-                        return;
-
-                    ApplyTemplate(settings);
-                    SchedulePreviewUpdate();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(this, ex.Message, "Завантажити шаблон", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                LoadTemplateFromFile(dialog.FileName);
             }
         }
+
+        void LoadTemplateFromFile(string filePath)
+        {
+            try
+            {
+                var settings = JsonSerializer.Deserialize<PdfPersonalizationSettings>(File.ReadAllText(filePath));
+                if (settings == null)
+                    return;
+
+                ApplyTemplate(settings);
+                SchedulePreviewUpdate();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Завантажити шаблон", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
 
         private void ApplyTemplate(PdfPersonalizationSettings settings)
         {
@@ -779,23 +795,23 @@ namespace JobSpace.UserForms.PDF
         {
             AddLayerRow(layer.Type, layer.Source);
             var row = _layersGrid.Rows[_layersGrid.Rows.Count - 1];
-            row.Cells["Enabled"].Value = layer.Enabled;
-            row.Cells["X"].Value = layer.Xmm.ToString(CultureInfo.InvariantCulture);
-            row.Cells["Ymm"].Value = layer.Ymm.ToString(CultureInfo.InvariantCulture);
-            row.Cells["BaseAnchor"].Value = Anchors.FirstOrDefault(x => x.Value == layer.BaseAnchor).Key ?? "лівий нижній";
-            row.Cells["Anchor"].Value = Anchors.FirstOrDefault(x => x.Value == layer.Anchor).Key ?? "лівий нижній";
-            row.Cells["Rotation"].Value = layer.Rotation.ToString(CultureInfo.InvariantCulture);
-            row.Cells["Scale"].Value = layer.ScalePercent.ToString(CultureInfo.InvariantCulture);
-            row.Cells["CodeType"].Value = CodeTypes.FirstOrDefault(x => x.Value == layer.CodeType).Key ?? "Code-128";
-            row.Cells["TargetWidth"].Value = layer.TargetWidthMm.ToString(CultureInfo.InvariantCulture);
-            row.Cells["TargetHeight"].Value = layer.TargetHeightMm.ToString(CultureInfo.InvariantCulture);
-            row.Cells["ShowText"].Value = layer.ShowHumanReadableText;
-            row.Cells["Font"].Value = _fontNames.Contains(layer.FontName) ? layer.FontName : (_fontNames.FirstOrDefault() ?? "Arial");
-            row.Cells["FontSize"].Value = layer.FontSize.ToString(CultureInfo.InvariantCulture);
-            row.Cells["C"].Value = layer.C.ToString(CultureInfo.InvariantCulture);
-            row.Cells["M"].Value = layer.M.ToString(CultureInfo.InvariantCulture);
-            row.Cells["ColorY"].Value = layer.Y.ToString(CultureInfo.InvariantCulture);
-            row.Cells["K"].Value = layer.K.ToString(CultureInfo.InvariantCulture);
+            row.Cells["colEnabled"].Value = layer.Enabled;
+            row.Cells["colX"].Value = layer.Xmm.ToString(CultureInfo.InvariantCulture);
+            row.Cells["colYmm"].Value = layer.Ymm.ToString(CultureInfo.InvariantCulture);
+            row.Cells["colBaseAnchor"].Value = Anchors.FirstOrDefault(x => x.Value == layer.BaseAnchor).Key ?? "лівий нижній";
+            row.Cells["colAnchor"].Value = Anchors.FirstOrDefault(x => x.Value == layer.Anchor).Key ?? "лівий нижній";
+            row.Cells["colRotation"].Value = layer.Rotation.ToString(CultureInfo.InvariantCulture);
+            row.Cells["colScale"].Value = layer.ScalePercent.ToString(CultureInfo.InvariantCulture);
+            row.Cells["colCodeType"].Value = CodeTypes.FirstOrDefault(x => x.Value == layer.CodeType).Key ?? "Code-128";
+            row.Cells["colTargetWidth"].Value = layer.TargetWidthMm.ToString(CultureInfo.InvariantCulture);
+            row.Cells["colTargetHeight"].Value = layer.TargetHeightMm.ToString(CultureInfo.InvariantCulture);
+            row.Cells["colShowText"].Value = layer.ShowHumanReadableText;
+            row.Cells["colFont"].Value = _fontNames.Contains(layer.FontName) ? layer.FontName : (_fontNames.FirstOrDefault() ?? "Arial");
+            row.Cells["colFontSize"].Value = layer.FontSize.ToString(CultureInfo.InvariantCulture);
+            row.Cells["colC"].Value = layer.C.ToString(CultureInfo.InvariantCulture);
+            row.Cells["colM"].Value = layer.M.ToString(CultureInfo.InvariantCulture);
+            row.Cells["colColorY"].Value = layer.Y.ToString(CultureInfo.InvariantCulture);
+            row.Cells["colK"].Value = layer.K.ToString(CultureInfo.InvariantCulture);
         }
 
         private void UpdateDataInfo()
