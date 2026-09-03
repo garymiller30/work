@@ -39,6 +39,9 @@ namespace JobSpace.Static.Pdf.Imposition
             if (AutoImposMatch?.HasTemplate == true)
             {
                 form.ApplyAutoImposTemplate(AutoImposMatch);
+
+                return;
+
             }
 
             form.Show();

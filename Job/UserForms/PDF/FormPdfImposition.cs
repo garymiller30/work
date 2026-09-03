@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static IronPython.Modules._ast;
 
 namespace JobSpace.UserForms.PDF
 {
@@ -610,9 +611,16 @@ namespace JobSpace.UserForms.PDF
             }
 
             RedrawProductPart();
+
+            if (Control.ModifierKeys == System.Windows.Forms.Keys.ShiftKey)
+            {
+                SaveToPdf(isAutoImpos: true);
+                Close();
+            }
+
         }
 
-        private async void btn_SaveToPdf_Click(object sender, EventArgs e)
+        public async void SaveToPdf(bool isAutoImpos = false)
         {
             if (printSheetsControl1.GetSheets().Count == 0)
             {
@@ -620,9 +628,13 @@ namespace JobSpace.UserForms.PDF
             }
             else
             {
-                await SaveToPdfAsync();
+                await SaveToPdfAsync(isAutoImpos);
             }
+        }
 
+        private void btn_SaveToPdf_Click(object sender, EventArgs e)
+        {
+            SaveToPdf();
         }
 
         private void btn_SaveAsAutoImpos_Click(object sender, EventArgs e)
@@ -758,7 +770,7 @@ namespace JobSpace.UserForms.PDF
             return width <= height ? (width, height) : (height, width);
         }
 
-        private async Task SaveToPdfAsync()
+        private async Task SaveToPdfAsync(bool isAutoImpos = false)
         {
             BuildProductPartFromUi();
             SaveImposToFile();
@@ -768,15 +780,18 @@ namespace JobSpace.UserForms.PDF
 
             try
             {
-                pdfDrawer.StartEvent += startEvent;
-                pdfDrawer.ProcessingEvent += processingEvent;
-                pdfDrawer.FinishEvent += finishEvent;
+                if (!isAutoImpos)
+                {
+                    pdfDrawer.StartEvent += startEvent;
+                    pdfDrawer.ProcessingEvent += processingEvent;
+                    pdfDrawer.FinishEvent += finishEvent;
+                }
 
                 // якщо не вибрано листи, то друкуємо всі
                 pdfDrawer.CustomSheets = printSheetsControl1.GetSheetsIdxForPrint();
                 await Task.Run(() => pdfDrawer.Draw(_imposParam.ProductPart)).ConfigureAwait(true);
 
-                if (!pdfDrawer.IsCancelled)
+                if (!pdfDrawer.IsCancelled && !isAutoImpos)
                 {
                     if (MessageBox.Show("Відкрити?", "Виконано!", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
@@ -792,9 +807,12 @@ namespace JobSpace.UserForms.PDF
             }
             finally
             {
-                pdfDrawer.StartEvent -= startEvent;
-                pdfDrawer.ProcessingEvent -= processingEvent;
-                pdfDrawer.FinishEvent -= finishEvent;
+                if (!isAutoImpos)
+                {
+                    pdfDrawer.StartEvent -= startEvent;
+                    pdfDrawer.ProcessingEvent -= processingEvent;
+                    pdfDrawer.FinishEvent -= finishEvent;
+                }
 
                 if (ReferenceEquals(_drawer, pdfDrawer))
                 {
