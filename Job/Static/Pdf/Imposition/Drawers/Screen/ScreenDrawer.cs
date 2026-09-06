@@ -31,6 +31,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Screen
                         textVariablesService.SetValue(ValueList.SheetIdx, sheetIndex + 1);
                     }
                 }
+                
                 textVariablesService.SetValue(ValueList.SheetSide, GetPrintSide(sheet));
                 textVariablesService.SetValue(ValueList.SheetFormat, $"{printSheet.W}x{printSheet.H}");
                 textVariablesService.SetValue(ValueList.SheetDesc, printSheet.Description);

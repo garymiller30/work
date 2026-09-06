@@ -12,40 +12,81 @@ namespace JobSpace.Static.Pdf.Imposition.Services.Impos.Processes
     {
         public static void Right(TemplateSheet sheet, TemplatePage page)
         {
+            var angle = page.Front.Angle;
+
             switch (sheet.SheetPlaceType)
             {
                 case TemplateSheetPlaceType.SingleSide:
-                    page.Front.Angle = (page.Front.Angle + 270) % 360;
+                    page.Front.Angle = (angle + 270) % 360;
                     break;
                 case TemplateSheetPlaceType.Sheetwise:
                 case TemplateSheetPlaceType.WorkAndTurn:
-                    page.Front.Angle = (page.Front.Angle + 270) % 360;
-                    page.Back.Angle = (page.Front.Angle + 180) % 360;
+                    page.Front.Angle = (angle + 270) % 360;
+
+                    if (page.Front.Angle == 0 || page.Front.Angle == 180)
+                    {
+                        page.Back.Angle = page.Front.Angle;
+                    }
+                    else
+                    {
+                        page.Back.Angle = (angle + 90) % 360;
+                    }
+
+                    ProcessFixPageBackPosition.FixPosition(sheet, page);
                     break;
                     
                 case TemplateSheetPlaceType.WorkAndTumble:
+                    page.Front.Angle = (angle + 270) % 360;
+
+                    if (page.Front.Angle == 0 || page.Front.Angle == 180)
+                    {
+                        page.Back.Angle = (angle + 90) % 360;
+                    }
+                    else
+                    {
+                        page.Back.Angle = page.Front.Angle;
+                    }
+                    ProcessFixPageBackPosition.FixPosition(sheet, page);
                     break;
-                default:
-                    throw new Exception("Unknown sheet place type");
             }
         }
 
         public static void Left(TemplateSheet sheet, TemplatePage page)
         {
+            var angle = page.Front.Angle;
+
             switch (sheet.SheetPlaceType)
             {
                 case TemplateSheetPlaceType.SingleSide:
-                    page.Front.Angle = (page.Front.Angle + 90) % 360;
+                    page.Front.Angle = (angle + 90) % 360;
                     break;
                 case TemplateSheetPlaceType.Sheetwise:
                 case TemplateSheetPlaceType.WorkAndTurn:
-                    page.Front.Angle = (page.Front.Angle + 90) % 360;
-                    page.Back.Angle = (page.Front.Angle + 180) % 360;
+                    page.Front.Angle = (angle + 90) % 360;
+
+                    if (page.Front.Angle == 0 || page.Front.Angle == 180)
+                    {
+                        page.Back.Angle = page.Front.Angle;
+                    }
+                    else
+                    {
+                        page.Back.Angle = (angle + 270) % 360;
+                    }
+                    ProcessFixPageBackPosition.FixPosition(sheet, page);
                     break;
                 case TemplateSheetPlaceType.WorkAndTumble:
+                    page.Front.Angle = (angle + 90) % 360;
+
+                    if (page.Front.Angle == 0 || page.Front.Angle == 180)
+                    {
+                        page.Back.Angle = (angle + 270) % 360;
+                    }
+                    else
+                    {
+                        page.Back.Angle = page.Front.Angle;
+                    }
+                    ProcessFixPageBackPosition.FixPosition(sheet, page);
                     break;
-                default:
-                    throw new Exception("Unknown sheet place type");
             }
         }
     }

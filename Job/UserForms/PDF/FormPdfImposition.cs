@@ -578,7 +578,7 @@ namespace JobSpace.UserForms.PDF
             return true;
         }
 
-        private bool TryGetImpositionFilePath(out string filePath)
+        private bool TryGetImpositionFilePath(out string? filePath)
         {
             filePath = null;
 
