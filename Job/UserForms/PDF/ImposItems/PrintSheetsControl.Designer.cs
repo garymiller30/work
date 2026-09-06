@@ -46,8 +46,8 @@
             tsb_setPlate = new System.Windows.Forms.ToolStripButton();
             tsb_removeTemplatePlate = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            tsb_count = new System.Windows.Forms.ToolStripButton();
             tsb_select_all = new System.Windows.Forms.ToolStripButton();
+            tsb_count = new System.Windows.Forms.ToolStripButton();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)objectListView1).BeginInit();
             toolStrip1.SuspendLayout();
@@ -88,6 +88,7 @@
             objectListView1.TabIndex = 1;
             objectListView1.UseCompatibleStateImageBehavior = false;
             objectListView1.View = System.Windows.Forms.View.Details;
+            objectListView1.Dropped += objectListView1_Dropped;
             // 
             // olvColumnId
             // 
@@ -199,16 +200,6 @@
             toolStripSeparator2.Name = "toolStripSeparator2";
             toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // tsb_count
-            // 
-            tsb_count.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            tsb_count.Image = (System.Drawing.Image)resources.GetObject("tsb_count.Image");
-            tsb_count.ImageTransparentColor = System.Drawing.Color.Magenta;
-            tsb_count.Name = "tsb_count";
-            tsb_count.Size = new System.Drawing.Size(23, 22);
-            tsb_count.Text = "додати тираж";
-            tsb_count.Click += tsb_count_Click;
-            // 
             // tsb_select_all
             // 
             tsb_select_all.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -218,6 +209,16 @@
             tsb_select_all.Size = new System.Drawing.Size(23, 22);
             tsb_select_all.Text = "вибрати всі листи";
             tsb_select_all.Click += tsb_select_all_Click;
+            // 
+            // tsb_count
+            // 
+            tsb_count.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            tsb_count.Image = (System.Drawing.Image)resources.GetObject("tsb_count.Image");
+            tsb_count.ImageTransparentColor = System.Drawing.Color.Magenta;
+            tsb_count.Name = "tsb_count";
+            tsb_count.Size = new System.Drawing.Size(23, 22);
+            tsb_count.Text = "додати тираж";
+            tsb_count.Click += tsb_count_Click;
             // 
             // PrintSheetsControl
             // 

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -53,6 +54,14 @@ namespace JobSpace.UserForms.PDF.ImposItems
         public void AddSheet(PrintSheet sheet)
         {
             objectListView1.AddObject(sheet);
+            SetImposPressSheets();
+        }
+
+        private void SetImposPressSheets()
+        {
+            if (_imposParam == null) return;
+
+            _imposParam.ProductPart.PrintSheets = objectListView1.Objects.Cast<PrintSheet>().ToList();
         }
 
         public List<PrintSheet> GetSheets()
@@ -72,6 +81,8 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 objectListView1.SelectObject(sheets[0]);
             }
+
+            SetImposPressSheets();
         }
 
         private void tsb_delete_Click(object sender, EventArgs e)
@@ -194,6 +205,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
         private void tsb_select_all_Click(object sender, EventArgs e)
         {
             objectListView1.SelectAll();
+        }
+
+        private void objectListView1_Dropped(object sender, OlvDropEventArgs e)
+        {
+            SetImposPressSheets();
         }
     }
 }
