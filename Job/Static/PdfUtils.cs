@@ -592,7 +592,7 @@ namespace JobSpace.Static
             }
         }
 
-        private static string GetIccProfileLabel(int? components)
+        private static string? GetIccProfileLabel(int? components)
         {
             switch (components)
             {

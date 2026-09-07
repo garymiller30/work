@@ -1,10 +1,12 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+﻿using JobSpace.Static;
+using JobSpace.Static.Pdf.Imposition.Models;
 using SharpCompress;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,25 +37,25 @@ namespace JobSpace.UserForms.PDF.ImposItems
         {
             var c = new ImposColor()
             {
-                Name = "cyan",
+                Name = "Cyan",
                 MarkColor = MarkColor.Cyan,
             };
 
             var m = new ImposColor
             {
-                Name = "magenta",
+                Name = "Magenta",
                 MarkColor = MarkColor.Magenta,
             };
 
             var y = new ImposColor
             {
-                Name = "yellow",
+                Name = "Yellow",
                 MarkColor = MarkColor.Yellow,
             };
 
             var k = new ImposColor
             {
-                Name = "black",
+                Name = "Black",
                 MarkColor = MarkColor.Black,
             };
 
@@ -108,5 +110,87 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
             objectListView1.AddObjects(colors.Colors);
         }
+
+
+        public void AddColorsFromFiles(IEnumerable<string> filePaths)
+        {
+            var allExtractedColors = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var file in filePaths)
+            {
+                if (!File.Exists(file)) continue;
+
+                var fileInfoExt = new FileInfo(file).ToFileSystemInfoExt();
+                PdfUtils.GetColorspaces(fileInfoExt);
+
+                if (fileInfoExt.UsedColors != null)
+                {
+                    foreach (var col in fileInfoExt.UsedColors)
+                    {
+                        allExtractedColors.Add(col);
+                    }
+                }
+            }
+
+            var existingColors = objectListView1.Objects?.Cast<ImposColor>().ToList() ?? new List<ImposColor>();
+            var colorsToAdd = new List<ImposColor>();
+
+            bool hasC = allExtractedColors.Any(c => c.Equals("CMYK", StringComparison.OrdinalIgnoreCase) || c.Contains("C"));
+            bool hasM = allExtractedColors.Any(c => c.Equals("CMYK", StringComparison.OrdinalIgnoreCase) || c.Contains("M"));
+            bool hasY = allExtractedColors.Any(c => c.Equals("CMYK", StringComparison.OrdinalIgnoreCase) || c.Contains("Y"));
+            bool hasK = allExtractedColors.Any(c => c.Equals("CMYK", StringComparison.OrdinalIgnoreCase) || c.Contains("K") || c.Equals("Gray", StringComparison.OrdinalIgnoreCase));
+
+            // Додаємо CMYK-кольори (якщо ще не додані)
+            void TryAddProcess(string name, MarkColor markColor)
+            {
+                if (!existingColors.Any(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
+                {
+                    colorsToAdd.Add(new ImposColor { Name = name, MarkColor = markColor, IsFront = true, IsBack = true });
+                }
+            }
+
+            if (hasC) TryAddProcess("Cyan", MarkColor.Cyan);
+            if (hasM) TryAddProcess("Magenta", MarkColor.Magenta);
+            if (hasY) TryAddProcess("Yellow", MarkColor.Yellow);
+            if (hasK) TryAddProcess("Black", MarkColor.Black);
+
+            // Додаємо Spot/Pantone кольори
+            var ignoredNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    {
+        "CMYK", "RGB", "Lab", "Gray", "Indexed", "ICCBased", "All", "None", "Pattern"
+    };
+
+            foreach (var colorName in allExtractedColors)
+            {
+                if (ignoredNames.Contains(colorName) || IsProcessColorGroup(colorName))
+                    continue;
+
+                if (!existingColors.Any(x => x.Name.Equals(colorName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    colorsToAdd.Add(new ImposColor
+                    {
+                        Name = colorName,
+                        IsFront = true,
+                        IsBack = true,
+                        MarkColor = new MarkColor
+                        {
+                            IsSpot = true,
+                            Name = colorName
+                        }
+                    });
+                }
+            }
+
+            if (colorsToAdd.Count > 0)
+            {
+                objectListView1.AddObjects(colorsToAdd);
+            }
+        }
+
+        private static bool IsProcessColorGroup(string name)
+        {
+            return !string.IsNullOrEmpty(name) && name.All(ch => ch == 'C' || ch == 'M' || ch == 'Y' || ch == 'K');
+        }
+
     }
 }

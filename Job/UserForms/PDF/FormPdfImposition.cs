@@ -347,6 +347,12 @@ namespace JobSpace.UserForms.PDF
 
             LoadImposFromFile();
 
+            // Якщо спуск новий і кольори ще не завантажені зі збереженого спуску:
+            if (imposColorsControl1.GetUsedColors().Colors.Count == 0)
+            {
+                imposColorsControl1.AddColorsFromFiles(_imposParam.ImposInput.Files);
+            }
+
         }
 
         private void OnMasterPageAdded(object sender, PageFormatView e)
@@ -596,10 +602,10 @@ namespace JobSpace.UserForms.PDF
             previewControl1.RedrawSheet();
         }
 
-        public void ApplyAutoImposTemplate(AutoImposMatch match)
+        public bool ApplyAutoImposTemplate(AutoImposMatch match)
         {
             if (match == null || match.PrintSheets == null || match.PrintSheets.Count == 0)
-                return;
+                return false;
 
             _imposParam.ProductPart.PrintSheets = match.PrintSheets;
             printSheetsControl1.SetSheets(match.PrintSheets);
@@ -610,14 +616,16 @@ namespace JobSpace.UserForms.PDF
                 _imposParam.ControlsBind.SetSheet(match.PrintSheets[0]);
             }
 
-            RedrawProductPart();
-
-            if (Control.ModifierKeys == System.Windows.Forms.Keys.ShiftKey)
+            if (Control.ModifierKeys.HasFlag(Keys.Shift))
             {
                 SaveToPdf(isAutoImpos: true);
                 Close();
+                return true;
             }
 
+            RedrawProductPart();
+
+            return false;
         }
 
         public async void SaveToPdf(bool isAutoImpos = false)
