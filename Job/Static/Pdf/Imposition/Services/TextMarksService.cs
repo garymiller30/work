@@ -1,4 +1,4 @@
-﻿using JobSpace.Static.Pdf.Imposition.Models;
+using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Processes;
 using System;
@@ -37,23 +37,23 @@ namespace JobSpace.Static.Pdf.Imposition.Services
         {
             RectangleD sheetRect = new RectangleD (x1: 0, y1: 0, x2: sheet.W, y2: sheet.H);
             RectangleD subjectRect = sheet.TemplatePageContainer.GetSubjectRectBack(sheet);
-            TextMarksService.RecalcMarkCoordBack(sheet.Marks, sheetRect, subjectRect, textVariablesService);
+            TextMarksService.RecalcMarkCoordBack(sheet, sheet.Marks, sheetRect, subjectRect, textVariablesService);
         }
 
-        static void RecalcMarkCoordBack(MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect, TextVariablesService textVariablesService)
+        static void RecalcMarkCoordBack(TemplateSheet sheet, MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect, TextVariablesService textVariablesService)
         {
             foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack && x.Enable))
             {
                 if (mark.Parent == MarkParentEnum.Sheet)
                 {
-                    PositioningService.AnchorToAbsoluteCoordBack(sheetRect, mark, textVariablesService);
+                    PositioningService.AnchorToAbsoluteCoordBack(sheetRect, mark, textVariablesService, sheet.SheetPlaceType);
                 }
                 else
                 {
-                    PositioningService.AnchorToAbsoluteCoordBack(subjectRect, mark, textVariablesService);
+                    PositioningService.AnchorToAbsoluteCoordBack(subjectRect, mark, textVariablesService, sheet.SheetPlaceType);
                 }
             }
-            marksContainer.Containers.ForEach(y => TextMarksService.RecalcMarkCoordBack(y, sheetRect, subjectRect, textVariablesService));
+            marksContainer.Containers.ForEach(y => TextMarksService.RecalcMarkCoordBack(sheet, y, sheetRect, subjectRect, textVariablesService));
         }
 
     }

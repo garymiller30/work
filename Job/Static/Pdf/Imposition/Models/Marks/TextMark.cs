@@ -1,4 +1,4 @@
-﻿using JobSpace.Static.Pdf.Imposition.Services;
+using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.Imposition.Services.TextVariables;
 using System;
 using System.Collections.Generic;
@@ -58,6 +58,28 @@ namespace JobSpace.Static.Pdf.Imposition.Models.Marks
             float heightInMm = (pixelSize.Height / dpi) * mmPerInch;
 
             return new SizeF(widthInMm, heightInMm);
+        }
+
+        public double GetBackAngle(Interfaces.Pdf.Imposition.TemplateSheetPlaceType placeType)
+        {
+            switch (placeType)
+            {
+                case Interfaces.Pdf.Imposition.TemplateSheetPlaceType.SingleSide:
+                    return Angle;
+                case Interfaces.Pdf.Imposition.TemplateSheetPlaceType.Sheetwise:
+                case Interfaces.Pdf.Imposition.TemplateSheetPlaceType.WorkAndTurn:
+                    if (Angle == 0 || Angle == 180) return Angle;
+                    else if (Angle == 90) return 270;
+                    else return 90;
+
+                case Interfaces.Pdf.Imposition.TemplateSheetPlaceType.WorkAndTumble:
+                    if (Angle == 0) return 180;
+                    else if (Angle == 90 || Angle == 270) return Angle;
+                    else return 0;
+
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 }

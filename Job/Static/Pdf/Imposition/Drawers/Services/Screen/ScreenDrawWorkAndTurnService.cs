@@ -31,7 +31,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             TextMarksService.RecalcMarkCoordBack(sheet, textVariablesService);
 
             ScreenDrawSingleSideService.DrawSheetMarksFront(g, sheet, foreground: false, (int)sheet.H, textVariablesService);
-            DrawSheetMarksBack(g, sheet, sheet.Marks, foreground: false, (int)sheet.H);
+            DrawSheetMarksBack(g, sheet, sheet.Marks, foreground: false, (int)sheet.H, textVariablesService);
 
             // draw pages
             foreach (var page in templateContainer.TemplatePages)
@@ -42,20 +42,63 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             DrawCropMarks(g, sheet);
             //draw foreground marks
             ScreenDrawSingleSideService.DrawSheetMarksFront(g, sheet, foreground: true, (int)sheet.H, textVariablesService);
-            DrawSheetMarksBack(g, sheet, sheet.Marks, foreground: true, (int)sheet.H);
+            DrawSheetMarksBack(g, sheet, sheet.Marks, foreground: true, (int)sheet.H, textVariablesService);
 
             return bitmap;
         }
 
-        public static void DrawSheetMarksBack(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)
+        public static void DrawSheetMarksBack(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h, TextVariablesService textVariablesService = null)
         {
             DrawPdfMarkBack(g, sheet, container, foreground, h);
-            DrawTextMarkBack(g, sheet, container, foreground, h);
+            DrawTextMarkBack(g, sheet, container, foreground, h, textVariablesService);
         }
 
-        private static void DrawTextMarkBack(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)
+        private static void DrawTextMarkBack(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h, TextVariablesService textVariablesService)
         {
-            //TODO: реалізувати малювання текстових міток на звороті
+            if (textVariablesService == null) return;
+
+            using Brush brush = new SolidBrush(Color.MidnightBlue);
+            foreach (var mark in container.Text.Where(x => x.Parameters.IsBack && x.Enable && x.IsForeground == foreground))
+            {
+                string markText = textVariablesService.ReplaceToRealValues(mark.Text);
+
+                var previewPoints = (mark.FontSize / 72.0) * 25.4;
+                using Font font = new Font(mark.FontName, (float)(previewPoints * ScreenDrawer.ZoomFactor));
+                var state = g.Save();
+
+                double backAngle = mark.GetBackAngle(sheet.SheetPlaceType);
+
+                (float transX, float transY, float gdiAngle) = backAngle switch
+                {
+                    0 => (
+                        (float)(mark.Back.X * ScreenDrawer.ZoomFactor),
+                        (float)((h - mark.Back.Y - mark.GetH(textVariablesService)) * ScreenDrawer.ZoomFactor),
+                        0f),
+                    90 => (
+                        (float)((mark.Back.X - mark.GetH(textVariablesService)) * ScreenDrawer.ZoomFactor),
+                        (float)((h - mark.Back.Y) * ScreenDrawer.ZoomFactor),
+                        270f),
+                    180 => (
+                        (float)(mark.Back.X * ScreenDrawer.ZoomFactor),
+                        (float)((h - mark.Back.Y) * ScreenDrawer.ZoomFactor),
+                        180f),
+                    270 => (
+                        (float)(mark.Back.X * ScreenDrawer.ZoomFactor),
+                        (float)((h - (mark.Back.Y + mark.GetW(textVariablesService))) * ScreenDrawer.ZoomFactor),
+                        90f),
+                    _ => (
+                        (float)(mark.Back.X * ScreenDrawer.ZoomFactor),
+                        (float)((h - mark.Back.Y - mark.GetH(textVariablesService)) * ScreenDrawer.ZoomFactor),
+                        0f)
+                };
+
+                g.TranslateTransform(transX, transY);
+                g.RotateTransform(gdiAngle);
+                g.DrawString(markText, font, brush, 0, 0);
+                g.Restore(state);
+            }
+
+            container.Containers.ForEach(x => DrawTextMarkBack(g, sheet, x, foreground, h, textVariablesService));
         }
 
         private static void DrawPdfMarkBack(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h)

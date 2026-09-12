@@ -1,4 +1,4 @@
-﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
@@ -15,16 +15,18 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
 {
     public static partial class DrawTextMarks
     {
-        public static void Back(PDFlib p, MarksContainer marksContainer, bool foreground, GlobalImposParameters imposParameters)
+        public static void Back(PDFlib p, TemplateSheet sheet, MarksContainer marksContainer, bool foreground, GlobalImposParameters imposParameters)
         {
             foreach (var mark in marksContainer.Text.Where(x => x.Parameters.IsBack && x.Enable && x.IsForeground == foreground))
             {
-                StringToken stringToken = new StringToken(mark,imposParameters.TextVariables);
+                StringToken stringToken = new StringToken(mark, imposParameters.TextVariables);
                 int font = p.load_font(mark.FontName, "auto", "");
                 p.setfont(font, mark.FontSize);
 
                 double x = mark.Back.X * PdfHelper.mn;
                 double y = mark.Back.Y * PdfHelper.mn;
+
+                double backAngle = mark.GetBackAngle(sheet.SheetPlaceType);
 
                 foreach (var token in stringToken.Tokens)
                 {
@@ -46,14 +48,13 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                         p.set_gstate(gstate);
                     }
 
-                    
                     string fillColor = color.IsSpot ? $"fillcolor={{spotname {{{color.Name}}} {color.Opasity / 100} {{cmyk {color.C / 100} {color.M / 100} {color.Y / 100} {color.K / 100}}}}}" :
                                                       $"fillcolor={{cmyk {color.C / 100} {color.M / 100} {color.Y / 100} {color.K / 100}}}";
-                    p.fit_textline(token.Text, x, y, $"{fillColor} orientate={Commons.Orientate[mark.Angle]}");
+                    p.fit_textline(token.Text, x, y, $"{fillColor} orientate={Commons.Orientate[backAngle]}");
 
                     double string_w = p.stringwidth(token.Text, font, mark.FontSize);
 
-                    switch (mark.Angle)
+                    switch (backAngle)
                     {
                         case 0:
                             x += string_w;
@@ -73,7 +74,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text
                 }
             }
 
-            marksContainer.Containers.ForEach(x => DrawTextMarks.Back(p, x, foreground, imposParameters));
+            marksContainer.Containers.ForEach(x => DrawTextMarks.Back(p, sheet, x, foreground, imposParameters));
 
             p.begin_layer(imposParameters.PdfDrawParameters.LayerPrint);
         }

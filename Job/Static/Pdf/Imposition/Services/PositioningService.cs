@@ -1,4 +1,5 @@
-﻿using Amazon.Runtime.Internal.Transform;
+using Amazon.Runtime.Internal.Transform;
+using Interfaces.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Models;
 using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
@@ -53,28 +54,60 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
         }
 
+        public static (double rx, double ry) RotateOffset(double dx, double dy, double angle)
+        {
+            return angle switch
+            {
+                0 => (dx, dy),
+                90 => (-dy, dx),
+                180 => (-dx, -dy),
+                270 => (dy, -dx),
+                _ => (dx, dy)
+            };
+        }
+
         public static void AnchorToAbsoluteCoordFront(RectangleD subject, TextMark mark, TextVariablesService textVariablesService)
         {
             double w = mark.GetW(textVariablesService);
             double h = mark.GetH(textVariablesService);
 
+            // Розміри габаритного прямокутника (bounding box) з урахуванням кута повороту
+            double boxW = (mark.Angle == 90 || mark.Angle == 270) ? h : w;
+            double boxH = (mark.Angle == 90 || mark.Angle == 270) ? w : h;
+
             // 1. Отримуємо координати точки прив'язки на батьківському об'єкті
             (double px, double py) = GetAnchorCoefficientsFront(mark.Parameters.ParentAnchorPoint);
 
-            double x = subject.X1 + subject.W * px;
-            double y = subject.Y1 + subject.H * py;
+            double parentAnchorX = subject.X1 + subject.W * px;
+            double parentAnchorY = subject.Y1 + subject.H * py;
 
-            // 2. Отримуємо коефіцієнти для зміщення самої марки
+            // 2. Отримуємо коефіцієнти для точки прив'язки габаритного прямокутника самої мітки
             (double mx, double my) = GetAnchorCoefficientsFront(mark.Parameters.MarkAnchorPoint);
-            double xMark = -w * mx;
-            double yMark = -h * my;
 
-            mark.Front = new PointD
-            (
-                x: x + xMark + mark.Parameters.Xofs,
-                y: y + yMark + mark.Parameters.Yofs
-            );
+            // Нижній лівий кут (X1, Y1) габаритного прямокутника мітки в системі координат PDF (Y знизу вгору)
+            double boxX1 = parentAnchorX - boxW * mx + mark.Parameters.Xofs;
+            double boxY1 = parentAnchorY - boxH * my + mark.Parameters.Yofs;
 
+            // 3. Знаходимо опорну точку початку рядка (mark.Front) в залежності від кута повороту
+            double originX = mark.Angle switch
+            {
+                0 => boxX1,
+                90 => boxX1 + h,
+                180 => boxX1 + w,
+                270 => boxX1,
+                _ => boxX1
+            };
+
+            double originY = mark.Angle switch
+            {
+                0 => boxY1,
+                90 => boxY1,
+                180 => boxY1 + h,
+                270 => boxY1 + w,
+                _ => boxY1
+            };
+
+            mark.Front = new PointD(originX, originY);
         }
 
         public static void AnchorToAbsoluteCoordBack(RectangleD subject, PdfMark mark)
@@ -82,9 +115,9 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             AnchorToToAbsoluteCoordBackPdfMark(subject, mark);
         }
 
-        public static void AnchorToAbsoluteCoordBack(RectangleD subject, TextMark mark, TextVariablesService textVariablesService)
+        public static void AnchorToAbsoluteCoordBack(RectangleD subject, TextMark mark, TextVariablesService textVariablesService, TemplateSheetPlaceType placeType = TemplateSheetPlaceType.Sheetwise)
         {
-            AnchorToToAbsoluteCoordBackTextMark(subject, mark, textVariablesService);
+            AnchorToToAbsoluteCoordBackTextMark(subject, mark, textVariablesService, placeType);
         }
 
         private static (double pX, double pY) GetMarkAnchorCoefficientsBack(AnchorPoint anchor, bool isMirrored)
@@ -128,53 +161,75 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             }
         }
 
-        private static (double pX, double pY) GetParentAnchorCoefficientsBack(AnchorPoint anchor)
+        private static (double pX, double pY) GetParentAnchorCoefficientsBack(AnchorPoint anchor, TemplateSheetPlaceType placeType = TemplateSheetPlaceType.Sheetwise)
         {
-                return anchor switch
-                {
-                    AnchorPoint.TopLeft => (1.0, 1.0),
-                    AnchorPoint.TopCenter => (0.5, 1.0),
-                    AnchorPoint.TopRight => (0.0, 1.0),
+            (double fx, double fy) = GetAnchorCoefficientsFront(anchor);
 
-                    AnchorPoint.LeftCenter => (1.0, 0.5),
-                    AnchorPoint.Center => (0.5, 0.5),
-                    AnchorPoint.RightCenter => (0.0, 0.5),
-
-                    AnchorPoint.BottomLeft => (1.0, 0.0),
-                    AnchorPoint.BottomCenter => (0.5, 0.0),
-                    AnchorPoint.BottomRight => (0.0, 0.0),
-                    _ => (0.0, 0.0)
-                };
+            return placeType switch
+            {
+                TemplateSheetPlaceType.WorkAndTumble => (fx, 1.0 - fy),
+                _ => (1.0 - fx, fy)
+            };
         }
 
-        static void AnchorToToAbsoluteCoordBackTextMark(RectangleD subject, TextMark mark, TextVariablesService textVariablesService)
+        static void AnchorToToAbsoluteCoordBackTextMark(RectangleD subject, TextMark mark, TextVariablesService textVariablesService, TemplateSheetPlaceType placeType = TemplateSheetPlaceType.Sheetwise)
         {
-
             double w = mark.GetW(textVariablesService);
             double h = mark.GetH(textVariablesService);
 
-            // 2. Отримуємо коефіцієнти для зміщення самої марки
-            (double px, double py) = GetParentAnchorCoefficientsBack(mark.Parameters.ParentAnchorPoint);
+            // Кут на звороті
+            double backAngle = mark.GetBackAngle(placeType);
 
-            double x = subject.X1 + subject.W * px;
-            double y = subject.Y1 + subject.H * py;
+            // Розміри габаритного прямокутника мітки з урахуванням кута на звороті
+            double boxW = (backAngle == 90 || backAngle == 270) ? h : w;
+            double boxH = (backAngle == 90 || backAngle == 270) ? w : h;
 
+            // 1. Отримуємо коефіцієнти для точки прив'язки на батьківському об'єкті
+            (double px, double py) = GetParentAnchorCoefficientsBack(mark.Parameters.ParentAnchorPoint, placeType);
+
+            double parentAnchorX = subject.X1 + subject.W * px;
+            double parentAnchorY = subject.Y1 + subject.H * py;
+
+            // 2. Зміщення точки прив'язки габаритного прямокутника з урахуванням дзеркалення
             (double mx, double my) = GetMarkAnchorCoefficientsBack(mark.Parameters.MarkAnchorPoint, mark.Parameters.IsBackMirrored);
-            double xMark = -w * mx;
-            double yMark = -h * my;
 
             double xOfs = -mark.Parameters.Xofs;
+            double yOfs = mark.Parameters.Yofs;
+
             if (mark.Parameters.IsBackMirrored)
             {
                 xOfs = mark.Parameters.Xofs;
             }
 
-            mark.Back = new PointD
-            (
-                x: x + xMark + xOfs,
-                y: y + yMark + mark.Parameters.Yofs
-            );
+            if (placeType == TemplateSheetPlaceType.WorkAndTumble)
+            {
+                yOfs = -mark.Parameters.Yofs;
+            }
 
+            // Нижній лівий кут (X1, Y1) габаритного прямокутника мітки на звороті
+            double boxX1 = parentAnchorX - boxW * mx + xOfs;
+            double boxY1 = parentAnchorY - boxH * my + yOfs;
+
+            // 3. Знаходимо опорну точку початку рядка (mark.Back) для зворотного кута
+            double originX = backAngle switch
+            {
+                0 => boxX1,
+                90 => boxX1 + h,
+                180 => boxX1 + w,
+                270 => boxX1,
+                _ => boxX1
+            };
+
+            double originY = backAngle switch
+            {
+                0 => boxY1,
+                90 => boxY1,
+                180 => boxY1 + h,
+                270 => boxY1 + w,
+                _ => boxY1
+            };
+
+            mark.Back = new PointD(originX, originY);
         }
 
         static void AnchorToToAbsoluteCoordBackPdfMark(RectangleD subject, PdfMark mark)

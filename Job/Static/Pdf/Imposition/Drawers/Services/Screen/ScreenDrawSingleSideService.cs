@@ -1,4 +1,4 @@
-﻿using Ghostscript.NET.Rasterizer;
+using Ghostscript.NET.Rasterizer;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
 using JobSpace.Static.Pdf.Imposition.Drawers.Screen;
 using JobSpace.Static.Pdf.Imposition.Models;
@@ -75,13 +75,33 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 Font font = new Font(mark.FontName, (float)(previewPoints * ScreenDrawer.ZoomFactor));
                 SizeF size = g.MeasureString(markText, font);
                 var state = g.Save();
-                g.TranslateTransform(
-                    (float)(mark.Front.X * ScreenDrawer.ZoomFactor),
-                    (float)((h - mark.Front.Y - mark.GetH(textVariablesService)) * ScreenDrawer.ZoomFactor));
 
-                float angle = mark.Angle == 90 || mark.Angle == 270 ? (float)(mark.Angle + 180) : (float)mark.Angle;
+                (float transX, float transY, float gdiAngle) = mark.Angle switch
+                {
+                    0 => (
+                        (float)(mark.Front.X * ScreenDrawer.ZoomFactor),
+                        (float)((h - mark.Front.Y - mark.GetH(textVariablesService)) * ScreenDrawer.ZoomFactor),
+                        0f),
+                    90 => (
+                        (float)((mark.Front.X - mark.GetH(textVariablesService)) * ScreenDrawer.ZoomFactor),
+                        (float)((h - mark.Front.Y) * ScreenDrawer.ZoomFactor),
+                        270f),
+                    180 => (
+                        (float)(mark.Front.X * ScreenDrawer.ZoomFactor),
+                        (float)((h - mark.Front.Y) * ScreenDrawer.ZoomFactor),
+                        180f),
+                    270 => (
+                        (float)(mark.Front.X * ScreenDrawer.ZoomFactor),
+                        (float)((h - (mark.Front.Y + mark.GetW(textVariablesService))) * ScreenDrawer.ZoomFactor),
+                        90f),
+                    _ => (
+                        (float)(mark.Front.X * ScreenDrawer.ZoomFactor),
+                        (float)((h - mark.Front.Y - mark.GetH(textVariablesService)) * ScreenDrawer.ZoomFactor),
+                        0f)
+                };
 
-                g.RotateTransform((angle));
+                g.TranslateTransform(transX, transY);
+                g.RotateTransform(gdiAngle);
                 g.DrawString(markText, font, brush, 0, 0);
                 g.Restore(state);
                 font.Dispose();
