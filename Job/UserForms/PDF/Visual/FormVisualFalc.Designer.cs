@@ -73,13 +73,11 @@
             cb_create_schema = new System.Windows.Forms.CheckBox();
             btn_ok = new System.Windows.Forms.Button();
             btn_3d = new System.Windows.Forms.Button();
-            groupBox3 = new System.Windows.Forms.GroupBox();
-            label11 = new System.Windows.Forms.Label();
             numDistanse = new System.Windows.Forms.NumericUpDown();
-            groupBox4 = new System.Windows.Forms.GroupBox();
-            label12 = new System.Windows.Forms.Label();
             numLen = new System.Windows.Forms.NumericUpDown();
             groupBox5 = new System.Windows.Forms.GroupBox();
+            label14 = new System.Windows.Forms.Label();
+            label13 = new System.Windows.Forms.Label();
             uc_PdfColorSelector1 = new JobSpace.UC.PDF.Uc_PdfColorSelector();
             groupBox1.SuspendLayout();
             gb_p1.SuspendLayout();
@@ -106,9 +104,7 @@
             groupBox12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nud_width).BeginInit();
             groupBox2.SuspendLayout();
-            groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numDistanse).BeginInit();
-            groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numLen).BeginInit();
             groupBox5.SuspendLayout();
             SuspendLayout();
@@ -537,7 +533,7 @@
             cb_mirrored_parts.Location = new System.Drawing.Point(7, 22);
             cb_mirrored_parts.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             cb_mirrored_parts.Name = "cb_mirrored_parts";
-            cb_mirrored_parts.Size = new System.Drawing.Size(204, 19);
+            cb_mirrored_parts.Size = new System.Drawing.Size(202, 19);
             cb_mirrored_parts.TabIndex = 6;
             cb_mirrored_parts.Text = "дзеркально на парних сторінках";
             cb_mirrored_parts.UseVisualStyleBackColor = true;
@@ -585,7 +581,7 @@
             cb_save_schema.Location = new System.Drawing.Point(7, 103);
             cb_save_schema.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             cb_save_schema.Name = "cb_save_schema";
-            cb_save_schema.Size = new System.Drawing.Size(110, 19);
+            cb_save_schema.Size = new System.Drawing.Size(109, 19);
             cb_save_schema.TabIndex = 9;
             cb_save_schema.Text = "зберегти схему";
             cb_save_schema.UseVisualStyleBackColor = true;
@@ -598,7 +594,7 @@
             cb_create_file_and_schema.Location = new System.Drawing.Point(7, 76);
             cb_create_file_and_schema.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             cb_create_file_and_schema.Name = "cb_create_file_and_schema";
-            cb_create_file_and_schema.Size = new System.Drawing.Size(155, 19);
+            cb_create_file_and_schema.Size = new System.Drawing.Size(154, 19);
             cb_create_file_and_schema.TabIndex = 8;
             cb_create_file_and_schema.Text = "створити файл + схема";
             cb_create_file_and_schema.UseVisualStyleBackColor = true;
@@ -609,17 +605,17 @@
             cb_create_schema.Location = new System.Drawing.Point(7, 50);
             cb_create_schema.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             cb_create_schema.Name = "cb_create_schema";
-            cb_create_schema.Size = new System.Drawing.Size(112, 19);
+            cb_create_schema.Size = new System.Drawing.Size(111, 19);
             cb_create_schema.TabIndex = 7;
             cb_create_schema.Text = "створити схему";
             cb_create_schema.UseVisualStyleBackColor = true;
             // 
             // btn_ok
             // 
-            btn_ok.Location = new System.Drawing.Point(14, 504);
+            btn_ok.Location = new System.Drawing.Point(166, 591);
             btn_ok.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             btn_ok.Name = "btn_ok";
-            btn_ok.Size = new System.Drawing.Size(261, 42);
+            btn_ok.Size = new System.Drawing.Size(107, 42);
             btn_ok.TabIndex = 15;
             btn_ok.Text = "ОК";
             btn_ok.UseVisualStyleBackColor = true;
@@ -627,42 +623,19 @@
             // 
             // btn_3d
             // 
-            btn_3d.Location = new System.Drawing.Point(14, 552);
+            btn_3d.Location = new System.Drawing.Point(11, 591);
             btn_3d.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             btn_3d.Name = "btn_3d";
-            btn_3d.Size = new System.Drawing.Size(261, 42);
+            btn_3d.Size = new System.Drawing.Size(94, 42);
             btn_3d.TabIndex = 16;
             btn_3d.Text = "3D";
             btn_3d.UseVisualStyleBackColor = true;
             btn_3d.Click += btn_3d_Click;
             // 
-            // groupBox3
-            // 
-            groupBox3.Controls.Add(label11);
-            groupBox3.Controls.Add(numDistanse);
-            groupBox3.Location = new System.Drawing.Point(109, 22);
-            groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            groupBox3.Size = new System.Drawing.Size(146, 80);
-            groupBox3.TabIndex = 18;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "відстань від лінії різу";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new System.Drawing.Point(101, 37);
-            label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label11.Name = "label11";
-            label11.Size = new System.Drawing.Size(25, 15);
-            label11.TabIndex = 2;
-            label11.Text = "мм";
-            // 
             // numDistanse
             // 
             numDistanse.DecimalPlaces = 1;
-            numDistanse.Location = new System.Drawing.Point(24, 34);
+            numDistanse.Location = new System.Drawing.Point(172, 57);
             numDistanse.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             numDistanse.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numDistanse.Name = "numDistanse";
@@ -671,56 +644,53 @@
             numDistanse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             numDistanse.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
-            // groupBox4
-            // 
-            groupBox4.Controls.Add(label12);
-            groupBox4.Controls.Add(numLen);
-            groupBox4.Location = new System.Drawing.Point(7, 22);
-            groupBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            groupBox4.Size = new System.Drawing.Size(95, 80);
-            groupBox4.TabIndex = 17;
-            groupBox4.TabStop = false;
-            groupBox4.Text = "довжина лінії";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Location = new System.Drawing.Point(62, 35);
-            label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label12.Name = "label12";
-            label12.Size = new System.Drawing.Size(25, 15);
-            label12.TabIndex = 1;
-            label12.Text = "мм";
-            // 
             // numLen
             // 
             numLen.DecimalPlaces = 1;
-            numLen.Location = new System.Drawing.Point(12, 33);
+            numLen.Location = new System.Drawing.Point(172, 28);
             numLen.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             numLen.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numLen.Name = "numLen";
-            numLen.Size = new System.Drawing.Size(49, 23);
+            numLen.Size = new System.Drawing.Size(69, 23);
             numLen.TabIndex = 0;
             numLen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             numLen.Value = new decimal(new int[] { 2, 0, 0, 0 });
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(label14);
+            groupBox5.Controls.Add(numDistanse);
+            groupBox5.Controls.Add(numLen);
+            groupBox5.Controls.Add(label13);
             groupBox5.Controls.Add(uc_PdfColorSelector1);
-            groupBox5.Controls.Add(groupBox4);
-            groupBox5.Controls.Add(groupBox3);
             groupBox5.Location = new System.Drawing.Point(14, 281);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new System.Drawing.Size(262, 188);
+            groupBox5.Size = new System.Drawing.Size(262, 160);
             groupBox5.TabIndex = 19;
             groupBox5.TabStop = false;
-            groupBox5.Text = "мітки фальцовки";
+            groupBox5.Text = "Налаштування міток";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new System.Drawing.Point(21, 59);
+            label14.Name = "label14";
+            label14.Size = new System.Drawing.Size(144, 15);
+            label14.TabIndex = 21;
+            label14.Text = "відстань від лінії різу, мм";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new System.Drawing.Point(21, 30);
+            label13.Name = "label13";
+            label13.Size = new System.Drawing.Size(105, 15);
+            label13.TabIndex = 20;
+            label13.Text = "довжина лінії, мм";
             // 
             // uc_PdfColorSelector1
             // 
-            uc_PdfColorSelector1.Location = new System.Drawing.Point(6, 108);
+            uc_PdfColorSelector1.Location = new System.Drawing.Point(6, 86);
             markColor1.a = 0D;
             markColor1.b = 0D;
             markColor1.C = 0D;
@@ -786,13 +756,10 @@
             ((System.ComponentModel.ISupportInitialize)nud_width).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
-            groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numDistanse).EndInit();
-            groupBox4.ResumeLayout(false);
-            groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numLen).EndInit();
             groupBox5.ResumeLayout(false);
+            groupBox5.PerformLayout();
             ResumeLayout(false);
 
         }
@@ -843,13 +810,11 @@
         private System.Windows.Forms.CheckBox cb_create_schema;
         private System.Windows.Forms.Button btn_ok;
         private System.Windows.Forms.Button btn_3d;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown numDistanse;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.NumericUpDown numLen;
         private System.Windows.Forms.GroupBox groupBox5;
         private UC.PDF.Uc_PdfColorSelector uc_PdfColorSelector1;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
     }
 }

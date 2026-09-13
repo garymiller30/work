@@ -16,7 +16,7 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
         public double[] Bigovki { get;set;}
         public double Bleed { get;set;} = 2;
         public MarkColor Color { get;set;} = new MarkColor();
-
+        public bool DrawProofColor { get; set; }
         public bool MirrorEven { get;set;} = true;
     }
 }

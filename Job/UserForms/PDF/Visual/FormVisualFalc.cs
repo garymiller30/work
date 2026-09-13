@@ -210,7 +210,7 @@ namespace JobSpace.UserForms.PDF.Visual
                 CreateSchema = cb_create_schema.Checked,
                 LineLen = (double)numLen.Value,
                 LineDistance = (double) numDistanse.Value,
-                Color = uc_PdfColorSelector1.MarkColor
+                Color = uc_PdfColorSelector1.MarkColor,
                 
             };
 

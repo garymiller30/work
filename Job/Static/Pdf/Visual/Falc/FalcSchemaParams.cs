@@ -22,5 +22,7 @@ namespace JobSpace.Static.Pdf.Create.Falc
         public decimal[] RawPartsWidth { get; set; }
         public int FalcCnt { get; set; }
 
+        
+
     }
 }

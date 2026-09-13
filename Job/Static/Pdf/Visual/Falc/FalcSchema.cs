@@ -15,10 +15,8 @@ namespace JobSpace.Static.Pdf.Create.Falc
     public class FalcSchema : IPdfTool
     {
         const double COEF_DIMENSION = 0.3;
-        //const double DISTANCE_FROM_TRIM = 2;
-        //const double MARK_LENGTH = 2;
 
-        FalcSchemaParams _param;
+        FalcSchemaParams? _param;
 
         public bool Configure(PdfJobContext context)
         {
@@ -39,6 +37,8 @@ namespace JobSpace.Static.Pdf.Create.Falc
 
         public void Execute(PdfJobContext context)
         {
+            if (_param == null) { return; }
+
             foreach (var file in context.InputFiles)
             {
                 if (_param.CreateSchema)
@@ -96,7 +96,7 @@ namespace JobSpace.Static.Pdf.Create.Falc
 
                         DrawFalcMarks(p, pageInfo, idx);
                     }
-
+                    
                     p.begin_layer(v_layer);
                     int gstate = p.create_gstate("overprintmode=1 overprintfill=true overprintstroke=true");
                     p.set_gstate(gstate);
@@ -119,6 +119,7 @@ namespace JobSpace.Static.Pdf.Create.Falc
                     }
                     DrawPage(p, pageInfo, xOfs, yOfs, widths);
                     DrawDimension(p, spot, pageInfo, widths);
+                  
 
                     // Тут має бути логіка створення схеми Falc
                     // Використовуйте _param.Mirrored та _param.PartsWidth для налаштування схеми

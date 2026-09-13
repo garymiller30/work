@@ -43,7 +43,7 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
         }
         public void CreateBigovkaMark(string filePath)
         {
-            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath) || _param == null)
                 return;
 
             using var p = new PDFlib();
@@ -93,8 +93,12 @@ namespace JobSpace.Static.Pdf.Create.BigovkaMarks
                     DrawPrintBigovkaMarks(p, trimbox);
 
                     p.close_pdi_page(page);
-                    p.begin_layer(v_layer);
-                    DrawBigovkaSchema(p, trimbox);
+                    if (_param.DrawProofColor)
+                    {
+                        p.begin_layer(v_layer);
+                        DrawBigovkaSchema(p, trimbox);
+                    }
+                  
                     p.end_page_ext("");
                 }
                 p.close_pdi_document(doc);

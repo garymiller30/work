@@ -109,6 +109,7 @@ namespace JobSpace.UserForms.PDF
             BigovkaMarksParams.DistanceFromTrim = (double)numDistanse.Value;
             BigovkaMarksParams.Color = uc_PdfColorSelector1.MarkColor;
             BigovkaMarksParams.MirrorEven = cb_mirrorEven.Checked;
+            BigovkaMarksParams.DrawProofColor = cb_draw_proofcolor.Checked;
 
             string[] bigovki = textBoxBigovky.Text.Trim(' ').Split(' ');
 

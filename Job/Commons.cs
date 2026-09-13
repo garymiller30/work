@@ -14,51 +14,6 @@ namespace JobSpace
 {
     public static class Commons
     {
-        public static void Serialize(object x, String fn)
-        {
-            //откроем поток для записи в файл
-            try
-            {
-                using (var fs = new FileStream(fn, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
-                {
-                    var bf = new BinaryFormatter();
-                    bf.Serialize(fs, x);
-
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-        }
-
-        /// <summary>
-        ///     десериалезировать из файла
-        /// </summary>
-        /// <param name="fn"></param>
-        /// <returns></returns>
-        public static object Deserialize(String fn)
-        {
-            object x = null;
-
-            try
-            {
-                if (File.Exists(fn))
-                {
-                    using (var fs = new FileStream(fn, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        var bf = new BinaryFormatter();
-                        x = bf.Deserialize(fs);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-            return x;
-        }
-
         public static void SerializeXML<T>(T x, string fn)
         {
             var serializer = new XmlSerializer(typeof(T));
@@ -66,7 +21,6 @@ namespace JobSpace
             {
                 serializer.Serialize(writer, x);
             }
-
         }
 
         public static T DeserializeXML<T>(string fn)
