@@ -527,8 +527,8 @@ namespace JobSpace.UserForms.PDF
             _draggingPreviewLayer = true;
             _dragMovedPreviewLayer = false;
             _dragStartPoint = e.Location;
-            _dragStartXmm = GetCellDouble(_layersGrid.CurrentRow, "X", 0);
-            _dragStartYmm = GetCellDouble(_layersGrid.CurrentRow, "Ymm", 0);
+            _dragStartXmm = GetCellDouble(_layersGrid.CurrentRow, "colX", 0);
+            _dragStartYmm = GetCellDouble(_layersGrid.CurrentRow, "colYmm", 0);
             _previewBox.Capture = true;
         }
 
@@ -663,8 +663,8 @@ namespace JobSpace.UserForms.PDF
             if (_layersGrid.CurrentRow == null)
                 return;
 
-            double x = GetCellDouble(_layersGrid.CurrentRow, "X", 0) + dxMm;
-            double y = GetCellDouble(_layersGrid.CurrentRow, "Ymm", 0) + dyMm;
+            double x = GetCellDouble(_layersGrid.CurrentRow, "colX", 0) + dxMm;
+            double y = GetCellDouble(_layersGrid.CurrentRow, "colYmm", 0) + dyMm;
             SetSelectedLayerPosition(x, y, refreshPreview);
         }
 
