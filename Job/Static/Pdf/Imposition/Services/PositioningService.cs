@@ -88,26 +88,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             double boxX1 = parentAnchorX - boxW * mx + mark.Parameters.Xofs;
             double boxY1 = parentAnchorY - boxH * my + mark.Parameters.Yofs;
 
-            // 3. Знаходимо опорну точку початку рядка (mark.Front) в залежності від кута повороту
-            double originX = mark.Angle switch
-            {
-                0 => boxX1,
-                90 => boxX1 + h,
-                180 => boxX1 + w,
-                270 => boxX1,
-                _ => boxX1
-            };
-
-            double originY = mark.Angle switch
-            {
-                0 => boxY1,
-                90 => boxY1,
-                180 => boxY1 + h,
-                270 => boxY1 + w,
-                _ => boxY1
-            };
-
-            mark.Front = new PointD(originX, originY);
+            mark.Front = new PointD(boxX1, boxY1);
         }
 
         public static void AnchorToAbsoluteCoordBack(RectangleD subject, PdfMark mark)
@@ -210,26 +191,7 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             double boxX1 = parentAnchorX - boxW * mx + xOfs;
             double boxY1 = parentAnchorY - boxH * my + yOfs;
 
-            // 3. Знаходимо опорну точку початку рядка (mark.Back) для зворотного кута
-            double originX = backAngle switch
-            {
-                0 => boxX1,
-                90 => boxX1 + h,
-                180 => boxX1 + w,
-                270 => boxX1,
-                _ => boxX1
-            };
-
-            double originY = backAngle switch
-            {
-                0 => boxY1,
-                90 => boxY1,
-                180 => boxY1 + h,
-                270 => boxY1 + w,
-                _ => boxY1
-            };
-
-            mark.Back = new PointD(originX, originY);
+            mark.Back = new PointD(boxX1, boxY1);
         }
 
         static void AnchorToToAbsoluteCoordBackPdfMark(RectangleD subject, PdfMark mark)

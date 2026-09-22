@@ -83,15 +83,15 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                         (float)((h - mark.Front.Y - mark.GetH(textVariablesService)) * ScreenDrawer.ZoomFactor),
                         0f),
                     90 => (
-                        (float)((mark.Front.X - mark.GetH(textVariablesService)) * ScreenDrawer.ZoomFactor),
+                        (float)(mark.Front.X * ScreenDrawer.ZoomFactor),
                         (float)((h - mark.Front.Y) * ScreenDrawer.ZoomFactor),
                         270f),
                     180 => (
-                        (float)(mark.Front.X * ScreenDrawer.ZoomFactor),
+                        (float)((mark.Front.X + mark.GetW(textVariablesService)) * ScreenDrawer.ZoomFactor),
                         (float)((h - mark.Front.Y) * ScreenDrawer.ZoomFactor),
                         180f),
                     270 => (
-                        (float)(mark.Front.X * ScreenDrawer.ZoomFactor),
+                        (float)((mark.Front.X + mark.GetH(textVariablesService)) * ScreenDrawer.ZoomFactor),
                         (float)((h - (mark.Front.Y + mark.GetW(textVariablesService))) * ScreenDrawer.ZoomFactor),
                         90f),
                     _ => (
