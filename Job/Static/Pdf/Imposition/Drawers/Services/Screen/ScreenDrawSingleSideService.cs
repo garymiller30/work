@@ -46,7 +46,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             // draw pages
             foreach (var page in templateContainer.TemplatePages)
             {
-                DrawPageFront(g, sheet, page, (int)sheet.H, productPart);
+                DrawPageFront(g, sheet, page, (int)sheet.H, productPart, textVariablesService);
             }
 
             //draw foreground marks
@@ -57,7 +57,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             return bitmap;
         }
 
-        private static void DrawContainerMarksFront(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h, TextVariablesService textVariablesService)
+        public static void DrawContainerMarksFront(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h, TextVariablesService textVariablesService)
         {
             DrawPdfMarksFront(g, sheet, container, foreground, h);
             DrawTextMarksFront(g, container, foreground, h, textVariablesService);
@@ -69,7 +69,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             Brush brush = new SolidBrush(Color.MidnightBlue);
             foreach (var mark in container.Text.Where(x => x.Parameters.IsFront && x.Enable && x.IsForeground == foreground))
             {
-                string markText = textVariablesService.ReplaceToRealValues(mark.Text);
+                string markText = textVariablesService != null ? textVariablesService.ReplaceToRealValues(mark.Text) : mark.Text;
 
                 var previewPoints = (mark.FontSize / 72.0) * 25.4;
                 Font font = new Font(mark.FontName, (float)(previewPoints * ScreenDrawer.ZoomFactor));
@@ -250,7 +250,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
                 }, Brushes.LightPink);
         }
 
-        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart productPart = null)
+        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart productPart = null, TextVariablesService textVariablesService = null)
         {
             ScreenDrawWorkAndTurnService.DrawBleeds(g, page, page.Front, sH);
 
@@ -308,6 +308,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             }
             brush.Dispose();
             pen.Dispose();
+
+            if (page.Marks != null)
+            {
+                DrawContainerMarksFront(g, sheet, page.Marks, foreground: false, sH, textVariablesService);
+                DrawContainerMarksFront(g, sheet, page.Marks, foreground: true, sH, textVariablesService);
+            }
 
             DrawCropsMark(g, page, sH);
         }

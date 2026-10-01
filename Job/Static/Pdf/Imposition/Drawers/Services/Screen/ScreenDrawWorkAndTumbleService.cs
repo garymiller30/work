@@ -39,8 +39,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             // draw pages
             foreach (var page in templateContainer.TemplatePages)
             {
-                ScreenDrawWorkAndTurnService.DrawPageFront(g, sheet, page, (int)sheet.H, productPart);
-                ScreenDrawWorkAndTurnService.DrawPageBack(g, sheet, page, (int)sheet.H, productPart);
+                ScreenDrawWorkAndTurnService.DrawPageFront(g, sheet, page, (int)sheet.H, productPart, textVariablesService);
+                ScreenDrawWorkAndTurnService.DrawPageBack(g, sheet, page, (int)sheet.H, productPart, textVariablesService);
             }
             ScreenDrawWorkAndTurnService.DrawCropMarks(g, sheet);
             //draw foreground marks

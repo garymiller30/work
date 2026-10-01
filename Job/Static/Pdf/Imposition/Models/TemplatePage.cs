@@ -1,4 +1,4 @@
-﻿using Interfaces.Pdf.Imposition;
+using Interfaces.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen;
 using JobSpace.Static.Pdf.Imposition.Services;
 using JobSpace.Static.Pdf.Imposition.Services.Impos.Binding.Loose.Perfecting;
@@ -50,6 +50,9 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         /// </summary>
         public int Group { get; set; } = 0;
 
+        [Browsable(false)]
+        public JobSpace.Static.Pdf.Imposition.Models.Marks.MarksContainer Marks { get; set; } = new JobSpace.Static.Pdf.Imposition.Models.Marks.MarksContainer();
+
         public TemplatePage()
         {
 
@@ -66,6 +69,10 @@ namespace JobSpace.Static.Pdf.Imposition.Models
             Margins = new ClipBox(source.Margins);
            
             Group = source.Group;
+            if (source.Marks != null)
+            {
+                Marks = MarksService.Duplicate(source.Marks);
+            }
         }
 
         public TemplatePage(double width, double height)

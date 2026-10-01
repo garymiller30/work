@@ -36,8 +36,8 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             // draw pages
             foreach (var page in templateContainer.TemplatePages)
             {
-                DrawPageFront(g, sheet, page, (int)sheet.H, productPart);
-                DrawPageBack(g, sheet, page, (int)sheet.H, productPart);
+                DrawPageFront(g, sheet, page, (int)sheet.H, productPart, textVariablesService);
+                DrawPageBack(g, sheet, page, (int)sheet.H, productPart, textVariablesService);
             }
             DrawCropMarks(g, sheet);
             //draw foreground marks
@@ -55,12 +55,10 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
 
         private static void DrawTextMarkBack(Graphics g, TemplateSheet sheet, MarksContainer container, bool foreground, int h, TextVariablesService textVariablesService)
         {
-            if (textVariablesService == null) return;
-
             using Brush brush = new SolidBrush(Color.MidnightBlue);
             foreach (var mark in container.Text.Where(x => x.Parameters.IsBack && x.Enable && x.IsForeground == foreground))
             {
-                string markText = textVariablesService.ReplaceToRealValues(mark.Text);
+                string markText = textVariablesService != null ? textVariablesService.ReplaceToRealValues(mark.Text) : mark.Text;
 
                 var previewPoints = (mark.FontSize / 72.0) * 25.4;
                 using Font font = new Font(mark.FontName, (float)(previewPoints * ScreenDrawer.ZoomFactor));
@@ -158,7 +156,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             }
         }
 
-        public static void DrawPageBack(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart? productPart = null)
+        public static void DrawPageBack(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart? productPart = null, TextVariablesService textVariablesService = null)
         {
             DrawBleeds(g, page, page.Back, sH);
 
@@ -202,6 +200,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             {
                 ScreenDrawCommons.DrawPageRotateMarker(g, page, page.Back, rect, sH);
                 DrawTextBack(g, sheet, page, sH);
+            }
+
+            if (page.Marks != null)
+            {
+                DrawSheetMarksBack(g, sheet, page.Marks, foreground: false, sH, textVariablesService);
+                DrawSheetMarksBack(g, sheet, page.Marks, foreground: true, sH, textVariablesService);
             }
 
         }
@@ -305,7 +309,7 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             g.Restore(state);
         }
 
-        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart? productPart = null)
+        public static void DrawPageFront(Graphics g, TemplateSheet sheet, TemplatePage page, int sH, ProductPart? productPart = null, TextVariablesService textVariablesService = null)
         {
             PageSide side = page.Front;
 
@@ -370,6 +374,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             {
                 ScreenDrawCommons.DrawPageRotateMarker(g, page, side, rect, sH);
                 DrawTextFront(g, sheet, page, sH);
+            }
+
+            if (page.Marks != null)
+            {
+                ScreenDrawSingleSideService.DrawContainerMarksFront(g, sheet, page.Marks, foreground: false, sH, textVariablesService);
+                ScreenDrawSingleSideService.DrawContainerMarksFront(g, sheet, page.Marks, foreground: true, sH, textVariablesService);
             }
 
         }

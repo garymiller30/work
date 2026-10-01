@@ -78,6 +78,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                 
                 DrawCropMarks.Back(p, templatePage);
 
+                if (templatePage.Marks != null)
+                {
+                    DrawPdfMarks.Back(p, sheet, templatePage.Marks, foreground: false);
+                    DrawTextMarks.Back(p, sheet, templatePage.Marks, foreground: false, imposParameters);
+                    DrawPdfMarks.Back(p, sheet, templatePage.Marks, foreground: true);
+                    DrawTextMarks.Back(p, sheet, templatePage.Marks, foreground: true, imposParameters);
+                }
+
                 Proof.DrawPageBack(p, sheet, templatePage, templatePage.Back, impos.Proof,imposParameters);
             }
             

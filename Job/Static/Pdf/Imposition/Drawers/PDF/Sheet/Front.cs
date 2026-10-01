@@ -1,4 +1,4 @@
-﻿using JobSpace.Static.Pdf.Common;
+using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Crop;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf;
 using JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Text;
@@ -67,6 +67,14 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                     }
                 }
                 DrawCropMarks.Front(p, templatePage);
+
+                if (templatePage.Marks != null)
+                {
+                    DrawPdfMarks.Front(p, sheet, templatePage.Marks, foreground: false);
+                    DrawTextMarks.Front(p, templatePage.Marks, foreground: false, imposParameters);
+                    DrawPdfMarks.Front(p, sheet, templatePage.Marks, foreground: true);
+                    DrawTextMarks.Front(p, templatePage.Marks, foreground: true, imposParameters);
+                }
 
                 Proof.DrawPage(p, templatePage, templatePage.Front, impos.Proof,imposParameters);
             }

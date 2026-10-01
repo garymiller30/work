@@ -1,4 +1,4 @@
-﻿namespace JobSpace.UserForms.PDF.ImposItems
+namespace JobSpace.UserForms.PDF.ImposItems
 {
     partial class MarksControl
     {
@@ -57,6 +57,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsb_SheetMarkCopy = new System.Windows.Forms.ToolStripButton();
             this.tsb_SheetMarkPaste = new System.Windows.Forms.ToolStripButton();
+            this.tscb_TargetMarksType = new System.Windows.Forms.ToolStripComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.tlv_MarksResources)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -224,6 +225,7 @@
             // 
             this.toolStrip2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tscb_TargetMarksType,
             this.tsb_sheet_deleteMark,
             this.toolStripSeparator3,
             this.tsb_SheetMarkCopy,
@@ -233,6 +235,16 @@
             this.toolStrip2.Size = new System.Drawing.Size(219, 25);
             this.toolStrip2.TabIndex = 2;
             this.toolStrip2.Text = "toolStrip2";
+            // 
+            // tscb_TargetMarksType
+            // 
+            this.tscb_TargetMarksType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.tscb_TargetMarksType.Items.AddRange(new object[] {
+            "Мітки листа",
+            "Мітки сторінки"});
+            this.tscb_TargetMarksType.Name = "tscb_TargetMarksType";
+            this.tscb_TargetMarksType.Size = new System.Drawing.Size(120, 25);
+            this.tscb_TargetMarksType.SelectedIndexChanged += new System.EventHandler(this.tscb_TargetMarksType_SelectedIndexChanged);
             // 
             // tsb_sheet_deleteMark
             // 
@@ -411,5 +423,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripButton tsb_SheetMarkCopy;
         private System.Windows.Forms.ToolStripButton tsb_SheetMarkPaste;
+        private System.Windows.Forms.ToolStripComboBox tscb_TargetMarksType;
     }
 }

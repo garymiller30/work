@@ -16,6 +16,19 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             RectangleD sheetRect = new RectangleD (x1: 0, y1: 0, x2: sheet.W, y2: sheet.H);
             RectangleD subjectRect = ProcessSubject.GetSubjectRect(sheet, sheet.TemplatePageContainer);
             TextMarksService.RecalcMarkCoordFront(sheet.Marks, sheetRect, subjectRect, textVariablesService);
+
+            foreach (var page in sheet.TemplatePageContainer.TemplatePages)
+            {
+                RecalcPageMarksFront(sheet, page, textVariablesService);
+            }
+        }
+
+        public static void RecalcPageMarksFront(TemplateSheet sheet, TemplatePage page, TextVariablesService textVariablesService)
+        {
+            if (page.Marks == null) return;
+            (double px, double py, double pw, double ph) = JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen.ScreenDrawCommons.GetPageDraw(page, page.Front);
+            RectangleD pageRect = new RectangleD(px, py, px + pw, py + ph);
+            RecalcMarkCoordFront(page.Marks, pageRect, pageRect, textVariablesService);
         }
 
         static void RecalcMarkCoordFront(MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect, TextVariablesService textVariablesService)
@@ -38,6 +51,19 @@ namespace JobSpace.Static.Pdf.Imposition.Services
             RectangleD sheetRect = new RectangleD (x1: 0, y1: 0, x2: sheet.W, y2: sheet.H);
             RectangleD subjectRect = sheet.TemplatePageContainer.GetSubjectRectBack(sheet);
             TextMarksService.RecalcMarkCoordBack(sheet, sheet.Marks, sheetRect, subjectRect, textVariablesService);
+
+            foreach (var page in sheet.TemplatePageContainer.TemplatePages)
+            {
+                RecalcPageMarksBack(sheet, page, textVariablesService);
+            }
+        }
+
+        public static void RecalcPageMarksBack(TemplateSheet sheet, TemplatePage page, TextVariablesService textVariablesService)
+        {
+            if (page.Marks == null) return;
+            (double px, double py, double pw, double ph) = JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen.ScreenDrawCommons.GetPageDrawBack(sheet, page, page.Back);
+            RectangleD pageRect = new RectangleD(px, py, px + pw, py + ph);
+            RecalcMarkCoordBack(sheet, page.Marks, pageRect, pageRect, textVariablesService);
         }
 
         static void RecalcMarkCoordBack(TemplateSheet sheet, MarksContainer marksContainer, RectangleD sheetRect, RectangleD subjectRect, TextVariablesService textVariablesService)

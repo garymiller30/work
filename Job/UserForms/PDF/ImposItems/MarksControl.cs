@@ -1,4 +1,4 @@
-﻿using BrightIdeasSoftware;
+using BrightIdeasSoftware;
 using JobSpace.Profiles;
 using JobSpace.Static.Pdf.Imposition;
 using JobSpace.Static.Pdf.Imposition.Models;
@@ -46,7 +46,26 @@ namespace JobSpace.UserForms.PDF.ImposItems
             olv_ProductForeground.AspectGetter += ProductForegroundGetterDelegate;
             olv_ProductParent.AspectGetter += ProductParentGetterDelegate;
 
-           
+            tscb_TargetMarksType.SelectedIndex = 0;
+        }
+
+        private void tscb_TargetMarksType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateProductMarksTreeRoots();
+        }
+
+        private void UpdateProductMarksTreeRoots()
+        {
+            if (_imposParam?.ControlsBind?.Sheet == null)
+            {
+                tlv_ProductMarks.Enabled = false;
+                tlv_ProductMarks.Roots = null;
+                return;
+            }
+
+            tlv_ProductMarks.Enabled = true;
+            var targetContainer = GetTargetMarksContainer();
+            tlv_ProductMarks.Roots = targetContainer != null ? new object[] { targetContainer } : null;
         }
 
         private object ProductParentGetterDelegate(object r)
@@ -319,23 +338,68 @@ namespace JobSpace.UserForms.PDF.ImposItems
             }
         }
 
+        private MarksContainer GetTargetMarksContainer()
+        {
+            if (_imposParam?.ControlsBind?.Sheet == null) return null;
+
+            if (tscb_TargetMarksType.SelectedIndex == 1)
+            {
+                if (_imposParam.ControlsBind.Sheet.MasterPage.Marks == null)
+                {
+                    _imposParam.ControlsBind.Sheet.MasterPage.Marks = new MarksContainer();
+                }
+                return _imposParam.ControlsBind.Sheet.MasterPage.Marks;
+            }
+
+            return _imposParam.ControlsBind.Sheet.Marks;
+        }
+
+        private void SyncMasterPageMarksToPages()
+        {
+            if (_imposParam?.ControlsBind?.Sheet == null) return;
+            var masterMarks = _imposParam.ControlsBind.Sheet.MasterPage.Marks;
+            foreach (var page in _imposParam.ControlsBind.Sheet.TemplatePageContainer.TemplatePages)
+            {
+                page.Marks = MarksService.Duplicate(masterMarks);
+            }
+        }
+
         private void DeleteMark(TextMark textMark)
         {
-            _imposParam.ControlsBind.Sheet.Marks.Delete(textMark);
+            var target = GetTargetMarksContainer();
+            target?.Delete(textMark);
+            if (tscb_TargetMarksType.SelectedIndex == 1)
+            {
+                SyncMasterPageMarksToPages();
+            }
         }
 
         private void DeleteMark(PdfMark pdfMark)
         {
-            _imposParam.ControlsBind.Sheet.Marks.Delete(pdfMark);
+            var target = GetTargetMarksContainer();
+            target?.Delete(pdfMark);
+            if (tscb_TargetMarksType.SelectedIndex == 1)
+            {
+                SyncMasterPageMarksToPages();
+            }
         }
 
         private void DeleteMark(MarksContainer group)
         {
-            _imposParam.ControlsBind.Sheet.Marks.Delete(group);
+            var target = GetTargetMarksContainer();
+            target?.Delete(group);
+            if (tscb_TargetMarksType.SelectedIndex == 1)
+            {
+                SyncMasterPageMarksToPages();
+            }
         }
 
         private void RefreshSheetTree()
         {
+            if (tscb_TargetMarksType.SelectedIndex == 1)
+            {
+                SyncMasterPageMarksToPages();
+            }
             tlv_ProductMarks.RefreshObjects(tlv_ProductMarks.Objects.Cast<MarksContainer>().ToList());
             _imposParam.ControlsBind.UpdatePreview();
         }
@@ -441,6 +505,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
+                        if (tscb_TargetMarksType.SelectedIndex == 1)
+                        {
+                            SyncMasterPageMarksToPages();
+                        }
                         // update preview
                         _imposParam.ControlsBind.UpdatePreview();
                     }
@@ -452,6 +520,10 @@ namespace JobSpace.UserForms.PDF.ImposItems
                 {
                     if (form.ShowDialog() == DialogResult.OK)
                     {
+                        if (tscb_TargetMarksType.SelectedIndex == 1)
+                        {
+                            SyncMasterPageMarksToPages();
+                        }
                         // update preview
                         _imposParam.ControlsBind.UpdatePreview();
                     }
@@ -471,6 +543,12 @@ namespace JobSpace.UserForms.PDF.ImposItems
             {
                 textMark.Enable = e.Item.Checked;
             }
+
+            if (tscb_TargetMarksType.SelectedIndex == 1)
+            {
+                SyncMasterPageMarksToPages();
+            }
+
             _imposParam.ControlsBind.UpdatePreview();
         }
 
@@ -487,23 +565,11 @@ namespace JobSpace.UserForms.PDF.ImposItems
 
         private void Parameters_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-
             if (e.PropertyName != "Sheet") return;
 
-            if (_imposParam.ControlsBind.Sheet == null) tlv_ProductMarks.Enabled = false;
-            else
-            {
-                Debug.WriteLine("-->MarksControl: Parameters_PropertyChanged");
-                tlv_ProductMarks.Enabled = true;
-                tlv_ProductMarks.Roots =
-
-
-                    new object[]
-                {
-                    _imposParam.ControlsBind.Sheet.Marks,
-                    };
-                Debug.WriteLine("<--MarksControl: Parameters_PropertyChanged");
-            }
+            Debug.WriteLine("-->MarksControl: Parameters_PropertyChanged");
+            UpdateProductMarksTreeRoots();
+            Debug.WriteLine("<--MarksControl: Parameters_PropertyChanged");
         }
 
         private void tsb_copy_Click(object sender, EventArgs e)
