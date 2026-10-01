@@ -63,11 +63,52 @@ else
 {
 
 
-    @if (_jobs.Count == 0)
+    @if (_availableStatuses.Count > 1)
+    {
+        <div class="status-filter-bar">
+            <span class="status-filter-label">Статус:</span>
+            <div class="status-filter-chips">
+                <button type="button"
+                        class="status-chip @(IsAllStatusesSelected ? "active" : null)"
+                        @onclick="SelectAllStatuses">
+                    Всі (@_allJobs.Count)
+                </button>
+                @foreach (var status in _availableStatuses)
+                {
+                    var isSelected = _selectedStatusCodes.Contains(status.Code);
+                    var count = _allJobs.Count(j => j.StatusCode == status.Code);
+                    <button type="button"
+                            class="status-chip @(isSelected ? "active" : null)"
+                            @onclick="() => ToggleStatusFilter(status.Code)">
+                        <span>@status.Name</span>
+                        <span class="status-chip-count">@count</span>
+                    </button>
+                }
+            </div>
+            @if (_selectedStatusCodes.Count > 0 && !IsAllStatusesSelected)
+            {
+                <button type="button" class="status-filter-reset" @onclick="SelectAllStatuses" title="Скинути фільтр">
+                    Скинути фільтр
+                </button>
+            }
+        </div>
+    }
+
+    @if (FilteredJobs.Count == 0)
     {
         <div class="empty-state">
             <h2>Немає робіт для показу</h2>
-            <p>Перевірте список статусів у налаштуваннях адміністратора або параметри Mongo-профілю.</p>
+            @if (_allJobs.Count > 0)
+            {
+                <p>За вибраними фільтрами статусів робіт не знайдено. Спробуйте змінити фільтр або скинути його.</p>
+                <button type="button" class="secondary-action" style="margin-top: 1rem;" @onclick="SelectAllStatuses">
+                    Показати всі статуси
+                </button>
+            }
+            else
+            {
+                <p>Перевірте список статусів у налаштуваннях адміністратора або параметри Mongo-профілю.</p>
+            }
         </div>
     }
     else
@@ -90,7 +131,7 @@ else
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var job in _jobs)
+                    @foreach (var job in FilteredJobs)
                     {
                         <tr>
                             <td data-label="Дата">@job.Date.ToLocalTime().ToString("dd.MM.yyyy")</td>
@@ -131,7 +172,7 @@ else
                     {
                         <tr>
                             <td data-label="Всього" colspan="6" class=" mono price">
-                                <strong>@_totalPrice</strong>
+                                <strong>@FilteredTotalPrice</strong>
                             </td>
                         </tr>
                     }
@@ -211,19 +252,30 @@ else
     private WebUserDefinition? _signedInUser;
     private WebUserDefinition? _currentUser;
     private WebProfileDefinition? _profile;
-    private List<JobListItemViewModel> _jobs = new();
+    private List<JobListItemViewModel> _allJobs = new();
+    private List<JobStatusOption> _availableStatuses = new();
+    private HashSet<int> _selectedStatusCodes = new();
     private List<JobListItemViewModel> _cartItems = new();
     private HashSet<string> _cartItemKeys = new(StringComparer.Ordinal);
-    private decimal _totalPrice = 0;
     private bool IsAdminViewer => _signedInUser?.IsAdmin == true;
     private bool CanShowPriceColumn => _currentUser?.PayProcesses != null && _currentUser.PayProcesses.Any();
     private int CartCount => _cartItems.Count;
     private decimal CartTotalPrice => _cartItems.Sum(job => job.Price);
+
+    private List<JobListItemViewModel> FilteredJobs => _selectedStatusCodes.Count == 0
+        ? _allJobs
+        : _allJobs.Where(job => _selectedStatusCodes.Contains(job.StatusCode)).ToList();
+
+    private decimal FilteredTotalPrice => FilteredJobs.Sum(j => j.Price);
+
+    private bool IsAllStatusesSelected => _selectedStatusCodes.Count == 0 ||
+        (_availableStatuses.Count > 0 && _availableStatuses.All(s => _selectedStatusCodes.Contains(s.Code)));
+
     private string PageTitleText => IsAdminViewer
         ? _currentUser is null
             ? "Роботи користувачів"
-            : $"Роботи користувача {GetUserDisplayName(_currentUser)} ({_jobs.Count})"
-        : $"Список робіт ({_jobs.Count})";
+            : $"Роботи користувача {GetUserDisplayName(_currentUser)} ({FilteredJobs.Count})"
+        : $"Список робіт ({FilteredJobs.Count})";
     private string? PageSubtitleText => IsAdminViewer
         ? _currentUser is null
             ? "Адміністратор не має власного списку робіт і переглядає роботи інших користувачів."
@@ -295,11 +347,11 @@ else
                 return;
             }
 
-            _jobs = (await MongoProfileDataService.GetJobsAsync(_profile, _currentUser.VisibleStatusCodes, _currentUser.PayProcesses))
+            _allJobs = (await MongoProfileDataService.GetJobsAsync(_profile, _currentUser.VisibleStatusCodes, _currentUser.PayProcesses))
                 .ToList();
-            _totalPrice = 0;
-            if (_jobs.Count > 0)
-                _totalPrice = _jobs.Sum(j => j.Price);
+
+            await LoadAvailableStatusesAsync();
+
             SyncCartWithJobs();
         }
         catch (Exception ex)
@@ -312,6 +364,82 @@ else
             _isLoading = false;
             await InvokeAsync(StateHasChanged);
         }
+    }
+
+    private async Task LoadAvailableStatusesAsync()
+    {
+        if (_profile is null)
+        {
+            _availableStatuses.Clear();
+            _selectedStatusCodes.Clear();
+            return;
+        }
+
+        try
+        {
+            var allStatuses = await MongoProfileDataService.GetStatusesAsync(_profile);
+            var visibleCodes = _currentUser?.VisibleStatusCodes ?? new List<int>();
+
+            // If user has VisibleStatusCodes configured, only show those as available filter options.
+            // Otherwise, show all statuses or the ones present in jobs.
+            var candidateStatuses = visibleCodes.Count > 0
+                ? allStatuses.Where(s => visibleCodes.Contains(s.Code)).ToList()
+                : allStatuses.ToList();
+
+            // Only show statuses that either have jobs or are in candidate statuses
+            _availableStatuses = candidateStatuses
+                .OrderBy(s => s.Code)
+                .ToList();
+
+            // If any unknown status codes exist in jobs, add them as well so user can filter them
+            var knownCodes = _availableStatuses.Select(s => s.Code).ToHashSet();
+            var extraCodesInJobs = _allJobs
+                .Where(j => !knownCodes.Contains(j.StatusCode))
+                .GroupBy(j => j.StatusCode)
+                .Select(g => new JobStatusOption
+                {
+                    Code = g.Key,
+                    Name = g.First().StatusText
+                });
+
+            _availableStatuses.AddRange(extraCodesInJobs);
+            _availableStatuses = _availableStatuses.OrderBy(s => s.Code).ToList();
+
+            // Keep selected status codes valid
+            _selectedStatusCodes.RemoveWhere(code => !_availableStatuses.Any(s => s.Code == code));
+        }
+        catch
+        {
+            // Fallback: derive statuses purely from the loaded jobs
+            _availableStatuses = _allJobs
+                .GroupBy(j => j.StatusCode)
+                .Select(g => new JobStatusOption
+                {
+                    Code = g.Key,
+                    Name = g.First().StatusText
+                })
+                .OrderBy(s => s.Code)
+                .ToList();
+
+            _selectedStatusCodes.RemoveWhere(code => !_availableStatuses.Any(s => s.Code == code));
+        }
+    }
+
+    private void ToggleStatusFilter(int statusCode)
+    {
+        if (_selectedStatusCodes.Contains(statusCode))
+        {
+            _selectedStatusCodes.Remove(statusCode);
+        }
+        else
+        {
+            _selectedStatusCodes.Add(statusCode);
+        }
+    }
+
+    private void SelectAllStatuses()
+    {
+        _selectedStatusCodes.Clear();
     }
 
     private void ToggleCart(JobListItemViewModel job)
@@ -396,7 +524,7 @@ else
             return;
         }
 
-        var jobsByKey = _jobs
+        var jobsByKey = _allJobs
             .Where(job => job.Price > 0)
             .GroupBy(GetCartKey)
             .ToDictionary(group => group.Key, group => group.First(), StringComparer.Ordinal);
@@ -423,11 +551,12 @@ else
 
     private void ResetJobsState(bool clearSelectedUser = false)
     {
-        _jobs.Clear();
+        _allJobs.Clear();
+        _availableStatuses.Clear();
+        _selectedStatusCodes.Clear();
         _cartItems.Clear();
         _cartItemKeys.Clear();
         _profile = null;
-        _totalPrice = 0;
         _isCartOpen = false;
 
         if (clearSelectedUser)
@@ -609,6 +738,103 @@ else
 
         .cart-modal {
             width: 100%;
+        }
+    }
+
+    .status-filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.25rem;
+        padding: 0.85rem 1.2rem;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(24, 50, 77, 0.08);
+        border-radius: 1.2rem;
+        box-shadow: 0 4px 12px rgba(20, 47, 71, 0.03);
+    }
+
+    .status-filter-label {
+        font-weight: 700;
+        font-size: 0.88rem;
+        color: #607488;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .status-filter-chips {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .status-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.45rem 0.85rem;
+        border: 1px solid rgba(24, 50, 77, 0.14);
+        border-radius: 999px;
+        background: #fff;
+        color: #18324d;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        user-select: none;
+    }
+
+    .status-chip:hover {
+        background: #f4f8fb;
+        border-color: rgba(24, 50, 77, 0.28);
+    }
+
+    .status-chip.active {
+        background: #18324d;
+        border-color: #18324d;
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(24, 50, 77, 0.2);
+    }
+
+    .status-chip-count {
+        display: inline-block;
+        padding: 0.1rem 0.45rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        background: rgba(24, 50, 77, 0.08);
+        color: inherit;
+    }
+
+    .status-chip.active .status-chip-count {
+        background: rgba(255, 255, 255, 0.22);
+        color: #fff;
+    }
+
+    .status-filter-reset {
+        margin-left: auto;
+        border: none;
+        background: none;
+        color: #2563eb;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0.35rem 0.6rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.15s;
+    }
+
+    .status-filter-reset:hover {
+        background-color: #eff6ff;
+        text-decoration: underline;
+    }
+
+    @@media (max-width: 640px) {
+        .status-filter-reset {
+            margin-left: 0;
+            width: 100%;
+            text-align: left;
+            padding: 0.25rem 0;
         }
     }
 </style>
