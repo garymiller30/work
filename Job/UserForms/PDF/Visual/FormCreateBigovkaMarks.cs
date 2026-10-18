@@ -149,6 +149,8 @@ namespace JobSpace.UserForms.PDF
                 _primitives.Add(new ScreenLine(white_pen, x_start, y_start, x_end, y_start));
                 _primitives.Add(new ScreenLine(big_pen, x_start, y_start, x_end, y_start));
             }
+
+            tb_rest.Text = $"{Math.Round(y_start, 1)}";
         }
 
         private void DrawHorizontalBigovki(int pageNo)
@@ -180,6 +182,8 @@ namespace JobSpace.UserForms.PDF
                     _primitives.Add(new ScreenLine(big_pen, x, y_start, x, y_end));
                 }
             }
+
+            tb_rest.Text = $"{Math.Round((float)box.Trimbox.wMM() - x, 1)}";
         }
 
         private void textBoxBigovky_TextChanged(object sender, EventArgs e)

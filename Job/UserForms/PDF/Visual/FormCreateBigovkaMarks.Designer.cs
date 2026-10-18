@@ -50,6 +50,8 @@
             label4 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
+            tb_rest = new System.Windows.Forms.TextBox();
+            label1 = new System.Windows.Forms.Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numLen).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numDistanse).BeginInit();
@@ -61,7 +63,7 @@
             // 
             // buttonCreate
             // 
-            buttonCreate.Location = new System.Drawing.Point(189, 536);
+            buttonCreate.Location = new System.Drawing.Point(189, 582);
             buttonCreate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             buttonCreate.Name = "buttonCreate";
             buttonCreate.Size = new System.Drawing.Size(106, 40);
@@ -166,20 +168,22 @@
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(label1);
+            groupBox5.Controls.Add(tb_rest);
             groupBox5.Controls.Add(btn_add_to_center);
             groupBox5.Controls.Add(textBoxBigovky);
             groupBox5.Location = new System.Drawing.Point(14, 201);
             groupBox5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             groupBox5.Name = "groupBox5";
             groupBox5.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            groupBox5.Size = new System.Drawing.Size(281, 91);
+            groupBox5.Size = new System.Drawing.Size(281, 129);
             groupBox5.TabIndex = 5;
             groupBox5.TabStop = false;
             groupBox5.Text = "Біговки (числа через пробіл)";
             // 
             // btn_add_to_center
             // 
-            btn_add_to_center.Location = new System.Drawing.Point(127, 51);
+            btn_add_to_center.Location = new System.Drawing.Point(91, 90);
             btn_add_to_center.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             btn_add_to_center.Name = "btn_add_to_center";
             btn_add_to_center.Size = new System.Drawing.Size(88, 32);
@@ -228,12 +232,12 @@
             uc_PreviewBrowserFile1.Location = new System.Drawing.Point(304, 14);
             uc_PreviewBrowserFile1.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
             uc_PreviewBrowserFile1.Name = "uc_PreviewBrowserFile1";
-            uc_PreviewBrowserFile1.Size = new System.Drawing.Size(599, 562);
+            uc_PreviewBrowserFile1.Size = new System.Drawing.Size(599, 608);
             uc_PreviewBrowserFile1.TabIndex = 10;
             // 
             // btn_3d
             // 
-            btn_3d.Location = new System.Drawing.Point(14, 536);
+            btn_3d.Location = new System.Drawing.Point(14, 582);
             btn_3d.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             btn_3d.Name = "btn_3d";
             btn_3d.Size = new System.Drawing.Size(106, 40);
@@ -274,7 +278,7 @@
             groupBox6.Controls.Add(label4);
             groupBox6.Controls.Add(label3);
             groupBox6.Controls.Add(label2);
-            groupBox6.Location = new System.Drawing.Point(14, 298);
+            groupBox6.Location = new System.Drawing.Point(14, 336);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new System.Drawing.Size(281, 213);
             groupBox6.TabIndex = 13;
@@ -320,11 +324,29 @@
             label2.TabIndex = 0;
             label2.Text = "поля на підрізку, мм";
             // 
+            // tb_rest
+            // 
+            tb_rest.Location = new System.Drawing.Point(67, 51);
+            tb_rest.Name = "tb_rest";
+            tb_rest.ReadOnly = true;
+            tb_rest.Size = new System.Drawing.Size(112, 23);
+            tb_rest.TabIndex = 2;
+            tb_rest.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(8, 54);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(56, 15);
+            label1.TabIndex = 3;
+            label1.Text = "залишок";
+            // 
             // FormCreateBigovkaMarks
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(917, 589);
+            ClientSize = new System.Drawing.Size(917, 635);
             Controls.Add(groupBox6);
             Controls.Add(btn_3d);
             Controls.Add(uc_PreviewBrowserFile1);
@@ -374,5 +396,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox tb_rest;
     }
 }

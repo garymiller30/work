@@ -8,7 +8,7 @@ namespace JobSpace.UserForms.PDF
     public partial class FormCreateFillRectangle : Form
     {
 
-        MarkColor _markColor;
+        MarkColor _markColor = MarkColor.White;
         public PdfCreateFillRectangleParams FillRectangleParams { get; set; } = new PdfCreateFillRectangleParams();
         public decimal PdfWidth { get; set; }
         public decimal PdfHeight { get; set; }
