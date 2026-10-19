@@ -88,22 +88,19 @@ namespace JobSpace.Static.Pdf.Manipulation
 
         private static string GetOutputPath(string filePath)
         {
-            string directory = System.IO.Path.GetDirectoryName(filePath);
+            string directory = System.IO.Path.GetDirectoryName(filePath) ?? "";
             string fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
-            string outputPath = System.IO.Path.Combine(directory, $"{fileName}_mediabox_trimbox.pdf");
+            string baseName = $"{fileName}_mt";
 
-            if (!File.Exists(outputPath))
-            {
-                return outputPath;
-            }
-
+            string outputPath = System.IO.Path.Combine(directory, $"{baseName}.pdf");
             int index = 1;
-            do
+
+            // Цикл працюватиме лише якщо файл існує
+            while (System.IO.File.Exists(outputPath))
             {
-                outputPath = System.IO.Path.Combine(directory, $"{fileName}_mediabox_trimbox_{index}.pdf");
+                outputPath = System.IO.Path.Combine(directory, $"{baseName}_{index}.pdf");
                 index++;
             }
-            while (File.Exists(outputPath));
 
             return outputPath;
         }
