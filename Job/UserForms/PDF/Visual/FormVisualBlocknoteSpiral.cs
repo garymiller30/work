@@ -30,6 +30,12 @@ namespace JobSpace.UserForms.PDF.Visual
 
             uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
             uc_SelectSpiralControl1.OnSpiralChanged += OnSpiralChanged;
+
+            uc_VisualRectangleControl1.OnRectEnabledChanged += (s, ee) => Redraw();
+            uc_VisualRectangleControl1.OnRectPositionChanged += (s, ee) => Redraw();
+            uc_VisualRectangleControl1.OnRectSizeChanged += (s, ee) => Redraw();
+
+            uc_SelectFileAndPageControl1.FileSelectionChanged += (s, e) => Redraw();
             DialogResult = DialogResult.Cancel;
         }
 
@@ -55,6 +61,27 @@ namespace JobSpace.UserForms.PDF.Visual
             _fsi = new FileInfo(fsi.FileInfo.FullName);
             cb_files.Items.Add(_fsi);
             cb_files.SelectedIndex = 0;
+
+            AddBlockFiles(fsi);
+
+            
+        }
+
+        private void AddBlockFiles(IFileSystemInfoExt fsi)
+        {
+            string parentDir = Path.GetDirectoryName(fsi.FileInfo.FullName);
+
+            var files = Directory.GetFiles(parentDir, "*.pdf")
+                .Where(f => !f.Equals(fsi.FileInfo.FullName))
+                .Select(f => new FileInfo(f))
+                .ToList();
+
+            if (files.Count > 0)
+            {
+                uc_SelectFileAndPageControl1.AddFiles(files.Select(f => f.FullName).ToList());
+                
+            }
+
         }
 
         public FormVisualBlocknoteSpiral(List<IFileSystemInfoExt> fsis) : this()
@@ -67,10 +94,9 @@ namespace JobSpace.UserForms.PDF.Visual
             if (cb_files.Items.Count > 0)
             {
                 cb_files.SelectedIndex = 0;
+                AddBlockFiles(fsis[0]);
             }
         }
-
-
 
         private void SetDefaults()
         {
@@ -104,14 +130,12 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void DrawRectangle()
         {
-            if (!cb_rect.Checked) return;
-            float rectX = (float)nud_rect_x.Value;
-            float rectY = (float)nud_rect_y.Value;
-            float rectW = (float)nud_rect_w.Value;
-            float rectH = (float)nud_rect_h.Value;
-
-            _primitives.Add(new ScreenFillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(64, 255, 0, 0)), rectX, rectY, rectW, rectH));
-
+            if (!uc_VisualRectangleControl1.RectEnabled) return;
+            _primitives.Add(new ScreenFillRectangle(new SolidBrush(System.Drawing.Color.FromArgb(64, 255, 0, 0)),
+                    (float)uc_VisualRectangleControl1.X,
+                    (float)uc_VisualRectangleControl1.Y,
+                    (float)uc_VisualRectangleControl1.W,
+                    (float)uc_VisualRectangleControl1.H));
         }
 
         private void DrawSpiral(int pageNo)
@@ -132,19 +156,27 @@ namespace JobSpace.UserForms.PDF.Visual
 
         void DrawSpirales(int pageNo)
         {
+            DrawFile();
             DrawSpiral(pageNo);
             DrawRectangle();
         }
 
-        private void cb_place_SelectedIndexChanged(object sender, EventArgs e)
+        private void DrawFile()
         {
-            Redraw();
+            if (uc_SelectFileAndPageControl1.IsFileSelected)
+            {
+                var selectedFilePath = uc_SelectFileAndPageControl1.SelectedFilePath;
+                var selectedPageNo = uc_SelectFileAndPageControl1.SelectedPageNo;
+                if (!string.IsNullOrEmpty(selectedFilePath))
+                {
+                    var blockPrimitives = new ScreenPdf(selectedFilePath, selectedPageNo) { X = -1, Y = 0 };
+                    _primitives.AddRange(blockPrimitives);
+                }
+            }
         }
 
-
-        private void cb_rect_CheckedChanged(object sender, EventArgs e)
+        private void cb_place_SelectedIndexChanged(object sender, EventArgs e)
         {
-            panel_rect_params.Enabled = cb_rect.Checked;
             Redraw();
         }
 
@@ -156,69 +188,6 @@ namespace JobSpace.UserForms.PDF.Visual
                 uc_PreviewBrowserFile1.Show(fsi.ToFileSystemInfoExt());
                 Redraw();
             }
-        }
-
-        private void bnt_top_left_Click(object sender, EventArgs e)
-        {
-            nud_rect_x.Value = 0;
-            nud_rect_y.Value = 0;
-            Redraw();
-        }
-
-        private void btn_top_center_Click(object sender, EventArgs e)
-        {
-            nud_rect_x.Value = (decimal)(((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.wMM() - nud_rect_w.Value) / 2);
-            nud_rect_y.Value = 0;
-            Redraw();
-        }
-
-        private void bnt_top_right_Click(object sender, EventArgs e)
-        {
-            nud_rect_x.Value = (decimal)((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.wMM() - nud_rect_w.Value);
-            nud_rect_y.Value = 0;
-            Redraw();
-        }
-
-        private void btn_left_center_Click(object sender, EventArgs e)
-        {
-            nud_rect_x.Value = 0;
-            nud_rect_y.Value = (decimal)(((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.hMM() - nud_rect_h.Value) / 2);
-            Redraw();
-        }
-
-        private void btn_center_Click(object sender, EventArgs e)
-        {
-            nud_rect_x.Value = (decimal)(((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.wMM() - nud_rect_w.Value) / 2);
-            nud_rect_y.Value = (decimal)(((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.hMM() - nud_rect_h.Value) / 2);
-            Redraw();
-        }
-
-        private void btn_right_center_Click(object sender, EventArgs e)
-        {
-            nud_rect_x.Value = (decimal)((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.wMM() - nud_rect_w.Value);
-            nud_rect_y.Value = (decimal)(((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.hMM() - nud_rect_h.Value) / 2);
-            Redraw();
-        }
-
-        private void bnt_bottom_left_Click(object sender, EventArgs e)
-        {
-            nud_rect_x.Value = 0;
-            nud_rect_y.Value = (decimal)((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.hMM() - nud_rect_h.Value);
-            Redraw();
-        }
-
-        private void btn_bottom_center_Click(object sender, EventArgs e)
-        {
-            nud_rect_x.Value = (decimal)(((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.wMM() - nud_rect_w.Value) / 2);
-            nud_rect_y.Value = (decimal)((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.hMM() - nud_rect_h.Value);
-            Redraw();
-        }
-
-        private void btn_bottom_right_Click(object sender, EventArgs e)
-        {
-            nud_rect_x.Value = (decimal)((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.wMM() - nud_rect_w.Value);
-            nud_rect_y.Value = (decimal)((decimal)uc_PreviewBrowserFile1.GetCurrentPageInfo().Trimbox.hMM() - nud_rect_h.Value);
-            Redraw();
         }
     }
 }

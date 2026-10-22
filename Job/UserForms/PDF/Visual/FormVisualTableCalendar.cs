@@ -1,14 +1,19 @@
 ﻿using Interfaces;
+using Interfaces.Licensing;
+using JobSpace.Licensing;
 using JobSpace.Models.ScreenPrimitives;
+using JobSpace.Static;
 using JobSpace.Static.Pdf.Common;
 using JobSpace.Static.Pdf.Imposition.Models.Marks.ColorControl.Primitives;
 using JobSpace.Static.Pdf.Visual.BlocknoteSpiral;
 using JobSpace.Static.Pdf.Visual.Commons.Screen;
+using JobSpace.Static.Pdf.Visual.TableCalendar;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,14 +29,35 @@ namespace JobSpace.UserForms.PDF.Visual
         public FormVisualTableCalendar(IFileSystemInfoExt f)
         {
             InitializeComponent();
-            
+
             _file = f;
 
-            uc_VisualRectangleControl_top.DisableRows(1,2);
-            uc_VisualRectangleControl_bottom.DisableRows(0,1);
+            LoadBlockFiles();
 
-           
+            uc_VisualRectangleControl_top.DisableRows(1, 2);
+            uc_VisualRectangleControl_bottom.DisableRows(0, 1);
+
+            uc_SelectFileAndPageControl1.FileSelectionChanged += (s, e) => Redraw();
+            uc_SelectFileAndPageControl2.FileSelectionChanged += (s, e) => Redraw();
+
             uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
+        }
+
+        private void LoadBlockFiles()
+        {
+            string parentDir = Path.GetDirectoryName(_file.FileInfo.FullName);
+            // Load block files from the parent directory
+            var blockFiles = Directory.GetFiles(parentDir, "*.pdf")
+                .Where(f => !f.Equals(_file.FileInfo.FullName))
+                .Select(f => new FileInfo(f))
+                .ToList();
+
+            if (blockFiles.Count > 0)
+            {
+                var files = blockFiles.Select(f => f.FullName).ToList();
+                uc_SelectFileAndPageControl1.AddFiles(files);
+                uc_SelectFileAndPageControl2.AddFiles(files);
+            }
         }
 
         private List<IScreenPrimitive> GetPrimitives(int pageNo)
@@ -42,7 +68,7 @@ namespace JobSpace.UserForms.PDF.Visual
             return _primitives;
         }
 
-        void Redraw()=>uc_PreviewBrowserFile1.Redraw();
+        void Redraw() => uc_PreviewBrowserFile1.Redraw();
 
         private void FormVisualTableCalendar_Load(object sender, EventArgs e)
         {
@@ -75,12 +101,115 @@ namespace JobSpace.UserForms.PDF.Visual
             Redraw();
         }
 
+        [RequiresFeature(LicenseFeature.ThreeDPreview)]
+        private void btn_3d_Click(object sender, EventArgs e)
+        {
+            if (!LicenseUiGate.RequireFor(this, GetType(), nameof(btn_3d_Click)))
+                return;
+
+            try
+            {
+                PdfPageInfo pageInfo = uc_PreviewBrowserFile1.GetCurrentPageInfo();
+                if (pageInfo == null)
+                {
+                    MessageBox.Show("Не вдалося отримати поточну сторінку PDF.", "3D", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                double pageHeight = pageInfo.Trimbox.hMM();
+                double baseWidth = (double)nud_osnova.Value;
+                if (baseWidth <= 0)
+                {
+                    MessageBox.Show("Ширина основи має бути більшою за нуль.", "3D", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                Cursor = Cursors.WaitCursor;
+                using (Bitmap preview = Create3dPreviewTexture())
+                {
+                    TableCalendar3DHtmlExporter.ExportAndOpen(
+                        _file.FileInfo.FullName,
+                        preview,
+                        pageInfo.Trimbox.wMM(),
+                        pageHeight,
+                        baseWidth);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "3D", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
+
+        // The texture intentionally contains the printable preview layers (PDF, selected blocks and spiral),
+        // but not the semi-transparent collision rectangles and red construction guides.
+        private Bitmap Create3dPreviewTexture()
+        {
+            int pageIndex = uc_PreviewBrowserFile1.GetCurrentPageIdx();
+            PdfPageInfo pageInfo = uc_PreviewBrowserFile1.GetCurrentPageInfo();
+            Bitmap texture = PdfHelper.RenderByTrimBox(_file.FileInfo.FullName, pageIndex, 140);
+
+            using (Graphics graphics = Graphics.FromImage(texture))
+            {
+                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                graphics.ScaleTransform(texture.Width / (float)pageInfo.Trimbox.wMM(), texture.Height / (float)pageInfo.Trimbox.hMM());
+                DrawFileBlock();
+                DrawSpiral();
+                foreach (IScreenPrimitive primitive in _primitives)
+                {
+                    primitive.Draw(graphics);
+                    (primitive as IDisposable)?.Dispose();
+                }
+                _primitives.Clear();
+            }
+
+            return texture;
+        }
+
         private void Draw(int pageNo)
         {
-
+            DrawFileBlock();
             DrawRectangles();
             DrawSpiral();
             DrawOsnova();
+        }
+
+        private void DrawFileBlock()
+        {
+            if (uc_SelectFileAndPageControl1.IsFileSelected)
+            {
+                var selectedFilePath = uc_SelectFileAndPageControl1.SelectedFilePath;
+                var selectedPageNo = uc_SelectFileAndPageControl1.SelectedPageNo;
+                if (!string.IsNullOrEmpty(selectedFilePath))
+                {
+                    var blockPrimitives = new ScreenPdf(selectedFilePath, selectedPageNo) { X = -1, Y = 0 };
+
+                    _primitives.AddRange(blockPrimitives);
+                }
+            }
+            if (uc_SelectFileAndPageControl2.IsFileSelected)
+            {
+                PdfPageInfo pageInfo = uc_PreviewBrowserFile1.GetCurrentPageInfo();
+                if (pageInfo == null) return;
+
+                var selectedFilePath = uc_SelectFileAndPageControl2.SelectedFilePath;
+                var selectedPageNo = uc_SelectFileAndPageControl2.SelectedPageNo;
+
+                var pageblockInfo = PdfHelper.GetPageInfo(selectedFilePath, selectedPageNo-1);
+                if (pageblockInfo == null) return;
+
+                float y = (float)pageInfo.Trimbox.hMM() - (float)pageblockInfo.Trimbox.hMM();
+
+                if (!string.IsNullOrEmpty(selectedFilePath))
+                {
+                    var blockPrimitives = new ScreenPdf(selectedFilePath, selectedPageNo) { X = -1, Y = y,Angle = 180 };
+                    _primitives.AddRange(blockPrimitives);
+                }
+            }
         }
 
         private void DrawRectangles()
@@ -127,13 +256,13 @@ namespace JobSpace.UserForms.PDF.Visual
             if (pageInfo == null) return;
             float osnovaHeight = (float)nud_osnova.Value;
 
-            var y = ((float)pageInfo.Trimbox.hMM() - osnovaHeight)/2;
+            var y = ((float)pageInfo.Trimbox.hMM() - osnovaHeight) / 2;
 
             using (Pen pen = new Pen(Color.Red, 0.5f))
             {
-                _primitives.Add(new ScreenLine(pen,0,y,(float)pageInfo.Trimbox.width,y));
+                _primitives.Add(new ScreenLine(pen, 0, y, (float)pageInfo.Trimbox.width, y));
 
-                y+= osnovaHeight;
+                y += osnovaHeight;
 
                 _primitives.Add(new ScreenLine(pen, 0, y, (float)pageInfo.Trimbox.width, y));
             }
