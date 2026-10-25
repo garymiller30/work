@@ -24,7 +24,14 @@ namespace JobSpace.UserForms.PDF.Visual
     public partial class FormVisualTableCalendar : Form
     {
         IFileSystemInfoExt _file;
-        List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
+        List <IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
+
+        decimal _x_top_coef = 0;
+        decimal _y_top_coef = 0;
+
+        decimal _x_bottom_coef = 0.5m;
+        decimal _y_bottom_coef = 1m;
+
 
         public FormVisualTableCalendar(IFileSystemInfoExt f)
         {
@@ -38,11 +45,21 @@ namespace JobSpace.UserForms.PDF.Visual
             uc_VisualRectangleControl_bottom.DisableRows(0, 1);
 
             uc_SelectFileAndPageControl1.FileSelectionChanged += (s, e) => Redraw();
+            uc_SelectFileAndPageControl1.PositionChanged += (s, e) =>
+            {
+                _x_top_coef = e.Item1;
+                _y_top_coef = e.Item2;
+                Redraw();
+            };
             uc_SelectFileAndPageControl2.FileSelectionChanged += (s, e) => Redraw();
-
+            uc_SelectFileAndPageControl2.PositionChanged += (s, e) =>
+            {
+                _x_bottom_coef = e.Item1;
+                _y_bottom_coef = e.Item2;
+                Redraw();
+            };
             uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
         }
-
         private void LoadBlockFiles()
         {
             string parentDir = Path.GetDirectoryName(_file.FileInfo.FullName);
@@ -83,8 +100,9 @@ namespace JobSpace.UserForms.PDF.Visual
                     uc_VisualRectangleControl_bottom.SetPdfPageInfo(boxes);
                 }
 
-
                 uc_SelectSpiralControl1.OnSpiralChanged += (s, ee) => Redraw();
+
+                uc_VisualRectangleControl_top.OnRectEnabledChanged += (s, ee) => Redraw();
                 uc_VisualRectangleControl_top.OnRectPositionChanged += (s, ee) => Redraw();
                 uc_VisualRectangleControl_top.OnRectSizeChanged += (s, ee) => Redraw();
 
@@ -182,19 +200,35 @@ namespace JobSpace.UserForms.PDF.Visual
         {
             if (uc_SelectFileAndPageControl1.IsFileSelected)
             {
+                PdfPageInfo pageInfo = uc_PreviewBrowserFile1.GetCurrentPageInfo();
+                if (pageInfo == null) return;
+
+                var w = pageInfo.Trimbox.wMM();
+                var h = pageInfo.Trimbox.hMM();
+
                 var selectedFilePath = uc_SelectFileAndPageControl1.SelectedFilePath;
                 var selectedPageNo = uc_SelectFileAndPageControl1.SelectedPageNo;
+
+                var blockPageInfo = PdfHelper.GetPageInfo(selectedFilePath, selectedPageNo - 1);
+
+                var x = (w - blockPageInfo.Trimbox.wMM()) * (double)_x_top_coef;
+                var y = (h - blockPageInfo.Trimbox.hMM()) * (double)_y_top_coef;
+
                 if (!string.IsNullOrEmpty(selectedFilePath))
                 {
-                    var blockPrimitives = new ScreenPdf(selectedFilePath, selectedPageNo) { X = -1, Y = 0 };
+                    var blockPrimitives = new ScreenPdf(selectedFilePath, selectedPageNo) { X = (float)x, Y = (float)y };
 
                     _primitives.AddRange(blockPrimitives);
                 }
             }
+
             if (uc_SelectFileAndPageControl2.IsFileSelected)
             {
                 PdfPageInfo pageInfo = uc_PreviewBrowserFile1.GetCurrentPageInfo();
                 if (pageInfo == null) return;
+
+                var w = pageInfo.Trimbox.wMM();
+                var h = pageInfo.Trimbox.hMM();
 
                 var selectedFilePath = uc_SelectFileAndPageControl2.SelectedFilePath;
                 var selectedPageNo = uc_SelectFileAndPageControl2.SelectedPageNo;
@@ -202,11 +236,14 @@ namespace JobSpace.UserForms.PDF.Visual
                 var pageblockInfo = PdfHelper.GetPageInfo(selectedFilePath, selectedPageNo-1);
                 if (pageblockInfo == null) return;
 
-                float y = (float)pageInfo.Trimbox.hMM() - (float)pageblockInfo.Trimbox.hMM();
+                
+
+                var x = (w - pageblockInfo.Trimbox.wMM()) * (double)_x_bottom_coef;
+                var y = (h - pageblockInfo.Trimbox.hMM()) * (double)_y_bottom_coef;
 
                 if (!string.IsNullOrEmpty(selectedFilePath))
                 {
-                    var blockPrimitives = new ScreenPdf(selectedFilePath, selectedPageNo) { X = -1, Y = y,Angle = 180 };
+                    var blockPrimitives = new ScreenPdf(selectedFilePath, selectedPageNo) { X = (float)x, Y = (float)y, Angle = 180 };
                     _primitives.AddRange(blockPrimitives);
                 }
             }

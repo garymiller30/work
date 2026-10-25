@@ -1,3 +1,4 @@
+using iText.IO.Font;
 using JobSpace.Static.Pdf.Personalization;
 using System;
 using System.Collections.Generic;
@@ -81,18 +82,23 @@ namespace JobSpace.UserForms.PDF
 
         public FormPdfPersonalization(string? basePdfPath)
         {
-            _fontNames = new InstalledFontCollection()
-                .Families
-                .Select(x => x.Name)
-                .OrderBy(x => x)
-                .ToArray();
-
             InitializeComponent();
             _interactivePreviewTimer = new Timer(components) { Interval = 180 };
             _interactivePreviewTimer.Tick += InteractivePreviewTimerTick;
-            colFont.Items.AddRange(_fontNames.Cast<object>().ToArray());
-            UpdateDataInfo();
 
+            //FontManager.RefreshUserFonts();
+            //_fontNames = FontHelper.GetAllInstalledFontFaces()
+            //    .ToArray();
+
+            //colFont.Items.AddRange(_fontNames.Cast<object>().ToArray());
+            _fontNames = FontHelper.GetAvailableFontNames()
+                .ToArray();
+
+
+            colFont.Items.AddRange(_fontNames);
+
+
+            UpdateDataInfo();
 
             if (!string.IsNullOrWhiteSpace(basePdfPath))
             {
@@ -842,5 +848,9 @@ namespace JobSpace.UserForms.PDF
             return PdfPersonalizationData.Load(_dataTextBox.Text).Columns.FirstOrDefault() ?? string.Empty;
         }
 
+        private void FormPdfPersonalization_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

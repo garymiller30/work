@@ -31,7 +31,10 @@ namespace JobSpace.UserForms.PDF.Visual
             uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
             uc_SelectSpiralControl1.OnSpiralChanged += OnSpiralChanged;
 
-            uc_VisualRectangleControl1.OnRectEnabledChanged += (s, ee) => Redraw();
+            uc_VisualRectangleControl1.OnRectEnabledChanged += (s, ee) => {
+                uc_VisualRectangleControl1.SetPdfPageInfo(uc_PreviewBrowserFile1.GetCurrentPageInfo());
+                Redraw(); 
+            };
             uc_VisualRectangleControl1.OnRectPositionChanged += (s, ee) => Redraw();
             uc_VisualRectangleControl1.OnRectSizeChanged += (s, ee) => Redraw();
 
@@ -61,10 +64,8 @@ namespace JobSpace.UserForms.PDF.Visual
             _fsi = new FileInfo(fsi.FileInfo.FullName);
             cb_files.Items.Add(_fsi);
             cb_files.SelectedIndex = 0;
-
+          
             AddBlockFiles(fsi);
-
-            
         }
 
         private void AddBlockFiles(IFileSystemInfoExt fsi)

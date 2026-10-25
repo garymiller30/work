@@ -18,18 +18,16 @@ namespace JobSpace.UC.PDF.Visual
         public EventHandler<PointF> OnRectPositionChanged = delegate { };
         public EventHandler<bool> OnRectEnabledChanged = delegate { };
 
-        Dictionary<int, List<Control>> rows = new Dictionary<int, List<Control>>();
-
         PdfPageInfo? _pageInfo;
         public bool RectEnabled
         {
             get { return cb_rect.Checked; }
             set { cb_rect.Checked = value; }
         }
-        public decimal X { get; set; }
-        public decimal Y { get; set; }
-        public decimal W { get; set; }
-        public decimal H { get; set; }
+        public decimal X { get; set; } = 0;
+        public decimal Y { get; set; } = 0;
+        public decimal W { get; set; } = 100m;
+        public decimal H { get; set; } = 100m;
 
         public void SetPdfPageInfo(PdfPageInfo? pageInfo)
         {
@@ -38,33 +36,33 @@ namespace JobSpace.UC.PDF.Visual
 
         public void DisableRows(params int[] rows)
         {
-            foreach (var row in rows)
-            {
-                if (this.rows.ContainsKey(row))
-                {
-                    foreach (var control in this.rows[row])
-                    {
-                        control.Visible = false;
-                    }
-                }
-            }
+            uc_PositionControl1.DisableRows(rows);
         }
 
         public Uc_VisualRectangleControl()
         {
             InitializeComponent();
-            rows.Add(0, new List<Control>() { bnt_top_left, btn_top_center, bnt_top_right });
-            rows.Add(1, new List<Control>() { btn_left_center, btn_center, btn_right_center });
-            rows.Add(2, new List<Control>() { bnt_bottom_left, btn_bottom_center, btn_bottom_right });
-        }
+            uc_PositionControl1.OnPositionChanged += (s, p) =>
+            {
+                if (_pageInfo?.Trimbox == null) return;
 
+                var x = ((decimal)_pageInfo.Trimbox.wMM()-W) * p.Item1;
+                var y = ((decimal)_pageInfo.Trimbox.hMM()-H) * p.Item2;
+
+                nud_rect_x.Value = x;
+                nud_rect_y.Value = y;
+                X = x;
+                Y = y;
+                OnRectPositionChanged(this, new PointF((float)x, (float)y));
+            };
+        }
         private void nud_rect_w_ValueChanged(object sender, EventArgs e)
         {
             W = nud_rect_w.Value;
             H = nud_rect_h.Value;
+
             OnRectSizeChanged(this, new SizeF((float)W, (float)H));
         }
-
         private void nud_rect_x_ValueChanged(object sender, EventArgs e)
         {
             X = nud_rect_x.Value;
@@ -72,107 +70,10 @@ namespace JobSpace.UC.PDF.Visual
 
             OnRectPositionChanged(this, new PointF((float)X, (float)Y));
         }
-
-        private void bnt_top_left_Click(object sender, EventArgs e)
-        {
-            X = 0;
-            Y = 0;
-            nud_rect_x.Value = X;
-            nud_rect_y.Value = Y;
-            OnRectPositionChanged(this, new PointF((float)X, (float)Y));
-        }
-
-        private void btn_top_center_Click(object sender, EventArgs e)
-        {
-            if (_pageInfo?.Trimbox == null) return;
-
-            X = (((decimal)_pageInfo.Trimbox.wMM() - W) / 2);
-            Y = 0;
-            nud_rect_x.Value = X;
-            nud_rect_y.Value = Y;
-            OnRectPositionChanged(this, new PointF((float)X, (float)Y));
-        }
-
-        private void bnt_top_right_Click(object sender, EventArgs e)
-        {
-            if (_pageInfo?.Trimbox == null) return;
-
-            X = ((decimal)_pageInfo.Trimbox.wMM() - W);
-            Y = 0;
-            nud_rect_x.Value = X;
-            nud_rect_y.Value = Y;
-            OnRectPositionChanged(this, new PointF((float)X, (float)Y));
-        }
-
-        private void btn_left_center_Click(object sender, EventArgs e)
-        {
-            if (_pageInfo?.Trimbox == null) return;
-
-            X = 0;
-            Y = (((decimal)_pageInfo.Trimbox.hMM() - H) / 2);
-            nud_rect_x.Value = X;
-            nud_rect_y.Value = Y;
-            OnRectPositionChanged(this, new PointF((float)X, (float)Y));
-        }
-
-        private void btn_center_Click(object sender, EventArgs e)
-        {
-            if (_pageInfo?.Trimbox == null) return;
-
-            X = (((decimal)_pageInfo.Trimbox.wMM() - W) / 2);
-            Y = (((decimal)_pageInfo.Trimbox.hMM() - H) / 2);
-            nud_rect_x.Value = X;
-            nud_rect_y.Value = Y;
-            OnRectPositionChanged(this, new PointF((float)X, (float)Y));
-        }
-
-        private void btn_right_center_Click(object sender, EventArgs e)
-        {
-            if (_pageInfo?.Trimbox == null) return;
-
-            X = ((decimal)_pageInfo.Trimbox.wMM() - W);
-            Y = (((decimal)_pageInfo.Trimbox.hMM() - H) / 2);
-            nud_rect_x.Value = X;
-            nud_rect_y.Value = Y;
-            OnRectPositionChanged(this, new PointF((float)X, (float)Y));
-        }
-
-        private void bnt_bottom_left_Click(object sender, EventArgs e)
-        {
-            if (_pageInfo?.Trimbox == null) return;
-
-            X = 0;
-            Y = ((decimal)_pageInfo.Trimbox.hMM() - H);
-            nud_rect_x.Value = X;
-            nud_rect_y.Value = Y;
-            OnRectPositionChanged(this, new PointF((float)X, (float)Y));
-        }
-
-        private void btn_bottom_center_Click(object sender, EventArgs e)
-        {
-            if (_pageInfo?.Trimbox == null) return;
-
-            X = (((decimal)_pageInfo.Trimbox.wMM() - W) / 2);
-            Y = ((decimal)_pageInfo.Trimbox.hMM() - H);
-            nud_rect_x.Value = X;
-            nud_rect_y.Value = Y;
-            OnRectPositionChanged(this, new PointF((float)X, (float)Y));
-        }
-
-        private void btn_bottom_right_Click(object sender, EventArgs e)
-        {
-            if (_pageInfo?.Trimbox == null) return;
-
-            X = ((decimal)_pageInfo.Trimbox.wMM() - W);
-            Y = ((decimal)_pageInfo.Trimbox.hMM() - H);
-            nud_rect_x.Value = X;
-            nud_rect_y.Value = Y;
-            OnRectPositionChanged(this, new PointF((float)X, (float)Y));
-        }
-
         private void cb_rect_CheckedChanged(object sender, EventArgs e)
         {
             panel_rect_params.Enabled = cb_rect.Checked;
+            panel_rect_params.Visible = cb_rect.Checked;
             OnRectEnabledChanged(this, cb_rect.Checked);
         }
     }

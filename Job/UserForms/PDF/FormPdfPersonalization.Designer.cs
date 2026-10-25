@@ -494,6 +494,7 @@ namespace JobSpace.UserForms.PDF
             // 
             // colFont
             // 
+            colFont.DropDownWidth = 400;
             colFont.HeaderText = "Шрифт";
             colFont.Name = "colFont";
             colFont.Width = 120;
@@ -777,6 +778,7 @@ namespace JobSpace.UserForms.PDF
             Name = "FormPdfPersonalization";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Персоналізація PDF";
+            Load += FormPdfPersonalization_Load;
             _rootSplitContainer.Panel1.ResumeLayout(false);
             _rootSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)_rootSplitContainer).EndInit();

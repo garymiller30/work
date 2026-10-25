@@ -13,15 +13,14 @@ namespace JobSpace.UC.PDF.Visual
     {
         public string? SelectedFilePath { get; private set; }
         public int SelectedPageNo { get; private set; } = 1;
-
         public bool IsFileSelected => !string.IsNullOrEmpty(SelectedFilePath);
-
-        public event EventHandler? FileSelectionChanged = delegate{};
+        public event EventHandler? FileSelectionChanged = delegate { };
+        public event EventHandler<Tuple<decimal, decimal>>? PositionChanged = delegate { };
 
         class FileItem
         {
             public string FileName { get; set; } = "вибери файл";
-            public string? FilePath { get; set; } 
+            public string? FilePath { get; set; }
             public int PageNo { get; set; } = 0;
             public int PageCount { get; set; } = 0;
             public override string ToString() => FileName;
@@ -31,6 +30,7 @@ namespace JobSpace.UC.PDF.Visual
         public Uc_SelectFileAndPageControl()
         {
             InitializeComponent();
+
             cb_selectFile.Items.Add(new FileItem());
             cb_selectFile.SelectedIndex = 0;
 
@@ -60,6 +60,12 @@ namespace JobSpace.UC.PDF.Visual
                     FileSelectionChanged?.Invoke(this, EventArgs.Empty);
                 }
             };
+
+            uc_PositionControl1.OnPositionChanged += (s, p) => PositionChanged?.Invoke(this, p);
+         
+            var toolTip = new ToolTip();
+            toolTip.SetToolTip(cb_position_enable, "Включити/виключити позицію для обраного файлу та сторінки");
+
         }
 
         public void AddFiles(List<string> files)
@@ -94,6 +100,11 @@ namespace JobSpace.UC.PDF.Visual
 
             // Додаємо невеликий запас для смуги прокручування (приблизно 20-30 пікселів)
             box.DropDownWidth = maxWidth + SystemInformation.VerticalScrollBarWidth;
+        }
+
+        private void cb_position_enable_CheckedChanged(object sender, EventArgs e)
+        {
+            uc_PositionControl1.Visible = cb_position_enable.Checked;
         }
     }
 }
