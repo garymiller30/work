@@ -31,7 +31,10 @@ namespace JobSpace.Static.Pdf.Imposition.Models
         [Description("Параметри зворотної сторони")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public PageSide Back { get; set; } = new PageSide();
-        [Browsable(false)]
+        [Category("Поля на підрізку")]
+        [DisplayName("Поля")]
+        [Description("в мм")]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
         public ClipBox Bleeds { get; set; } = new ClipBox();
         public double W { get; set; } = 210;
         public double H { get; set; } = 297;

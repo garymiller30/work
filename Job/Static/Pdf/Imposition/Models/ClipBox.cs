@@ -1,6 +1,7 @@
 ﻿using ImageMagick.Drawing;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,17 @@ using System.Threading.Tasks;
 
 namespace JobSpace.Static.Pdf.Imposition.Models
 {
+    
     public class ClipBox
     {
-        public double Default { get;set; } 
+        public double Default { get;set; }
+        [DisplayName("Справа")]
         public double Right { get; set; }
+        [DisplayName("Зліва")]
         public double Left { get; set; }
+        [DisplayName("Зверху")]
         public double Top { get; set; }
+        [DisplayName("Знизу")]
         public double Bottom { get; set; }
 
         public void SetDefault(double bleed)
