@@ -51,6 +51,8 @@ namespace JobSpace.Static.Pdf.Personalization
         public List<PdfPersonalizationLayer> Layers { get; set; } = new List<PdfPersonalizationLayer>();
     }
 
+    
+
     public sealed class PdfPersonalizationLayer
     {
         public bool Enabled { get; set; } = true;
@@ -74,11 +76,45 @@ namespace JobSpace.Static.Pdf.Personalization
         public double K { get; set; } = 100;
     }
 
+    public sealed class PdfPersonalizationSettingsV2
+    {
+        public string BasePdfPath { get; set; }
+        public string DataFilePath { get; set; }
+        public string OutputFolder { get; set; }
+        public PersonalizationExportMode ExportMode { get; set; } = PersonalizationExportMode.SeparateFiles;
+        public string ExportRows { get; set; }
+        public List<PdfPersonalizationLayerV2> Layers { get; set; } = new List<PdfPersonalizationLayerV2>();
+    }
+
+    public sealed class PdfPersonalizationLayerV2
+    {
+        public bool Enabled { get; set; } = true;
+        public PersonalizationLayerType Type { get; set; }
+        public string Source { get; set; }
+        public double Xmm { get; set; }
+        public double Ymm { get; set; }
+        public PersonalizationAnchorPoint BaseAnchor { get; set; } = PersonalizationAnchorPoint.BottomLeft;
+        public PersonalizationAnchorPoint Anchor { get; set; } = PersonalizationAnchorPoint.BottomLeft;
+        public double Rotation { get; set; }
+        public double ScalePercent { get; set; } = 100;
+        public PersonalizationCodeType CodeType { get; set; } = PersonalizationCodeType.Code128;
+        public double TargetWidthMm { get; set; }
+        public double TargetHeightMm { get; set; }
+        public bool ShowHumanReadableText { get; set; } = true;
+        public string FontName { get; set; } = "Arial";
+        public string? FontPath { get; set; }
+        public double FontSize { get; set; } = 12;
+        public double C { get; set; }
+        public double M { get; set; }
+        public double Y { get; set; }
+        public double K { get; set; } = 100;
+    }
+
     public sealed class PdfPersonalizationData
     {
         public List<string> Headers { get; } = new List<string>();
         public List<Dictionary<string, string>> Rows { get; } = new List<Dictionary<string, string>>();
-        public string SourceFolder { get; private set; }
+        public string? SourceFolder { get; private set; }
 
         public static PdfPersonalizationData Load(string filePath)
         {
@@ -116,7 +152,7 @@ namespace JobSpace.Static.Pdf.Personalization
             if (string.IsNullOrWhiteSpace(source))
                 return string.Empty;
 
-            return row.TryGetValue(source, out string value) ? value : source;
+            return row.TryGetValue(source, out string? value) ? value : source;
         }
 
         public string ResolveFile(IReadOnlyDictionary<string, string> row, string source)

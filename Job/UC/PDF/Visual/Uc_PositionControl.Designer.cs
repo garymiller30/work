@@ -149,9 +149,11 @@
             // 
             // flowLayoutPanel1
             // 
+            flowLayoutPanel1.AutoSize = true;
             flowLayoutPanel1.Controls.Add(panel_top);
             flowLayoutPanel1.Controls.Add(panel_center);
             flowLayoutPanel1.Controls.Add(panel_bottom);
+            flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -160,35 +162,38 @@
             // 
             // panel_top
             // 
+            panel_top.AutoSize = true;
             panel_top.Controls.Add(bnt_top_left);
             panel_top.Controls.Add(bnt_top_right);
             panel_top.Controls.Add(btn_top_center);
             panel_top.Location = new System.Drawing.Point(0, 0);
             panel_top.Margin = new System.Windows.Forms.Padding(0);
             panel_top.Name = "panel_top";
-            panel_top.Size = new System.Drawing.Size(99, 33);
+            panel_top.Size = new System.Drawing.Size(97, 33);
             panel_top.TabIndex = 0;
             // 
             // panel_center
             // 
+            panel_center.AutoSize = true;
             panel_center.Controls.Add(btn_center);
             panel_center.Controls.Add(btn_left_center);
             panel_center.Controls.Add(btn_right_center);
             panel_center.Location = new System.Drawing.Point(0, 33);
             panel_center.Margin = new System.Windows.Forms.Padding(0);
             panel_center.Name = "panel_center";
-            panel_center.Size = new System.Drawing.Size(99, 33);
+            panel_center.Size = new System.Drawing.Size(97, 33);
             panel_center.TabIndex = 1;
             // 
             // panel_bottom
             // 
+            panel_bottom.AutoSize = true;
             panel_bottom.Controls.Add(btn_bottom_right);
             panel_bottom.Controls.Add(bnt_bottom_left);
             panel_bottom.Controls.Add(btn_bottom_center);
             panel_bottom.Location = new System.Drawing.Point(0, 66);
             panel_bottom.Margin = new System.Windows.Forms.Padding(0);
             panel_bottom.Name = "panel_bottom";
-            panel_bottom.Size = new System.Drawing.Size(99, 33);
+            panel_bottom.Size = new System.Drawing.Size(97, 31);
             panel_bottom.TabIndex = 2;
             // 
             // Uc_PositionControl
@@ -200,10 +205,12 @@
             Name = "Uc_PositionControl";
             Size = new System.Drawing.Size(100, 100);
             flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             panel_top.ResumeLayout(false);
             panel_center.ResumeLayout(false);
             panel_bottom.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

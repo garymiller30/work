@@ -8,10 +8,10 @@ using System.Globalization;
 
 public class FontItem
 {
-    public string DisplayName { get; set; } // Наприклад: "Myriad Pro Bold Condensed"
-    public string FilePath { get; set; }    // Повний шлях до файлу (знадобиться для PDFlib)
+    public string? DisplayName { get; set; } // Наприклад: "Myriad Pro Bold Condensed"
+    public string? FilePath { get; set; }    // Повний шлях до файлу (знадобиться для PDFlib)
 
-    public override string ToString() => DisplayName;
+    public override string ToString() => DisplayName ?? "----------";
 }
 
 public static class UltimateFontScanner
@@ -87,7 +87,7 @@ public static class UltimateFontScanner
 
         // Шукаємо спочатку англійську (en-US) через CultureInfo
         var enCulture = new CultureInfo("en-US");
-        if (namesDict.TryGetValue(enCulture, out string name))
+        if (namesDict.TryGetValue(enCulture, out string? name))
         {
             return name;
         }

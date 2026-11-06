@@ -20,7 +20,7 @@ namespace JobSpace.UserForms
         {
             InitializeComponent();
             _fileManager = fileManager;
-            
+
             ConfigureObjectListView();
             LoadTrashItems();
         }
@@ -267,6 +267,29 @@ namespace JobSpace.UserForms
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             LoadTrashItems();
+        }
+
+        private void objectListView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (objectListView1.SelectedObject is TrashItem item)
+            {
+                // Open the file or folder using the default application
+                try
+                {
+                    if (item.IsDirectory)
+                    {
+                        System.Diagnostics.Process.Start("explorer.exe", item.FullPath);
+                    }
+                    else
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(item.FullPath) { UseShellExecute = true });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Не вдалося відкрити '{item.Name}': {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 

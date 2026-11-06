@@ -28,142 +28,140 @@ namespace JobSpace.UserForms
         /// </summary>
         private void InitializeComponent()
         {
-            this.panelTop = new Krypton.Toolkit.KryptonPanel();
-            this.btnRestore = new Krypton.Toolkit.KryptonButton();
-            this.btnDelete = new Krypton.Toolkit.KryptonButton();
-            this.btnEmpty = new Krypton.Toolkit.KryptonButton();
-            this.btnRefresh = new Krypton.Toolkit.KryptonButton();
-            this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumnName = new BrightIdeasSoftware.OLVColumn();
-            this.olvColumnGroup = new BrightIdeasSoftware.OLVColumn();
-            this.olvColumnType = new BrightIdeasSoftware.OLVColumn();
-            this.olvColumnSize = new BrightIdeasSoftware.OLVColumn();
-            this.olvColumnDeleted = new BrightIdeasSoftware.OLVColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.panelTop)).BeginInit();
-            this.panelTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
-            this.SuspendLayout();
+            panelTop = new Krypton.Toolkit.KryptonPanel();
+            btnRestore = new Krypton.Toolkit.KryptonButton();
+            btnDelete = new Krypton.Toolkit.KryptonButton();
+            btnEmpty = new Krypton.Toolkit.KryptonButton();
+            btnRefresh = new Krypton.Toolkit.KryptonButton();
+            objectListView1 = new BrightIdeasSoftware.ObjectListView();
+            olvColumnName = new BrightIdeasSoftware.OLVColumn();
+            olvColumnGroup = new BrightIdeasSoftware.OLVColumn();
+            olvColumnType = new BrightIdeasSoftware.OLVColumn();
+            olvColumnSize = new BrightIdeasSoftware.OLVColumn();
+            olvColumnDeleted = new BrightIdeasSoftware.OLVColumn();
+            ((System.ComponentModel.ISupportInitialize)panelTop).BeginInit();
+            panelTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)objectListView1).BeginInit();
+            SuspendLayout();
             // 
             // panelTop
             // 
-            this.panelTop.Controls.Add(this.btnRestore);
-            this.panelTop.Controls.Add(this.btnDelete);
-            this.panelTop.Controls.Add(this.btnEmpty);
-            this.panelTop.Controls.Add(this.btnRefresh);
-            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.Location = new System.Drawing.Point(0, 0);
-            this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(784, 45);
-            this.panelTop.TabIndex = 0;
+            panelTop.Controls.Add(btnRestore);
+            panelTop.Controls.Add(btnDelete);
+            panelTop.Controls.Add(btnEmpty);
+            panelTop.Controls.Add(btnRefresh);
+            panelTop.Dock = System.Windows.Forms.DockStyle.Top;
+            panelTop.Location = new System.Drawing.Point(0, 0);
+            panelTop.Name = "panelTop";
+            panelTop.Size = new System.Drawing.Size(784, 45);
+            panelTop.TabIndex = 0;
             // 
             // btnRestore
             // 
-            this.btnRestore.Location = new System.Drawing.Point(12, 10);
-            this.btnRestore.Name = "btnRestore";
-            this.btnRestore.Size = new System.Drawing.Size(150, 25);
-            this.btnRestore.TabIndex = 0;
-            this.btnRestore.Values.Text = "Відновити виділене";
-            this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
+            btnRestore.Location = new System.Drawing.Point(12, 10);
+            btnRestore.Name = "btnRestore";
+            btnRestore.Size = new System.Drawing.Size(150, 25);
+            btnRestore.TabIndex = 0;
+            btnRestore.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            btnRestore.Values.Text = "Відновити виділене";
+            btnRestore.Click += btnRestore_Click;
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(168, 10);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(150, 25);
-            this.btnDelete.TabIndex = 1;
-            this.btnDelete.Values.Text = "Видалити назавжди";
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            btnDelete.Location = new System.Drawing.Point(168, 10);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new System.Drawing.Size(150, 25);
+            btnDelete.TabIndex = 1;
+            btnDelete.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            btnDelete.Values.Text = "Видалити назавжди";
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnEmpty
             // 
-            this.btnEmpty.Location = new System.Drawing.Point(324, 10);
-            this.btnEmpty.Name = "btnEmpty";
-            this.btnEmpty.Size = new System.Drawing.Size(130, 25);
-            this.btnEmpty.TabIndex = 2;
-            this.btnEmpty.Values.Text = "Очистити кошик";
-            this.btnEmpty.Click += new System.EventHandler(this.btnEmpty_Click);
+            btnEmpty.Location = new System.Drawing.Point(324, 10);
+            btnEmpty.Name = "btnEmpty";
+            btnEmpty.Size = new System.Drawing.Size(130, 25);
+            btnEmpty.TabIndex = 2;
+            btnEmpty.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            btnEmpty.Values.Text = "Очистити кошик";
+            btnEmpty.Click += btnEmpty_Click;
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefresh.Location = new System.Drawing.Point(672, 10);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(100, 25);
-            this.btnRefresh.TabIndex = 3;
-            this.btnRefresh.Values.Text = "Оновити";
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            btnRefresh.Location = new System.Drawing.Point(672, 10);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new System.Drawing.Size(100, 25);
+            btnRefresh.TabIndex = 3;
+            btnRefresh.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            btnRefresh.Values.Text = "Оновити";
+            btnRefresh.Click += btnRefresh_Click;
             // 
             // objectListView1
             // 
-            this.objectListView1.AllColumns.Add(this.olvColumnName);
-            this.objectListView1.AllColumns.Add(this.olvColumnGroup);
-            this.objectListView1.AllColumns.Add(this.olvColumnType);
-            this.objectListView1.AllColumns.Add(this.olvColumnSize);
-            this.objectListView1.AllColumns.Add(this.olvColumnDeleted);
-            this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumnName,
-            this.olvColumnGroup,
-            this.olvColumnType,
-            this.olvColumnSize,
-            this.olvColumnDeleted});
-            this.objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.objectListView1.FullRowSelect = true;
-            this.objectListView1.GridLines = true;
-            this.objectListView1.HideSelection = false;
-            this.objectListView1.Location = new System.Drawing.Point(0, 45);
-            this.objectListView1.Name = "objectListView1";
-            this.objectListView1.ShowGroups = true;
-            this.objectListView1.Size = new System.Drawing.Size(784, 516);
-            this.objectListView1.TabIndex = 1;
-            this.objectListView1.UseCompatibleStateImageBehavior = false;
-            this.objectListView1.View = System.Windows.Forms.View.Details;
+            objectListView1.AllColumns.Add(olvColumnName);
+            objectListView1.AllColumns.Add(olvColumnGroup);
+            objectListView1.AllColumns.Add(olvColumnType);
+            objectListView1.AllColumns.Add(olvColumnSize);
+            objectListView1.AllColumns.Add(olvColumnDeleted);
+            objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumnName, olvColumnGroup, olvColumnType, olvColumnSize, olvColumnDeleted });
+            objectListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            objectListView1.FullRowSelect = true;
+            objectListView1.GridLines = true;
+            objectListView1.Location = new System.Drawing.Point(0, 45);
+            objectListView1.Name = "objectListView1";
+            objectListView1.Size = new System.Drawing.Size(784, 516);
+            objectListView1.TabIndex = 1;
+            objectListView1.UseCompatibleStateImageBehavior = false;
+            objectListView1.View = System.Windows.Forms.View.Details;
+            objectListView1.DoubleClick += objectListView1_DoubleClick;
             // 
             // olvColumnName
             // 
-            this.olvColumnName.AspectName = "Name";
-            this.olvColumnName.Text = "Назва";
-            this.olvColumnName.Width = 320;
+            olvColumnName.AspectName = "Name";
+            olvColumnName.Text = "Назва";
+            olvColumnName.Width = 320;
             // 
             // olvColumnGroup
             // 
-            this.olvColumnGroup.AspectName = "GroupName";
-            this.olvColumnGroup.Text = "Папка кошика";
-            this.olvColumnGroup.Width = 100;
+            olvColumnGroup.AspectName = "GroupName";
+            olvColumnGroup.Text = "Папка кошика";
+            olvColumnGroup.Width = 100;
             // 
             // olvColumnType
             // 
-            this.olvColumnType.AspectName = "IsDirectory";
-            this.olvColumnType.Text = "Тип";
-            this.olvColumnType.Width = 80;
+            olvColumnType.AspectName = "IsDirectory";
+            olvColumnType.Text = "Тип";
+            olvColumnType.Width = 80;
             // 
             // olvColumnSize
             // 
-            this.olvColumnSize.AspectName = "Size";
-            this.olvColumnSize.Text = "Розмір";
-            this.olvColumnSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.olvColumnSize.Width = 100;
+            olvColumnSize.AspectName = "Size";
+            olvColumnSize.Text = "Розмір";
+            olvColumnSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            olvColumnSize.Width = 100;
             // 
             // olvColumnDeleted
             // 
-            this.olvColumnDeleted.AspectName = "DeletedTime";
-            this.olvColumnDeleted.Text = "Дата видалення";
-            this.olvColumnDeleted.Width = 150;
+            olvColumnDeleted.AspectName = "DeletedTime";
+            olvColumnDeleted.Text = "Дата видалення";
+            olvColumnDeleted.Width = 150;
             // 
             // FormTrash
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
-            this.Controls.Add(this.objectListView1);
-            this.Controls.Add(this.panelTop);
-            this.Name = "FormTrash";
-            this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Кошик замовлення";
-            ((System.ComponentModel.ISupportInitialize)(this.panelTop)).EndInit();
-            this.panelTop.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(784, 561);
+            Controls.Add(objectListView1);
+            Controls.Add(panelTop);
+            Name = "FormTrash";
+            ShowIcon = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Кошик замовлення";
+            ((System.ComponentModel.ISupportInitialize)panelTop).EndInit();
+            panelTop.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)objectListView1).EndInit();
+            ResumeLayout(false);
 
         }
 

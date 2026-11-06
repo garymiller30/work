@@ -40,7 +40,7 @@ namespace JobSpace.Static
         /// <typeparam name="T"></typeparam>
         /// <param name="file"></param>
         /// <returns></returns>
-        public static T Load<T>(string file) where T: new ()
+        public static T? Load<T>(string file) where T: new ()
         {
             if (File.Exists(file))
             {
@@ -67,7 +67,7 @@ namespace JobSpace.Static
             return default(T);
         }
 
-        public static T LoadJson<T>(string file) where T : new()
+        public static T? LoadJson<T>(string file) where T : new()
         {
             if (File.Exists(file))
             {

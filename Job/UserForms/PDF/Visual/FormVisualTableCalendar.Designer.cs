@@ -32,6 +32,7 @@
             uc_VisualRectangleControl_bottom = new JobSpace.UC.PDF.Visual.Uc_VisualRectangleControl();
             uc_SelectFileAndPageControl1 = new JobSpace.UC.PDF.Visual.Uc_SelectFileAndPageControl();
             groupBox3 = new System.Windows.Forms.GroupBox();
+            cb_base = new System.Windows.Forms.ComboBox();
             nud_osnova = new System.Windows.Forms.NumericUpDown();
             uc_PreviewBrowserFile1 = new JobSpace.UC.Uc_FilePreviewControl();
             uc_SelectSpiralControl1 = new JobSpace.UC.PDF.Visual.Uc_SelectSpiralControl();
@@ -40,6 +41,7 @@
             label1 = new System.Windows.Forms.Label();
             uc_VisualRectangleControl_top = new JobSpace.UC.PDF.Visual.Uc_VisualRectangleControl();
             label2 = new System.Windows.Forms.Label();
+            btn_ok = new System.Windows.Forms.Button();
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nud_osnova).BeginInit();
             flowLayoutPanel3.SuspendLayout();
@@ -77,6 +79,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(cb_base);
             groupBox3.Controls.Add(nud_osnova);
             groupBox3.Location = new System.Drawing.Point(4, 57);
             groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -87,6 +90,17 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "основа, мм";
             // 
+            // cb_base
+            // 
+            cb_base.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cb_base.FormattingEnabled = true;
+            cb_base.Items.AddRange(new object[] { "70", "80", "90", "100" });
+            cb_base.Location = new System.Drawing.Point(147, 21);
+            cb_base.Name = "cb_base";
+            cb_base.Size = new System.Drawing.Size(71, 23);
+            cb_base.TabIndex = 2;
+            cb_base.SelectedIndexChanged += cb_base_SelectedIndexChanged;
+            // 
             // nud_osnova
             // 
             nud_osnova.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
@@ -95,7 +109,7 @@
             nud_osnova.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             nud_osnova.Maximum = new decimal(new int[] { 10000000, 0, 0, 0 });
             nud_osnova.Name = "nud_osnova";
-            nud_osnova.Size = new System.Drawing.Size(213, 23);
+            nud_osnova.Size = new System.Drawing.Size(133, 23);
             nud_osnova.TabIndex = 1;
             nud_osnova.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             nud_osnova.ValueChanged += nud_osnova_ValueChanged;
@@ -120,7 +134,7 @@
             // btn_3d
             // 
             btn_3d.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            btn_3d.Location = new System.Drawing.Point(82, 649);
+            btn_3d.Location = new System.Drawing.Point(9, 649);
             btn_3d.Name = "btn_3d";
             btn_3d.Size = new System.Drawing.Size(102, 40);
             btn_3d.TabIndex = 4;
@@ -183,11 +197,23 @@
             label2.TabIndex = 5;
             label2.Text = "нижній блок";
             // 
+            // btn_ok
+            // 
+            btn_ok.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            btn_ok.Location = new System.Drawing.Point(155, 649);
+            btn_ok.Name = "btn_ok";
+            btn_ok.Size = new System.Drawing.Size(102, 40);
+            btn_ok.TabIndex = 5;
+            btn_ok.Text = "ОК";
+            btn_ok.UseVisualStyleBackColor = true;
+            btn_ok.Click += btn_ok_Click;
+            // 
             // FormVisualTableCalendar
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(955, 695);
+            Controls.Add(btn_ok);
             Controls.Add(flowLayoutPanel3);
             Controls.Add(btn_3d);
             Controls.Add(uc_PreviewBrowserFile1);
@@ -218,5 +244,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private UC.PDF.Visual.Uc_VisualRectangleControl uc_VisualRectangleControl_top;
+        private System.Windows.Forms.ComboBox cb_base;
+        private System.Windows.Forms.Button btn_ok;
     }
 }

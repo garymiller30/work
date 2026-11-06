@@ -106,5 +106,10 @@ namespace JobSpace.UC.PDF.Visual
         {
             uc_PositionControl1.Visible = cb_position_enable.Checked;
         }
+
+        public void DisableRows(params int[] indices)
+        {
+            uc_PositionControl1.DisableRows(indices);
+        }
     }
 }

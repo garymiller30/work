@@ -24,7 +24,7 @@ namespace JobSpace.UserForms.PDF.Visual
     public partial class FormVisualTableCalendar : Form
     {
         IFileSystemInfoExt _file;
-        List <IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
+        List<IScreenPrimitive> _primitives = new List<IScreenPrimitive>();
 
         decimal _x_top_coef = 0;
         decimal _y_top_coef = 0;
@@ -36,6 +36,8 @@ namespace JobSpace.UserForms.PDF.Visual
         public FormVisualTableCalendar(IFileSystemInfoExt f)
         {
             InitializeComponent();
+
+            cb_base.SelectedIndex = 2;
 
             _file = f;
 
@@ -51,6 +53,8 @@ namespace JobSpace.UserForms.PDF.Visual
                 _y_top_coef = e.Item2;
                 Redraw();
             };
+            uc_SelectFileAndPageControl1.DisableRows(1, 2);
+
             uc_SelectFileAndPageControl2.FileSelectionChanged += (s, e) => Redraw();
             uc_SelectFileAndPageControl2.PositionChanged += (s, e) =>
             {
@@ -58,8 +62,13 @@ namespace JobSpace.UserForms.PDF.Visual
                 _y_bottom_coef = e.Item2;
                 Redraw();
             };
+            uc_SelectFileAndPageControl2.DisableRows(0, 1);
+
             uc_PreviewBrowserFile1.SetFunc_GetScreenPrimitives(GetPrimitives);
         }
+
+      
+
         private void LoadBlockFiles()
         {
             string parentDir = Path.GetDirectoryName(_file.FileInfo.FullName);
@@ -233,10 +242,10 @@ namespace JobSpace.UserForms.PDF.Visual
                 var selectedFilePath = uc_SelectFileAndPageControl2.SelectedFilePath;
                 var selectedPageNo = uc_SelectFileAndPageControl2.SelectedPageNo;
 
-                var pageblockInfo = PdfHelper.GetPageInfo(selectedFilePath, selectedPageNo-1);
+                var pageblockInfo = PdfHelper.GetPageInfo(selectedFilePath, selectedPageNo - 1);
                 if (pageblockInfo == null) return;
 
-                
+
 
                 var x = (w - pageblockInfo.Trimbox.wMM()) * (double)_x_bottom_coef;
                 var y = (h - pageblockInfo.Trimbox.hMM()) * (double)_y_bottom_coef;
@@ -303,6 +312,20 @@ namespace JobSpace.UserForms.PDF.Visual
 
                 _primitives.Add(new ScreenLine(pen, 0, y, (float)pageInfo.Trimbox.width, y));
             }
+        }
+
+        private void cb_base_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var res = decimal.TryParse(cb_base.Text, out decimal value);
+            if (res)
+            {
+                nud_osnova.Value = value;
+            }
+        }
+
+        private void btn_ok_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

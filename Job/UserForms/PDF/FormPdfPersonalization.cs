@@ -764,6 +764,8 @@ namespace JobSpace.UserForms.PDF
                 if (settings == null)
                     return;
 
+                settings.OutputFolder = Path.GetDirectoryName(filePath);
+
                 ApplyTemplate(settings);
                 SchedulePreviewUpdate();
             }
