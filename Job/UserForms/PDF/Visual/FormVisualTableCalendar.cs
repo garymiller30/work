@@ -32,11 +32,13 @@ namespace JobSpace.UserForms.PDF.Visual
         decimal _x_bottom_coef = 0.5m;
         decimal _y_bottom_coef = 1m;
 
+        public TableCalendarParams TableCalendarParams { get; private set; } = new TableCalendarParams();
+
 
         public FormVisualTableCalendar(IFileSystemInfoExt f)
         {
             InitializeComponent();
-
+            DialogResult = DialogResult.Cancel;
             cb_base.SelectedIndex = 2;
 
             _file = f;
@@ -325,7 +327,25 @@ namespace JobSpace.UserForms.PDF.Visual
 
         private void btn_ok_Click(object sender, EventArgs e)
         {
+            if (SaveParameters())
+            {
+                // Save the selected parameters and close the form
+                this.DialogResult = DialogResult.OK;
+                Close();
+            }
+        }
 
+        private bool SaveParameters()
+        {
+            if (nud_osnova.Value <= 0)
+            {
+                MessageBox.Show("Ширина основи має бути більшою за нуль.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            TableCalendarParams.Osnova = nud_osnova.Value;
+
+            return true;
         }
     }
 }
