@@ -44,6 +44,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
 
                     int pageNo = Array.IndexOf(pdfFile.Pages, pdfPage) + 1;
 
+                    if (string.IsNullOrEmpty(pdfFile.FileName) || !System.IO.File.Exists(pdfFile.FileName))
+                    {
+                        // Якщо файл або сторінка не знайдені, пропускаємо цю ітерацію
+                        continue;
+                    }
+
                     using (PDFLIBDocument document = new PDFLIBDocument(p, pdfFile.FileName, ""))
                     {
                         var (c_llx, c_lly) = GetClippingCoordinatesFront(pdfFile, pdfPage, templatePage);
@@ -76,6 +82,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                             pdfFile = impos.GetPdfFile(runPage);
                             pdfPage = impos.GetPdfPage(runPage);
                             pageNo = Array.IndexOf(pdfFile.Pages, pdfPage) + 1;
+
+                            if (string.IsNullOrEmpty(pdfFile.FileName) || !System.IO.File.Exists(pdfFile.FileName))
+                            {
+                                // Якщо файл або сторінка не знайдені, пропускаємо цю ітерацію
+                                continue;
+                            }
 
                             using (PDFLIBDocument documentB = new PDFLIBDocument(p, pdfFile.FileName, ""))
                             {

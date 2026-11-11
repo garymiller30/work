@@ -22,11 +22,11 @@ namespace JobSpace.UC
 
         readonly List<IFileSystemInfoExt> _files = new List<IFileSystemInfoExt>();
 
-        public event EventHandler<IFileSystemInfoExt> OnChanged = delegate { };
-        public event EventHandler<IFileSystemInfoExt> OnDeleted = delegate { };
-        public event EventHandler<IFileSystemInfoExt> OnCreated = delegate { };
-        public event EventHandler<IFileSystemInfoExt> OnRenamed = delegate { };
-        public event ErrorEventHandler OnError = delegate { };
+        public event EventHandler<IFileSystemInfoExt>? OnChanged = delegate { };
+        public event EventHandler<IFileSystemInfoExt>? OnDeleted = delegate { };
+        public event EventHandler<IFileSystemInfoExt>? OnCreated = delegate { };
+        public event EventHandler<IFileSystemInfoExt>? OnRenamed = delegate { };
+        public event ErrorEventHandler? OnError = delegate { };
 
         public NoCache(IWatcher watcher)
         {
@@ -45,7 +45,7 @@ namespace JobSpace.UC
 
         private void DebounceTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            OnChanged(this, null);
+            OnChanged?.Invoke(this, null);
         }
 
         private void TriggerDebounce()
@@ -56,7 +56,7 @@ namespace JobSpace.UC
 
         private void WatcherOnError(object sender, ErrorEventArgs e)
         {
-            OnError(this, e);
+            OnError?.Invoke(this, e);
         }
 
         private void WatcherOnRenamed(object sender, RenamedEventArgs e)
@@ -67,7 +67,6 @@ namespace JobSpace.UC
                 {
                     TriggerDebounce();
                 }
-                    
             }
         }
 

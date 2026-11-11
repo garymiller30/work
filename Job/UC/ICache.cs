@@ -6,10 +6,10 @@ namespace JobSpace.UC
 {
     public interface ICache<T>
     {
-        event EventHandler<T> OnChanged;
-        event EventHandler<T> OnDeleted;
-        event EventHandler<T> OnCreated;
-        event EventHandler<T> OnRenamed;
+        event EventHandler<T>? OnChanged;
+        event EventHandler<T>? OnDeleted;
+        event EventHandler<T>? OnCreated;
+        event EventHandler<T>? OnRenamed;
         event System.IO.ErrorEventHandler OnError;
 
 

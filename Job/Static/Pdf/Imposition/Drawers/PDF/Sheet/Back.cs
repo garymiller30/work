@@ -9,6 +9,7 @@ using MongoDB.Bson.Serialization.Conventions;
 using PDFlib_dotnet;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,6 +54,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Sheet
                             PdfFilePage pdfPage = impos.GetPdfPage(runPage);
 
                             int pageNo = Array.IndexOf(pdfFile.Pages, pdfPage) + 1;
+
+                            if (string.IsNullOrEmpty(pdfFile.FileName) || !File.Exists(pdfFile.FileName))
+                            {
+                                // Якщо файл або сторінка не знайдені, пропускаємо цю ітерацію
+                                continue;
+                            }
 
                             using (PDFLIBDocument document = new PDFLIBDocument(p, pdfFile.FileName, ""))
                             {

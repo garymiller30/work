@@ -7,12 +7,12 @@ namespace JobSpace.UC
         private readonly FileSystemWatcher _watcher;
 
 
-        public event FileSystemEventHandler OnChanged = delegate{};
-        public event FileSystemEventHandler OnDeleted = delegate{};
-        public event FileSystemEventHandler OnCreated = delegate{};
-        public event RenamedEventHandler OnRenamed = delegate{};
-        public event ErrorEventHandler OnError = delegate{};
-
+        public event FileSystemEventHandler? OnChanged = delegate{};
+        public event FileSystemEventHandler? OnDeleted = delegate{};
+        public event FileSystemEventHandler? OnCreated = delegate{};
+        public event RenamedEventHandler? OnRenamed = delegate{};
+        public event ErrorEventHandler? OnError = delegate{};
+        
 
         public FileWatcher()
         {

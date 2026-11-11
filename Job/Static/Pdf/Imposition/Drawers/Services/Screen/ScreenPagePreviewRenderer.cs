@@ -75,16 +75,17 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.Services.Screen
             }
         }
 
-        private static Bitmap GetPreview(ProductPart productPart, ImposRunPage runPage)
+        private static Bitmap? GetPreview(ProductPart productPart, ImposRunPage runPage)
         {
             PdfFile pdfFile = productPart.PdfFiles.FirstOrDefault(x => x.Id == runPage.FileId);
-            if (pdfFile == null) return null;
+            if (pdfFile == null || string.IsNullOrEmpty(pdfFile.FileName)) return null;
 
             string key = $"{pdfFile.FileName}|{runPage.PageIdx}|{PreviewDpi}";
             if (PreviewCache.TryGetValue(key, out Bitmap cached)) return cached;
 
             try
             {
+
                 Bitmap preview = PdfHelper.RenderByTrimBox(pdfFile.FileName, runPage.PageIdx - 1, PreviewDpi);
                 PreviewCache[key] = preview;
                 return preview;

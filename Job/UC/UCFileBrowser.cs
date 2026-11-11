@@ -15,6 +15,7 @@ using JobSpace.UserForms;
 using JobSpace.UserForms.PDF;
 using Microsoft.VisualBasic.FileIO;
 using Microsoft.Win32;
+using MimeKit.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -601,10 +602,10 @@ namespace JobSpace.UC
 
         private void FileManager_OnChangeFile(object sender, IFileSystemInfoExt e)
         {
-            this.InvokeIfNeeded(() =>
+            this.InvokeIfNeeded(async () =>
             {
                 if (_fileManager.Settings.ScanFiles)
-                    StartTaskGetExtendedInfo(new List<IFileSystemInfoExt>() { e });
+                    await StartTaskGetExtendedInfoAsync(new List<IFileSystemInfoExt>() { e });
 
                 objectListView1.RefreshObject(e);
                 UpdateStatusControl();
@@ -622,10 +623,10 @@ namespace JobSpace.UC
 
         private void FileManager_OnAddFile(object sender, IFileSystemInfoExt e)
         {
-            this.InvokeIfNeeded(() =>
+            this.InvokeIfNeeded(async () =>
             {
                 if (_fileManager.Settings.ScanFiles)
-                    StartTaskGetExtendedInfo(new List<IFileSystemInfoExt>() { e });
+                    await StartTaskGetExtendedInfoAsync(new List<IFileSystemInfoExt>() { e });
 
                 objectListView1.AddObject(e);
                 UpdateStatusControl();
@@ -639,14 +640,25 @@ namespace JobSpace.UC
             objectListView1.EmptyListMsg = LOADING;
         }
 
-        private void FileManager_OnRefreshDirectory(object sender, List<IFileSystemInfoExt> e)
+        private async void FileManager_OnRefreshDirectory(
+    object sender,
+    List<IFileSystemInfoExt> e)
         {
-            if (InvokeRequired)
+            if (objectListView1.IsDisposed || !objectListView1.IsHandleCreated)
+                return;
+
+            if (objectListView1.InvokeRequired)
             {
-                BeginInvoke(new Action(() => FileManager_OnRefreshDirectory(sender, e)));
+                objectListView1.BeginInvoke(
+                    new Action(() => _ = RefreshDirectoryAsync(e)));
                 return;
             }
 
+            await RefreshDirectoryAsync(e);
+        }
+
+        private async Task RefreshDirectoryAsync(List<IFileSystemInfoExt> e)
+        {
             // Зберегти поточне виділення
             var selectedPaths = objectListView1.SelectedObjects
                 .Cast<IFileSystemInfoExt>()
@@ -655,25 +667,35 @@ namespace JobSpace.UC
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
             _isRefreshing = true;
+
             try
             {
-                StopTaskGetExtendedInfo();
                 objectListView1.EmptyListMsg = null;
-                objectListView1.SetObjects(e);
+
+                var copy = new List<IFileSystemInfoExt>(e);
+
+                objectListView1.SetObjects(copy);
 
                 // Відновити виділення
                 if (selectedPaths.Count > 0)
                 {
-                    var toSelect = e.Where(x => selectedPaths.Contains(x.FileInfo?.FullName)).ToList();
+                    var toSelect = copy
+                        .Where(x => selectedPaths.Contains(x.FileInfo?.FullName))
+                        .ToList();
+
                     if (toSelect.Count > 0)
-                    {
                         objectListView1.SelectObjects(toSelect);
-                    }
                 }
 
-                SelectFirstPreviewableFileAfterRefresh(e);
-                StartTaskGetExtendedInfo(e);
+                SelectFirstPreviewableFileAfterRefresh(copy);
+
+                await StartTaskGetExtendedInfoAsync(copy);
+
                 UpdateStatusControl();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"RefreshDirectoryAsync: {ex}");
             }
             finally
             {
@@ -733,35 +755,107 @@ namespace JobSpace.UC
         }
 
         #endregion
+        private readonly SemaphoreSlim _scanLock = new(1, 1);
+        private CancellationTokenSource? _cts;
+        private Task? _taskGetExtendedFileInfo;
 
-        private CancellationTokenSource _cts;
-        private Task _taskGetExtendedFileInfo;
 
-        void StartTaskGetExtendedInfo(List<IFileSystemInfoExt> e)
+        async Task StartTaskGetExtendedInfoAsync(List<IFileSystemInfoExt> e)
         {
             if (!_fileManager.Settings.ScanFiles) return;
-            StopTaskGetExtendedInfo();
-            _cts = new CancellationTokenSource();
-            _taskGetExtendedFileInfo = Task.Run(() => { ProcessTaskGetExtendedFileInfo(e, _cts.Token); }, _cts.Token);
-        }
-        void ProcessTaskGetExtendedFileInfo(List<IFileSystemInfoExt> e, CancellationToken token)
-        {
-            // скопіювати список, щоб не було проблем з колекцією
+
             var list = new List<IFileSystemInfoExt>(e);
 
-            foreach (var ext in list)
+            await _scanLock.WaitAsync();
+
+            try
             {
-                ext.GetExtendedFileInfoFormat();
-                if (token.IsCancellationRequested) break;
+                // Скасувати попереднє сканування
+                _cts?.Cancel();
+
+                // Дочекатися його завершення
+                if (_taskGetExtendedFileInfo != null)
+                {
+                    try
+                    {
+                        await _taskGetExtendedFileInfo;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // Очікуване скасування
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Log.Error(null, nameof(StartTaskGetExtendedInfoAsync),
+                            ex.Message);
+                    }
+                }
+
+                // Звільнити попередній CTS
+                _cts?.Dispose();
+
+                // Запустити нове сканування
+                _cts = new CancellationTokenSource();
+
+                var token = _cts.Token;
+
+                _taskGetExtendedFileInfo = Task.Run(
+                    () => ProcessTaskGetExtendedFileInfo(list, token),
+                    token);
+            }
+            finally
+            {
+                _scanLock.Release();
             }
         }
-        void StopTaskGetExtendedInfo()
+
+        void ProcessTaskGetExtendedFileInfo(
+    List<IFileSystemInfoExt> e,
+    CancellationToken token)
         {
-            if (_cts == null) return;
-            _cts.Cancel();
-            _cts = null;
-            _taskGetExtendedFileInfo = null;
+            foreach (var ext in e)
+            {
+                token.ThrowIfCancellationRequested();
+
+                ext.GetExtendedFileInfoFormat();
+            }
         }
+
+        async Task StopTaskGetExtendedInfoAsync()
+        {
+            await _scanLock.WaitAsync();
+
+            try
+            {
+                _cts?.Cancel();
+
+                if (_taskGetExtendedFileInfo != null)
+                {
+                    try
+                    {
+                        await _taskGetExtendedFileInfo;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // Очікуване скасування
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Log.Error(null, nameof(StopTaskGetExtendedInfoAsync),
+                            ex.Message);
+                    }
+                }
+
+                _cts?.Dispose();
+                _cts = null;
+                _taskGetExtendedFileInfo = null;
+            }
+            finally
+            {
+                _scanLock.Release();
+            }
+        }
+
         private void UpdateStatusControl()
         {
             if (InvokeRequired)
@@ -2026,7 +2120,7 @@ namespace JobSpace.UC
                 return;
 
             _lastPreviewedFilePath = path;
-            _lastPreviewedFileDate =f?.FileInfo?.LastWriteTime;
+            _lastPreviewedFileDate = f?.FileInfo?.LastWriteTime;
             uc_PreviewBrowserFile1.Show(f);
         }
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf
 {
@@ -15,6 +16,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf
         {
             foreach (var mark in marksContainer.Pdf.Where(x => x.GetMarkSideFront(sheet.SheetPlaceType) && x.Enable == true && x.IsForeground == foreground))
             {
+                if (mark.File == null || string.IsNullOrEmpty(mark.File.FileName) || !File.Exists(mark.File.FileName))
+                {
+                    // Якщо файл не існує, пропускаємо цю марку
+                    continue;
+                }
+
                 using (PDFLIBDocument doc = new PDFLIBDocument(p, mark.File.FileName))
                 {
                     doc.fit_pdi_page(mark);

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JobSpace.Static.Pdf.Common;
+using System.IO;
 
 namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf
 {
@@ -16,6 +17,12 @@ namespace JobSpace.Static.Pdf.Imposition.Drawers.PDF.Marks.Pdf
         {
             foreach (var mark in marksContainer.Pdf.Where(x => x.GetMarkSideBack(sheet.SheetPlaceType) && x.Enable && x.IsForeground == foreground))
             {
+                if (mark.File == null || string.IsNullOrEmpty(mark.File.FileName) || !File.Exists(mark.File.FileName))
+                {
+                    // Якщо файл не існує, пропускаємо цю марку
+                    continue;
+                }
+
                 using (PDFLIBDocument doc = new PDFLIBDocument(p, mark.File.FileName))
                 {
                     int scaleX = 1;

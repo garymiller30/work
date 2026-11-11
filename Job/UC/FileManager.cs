@@ -1,5 +1,5 @@
-using Interfaces;
 using BackgroundTaskServiceLib;
+using Interfaces;
 using Interfaces.FileBrowser;
 using Interfaces.Plugins;
 using JobSpace.Models.FileBrowser;
@@ -65,7 +65,7 @@ namespace JobSpace.UC
 
         }
 
-        private void CacheEventTriggered(object sender, IFileSystemInfoExt e)
+        private void CacheEventTriggered(object sender, IFileSystemInfoExt? e)
         {
             _ = RefreshAsync();
         }
@@ -442,27 +442,23 @@ namespace JobSpace.UC
             if (!sourceFolder.Equals(Settings.RootFolder, StringComparison.InvariantCultureIgnoreCase))
             {
                 var destFolder = Path.GetDirectoryName(sourceFolder);
-
-                try
+                BackgroundTaskService.AddTask(new BackgroundTaskItem()
                 {
-                    MoveDir(sourceFolder, destFolder, appendFolderName);
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message, "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                    Name = $"Moving folder contents from {sourceFolder} to {destFolder}",
+                    BackgroundAction = () => MoveDir(sourceFolder, destFolder, "", appendFolderName),
+                });
             }
         }
 
-        void MoveDir(string sourceFolder, string destFolder, bool appendFolderName)
+        void MoveDir(string sourceFolder, string destFolder,string namePrefix = "", bool appendFolderName = false)
         {
-            if (!Directory.Exists(destFolder))
+            if (!Directory.Exists(destFolder) && !appendFolderName)
                 Directory.CreateDirectory(destFolder);
 
-            string folderName = "";
+            string folderName = namePrefix;
             if (appendFolderName == true)
             {
-                folderName = $"{Path.GetFileName(sourceFolder)}_";
+                folderName += $"{Path.GetFileName(sourceFolder)}_";
             }
 
             // Get Files & Copy
@@ -491,8 +487,10 @@ namespace JobSpace.UC
             foreach (string folder in folders)
             {
                 string name = Path.GetFileName(folder);
-                string dest = Path.Combine(destFolder, name);
-                MoveDir(folder, dest, appendFolderName);
+                string dest = appendFolderName ? destFolder : Path.Combine(destFolder, name) ;
+
+
+                MoveDir(folder, dest, folderName, appendFolderName);
             }
             Directory.Delete(sourceFolder);
         }

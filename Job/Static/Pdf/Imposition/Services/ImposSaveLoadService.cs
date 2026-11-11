@@ -5,6 +5,7 @@ using JobSpace.Static.Pdf.Imposition.Models.Marks;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Windows.Forms;
 
@@ -107,7 +108,58 @@ namespace JobSpace.Static.Pdf.Imposition.Services
 
             string marksStr = File.ReadAllText(filePath);
 
-            return JsonSerializer.Deserialize<List<MarksContainer>>(marksStr);
+            var marks = JsonSerializer.Deserialize<List<MarksContainer>>(marksStr);
+
+            if (marks == null) return new List<MarksContainer>();
+
+            // перевірити шляхи до ресурсів і виправити їх, якщо вони не існують
+            CheckAndFixResourcePaths(marks);
+
+            return marks;
+        }
+
+        void CheckAndFixResourcePaths(List<MarksContainer> marksContainer)
+        {
+            foreach (var container in marksContainer)
+            {
+
+                foreach (var mark in container.Pdf)
+                {
+                    if (!string.IsNullOrEmpty(mark.File.FileName) && !File.Exists(mark.File.FileName))
+                    {
+                        // Спробувати знайти ресурс у відомих директоріях
+                        string newPath = FindResourceInKnownDirectories(mark.File.FileName);
+                        if (!string.IsNullOrEmpty(newPath))
+                        {
+                            mark.File.FileName = newPath;
+                        }
+                        else
+                        {
+                            // Якщо ресурс не знайдено, можна видалити його або позначити як відсутній
+                            mark.File.FileName = null; // або видалити марку з контейнера
+                        }
+                    }
+                }
+
+                // Рекурсивно перевіряти дочірні контейнери
+                if (container.Containers != null && container.Containers.Count > 0)
+                {
+                    CheckAndFixResourcePaths(container.Containers);
+                }
+            }
+        }
+
+        private string? FindResourceInKnownDirectories(string fileName)
+        {
+            var markName = Path.GetFileName(fileName);
+
+            if (string.IsNullOrEmpty(markName)) return null;
+
+            // будемо шукати markName в папці MarksPath
+            var marksDir = MarksPath;
+            var file = Directory.GetFiles(marksDir, markName, SearchOption.AllDirectories).FirstOrDefault();
+
+            return file; // повертаємо перший знайдений файл або null, якщо не знайдено
         }
 
         public void SaveSheetTemplate(TemplateSheet sheet)
