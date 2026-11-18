@@ -2147,5 +2147,34 @@ namespace JobSpace.UC
                     objectListView1.UpdateObjects(files);
             }
         }
+
+        private void копіюватиЯкТаблицюToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //objectListView1.CopySelectionToClipboard();
+            CopyWithHeaders(objectListView1);
+        }
+
+        public void CopyWithHeaders(BrightIdeasSoftware.ObjectListView olv)
+        {
+            var sb = new System.Text.StringBuilder();
+
+            // 1. Додаємо заголовки видимих стовпців
+            var headers = olv.ColumnsInDisplayOrder.Select(c => c.Text);
+            sb.AppendLine(string.Join("\t", headers));
+
+            // 2. Додаємо дані вибраних рядків (або всіх через olv.Objects)
+            foreach (var item in olv.SelectedObjects)
+            {
+                var rowValues = olv.ColumnsInDisplayOrder.Select(col => col.GetStringValue(item));
+                sb.AppendLine(string.Join("\t", rowValues));
+            }
+
+            // 3. Кладемо результат у буфер обміну
+            if (sb.Length > 0)
+            {
+                System.Windows.Forms.Clipboard.SetText(sb.ToString());
+            }
+        }
+
     }
 }

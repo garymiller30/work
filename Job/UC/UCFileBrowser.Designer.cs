@@ -119,6 +119,7 @@ namespace JobSpace.UC
             kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
+            копіюватиЯкТаблицюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -505,7 +506,7 @@ namespace JobSpace.UC
             toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripButton_Up, toolStripSeparator4, toolStripButton_Refresh, toolStripSeparator5, toolStripButton_NewFolder, toolStripSplitButton1, toolStripSeparator12, toolStripButtonCopyToClipboard, toolStripButtonCut, tsddb_paste, toolStripSplitButtonTrash, toolStripSeparator6, toolStripButtonCopyPathToClipboard, toolStripSeparator13, toolStripButtonFileInfo, toolStripButton_Custom, toolStripTextBox_Filter, toolStripButton_ClearFilter, toolStripSeparator11, tsb_preview, toolStripSeparator20, toolStripButtonSettings });
             toolStrip1.Location = new System.Drawing.Point(3, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new System.Drawing.Size(509, 25);
+            toolStrip1.Size = new System.Drawing.Size(540, 25);
             toolStrip1.TabIndex = 1;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -586,7 +587,7 @@ namespace JobSpace.UC
             // toolStripButtonCopyToClipboard
             // 
             toolStripButtonCopyToClipboard.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            toolStripButtonCopyToClipboard.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { копіюватиІмяФайлуToolStripMenuItem, коміюватиІмяФайлуБезРозширенняToolStripMenuItem, копіюватиІмяФайлуРозмірToolStripMenuItem });
+            toolStripButtonCopyToClipboard.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { копіюватиІмяФайлуToolStripMenuItem, коміюватиІмяФайлуБезРозширенняToolStripMenuItem, копіюватиІмяФайлуРозмірToolStripMenuItem, копіюватиЯкТаблицюToolStripMenuItem });
             toolStripButtonCopyToClipboard.Image = (System.Drawing.Image)resources.GetObject("toolStripButtonCopyToClipboard.Image");
             toolStripButtonCopyToClipboard.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButtonCopyToClipboard.Name = "toolStripButtonCopyToClipboard";
@@ -845,6 +846,13 @@ namespace JobSpace.UC
             kryptonLabelPath.Values.Text = "";
             kryptonLabelPath.LinkClicked += kryptonLabelPath_LinkClicked;
             // 
+            // копіюватиЯкТаблицюToolStripMenuItem
+            // 
+            копіюватиЯкТаблицюToolStripMenuItem.Name = "копіюватиЯкТаблицюToolStripMenuItem";
+            копіюватиЯкТаблицюToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
+            копіюватиЯкТаблицюToolStripMenuItem.Text = "копіювати як таблицю";
+            копіюватиЯкТаблицюToolStripMenuItem.Click += копіюватиЯкТаблицюToolStripMenuItem_Click;
+            // 
             // UCFileBrowser
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -976,5 +984,6 @@ namespace JobSpace.UC
         private BrightIdeasSoftware.OLVColumn olvColumnCreatorApp;
         private System.Windows.Forms.ToolStripMenuItem вставитиЗІменемФайлаПідКурсоромToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStripPDF;
+        private System.Windows.Forms.ToolStripMenuItem копіюватиЯкТаблицюToolStripMenuItem;
     }
 }
