@@ -13,6 +13,7 @@ namespace ActiveWorks
     {
         private const string EnterLicenseStatusText = "Ввести ключ ліцензії";
         private const string LicenseInactiveStatusText = "Оновлення недоступні: підписка неактивна.";
+        private const string LicenseReforceCheckText = "Перевіряю оновлення...";
 
         private void InitializeLicenseStatus()
         {
@@ -33,6 +34,14 @@ namespace ActiveWorks
             }
         }
 
+        private async void toolStripSplitButton_check_update_ClickAsync(object sender, EventArgs e)
+        {
+            toolStripStatusLabelUpdate.Text = LicenseReforceCheckText;
+            toolStripStatusLabelUpdate.ToolTipText = "";
+            //force check for updates
+            BeginInvoke(new Action(async () => await CheckForUpdatesAsync()));
+        }
+
         private async Task CheckForUpdatesAsync()
         {
             try
@@ -48,6 +57,8 @@ namespace ActiveWorks
 
                 if (result.IsDisabled || !result.IsUpdateAvailable)
                 {
+                    toolStripStatusLabelUpdate.Text = "Оновлення недоступні.";
+                    toolStripStatusLabelUpdate.ToolTipText = "";
                     return;
                 }
 
