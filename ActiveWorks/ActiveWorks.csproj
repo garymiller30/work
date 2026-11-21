@@ -208,6 +208,9 @@
     <None Update="db\resources\pdftool_icons\personalization.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="db\resources\pdftool_icons\quartal_calendar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="db\resources\pdftool_icons\remove_icc_profile.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
