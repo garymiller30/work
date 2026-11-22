@@ -23,7 +23,7 @@ namespace JobSpace.UC
         private Image image;
         private Panel _loaderPanel;
         private PictureBox _loaderPictureBox;
-        
+
         private bool _dragging = false;
         private Point _dragStartPoint;
         private Point _scrollStartPoint;
@@ -32,9 +32,9 @@ namespace JobSpace.UC
 
         public bool FitToScreen
         {
-            get => _previewParameters.FitToWindow; 
-            
-            
+            get => _previewParameters.FitToWindow;
+
+
             set
             {
                 _previewParameters.FitToWindow = value;
@@ -105,7 +105,7 @@ namespace JobSpace.UC
 
             g.PageUnit = GraphicsUnit.Millimeter;
             g.ScaleTransform(_previewParameters.ZoomFactor, _previewParameters.ZoomFactor);
-            
+
             g.DrawImage(image, 0, 0, size.Width, size.Height);
         }
 
@@ -150,7 +150,7 @@ namespace JobSpace.UC
                 float scaleX = availW / pageWpx;
                 float scaleY = availH / pageHpx;
 
-                 _previewParameters.ZoomFactor = Math.Min(scaleX, scaleY);
+                _previewParameters.ZoomFactor = Math.Min(scaleX, scaleY);
             }
             // при діленні перевірити чи є залишок. Якщо є - округлити в більшу сторону
 
@@ -158,7 +158,7 @@ namespace JobSpace.UC
             var newH = pageHpx * _previewParameters.ZoomFactor;
 
             pb_preview.Width = (int)Math.Ceiling(newW);
-            pb_preview.Height = (int)Math.Ceiling(newH); 
+            pb_preview.Height = (int)Math.Ceiling(newH);
 
             pb_preview.Invalidate();
         }
@@ -288,6 +288,34 @@ namespace JobSpace.UC
                         thread.SetApartmentState(ApartmentState.STA);
                         thread.Start();
                         thread.Join();
+                    }
+                }
+            }
+        }
+
+        private void зберегтиЗображенняToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Зберегти зображення у файл
+            if (image != null)
+            {
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                {
+                    saveFileDialog.Filter = "PNG Image|*.png|JPEG Image|*.jpg|Bitmap Image|*.bmp";
+                    saveFileDialog.Title = "Save Preview Image";
+                    saveFileDialog.FileName = "preview.png";
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        ImageFormat format = ImageFormat.Png;
+                        switch (Path.GetExtension(saveFileDialog.FileName).ToLower())
+                        {
+                            case ".jpg":
+                                format = ImageFormat.Jpeg;
+                                break;
+                            case ".bmp":
+                                format = ImageFormat.Bmp;
+                                break;
+                        }
+                        image.Save(saveFileDialog.FileName, format);
                     }
                 }
             }

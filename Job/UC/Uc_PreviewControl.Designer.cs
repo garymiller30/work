@@ -29,10 +29,12 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Uc_PreviewControl));
             panel1 = new System.Windows.Forms.Panel();
             pb_preview = new System.Windows.Forms.PictureBox();
             contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(components);
             tsmi_copy_image = new System.Windows.Forms.ToolStripMenuItem();
+            зберегтиЗображенняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pb_preview).BeginInit();
             contextMenuStrip1.SuspendLayout();
@@ -67,9 +69,9 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmi_copy_image });
+            contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { tsmi_copy_image, зберегтиЗображенняToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new System.Drawing.Size(202, 26);
+            contextMenuStrip1.Size = new System.Drawing.Size(202, 70);
             // 
             // tsmi_copy_image
             // 
@@ -77,6 +79,14 @@
             tsmi_copy_image.Size = new System.Drawing.Size(201, 22);
             tsmi_copy_image.Text = "копіювати зображення";
             tsmi_copy_image.Click += tsmi_copy_image_Click;
+            // 
+            // зберегтиЗображенняToolStripMenuItem
+            // 
+            зберегтиЗображенняToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("зберегтиЗображенняToolStripMenuItem.Image");
+            зберегтиЗображенняToolStripMenuItem.Name = "зберегтиЗображенняToolStripMenuItem";
+            зберегтиЗображенняToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            зберегтиЗображенняToolStripMenuItem.Text = "зберегти зображення";
+            зберегтиЗображенняToolStripMenuItem.Click += зберегтиЗображенняToolStripMenuItem_Click;
             // 
             // Uc_PreviewControl
             // 
@@ -99,5 +109,6 @@
         private System.Windows.Forms.PictureBox pb_preview;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem tsmi_copy_image;
+        private System.Windows.Forms.ToolStripMenuItem зберегтиЗображенняToolStripMenuItem;
     }
 }

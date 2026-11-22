@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ActiveWorks")]
-[assembly: AssemblyCopyright("Copyright Ігор Мельник ©  2026")]
+[assembly: AssemblyCopyright("Copyright Ігор Мельник © 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -14,5 +14,5 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("32f6ec5a-8d5a-4709-9716-30bfa0be4b13")]
 
-[assembly: AssemblyVersion("8.23.28.63")]
-[assembly: AssemblyFileVersion("8.23.28.63")]
+[assembly: AssemblyVersion("8.23.29.63")]
+[assembly: AssemblyFileVersion("8.23.29.63")]
