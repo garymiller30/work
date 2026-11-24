@@ -11,6 +11,7 @@ using Krypton.Toolkit;
 using Logger;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -248,7 +249,23 @@ namespace ActiveWorks
 
             string[] customers = CreateCustomersList(profile);
 
-            if (customers.Length > 0) customer_data.AddRange(customers);
+            if (customers.Length > 0) {
+                customer_data.AddRange(customers);
+                var comboBox = cb_customers.ComboBox;
+                // зробити ширину ComboBox по ширині найдовшого елемента
+                int maxWidth = 0;
+                int scrollBarWidth = (customers.Length > comboBox.MaxDropDownItems)? SystemInformation.VerticalScrollBarWidth : 0;
+
+                foreach (var customer in customers)
+                {
+                    int itemWidth = TextRenderer.MeasureText(customer, comboBox.Font).Width + 10;
+                    if (itemWidth > maxWidth)
+                    {
+                        maxWidth = itemWidth;
+                    }
+                }
+                comboBox.DropDownWidth = maxWidth + scrollBarWidth; // додати трохи простору для стрілки
+            }
 
             cb_customers.ComboBox.Items.AddRange(customers);
             cb_customers.ComboBox.SelectedIndex = -1;
