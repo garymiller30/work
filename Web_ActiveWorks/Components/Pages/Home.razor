@@ -146,7 +146,7 @@ else
                                 <td data-label="Вартість, грн" class="mono price">
                                     @if (job.IsPayed)
                                     {
-                                        <span>СПЛАЧЕНО</span>
+                                        @job.TotalPrice
                                     }
                                     else if (job.Price > 0)
                                     {
@@ -156,10 +156,14 @@ else
 
                                 </td>
                                 <td data-label="Кошик" class="cart-column">
-                                    @if (job.Price > 0)
+                                    @if (job.IsPayed)
+                                    {
+                                        <span>✔</span>
+                                    }
+                                    else if (job.Price > 0)
                                     {
                                         <button class="cart-toggle @(IsInCart(job) ? "selected" : null)" @onclick="() => ToggleCart(job)">
-                                            @(IsInCart(job) ? "Прибрати" : "Додати")
+                                            @(IsInCart(job) ? "—" : "+")
                                         </button>
                                     }
 

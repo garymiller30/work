@@ -47,6 +47,10 @@ public sealed class MongoProfileDataService
             .ToListAsync(cancellationToken);
 
         var jobIds = jobs.Select(x => x.Id).ToList();
+
+        // Зберігаємо загальну суму (Total) та залишок до сплати (Remaining) в одному словнику
+        var paymentSummaryMap = new Dictionary<ObjectId, (decimal Total, decimal Remaining)>();
+
         Dictionary<ObjectId, decimal>? paymentMap = new Dictionary<ObjectId, decimal>();
         Dictionary<ObjectId, bool> isPayedMap = new Dictionary<ObjectId, bool>();
 
@@ -70,22 +74,16 @@ public sealed class MongoProfileDataService
 
                 var remaining = price - paidSum;
 
-                if (paymentMap.ContainsKey(doc.ParentId))
+                if (paymentSummaryMap.TryGetValue(doc.ParentId, out var current))
                 {
-                    paymentMap[doc.ParentId] += remaining;
+                    paymentSummaryMap[doc.ParentId] = (
+                        Total: current.Total + price,
+                        Remaining: current.Remaining + remaining
+                    );
                 }
                 else
                 {
-                    paymentMap[doc.ParentId] = remaining;
-                }
-
-                if (price == 0)
-                {
-                    isPayedMap[doc.ParentId] = false;
-                }
-                else
-                {
-                    isPayedMap[doc.ParentId] = paidSum >= price;
+                    paymentSummaryMap[doc.ParentId] = (Total: price, Remaining: remaining);
                 }
 
             }
@@ -93,8 +91,10 @@ public sealed class MongoProfileDataService
 
         return jobs.Select(job =>
         {
-            paymentMap.TryGetValue(job.Id, out var remaining);
-            isPayedMap.TryGetValue(job.Id, out var isPayed);
+            paymentSummaryMap.TryGetValue(job.Id, out var summary);
+
+            // Замовлення вважається оплаченим, якщо загальна сума > 0 і залишок <= 0
+            var isPayed = summary.Total > 0 && summary.Remaining <= 0;
 
             return new JobListItemViewModel
             {
@@ -107,7 +107,8 @@ public sealed class MongoProfileDataService
                 Number = job.Number,
                 Customer = job.Customer,
                 Description = job.Description,
-                Price = remaining,
+                Price = summary.Remaining,
+                TotalPrice = summary.Total, // Нове поле
                 IsPayed = isPayed
             };
         }).ToList();

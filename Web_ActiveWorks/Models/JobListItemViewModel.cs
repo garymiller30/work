@@ -11,4 +11,5 @@ public sealed class JobListItemViewModel
     public string Description { get; set; } = string.Empty;
     public decimal Price { get; set; }
     public bool IsPayed { get; set; }
+    public decimal TotalPrice { get; internal set; }
 }
