@@ -37,9 +37,10 @@ namespace JobSpace.UserForms
             private string _raw;
             public string Folder { get; set; }
             public string OriginalName { get; set; }
-            public string Extension { get;set;}
+            public string Extension { get; set; }
             public string NewName { get; set; }
             public List<string> Variants { get; set; } = new List<string>();
+            public bool IsMatched { get; set; }
 
             public PreviewItem(string file)
             {
@@ -47,30 +48,62 @@ namespace JobSpace.UserForms
                 Folder = System.IO.Path.GetDirectoryName(file);
                 OriginalName = System.IO.Path.GetFileNameWithoutExtension(file);
                 Extension = System.IO.Path.GetExtension(file);
+                NewName = OriginalName;
             }
 
             public void CreateVariants(string text)
             {
+                Variants.Clear();
+                IsMatched = false;
+
+                if (string.IsNullOrEmpty(text))
+                    return;
+
                 try
                 {
-                    Variants = Regex.Matches(OriginalName, text)
-                    .Cast<Match>()
-                    .Select(x => x.Groups[1].Value)
-                    .Distinct()
-                    .ToList();
+                    var match = Regex.Match(OriginalName, text);
+                    if (match.Success)
+                    {
+                        IsMatched = true;
+
+                        if (match.Groups.Count > 1)
+                        {
+                            // Отримуємо групи захоплення в круглих дужках: $1, $2, $3...
+                            Variants = match.Groups
+                                .Cast<Group>()
+                                .Skip(1)
+                                .Select(x => x.Value)
+                                .ToList();
+                        }
+                        else
+                        {
+                            // Якщо дужок не було, беремо всі збіги шаблону в рядку
+                            Variants = Regex.Matches(OriginalName, text)
+                                .Cast<Match>()
+                                .Select(x => x.Value)
+                                .ToList();
+                        }
+                    }
                 }
                 catch
                 {
                     Variants = new List<string>();
+                    IsMatched = false;
                 }
             }
 
             public void Parse(string text)
             {
-                NewName = text.Replace("$0",OriginalName);
-                for (int i = 0; i < Variants.Count; i++)
+                if (string.IsNullOrEmpty(text) || !IsMatched)
                 {
-                    NewName = NewName.Replace($"${i+1}", Variants[i]);
+                    NewName = OriginalName;
+                    return;
+                }
+
+                NewName = text.Replace("$0", OriginalName);
+                for (int i = Variants.Count - 1; i >= 0; i--)
+                {
+                    NewName = NewName.Replace($"${i + 1}", Variants[i]);
                 }
             }
         }
@@ -85,11 +118,19 @@ namespace JobSpace.UserForms
             if (string.IsNullOrEmpty(tb_find.Text))
             {
                 olv_find.DefaultRenderer = null;
-                
             }
-            TextMatchFilter filter = TextMatchFilter.Regex(olv_find, tb_find.Text);
-
-            olv_find.DefaultRenderer = new HighlightTextRenderer(filter);
+            else
+            {
+                try
+                {
+                    TextMatchFilter filter = TextMatchFilter.Regex(olv_find, tb_find.Text);
+                    olv_find.DefaultRenderer = new HighlightTextRenderer(filter);
+                }
+                catch
+                {
+                    olv_find.DefaultRenderer = null;
+                }
+            }
 
             CreateVariants(tb_find.Text);
             olv_find.RefreshObjects(_preview_items);

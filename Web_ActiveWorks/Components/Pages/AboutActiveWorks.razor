@@ -1,204 +1,520 @@
 @page "/"
 @page "/about-activeworks"
 @attribute [AllowAnonymous]
+@rendermode InteractiveServer
 
-<PageTitle>Про ActiveWorks</PageTitle>
+<PageTitle>Про ActiveWorks — Робочий центр для поліграфічних замовлень</PageTitle>
 
+<!-- HERO SECTION З ІНТЕРАКТИВНИМ СИМУЛЯТОРОМ -->
 <section class="presentation-hero">
     <div class="presentation-hero-content">
-        <span class="presentation-badge">ActiveWorks</span>
+        <div class="hero-top-badges">
+            <span class="presentation-badge">ActiveWorks</span>
+            <span class="live-pulse-badge"><span class="pulse-dot"></span> Інтерактивний огляд</span>
+        </div>
         <h1>Робочий центр для поліграфічних замовлень</h1>
         <p>
-            ActiveWorks допомагає зібрати замовлення, файли, статуси, FTP-обмін,
-            плагіни та виробничі дії в одному середовищі. Програма створена для
-            щоденної роботи, де важливо швидко бачити стан замовлення і не губити
-            файли між різними інструментами.
+            ActiveWorks об'єднує замовлення, робочі файли, статуси, FTP-обмін,
+            Signa Station та набір препрес-інструментів у єдине робоче місце.
+            Більше ніяких загублених макетів, нескінченних перемикань між провідниками
+            чи рутинних PDF-операцій вручну.
         </p>
+
+        <div class="hero-stats-mini">
+            <div class="mini-stat-item">
+                <span class="mini-stat-val">20+</span>
+                <span class="mini-stat-lbl">PDF-утиліт</span>
+            </div>
+            <div class="mini-stat-item">
+                <span class="mini-stat-val">1 клік</span>
+                <span class="mini-stat-lbl">До Signa & папок</span>
+            </div>
+            <div class="mini-stat-item">
+                <span class="mini-stat-val">0</span>
+                <span class="mini-stat-lbl">Загублених файлів</span>
+            </div>
+        </div>
+
         <div class="presentation-actions">
-            <a class="primary-action" href="/login?returnUrl=%2Fjobs">Увійти в портал</a>
-            <a class="secondary-action" href="#best-fit">Для кого підходить</a>
+            <a class="primary-action pulse-btn" href="/login?returnUrl=%2Fjobs">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                Увійти в портал
+            </a>
+            <a class="secondary-action" href="#workflow">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                Як це працює
+            </a>
+            <a class="secondary-action" href="#tools">
+                Інструменти PDF
+            </a>
         </div>
     </div>
 
-    <div class="presentation-snapshot" aria-label="Короткий огляд можливостей ActiveWorks">
-        <div class="snapshot-toolbar">
-            <span></span>
-            <span></span>
-            <span></span>
+    <!-- ЖИВИЙ СИМУЛЯТОР РОБОЧОГО СТОЛУ -->
+    <div class="presentation-snapshot-live">
+        <div class="snapshot-header">
+            <div class="snapshot-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+            <div class="snapshot-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                ActiveWorks &bull; @selectedProfile
+            </div>
+            <div class="snapshot-profile-select">
+                <select @bind="selectedProfile" class="profile-dropdown">
+                    <option value="Офсетний цех">Офсет</option>
+                    <option value="Цифровий друк">Цифра</option>
+                    <option value="Широкоформатний цех">Широкоформат</option>
+                </select>
+            </div>
         </div>
-        <div class="snapshot-row strong">
-            <span>Список робіт</span>
-            <strong>статуси, замовники, файли</strong>
+
+        <!-- ІНТЕРАКТИВНІ ВКЛАДКИ СИМУЛЯТОРА -->
+        <div class="snapshot-nav">
+            <button type="button" class="sim-tab @(activeSimTab == "jobs" ? "active" : "")" @onclick='() => SetSimTab("jobs")'>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Замовлення
+            </button>
+            <button type="button" class="sim-tab @(activeSimTab == "files" ? "active" : "")" @onclick='() => SetSimTab("files")'>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                Файли & FTP
+            </button>
+            <button type="button" class="sim-tab @(activeSimTab == "pdf" ? "active" : "")" @onclick='() => SetSimTab("pdf")'>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                PDF-Дії
+            </button>
+            <button type="button" class="sim-tab @(activeSimTab == "plugins" ? "active" : "")" @onclick='() => SetSimTab("plugins")'>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                Плагіни
+            </button>
         </div>
-        <div class="snapshot-row">
-            <span>Провідники</span>
-            <strong>локальні папки та FTP</strong>
+
+        <div class="snapshot-body">
+            @if (activeSimTab == "jobs")
+            {
+                <div class="sim-content fade-in">
+                    <div class="sim-toolbar-note">
+                        <span>Активні роботи: <strong>3 в черзі</strong></span>
+                        <span class="sim-hint">Клікніть роботу або змініть статус 👇</span>
+                    </div>
+
+                    <div class="sim-jobs-list">
+                        @foreach (var job in demoJobs)
+                        {
+                            <div class="sim-job-card @(selectedJobId == job.Id ? "selected" : "")" @onclick="() => SelectJob(job.Id)">
+                                <div class="sim-job-header">
+                                    <span class="sim-job-number">№ @job.Number</span>
+                                    <span class="sim-status-badge @job.StatusClass">@job.Status</span>
+                                </div>
+                                <div class="sim-job-title">@job.Title</div>
+                                <div class="sim-job-client">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    @job.Client
+                                    <span class="sim-job-meta">&bull; @job.Format, @job.Copies тир.</span>
+                                </div>
+
+                                @if (selectedJobId == job.Id)
+                                {
+                                    <div class="sim-job-quick-actions">
+                                        <button type="button" class="sim-btn-action" @onclick="() => CycleJobStatus(job)">
+                                            🔄 Змінити статус: <strong>@GetNextStatus(job.Status)</strong>
+                                        </button>
+                                        <button type="button" class="sim-btn-action outline" @onclick='() => SetSimTab("files")'>
+                                            📂 Файли (@job.FileCount)
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            else if (activeSimTab == "files")
+            {
+                <div class="sim-content fade-in">
+                    <div class="sim-dual-pane">
+                        <div class="sim-pane">
+                            <div class="sim-pane-header">
+                                <span class="pane-tag ftp">Клієнтський FTP</span>
+                                <span class="pane-path">/incoming/agrobiz/</span>
+                            </div>
+                            <div class="sim-file-item @(ftpFileDownloaded ? "downloaded" : "")">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                <span class="file-name">katalog_v2_new_pages.pdf</span>
+                                <span class="file-size">48 МБ</span>
+                            </div>
+                            <button type="button" class="sim-action-btn-mini @(ftpFileDownloaded ? "done" : "")" @onclick="SimulateFtpDownload">
+                                @if (ftpFileDownloaded)
+                                {
+                                    <span>✓ Завантажено в замовлення</span>
+                                }
+                                else
+                                {
+                                    <span>📥 Затягнути в замовлення № 4821</span>
+                                }
+                            </button>
+                        </div>
+
+                        <div class="sim-pane">
+                            <div class="sim-pane-header">
+                                <span class="pane-tag local">Папка замовлення</span>
+                                <span class="pane-path">D:/Jobs/2026/4821/</span>
+                            </div>
+                            <div class="sim-file-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                <span class="file-name">cover_4821_trim.pdf</span>
+                                <span class="file-badge-ok">TrimBox OK</span>
+                            </div>
+                            @if (ftpFileDownloaded)
+                            {
+                                <div class="sim-file-item new-item fade-in">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                    <span class="file-name">katalog_v2_new_pages.pdf</span>
+                                    <span class="file-badge-new">NEW</span>
+                                </div>
+                            }
+                            <div class="sim-file-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                                <span class="file-name">4821_imposition.sig</span>
+                                <span class="file-badge-signa">Signa 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (activeSimTab == "pdf")
+            {
+                <div class="sim-content fade-in">
+                    <div class="sim-pdf-tools-panel">
+                        <div class="sim-pdf-instructions">
+                            Швидкі операції над вибраним файлом макета:
+                        </div>
+                        <div class="sim-pdf-grid">
+                            <button type="button" class="sim-pdf-btn @(lastExecutedPdfAction == "trimbox" ? "triggered" : "")" @onclick='() => ExecuteSimPdfAction("trimbox", "MediaBox вирівняно до TrimBox (210×297 мм + 2 мм вильоти)")'>
+                                <span class="pdf-btn-icon">📐</span>
+                                <span class="pdf-btn-title">TrimBox & Вильоти</span>
+                                <span class="pdf-btn-sub">Приведення полів</span>
+                            </button>
+
+                            <button type="button" class="sim-pdf-btn @(lastExecutedPdfAction == "split" ? "triggered" : "")" @onclick='() => ExecuteSimPdfAction("split", "Файл розділено на: Обкладинка (4 стор.) та Блок (48 стор.)")'>
+                                <span class="pdf-btn-icon">✂️</span>
+                                <span class="pdf-btn-title">Розділити обкл/блок</span>
+                                <span class="pdf-btn-sub">Для брошури</span>
+                            </button>
+
+                            <button type="button" class="sim-pdf-btn @(lastExecutedPdfAction == "barcode" ? "triggered" : "")" @onclick='() => ExecuteSimPdfAction("barcode", "Згенеровано QR-код та додано на 4-ту сторінку")'>
+                                <span class="pdf-btn-icon">🏁</span>
+                                <span class="pdf-btn-title">QR / Штрих-код</span>
+                                <span class="pdf-btn-sub">Маркування тиражу</span>
+                            </button>
+
+                            <button type="button" class="sim-pdf-btn @(lastExecutedPdfAction == "signa" ? "triggered" : "")" @onclick='() => ExecuteSimPdfAction("signa", "Сигнатурний файл передано у Prinect Signa Station")'>
+                                <span class="pdf-btn-icon">🖨️</span>
+                                <span class="pdf-btn-title">Signa Station</span>
+                                <span class="pdf-btn-sub">Спуск полос</span>
+                            </button>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(simActionMessage))
+                        {
+                            <div class="sim-action-toast fade-in">
+                                <span class="toast-check">✓</span>
+                                <span>@simActionMessage</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            else if (activeSimTab == "plugins")
+            {
+                <div class="sim-content fade-in">
+                    <div class="sim-plugins-list">
+                        <div class="sim-plugin-row">
+                            <div class="sim-plugin-info">
+                                <div class="sim-plugin-name">Job Information Panel</div>
+                                <div class="sim-plugin-desc">Швидкий перегляд технологічної карти та параметрів паперу</div>
+                            </div>
+                            <span class="sim-toggle-pill on">Увімкнено</span>
+                        </div>
+                        <div class="sim-plugin-row">
+                            <div class="sim-plugin-info">
+                                <div class="sim-plugin-name">Prinect Signa Bridge</div>
+                                <div class="sim-plugin-desc">Експорт міток та геометрії друкарського аркуша у Signa</div>
+                            </div>
+                            <span class="sim-toggle-pill on">Увімкнено</span>
+                        </div>
+                        <div class="sim-plugin-row">
+                            <div class="sim-plugin-info">
+                                <div class="sim-plugin-name">Telegram Bot Notify</div>
+                                <div class="sim-plugin-desc">Автоматичні повідомлення менеджеру при зміні статусу на «Готово»</div>
+                            </div>
+                            <span class="sim-toggle-pill off">Опційно</span>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
-        <div class="snapshot-row">
-            <span>Плагіни</span>
-            <strong>розширення під процес</strong>
-        </div>
-        <div class="snapshot-row">
-            <span>PDF та Signa</span>
-            <strong>підготовка до виробництва</strong>
+        <div class="snapshot-footer">
+            <span class="footer-tag">💡 Натискайте елементи симулятора для інтерактивної взаємодії</span>
         </div>
     </div>
 </section>
 
+<!-- ВИРОБНИЧИЙ КОНВЕЄР ЗАМОВЛЕННЯ (STEPPER) -->
+<section id="workflow" class="presentation-section">
+    <div class="section-heading">
+        <span class="section-kicker">Виробничий конвеєр</span>
+        <h2>Як ActiveWorks веде замовлення від файлу клієнта до друкарської машини</h2>
+        <p class="section-lead">Клікніть будь-який етап нижче, щоб побачити, що саме автоматизує програма.</p>
+    </div>
+
+    <div class="workflow-stepper">
+        @for (int i = 0; i < workflowSteps.Count; i++)
+        {
+            var stepIndex = i;
+            var step = workflowSteps[i];
+            <button type="button" class="workflow-step-btn @(currentWorkflowStep == stepIndex ? "active" : "")" @onclick="() => SetWorkflowStep(stepIndex)">
+                <span class="step-num">@(stepIndex + 1)</span>
+                <span class="step-label">@step.ShortTitle</span>
+                <span class="step-icon">@step.Emoji</span>
+            </button>
+        }
+    </div>
+
+    <div class="workflow-details-panel">
+        <div class="workflow-panel-header">
+            <div class="step-tag-pill">Етап @(currentWorkflowStep + 1) з @workflowSteps.Count</div>
+            <h3>@workflowSteps[currentWorkflowStep].FullTitle</h3>
+        </div>
+        <div class="workflow-panel-body">
+            <div class="workflow-panel-col problem">
+                <div class="col-head">
+                    <span class="icon-bad">❌</span> Як це зазвичай роблять без ActiveWorks
+                </div>
+                <p>@workflowSteps[currentWorkflowStep].WithoutActiveWorks</p>
+            </div>
+            <div class="workflow-panel-col solution">
+                <div class="col-head">
+                    <span class="icon-good">✅</span> Як це працює з ActiveWorks
+                </div>
+                <p>@workflowSteps[currentWorkflowStep].WithActiveWorks</p>
+                <div class="workflow-highlights">
+                    @foreach (var hl in workflowSteps[currentWorkflowStep].Features)
+                    {
+                        <span class="hl-tag">@hl</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ОСНОВНІ ПЕРЕВАГИ (КАРТКИ З СУЧАСНИМ ХОВЕРОМ) -->
 <section class="presentation-section">
     <div class="section-heading">
         <span class="section-kicker">Основні переваги</span>
-        <h2>Що ActiveWorks дає команді</h2>
+        <h2>Чому фахівці додрукарської підготовки обирають ActiveWorks</h2>
     </div>
 
     <div class="benefit-grid">
-        <article class="benefit-card">
+        <article class="benefit-card modern-card">
+            <div class="card-icon-bubble teal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+            </div>
             <h3>Єдиний список робіт</h3>
-            <p>Замовлення, замовник, опис, статус і пов'язані дії зібрані в одному робочому списку.</p>
+            <p>Замовлення, замовник, опис, тираж, статус і пов'язані дії зібрані в одному структурованому списку без зайвих таблиць.</p>
         </article>
-        <article class="benefit-card">
+
+        <article class="benefit-card modern-card">
+            <div class="card-icon-bubble blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+            </div>
             <h3>Керування статусами</h3>
-            <p>Команда бачить актуальні етапи виконання, а адміністратор може налаштувати видимі статуси під профіль.</p>
+            <p>Вся команда бачить актуальні етапи виконання замовлень у реальному часі. Налаштування статусів індивідуальні під кожен профіль.</p>
         </article>
-        <article class="benefit-card">
+
+        <article class="benefit-card modern-card">
+            <div class="card-icon-bubble emerald">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </div>
             <h3>Файли поруч із замовленням</h3>
-            <p>Провідники, FTP-вкладки та дії з файлами допомагають працювати з матеріалами без ручного пошуку по папках.</p>
+            <p>Вбудовані файлові провідники, вкладки клієнтського FTP та швидкі дії усувають ручний пошук файлів на мережевих дисках.</p>
         </article>
-        <article class="benefit-card">
+
+        <article class="benefit-card modern-card">
+            <div class="card-icon-bubble amber">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            </div>
             <h3>Інструменти для PDF</h3>
-            <p>Операції з PDF, персоналізація, спуск полос, розвороти, обкладинки, блоки та інші підготовчі дії доступні прямо в робочому процесі.</p>
+            <p>Понад 20 операцій з PDF: вильоти, TrimBox, спуск полос, розвороти, обкладинки, блоки та коди прямо у робочому процесі.</p>
         </article>
-        <article class="benefit-card">
+
+        <article class="benefit-card modern-card">
+            <div class="card-icon-bubble purple">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            </div>
             <h3>Інтеграція з Prinect Signa</h3>
-            <p>ActiveWorks враховує сценарії з Signa Station і може зберігати або переносити Signa-файли до папки замовлення.</p>
+            <p>Створено з урахуванням Heidelberg Prinect Signa Station: передача параметрів спуску та збереження Signa-файлів у папку замовлення.</p>
         </article>
-        <article class="benefit-card">
+
+        <article class="benefit-card modern-card">
+            <div class="card-icon-bubble rose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+            </div>
             <h3>Плагінна архітектура</h3>
-            <p>Функціональність можна розширювати плагінами: від інформації про замовлення до повідомлень і спеціальних дій.</p>
+            <p>Можливість створювати модулі розширення: від виводу спеціальної інформації та сповіщень до кастомних розрахунків друкарні.</p>
         </article>
     </div>
 </section>
 
-<section class="presentation-section">
+<!-- PDF-ІНСТРУМЕНТИ З ЖИВИМ ФІЛЬТРОМ ТА ТЕГАМИ -->
+<section id="tools" class="presentation-section">
     <div class="section-heading">
         <span class="section-kicker">PDF-інструменти</span>
         <h2>Не окремий PDF-редактор, а виробничий набір дій біля замовлення</h2>
+        <p class="section-lead">Швидко відфільтруйте необхідні операції за напрямком підготовки макета:</p>
+    </div>
+
+    <!-- ФІЛЬТРИ ДЛЯ КАТЕГОРІЙ PDF -->
+    <div class="category-filter-chips">
+        @foreach (var cat in pdfCategories)
+        {
+            <button type="button" class="filter-chip @(selectedPdfCategory == cat.Key ? "active" : "")" @onclick="() => SetPdfCategory(cat.Key)">
+                <span>@cat.Emoji</span>
+                <span>@cat.Title</span>
+                <span class="chip-count">@GetCategoryCount(cat.Key)</span>
+            </button>
+        }
     </div>
 
     <div class="pdf-feature-grid">
-        <article class="pdf-feature-panel highlight">
-            <h3>Підготовка файлів до друку</h3>
-            <p>
-                ActiveWorks вміє конвертувати зображення та макети в PDF, створювати JPG-прев'ю,
-                додавати TrimBox, приводити MediaBox до TrimBox, масштабувати сторінки,
-                витягувати потрібні сторінки та розвертати сторінки за виробничим сценарієм.
-            </p>
-        </article>
-        <article class="pdf-feature-panel">
-            <h3>Збирання та розділення</h3>
-            <p>
-                Інструменти покривають типові препрес-операції: з'єднання вибраних PDF в один,
-                з'єднання лиця і звороту, парних і непарних сторінок, накладання контуру ножа
-                на документ, розділення файлу на частини, на обкладинку і блок, а також
-                розділення розворотів.
-            </p>
-        </article>
-        <article class="pdf-feature-panel">
-            <h3>Маркування та технічні елементи</h3>
-            <p>
-                Можна додавати Cut-контури прямокутником або еліпсом, мітки для підбору,
-                тираж до імені файлу, формат сторінки до імені файлу, QR-коди,
-                EAN-13 і Code128 штрих-коди.
-            </p>
-        </article>
-        <article class="pdf-feature-panel">
-            <h3>Візуалізація виробу</h3>
-            <p>
-                Для перевірки до виробництва є візуалізації м'якої та твердої обкладинки,
-                корінця палітурки, біговки, фальцовки, пружини, безпечних полів,
-                виштовхування при кріпленні на скобу та настільного календаря.
-            </p>
-        </article>
-        <article class="pdf-feature-panel">
-            <h3>Персоналізація і кольори</h3>
-            <p>
-                Окремі інструменти працюють із персоналізацією PDF через CSV/TSV,
-                повторенням сторінок або документа, перейменуванням Spot-кольорів
-                і видаленням ICC-профілів.
-            </p>
-        </article>
-        <article class="pdf-feature-panel highlight">
-            <h3>Спуск полос</h3>
-            <p>
-                Вбудований модуль спуску полос дозволяє готувати друкарські аркуші
-                в тому ж середовищі, де оператор бачить замовлення, файли, профіль,
-                статуси та пов'язані виробничі дії.
-            </p>
-        </article>
+        @foreach (var item in FilteredPdfFeatures)
+        {
+            <article class="pdf-feature-panel modern-panel @(item.IsHighlight ? "highlight" : "")">
+                <div class="panel-header-row">
+                    <span class="panel-badge-icon">@item.Emoji</span>
+                    <span class="panel-category-name">@item.CategoryLabel</span>
+                </div>
+                <h3>@item.Title</h3>
+                <p>@item.Description</p>
+                <div class="tag-badges-strip">
+                    @foreach (var tag in item.Tags)
+                    {
+                        <span class="tech-tag">@tag</span>
+                    }
+                </div>
+            </article>
+        }
     </div>
 </section>
 
+<!-- ПОРІВНЯННЯ З АНАЛОГАМИ (ІНТЕРАКТИВНИЙ СЕЛЕКТОР + ТАБЛИЦЯ) -->
 <section class="presentation-section">
     <div class="section-heading">
         <span class="section-kicker">Порівняння з аналогами</span>
         <h2>У чому перевага ActiveWorks</h2>
+        <p class="section-lead">Оберіть альтернативне рішення, щоб побачити ключову різницю:</p>
     </div>
 
-    <div class="comparison-table-shell">
-        <table class="comparison-table">
-            <thead>
-                <tr>
-                    <th>Тип рішення</th>
-                    <th>Що зазвичай добре робить</th>
-                    <th>Перевага ActiveWorks</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td data-label="Тип рішення">Класичні PDF-редактори</td>
-                    <td data-label="Що добре робить">Редагування PDF, перегляд, базові операції зі сторінками.</td>
-                    <td data-label="Перевага ActiveWorks">
-                        PDF-дії прив'язані до замовлення, файлів, статусів і профілю. Оператор не перемикається
-                        між редактором, провідником і таблицею робіт.
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Тип рішення">Потужні препрес-пакети</td>
-                    <td data-label="Що добре робить">Глибока автоматизація додрукарської підготовки та спеціалізовані модулі.</td>
-                    <td data-label="Перевага ActiveWorks">
-                        Легше закрити щоденні локальні сценарії: швидко знайти роботу, взяти файли, виконати типову
-                        PDF-операцію, змінити статус і перейти до наступного замовлення.
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Тип рішення">MIS/ERP для друкарні</td>
-                    <td data-label="Що добре робить">Облік, планування, фінанси, клієнтські замовлення.</td>
-                    <td data-label="Перевага ActiveWorks">
-                        Орієнтований на робоче місце оператора і препресу: не лише облік замовлення,
-                        а практична робота з файлами, FTP, PDF, плагінами та Signa-сценаріями.
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Тип рішення">Файлові менеджери та FTP-клієнти</td>
-                    <td data-label="Що добре робить">Навігація по папках, копіювання, передача файлів.</td>
-                    <td data-label="Перевага ActiveWorks">
-                        Файли не відірвані від виробничого контексту: поруч є номер замовлення, замовник,
-                        статус, опис, профіль і доступні дії для конкретного процесу.
-                    </td>
-                </tr>
-                <tr>
-                    <td data-label="Тип рішення">Хмарні системи погодження</td>
-                    <td data-label="Що добре робить">Коментарі клієнта, перегляд макетів, погодження онлайн.</td>
-                    <td data-label="Перевага ActiveWorks">
-                        Сильніший у внутрішній виробничій роботі: локальні файли, профільні налаштування,
-                        плагіни, PDF-утиліти та дії, які потрібні саме перед друком.
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- ТАБИ ДЛЯ ШВИДКОГО ПОРІВНЯННЯ -->
+    <div class="comparison-tabs">
+        @for (int i = 0; i < comparisonList.Count; i++)
+        {
+            var idx = i;
+            var comp = comparisonList[i];
+            <button type="button" class="comp-tab-btn @(selectedComparisonIndex == idx ? "active" : "")" @onclick="() => SetComparisonIndex(idx)">
+                <span class="comp-icon">@comp.Icon</span>
+                <span class="comp-title">@comp.SystemType</span>
+            </button>
+        }
     </div>
+
+    <!-- КАРТКА ПОРІВНЯННЯ ВИБРАНОЇ СИСТЕМИ -->
+    <div class="comparison-spotlight">
+        <div class="spotlight-col others">
+            <div class="spotlight-header">
+                <span class="spotlight-tag">Традиційний підхід</span>
+                <h3>@comparisonList[selectedComparisonIndex].SystemType</h3>
+            </div>
+            <div class="spotlight-body">
+                <div class="spotlight-section">
+                    <strong>Що зазвичай робить добре:</strong>
+                    <p>@comparisonList[selectedComparisonIndex].GoodAt</p>
+                </div>
+                <div class="spotlight-section limitation">
+                    <strong>Вузьке місце на виробництві:</strong>
+                    <p>@comparisonList[selectedComparisonIndex].Limitation</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="spotlight-vs">
+            <span class="vs-circle">VS</span>
+        </div>
+
+        <div class="spotlight-col activeworks">
+            <div class="spotlight-header">
+                <span class="spotlight-tag aw">Перевага ActiveWorks</span>
+                <h3>Як це вирішує ActiveWorks</h3>
+            </div>
+            <div class="spotlight-body">
+                <p class="aw-advantage-text">@comparisonList[selectedComparisonIndex].AwAdvantage</p>
+                <div class="aw-key-points">
+                    @foreach (var pt in comparisonList[selectedComparisonIndex].KeyPoints)
+                    {
+                        <div class="aw-point-item">
+                            <span class="point-check">✓</span>
+                            <span>@pt</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- КНОПКА РОЗГОРТАННЯ ПОВНОЇ ТАБЛИЦІ -->
+    <div class="table-toggle-wrap">
+        <button type="button" class="btn-toggle-table" @onclick="ToggleFullTable">
+            @if (showFullTable)
+            {
+                <span>▲ Згорнути повну таблицю</span>
+            }
+            else
+            {
+                <span>▼ Показати зведену таблицю порівняння</span>
+            }
+        </button>
+    </div>
+
+    @if (showFullTable)
+    {
+        <div class="comparison-table-shell fade-in">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Тип рішення</th>
+                        <th>Що зазвичай добре робить</th>
+                        <th>Перевага ActiveWorks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in comparisonList)
+                    {
+                        <tr>
+                            <td data-label="Тип рішення"><strong>@row.SystemType</strong></td>
+                            <td data-label="Що добре робить">@row.GoodAt</td>
+                            <td data-label="Перевага ActiveWorks">@row.AwAdvantage</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </section>
 
+<!-- НАЙКРАЩЕ ПІДХОДИТЬ -->
 <section id="best-fit" class="presentation-section">
     <div class="section-heading">
         <span class="section-kicker">Найкраще підходить</span>
@@ -206,70 +522,443 @@
     </div>
 
     <div class="audience-layout">
-        <article class="audience-panel">
+        <article class="audience-panel interactive-audience">
+            <div class="audience-icon-wrap">🏭</div>
             <h3>Друкарні та препрес-відділи</h3>
             <p>
                 Коли є багато замовлень, файлів, правок, PDF-операцій і виробничих статусів,
                 ActiveWorks допомагає тримати процес у зрозумілому порядку.
             </p>
+            <ul class="audience-bullets">
+                <li>Швидкий пошук замовлення за клієнтом/номером</li>
+                <li>Миттєве виконання рутинних операцій з макетами</li>
+                <li>Виключення людського фактору при передачі в друк</li>
+            </ul>
         </article>
-        <article class="audience-panel">
+
+        <article class="audience-panel interactive-audience">
+            <div class="audience-icon-wrap">⚙️</div>
             <h3>Команди з кількома профілями роботи</h3>
             <p>
                 Профілі дозволяють розділяти списки робіт, провідники, FTP і плагіни під різні
                 напрямки, клієнтів або виробничі сценарії.
             </p>
+            <ul class="audience-bullets">
+                <li>Окремі робочі зони для Офсетного та Цифрового цехів</li>
+                <li>Індивідуальні правила маршрутизації замовлень</li>
+                <li>Роздільні FTP-сервери для різних груп клієнтів</li>
+            </ul>
         </article>
-        <article class="audience-panel">
+
+        <article class="audience-panel interactive-audience">
+            <div class="audience-icon-wrap">🛡️</div>
             <h3>Адміністратори виробничих процесів</h3>
             <p>
                 Веб-портал спрощує керування доступами, статусами, реквізитами та публікацією
                 плагінів для користувачів ActiveWorks.
             </p>
+            <ul class="audience-bullets">
+                <li>Гнучка настройка ролей та дозволів користувачів</li>
+                <li>Централізоване оновлення та дистрибуція плагінів</li>
+                <li>Єдиний стандарт статусів для всієї компанії</li>
+            </ul>
         </article>
     </div>
 </section>
 
-<section class="presentation-section presentation-summary">
-    <div>
-        <span class="section-kicker">Коротко</span>
+<!-- ПІДСУМОК ТА ЗАКЛИК ДО ДІЇ -->
+<section class="presentation-section presentation-summary-modern">
+    <div class="summary-card-inner">
+        <div class="summary-badge-wrap">
+            <span class="section-kicker">Підсумок</span>
+        </div>
         <h2>ActiveWorks особливо корисний там, де замовлення живе разом із файлами</h2>
         <p>
             Якщо робота проходить через кілька етапів, має багато матеріалів, потребує контролю
-            статусів і повторюваних дій з PDF або виробничими файлами, ActiveWorks зменшує хаос
-            і робить процес прозорішим для команди.
+            статусів і повторюваних дій з PDF або виробничими файлами, ActiveWorks зменшує хаос,
+            економить час оператора і робить процес прозорим для всієї команди.
         </p>
+        <div class="summary-actions">
+            <a class="primary-action pulse-btn" href="/login?returnUrl=%2Fjobs">
+                Почати роботу в порталі
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a class="secondary-action" href="/payment-requisites">
+                Реквізити та ліцензії
+            </a>
+        </div>
     </div>
 </section>
 
-<style>
-    .presentation-hero {
-        display: grid;
-        grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-        gap: 1.25rem;
-        align-items: stretch;
-        margin-bottom: 1.5rem;
+@code {
+    // Демо-симулятор
+    private string activeSimTab = "jobs";
+    private string selectedProfile = "Офсетний цех";
+    private int selectedJobId = 4821;
+    private bool ftpFileDownloaded = false;
+    private string lastExecutedPdfAction = "";
+    private string simActionMessage = "";
+
+    // Степпер робочого процесу
+    private int currentWorkflowStep = 0;
+
+    // Фільтр PDF-інструментів
+    private string selectedPdfCategory = "all";
+
+    // Порівняння з аналогами
+    private int selectedComparisonIndex = 0;
+    private bool showFullTable = false;
+
+    private class DemoJob
+    {
+        public int Id { get; set; }
+        public int Number { get; set; }
+        public string Title { get; set; } = "";
+        public string Client { get; set; } = "";
+        public string Status { get; set; } = "";
+        public string StatusClass { get; set; } = "";
+        public string Format { get; set; } = "";
+        public int Copies { get; set; }
+        public int FileCount { get; set; }
     }
 
-    .presentation-hero-content,
-    .presentation-snapshot,
-    .benefit-card,
-    .pdf-feature-panel,
-    .comparison-table-shell,
-    .audience-panel,
-    .presentation-summary {
-        border-radius: 1.4rem;
-        background: rgba(255, 255, 255, 0.9);
-        box-shadow: 0 20px 40px rgba(20, 47, 71, 0.08);
-        border: 1px solid rgba(24, 50, 77, 0.08);
+    private List<DemoJob> demoJobs = new()
+    {
+        new DemoJob { Id = 4821, Number = 4821, Title = "Каталог продукції 2026", Client = "ТОВ «АгроБізнес»", Status = "Препрес", StatusClass = "badge-prepress", Format = "A4 (210×297)", Copies = 1500, FileCount = 3 },
+        new DemoJob { Id = 4822, Number = 4822, Title = "Буклет гармошка 6 полос", Client = "ФОП Мельник", Status = "Signa Station", StatusClass = "badge-signa", Format = "297×210", Copies = 5000, FileCount = 2 },
+        new DemoJob { Id = 4823, Number = 4823, Title = "Етикетка самоклейка", Client = "ЕкоПак Груп", Status = "В роботі", StatusClass = "badge-inwork", Format = "85×55", Copies = 10000, FileCount = 4 }
+    };
+
+    private void SetSimTab(string tab)
+    {
+        activeSimTab = tab;
+    }
+
+    private void SelectJob(int id)
+    {
+        selectedJobId = id;
+    }
+
+    private void CycleJobStatus(DemoJob job)
+    {
+        if (job.Status == "В роботі")
+        {
+            job.Status = "Препрес";
+            job.StatusClass = "badge-prepress";
+        }
+        else if (job.Status == "Препрес")
+        {
+            job.Status = "Signa Station";
+            job.StatusClass = "badge-signa";
+        }
+        else if (job.Status == "Signa Station")
+        {
+            job.Status = "Готово до друку";
+            job.StatusClass = "badge-done";
+        }
+        else
+        {
+            job.Status = "В роботі";
+            job.StatusClass = "badge-inwork";
+        }
+    }
+
+    private string GetNextStatus(string current)
+    {
+        return current switch
+        {
+            "В роботі" => "Препрес",
+            "Препрес" => "Signa Station",
+            "Signa Station" => "Готово до друку",
+            _ => "В роботі"
+        };
+    }
+
+    private void SimulateFtpDownload()
+    {
+        ftpFileDownloaded = !ftpFileDownloaded;
+    }
+
+    private void ExecuteSimPdfAction(string actionKey, string message)
+    {
+        lastExecutedPdfAction = actionKey;
+        simActionMessage = message;
+    }
+
+    // Степпер
+    private class WorkflowStepItem
+    {
+        public string Emoji { get; set; } = "";
+        public string ShortTitle { get; set; } = "";
+        public string FullTitle { get; set; } = "";
+        public string WithoutActiveWorks { get; set; } = "";
+        public string WithActiveWorks { get; set; } = "";
+        public List<string> Features { get; set; } = new();
+    }
+
+    private List<WorkflowStepItem> workflowSteps = new()
+    {
+        new WorkflowStepItem
+        {
+            Emoji = "📥",
+            ShortTitle = "Прийом & Номер",
+            FullTitle = "1. Реєстрація замовлення та структура папок",
+            WithoutActiveWorks = "Менеджер створює папки вручну на спільних серверах, копіює назви, виникають помилки в написанні номерів і клієнтів.",
+            WithActiveWorks = "Замовлення реєструється в єдиній базі з автоматичним створенням структури робочих каталогів та призначенням унікального номера.",
+            Features = new() { "Автостворення папок", "Унікальна нумерація", "Прив'язка замовника", "Профільні шаблони" }
+        },
+        new WorkflowStepItem
+        {
+            Emoji = "🌐",
+            ShortTitle = "Файли & FTP",
+            FullTitle = "2. Отримання та організація файлів макета",
+            WithoutActiveWorks = "Пошук файлів на пошті, месенджерах, у FileZilla чи на локальних дисках. Плутанина з версіями _final_v2_new.pdf.",
+            WithActiveWorks = "Вбудовані вкладки клієнтського FTP та провідник робочої папки відкриваються прямо біля замовлення в один клік.",
+            Features = new() { "Двопанельний провідник", "Вбудований FTP-клієнт", "Історія файлів", "Швидке розпакування" }
+        },
+        new WorkflowStepItem
+        {
+            Emoji = "📐",
+            ShortTitle = "Препрес & PDF",
+            FullTitle = "3. Перевірка геометрії, кольору та вильотів",
+            WithoutActiveWorks = "Відкриття важких зовнішніх редакторів заради простої правки TrimBox, конвертації сторінок або зведення кольорів.",
+            WithActiveWorks = "Набір швидких вбудованих PDF-утиліт: автоматичне вирівнювання TrimBox, додавання міток вильоту, розділення розворотів.",
+            Features = new() { "TrimBox & MediaBox", "Розділення обкладинка/блок", "Контури висічки", "Маркування тиражу" }
+        },
+        new WorkflowStepItem
+        {
+            Emoji = "🖨️",
+            ShortTitle = "Спуск полос & Signa",
+            FullTitle = "4. Експорт друкарських аркушів та Signa Station",
+            WithoutActiveWorks = "Ручний пошук сигнатурних схем, помилки при перенесенні файлів спусків, відсутність зв'язку зі статусом роботи.",
+            WithActiveWorks = "Пряма взаємодія з Heidelberg Prinect Signa Station: спуск полос готується та зберігається безпосередньо у папку замовлення.",
+            Features = new() { "Інтеграція Signa Station", "Вбудований модуль спуску", "Мітки підбору зошитів", "Контроль шкалок" }
+        },
+        new WorkflowStepItem
+        {
+            Emoji = "🚀",
+            ShortTitle = "Друк & Статуси",
+            FullTitle = "5. Передача в друк та інформування команди",
+            WithoutActiveWorks = "Дзвінки в цех «чи готовий макет?», відсутність розуміння поточного завантаження та черги друкарських машин.",
+            WithActiveWorks = "Зміна статусу замовлення в один клік із миттєвим оновленням на моніторах друкарів та можливістю сповіщення через плагіни.",
+            Features = new() { "Жива стрічка статусів", "Плагіни сповіщень", "Фільтрація за цехами", "Архівування виконаного" }
+        }
+    };
+
+    private void SetWorkflowStep(int index)
+    {
+        currentWorkflowStep = index;
+    }
+
+    // PDF-інструменти
+    private class PdfCategoryItem
+    {
+        public string Key { get; set; } = "";
+        public string Title { get; set; } = "";
+        public string Emoji { get; set; } = "";
+    }
+
+    private List<PdfCategoryItem> pdfCategories = new()
+    {
+        new PdfCategoryItem { Key = "all", Title = "Всі інструменти", Emoji = "⚡" },
+        new PdfCategoryItem { Key = "prep", Title = "Підготовка до друку", Emoji = "📐" },
+        new PdfCategoryItem { Key = "split", Title = "Збирання / Розділення", Emoji = "✂️" },
+        new PdfCategoryItem { Key = "marks", Title = "Маркування & Коди", Emoji = "🏁" },
+        new PdfCategoryItem { Key = "vis", Title = "3D Візуалізація", Emoji = "👁️" },
+        new PdfCategoryItem { Key = "imposition", Title = "Спуск полос", Emoji = "📑" }
+    };
+
+    private class PdfFeatureItem
+    {
+        public string CategoryKey { get; set; } = "";
+        public string CategoryLabel { get; set; } = "";
+        public string Emoji { get; set; } = "";
+        public string Title { get; set; } = "";
+        public string Description { get; set; } = "";
+        public bool IsHighlight { get; set; }
+        public List<string> Tags { get; set; } = new();
+    }
+
+    private List<PdfFeatureItem> allPdfFeatures = new()
+    {
+        new PdfFeatureItem
+        {
+            CategoryKey = "prep",
+            CategoryLabel = "Підготовка до друку",
+            Emoji = "📐",
+            Title = "Геометрія та вильоти під обріз",
+            Description = "ActiveWorks конвертує зображення та макети у PDF, створює прев'ю, призначає TrimBox, приводить MediaBox до TrimBox, масштабує сторінки та розвертає орієнтацію за технологічною схемою.",
+            IsHighlight = true,
+            Tags = new() { "TrimBox", "MediaBox", "Bleed 2-5 мм", "Масштабування", "JPG Preview" }
+        },
+        new PdfFeatureItem
+        {
+            CategoryKey = "split",
+            CategoryLabel = "Збирання / Розділення",
+            Emoji = "✂️",
+            Title = "Монтаж сторінок та частин виробу",
+            Description = "З'єднання вибраних PDF в один документ, комбінування лиця і звороту, парних і непарних сторінок, накладання контуру висічного ножа, поділ на обкладинку та блок, розрізання розворотів.",
+            IsHighlight = false,
+            Tags = new() { "Обкладинка + Блок", "Лице / Зворот", "Розділення розворотів", "Накладання ножа" }
+        },
+        new PdfFeatureItem
+        {
+            CategoryKey = "marks",
+            CategoryLabel = "Маркування & Коди",
+            Emoji = "🏁",
+            Title = "Технічні мітки та штрих-коди",
+            Description = "Додавання Cut-контурів прямокутником чи еліпсом, міток для підбору зошитів, тиражу та формату безпосередньо в ім'я файлу, автоматична генерація QR-кодів, EAN-13 та Code128.",
+            IsHighlight = false,
+            Tags = new() { "QR-коди", "EAN-13", "Code128", "Мітки зошитів", "Cut-контури" }
+        },
+        new PdfFeatureItem
+        {
+            CategoryKey = "vis",
+            CategoryLabel = "3D Візуалізація",
+            Emoji = "👁️",
+            Title = "Візуальний контроль конструкції",
+            Description = "Перевірка до друку: реалістична візуалізація м'якої та твердої обкладинки, корінця палітурки, біговки, фальцовки, пружини, безпечних полів та компенсації виштовхування зошитів на скобі.",
+            IsHighlight = false,
+            Tags = new() { "Тверда обкладинка", "Розрахунок корінця", "Фальцювання", "Виштовхування скоби" }
+        },
+        new PdfFeatureItem
+        {
+            CategoryKey = "prep",
+            CategoryLabel = "Персоналізація & Колір",
+            Emoji = "🎨",
+            Title = "Змінні дані та кольороподіл",
+            Description = "Персоналізація PDF за таблицями CSV/TSV, тиражування сторінок або документа, пакетне перейменування Spot-кольорів (Pantone) та безпечне очищення небажаних ICC-профілів.",
+            IsHighlight = false,
+            Tags = new() { "CSV/TSV Дані", "Pantone / Spot", "ICC профілі", "Нумерація" }
+        },
+        new PdfFeatureItem
+        {
+            CategoryKey = "imposition",
+            CategoryLabel = "Спуск полос",
+            Emoji = "📑",
+            Title = "Вбудований модуль монтажу аркушів",
+            Description = "Дозволяє розкладати сторінки на друкарський аркуш безпосередньо в середовищі ActiveWorks, де оператор бачить усі параметри замовлення, наявні файли, вибраний профіль та статуси.",
+            IsHighlight = true,
+            Tags = new() { "Друкарські аркуші", "Signa сумісність", "Клапан / Хвіст", "Шкалки контролю" }
+        }
+    };
+
+    private IEnumerable<PdfFeatureItem> FilteredPdfFeatures =>
+        selectedPdfCategory == "all"
+            ? allPdfFeatures
+            : allPdfFeatures.Where(f => f.CategoryKey == selectedPdfCategory);
+
+    private void SetPdfCategory(string categoryKey)
+    {
+        selectedPdfCategory = categoryKey;
+    }
+
+    private int GetCategoryCount(string categoryKey)
+    {
+        if (categoryKey == "all") return allPdfFeatures.Count;
+        return allPdfFeatures.Count(f => f.CategoryKey == categoryKey);
+    }
+
+    // Порівняння
+    private class ComparisonItem
+    {
+        public string Icon { get; set; } = "";
+        public string SystemType { get; set; } = "";
+        public string GoodAt { get; set; } = "";
+        public string Limitation { get; set; } = "";
+        public string AwAdvantage { get; set; } = "";
+        public List<string> KeyPoints { get; set; } = new();
+    }
+
+    private List<ComparisonItem> comparisonList = new()
+    {
+        new ComparisonItem
+        {
+            Icon = "📑",
+            SystemType = "Класичні PDF-редактори",
+            GoodAt = "Редагування PDF, ручний перегляд, базові операції зі сторінками.",
+            Limitation = "Повністю відірвані від списку робіт: оператор змушений постійно перемикатись між Acrobat, Провідником Windows і таблицями Excel.",
+            AwAdvantage = "PDF-дії прив'язані до контексту замовлення, файлів, статусів і профілю обладнання. Все виконується за 1 клік без відкриття окремих важких програм.",
+            KeyPoints = new() { "Дії прямо в контекстному меню замовлення", "Автоматична підстановка вильотів під обладнання", "Збереження результату одразу в робочу папку" }
+        },
+        new ComparisonItem
+        {
+            Icon = "⚙️",
+            SystemType = "Потужні препрес-пакети",
+            GoodAt = "Глибока автоматизація додрукарської підготовки та важкі спеціалізовані модулі.",
+            Limitation = "Громіздкі, дорогі у впровадженні та складні для швидких щоденних локальних задач оператора.",
+            AwAdvantage = "Ідеальний щоденний інструмент: знайти роботу за 2 секунди, взяти файл з FTP, виконати типову дію з TrimBox, оновити статус і віддати на спуск.",
+            KeyPoints = new() { "Швидкий запуск без навантаження на ПК", "Низький поріг входу для нових працівників", "Повна синергія з Prinect Signa Station" }
+        },
+        new ComparisonItem
+        {
+            Icon = "📊",
+            SystemType = "Друкарські MIS / ERP",
+            GoodAt = "Бухгалтерський облік, фінанси, калькуляція вартості, взаєморозрахунки з клієнтами.",
+            Limitation = "Орієнтовані на менеджерів та бухгалтерію, але не дають практичних інструментів для щоденної технічної роботи з файлами та макетами.",
+            AwAdvantage = "Створено саме для робочого місця препрес-інженера та оператора цеху: зв'язок параметрів замовлення з реальними файлами на диску та FTP.",
+            KeyPoints = new() { "Файли завжди поруч із карткою замовлення", "Вбудовані препрес-утиліти", "Орієнтація на технічний процес, а не лише фінансовий облік" }
+        },
+        new ComparisonItem
+        {
+            Icon = "📁",
+            SystemType = "Файлові менеджери & FTP",
+            GoodAt = "Навігація по структурі каталогів, копіювання файлів, FTP-передача.",
+            Limitation = "Файли знеособлені: важко швидко зрозуміти, яке замовлення готове, де остання версія, які параметри паперу та хто відповідальний.",
+            AwAdvantage = "Файли мають технологічний контекст: номер замовлення, замовник, статус, коментар, профіль цеху та готові швидкі сценарії обробки.",
+            KeyPoints = new() { "Автоматичне відкриття робочої папки замовлення", "Зручні закладки клієнтських FTP під кожного замовника", "Неможливо помилитися папкою чи номером" }
+        },
+        new ComparisonItem
+        {
+            Icon = "☁️",
+            SystemType = "Хмарні системи погодження",
+            GoodAt = "Коментарі клієнтів онлайн, базовий перегляд прев'ю в браузері.",
+            Limitation = "Не мають доступу до локального виробничого середовища, друкарських RIP, Signa Station та локальних гігабайтних макетів.",
+            AwAdvantage = "Потужна робота безпосередньо у внутрішньому контурі виробництва: швидкість роботи з гігабайтними PDF без затримок інтернету.",
+            KeyPoints = new() { "Миттєва робота з великими файлами локальної мережі", "Безпека конфіденційних макетів клієнтів", "Прямий зв'язок із RIP та плотерами" }
+        }
+    };
+
+    private void SetComparisonIndex(int idx)
+    {
+        selectedComparisonIndex = idx;
+    }
+
+    private void ToggleFullTable()
+    {
+        showFullTable = !showFullTable;
+    }
+}
+
+<style>
+    /* ==========================================================================
+       HERO ТА ІНТЕРАКТИВНИЙ СИМУЛЯТОР
+       ========================================================================== */
+    .presentation-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr);
+        gap: 1.5rem;
+        align-items: stretch;
+        margin-bottom: 2rem;
     }
 
     .presentation-hero-content {
-        padding: clamp(1.5rem, 3vw, 2.6rem);
-        background:
-            linear-gradient(135deg, rgba(31, 107, 131, 0.95), rgba(26, 141, 120, 0.88)),
-            #1f6b83;
+        padding: clamp(1.8rem, 3.5vw, 2.8rem);
+        background: linear-gradient(135deg, rgba(31, 107, 131, 0.96), rgba(26, 141, 120, 0.9)), #1f6b83;
+        border-radius: 1.6rem;
         color: #fff;
+        box-shadow: 0 24px 48px rgba(20, 47, 71, 0.16);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .hero-top-badges {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        margin-bottom: 1.2rem;
+        flex-wrap: wrap;
     }
 
     .presentation-badge,
@@ -277,159 +966,1195 @@
         display: inline-flex;
         width: fit-content;
         border-radius: 999px;
-        font-size: 0.78rem;
+        font-size: 0.76rem;
         font-weight: 800;
         letter-spacing: 0.08em;
         text-transform: uppercase;
     }
 
     .presentation-badge {
-        padding: 0.45rem 0.75rem;
-        background: rgba(255, 255, 255, 0.16);
+        padding: 0.4rem 0.85rem;
+        background: rgba(255, 255, 255, 0.18);
         color: #fff;
-        margin-bottom: 1rem;
+        backdrop-filter: blur(8px);
+    }
+
+    .live-pulse-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.4rem 0.8rem;
+        background: rgba(16, 185, 129, 0.22);
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        border-radius: 999px;
+        color: #bbf7d0;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+    }
+
+    .pulse-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #34d399;
+        box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+        animation: pulse-ring 1.8s infinite;
+    }
+
+    @@keyframes pulse-ring {
+        0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+        70% { box-shadow: 0 0 0 7px rgba(52, 211, 153, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
     }
 
     .presentation-hero h1 {
-        max-width: 44rem;
-        font-size: clamp(2rem, 5vw, 4rem);
-        line-height: 1;
+        font-size: clamp(2rem, 3.8vw, 3.4rem);
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        color: #ffffff;
     }
 
     .presentation-hero p {
-        max-width: 48rem;
-        margin: 1rem 0 0;
-        color: rgba(255, 255, 255, 0.86);
-        font-size: 1.06rem;
-        line-height: 1.7;
+        margin: 1.1rem 0 1.3rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.05rem;
+        line-height: 1.65;
+    }
+
+    .hero-stats-mini {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
+        padding: 0.9rem;
+        background: rgba(0, 0, 0, 0.12);
+        border-radius: 1rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .mini-stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .mini-stat-val {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: #fff;
+    }
+
+    .mini-stat-lbl {
+        font-size: 0.74rem;
+        color: rgba(255, 255, 255, 0.82);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
     }
 
     .presentation-actions {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.75rem;
-        margin-top: 1.5rem;
+        gap: 0.85rem;
     }
 
-    .presentation-actions .primary-action {
+    .presentation-actions .primary-action,
+    .summary-actions .primary-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
         background: #fff;
         color: #1f6b83;
         text-decoration: none;
-        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+        padding: 0.85rem 1.4rem;
+        border-radius: 999px;
+        font-weight: 700;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .presentation-actions .secondary-action {
-        background: rgba(255, 255, 255, 0.12);
+    .presentation-actions .primary-action:hover,
+    .summary-actions .primary-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
+        color: #16566a;
+    }
+
+    .presentation-actions .secondary-action,
+    .summary-actions .secondary-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        background: rgba(255, 255, 255, 0.14);
         color: #fff;
-        border-color: rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.28);
         text-decoration: none;
+        padding: 0.85rem 1.25rem;
+        border-radius: 999px;
+        font-weight: 600;
+        backdrop-filter: blur(6px);
+        transition: background 0.2s ease, transform 0.2s ease;
     }
 
-    .presentation-snapshot {
-        display: grid;
-        align-content: start;
-        gap: 0.85rem;
-        padding: 1.2rem;
+    .presentation-actions .secondary-action:hover,
+    .summary-actions .secondary-action:hover {
+        background: rgba(255, 255, 255, 0.24);
+        transform: translateY(-2px);
+        color: #fff;
     }
 
-    .snapshot-toolbar {
+    /* Live Desk Simulator Window */
+    .presentation-snapshot-live {
+        background: #ffffff;
+        border-radius: 1.6rem;
+        border: 1px solid rgba(24, 50, 77, 0.12);
+        box-shadow: 0 24px 48px rgba(20, 47, 71, 0.12);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .snapshot-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        background: #f1f5f9;
+        border-bottom: 1px solid rgba(24, 50, 77, 0.08);
+    }
+
+    .snapshot-dots {
+        display: flex;
+        gap: 0.35rem;
+    }
+
+    .snapshot-dots .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+
+    .dot.red { background: #ff5f56; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #27c93f; }
+
+    .snapshot-title {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #475569;
+    }
+
+    .snapshot-profile-select .profile-dropdown {
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 0.45rem;
+        padding: 0.2rem 0.5rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #334155;
+        cursor: pointer;
+    }
+
+    .snapshot-nav {
+        display: flex;
+        background: #f8fafc;
+        border-bottom: 1px solid rgba(24, 50, 77, 0.08);
+        padding: 0.35rem 0.5rem 0;
+        gap: 0.25rem;
+        overflow-x: auto;
+    }
+
+    .sim-tab {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        padding: 0.45rem 0.75rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #64748b;
+        cursor: pointer;
+        border-radius: 0.5rem 0.5rem 0 0;
+        transition: all 0.2s ease;
+    }
+
+    .sim-tab:hover {
+        color: #1f6b83;
+        background: rgba(31, 107, 131, 0.05);
+    }
+
+    .sim-tab.active {
+        color: #1f6b83;
+        border-bottom: 2px solid #1f6b83;
+        background: #ffffff;
+        font-weight: 700;
+    }
+
+    .snapshot-body {
+        padding: 1rem;
+        flex: 1;
+        background: #f8fafc;
+        min-height: 270px;
+    }
+
+    .sim-toolbar-note {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.78rem;
+        color: #64748b;
+        margin-bottom: 0.75rem;
+    }
+
+    .sim-hint {
+        color: #1f6b83;
+        font-weight: 600;
+    }
+
+    .sim-jobs-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+    }
+
+    .sim-job-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.85rem;
+        padding: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .sim-job-card:hover {
+        border-color: #cbd5e1;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .sim-job-card.selected {
+        border-color: #1f6b83;
+        box-shadow: 0 0 0 2px rgba(31, 107, 131, 0.15);
+    }
+
+    .sim-job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.25rem;
+    }
+
+    .sim-job-number {
+        font-weight: 800;
+        font-size: 0.86rem;
+        color: #0f172a;
+    }
+
+    .sim-status-badge {
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+    }
+
+    .badge-inwork { background: #e0f2fe; color: #0284c7; }
+    .badge-prepress { background: #fef3c7; color: #b45309; }
+    .badge-signa { background: #f3e8ff; color: #7e22ce; }
+    .badge-done { background: #dcfce7; color: #15803d; }
+
+    .sim-job-title {
+        font-weight: 600;
+        font-size: 0.88rem;
+        color: #1e293b;
+        margin-bottom: 0.25rem;
+    }
+
+    .sim-job-client {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.76rem;
+        color: #64748b;
+    }
+
+    .sim-job-meta {
+        color: #94a3b8;
+    }
+
+    .sim-job-quick-actions {
         display: flex;
         gap: 0.4rem;
-        padding-bottom: 0.35rem;
+        margin-top: 0.55rem;
+        padding-top: 0.55rem;
+        border-top: 1px dashed #e2e8f0;
     }
 
-    .snapshot-toolbar span {
-        width: 0.7rem;
-        height: 0.7rem;
-        border-radius: 999px;
-        background: #c7d7e7;
+    .sim-btn-action {
+        border: none;
+        background: #1f6b83;
+        color: #fff;
+        padding: 0.3rem 0.65rem;
+        font-size: 0.72rem;
+        font-weight: 600;
+        border-radius: 0.45rem;
+        cursor: pointer;
+        transition: background 0.15s ease;
     }
 
-    .snapshot-row {
+    .sim-btn-action:hover {
+        background: #16566a;
+    }
+
+    .sim-btn-action.outline {
+        background: #f1f5f9;
+        color: #334155;
+        border: 1px solid #cbd5e1;
+    }
+
+    .sim-btn-action.outline:hover {
+        background: #e2e8f0;
+    }
+
+    /* Dual pane simulator for FTP & Files */
+    .sim-dual-pane {
         display: grid;
-        gap: 0.35rem;
-        padding: 1rem;
-        border-radius: 1rem;
-        background: #f4f8fb;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+
+    .sim-pane {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.85rem;
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .sim-pane-header {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .pane-tag {
+        font-size: 0.68rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .pane-tag.ftp { color: #e11d48; }
+    .pane-tag.local { color: #0284c7; }
+
+    .pane-path {
+        font-family: monospace;
+        font-size: 0.72rem;
+        color: #94a3b8;
+    }
+
+    .sim-file-item {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.55rem;
+        background: #f8fafc;
+        border-radius: 0.5rem;
+        font-size: 0.75rem;
+        color: #334155;
+    }
+
+    .sim-file-item.downloaded {
+        opacity: 0.5;
+    }
+
+    .sim-file-item.new-item {
+        background: #ecfdf5;
+        border: 1px dashed #10b981;
+    }
+
+    .file-name {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .file-size {
+        font-size: 0.68rem;
+        color: #94a3b8;
+    }
+
+    .file-badge-ok {
+        background: #dcfce7;
+        color: #166534;
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 0.1rem 0.35rem;
+        border-radius: 0.25rem;
+    }
+
+    .file-badge-new {
+        background: #10b981;
+        color: #ffffff;
+        font-size: 0.65rem;
+        font-weight: 800;
+        padding: 0.1rem 0.35rem;
+        border-radius: 0.25rem;
+    }
+
+    .file-badge-signa {
+        background: #fef3c7;
+        color: #92400e;
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 0.1rem 0.35rem;
+        border-radius: 0.25rem;
+    }
+
+    .sim-action-btn-mini {
+        border: 1px solid #1f6b83;
+        background: #f0fdfa;
+        color: #1f6b83;
+        padding: 0.4rem;
+        font-size: 0.74rem;
+        font-weight: 700;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        margin-top: auto;
+        transition: all 0.2s ease;
+    }
+
+    .sim-action-btn-mini:hover {
+        background: #1f6b83;
+        color: #fff;
+    }
+
+    .sim-action-btn-mini.done {
+        background: #ecfdf5;
+        color: #059669;
+        border-color: #10b981;
+    }
+
+    /* PDF Tools Panel in Simulator */
+    .sim-pdf-tools-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+    }
+
+    .sim-pdf-instructions {
+        font-size: 0.8rem;
+        color: #475569;
+        font-weight: 600;
+    }
+
+    .sim-pdf-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.55rem;
+    }
+
+    .sim-pdf-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.6rem;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.2s ease;
+    }
+
+    .sim-pdf-btn:hover {
+        border-color: #1f6b83;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .sim-pdf-btn.triggered {
+        border-color: #10b981;
+        background: #ecfdf5;
+    }
+
+    .pdf-btn-icon {
+        font-size: 1.15rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .pdf-btn-title {
+        font-weight: 700;
+        font-size: 0.8rem;
+        color: #1e293b;
+    }
+
+    .pdf-btn-sub {
+        font-size: 0.68rem;
+        color: #64748b;
+    }
+
+    .sim-action-toast {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        background: #1e293b;
+        color: #f8fafc;
+        padding: 0.55rem 0.85rem;
+        border-radius: 0.6rem;
+        font-size: 0.76rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .toast-check {
+        color: #34d399;
+        font-weight: 800;
+    }
+
+    /* Plugins in Simulator */
+    .sim-plugins-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+    }
+
+    .sim-plugin-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+        padding: 0.65rem 0.8rem;
+        border-radius: 0.75rem;
+        border: 1px solid #e2e8f0;
+    }
+
+    .sim-plugin-name {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .sim-plugin-desc {
+        font-size: 0.72rem;
+        color: #64748b;
+    }
+
+    .sim-toggle-pill {
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+    }
+
+    .sim-toggle-pill.on {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .sim-toggle-pill.off {
+        background: #f1f5f9;
+        color: #64748b;
+    }
+
+    .snapshot-footer {
+        padding: 0.65rem 1rem;
+        background: #f1f5f9;
+        border-top: 1px solid rgba(24, 50, 77, 0.08);
+        text-align: center;
+    }
+
+    .footer-tag {
+        font-size: 0.74rem;
+        color: #64748b;
+        font-weight: 500;
+    }
+
+    /* ==========================================================================
+       ВИРОБНИЧИЙ СТЕППЕР (WORKFLOW)
+       ========================================================================== */
+    .section-lead {
         color: #5f7387;
+        margin-top: 0.35rem;
+        font-size: 1rem;
     }
 
-    .snapshot-row strong {
-        color: #18324d;
+    .workflow-stepper {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.55rem;
+        margin-bottom: 1.25rem;
     }
 
-    .snapshot-row.strong {
-        background: #dff1eb;
-        color: #1a6d5e;
+    .workflow-step-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.85rem 0.5rem;
+        background: #ffffff;
+        border: 1px solid rgba(24, 50, 77, 0.1);
+        border-radius: 1.1rem;
+        cursor: pointer;
+        transition: all 0.22s ease;
+        text-align: center;
+        position: relative;
     }
 
+    .workflow-step-btn:hover {
+        border-color: #1f6b83;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(31, 107, 131, 0.08);
+    }
+
+    .workflow-step-btn.active {
+        background: #1f6b83;
+        color: #ffffff;
+        border-color: #1f6b83;
+        box-shadow: 0 12px 24px rgba(31, 107, 131, 0.22);
+    }
+
+    .step-num {
+        font-size: 0.75rem;
+        font-weight: 800;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f5f9;
+        color: #334155;
+    }
+
+    .workflow-step-btn.active .step-num {
+        background: rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+    }
+
+    .step-icon {
+        font-size: 1.3rem;
+    }
+
+    .step-label {
+        font-size: 0.82rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .workflow-step-btn.active .step-label {
+        color: #ffffff;
+    }
+
+    .workflow-details-panel {
+        background: #ffffff;
+        border: 1px solid rgba(24, 50, 77, 0.1);
+        border-radius: 1.4rem;
+        padding: 1.6rem;
+        box-shadow: 0 20px 40px rgba(20, 47, 71, 0.06);
+    }
+
+    .workflow-panel-header {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        margin-bottom: 1.2rem;
+        flex-wrap: wrap;
+    }
+
+    .step-tag-pill {
+        background: #e0f2fe;
+        color: #0369a1;
+        font-size: 0.76rem;
+        font-weight: 800;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .workflow-panel-header h3 {
+        font-size: 1.35rem;
+        color: #0f172a;
+    }
+
+    .workflow-panel-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .workflow-panel-col {
+        padding: 1.25rem;
+        border-radius: 1.1rem;
+    }
+
+    .workflow-panel-col.problem {
+        background: #fff5f5;
+        border: 1px solid #fee2e2;
+    }
+
+    .workflow-panel-col.solution {
+        background: #f0fdf4;
+        border: 1px solid #dcfce7;
+    }
+
+    .col-head {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-weight: 700;
+        font-size: 0.95rem;
+        margin-bottom: 0.65rem;
+    }
+
+    .workflow-panel-col.problem .col-head { color: #b91c1c; }
+    .workflow-panel-col.solution .col-head { color: #15803d; }
+
+    .workflow-panel-col p {
+        color: #475569;
+        font-size: 0.94rem;
+        line-height: 1.65;
+        margin: 0;
+    }
+
+    .workflow-highlights {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        margin-top: 1rem;
+    }
+
+    .hl-tag {
+        background: #dcfce7;
+        color: #166534;
+        font-size: 0.76rem;
+        font-weight: 700;
+        padding: 0.3rem 0.65rem;
+        border-radius: 999px;
+    }
+
+    /* ==========================================================================
+       КАРТКИ ПЕРЕВАГ З СУЧАСНИМ СТИЛЕМ
+       ========================================================================== */
     .presentation-section {
-        margin-bottom: 1.5rem;
+        margin-bottom: 2.2rem;
     }
 
     .section-heading {
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
     }
 
     .section-kicker {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
         color: #1f6b83;
     }
 
     .benefit-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.2rem;
+    }
+
+    .benefit-card.modern-card {
+        background: #ffffff;
+        border: 1px solid rgba(24, 50, 77, 0.08);
+        border-radius: 1.4rem;
+        padding: 1.5rem;
+        box-shadow: 0 16px 36px rgba(20, 47, 71, 0.05);
+        transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .benefit-card.modern-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 24px 44px rgba(20, 47, 71, 0.1);
+        border-color: rgba(31, 107, 131, 0.25);
+    }
+
+    .card-icon-bubble {
+        width: 48px;
+        height: 48px;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    .card-icon-bubble.teal { background: #e6f7f6; color: #1a8d78; }
+    .card-icon-bubble.blue { background: #eff6ff; color: #2563eb; }
+    .card-icon-bubble.emerald { background: #ecfdf5; color: #059669; }
+    .card-icon-bubble.amber { background: #fffbeb; color: #d97706; }
+    .card-icon-bubble.purple { background: #faf5ff; color: #9333ea; }
+    .card-icon-bubble.rose { background: #fff1f2; color: #e11d48; }
+
+    .benefit-card h3 {
+        font-size: 1.15rem;
+        color: #17324d;
+        margin-bottom: 0.55rem;
+    }
+
+    .benefit-card p {
+        color: #5f7387;
+        font-size: 0.94rem;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* ==========================================================================
+       PDF-ІНСТРУМЕНТИ ТА ФІЛЬТРИ
+       ========================================================================== */
+    .category-filter-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.35rem;
+    }
+
+    .filter-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        background: #ffffff;
+        border: 1px solid rgba(24, 50, 77, 0.12);
+        padding: 0.55rem 0.95rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #475569;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .filter-chip:hover {
+        border-color: #1f6b83;
+        color: #1f6b83;
+    }
+
+    .filter-chip.active {
+        background: #1f6b83;
+        color: #ffffff;
+        border-color: #1f6b83;
+        box-shadow: 0 8px 18px rgba(31, 107, 131, 0.2);
+    }
+
+    .chip-count {
+        background: rgba(0, 0, 0, 0.08);
+        border-radius: 999px;
+        padding: 0.1rem 0.45rem;
+        font-size: 0.72rem;
+    }
+
+    .filter-chip.active .chip-count {
+        background: rgba(255, 255, 255, 0.25);
+        color: #fff;
     }
 
     .pdf-feature-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1rem;
+        gap: 1.2rem;
     }
 
-    .benefit-card,
-    .pdf-feature-panel,
-    .audience-panel,
-    .presentation-summary {
-        padding: 1.2rem;
+    .pdf-feature-panel.modern-panel {
+        background: #ffffff;
+        border: 1px solid rgba(24, 50, 77, 0.09);
+        border-radius: 1.4rem;
+        padding: 1.5rem;
+        box-shadow: 0 16px 36px rgba(20, 47, 71, 0.05);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
 
-    .benefit-card h3,
-    .pdf-feature-panel h3,
-    .audience-panel h3 {
+    .pdf-feature-panel.modern-panel:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(20, 47, 71, 0.09);
+    }
+
+    .pdf-feature-panel.modern-panel.highlight {
+        background: #f0fdfa;
+        border-color: #99f6e4;
+    }
+
+    .panel-header-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         margin-bottom: 0.65rem;
-        color: #17324d;
     }
 
-    .benefit-card p,
-    .pdf-feature-panel p,
-    .audience-panel p,
-    .presentation-summary p {
-        margin: 0;
-        color: #5f7387;
+    .panel-badge-icon {
+        font-size: 1.3rem;
+    }
+
+    .panel-category-name {
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #1a8d78;
+    }
+
+    .pdf-feature-panel h3 {
+        font-size: 1.2rem;
+        color: #0f172a;
+        margin-bottom: 0.65rem;
+    }
+
+    .pdf-feature-panel p {
+        color: #475569;
+        font-size: 0.94rem;
         line-height: 1.65;
+        margin: 0 0 1rem;
+        flex: 1;
     }
 
-    .pdf-feature-panel.highlight {
-        background: #eefaf4;
+    .tag-badges-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .tech-tag {
+        background: #f1f5f9;
+        color: #334155;
+        font-size: 0.74rem;
+        font-weight: 600;
+        padding: 0.25rem 0.6rem;
+        border-radius: 0.45rem;
+    }
+
+    .pdf-feature-panel.highlight .tech-tag {
+        background: #ccfbf1;
+        color: #0f766e;
+    }
+
+    /* ==========================================================================
+       ПОРІВНЯННЯ З АНАЛОГАМИ (ІНТЕРАКТИВНИЙ SPOTLIGHT)
+       ========================================================================== */
+    .comparison-tabs {
+        display: flex;
+        gap: 0.5rem;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .comp-tab-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        background: #ffffff;
+        border: 1px solid rgba(24, 50, 77, 0.12);
+        padding: 0.65rem 1rem;
+        border-radius: 0.95rem;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #475569;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+    }
+
+    .comp-tab-btn:hover {
+        border-color: #1f6b83;
+        color: #1f6b83;
+    }
+
+    .comp-tab-btn.active {
+        background: #1f6b83;
+        color: #ffffff;
+        border-color: #1f6b83;
+        box-shadow: 0 8px 20px rgba(31, 107, 131, 0.2);
+    }
+
+    .comparison-spotlight {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 1rem;
+        align-items: stretch;
+        background: #ffffff;
+        border: 1px solid rgba(24, 50, 77, 0.1);
+        border-radius: 1.6rem;
+        padding: 1.6rem;
+        box-shadow: 0 20px 40px rgba(20, 47, 71, 0.06);
+        margin-bottom: 1.2rem;
+    }
+
+    .spotlight-col {
+        display: flex;
+        flex-direction: column;
+        padding: 1.4rem;
+        border-radius: 1.2rem;
+    }
+
+    .spotlight-col.others {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+    }
+
+    .spotlight-col.activeworks {
+        background: #f0fdfa;
+        border: 1px solid #99f6e4;
+    }
+
+    .spotlight-vs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .vs-circle {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #1f6b83;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 0.85rem;
+        box-shadow: 0 6px 16px rgba(31, 107, 131, 0.25);
+    }
+
+    .spotlight-header {
+        margin-bottom: 1rem;
+    }
+
+    .spotlight-tag {
+        font-size: 0.74rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #64748b;
+        display: block;
+        margin-bottom: 0.35rem;
+    }
+
+    .spotlight-tag.aw {
+        color: #0f766e;
+    }
+
+    .spotlight-header h3 {
+        font-size: 1.3rem;
+        color: #0f172a;
+    }
+
+    .spotlight-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+    }
+
+    .spotlight-section strong {
+        font-size: 0.84rem;
+        color: #334155;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .spotlight-section p {
+        margin: 0;
+        font-size: 0.92rem;
+        color: #475569;
+        line-height: 1.6;
+    }
+
+    .spotlight-section.limitation {
+        background: #fff1f2;
+        padding: 0.75rem 0.95rem;
+        border-radius: 0.75rem;
+        border-left: 3px solid #f43f5e;
+    }
+
+    .spotlight-section.limitation strong {
+        color: #be123c;
+    }
+
+    .spotlight-section.limitation p {
+        color: #881337;
+    }
+
+    .aw-advantage-text {
+        font-size: 0.96rem;
+        line-height: 1.65;
+        color: #134e4a;
+        margin: 0 0 1rem;
+        font-weight: 500;
+    }
+
+    .aw-key-points {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+    }
+
+    .aw-point-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.45rem;
+        font-size: 0.88rem;
+        color: #0f766e;
+        font-weight: 600;
+    }
+
+    .point-check {
+        color: #059669;
+        font-weight: 800;
+    }
+
+    .table-toggle-wrap {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .btn-toggle-table {
+        background: transparent;
+        border: 1px dashed #cbd5e1;
+        padding: 0.65rem 1.4rem;
+        border-radius: 999px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #475569;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-toggle-table:hover {
+        background: #ffffff;
+        border-color: #1f6b83;
+        color: #1f6b83;
     }
 
     .comparison-table-shell {
-        width: 100%;
+        border-radius: 1.4rem;
+        background: #ffffff;
+        box-shadow: 0 20px 40px rgba(20, 47, 71, 0.08);
+        border: 1px solid rgba(24, 50, 77, 0.08);
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
     }
 
     .comparison-table {
         width: 100%;
         border-collapse: collapse;
-        background: rgba(255, 255, 255, 0.72);
     }
 
     .comparison-table th,
     .comparison-table td {
-        padding: 1rem;
+        padding: 1.1rem 1.25rem;
         border-bottom: 1px solid rgba(24, 50, 77, 0.08);
         vertical-align: top;
         line-height: 1.55;
@@ -441,18 +2166,17 @@
         text-transform: uppercase;
         letter-spacing: 0.06em;
         color: #607488;
-        background: rgba(244, 248, 251, 0.9);
+        background: rgba(244, 248, 251, 0.95);
     }
 
     .comparison-table td:first-child {
-        width: 20%;
+        width: 22%;
         min-width: 13rem;
         color: #17324d;
-        font-weight: 700;
     }
 
     .comparison-table td:nth-child(2) {
-        width: 30%;
+        width: 38%;
         color: #5f7387;
     }
 
@@ -460,30 +2184,166 @@
         color: #18324d;
     }
 
+    /* ==========================================================================
+       АУДИТОРІЯ (ДЛЯ КОГО)
+       ========================================================================== */
     .audience-layout {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.2rem;
+    }
+
+    .audience-panel.interactive-audience {
+        background: #ffffff;
+        border: 1px solid rgba(24, 50, 77, 0.09);
+        border-radius: 1.4rem;
+        padding: 1.6rem;
+        box-shadow: 0 16px 36px rgba(20, 47, 71, 0.05);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .audience-panel.interactive-audience:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 24px 44px rgba(20, 47, 71, 0.1);
+        border-color: rgba(31, 107, 131, 0.25);
+    }
+
+    .audience-icon-wrap {
+        font-size: 2.2rem;
+        margin-bottom: 0.85rem;
+    }
+
+    .audience-panel h3 {
+        font-size: 1.2rem;
+        color: #0f172a;
+        margin-bottom: 0.65rem;
+    }
+
+    .audience-panel p {
+        color: #5f7387;
+        font-size: 0.94rem;
+        line-height: 1.6;
+        margin: 0 0 1rem;
+    }
+
+    .audience-bullets {
+        margin: auto 0 0;
+        padding-left: 1.2rem;
+        color: #475569;
+        font-size: 0.85rem;
+        line-height: 1.6;
+    }
+
+    .audience-bullets li {
+        margin-bottom: 0.35rem;
+    }
+
+    /* ==========================================================================
+       ПІДСУМОК ТА CALL-TO-ACTION
+       ========================================================================== */
+    .presentation-summary-modern {
+        background: linear-gradient(135deg, #1f6b83 0%, #1a8d78 100%);
+        border-radius: 1.8rem;
+        padding: clamp(2rem, 4vw, 3.2rem);
+        color: #ffffff;
+        box-shadow: 0 24px 48px rgba(31, 107, 131, 0.22);
+    }
+
+    .summary-card-inner {
+        max-width: 52rem;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .summary-badge-wrap .section-kicker {
+        color: #a7f3d0;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 0.35rem 0.85rem;
+        border-radius: 999px;
+        margin-bottom: 1rem;
+    }
+
+    .summary-card-inner h2 {
+        font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+        line-height: 1.2;
+        color: #ffffff;
+        margin-bottom: 1.1rem;
+    }
+
+    .summary-card-inner p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.05rem;
+        line-height: 1.7;
+        margin: 0 0 1.8rem;
+    }
+
+    .summary-actions {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
         gap: 1rem;
     }
 
-    .presentation-summary {
-        background: #f4f8fb;
+    /* Утиліти анімацій */
+    .fade-in {
+        animation: fadeInAnim 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .presentation-summary h2 {
-        max-width: 55rem;
-        margin-bottom: 0.75rem;
+    @@keyframes fadeInAnim {
+        from {
+            opacity: 0;
+            transform: translateY(6px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ==========================================================================
+       АДАПТИВНІСТЬ (MOBILE & TABLET)
+       ========================================================================== */
+    @@media (max-width: 1024px) {
+        .presentation-hero {
+            grid-template-columns: 1fr;
+        }
+
+        .workflow-stepper {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .comparison-spotlight {
+            grid-template-columns: 1fr;
+        }
+
+        .spotlight-vs {
+            margin: 0.5rem 0;
+        }
     }
 
     @@media (max-width: 900px) {
-        .presentation-hero,
         .pdf-feature-grid,
-        .audience-layout {
+        .audience-layout,
+        .workflow-panel-body {
             grid-template-columns: 1fr;
+        }
+
+        .workflow-stepper {
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 
     @@media (max-width: 640.98px) {
+        .workflow-stepper {
+            grid-template-columns: 1fr;
+        }
+
+        .sim-dual-pane {
+            grid-template-columns: 1fr;
+        }
+
         .comparison-table thead {
             display: none;
         }
