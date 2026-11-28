@@ -14,13 +14,12 @@ using System.Windows.Forms;
 
 namespace JobSpace.Static.Pdf.Manipulation.Scale
 {
-    [PdfTool("Маніпуляції з файлом", "Масштабувати PDF",Description ="змінити/масштабувати розмір/формат документа",Icon ="scale",Order = 5)]
+    [PdfTool("Маніпуляції з файлом", "Масштабувати PDF", Description = "змінити/масштабувати розмір/формат документа", Icon = "scale", Order = 5)]
     [RequiresFeature(LicenseFeature.ExportPdf)]
     public class PdfScaler : IPdfTool
     {
-
         private PdfScaleParams? _params;
-        List<IFileSystemInfoExt>? _inputFiles;
+        private List<IFileSystemInfoExt>? _inputFiles;
 
         public bool Configure(PdfJobContext context)
         {
@@ -35,7 +34,6 @@ namespace JobSpace.Static.Pdf.Manipulation.Scale
                 MessageBox.Show("Виберіть файли з розширенням .pdf");
                 return false;
             }
-                
 
             var file = _inputFiles[0];
             if (file != null)
@@ -64,11 +62,17 @@ namespace JobSpace.Static.Pdf.Manipulation.Scale
 
         public void Scaler(string filePath)
         {
-            using ( PDFlib p = new PDFlib())
+            using (PDFlib p = new PDFlib())
             {
                 try
                 {
-                    string targetFile = Path.Combine(Path.GetDirectoryName(filePath), $"{Path.GetFileNameWithoutExtension(filePath)}_{_params.TargetSize.Width.ToString("N01")}x{_params.TargetSize.Height.ToString("N01")}.pdf");
+                    string suffix = _params.ScaleMode == ScaleModeEnum.ScaleByPercent
+                        ? $"{_params.ScalePercent.ToString("N01")}%"
+                        : $"{_params.TargetSize.Width.ToString("N01")}x{_params.TargetSize.Height.ToString("N01")}";
+
+                    string targetFile = Path.Combine(
+                        Path.GetDirectoryName(filePath) ?? string.Empty,
+                        $"{Path.GetFileNameWithoutExtension(filePath)}_{suffix}.pdf");
 
                     p.begin_document(targetFile, "optimize=true");
 
@@ -82,19 +86,11 @@ namespace JobSpace.Static.Pdf.Manipulation.Scale
                         if (page == -1)
                             throw new Exception("Error: " + p.get_errmsg());
 
-                        if (_params.ScaleBy == ScaleByEnum.TrimBox)
-                        {
-                            ScaleByTrimbox(p, indoc, page, pageno);
-                        }
-                        else if (_params.ScaleBy == ScaleByEnum.Mediabox)
-                        {
-                            ScaleByMediabox(p, indoc, page);
+                        ScalePage(p, indoc, page, pageno);
 
-                        }
                         p.close_pdi_page(page);
                     }
                     p.end_document("");
-
                 }
                 catch (PDFlibException e)
                 {
@@ -103,72 +99,125 @@ namespace JobSpace.Static.Pdf.Manipulation.Scale
             }
         }
 
-        private void ScaleByMediabox(PDFlib p, int indoc, int page)
+        private void ScalePage(PDFlib p, int indoc, int page, int pageno)
         {
-            Box box = new Box();
+            int pageIdx = pageno - 1;
+            Boxes boxes = PdfHelper.GetBoxes(p, indoc, pageIdx);
 
-            //get page width
-            box.width = p.pcos_get_number(indoc, "pages[" + page + "]/width");
-            //get page heigth
-            box.height = p.pcos_get_number(indoc, "pages[" + page + "]/height");
+            Box sourceBox = _params.ScaleBy == ScaleByEnum.TrimBox ? boxes.Trim : boxes.Media;
+            double sourceW = sourceBox.wMM();
+            double sourceH = sourceBox.hMM();
 
-            double xScale = _params.TargetSize.WidthWithBleedInch() / box.width;
-            double yScale = _params.TargetSize.HeightWithBleedInch() / box.height;
+            if (sourceW <= 0 || sourceH <= 0)
+                return;
 
-            if (_params.ScaleVariant == ScaleVariantEnum.Proportial)
+            double bleed = _params.TargetSize.Bleed;
+            double targetTrimW;
+            double targetTrimH;
+            double targetMediaW;
+            double targetMediaH;
+            double xScale;
+            double yScale;
+
+            if (_params.ScaleMode == ScaleModeEnum.ScaleByPercent)
             {
-                if (xScale > yScale) { xScale = yScale; }
-                else { yScale = xScale; }
+                double factor = _params.ScalePercent / 100.0;
+                xScale = factor;
+                yScale = factor;
+
+                if (_params.ScaleBy == ScaleByEnum.TrimBox)
+                {
+                    targetTrimW = sourceW * xScale;
+                    targetTrimH = sourceH * yScale;
+                    targetMediaW = targetTrimW + bleed * 2;
+                    targetMediaH = targetTrimH + bleed * 2;
+                }
+                else
+                {
+                    targetMediaW = sourceW * xScale;
+                    targetMediaH = sourceH * yScale;
+                    targetTrimW = Math.Max(0, targetMediaW - bleed * 2);
+                    targetTrimH = Math.Max(0, targetMediaH - bleed * 2);
+                }
+            }
+            else
+            {
+                bool isSourceLandscape = sourceW > sourceH;
+                bool isTargetLandscape = _params.TargetSize.Width > _params.TargetSize.Height;
+
+                if (_params.AutoMatchOrientation && (isSourceLandscape != isTargetLandscape))
+                {
+                    targetTrimW = _params.TargetSize.Height;
+                    targetTrimH = _params.TargetSize.Width;
+                }
+                else
+                {
+                    targetTrimW = _params.TargetSize.Width;
+                    targetTrimH = _params.TargetSize.Height;
+                }
+
+                targetMediaW = targetTrimW + bleed * 2;
+                targetMediaH = targetTrimH + bleed * 2;
+
+                if (_params.ScaleBy == ScaleByEnum.TrimBox)
+                {
+                    xScale = targetTrimW / sourceW;
+                    yScale = targetTrimH / sourceH;
+                }
+                else // Mediabox: масштабування по Mediabox у формат з вильотами (наприклад, 148x210 + 2мм bleed -> 152x214)
+                {
+                    xScale = targetMediaW / sourceW;
+                    yScale = targetMediaH / sourceH;
+                }
+
+                if (_params.ScaleVariant == ScaleVariantEnum.Proportial)
+                {
+                    if (xScale > yScale) { xScale = yScale; }
+                    else { yScale = xScale; }
+                }
             }
 
-            double trim_left = _params.TargetSize.BleedInch();
-            double trim_right = _params.TargetSize.WidthInch() + trim_left;
-            double trim_bottom = _params.TargetSize.BleedInch();
-            double trim_top = _params.TargetSize.HeigthInch() + trim_bottom;
+            double pageWidthPt = targetMediaW * PdfHelper.mn;
+            double pageHeightPt = targetMediaH * PdfHelper.mn;
 
-            double deltaX = (_params.TargetSize.WidthWithBleedInch() - box.w(xScale)) / 2;
-            double deltaY = (_params.TargetSize.HeightWithBleedInch() - box.h(yScale)) / 2;
+            double trim_left = bleed * PdfHelper.mn;
+            double trim_bottom = bleed * PdfHelper.mn;
+            double trim_right = (targetMediaW - bleed) * PdfHelper.mn;
+            double trim_top = (targetMediaH - bleed) * PdfHelper.mn;
 
-            p.begin_page_ext(
-               _params.TargetSize.WidthWithBleedInch(),
-               _params.TargetSize.HeightWithBleedInch(),
-               $"trimbox={{{trim_left} {trim_bottom} {trim_right} {trim_top}}}");
+            double pageX;
+            double pageY;
 
-            double pageX = deltaX;
-            double pageY = deltaY;
-
-            p.fit_pdi_page(page, pageX, pageY, $"scale={{{xScale} {yScale}}}");
-            p.end_page_ext("");
-        }
-
-        private void ScaleByTrimbox(PDFlib p, int indoc, int page, int pageno)
-        {
-            Box box = PdfHelper.GetTrimbox(p, indoc, pageno - 1);
-
-            double xScale = _params.TargetSize.Width / box.wMM();
-            double yScale = _params.TargetSize.Height / box.hMM();
-
-            if (_params.ScaleVariant == ScaleVariantEnum.Proportial)
+            if (_params.ScaleBy == ScaleByEnum.TrimBox)
             {
-                if (xScale > yScale) { xScale = yScale; }
-                else { yScale = xScale; }
+                double targetTrimWPt = targetTrimW * PdfHelper.mn;
+                double targetTrimHPt = targetTrimH * PdfHelper.mn;
+
+                double scaledTrimWidthPt = sourceBox.width * xScale;
+                double scaledTrimHeightPt = sourceBox.height * yScale;
+
+                double deltaX = (targetTrimWPt - scaledTrimWidthPt) / 2.0;
+                double deltaY = (targetTrimHPt - scaledTrimHeightPt) / 2.0;
+
+                pageX = trim_left - (sourceBox.left * xScale) + deltaX;
+                pageY = trim_bottom - (sourceBox.bottom * yScale) + deltaY;
+            }
+            else // Mediabox
+            {
+                double scaledMediaWidthPt = sourceBox.width * xScale;
+                double scaledMediaHeightPt = sourceBox.height * yScale;
+
+                double deltaX = (pageWidthPt - scaledMediaWidthPt) / 2.0;
+                double deltaY = (pageHeightPt - scaledMediaHeightPt) / 2.0;
+
+                pageX = deltaX;
+                pageY = deltaY;
             }
 
-            double trim_left = _params.TargetSize.BleedInch();
-            double trim_right = _params.TargetSize.WidthInch() + trim_left;
-            double trim_bottom = _params.TargetSize.BleedInch();
-            double trim_top = _params.TargetSize.HeigthInch() + trim_bottom;
-
-            double deltaX = (_params.TargetSize.WidthInch() - box.w(xScale)) / 2;
-            double deltaY = (_params.TargetSize.HeigthInch() - box.h(yScale)) / 2;
-
             p.begin_page_ext(
-                _params.TargetSize.WidthWithBleedInch(),
-                _params.TargetSize.HeightWithBleedInch(),
+                pageWidthPt,
+                pageHeightPt,
                 $"trimbox={{{trim_left} {trim_bottom} {trim_right} {trim_top}}}");
-
-            double pageX = trim_left - box.left * xScale + deltaX;
-            double pageY = trim_bottom - box.bottom * yScale + deltaY;
 
             p.fit_pdi_page(page, pageX, pageY, $"scale={{{xScale} {yScale}}}");
             p.end_page_ext("");

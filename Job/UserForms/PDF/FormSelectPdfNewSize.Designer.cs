@@ -58,12 +58,30 @@
             buttonGarazd = new System.Windows.Forms.Button();
             groupBox4 = new System.Windows.Forms.GroupBox();
             groupBox5 = new System.Windows.Forms.GroupBox();
+            groupBoxMode = new System.Windows.Forms.GroupBox();
+            radioButtonFitSize = new System.Windows.Forms.RadioButton();
+            radioButtonScalePercent = new System.Windows.Forms.RadioButton();
+            numericUpDownPercent = new System.Windows.Forms.NumericUpDown();
+            labelPercent = new System.Windows.Forms.Label();
+            checkBoxAutoOrientation = new System.Windows.Forms.CheckBox();
+            labelWarning = new System.Windows.Forms.Label();
+            groupBoxPreview = new System.Windows.Forms.GroupBox();
+            pictureBoxPreview = new System.Windows.Forms.PictureBox();
+            buttonPrevPage = new System.Windows.Forms.Button();
+            labelPageNav = new System.Windows.Forms.Label();
+            buttonNextPage = new System.Windows.Forms.Button();
+            checkBoxShowTrim = new System.Windows.Forms.CheckBox();
+            labelPreviewDetails = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)numericUpDownWidth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownHeight).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownBleed).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownPercent).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPreview).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            groupBoxMode.SuspendLayout();
+            groupBoxPreview.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDownVal).BeginInit();
             groupBox4.SuspendLayout();
@@ -83,6 +101,7 @@
             numericUpDownWidth.Value = new decimal(new int[] { 210, 0, 0, 0 });
             numericUpDownWidth.Click += numericUpDownWidth_Enter;
             numericUpDownWidth.Enter += numericUpDownWidth_Enter;
+            numericUpDownWidth.ValueChanged += numericUpDownWidth_ValueChanged;
             // 
             // label1
             // 
@@ -117,6 +136,7 @@
             numericUpDownHeight.Value = new decimal(new int[] { 297, 0, 0, 0 });
             numericUpDownHeight.Click += numericUpDownWidth_Enter;
             numericUpDownHeight.Enter += numericUpDownWidth_Enter;
+            numericUpDownHeight.ValueChanged += UpdatePreview_Event;
             // 
             // numericUpDownBleed
             // 
@@ -131,6 +151,7 @@
             numericUpDownBleed.Value = new decimal(new int[] { 2, 0, 0, 0 });
             numericUpDownBleed.Click += numericUpDownWidth_Enter;
             numericUpDownBleed.Enter += numericUpDownWidth_Enter;
+            numericUpDownBleed.ValueChanged += UpdatePreview_Event;
             // 
             // label3
             // 
@@ -146,11 +167,12 @@
             // 
             groupBox1.Controls.Add(radioButtonNonProportial);
             groupBox1.Controls.Add(radioButtonProportial);
-            groupBox1.Location = new System.Drawing.Point(114, 216);
+            groupBox1.Controls.Add(checkBoxAutoOrientation);
+            groupBox1.Location = new System.Drawing.Point(14, 206);
             groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            groupBox1.Size = new System.Drawing.Size(154, 80);
+            groupBox1.Size = new System.Drawing.Size(150, 95);
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
             groupBox1.Text = "Як збільшуємо?";
@@ -158,19 +180,20 @@
             // radioButtonNonProportial
             // 
             radioButtonNonProportial.AutoSize = true;
-            radioButtonNonProportial.Location = new System.Drawing.Point(7, 48);
+            radioButtonNonProportial.Location = new System.Drawing.Point(7, 45);
             radioButtonNonProportial.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             radioButtonNonProportial.Name = "radioButtonNonProportial";
             radioButtonNonProportial.Size = new System.Drawing.Size(113, 19);
             radioButtonNonProportial.TabIndex = 1;
             radioButtonNonProportial.Text = "Непропорційно";
             radioButtonNonProportial.UseVisualStyleBackColor = true;
+            radioButtonNonProportial.CheckedChanged += UpdatePreview_Event;
             // 
             // radioButtonProportial
             // 
             radioButtonProportial.AutoSize = true;
             radioButtonProportial.Checked = true;
-            radioButtonProportial.Location = new System.Drawing.Point(7, 22);
+            radioButtonProportial.Location = new System.Drawing.Point(7, 20);
             radioButtonProportial.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             radioButtonProportial.Name = "radioButtonProportial";
             radioButtonProportial.Size = new System.Drawing.Size(100, 19);
@@ -178,16 +201,31 @@
             radioButtonProportial.TabStop = true;
             radioButtonProportial.Text = "Пропорційно";
             radioButtonProportial.UseVisualStyleBackColor = true;
+            radioButtonProportial.CheckedChanged += UpdatePreview_Event;
+            // 
+            // checkBoxAutoOrientation
+            // 
+            checkBoxAutoOrientation.AutoSize = true;
+            checkBoxAutoOrientation.Checked = true;
+            checkBoxAutoOrientation.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxAutoOrientation.Location = new System.Drawing.Point(7, 70);
+            checkBoxAutoOrientation.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxAutoOrientation.Name = "checkBoxAutoOrientation";
+            checkBoxAutoOrientation.Size = new System.Drawing.Size(117, 19);
+            checkBoxAutoOrientation.TabIndex = 2;
+            checkBoxAutoOrientation.Text = "Автоорієнтація";
+            checkBoxAutoOrientation.UseVisualStyleBackColor = true;
+            checkBoxAutoOrientation.CheckedChanged += UpdatePreview_Event;
             // 
             // groupBox2
             // 
             groupBox2.Controls.Add(radioButtonTrimbox);
             groupBox2.Controls.Add(radioButtonMediabox);
-            groupBox2.Location = new System.Drawing.Point(287, 216);
+            groupBox2.Location = new System.Drawing.Point(172, 206);
             groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            groupBox2.Size = new System.Drawing.Size(150, 80);
+            groupBox2.Size = new System.Drawing.Size(130, 95);
             groupBox2.TabIndex = 7;
             groupBox2.TabStop = false;
             groupBox2.Text = "Відносно чого?";
@@ -196,7 +234,7 @@
             // 
             radioButtonTrimbox.AutoSize = true;
             radioButtonTrimbox.Checked = true;
-            radioButtonTrimbox.Location = new System.Drawing.Point(7, 48);
+            radioButtonTrimbox.Location = new System.Drawing.Point(7, 45);
             radioButtonTrimbox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             radioButtonTrimbox.Name = "radioButtonTrimbox";
             radioButtonTrimbox.Size = new System.Drawing.Size(68, 19);
@@ -204,28 +242,202 @@
             radioButtonTrimbox.TabStop = true;
             radioButtonTrimbox.Text = "Trimbox";
             radioButtonTrimbox.UseVisualStyleBackColor = true;
+            radioButtonTrimbox.CheckedChanged += UpdatePreview_Event;
             // 
             // radioButtonMediabox
             // 
             radioButtonMediabox.AutoSize = true;
-            radioButtonMediabox.Location = new System.Drawing.Point(7, 22);
+            radioButtonMediabox.Location = new System.Drawing.Point(7, 20);
             radioButtonMediabox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             radioButtonMediabox.Name = "radioButtonMediabox";
             radioButtonMediabox.Size = new System.Drawing.Size(78, 19);
             radioButtonMediabox.TabIndex = 2;
             radioButtonMediabox.Text = "Mediabox";
             radioButtonMediabox.UseVisualStyleBackColor = true;
+            radioButtonMediabox.CheckedChanged += UpdatePreview_Event;
+            // 
+            // groupBoxMode
+            // 
+            groupBoxMode.Controls.Add(labelPercent);
+            groupBoxMode.Controls.Add(numericUpDownPercent);
+            groupBoxMode.Controls.Add(radioButtonScalePercent);
+            groupBoxMode.Controls.Add(radioButtonFitSize);
+            groupBoxMode.Location = new System.Drawing.Point(310, 206);
+            groupBoxMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBoxMode.Name = "groupBoxMode";
+            groupBoxMode.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBoxMode.Size = new System.Drawing.Size(276, 95);
+            groupBoxMode.TabIndex = 8;
+            groupBoxMode.TabStop = false;
+            groupBoxMode.Text = "Режим масштабування";
+            // 
+            // radioButtonFitSize
+            // 
+            radioButtonFitSize.AutoSize = true;
+            radioButtonFitSize.Checked = true;
+            radioButtonFitSize.Location = new System.Drawing.Point(10, 22);
+            radioButtonFitSize.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            radioButtonFitSize.Name = "radioButtonFitSize";
+            radioButtonFitSize.Size = new System.Drawing.Size(147, 19);
+            radioButtonFitSize.TabIndex = 0;
+            radioButtonFitSize.TabStop = true;
+            radioButtonFitSize.Text = "До цільового розміру";
+            radioButtonFitSize.UseVisualStyleBackColor = true;
+            radioButtonFitSize.CheckedChanged += UpdatePreview_Event;
+            // 
+            // radioButtonScalePercent
+            // 
+            radioButtonScalePercent.AutoSize = true;
+            radioButtonScalePercent.Location = new System.Drawing.Point(10, 52);
+            radioButtonScalePercent.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            radioButtonScalePercent.Name = "radioButtonScalePercent";
+            radioButtonScalePercent.Size = new System.Drawing.Size(95, 19);
+            radioButtonScalePercent.TabIndex = 1;
+            radioButtonScalePercent.Text = "У відсотках:";
+            radioButtonScalePercent.UseVisualStyleBackColor = true;
+            radioButtonScalePercent.CheckedChanged += radioButtonScalePercent_CheckedChanged;
+            // 
+            // numericUpDownPercent
+            // 
+            numericUpDownPercent.DecimalPlaces = 1;
+            numericUpDownPercent.Enabled = false;
+            numericUpDownPercent.Location = new System.Drawing.Point(115, 51);
+            numericUpDownPercent.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            numericUpDownPercent.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            numericUpDownPercent.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDownPercent.Name = "numericUpDownPercent";
+            numericUpDownPercent.Size = new System.Drawing.Size(70, 23);
+            numericUpDownPercent.TabIndex = 2;
+            numericUpDownPercent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            numericUpDownPercent.Value = new decimal(new int[] { 100, 0, 0, 0 });
+            numericUpDownPercent.ValueChanged += numericUpDownPercent_ValueChanged;
+            // 
+            // labelPercent
+            // 
+            labelPercent.AutoSize = true;
+            labelPercent.Location = new System.Drawing.Point(191, 54);
+            labelPercent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelPercent.Name = "labelPercent";
+            labelPercent.Size = new System.Drawing.Size(17, 15);
+            labelPercent.TabIndex = 3;
+            labelPercent.Text = "%";
+            // 
+            // labelWarning
+            // 
+            labelWarning.ForeColor = System.Drawing.Color.Red;
+            labelWarning.Location = new System.Drawing.Point(14, 308);
+            labelWarning.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelWarning.Name = "labelWarning";
+            labelWarning.Size = new System.Drawing.Size(572, 23);
+            labelWarning.TabIndex = 14;
+            labelWarning.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            labelWarning.Visible = false;
             // 
             // buttonOk
             // 
-            buttonOk.Location = new System.Drawing.Point(114, 327);
+            buttonOk.Location = new System.Drawing.Point(140, 337);
             buttonOk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             buttonOk.Name = "buttonOk";
-            buttonOk.Size = new System.Drawing.Size(323, 45);
-            buttonOk.TabIndex = 8;
+            buttonOk.Size = new System.Drawing.Size(320, 42);
+            buttonOk.TabIndex = 9;
             buttonOk.Text = "ЗМІНИТИ ФОРМАТ";
             buttonOk.UseVisualStyleBackColor = true;
             buttonOk.Click += button1_Click;
+            // 
+            // groupBoxPreview
+            // 
+            groupBoxPreview.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            groupBoxPreview.Controls.Add(labelPreviewDetails);
+            groupBoxPreview.Controls.Add(checkBoxShowTrim);
+            groupBoxPreview.Controls.Add(buttonNextPage);
+            groupBoxPreview.Controls.Add(labelPageNav);
+            groupBoxPreview.Controls.Add(buttonPrevPage);
+            groupBoxPreview.Controls.Add(pictureBoxPreview);
+            groupBoxPreview.Location = new System.Drawing.Point(600, 9);
+            groupBoxPreview.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBoxPreview.Name = "groupBoxPreview";
+            groupBoxPreview.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            groupBoxPreview.Size = new System.Drawing.Size(434, 375);
+            groupBoxPreview.TabIndex = 15;
+            groupBoxPreview.TabStop = false;
+            groupBoxPreview.Text = "Попередній перегляд";
+            // 
+            // pictureBoxPreview
+            // 
+            pictureBoxPreview.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            pictureBoxPreview.BackColor = System.Drawing.Color.FromArgb(235, 235, 235);
+            pictureBoxPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            pictureBoxPreview.Location = new System.Drawing.Point(12, 22);
+            pictureBoxPreview.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            pictureBoxPreview.Name = "pictureBoxPreview";
+            pictureBoxPreview.Size = new System.Drawing.Size(410, 314);
+            pictureBoxPreview.TabIndex = 0;
+            pictureBoxPreview.TabStop = false;
+            pictureBoxPreview.Paint += pictureBoxPreview_Paint;
+            pictureBoxPreview.Resize += pictureBoxPreview_Resize;
+            // 
+            // buttonPrevPage
+            // 
+            buttonPrevPage.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            buttonPrevPage.Location = new System.Drawing.Point(12, 342);
+            buttonPrevPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonPrevPage.Name = "buttonPrevPage";
+            buttonPrevPage.Size = new System.Drawing.Size(32, 26);
+            buttonPrevPage.TabIndex = 1;
+            buttonPrevPage.Text = "◀";
+            buttonPrevPage.UseVisualStyleBackColor = true;
+            buttonPrevPage.Click += buttonPrevPage_Click;
+            // 
+            // labelPageNav
+            // 
+            labelPageNav.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            labelPageNav.Location = new System.Drawing.Point(48, 342);
+            labelPageNav.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelPageNav.Name = "labelPageNav";
+            labelPageNav.Size = new System.Drawing.Size(65, 26);
+            labelPageNav.TabIndex = 2;
+            labelPageNav.Text = "1 / 1";
+            labelPageNav.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // buttonNextPage
+            // 
+            buttonNextPage.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            buttonNextPage.Location = new System.Drawing.Point(117, 342);
+            buttonNextPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            buttonNextPage.Name = "buttonNextPage";
+            buttonNextPage.Size = new System.Drawing.Size(32, 26);
+            buttonNextPage.TabIndex = 3;
+            buttonNextPage.Text = "▶";
+            buttonNextPage.UseVisualStyleBackColor = true;
+            buttonNextPage.Click += buttonNextPage_Click;
+            // 
+            // checkBoxShowTrim
+            // 
+            checkBoxShowTrim.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            checkBoxShowTrim.AutoSize = true;
+            checkBoxShowTrim.Checked = true;
+            checkBoxShowTrim.CheckState = System.Windows.Forms.CheckState.Checked;
+            checkBoxShowTrim.Location = new System.Drawing.Point(155, 346);
+            checkBoxShowTrim.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            checkBoxShowTrim.Name = "checkBoxShowTrim";
+            checkBoxShowTrim.Size = new System.Drawing.Size(76, 19);
+            checkBoxShowTrim.TabIndex = 4;
+            checkBoxShowTrim.Text = "Лінія різу";
+            checkBoxShowTrim.UseVisualStyleBackColor = true;
+            checkBoxShowTrim.CheckedChanged += UpdatePreview_Event;
+            // 
+            // labelPreviewDetails
+            // 
+            labelPreviewDetails.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            labelPreviewDetails.AutoEllipsis = true;
+            labelPreviewDetails.ForeColor = System.Drawing.Color.DimGray;
+            labelPreviewDetails.Location = new System.Drawing.Point(235, 343);
+            labelPreviewDetails.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelPreviewDetails.Name = "labelPreviewDetails";
+            labelPreviewDetails.Size = new System.Drawing.Size(187, 24);
+            labelPreviewDetails.TabIndex = 5;
+            labelPreviewDetails.Text = "...";
+            labelPreviewDetails.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // ucSelectStandartPageFormat1
             // 
@@ -423,16 +635,20 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(646, 397);
+            ClientSize = new System.Drawing.Size(1048, 395);
+            Controls.Add(groupBoxPreview);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(buttonOk);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            Controls.Add(groupBoxMode);
+            Controls.Add(labelWarning);
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            MaximizeBox = false;
+            MaximizeBox = true;
             MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(1064, 435);
             Name = "FormSelectPdfNewSize";
             ShowIcon = false;
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -440,10 +656,16 @@
             ((System.ComponentModel.ISupportInitialize)numericUpDownWidth).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownHeight).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownBleed).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownPercent).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxPreview).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            groupBoxMode.ResumeLayout(false);
+            groupBoxMode.PerformLayout();
+            groupBoxPreview.ResumeLayout(false);
+            groupBoxPreview.PerformLayout();
             groupBox3.ResumeLayout(false);
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
@@ -487,5 +709,19 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.GroupBox groupBoxMode;
+        private System.Windows.Forms.RadioButton radioButtonFitSize;
+        private System.Windows.Forms.RadioButton radioButtonScalePercent;
+        private System.Windows.Forms.NumericUpDown numericUpDownPercent;
+        private System.Windows.Forms.Label labelPercent;
+        private System.Windows.Forms.CheckBox checkBoxAutoOrientation;
+        private System.Windows.Forms.Label labelWarning;
+        private System.Windows.Forms.GroupBox groupBoxPreview;
+        private System.Windows.Forms.PictureBox pictureBoxPreview;
+        private System.Windows.Forms.Button buttonPrevPage;
+        private System.Windows.Forms.Label labelPageNav;
+        private System.Windows.Forms.Button buttonNextPage;
+        private System.Windows.Forms.CheckBox checkBoxShowTrim;
+        private System.Windows.Forms.Label labelPreviewDetails;
     }
 }
