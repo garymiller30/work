@@ -88,6 +88,7 @@ namespace JobSpace.UC
             копіюватиІмяФайлуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             коміюватиІмяФайлуБезРозширенняToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             копіюватиІмяФайлуРозмірToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            копіюватиЯкТаблицюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripButtonCut = new System.Windows.Forms.ToolStripButton();
             tsddb_paste = new System.Windows.Forms.ToolStripDropDownButton();
             вставитиЯкКопіюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -119,7 +120,6 @@ namespace JobSpace.UC
             kryptonContextMenuHeading1 = new Krypton.Toolkit.KryptonContextMenuHeading();
             kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             kryptonContextMenuMonthCalendar1 = new Krypton.Toolkit.KryptonContextMenuMonthCalendar();
-            копіюватиЯкТаблицюToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -214,6 +214,7 @@ namespace JobSpace.UC
             objectListView1.AllColumns.Add(olvColumnCreatorApp);
             objectListView1.AllowColumnReorder = true;
             objectListView1.AllowDrop = true;
+            objectListView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             objectListView1.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.F2Only;
             objectListView1.CellEditUseWholeCell = false;
             objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { olvColumn_FileName, olvColumnPages, olvColumnWidth, olvColumnHeight, olvColumnBleeds, olvColumnCreatorApp, olvColumnColorSpaces, olvColumnType, olvColumn_Size, olvColumn_DateTime });
@@ -617,6 +618,13 @@ namespace JobSpace.UC
             копіюватиІмяФайлуРозмірToolStripMenuItem.Text = "копіювати ім'я файлу + розмір";
             копіюватиІмяФайлуРозмірToolStripMenuItem.Click += копіюватиІмяФайлуРозмірToolStripMenuItem_Click;
             // 
+            // копіюватиЯкТаблицюToolStripMenuItem
+            // 
+            копіюватиЯкТаблицюToolStripMenuItem.Name = "копіюватиЯкТаблицюToolStripMenuItem";
+            копіюватиЯкТаблицюToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
+            копіюватиЯкТаблицюToolStripMenuItem.Text = "копіювати як таблицю";
+            копіюватиЯкТаблицюToolStripMenuItem.Click += копіюватиЯкТаблицюToolStripMenuItem_Click;
+            // 
             // toolStripButtonCut
             // 
             toolStripButtonCut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -845,13 +853,6 @@ namespace JobSpace.UC
             kryptonLabelPath.TabIndex = 4;
             kryptonLabelPath.Values.Text = "";
             kryptonLabelPath.LinkClicked += kryptonLabelPath_LinkClicked;
-            // 
-            // копіюватиЯкТаблицюToolStripMenuItem
-            // 
-            копіюватиЯкТаблицюToolStripMenuItem.Name = "копіюватиЯкТаблицюToolStripMenuItem";
-            копіюватиЯкТаблицюToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
-            копіюватиЯкТаблицюToolStripMenuItem.Text = "копіювати як таблицю";
-            копіюватиЯкТаблицюToolStripMenuItem.Click += копіюватиЯкТаблицюToolStripMenuItem_Click;
             // 
             // UCFileBrowser
             // 
